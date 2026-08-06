@@ -4,6 +4,7 @@ The only package that imports LangChain.
 """
 
 from llm.client import get_model
+from llm.decomposer import decompose
 from llm.explainer import explain
 from llm.formalizer import formalize, reformalize
 from llm.interpreter import interpret, reinterpret
@@ -15,6 +16,7 @@ __all__ = [
     "reinterpret",
     "formalize",
     "reformalize",
+    "decompose",
     "reason",
     "explain",
 ]

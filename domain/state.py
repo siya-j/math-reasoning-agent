@@ -11,6 +11,7 @@ from typing import Optional
 
 from domain.attempt import Attempt
 from domain.claim import Claim
+from domain.subclaim import SubClaim
 from domain.verdict import Verdict
 from domain.verification import VerificationRequest
 
@@ -28,6 +29,10 @@ class ReasoningState:
 
     # Phase 4: every attempt, including the failed ones.
     attempts: list[Attempt] = field(default_factory=list)
+
+    # Phase 5: auxiliary claims checked as evidence. NEVER changes `verdict`.
+    subclaims: list[SubClaim] = field(default_factory=list)
+
     trace: list[str] = field(default_factory=list)
 
     def log(self, step: str, detail: str = "") -> None:

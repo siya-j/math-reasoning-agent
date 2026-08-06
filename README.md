@@ -18,7 +18,8 @@ config.py    provider + model
 
 ```
 User Input -> Claim Interpretation -> Problem Classification
-           -> Formalization -> Verification   <-- retries here (Phase 4)
+           -> Formalization -> Verification        <-- retries here (Phase 4)
+           -> Decomposition (only if unverified)   <-- evidence (Phase 5)
            -> Reasoning -> Explanation -> Final Response
 ```
 
@@ -34,6 +35,17 @@ rewrite the check until the verifier agreed, turning a verifier into an
 agreement machine. Attempt 2 corrects the formal check; attempt 3 re-reads
 the question. `config.MAX_ATTEMPTS` bounds the loop; every attempt is kept
 in `state.attempts`.
+
+## Auxiliary claims (Phase 5)
+
+Following Prover Agent, auxiliary lemmas are not only subgoals — they can be
+special cases or derived facts. When the main claim cannot be verified, the
+agent proposes auxiliary claims that CAN be checked (e.g. n = 1, 2, 3) and
+verifies each with the same verifier.
+
+Evidence is not proof. Verified special cases never change the main verdict;
+they are reported alongside it. A refuted sub-claim is a counterexample and
+is highlighted as such.
 
 ## What can be verified today
 
@@ -71,5 +83,5 @@ Implement `verifiers.base.Verifier` and add it to `VERIFIERS` in
 | 2 | Modular architecture + execution flow | done |
 | 3 | Deterministic verification (SymPy) | done |
 | 4 | Reflection and retries (AxProverBase) | done |
-| 5 | Hierarchical planning / lemmas (Prover Agent) | next |
+| 5 | Auxiliary claims / evidence (Prover Agent) | done |
 | 6 | Formal verification (Lean) — abstract mathematics | |

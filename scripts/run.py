@@ -32,6 +32,12 @@ def main() -> None:
     if state.request.candidate:
         print(f"  candidate: {state.request.candidate}")
 
+    if state.subclaims:
+        print(f"\nAUXILIARY EVIDENCE ({len(state.subclaims)}) — evidence, NOT proof")
+        for sub in state.subclaims:
+            print(f"  {sub.summary()}")
+            print(f"      {sub.verdict.detail}")
+
     print(f"\nREASONING (probabilistic)\n{state.reasoning}")
 
     print("\nVERIFICATION (deterministic)")

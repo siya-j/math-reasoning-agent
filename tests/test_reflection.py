@@ -4,60 +4,16 @@ The MODEL is faked; the VERIFIER is real. So these tests exercise the actual
 retry policy against actual SymPy behaviour, with no API key and no network.
 """
 
-from types import SimpleNamespace
-
-import pytest
-
 import config
 import pipeline
 from domain.attempt import Strategy
-from domain.verdict import VerificationStatus
-from llm.formalizer import _FormalizedCheck
-from llm.interpreter import _InterpretedClaim
+from domain.verdict import Verdict, VerificationStatus
+from fakes import ABSTRACT, BROKEN, GOOD, WRONG, FakeModel
 from pipeline.reflection import next_strategy, should_retry
-from domain.verdict import Verdict
-
-# Formal checks with known verifier outcomes.
-GOOD = _FormalizedCheck(kind="equality", lhs="diff(x**3, x)", rhs="3*x**2")
-WRONG = _FormalizedCheck(kind="numeric", lhs="2 + 2", rhs="5")
-BROKEN = _FormalizedCheck(kind="equality", lhs="))((", rhs="1")
-ABSTRACT = _FormalizedCheck(kind="none")
-
-CLAIM = _InterpretedClaim(statement="a claim", problem_type="calculus", numbers=[])
-
-
-class FakeModel:
-    """Returns queued structured objects; plain .invoke() returns filler text."""
-
-    def __init__(self, formalizations, interpretations=None):
-        self.formalizations = list(formalizations)
-        self.interpretations = list(interpretations or [])
-        self.structured_calls = []
-
-    def with_structured_output(self, schema):
-        return _FakeStructured(self, schema)
-
-    def invoke(self, prompt):
-        return SimpleNamespace(text="filler text")
-
-    def _next(self, schema):
-        self.structured_calls.append(schema.__name__)
-        if schema.__name__ == "_InterpretedClaim":
-            return self.interpretations.pop(0) if self.interpretations else CLAIM
-        return self.formalizations.pop(0)
-
-
-class _FakeStructured:
-    def __init__(self, parent, schema):
-        self.parent, self.schema = parent, schema
-
-    def invoke(self, prompt):
-        return self.parent._next(self.schema)
 
 
 def run(formalizations, interpretations=None):
-    model = FakeModel(formalizations, interpretations)
-    return pipeline.run("some question", model=model)
+    return pipeline.run("some question", model=FakeModel(formalizations, interpretations))
 
 
 # ------------------------------------------------------------ retry policy

@@ -3,15 +3,14 @@
 The ONLY module that knows the complete workflow:
 
     User Input -> Claim Interpretation -> Problem Classification
-               -> Formalization -> Verification  <-- Phase 4 loops here
+               -> Formalization -> Verification      <-- Phase 4 loops here
+               -> Decomposition (only if unverified)  <-- Phase 5
                -> Reasoning -> Explanation -> Final Response
 
-Phase 4 wraps formalization and verification in a retry loop (Principle 3):
+Phase 4 (Principle 3): retry while the verifier cannot decide.
+Phase 5 (Principle 4): if it still cannot, gather auxiliary evidence.
 
-    Attempt -> Verification -> Feedback -> Improved Attempt
-
-Reasoning moved to AFTER the loop. The loop can change the claim, and
-reasoning about a claim we then discard would be wasted work.
+Evidence never overrides the verdict. See domain/subclaim.py.
 """
 
 from __future__ import annotations
@@ -20,7 +19,9 @@ import config
 import verifiers
 from domain.attempt import Attempt, Strategy
 from domain.state import ReasoningState
+from domain.subclaim import SubClaim
 from llm import (
+    decompose,
     explain,
     formalize,
     get_model,
@@ -62,23 +63,50 @@ def _verify_with_reflection(model, state: ReasoningState) -> None:
         state.record(Attempt(number, strategy, claim.statement, request, verdict))
 
 
+def _gather_evidence(model, state: ReasoningState) -> None:
+    """Check auxiliary claims when the main claim could not be decided."""
+    proposals = decompose(
+        model, state.claim, state.verdict.detail, limit=config.MAX_SUBCLAIMS
+    )
+    if not proposals:
+        state.log("decompose", "no checkable auxiliary claims")
+        return
+
+    for description, request in proposals:
+        verdict = verifiers.verify(request)
+        state.subclaims.append(SubClaim(description, request, verdict))
+
+    supported = sum(1 for s in state.subclaims if s.supports)
+    refuted = sum(1 for s in state.subclaims if s.refutes)
+    state.log(
+        "decompose",
+        f"{len(state.subclaims)} auxiliary claims: {supported} true, {refuted} false",
+    )
+
+
 def run(question: str, model=None) -> ReasoningState:
     """Run the full pipeline once and return the completed state.
 
-    `model` can be injected for testing, so the loop is testable offline.
+    `model` can be injected for testing, so the pipeline is testable offline.
     """
     state = ReasoningState(question=question)
     model = model or get_model()
 
-    # Steps 1-4, with reflection.
+    # Formalize and verify, with retries.
     _verify_with_reflection(model, state)
 
-    # Step 5: probabilistic reasoning about the final claim.
+    # Only if we still could not decide: look for auxiliary evidence.
+    if not state.verdict.was_verified:
+        _gather_evidence(model, state)
+
+    # Probabilistic reasoning about the final claim.
     state.reasoning = reason(model, state.claim)
     state.log("reason", f"{len(state.reasoning)} chars")
 
-    # Step 6: explanation that separates verified from unverified.
-    state.explanation = explain(model, state.claim, state.reasoning, state.verdict)
+    # Explanation that separates verified fact, evidence, and reasoning.
+    state.explanation = explain(
+        model, state.claim, state.reasoning, state.verdict, state.subclaims
+    )
     state.log("explain", f"after {len(state.attempts)} attempt(s)")
 
     return state
