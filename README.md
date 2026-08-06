@@ -18,10 +18,22 @@ config.py    provider + model
 
 ```
 User Input -> Claim Interpretation -> Problem Classification
-           -> Formalization -> Reasoning
-           -> Deterministic Verification (when applicable)
-           -> Explanation -> Final Response
+           -> Formalization -> Verification   <-- retries here (Phase 4)
+           -> Reasoning -> Explanation -> Final Response
 ```
+
+## Reflection (Phase 4)
+
+Formalization and verification run in a loop:
+
+    Attempt -> Verification -> Feedback -> Improved Attempt
+
+Only an UNKNOWN verdict triggers a retry. TRUE, FALSE and NOT_APPLICABLE all
+terminate. This is deliberate: retrying on FALSE would let the formalizer
+rewrite the check until the verifier agreed, turning a verifier into an
+agreement machine. Attempt 2 corrects the formal check; attempt 3 re-reads
+the question. `config.MAX_ATTEMPTS` bounds the loop; every attempt is kept
+in `state.attempts`.
 
 ## What can be verified today
 
@@ -58,6 +70,6 @@ Implement `verifiers.base.Verifier` and add it to `VERIFIERS` in
 | 1 | LangChain fundamentals — agent loop | done |
 | 2 | Modular architecture + execution flow | done |
 | 3 | Deterministic verification (SymPy) | done |
-| 4 | Reflection and retries (AxProverBase) | next |
-| 5 | Hierarchical planning / lemmas (Prover Agent) | |
+| 4 | Reflection and retries (AxProverBase) | done |
+| 5 | Hierarchical planning / lemmas (Prover Agent) | next |
 | 6 | Formal verification (Lean) — abstract mathematics | |

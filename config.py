@@ -4,3 +4,7 @@ MODEL = "google_genai:gemini-3.5-flash"
 
 # 0.0 = most deterministic. Good for mathematics.
 TEMPERATURE = 0.0
+
+# Phase 4: how many verification attempts before we give up and report
+# honestly. 1 disables reflection entirely.
+MAX_ATTEMPTS = 3

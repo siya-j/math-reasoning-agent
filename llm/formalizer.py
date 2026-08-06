@@ -78,14 +78,30 @@ Claim: {statement}
 Original question: {question}"""
 
 
-def formalize(model, claim: Claim) -> VerificationRequest:
-    """Translate a claim into a VerificationRequest."""
-    structured_model = model.with_structured_output(_FormalizedCheck)
-    parsed = structured_model.invoke(
-        PROMPT.format(statement=claim.statement, question=claim.original_question)
-    )
+REFLECT_PROMPT = """You are the formalization component of a mathematical agent.
 
-    # Boundary: convert the LLM-shaped object into our framework-free type.
+A previous attempt to check this claim FAILED. Fix it.
+
+Claim: {statement}
+
+Previous attempt:
+  kind={kind}, lhs="{lhs}", rhs="{rhs}", candidate="{candidate}"
+
+The verifier reported:
+  {failure}
+
+Common causes: using ^ instead of **; implicit multiplication ("2x" instead
+of "2*x"); undefined function names; mismatched variable names; unbalanced
+brackets; wrong kind for the claim.
+
+Produce a corrected version.
+IMPORTANT: if this claim genuinely cannot be checked by a computer algebra
+system, return kind="none". Do NOT invent a different, easier claim just to
+make the check succeed."""
+
+
+def _to_request(parsed: _FormalizedCheck) -> VerificationRequest:
+    """Boundary: LLM-shaped object -> our framework-free type."""
     return VerificationRequest(
         kind=VerificationKind(parsed.kind),
         lhs=parsed.lhs.strip(),
@@ -93,3 +109,33 @@ def formalize(model, claim: Claim) -> VerificationRequest:
         variable=parsed.variable.strip() or "x",
         candidate=parsed.candidate.strip(),
     )
+
+
+def formalize(model, claim: Claim) -> VerificationRequest:
+    """Translate a claim into a VerificationRequest."""
+    structured_model = model.with_structured_output(_FormalizedCheck)
+    parsed = structured_model.invoke(
+        PROMPT.format(statement=claim.statement, question=claim.original_question)
+    )
+    return _to_request(parsed)
+
+
+def reformalize(
+    model,
+    claim: Claim,
+    previous: VerificationRequest,
+    failure: str,
+) -> VerificationRequest:
+    """Phase 4: retry formalization using the verifier's complaint as feedback."""
+    structured_model = model.with_structured_output(_FormalizedCheck)
+    parsed = structured_model.invoke(
+        REFLECT_PROMPT.format(
+            statement=claim.statement,
+            kind=previous.kind.value,
+            lhs=previous.lhs,
+            rhs=previous.rhs,
+            candidate=previous.candidate,
+            failure=failure,
+        )
+    )
+    return _to_request(parsed)

@@ -39,15 +39,45 @@ Do NOT solve it. Do NOT explain. Only interpret and classify.
 User question: {question}"""
 
 
-def interpret(model, question: str) -> Claim:
-    """Step 1+2: interpret the question and classify it."""
-    structured_model = model.with_structured_output(_InterpretedClaim)
-    parsed = structured_model.invoke(PROMPT.format(question=question))
+REINTERPRET_PROMPT = """You are the claim interpretation component of a mathematical agent.
 
-    # Boundary: convert the LLM-shaped object into our framework-free type.
+Your previous interpretation of this question could not be verified, even
+after the formal check was corrected. The claim itself may have been read
+wrongly.
+
+Question: {question}
+Previous interpretation: {previous}
+What went wrong: {failure}
+
+Restate the claim differently — more precisely, or capturing a different
+reading of the question. Do NOT solve it."""
+
+
+def _to_claim(parsed: _InterpretedClaim, question: str) -> Claim:
+    """Boundary: LLM-shaped object -> our framework-free type."""
     return Claim(
         original_question=question,
         statement=parsed.statement,
         problem_type=ProblemType(parsed.problem_type),
         numbers=tuple(parsed.numbers),
     )
+
+
+def interpret(model, question: str) -> Claim:
+    """Step 1+2: interpret the question and classify it."""
+    structured_model = model.with_structured_output(_InterpretedClaim)
+    parsed = structured_model.invoke(PROMPT.format(question=question))
+    return _to_claim(parsed, question)
+
+
+def reinterpret(model, previous: Claim, failure: str) -> Claim:
+    """Phase 4: re-read the question after formalization kept failing."""
+    structured_model = model.with_structured_output(_InterpretedClaim)
+    parsed = structured_model.invoke(
+        REINTERPRET_PROMPT.format(
+            question=previous.original_question,
+            previous=previous.statement,
+            failure=failure,
+        )
+    )
+    return _to_claim(parsed, previous.original_question)

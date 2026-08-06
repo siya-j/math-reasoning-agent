@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional
 
+from domain.attempt import Attempt
 from domain.claim import Claim
 from domain.verdict import Verdict
 from domain.verification import VerificationRequest
@@ -24,8 +25,18 @@ class ReasoningState:
     reasoning: Optional[str] = None
     verdict: Optional[Verdict] = None
     explanation: Optional[str] = None
+
+    # Phase 4: every attempt, including the failed ones.
+    attempts: list[Attempt] = field(default_factory=list)
     trace: list[str] = field(default_factory=list)
 
     def log(self, step: str, detail: str = "") -> None:
         """Record that a pipeline step ran."""
         self.trace.append(f"{step}: {detail}" if detail else step)
+
+    def record(self, attempt: Attempt) -> None:
+        """Store a verification attempt and make its results current."""
+        self.attempts.append(attempt)
+        self.request = attempt.request
+        self.verdict = attempt.verdict
+        self.log("attempt", attempt.summary())
