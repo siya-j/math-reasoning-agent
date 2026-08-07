@@ -22,6 +22,10 @@ _SUPPORTED = {
     VerificationKind.PRIMALITY,
     VerificationKind.SOLUTION,
     VerificationKind.LIMIT,
+    VerificationKind.SERIES,
+    VerificationKind.MATRIX,
+    VerificationKind.INEQUALITY,
+    VerificationKind.FACTORIZATION,
 }
 
 # SECURITY: the expression strings come from a language model, and SymPy's
@@ -33,14 +37,23 @@ _ALLOWED = {
         "Symbol symbols Integer Rational Float Abs sqrt exp log ln sin cos tan "
         "asin acos atan sinh cosh tanh pi E oo I factorial binomial gamma "
         "diff integrate limit summation Sum Product simplify expand factor "
-        "Eq Matrix Poly floor ceiling Mod gcd lcm isprime primerange"
+        "Eq Matrix Poly floor ceiling Mod gcd lcm isprime primerange "
+        "series det eye zeros ones transpose Rational "
+        # Needed only for evaluate=False parsing: SymPy's parser emits
+        # explicit Mul/Add/Pow calls when it is told not to simplify.
+        "Mul Add Pow"
     ).split()
     if hasattr(sympy, name)
 }
 
 
-def _parse(text: str):
-    """Parse an expression string with a restricted namespace."""
+def _parse(text: str, evaluate: bool = True):
+    """Parse an expression string with a restricted namespace.
+
+    `evaluate=False` preserves the written structure. SymPy folds
+    2**3 * 3**2 * 5 into 360 on sight, which erases exactly the information
+    a factorisation check needs to inspect.
+    """
     if not text.strip():
         raise ValueError("empty expression")
     return parse_expr(
@@ -48,7 +61,7 @@ def _parse(text: str):
         local_dict=dict(_ALLOWED),
         global_dict={},
         transformations=standard_transformations,
-        evaluate=True,
+        evaluate=evaluate,
     )
 
 
@@ -70,6 +83,14 @@ class SymPyVerifier(Verifier):
                 return self._solution(request)
             if request.kind is VerificationKind.LIMIT:
                 return self._limit(request)
+            if request.kind is VerificationKind.SERIES:
+                return self._series(request)
+            if request.kind is VerificationKind.MATRIX:
+                return self._matrix(request)
+            if request.kind is VerificationKind.INEQUALITY:
+                return self._inequality(request)
+            if request.kind is VerificationKind.FACTORIZATION:
+                return self._factorization(request)
         except Exception as exc:  # never crash the pipeline
             return self._unknown(f"SymPy could not process this: {exc}")
         return self._unknown("Unsupported request kind.")
@@ -201,6 +222,114 @@ class SymPyVerifier(Verifier):
         return self._false(
             f"limit({request.lhs}, {request.variable} -> {request.point}) "
             f"= {result}, not {request.rhs}."
+        )
+
+    def _series(self, request: VerificationRequest) -> Verdict:
+        variable = sympy.Symbol(request.variable)
+        expression = _parse(request.lhs)
+        claimed = _parse(request.rhs)
+        point = _parse(request.point or "0")
+        order = int(request.order) if request.order.strip() else 6
+
+        actual = sympy.series(expression, variable, point, order).removeO()
+        if sympy.simplify(sympy.expand(actual - claimed)) == 0:
+            return self._true(
+                f"Expansion of {request.lhs} about {point} to order {order} "
+                f"is {actual}, as claimed."
+            )
+        return self._false(
+            f"Expansion is {actual}, not {request.rhs}."
+        )
+
+    def _matrix(self, request: VerificationRequest) -> Verdict:
+        lhs, rhs = _parse(request.lhs), _parse(request.rhs)
+        matrix_type = sympy.matrices.MatrixBase
+        if not isinstance(lhs, matrix_type) or not isinstance(rhs, matrix_type):
+            return self._unknown(
+                "Both sides must be matrices for a matrix check. Use the "
+                "numeric check for scalar results such as a determinant."
+            )
+        if lhs.shape != rhs.shape:
+            return self._false(
+                f"Shapes differ: {lhs.shape} versus {rhs.shape}."
+            )
+        if sympy.simplify(lhs - rhs).is_zero_matrix:
+            return self._true(f"Matrices are equal: {lhs.tolist()}.")
+        return self._false(f"{lhs.tolist()} is not {rhs.tolist()}.")
+
+    _NEGATION = {">": "<=", ">=": "<", "<": ">=", "<=": ">"}
+
+    def _inequality(self, request: VerificationRequest) -> Verdict:
+        relation = request.relation.strip()
+        if relation not in self._NEGATION:
+            return self._unknown(
+                f"Unsupported relation {relation!r}. Use <, <=, > or >=."
+            )
+
+        difference = sympy.simplify(_parse(request.lhs) - _parse(request.rhs or "0"))
+
+        # No variable: it is just an arithmetic comparison.
+        if not difference.free_symbols:
+            holds = {
+                ">": difference > 0, ">=": difference >= 0,
+                "<": difference < 0, "<=": difference <= 0,
+            }[relation]
+            detail = f"{request.lhs} - {request.rhs or '0'} = {difference}."
+            return self._true(detail) if bool(holds) else self._false(detail)
+
+        variable = sympy.Symbol(request.variable)
+        if difference.free_symbols != {variable}:
+            names = ", ".join(sorted(str(s) for s in difference.free_symbols))
+            return self._unknown(
+                f"Only single-variable inequalities are supported; this one "
+                f"involves {names}."
+            )
+
+        # An inequality holds for all real x exactly when its negation has no
+        # real solution. Asking for counterexamples is decidable far more
+        # often than asking SymPy to prove the statement outright.
+        negated = sympy.Rel(difference, 0, self._NEGATION[relation])
+        counterexamples = sympy.solveset(negated, variable, sympy.S.Reals)
+
+        if isinstance(counterexamples, sympy.ConditionSet):
+            return self._unknown(
+                f"Could not determine whether {request.lhs} {relation} "
+                f"{request.rhs or '0'} holds for all real {variable}."
+            )
+        if counterexamples == sympy.S.EmptySet:
+            return self._true(
+                f"Holds for every real {variable}: the negation has no solution."
+            )
+        return self._false(
+            f"Fails for {variable} in {counterexamples}."
+        )
+
+    def _factorization(self, request: VerificationRequest) -> Verdict:
+        number = int(_parse(request.lhs))
+        # evaluate=False keeps the written product intact so the factors
+        # themselves can be inspected, not just the value they multiply to.
+        written = _parse(request.rhs, evaluate=False)
+
+        if int(sympy.sympify(written)) != number:
+            return self._false(
+                f"{request.rhs} multiplies to {int(sympy.sympify(written))}, "
+                f"not {number}."
+            )
+
+        bases = [factor.as_base_exp()[0] for factor in sympy.Mul.make_args(written)]
+        composite = [
+            b for b in bases
+            if not (getattr(b, "is_Integer", False) and sympy.isprime(int(b)))
+        ]
+        if composite:
+            names = ", ".join(str(b) for b in composite)
+            return self._false(
+                f"The product equals {number}, but {names} "
+                f"{'is' if len(composite) == 1 else 'are'} not prime. "
+                f"The prime factorisation is {sympy.factorint(number)}."
+            )
+        return self._true(
+            f"{request.rhs} is the prime factorisation of {number}."
         )
 
     # ------------------------------------------------------------- helpers

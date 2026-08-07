@@ -12,6 +12,11 @@ from pipeline import guard
 from pipeline.faithfulness import unsupported_numbers
 from pipeline.tools import VerificationLog, make_tools
 
+
+def tools_by_name(log):
+    """Positional unpacking breaks every time a tool is added."""
+    return {tool.__name__: tool for tool in make_tools(log)}
+
 QUESTION = "is a claim true?"
 
 
@@ -42,7 +47,12 @@ def solution_check(status, candidate):
 # ------------------------------------------------------------------ tools
 def test_tools_run_the_real_verifier_and_record_the_call():
     log = VerificationLog()
-    equality, numeric, primality, solve, limit = make_tools(log)
+    tools = tools_by_name(log)
+    equality = tools['check_equality']
+    numeric = tools['check_numeric']
+    primality = tools['check_primality']
+    solve = tools['solve_equation']
+    limit = tools['check_limit']
 
     assert "TRUE" in equality("d/dx x^3 is 3x^2", "diff(x**3, x)", "3*x**2")
     assert len(log.checks) == 1
@@ -52,14 +62,19 @@ def test_tools_run_the_real_verifier_and_record_the_call():
 
 def test_every_check_records_the_claim_it_was_testing():
     log = VerificationLog()
-    _, numeric, _, _, _ = make_tools(log)
+    numeric = tools_by_name(log)['check_numeric']
     numeric("2 + 2 equals 4", "2 + 2", "4")
     assert log.checks[0].claim == "2 + 2 equals 4"
 
 
 def test_each_tool_records_its_own_name():
     log = VerificationLog()
-    equality, numeric, primality, solve, limit = make_tools(log)
+    tools = tools_by_name(log)
+    equality = tools['check_equality']
+    numeric = tools['check_numeric']
+    primality = tools['check_primality']
+    solve = tools['solve_equation']
+    limit = tools['check_limit']
     equality("c", "x", "x")
     numeric("c", "2 + 2", "4")
     primality("c", "7919")
@@ -74,9 +89,15 @@ def test_each_tool_records_its_own_name():
     ]
 
 
+def test_every_tool_has_a_unique_name_and_a_docstring():
+    names = [tool.__name__ for tool in make_tools(VerificationLog())]
+    assert len(names) == len(set(names)), "duplicate tool names"
+    assert all(tool.__doc__ for tool in make_tools(VerificationLog()))
+
+
 def test_a_failing_check_is_recorded_as_false():
     log = VerificationLog()
-    _, numeric, _, _, _ = make_tools(log)
+    numeric = tools_by_name(log)['check_numeric']
     assert "FALSE" in numeric("2 + 2 equals 5", "2 + 2", "5")
     assert log.checks[0].verdict.status is S.FALSE
 

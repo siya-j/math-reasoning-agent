@@ -28,7 +28,8 @@ class FakeAgent:
         self.instructions.append(extra_instruction)
         plan = self.plans.pop(0) if self.plans else []
         log = VerificationLog()
-        equality, numeric, _, _, _ = make_tools(log)
+        tools = {t.__name__: t for t in make_tools(log)}
+        equality, numeric = tools['check_equality'], tools['check_numeric']
         for tool, claim, lhs, rhs in plan:
             if tool == "check_equality":
                 equality(claim, lhs, rhs)

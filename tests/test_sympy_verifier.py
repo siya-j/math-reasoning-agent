@@ -5,7 +5,9 @@ from domain.verification import VerificationKind, VerificationRequest
 from verifiers import verify
 
 
-def req(kind, lhs="", rhs="", variable="x", candidate="", point=""):
+def req(
+    kind, lhs="", rhs="", variable="x", candidate="", point="", order="", relation=""
+):
     return VerificationRequest(
         kind=kind,
         lhs=lhs,
@@ -13,6 +15,8 @@ def req(kind, lhs="", rhs="", variable="x", candidate="", point=""):
         variable=variable,
         candidate=candidate,
         point=point,
+        order=order,
+        relation=relation,
     )
 
 
@@ -153,6 +157,115 @@ def test_oscillating_function_has_no_limit_and_is_not_decided():
     v = verify(req(VerificationKind.LIMIT, "sin(1/x)", "0", point="0"))
     assert v.status is VerificationStatus.UNKNOWN
     assert not v.was_verified
+
+
+# -------------------------------------------------------------------- series
+def test_maclaurin_series_of_exp_is_true():
+    v = verify(
+        req(VerificationKind.SERIES, "exp(x)", "1 + x + x**2/2 + x**3/6",
+            point="0", order="4")
+    )
+    assert v.status is VerificationStatus.TRUE
+
+
+def test_truncated_series_is_false():
+    v = verify(req(VerificationKind.SERIES, "exp(x)", "1 + x", point="0", order="4"))
+    assert v.status is VerificationStatus.FALSE
+
+
+def test_series_of_sin_is_true():
+    v = verify(
+        req(VerificationKind.SERIES, "sin(x)", "x - x**3/6", point="0", order="5")
+    )
+    assert v.status is VerificationStatus.TRUE
+
+
+# -------------------------------------------------------------------- matrix
+def test_matrix_product_with_identity_is_true():
+    v = verify(
+        req(VerificationKind.MATRIX,
+            "Matrix([[1,2],[3,4]])*Matrix([[1,0],[0,1]])",
+            "Matrix([[1,2],[3,4]])")
+    )
+    assert v.status is VerificationStatus.TRUE
+
+
+def test_different_matrices_are_false():
+    v = verify(
+        req(VerificationKind.MATRIX, "Matrix([[1,2],[3,4]])", "Matrix([[1,2],[3,5]])")
+    )
+    assert v.status is VerificationStatus.FALSE
+
+
+def test_mismatched_shapes_are_false():
+    v = verify(req(VerificationKind.MATRIX, "Matrix([[1,2]])", "Matrix([[1],[2]])"))
+    assert v.status is VerificationStatus.FALSE
+
+
+def test_scalar_sent_to_the_matrix_checker_is_refused():
+    v = verify(req(VerificationKind.MATRIX, "det(Matrix([[1,2],[3,4]]))", "-2"))
+    assert v.status is VerificationStatus.UNKNOWN
+
+
+# ---------------------------------------------------------------- inequality
+def test_square_is_non_negative_for_all_reals():
+    v = verify(req(VerificationKind.INEQUALITY, "x**2", "0", relation=">="))
+    assert v.status is VerificationStatus.TRUE
+
+
+def test_strict_positivity_of_a_square_is_false_at_zero():
+    """x**2 > 0 fails at exactly one point, and the check should say where."""
+    v = verify(req(VerificationKind.INEQUALITY, "x**2", "0", relation=">"))
+    assert v.status is VerificationStatus.FALSE
+    assert "0" in v.detail
+
+
+def test_inequality_reports_the_interval_where_it_fails():
+    v = verify(req(VerificationKind.INEQUALITY, "x**2", "1", relation=">="))
+    assert v.status is VerificationStatus.FALSE
+    assert "-1" in v.detail
+
+
+def test_numeric_inequality_needs_no_variable():
+    assert verify(
+        req(VerificationKind.INEQUALITY, "3", "2", relation=">")
+    ).status is VerificationStatus.TRUE
+    assert verify(
+        req(VerificationKind.INEQUALITY, "2", "3", relation=">")
+    ).status is VerificationStatus.FALSE
+
+
+def test_unsupported_relation_is_refused():
+    v = verify(req(VerificationKind.INEQUALITY, "x", "0", relation="!="))
+    assert v.status is VerificationStatus.UNKNOWN
+
+
+def test_multivariable_inequality_is_refused():
+    v = verify(req(VerificationKind.INEQUALITY, "x + y", "0", relation=">="))
+    assert v.status is VerificationStatus.UNKNOWN
+
+
+# ------------------------------------------------------------- factorization
+def test_prime_factorization_is_true():
+    v = verify(req(VerificationKind.FACTORIZATION, "360", "2**3 * 3**2 * 5"))
+    assert v.status is VerificationStatus.TRUE
+
+
+def test_repeated_factors_written_out_are_accepted():
+    v = verify(req(VerificationKind.FACTORIZATION, "360", "2*2*2*3*3*5"))
+    assert v.status is VerificationStatus.TRUE
+
+
+def test_composite_factors_are_false_even_though_the_product_is_right():
+    """8 * 45 = 360, but neither factor is prime, so it is not THE factorisation."""
+    v = verify(req(VerificationKind.FACTORIZATION, "360", "8 * 45"))
+    assert v.status is VerificationStatus.FALSE
+    assert "not prime" in v.detail
+
+
+def test_factorization_with_the_wrong_product_is_false():
+    v = verify(req(VerificationKind.FACTORIZATION, "360", "2**3 * 3**2"))
+    assert v.status is VerificationStatus.FALSE
 
 
 # ------------------------------------------------ honesty about what it can't do

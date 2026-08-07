@@ -85,14 +85,15 @@ def test_restraint_measures_not_verifying_the_unverifiable():
 # --------------------------------------------------------------- dataset
 def test_golden_dataset_loads_and_is_well_formed():
     cases = load_cases()
-    assert len(cases) >= 80
+    assert len(cases) >= 100
     assert len({c.id for c in cases}) == len(cases), "duplicate case ids"
     assert all(c.question.strip() for c in cases)
 
 
 def test_dataset_covers_every_area_the_tools_support():
     areas = {c.area for c in load_cases()}
-    for area in ("calculus", "limits", "arithmetic", "number theory", "algebra"):
+    for area in ("calculus", "limits", "arithmetic", "number theory", "algebra",
+                 "series", "matrices", "inequalities", "factorization"):
         assert area in areas, f"no cases for {area}"
 
 
@@ -112,4 +113,4 @@ def test_dataset_includes_abstract_cases_no_cas_can_decide():
 def test_dataset_has_enough_false_cases_to_catch_a_yes_machine():
     """A system that always answers 'true' must score badly, not well."""
     false_cases = [c for c in load_cases() if c.expected is S.FALSE]
-    assert len(false_cases) >= 15
+    assert len(false_cases) >= 20

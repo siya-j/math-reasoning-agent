@@ -78,6 +78,10 @@ mistake using arithmetic rather than another language model.
 | check_primality | an integer is prime |
 | solve_equation | the solutions of an equation are exactly those claimed |
 | check_limit | a function tends to a claimed value at a point or at infinity |
+| check_series | a Taylor or Maclaurin expansion matches the claim |
+| check_matrix | two matrix expressions are equal |
+| check_inequality | an inequality holds for *every* real value, with a counterexample if not |
+| check_factorization | a product is the *prime* factorisation — right value **and** prime factors |
 
 SymPy is a Computer Algebra System. Claims in abstract algebra, topology,
 functional analysis and set theory are reported as NOT VERIFIED, honestly,

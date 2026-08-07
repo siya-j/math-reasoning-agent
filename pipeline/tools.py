@@ -140,10 +140,109 @@ def make_tools(log: VerificationLog) -> list:
             ),
         )
 
+    def check_series(
+        claim: str, expression: str, variable: str, point: str, order: str, claimed: str
+    ) -> str:
+        """Check a Taylor or Maclaurin expansion of an expression.
+
+        claim: the claim from the user's question that this check is testing.
+        expression: the function being expanded, in SymPy syntax.
+        variable: the variable of expansion.
+        point: the centre of the expansion; use 0 for a Maclaurin series.
+        order: how many terms to keep, as a string of digits. Count the terms
+            in the user's claimed expansion and use one more than the highest
+            power that appears.
+        claimed: the expansion the user's question states, without any
+            remainder or big-O term.
+        """
+        return log.record(
+            "check_series",
+            claim,
+            VerificationRequest(
+                kind=VerificationKind.SERIES,
+                lhs=expression,
+                rhs=claimed,
+                variable=variable,
+                point=point,
+                order=order,
+            ),
+        )
+
+    def check_matrix(claim: str, lhs: str, rhs: str) -> str:
+        """Check whether two matrix expressions are equal.
+
+        Write matrices as Matrix([[row], [row]]). Products, sums, powers,
+        transpose, eye and zeros are available.
+
+        Use this only when both sides are matrices. For a scalar result such
+        as a determinant, use the numeric check instead.
+
+        claim: the claim from the user's question that this check is testing.
+        lhs, rhs: the two matrix expressions.
+        """
+        return log.record(
+            "check_matrix",
+            claim,
+            VerificationRequest(kind=VerificationKind.MATRIX, lhs=lhs, rhs=rhs),
+        )
+
+    def check_inequality(
+        claim: str, lhs: str, relation: str, rhs: str, variable: str
+    ) -> str:
+        """Check whether an inequality holds for EVERY real value of a variable.
+
+        relation must be one of: <  <=  >  >=
+
+        This asks whether the inequality is always true, not whether it is
+        true somewhere. A single counterexample makes it false, and the check
+        will report where it fails.
+
+        claim: the claim from the user's question that this check is testing.
+        lhs, rhs: the two sides, in SymPy syntax.
+        variable: the variable quantified over. Only one variable is supported.
+        """
+        return log.record(
+            "check_inequality",
+            claim,
+            VerificationRequest(
+                kind=VerificationKind.INEQUALITY,
+                lhs=lhs,
+                rhs=rhs,
+                relation=relation,
+                variable=variable,
+            ),
+        )
+
+    def check_factorization(claim: str, number: str, factorization: str) -> str:
+        """Check whether a product is the PRIME factorisation of an integer.
+
+        Two things are verified: that the factors multiply to the number, and
+        that every factor is prime. A product of composite numbers that
+        reaches the right total is reported as false.
+
+        claim: the claim from the user's question that this check is testing.
+        number: the integer being factorised.
+        factorization: the product from the user's question, using ** for
+            repeated factors.
+        """
+        return log.record(
+            "check_factorization",
+            claim,
+            VerificationRequest(
+                kind=VerificationKind.FACTORIZATION,
+                lhs=number,
+                rhs=factorization,
+            ),
+        )
+
     return [
         check_equality,
         check_numeric,
         check_primality,
         solve_equation,
         check_limit,
+        check_series,
+        check_matrix,
+        check_inequality,
+        check_factorization,
     ]

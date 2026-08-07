@@ -536,5 +536,139 @@
     "area": "abstract",
     "question": "Does every non-empty set have a choice function?",
     "expected": "n/a"
+  },
+  {
+    "id": "ser-exp",
+    "area": "series",
+    "question": "Is the Maclaurin series of e^x up to the x^3 term equal to 1 + x + x^2/2 + x^3/6?",
+    "expected": "true"
+  },
+  {
+    "id": "ser-sin",
+    "area": "series",
+    "question": "Is the Maclaurin series of sin(x) up to the x^3 term equal to x - x^3/6?",
+    "expected": "true"
+  },
+  {
+    "id": "ser-cos",
+    "area": "series",
+    "question": "Is the Maclaurin series of cos(x) up to the x^2 term equal to 1 - x^2/2?",
+    "expected": "true"
+  },
+  {
+    "id": "ser-exp-wrong",
+    "area": "series",
+    "question": "Is the Maclaurin series of e^x up to the x^3 term equal to 1 + x + x^2 + x^3?",
+    "expected": "false"
+  },
+  {
+    "id": "ser-geometric",
+    "area": "series",
+    "question": "Is the Maclaurin series of 1/(1-x) up to the x^3 term equal to 1 + x + x^2 + x^3?",
+    "expected": "true"
+  },
+  {
+    "id": "mat-identity",
+    "area": "matrices",
+    "question": "Is the matrix [[1,2],[3,4]] multiplied by the 2x2 identity equal to [[1,2],[3,4]]?",
+    "expected": "true"
+  },
+  {
+    "id": "mat-wrong",
+    "area": "matrices",
+    "question": "Is the matrix [[1,2],[3,4]] equal to [[1,2],[3,5]]?",
+    "expected": "false"
+  },
+  {
+    "id": "mat-sum",
+    "area": "matrices",
+    "question": "Is [[1,0],[0,1]] plus [[0,1],[1,0]] equal to [[1,1],[1,1]]?",
+    "expected": "true"
+  },
+  {
+    "id": "mat-determinant",
+    "area": "matrices",
+    "question": "Is the determinant of [[1,2],[3,4]] equal to -2?",
+    "expected": "true"
+  },
+  {
+    "id": "mat-square",
+    "area": "matrices",
+    "question": "Is [[1,1],[0,1]] squared equal to [[1,2],[0,1]]?",
+    "expected": "true"
+  },
+  {
+    "id": "ineq-square-nonneg",
+    "area": "inequalities",
+    "question": "Is x^2 greater than or equal to 0 for every real x?",
+    "expected": "true"
+  },
+  {
+    "id": "ineq-square-pos",
+    "area": "inequalities",
+    "question": "Is x^2 strictly greater than 0 for every real x?",
+    "expected": "false",
+    "note": "Fails at x = 0."
+  },
+  {
+    "id": "ineq-shifted",
+    "area": "inequalities",
+    "question": "Is x^2 + 1 strictly greater than 0 for every real x?",
+    "expected": "true"
+  },
+  {
+    "id": "ineq-false-bound",
+    "area": "inequalities",
+    "question": "Is x^2 greater than or equal to 1 for every real x?",
+    "expected": "false"
+  },
+  {
+    "id": "ineq-exp-positive",
+    "area": "inequalities",
+    "question": "Is e^x strictly greater than 0 for every real x?",
+    "expected": "true"
+  },
+  {
+    "id": "ineq-numeric",
+    "area": "inequalities",
+    "question": "Is 22/7 greater than 3?",
+    "expected": "true"
+  },
+  {
+    "id": "fac-360",
+    "area": "factorization",
+    "question": "Is the prime factorization of 360 equal to 2^3 * 3^2 * 5?",
+    "expected": "true"
+  },
+  {
+    "id": "fac-360-composite",
+    "area": "factorization",
+    "question": "Is the prime factorization of 360 equal to 8 * 45?",
+    "expected": "false",
+    "note": "Product is right, factors are not prime."
+  },
+  {
+    "id": "fac-60",
+    "area": "factorization",
+    "question": "Is the prime factorization of 60 equal to 2^2 * 3 * 5?",
+    "expected": "true"
+  },
+  {
+    "id": "fac-100",
+    "area": "factorization",
+    "question": "Is the prime factorization of 100 equal to 2^2 * 5^2?",
+    "expected": "true"
+  },
+  {
+    "id": "fac-wrong-value",
+    "area": "factorization",
+    "question": "Is the prime factorization of 360 equal to 2^3 * 3^2?",
+    "expected": "false"
+  },
+  {
+    "id": "fac-1001",
+    "area": "factorization",
+    "question": "Is the prime factorization of 1001 equal to 7 * 11 * 13?",
+    "expected": "true"
   }
 ]
