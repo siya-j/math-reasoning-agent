@@ -1,22 +1,9 @@
-"""LLM layer — probabilistic reasoning (Design Doc section 9).
+"""LLM layer — model construction (Design Doc section 9).
 
-The only package that imports LangChain.
+The agent absorbed interpretation, formalization, reasoning and explanation
+into its own loop, so this layer is now just the provider adapter.
 """
 
 from llm.client import get_model
-from llm.decomposer import decompose
-from llm.explainer import explain
-from llm.formalizer import formalize, reformalize
-from llm.interpreter import interpret, reinterpret
-from llm.reasoner import reason
 
-__all__ = [
-    "get_model",
-    "interpret",
-    "reinterpret",
-    "formalize",
-    "reformalize",
-    "decompose",
-    "reason",
-    "explain",
-]
+__all__ = ["get_model"]

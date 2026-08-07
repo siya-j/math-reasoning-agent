@@ -1,5 +1,8 @@
 langchain
-langchain-google-genai
-pydantic
 sympy
+pydantic
 pytest
+
+# Providers - install the one you use (selected via config.MODEL / MRA_MODEL)
+langchain-google-genai
+langchain-ollama

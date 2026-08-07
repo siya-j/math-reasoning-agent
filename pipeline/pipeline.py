@@ -1,112 +1,66 @@
-"""Orchestration (Design Doc section 10).
+"""Orchestration (Design Doc section 10) — the pipeline owns the flow.
 
-The ONLY module that knows the complete workflow:
+    User Input
+      -> Agent invocation        (model chooses tools)
+      -> Guard                   (verdict from records + faithfulness lint)
+      -> Reflection, if needed   (Phase 4: retry, bounded, in code)
+      -> Decomposition, if still unverified  (Phase 5: auxiliary evidence)
+      -> Final Response
 
-    User Input -> Claim Interpretation -> Problem Classification
-               -> Formalization -> Verification      <-- Phase 4 loops here
-               -> Decomposition (only if unverified)  <-- Phase 5
-               -> Reasoning -> Explanation -> Final Response
-
-Phase 4 (Principle 3): retry while the verifier cannot decide.
-Phase 5 (Principle 4): if it still cannot, gather auxiliary evidence.
-
-Evidence never overrides the verdict. See domain/subclaim.py.
+The agent is a node inside this flow, not a replacement for it. This is the
+design document's Principle 7 — every stage extends the previous system —
+applied after an earlier rewrite replaced it instead.
 """
 
 from __future__ import annotations
 
 import config
-import verifiers
 from domain.attempt import Attempt, Strategy
-from domain.state import ReasoningState
-from domain.subclaim import SubClaim
-from llm import (
-    decompose,
-    explain,
-    formalize,
-    get_model,
-    interpret,
-    reason,
-    reformalize,
-    reinterpret,
-)
-from pipeline.reflection import next_strategy, should_retry
+from domain.state import AgentRun
+from llm.client import get_model
+from pipeline import guard
+from pipeline.agent import DECOMPOSE_INSTRUCTION, invoke_once
+from pipeline.reflection import feedback_for, next_strategy
 
 
-def _verify_with_reflection(model, state: ReasoningState) -> None:
-    """Formalize and verify, retrying while the verifier cannot decide."""
-    claim = interpret(model, state.question)
-    state.log("interpret", claim.statement)
-    state.log("classify", claim.problem_type.value)
-
-    request = formalize(model, claim)
-    verdict = verifiers.verify(request)
-    state.claim = claim
-    state.record(Attempt(1, Strategy.INITIAL, claim.statement, request, verdict))
-
-    number = 1
-    while should_retry(verdict) and number < config.MAX_ATTEMPTS:
-        number += 1
-        strategy = next_strategy(number)
-        state.log("reflect", f"attempt {number} via {strategy.value}")
-
-        if strategy is Strategy.REFORMALIZE:
-            # Same claim, corrected formal check.
-            request = reformalize(model, claim, request, verdict.detail)
-        else:
-            # The claim itself may have been misread — start from the question.
-            claim = reinterpret(model, claim, verdict.detail)
-            state.claim = claim
-            request = formalize(model, claim)
-
-        verdict = verifiers.verify(request)
-        state.record(Attempt(number, strategy, claim.statement, request, verdict))
-
-
-def _gather_evidence(model, state: ReasoningState) -> None:
-    """Check auxiliary claims when the main claim could not be decided."""
-    proposals = decompose(
-        model, state.claim, state.verdict.detail, limit=config.MAX_SUBCLAIMS
-    )
-    if not proposals:
-        state.log("decompose", "no checkable auxiliary claims")
-        return
-
-    for description, request in proposals:
-        verdict = verifiers.verify(request)
-        state.subclaims.append(SubClaim(description, request, verdict))
-
-    supported = sum(1 for s in state.subclaims if s.supports)
-    refuted = sum(1 for s in state.subclaims if s.refutes)
-    state.log(
-        "decompose",
-        f"{len(state.subclaims)} auxiliary claims: {supported} true, {refuted} false",
-    )
-
-
-def run(question: str, model=None) -> ReasoningState:
-    """Run the full pipeline once and return the completed state.
-
-    `model` can be injected for testing, so the pipeline is testable offline.
-    """
-    state = ReasoningState(question=question)
+def run(question: str, model=None) -> AgentRun:
+    """Run the full flow on one question and return an explicit record."""
+    state = AgentRun(question=question)
     model = model or get_model()
 
-    # Formalize and verify, with retries.
-    _verify_with_reflection(model, state)
+    # --- first pass -------------------------------------------------------
+    checks, prose = invoke_once(model, question)
+    verdict = guard.decide(question, checks)
+    state.record(Attempt(1, Strategy.INITIAL, checks, verdict))
 
-    # Only if we still could not decide: look for auxiliary evidence.
-    if not state.verdict.was_verified:
-        _gather_evidence(model, state)
+    # --- reflection (Phase 4) --------------------------------------------
+    while len(state.attempts) < config.MAX_ATTEMPTS:
+        strategy = next_strategy(verdict, state.attempts)
+        if strategy is None:
+            break
 
-    # Probabilistic reasoning about the final claim.
-    state.reasoning = reason(model, state.claim)
-    state.log("reason", f"{len(state.reasoning)} chars")
+        state.log("reflect", strategy.value)
+        checks, prose = invoke_once(
+            model, question, feedback_for(strategy, verdict)
+        )
+        verdict = guard.decide(question, checks)
+        state.record(Attempt(len(state.attempts) + 1, strategy, checks, verdict))
 
-    # Explanation that separates verified fact, evidence, and reasoning.
-    state.explanation = explain(
-        model, state.claim, state.reasoning, state.verdict, state.subclaims
+    # --- decomposition (Phase 5) -----------------------------------------
+    # Evidence only. It never changes the verdict; verified special cases do
+    # not establish a general claim.
+    if not verdict.was_verified and config.MAX_SUBCLAIMS:
+        evidence, _ = invoke_once(model, question, DECOMPOSE_INSTRUCTION)
+        state.evidence = evidence[: config.MAX_SUBCLAIMS]
+        supported = sum(1 for c in state.evidence if c.verdict.was_verified)
+        state.log(
+            "decompose",
+            f"{len(state.evidence)} auxiliary check(s), {supported} decided",
+        )
+
+    state.verdict = verdict
+    state.answer = (
+        f"{guard.banner(verdict, state.checks, state.evidence)}\n\n{prose}"
     )
-    state.log("explain", f"after {len(state.attempts)} attempt(s)")
-
+    state.log("verdict", verdict.status.value)
     return state

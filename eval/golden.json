@@ -1,0 +1,540 @@
+[
+  {
+    "id": "calc-deriv-cubic",
+    "area": "calculus",
+    "question": "Is the derivative of x^3 equal to 3x^2?",
+    "expected": "true"
+  },
+  {
+    "id": "calc-deriv-cubic-wrong",
+    "area": "calculus",
+    "question": "Is the derivative of x^3 equal to 2x?",
+    "expected": "false"
+  },
+  {
+    "id": "calc-integral-2x",
+    "area": "calculus",
+    "question": "Is the integral of 2x with respect to x equal to x^2?",
+    "expected": "true"
+  },
+  {
+    "id": "calc-integral-cos",
+    "area": "calculus",
+    "question": "Is the integral of cos(x) equal to sin(x)?",
+    "expected": "true"
+  },
+  {
+    "id": "calc-deriv-sin-wrong",
+    "area": "calculus",
+    "question": "Is the derivative of sin(x) equal to -cos(x)?",
+    "expected": "false"
+  },
+  {
+    "id": "calc-deriv-product",
+    "area": "calculus",
+    "question": "Is the derivative of x*sin(x) equal to sin(x) + x*cos(x)?",
+    "expected": "true"
+  },
+  {
+    "id": "calc-limit-sinx-over-x",
+    "area": "calculus",
+    "question": "Is the limit of sin(x)/x as x approaches 0 equal to 1?",
+    "expected": "true",
+    "note": "Now covered by the check_limit tool."
+  },
+  {
+    "id": "num-two-plus-two",
+    "area": "arithmetic",
+    "question": "Is 2 + 2 equal to 4?",
+    "expected": "true"
+  },
+  {
+    "id": "num-two-plus-two-wrong",
+    "area": "arithmetic",
+    "question": "Is 2 + 2 equal to 5?",
+    "expected": "false"
+  },
+  {
+    "id": "num-product",
+    "area": "arithmetic",
+    "question": "Is 17 times 23 equal to 391?",
+    "expected": "true"
+  },
+  {
+    "id": "num-sqrt",
+    "area": "arithmetic",
+    "question": "Is the square root of 144 equal to 12?",
+    "expected": "true"
+  },
+  {
+    "id": "num-factorial",
+    "area": "arithmetic",
+    "question": "Is 7 factorial equal to 5040?",
+    "expected": "true"
+  },
+  {
+    "id": "num-power-wrong",
+    "area": "arithmetic",
+    "question": "Is 2 to the power 10 equal to 1000?",
+    "expected": "false"
+  },
+  {
+    "id": "num-fraction-sum",
+    "area": "arithmetic",
+    "question": "Is 1/3 + 1/6 equal to 1/2?",
+    "expected": "true"
+  },
+  {
+    "id": "prime-7919",
+    "area": "number theory",
+    "question": "Is 7919 a prime number?",
+    "expected": "true"
+  },
+  {
+    "id": "prime-7917",
+    "area": "number theory",
+    "question": "Is 7917 a prime number?",
+    "expected": "false"
+  },
+  {
+    "id": "prime-pseudoprime",
+    "area": "number theory",
+    "question": "Is 3215031751 a prime number?",
+    "expected": "false",
+    "note": "Strong pseudoprime to bases 2,3,5,7. Models often say prime."
+  },
+  {
+    "id": "prime-carmichael-561",
+    "area": "number theory",
+    "question": "Is 561 a prime number?",
+    "expected": "false",
+    "note": "Carmichael number, 3 x 11 x 17."
+  },
+  {
+    "id": "prime-one",
+    "area": "number theory",
+    "question": "Is 1 a prime number?",
+    "expected": "false"
+  },
+  {
+    "id": "prime-mersenne-31",
+    "area": "number theory",
+    "question": "Is 2147483647 a prime number?",
+    "expected": "true",
+    "note": "Mersenne prime 2^31 - 1."
+  },
+  {
+    "id": "alg-pythagorean-identity",
+    "area": "algebra",
+    "question": "Is sin(x)^2 + cos(x)^2 equal to 1 for all x?",
+    "expected": "true"
+  },
+  {
+    "id": "alg-binomial-square",
+    "area": "algebra",
+    "question": "Is (a+b)^2 equal to a^2 + 2*a*b + b^2?",
+    "expected": "true"
+  },
+  {
+    "id": "alg-freshmans-dream",
+    "area": "algebra",
+    "question": "Is (a+b)^2 equal to a^2 + b^2?",
+    "expected": "false"
+  },
+  {
+    "id": "alg-difference-of-squares",
+    "area": "algebra",
+    "question": "Is x^2 - 9 equal to (x-3)*(x+3)?",
+    "expected": "true"
+  },
+  {
+    "id": "alg-euler-identity",
+    "area": "algebra",
+    "question": "Is e^(i*pi) + 1 equal to 0?",
+    "expected": "true"
+  },
+  {
+    "id": "alg-log-exp",
+    "area": "algebra",
+    "question": "Is log(exp(x)) equal to x?",
+    "expected": "true",
+    "note": "SymPy refuses without a real assumption on x. Expect MISSED, correctly."
+  },
+  {
+    "id": "sol-quadratic-pm2",
+    "area": "algebra",
+    "question": "Are the solutions of x^2 = 4 exactly 2 and -2?",
+    "expected": "true"
+  },
+  {
+    "id": "sol-quadratic-incomplete",
+    "area": "algebra",
+    "question": "Is 2 the only solution of x^2 = 4?",
+    "expected": "false"
+  },
+  {
+    "id": "sol-quadratic-factored",
+    "area": "algebra",
+    "question": "Are the solutions of x^2 - 5*x + 6 = 0 exactly 2 and 3?",
+    "expected": "true"
+  },
+  {
+    "id": "abs-vector-space-basis",
+    "area": "abstract",
+    "question": "Does every vector space have a basis?",
+    "expected": "n/a",
+    "note": "True (with Choice), but no CAS can decide it. Must not claim verification."
+  },
+  {
+    "id": "abs-prime-order-cyclic",
+    "area": "abstract",
+    "question": "Is every group of prime order cyclic?",
+    "expected": "n/a"
+  },
+  {
+    "id": "abs-reals-uncountable",
+    "area": "abstract",
+    "question": "Are the real numbers uncountable?",
+    "expected": "n/a"
+  },
+  {
+    "id": "abs-extreme-value",
+    "area": "abstract",
+    "question": "Does a continuous function on a compact set attain its maximum?",
+    "expected": "n/a"
+  },
+  {
+    "id": "abs-infinitely-many-primes",
+    "area": "abstract",
+    "question": "Are there infinitely many prime numbers?",
+    "expected": "n/a",
+    "note": "True, but a general statement no CAS can settle."
+  },
+  {
+    "id": "lim-cos-over-xsq",
+    "area": "limits",
+    "question": "Is the limit of (1 - cos(x))/x^2 as x approaches 0 equal to 1/2?",
+    "expected": "true"
+  },
+  {
+    "id": "lim-definition-of-e",
+    "area": "limits",
+    "question": "Is the limit of (1 + 1/x)^x as x approaches infinity equal to e?",
+    "expected": "true"
+  },
+  {
+    "id": "lim-one-over-x",
+    "area": "limits",
+    "question": "Is the limit of 1/x as x approaches infinity equal to 0?",
+    "expected": "true"
+  },
+  {
+    "id": "lim-polynomial",
+    "area": "limits",
+    "question": "Is the limit of x^2 as x approaches 3 equal to 9?",
+    "expected": "true"
+  },
+  {
+    "id": "lim-tan-over-x",
+    "area": "limits",
+    "question": "Is the limit of tan(x)/x as x approaches 0 equal to 1?",
+    "expected": "true"
+  },
+  {
+    "id": "lim-removable-hole",
+    "area": "limits",
+    "question": "Is the limit of (x^2 - 1)/(x - 1) as x approaches 1 equal to 2?",
+    "expected": "true"
+  },
+  {
+    "id": "lim-sinx-over-x-wrong",
+    "area": "limits",
+    "question": "Is the limit of sin(x)/x as x approaches 0 equal to 0?",
+    "expected": "false"
+  },
+  {
+    "id": "lim-oscillating",
+    "area": "limits",
+    "question": "Is the limit of sin(1/x) as x approaches 0 equal to 0?",
+    "expected": "false",
+    "note": "No limit exists, so the claim is false. SymPy reports an oscillation bound; expect MISSED."
+  },
+  {
+    "id": "calc-deriv-exp",
+    "area": "calculus",
+    "question": "Is the derivative of e^x equal to e^x?",
+    "expected": "true"
+  },
+  {
+    "id": "calc-deriv-ln",
+    "area": "calculus",
+    "question": "Is the derivative of ln(x) equal to 1/x?",
+    "expected": "true"
+  },
+  {
+    "id": "calc-deriv-cos",
+    "area": "calculus",
+    "question": "Is the derivative of cos(x) equal to -sin(x)?",
+    "expected": "true"
+  },
+  {
+    "id": "calc-deriv-chain",
+    "area": "calculus",
+    "question": "Is the derivative of sin(x^2) equal to 2*x*cos(x^2)?",
+    "expected": "true"
+  },
+  {
+    "id": "calc-second-derivative",
+    "area": "calculus",
+    "question": "Is the second derivative of x^4 equal to 12x^2?",
+    "expected": "true"
+  },
+  {
+    "id": "calc-integral-reciprocal",
+    "area": "calculus",
+    "question": "Is the integral of 1/x equal to ln(x)?",
+    "expected": "true"
+  },
+  {
+    "id": "calc-deriv-square-wrong",
+    "area": "calculus",
+    "question": "Is the derivative of x^2 equal to x?",
+    "expected": "false"
+  },
+  {
+    "id": "num-power-cube",
+    "area": "arithmetic",
+    "question": "Is 3 to the power 4 equal to 81?",
+    "expected": "true"
+  },
+  {
+    "id": "num-division",
+    "area": "arithmetic",
+    "question": "Is 100 divided by 4 equal to 25?",
+    "expected": "true"
+  },
+  {
+    "id": "num-power-ten",
+    "area": "arithmetic",
+    "question": "Is 2 to the power 10 equal to 1024?",
+    "expected": "true"
+  },
+  {
+    "id": "num-product-two",
+    "area": "arithmetic",
+    "question": "Is 15 times 17 equal to 255?",
+    "expected": "true"
+  },
+  {
+    "id": "num-product-large",
+    "area": "arithmetic",
+    "question": "Is 99 times 101 equal to 9999?",
+    "expected": "true"
+  },
+  {
+    "id": "num-sqrt-169",
+    "area": "arithmetic",
+    "question": "Is the square root of 169 equal to 13?",
+    "expected": "true"
+  },
+  {
+    "id": "num-factorial-six",
+    "area": "arithmetic",
+    "question": "Is 6 factorial equal to 720?",
+    "expected": "true"
+  },
+  {
+    "id": "num-fraction-halves",
+    "area": "arithmetic",
+    "question": "Is 1/2 + 1/3 equal to 5/6?",
+    "expected": "true"
+  },
+  {
+    "id": "num-subtraction-wrong",
+    "area": "arithmetic",
+    "question": "Is 50 minus 23 equal to 28?",
+    "expected": "false"
+  },
+  {
+    "id": "prime-97",
+    "area": "number theory",
+    "question": "Is 97 a prime number?",
+    "expected": "true"
+  },
+  {
+    "id": "prime-two",
+    "area": "number theory",
+    "question": "Is 2 a prime number?",
+    "expected": "true"
+  },
+  {
+    "id": "prime-91",
+    "area": "number theory",
+    "question": "Is 91 a prime number?",
+    "expected": "false",
+    "note": "7 x 13; often misremembered as prime."
+  },
+  {
+    "id": "prime-1000003",
+    "area": "number theory",
+    "question": "Is 1000003 a prime number?",
+    "expected": "true"
+  },
+  {
+    "id": "prime-8191",
+    "area": "number theory",
+    "question": "Is 8191 a prime number?",
+    "expected": "true",
+    "note": "Mersenne prime 2^13 - 1."
+  },
+  {
+    "id": "prime-341",
+    "area": "number theory",
+    "question": "Is 341 a prime number?",
+    "expected": "false",
+    "note": "Fermat pseudoprime to base 2; 11 x 31."
+  },
+  {
+    "id": "prime-1729",
+    "area": "number theory",
+    "question": "Is 1729 a prime number?",
+    "expected": "false",
+    "note": "Carmichael and taxicab number."
+  },
+  {
+    "id": "prime-zero",
+    "area": "number theory",
+    "question": "Is 0 a prime number?",
+    "expected": "false"
+  },
+  {
+    "id": "alg-difference-square",
+    "area": "algebra",
+    "question": "Is (a-b)^2 equal to a^2 - 2*a*b + b^2?",
+    "expected": "true"
+  },
+  {
+    "id": "alg-difference-of-cubes",
+    "area": "algebra",
+    "question": "Is a^3 - b^3 equal to (a-b)*(a^2 + a*b + b^2)?",
+    "expected": "true"
+  },
+  {
+    "id": "alg-double-angle-sin",
+    "area": "algebra",
+    "question": "Is sin(2*x) equal to 2*sin(x)*cos(x)?",
+    "expected": "true"
+  },
+  {
+    "id": "alg-double-angle-cos",
+    "area": "algebra",
+    "question": "Is cos(2*x) equal to cos(x)^2 - sin(x)^2?",
+    "expected": "true"
+  },
+  {
+    "id": "alg-tan-identity",
+    "area": "algebra",
+    "question": "Is tan(x) equal to sin(x)/cos(x)?",
+    "expected": "true"
+  },
+  {
+    "id": "alg-exp-sum",
+    "area": "algebra",
+    "question": "Is e^(a+b) equal to e^a times e^b?",
+    "expected": "true"
+  },
+  {
+    "id": "alg-cube-sum-wrong",
+    "area": "algebra",
+    "question": "Is (a+b)^3 equal to a^3 + b^3?",
+    "expected": "false"
+  },
+  {
+    "id": "alg-factor-cubic",
+    "area": "algebra",
+    "question": "Is x^3 - 8 equal to (x-2)*(x^2 + 2*x + 4)?",
+    "expected": "true"
+  },
+  {
+    "id": "alg-log-product",
+    "area": "algebra",
+    "question": "Is log(a*b) equal to log(a) + log(b)?",
+    "expected": "true",
+    "note": "True for positive a, b. SymPy will not assume that; expect MISSED."
+  },
+  {
+    "id": "sol-unit-circle",
+    "area": "algebra",
+    "question": "Are the solutions of x^2 - 1 = 0 exactly 1 and -1?",
+    "expected": "true"
+  },
+  {
+    "id": "sol-imaginary",
+    "area": "algebra",
+    "question": "Are the solutions of x^2 + 1 = 0 exactly i and -i?",
+    "expected": "true"
+  },
+  {
+    "id": "sol-linear",
+    "area": "algebra",
+    "question": "Is 5 the only solution of x - 5 = 0?",
+    "expected": "true"
+  },
+  {
+    "id": "sol-double-root",
+    "area": "algebra",
+    "question": "Is 2 the only solution of x^2 - 4*x + 4 = 0?",
+    "expected": "true",
+    "note": "Repeated root."
+  },
+  {
+    "id": "sol-nine-incomplete",
+    "area": "algebra",
+    "question": "Is 3 the only solution of x^2 = 9?",
+    "expected": "false"
+  },
+  {
+    "id": "abs-continuous-differentiable",
+    "area": "abstract",
+    "question": "Is every continuous function differentiable?",
+    "expected": "n/a",
+    "note": "False mathematically, but no CAS can decide it. Must not claim verification."
+  },
+  {
+    "id": "abs-abelian-subgroups",
+    "area": "abstract",
+    "question": "Is every subgroup of an abelian group normal?",
+    "expected": "n/a"
+  },
+  {
+    "id": "abs-bolzano-weierstrass",
+    "area": "abstract",
+    "question": "Does every bounded sequence have a convergent subsequence?",
+    "expected": "n/a"
+  },
+  {
+    "id": "abs-rationals-dense",
+    "area": "abstract",
+    "question": "Are the rational numbers dense in the real numbers?",
+    "expected": "n/a"
+  },
+  {
+    "id": "abs-metric-complete",
+    "area": "abstract",
+    "question": "Is every metric space complete?",
+    "expected": "n/a"
+  },
+  {
+    "id": "abs-p-vs-np",
+    "area": "abstract",
+    "question": "Is P equal to NP?",
+    "expected": "n/a",
+    "note": "Open problem."
+  },
+  {
+    "id": "abs-axiom-of-choice",
+    "area": "abstract",
+    "question": "Does every non-empty set have a choice function?",
+    "expected": "n/a"
+  }
+]

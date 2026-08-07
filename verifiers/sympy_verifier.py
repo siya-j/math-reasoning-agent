@@ -21,6 +21,7 @@ _SUPPORTED = {
     VerificationKind.NUMERIC,
     VerificationKind.PRIMALITY,
     VerificationKind.SOLUTION,
+    VerificationKind.LIMIT,
 }
 
 # SECURITY: the expression strings come from a language model, and SymPy's
@@ -67,6 +68,8 @@ class SymPyVerifier(Verifier):
                 return self._numeric(request)
             if request.kind is VerificationKind.SOLUTION:
                 return self._solution(request)
+            if request.kind is VerificationKind.LIMIT:
+                return self._limit(request)
         except Exception as exc:  # never crash the pipeline
             return self._unknown(f"SymPy could not process this: {exc}")
         return self._unknown("Unsupported request kind.")
@@ -88,6 +91,22 @@ class SymPyVerifier(Verifier):
                 f"simplify({request.lhs} - {request.rhs}) = 0, so they are equal."
             )
 
+        # A symbol appearing on only ONE side is a free parameter, not a
+        # variable we are entitled to instantiate. Two real failures came
+        # from ignoring this:
+        #   integrate(2*x, x) vs x**2 + C  -> C is a constant of integration
+        #   some_invented_name    vs oo    -> a meaningless symbol
+        # In both cases the equality is not well posed, so we must not rule
+        # on it. Refusing here is the difference between a limited verifier
+        # and a wrong one.
+        unmatched = lhs.free_symbols ^ rhs.free_symbols
+        if unmatched:
+            names = ", ".join(sorted(str(s) for s in unmatched))
+            return self._unknown(
+                f"Not a well-posed identity: {names} appears on only one side "
+                "(an unbound constant, or an undefined symbol). Refusing to decide."
+            )
+
         # simplify() failing to reach 0 does NOT prove inequality. Probe
         # numerically: a nonzero value is a genuine counterexample; a zero
         # value means we simply could not prove it either way.
@@ -104,6 +123,17 @@ class SymPyVerifier(Verifier):
 
     def _numeric(self, request: VerificationRequest) -> Verdict:
         lhs, rhs = _parse(request.lhs), _parse(request.rhs)
+
+        # A numeric claim must be about numbers. If either side is a symbol,
+        # the agent has handed us something it invented rather than computed,
+        # and "not equal" would be a meaningless verdict.
+        if not lhs.is_number or not rhs.is_number:
+            side = request.lhs if not lhs.is_number else request.rhs
+            return self._unknown(
+                f"'{side}' is not a number, so this is not a numeric claim. "
+                "Refusing to decide."
+            )
+
         if sympy.simplify(lhs - rhs) == 0:
             return self._true(f"{request.lhs} = {sympy.N(lhs)} equals {request.rhs}.")
         return self._false(
@@ -121,6 +151,23 @@ class SymPyVerifier(Verifier):
             )
 
         claimed = [_parse(part) for part in request.candidate.split(",") if part.strip()]
+
+        # A claimed solution containing a symbol that appears nowhere in the
+        # equation is not a value — it is a name the model invented. This bit
+        # us for real: asked about the roots of x**2 + 1, the agent wrote
+        # lowercase "i", which SymPy parses as an ordinary symbol rather than
+        # the imaginary unit (capital I). Comparing them gave FALSE for a
+        # true claim. Refuse instead.
+        known = set(equation.free_symbols) | {var}
+        invented = {s for c in claimed for s in c.free_symbols} - known
+        if invented:
+            names = ", ".join(sorted(str(s) for s in invented))
+            return self._unknown(
+                f"Claimed solutions mention {names}, which does not appear in "
+                "the equation, so they are not concrete values. (SymPy writes "
+                "the imaginary unit as capital I.) Refusing to decide."
+            )
+
         same_count = len(solutions) == len(claimed)
         all_matched = all(
             any(sympy.simplify(found - c) == 0 for c in claimed) for found in solutions
@@ -129,6 +176,31 @@ class SymPyVerifier(Verifier):
             return self._true(f"Solutions confirmed: {solutions}.")
         return self._false(
             f"Claimed {claimed}, but SymPy found {solutions}."
+        )
+
+    def _limit(self, request: VerificationRequest) -> Verdict:
+        variable = sympy.Symbol(request.variable)
+        expression = _parse(request.lhs)
+        point = _parse(request.point or "0")
+        claimed = _parse(request.rhs)
+
+        result = sympy.limit(expression, variable, point)
+
+        # SymPy signals "no single limit" with nan or an oscillation bound.
+        if result.has(sympy.nan) or result.has(sympy.AccumBounds):
+            return self._unknown(
+                f"The limit of {request.lhs} as {request.variable} -> "
+                f"{request.point} does not exist as a single value."
+            )
+
+        if sympy.simplify(result - claimed) == 0:
+            return self._true(
+                f"limit({request.lhs}, {request.variable} -> {request.point}) "
+                f"= {result}, as claimed."
+            )
+        return self._false(
+            f"limit({request.lhs}, {request.variable} -> {request.point}) "
+            f"= {result}, not {request.rhs}."
         )
 
     # ------------------------------------------------------------- helpers

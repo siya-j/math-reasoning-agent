@@ -1,0 +1,357 @@
+{
+  "summary": {
+    "total": 34,
+    "correct": 29,
+    "missed": 3,
+    "wrong": 2,
+    "errors": 0,
+    "accuracy": 0.8529411764705882,
+    "soundness": 0.9411764705882353,
+    "coverage": 0.8275862068965517,
+    "tool_use_rate": 0.8529411764705882,
+    "mean_checks": 0.9411764705882353,
+    "restraint_on_abstract": 1.0
+  },
+  "results": [
+    {
+      "case_id": "calc-deriv-cubic",
+      "area": "calculus",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "All 1 check(s) passed. simplify(diff(x**3, x) - 3*x**2) = 0, so they are equal."
+    },
+    {
+      "case_id": "calc-deriv-cubic-wrong",
+      "area": "calculus",
+      "expected": "false",
+      "actual": "false",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "Refuted by check_equality: Not equal. At {x: 1/2} the difference is -0.250000000000000, not 0."
+    },
+    {
+      "case_id": "calc-integral-2x",
+      "area": "calculus",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "All 1 check(s) passed. simplify(integrate(2*x, x) - x**2) = 0, so they are equal."
+    },
+    {
+      "case_id": "calc-integral-cos",
+      "area": "calculus",
+      "expected": "true",
+      "actual": "unknown",
+      "outcome": "missed",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "0 of 1 check(s) passed; the rest could not be decided."
+    },
+    {
+      "case_id": "calc-deriv-sin-wrong",
+      "area": "calculus",
+      "expected": "false",
+      "actual": "false",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "Refuted by check_equality: Not equal. At {x: 1/2} the difference is 1.75516512378075, not 0."
+    },
+    {
+      "case_id": "calc-deriv-product",
+      "area": "calculus",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "All 1 check(s) passed. simplify(diff(x*sin(x), x) - sin(x) + x*cos(x)) = 0, so they are equal."
+    },
+    {
+      "case_id": "calc-limit-sinx-over-x",
+      "area": "calculus",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 2,
+      "tools_used": "check_equality",
+      "detail": "All 2 check(s) passed. simplify(limit(sin(x)/x, x, 0) - 1) = 0, so they are equal."
+    },
+    {
+      "case_id": "num-two-plus-two",
+      "area": "arithmetic",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_numeric",
+      "detail": "All 1 check(s) passed. 2 + 2 = 4.00000000000000 equals 4."
+    },
+    {
+      "case_id": "num-two-plus-two-wrong",
+      "area": "arithmetic",
+      "expected": "false",
+      "actual": "true",
+      "outcome": "wrong",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "All 1 check(s) passed. simplify(diff(x**3, x) - 3*x**2) = 0, so they are equal."
+    },
+    {
+      "case_id": "num-product",
+      "area": "arithmetic",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_numeric",
+      "detail": "All 1 check(s) passed. 17*23 = 391.000000000000 equals 391."
+    },
+    {
+      "case_id": "num-sqrt",
+      "area": "arithmetic",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "All 1 check(s) passed. simplify(sqrt(144) - 12) = 0, so they are equal."
+    },
+    {
+      "case_id": "num-factorial",
+      "area": "arithmetic",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_numeric",
+      "detail": "All 1 check(s) passed. factorial(7) = 5040.00000000000 equals 5040."
+    },
+    {
+      "case_id": "num-power-wrong",
+      "area": "arithmetic",
+      "expected": "false",
+      "actual": "false",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "Refuted by check_equality: Not equal. At all points the difference is 24.0000000000000, not 0."
+    },
+    {
+      "case_id": "num-fraction-sum",
+      "area": "arithmetic",
+      "expected": "true",
+      "actual": "unknown",
+      "outcome": "missed",
+      "checks": 3,
+      "tools_used": "check_equality",
+      "detail": "0 of 3 check(s) passed; the rest could not be decided."
+    },
+    {
+      "case_id": "prime-7919",
+      "area": "number theory",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_primality",
+      "detail": "All 1 check(s) passed. 7919 is prime (SymPy isprime)."
+    },
+    {
+      "case_id": "prime-7917",
+      "area": "number theory",
+      "expected": "false",
+      "actual": "false",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_primality",
+      "detail": "Refuted by check_primality: 7917 is not prime. Factorization: {3: 1, 7: 1, 13: 1, 29: 1}."
+    },
+    {
+      "case_id": "prime-pseudoprime",
+      "area": "number theory",
+      "expected": "false",
+      "actual": "false",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_primality",
+      "detail": "Refuted by check_primality: 3215031751 is not prime. Factorization: {151: 1, 751: 1, 28351: 1}."
+    },
+    {
+      "case_id": "prime-carmichael-561",
+      "area": "number theory",
+      "expected": "false",
+      "actual": "false",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_primality",
+      "detail": "Refuted by check_primality: 561 is not prime. Factorization: {3: 1, 11: 1, 17: 1}."
+    },
+    {
+      "case_id": "prime-one",
+      "area": "number theory",
+      "expected": "false",
+      "actual": "false",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_primality",
+      "detail": "Refuted by check_primality: 1 is not prime. Factorization: {}."
+    },
+    {
+      "case_id": "prime-mersenne-31",
+      "area": "number theory",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_primality",
+      "detail": "All 1 check(s) passed. 7919 is prime (SymPy isprime)."
+    },
+    {
+      "case_id": "alg-pythagorean-identity",
+      "area": "algebra",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "All 1 check(s) passed. simplify(sin(x)**2 + cos(x)**2 - 1) = 0, so they are equal."
+    },
+    {
+      "case_id": "alg-binomial-square",
+      "area": "algebra",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "All 1 check(s) passed. simplify((a+b)**2 - a**2 + 2*a*b + b**2) = 0, so they are equal."
+    },
+    {
+      "case_id": "alg-freshmans-dream",
+      "area": "algebra",
+      "expected": "false",
+      "actual": "false",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "Refuted by check_equality: Not equal. At {a: 1/2, b: 1/2} the difference is 0.500000000000000, not 0."
+    },
+    {
+      "case_id": "alg-difference-of-squares",
+      "area": "algebra",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "All 1 check(s) passed. simplify(x**2 - 9 - (x - 3)*(x + 3)) = 0, so they are equal."
+    },
+    {
+      "case_id": "alg-euler-identity",
+      "area": "algebra",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "All 1 check(s) passed. simplify(exp(I*pi) + 1 - 0) = 0, so they are equal."
+    },
+    {
+      "case_id": "alg-log-exp",
+      "area": "algebra",
+      "expected": "true",
+      "actual": "unknown",
+      "outcome": "missed",
+      "checks": 1,
+      "tools_used": "check_equality",
+      "detail": "0 of 1 check(s) passed; the rest could not be decided."
+    },
+    {
+      "case_id": "sol-quadratic-pm2",
+      "area": "algebra",
+      "expected": "true",
+      "actual": "false",
+      "outcome": "wrong",
+      "checks": 1,
+      "tools_used": "solve_equation",
+      "detail": "Refuted by solve_equation: Claimed [2], but SymPy found [-2, 2]."
+    },
+    {
+      "case_id": "sol-quadratic-incomplete",
+      "area": "algebra",
+      "expected": "false",
+      "actual": "false",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "solve_equation",
+      "detail": "Refuted by solve_equation: Claimed [2], but SymPy found [-2, 2]."
+    },
+    {
+      "case_id": "sol-quadratic-factored",
+      "area": "algebra",
+      "expected": "true",
+      "actual": "true",
+      "outcome": "correct",
+      "checks": 1,
+      "tools_used": "solve_equation",
+      "detail": "All 1 check(s) passed. Solutions confirmed: [2, 3]."
+    },
+    {
+      "case_id": "abs-vector-space-basis",
+      "area": "abstract",
+      "expected": "n/a",
+      "actual": "n/a",
+      "outcome": "correct",
+      "checks": 0,
+      "tools_used": "",
+      "detail": "The agent performed no deterministic verification."
+    },
+    {
+      "case_id": "abs-prime-order-cyclic",
+      "area": "abstract",
+      "expected": "n/a",
+      "actual": "n/a",
+      "outcome": "correct",
+      "checks": 0,
+      "tools_used": "",
+      "detail": "The agent performed no deterministic verification."
+    },
+    {
+      "case_id": "abs-reals-uncountable",
+      "area": "abstract",
+      "expected": "n/a",
+      "actual": "n/a",
+      "outcome": "correct",
+      "checks": 0,
+      "tools_used": "",
+      "detail": "The agent performed no deterministic verification."
+    },
+    {
+      "case_id": "abs-extreme-value",
+      "area": "abstract",
+      "expected": "n/a",
+      "actual": "n/a",
+      "outcome": "correct",
+      "checks": 0,
+      "tools_used": "",
+      "detail": "The agent performed no deterministic verification."
+    },
+    {
+      "case_id": "abs-infinitely-many-primes",
+      "area": "abstract",
+      "expected": "n/a",
+      "actual": "n/a",
+      "outcome": "correct",
+      "checks": 0,
+      "tools_used": "",
+      "detail": "The agent performed no deterministic verification."
+    }
+  ]
+}

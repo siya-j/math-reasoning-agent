@@ -1,6 +1,6 @@
 """Run the agent on one question.
 
-    python scripts/run.py "Is the derivative of x^3 equal to 3x^2?"
+    python scripts/run.py "Is 97 prime, and is the derivative of x^3 equal to 3x^2?"
 """
 
 import sys
@@ -18,34 +18,25 @@ def main() -> None:
     state = pipeline.run(question)
 
     print(f"\nQUESTION\n  {state.question}")
-    print(f"\nCLAIM\n  {state.claim.statement}")
-    print(f"  type: {state.claim.problem_type.value}")
 
-    print(f"\nATTEMPTS ({len(state.attempts)})")
+    print(f"\nATTEMPTS ({len(state.attempts)})  — decided by the pipeline, not the model")
     for attempt in state.attempts:
         print(f"  {attempt.summary()}")
+        for check in attempt.checks:
+            print(f"      {check.summary()}")
+            print(f"          {check.detail_line()}")
 
-    print("\nFINAL FORMALIZED CHECK")
-    print(f"  kind: {state.request.kind.value}")
-    print(f"  lhs:  {state.request.lhs}")
-    print(f"  rhs:  {state.request.rhs}")
-    if state.request.candidate:
-        print(f"  candidate: {state.request.candidate}")
+    if state.evidence:
+        print(f"\nAUXILIARY EVIDENCE ({len(state.evidence)}) — evidence, NOT proof")
+        for check in state.evidence:
+            print(f"  {check.summary()}")
 
-    if state.subclaims:
-        print(f"\nAUXILIARY EVIDENCE ({len(state.subclaims)}) — evidence, NOT proof")
-        for sub in state.subclaims:
-            print(f"  {sub.summary()}")
-            print(f"      {sub.verdict.detail}")
-
-    print(f"\nREASONING (probabilistic)\n{state.reasoning}")
-
-    print("\nVERIFICATION (deterministic)")
+    print("\nVERDICT  — computed from the checks, not from the model")
     print(f"  status: {state.verdict.status.value}")
     print(f"  method: {state.verdict.method}")
     print(f"  detail: {state.verdict.detail}")
 
-    print(f"\nFINAL ANSWER\n{state.explanation}")
+    print(f"\nANSWER\n{state.answer}")
 
     print("\nTRACE")
     for entry in state.trace:

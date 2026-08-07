@@ -1,40 +1,40 @@
-"""Execution memory (Design Doc, Principle 3 — Iterative Reasoning).
+"""One pass of the agent, and what came of it (Principle 3, Principle 5).
 
-Every verification attempt is recorded, including the ones that failed.
-Failures are learning signals, not terminal errors: the next attempt reads
-the previous verdict and tries to do better.
+The pipeline — not the model — decides whether another attempt happens.
+Recording every attempt, including the ones that failed, is what makes the
+loop inspectable rather than emergent.
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 
+from domain.check import Check
 from domain.verdict import Verdict
-from domain.verification import VerificationRequest
 
 
 class Strategy(str, Enum):
-    """How a given attempt was produced."""
+    """Why this attempt was made."""
 
-    INITIAL = "initial"            # first pass
-    REFORMALIZE = "reformalize"    # same claim, corrected formal check
-    REINTERPRET = "reinterpret"    # re-read the question from scratch
+    INITIAL = "initial"                    # first pass
+    RETRY_MALFORMED = "retry-malformed"    # verifier could not decide; fix the check
+    RETRY_NO_TOOLS = "retry-no-tools"      # nothing was verified; nudge once
+    DECOMPOSE = "decompose"                # gather auxiliary evidence only
 
 
 @dataclass(frozen=True)
 class Attempt:
-    """One trip through formalize -> verify, kept for inspection."""
+    """One agent invocation: the checks it ran and the verdict they produced."""
 
     number: int
     strategy: Strategy
-    claim_statement: str
-    request: VerificationRequest
-    verdict: Verdict
+    checks: list[Check] = field(default_factory=list)
+    verdict: Verdict | None = None
 
     def summary(self) -> str:
+        status = self.verdict.status.value if self.verdict else "n/a"
         return (
             f"#{self.number} ({self.strategy.value}): "
-            f"{self.request.kind.value} {self.request.lhs} ?= {self.request.rhs} "
-            f"-> {self.verdict.status.value}"
+            f"{len(self.checks)} check(s) -> {status}"
         )

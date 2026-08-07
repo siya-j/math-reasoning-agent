@@ -20,6 +20,7 @@ class VerificationKind(str, Enum):
     NUMERIC = "numeric"      # does lhs evaluate to rhs?
     PRIMALITY = "primality"  # is the integer in lhs prime?
     SOLUTION = "solution"    # are the solutions of lhs = rhs exactly `candidate`?
+    LIMIT = "limit"          # does lhs tend to rhs as `variable` -> `point`?
     NONE = "none"            # nothing here can be checked deterministically
 
 
@@ -36,6 +37,7 @@ class VerificationRequest:
     rhs: str = ""
     variable: str = "x"
     candidate: str = ""       # comma-separated claimed solutions (SOLUTION only)
+    point: str = ""           # what the variable approaches (LIMIT only)
 
     @property
     def is_checkable(self) -> bool:
