@@ -12,10 +12,9 @@ capabilities existed in name only.
 
 from __future__ import annotations
 
-from langchain.agents import create_agent
-
 from domain.check import Check
 from llm.client import get_model
+from pipeline.harness import build_agent, final_text
 from pipeline.tools import VerificationLog, make_tools
 
 SYSTEM_PROMPT = """You are a mathematical reasoning agent.
@@ -60,15 +59,15 @@ def invoke_once(
 ) -> tuple[list[Check], str]:
     """Run the agent once. Returns the checks it made and its prose."""
     log = VerificationLog()
-    agent = create_agent(
-        model=model or get_model(),
-        tools=make_tools(log),
-        system_prompt=SYSTEM_PROMPT,
-    )
+    agent = build_agent(model or get_model(), make_tools(log), SYSTEM_PROMPT)
 
     content = question
     if extra_instruction:
         content = f"{question}\n\n---\n{extra_instruction}"
 
     result = agent.invoke({"messages": [{"role": "user", "content": content}]})
-    return log.checks, (result["messages"][-1].text or "")
+
+    # Two channels. Only `log.checks` is consumed downstream; the prose is
+    # shown to the human and never parsed. That split is what makes the
+    # harness irrelevant to the verdict.
+    return log.checks, final_text(result)

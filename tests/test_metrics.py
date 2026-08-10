@@ -60,6 +60,29 @@ def test_soundness_drops_when_a_case_is_wrong():
     assert summary["soundness"] == 0.5
 
 
+def test_errors_are_excluded_from_every_rate():
+    """A rate-limited case produced no evidence about the agent.
+
+    Observed: a deepagents run answered 8 of 8 correctly, was rate limited on
+    the last two, and reported 80% accuracy. That reads as a regression when
+    the truth was a perfect score on everything that ran.
+    """
+    results = [_result(Outcome.CORRECT)] * 8 + [_result(Outcome.ERROR)] * 2
+    summary = summarize(results)
+
+    assert summary["total"] == 10
+    assert summary["attempted"] == 8
+    assert summary["errors"] == 2
+    assert summary["accuracy"] == 1.0
+
+
+def test_all_errors_reports_no_rates_at_all():
+    summary = summarize([_result(Outcome.ERROR)] * 3)
+    assert summary["attempted"] == 0
+    assert summary["accuracy"] is None
+    assert summary["soundness"] is None
+
+
 def test_coverage_only_counts_decidable_cases():
     results = [
         _result(Outcome.CORRECT, expected="true"),

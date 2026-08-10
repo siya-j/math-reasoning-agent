@@ -7,6 +7,11 @@ MODEL = os.getenv("MRA_MODEL", "google_genai:gemini-3.5-flash")
 # 0.0 = most deterministic. Good for mathematics.
 TEMPERATURE = 0.0
 
+# Which agent harness runs the tool-calling step: "langchain" or "deepagents".
+# Kept as a switch rather than a replacement so both can be measured against
+# the same 109 cases with only one variable changing.
+HARNESS = os.getenv("MRA_HARNESS", "langchain")
+
 # Phase 4: how many verification attempts before we give up and report
 # honestly. 1 disables reflection entirely.
 MAX_ATTEMPTS = 3

@@ -111,6 +111,10 @@ class Formalizer:
     def __init__(self, model=None, search=None):
         self._model = model or get_model()
         self._search = search
+        # Premises depend only on the statement, which does not change across
+        # the five attempts on a goal. Without this, a single goal made up to
+        # forty identical HTTP requests.
+        self._premise_cache: dict[str, str] = {}
 
     def _ask(self, prompt: str) -> str:
         result = self._model.invoke(prompt)
@@ -132,7 +136,11 @@ class Formalizer:
         """
         if self._search is None:
             return ""
-        return render_premises(self._search.premises_for(statement))
+        if statement not in self._premise_cache:
+            self._premise_cache[statement] = render_premises(
+                self._search.premises_for(statement)
+            )
+        return self._premise_cache[statement]
 
     def proof(
         self, statement: str, sketch: str, errors: str = "", previous: str = ""

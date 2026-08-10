@@ -73,14 +73,26 @@ def summarize(results: list[CaseResult]) -> dict:
     abstract = [r for r in results if r.expected == "n/a"]
     restrained = [r for r in abstract if r.checks == 0]
 
+    # A case that crashed or was rate limited produced no evidence about the
+    # agent, so it is excluded from every rate and reported separately. The
+    # alternative — counting a quota limit as a wrong answer — has now been
+    # the wrong thing three times in this project (variance.py, the model
+    # probe, and a deepagents run that scored 8/8 and was reported as 80%).
+    attempted = [r for r in results if r.outcome is not Outcome.ERROR]
+    scored = len(attempted)
+
+    def rate(numerator: int) -> float | None:
+        return numerator / scored if scored else None
+
     return {
         "total": len(results),
+        "attempted": scored,
         "correct": counts[Outcome.CORRECT],
         "missed": counts[Outcome.MISSED],
         "wrong": counts[Outcome.WRONG],
         "errors": counts[Outcome.ERROR],
-        "accuracy": counts[Outcome.CORRECT] / total,
-        "soundness": 1 - counts[Outcome.WRONG] / total,
+        "accuracy": rate(counts[Outcome.CORRECT]),
+        "soundness": (1 - counts[Outcome.WRONG] / scored) if scored else None,
         # None, not 0.0, when there is nothing to measure. A slice with no
         # abstract cases scored 0% restraint and read like a failure.
         "coverage": (
@@ -88,9 +100,13 @@ def summarize(results: list[CaseResult]) -> dict:
             if decidable
             else None
         ),
-        "tool_use_rate": len(used_tools) / total,
-        "mean_checks": sum(r.checks for r in results) / total,
-        "mean_attempts": sum(r.attempts for r in results) / total,
+        "tool_use_rate": rate(len(used_tools)),
+        "mean_checks": (
+            sum(r.checks for r in attempted) / scored if scored else None
+        ),
+        "mean_attempts": (
+            sum(r.attempts for r in attempted) / scored if scored else None
+        ),
         # Did reflection actually rescue anything? Phase 4 earning its keep.
         "recovered_by_retry": sum(
             1 for r in results if r.attempts > 1 and r.outcome is Outcome.CORRECT

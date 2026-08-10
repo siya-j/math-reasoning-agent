@@ -82,11 +82,18 @@ def run_all(
         # Grinding through 80 more cases at a minute each helps nobody.
         consecutive_errors = consecutive_errors + 1 if result.outcome is Outcome.ERROR else 0
         if consecutive_errors >= 3:
-            print(
-                f"\nAborting: {consecutive_errors} consecutive failures. "
-                "The quota is likely exhausted, not momentarily rate limited."
+            # Report the error we actually saw. Asserting "the quota is
+            # exhausted" without reading it sent a debugging session down the
+            # wrong path once — a missing package looks identical from here.
+            first = next(
+                (r.detail for r in reversed(results) if r.outcome is Outcome.ERROR), ""
             )
-            print("Switch model (e.g. ollama:qwen2.5:3b) or try again later.")
+            print(f"\nAborting: {consecutive_errors} consecutive failures.")
+            print(f"  {first}")
+            if any(marker in first for marker in RATE_LIMIT_MARKERS):
+                print("\nThat looks like a quota limit. Switch model or wait.")
+            else:
+                print("\nThat is not a rate limit — fix the error above.")
             print(f"Scored {len(results)} of {len(cases)} case(s).\n")
             break
         if verbose:

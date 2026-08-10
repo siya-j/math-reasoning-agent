@@ -1,0 +1,116 @@
+[
+  {
+    "id": "num-infinitude-of-primes",
+    "area": "number theory",
+    "goal": "For every natural number n there exists a prime p with n < p",
+    "tier": "in-mathlib",
+    "mathlib": "Nat.exists_infinite_primes",
+    "note": "Verified present via Loogle. If this fails, the model is the problem, not the library."
+  },
+  {
+    "id": "grp-prime-order-cyclic",
+    "area": "group theory",
+    "goal": "A finite group whose order is prime is cyclic",
+    "tier": "in-mathlib",
+    "mathlib": "isCyclic_of_prime_card",
+    "note": "Verified present via Loogle. Needs Fact (Nat.Prime p) instance handling."
+  },
+  {
+    "id": "num-two-plus-two",
+    "area": "arithmetic",
+    "goal": "2 + 2 = 4",
+    "tier": "in-mathlib",
+    "mathlib": "by norm_num",
+    "note": "Floor. A model failing this cannot write Lean at all."
+  },
+  {
+    "id": "num-add-zero",
+    "area": "arithmetic",
+    "goal": "For every natural number n, n + 0 = n",
+    "tier": "in-mathlib",
+    "mathlib": "Nat.add_zero",
+    "note": "Floor, with a bound variable."
+  },
+  {
+    "id": "num-seven-prime",
+    "area": "number theory",
+    "goal": "7 is a prime number",
+    "tier": "in-mathlib",
+    "mathlib": "by norm_num",
+    "note": "Tests whether the model reaches for norm_num rather than a manual argument."
+  },
+  {
+    "id": "alg-square-nonneg",
+    "area": "algebra",
+    "goal": "For every real number x, x squared is non-negative",
+    "tier": "in-mathlib",
+    "mathlib": "sq_nonneg",
+    "note": "Also decidable by SymPy, so it doubles as a routing check."
+  },
+
+  {
+    "id": "grp-subgroup-of-cyclic",
+    "area": "group theory",
+    "goal": "Every subgroup of a cyclic group is cyclic",
+    "tier": "near-mathlib",
+    "mathlib": null,
+    "note": "Mathlib has Subgroup.isCyclic; the work is stating it correctly."
+  },
+  {
+    "id": "ana-continuous-compact-max",
+    "area": "analysis",
+    "goal": "A continuous real-valued function on a compact set attains its maximum",
+    "tier": "near-mathlib",
+    "mathlib": null,
+    "note": "Extreme value theorem. In Mathlib, but the statement needs topology instances."
+  },
+  {
+    "id": "set-reals-uncountable",
+    "area": "set theory",
+    "goal": "The real numbers are uncountable",
+    "tier": "near-mathlib",
+    "mathlib": null,
+    "note": "In Mathlib as a cardinality result; formalising it faithfully is the hard part."
+  },
+  {
+    "id": "lin-vector-space-basis",
+    "area": "linear algebra",
+    "goal": "Every vector space has a basis",
+    "tier": "near-mathlib",
+    "mathlib": null,
+    "note": "Requires the axiom of choice. In Mathlib, but heavily typeclass-laden."
+  },
+  {
+    "id": "top-compact-image",
+    "area": "topology",
+    "goal": "The continuous image of a compact set is compact",
+    "tier": "near-mathlib",
+    "mathlib": null,
+    "note": "Standard result; tests whether retrieval finds topology lemmas at all."
+  },
+  {
+    "id": "num-sqrt-two-irrational",
+    "area": "number theory",
+    "goal": "The square root of 2 is irrational",
+    "tier": "near-mathlib",
+    "mathlib": null,
+    "note": "Nat.Prime.irrational_sqrt exists; connecting it to the statement is the work."
+  },
+
+  {
+    "id": "novel-goldbach-small",
+    "area": "number theory",
+    "goal": "Every even integer greater than 2 and less than 100 is the sum of two primes",
+    "tier": "novel",
+    "mathlib": null,
+    "note": "Bounded, so decidable in principle, but no lemma exists. Tests decomposition."
+  },
+  {
+    "id": "novel-sum-of-two-squares",
+    "area": "number theory",
+    "goal": "If a prime p satisfies p mod 4 = 1 then p is a sum of two squares",
+    "tier": "novel",
+    "mathlib": null,
+    "note": "Fermat's theorem on sums of two squares. Hard even with Mathlib."
+  }
+]

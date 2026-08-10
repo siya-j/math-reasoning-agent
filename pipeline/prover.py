@@ -52,35 +52,48 @@ def prove(
     formalizer: Formalizer | None = None,
     check=lean_check,
     depth: int | None = None,
+    progress=None,
 ) -> ProofRun:
     """Attempt a formal proof of `goal`. Returns an explicit record either way.
 
     `formalizer` and `check` are injected so the entire strategy below can be
     exercised with no model and no Lean installation.
+
+    `progress` is an optional callable invoked with a short stage name. A
+    single goal can take minutes — mostly Lean reloading Mathlib — so a
+    long-running proof needs to be distinguishable from a hung one.
     """
     formalizer = formalizer or Formalizer()
     depth = config.LEMMA_DEPTH if depth is None else depth
 
+    def note(stage: str) -> None:
+        if progress:
+            progress(stage)
+
     run = ProofRun(goal=goal)
 
     # --- formalise --------------------------------------------------------
+    note("formalising")
     run.statement = formalizer.statement(goal)
     if not run.statement.strip():
         run.verdict = _unknown("The claim could not be stated formally.")
         return run
     run.log("formalise", run.statement)
 
+    note("sketching")
     sketch = formalizer.sketch(goal)
 
     # --- direct proving ---------------------------------------------------
-    for _ in range(config.PROOF_ATTEMPTS):
+    for attempt in range(config.PROOF_ATTEMPTS):
+        note(f"direct {attempt + 1}/{config.PROOF_ATTEMPTS}")
         if _try(run, formalizer, check, ProofStage.DIRECT, sketch):
             return run
 
     # --- refinement on compiler feedback ---------------------------------
     # Prover Agent §3.1: refine the attempt with the FEWEST errors, not the
     # most recent one. The last attempt is often not the closest to correct.
-    for _ in range(config.PROOF_REFINEMENTS):
+    for attempt in range(config.PROOF_REFINEMENTS):
+        note(f"refine {attempt + 1}/{config.PROOF_REFINEMENTS}")
         draft = best_draft(run)
         if _try(
             run,
