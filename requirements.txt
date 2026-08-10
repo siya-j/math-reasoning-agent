@@ -4,5 +4,10 @@ pydantic
 pytest
 
 # Providers - install the one you use (selected via config.MODEL / MRA_MODEL)
+# Each reads its own key from the environment:
+#   langchain-google-genai   GOOGLE_API_KEY
+#   langchain-openrouter     OPENROUTER_API_KEY
+#   langchain-ollama         (none - local)
 langchain-google-genai
+langchain-openrouter
 langchain-ollama

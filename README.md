@@ -4,9 +4,30 @@ The LLM reasons and decides what to check. Deterministic systems decide
 mathematical correctness. The model never gets a vote on what counts as
 verified.
 
-**[docs/consolidation-report.md](docs/consolidation-report.md)** — architecture
-history, measured results, the seven failures evaluation found, design
-document compliance, and next steps.
+**[docs/architecture.md](docs/architecture.md)** — the authoritative design
+document: strategy, every component, the research lineage, the twelve
+failures found and how, and known limitations.
+
+**[docs/consolidation-report.md](docs/consolidation-report.md)** — historical
+record of the consolidation phase.
+
+## Ask it something
+
+```bash
+export MRA_MODEL="openrouter:cohere/north-mini-code:free"
+python scripts/ask.py "Is 561 a prime number?" --trace
+```
+
+```
+question: Is 561 a prime number?
+routed as: computational — primality of a specific integer is a computation
+
+[VERIFIED FALSE] via sympy
+  [false] Is 561 a prime number?
+      check_primality(561)
+
+561 is not prime; its factorization is 3 x 11 x 17.
+```
 
 ## Structure
 

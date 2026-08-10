@@ -59,6 +59,9 @@ def main() -> int:
         return 2
 
     passed = 0
+    failed = 0
+    errors: list[str] = []
+
     for label, statement in TASKS:
         print(f"  {label:<22} ", end="", flush=True)
         try:
@@ -66,18 +69,33 @@ def main() -> int:
             proof = formalizer.proof(statement, sketch)
             verdict = lean_check(statement, proof)
         except Exception as exc:
-            print(f"ERROR  {exc}")
+            # A call that never reached the model says NOTHING about the
+            # model. Counting these as failures would report "cannot write
+            # Lean" for an expired key — the same mistake variance.py made
+            # when it counted crashes as verdicts.
+            errors.append(f"{label}: {exc}")
+            print(f"ERROR    {str(exc)[:60]}")
             continue
 
         if verdict.status is VerificationStatus.TRUE:
             passed += 1
             print(f"PROVED   {proof.splitlines()[0][:50]}")
         else:
-            first = verdict.detail.splitlines()[-1][:60]
-            print(f"failed   {first}")
+            failed += 1
+            print(f"failed   {verdict.detail.splitlines()[-1][:60]}")
 
-    print(f"\n{passed}/{len(TASKS)} compiled.")
-    if passed == len(TASKS):
+    attempted = passed + failed
+    print(f"\n{passed}/{attempted} compiled ({len(errors)} never reached the model).")
+
+    if not attempted:
+        print(
+            "NO CONCLUSION. Every call failed before the model saw anything, so\n"
+            "this says nothing about whether the model can write Lean.\n"
+            f"First error: {errors[0] if errors else 'unknown'}"
+        )
+        return 2
+
+    if passed == attempted:
         print("This model can write Lean. Worth running the full prover on.")
     elif passed:
         print("Partial. Usable for in-mathlib citation, not for real proofs.")
