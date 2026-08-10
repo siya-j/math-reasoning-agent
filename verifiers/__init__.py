@@ -9,10 +9,13 @@ from __future__ import annotations
 from domain.verdict import Verdict, VerificationStatus
 from domain.verification import VerificationRequest
 from verifiers.base import Verifier
+from verifiers.lean_verifier import LeanVerifier
 from verifiers.sympy_verifier import SymPyVerifier
 
 # Order matters: the first verifier that supports a request handles it.
-VERIFIERS: list[Verifier] = [SymPyVerifier()]
+# Adding Lean is one line. Principle 8 in practice — the pipeline, the guard
+# and the reflection loop are all untouched by this change.
+VERIFIERS: list[Verifier] = [SymPyVerifier(), LeanVerifier()]
 
 NOT_APPLICABLE = Verdict(
     status=VerificationStatus.NOT_APPLICABLE,
@@ -33,4 +36,11 @@ def verify(request: VerificationRequest) -> Verdict:
     return NOT_APPLICABLE
 
 
-__all__ = ["verify", "VERIFIERS", "Verifier", "SymPyVerifier", "NOT_APPLICABLE"]
+__all__ = [
+    "verify",
+    "VERIFIERS",
+    "Verifier",
+    "SymPyVerifier",
+    "LeanVerifier",
+    "NOT_APPLICABLE",
+]

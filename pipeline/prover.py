@@ -1,0 +1,175 @@
+"""Theorem proving (Prover Agent, arXiv 2506.19923, §3).
+
+    goal in English
+      -> formalise                     statement in Lean
+      -> direct proving                informally guided        (xPROOF_ATTEMPTS)
+      -> refinement                    driven by compiler errors (xPROOF_REFINEMENTS)
+      -> auxiliary lemmas              bottom-up strategy search (depth LEMMA_DEPTH)
+      -> synthesis                     final proof from proved lemmas
+      -> ProofRun
+
+Same shape as pipeline.run(): the loop lives in code, the judgment lives in
+the model. Retrying and decomposing are guaranteed here rather than hoped for
+in a prompt, for the reason measured in Phase 4 — a model asked to iterate
+often simply does not.
+
+WHY LEMMAS MAY AFFECT THE OUTCOME HERE
+--------------------------------------
+In pipeline.py, auxiliary checks are evidence and can never move the verdict:
+SymPy confirming three special cases says nothing about the general claim.
+
+Here, proved lemmas ARE allowed to contribute — because the assembled proof
+is submitted to the compiler. The lemmas are inputs to something that gets
+checked, not evidence trusted on its own. Remove the final verification step
+and this becomes unsound immediately.
+"""
+
+from __future__ import annotations
+
+import config
+from domain.proof import Lemma, ProofAttempt, ProofRun, ProofStage  # noqa: F401
+from domain.verdict import Verdict, VerificationStatus
+from domain.verification import VerificationKind, VerificationRequest
+from llm.formalizer import Formalizer
+from verifiers import verify as verify_request
+
+
+def lean_check(statement: str, proof: str) -> Verdict:
+    """Ask the verifier registry to decide a formal claim."""
+    return verify_request(
+        VerificationRequest(
+            kind=VerificationKind.FORMAL, statement=statement, proof=proof
+        )
+    )
+
+
+def _unknown(detail: str) -> Verdict:
+    return Verdict(status=VerificationStatus.UNKNOWN, method="prover", detail=detail)
+
+
+def prove(
+    goal: str,
+    formalizer: Formalizer | None = None,
+    check=lean_check,
+    depth: int | None = None,
+) -> ProofRun:
+    """Attempt a formal proof of `goal`. Returns an explicit record either way.
+
+    `formalizer` and `check` are injected so the entire strategy below can be
+    exercised with no model and no Lean installation.
+    """
+    formalizer = formalizer or Formalizer()
+    depth = config.LEMMA_DEPTH if depth is None else depth
+
+    run = ProofRun(goal=goal)
+
+    # --- formalise --------------------------------------------------------
+    run.statement = formalizer.statement(goal)
+    if not run.statement.strip():
+        run.verdict = _unknown("The claim could not be stated formally.")
+        return run
+    run.log("formalise", run.statement)
+
+    sketch = formalizer.sketch(goal)
+
+    # --- direct proving ---------------------------------------------------
+    for _ in range(config.PROOF_ATTEMPTS):
+        if _try(run, formalizer, check, ProofStage.DIRECT, sketch):
+            return run
+
+    # --- refinement on compiler feedback ---------------------------------
+    # Prover Agent §3.1: refine the attempt with the FEWEST errors, not the
+    # most recent one. The last attempt is often not the closest to correct.
+    for _ in range(config.PROOF_REFINEMENTS):
+        draft = best_draft(run)
+        if _try(
+            run,
+            formalizer,
+            check,
+            ProofStage.REFINE,
+            sketch,
+            errors=draft.verdict.detail,
+            previous=draft.proof,
+        ):
+            return run
+
+    # --- auxiliary lemmas -------------------------------------------------
+    if depth > 0:
+        _gather_lemmas(run, formalizer, check, depth)
+
+        if run.proved_lemmas:
+            proofs = [
+                f"{lemma.statement} := {lemma.proof}" for lemma in run.proved_lemmas
+            ]
+            candidate = formalizer.synthesis(run.statement, proofs)
+            verdict = check(run.statement, candidate)
+            run.record(
+                ProofAttempt(
+                    len(run.attempts) + 1, ProofStage.SYNTHESIS, candidate, verdict
+                )
+            )
+            if verdict.status is VerificationStatus.TRUE:
+                return _succeed(run, candidate, verdict)
+
+    return _give_up(run)
+
+
+# ------------------------------------------------------------------ helpers
+def best_draft(run: ProofRun) -> ProofAttempt:
+    """The failed attempt closest to compiling, by error count.
+
+    Ties go to the earliest attempt, so the choice is deterministic.
+    """
+    return min(run.attempts, key=lambda attempt: (attempt.error_count, attempt.number))
+
+
+def _try(run, formalizer, check, stage, sketch, errors="", previous="") -> bool:
+    """One proposal-and-check cycle. True if the compiler accepted it."""
+    candidate = formalizer.proof(
+        run.statement, sketch, errors=errors, previous=previous
+    )
+    verdict = check(run.statement, candidate)
+    run.record(ProofAttempt(len(run.attempts) + 1, stage, candidate, verdict))
+
+    if verdict.status is VerificationStatus.TRUE:
+        _succeed(run, candidate, verdict)
+        return True
+    return False
+
+
+def _gather_lemmas(run, formalizer, check, depth) -> None:
+    """Propose auxiliary facts and try to prove each one on its own."""
+    for informal in formalizer.lemmas(run.goal, config.MAX_LEMMAS):
+        # Recursion: a lemma is just a smaller goal. Depth is bounded so a
+        # hard problem cannot spawn work without limit.
+        sub = prove(informal, formalizer=formalizer, check=check, depth=depth - 1)
+        run.lemmas.append(
+            Lemma(
+                informal=informal,
+                statement=sub.statement,
+                proof=sub.proof,
+                verdict=sub.verdict,
+            )
+        )
+    run.log(
+        "lemmas", f"{len(run.proved_lemmas)}/{len(run.lemmas)} proved"
+    )
+
+
+def _succeed(run: ProofRun, proof: str, verdict: Verdict) -> ProofRun:
+    run.proof = proof
+    run.verdict = verdict
+    return run
+
+
+def _give_up(run: ProofRun) -> ProofRun:
+    """Report failure honestly, including anything that was proved on the way."""
+    proved = len(run.proved_lemmas)
+    detail = (
+        f"No proof found in {len(run.attempts)} attempt(s). "
+        "Failure to find a proof is not evidence that the claim is false."
+    )
+    if proved:
+        detail += f" {proved} auxiliary lemma(s) were proved and are recorded."
+    run.verdict = _unknown(detail)
+    return run

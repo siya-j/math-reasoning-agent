@@ -37,19 +37,42 @@ def _numbers(text: str) -> set[str]:
     return found
 
 
-def unsupported_numbers(question: str, request: VerificationRequest) -> list[str]:
-    """Numbers in the claimed solution set that never appear in the question.
+# Which field, per kind, is a TRANSCRIPTION of the user's claim rather than
+# something the model derived. Only these are linted. Fields like `lhs` hold
+# the expression under test and legitimately contain values the model worked
+# out; linting them produced false positives.
+#
+# Each entry was added in response to an observed substitution, not by
+# guesswork:
+#   SOLUTION.candidate  — "is 2 the only solution of x^2=4?" checked as "2, -2"
+#   SERIES.rhs          — a deliberately wrong expansion was silently replaced
+#                         with the correct one, turning a false claim true
+#   FACTORIZATION.rhs   — same shape of risk: the claimed product is the user's
+_CLAIMED_FIELD = {
+    VerificationKind.SOLUTION: "candidate",
+    VerificationKind.SERIES: "rhs",
+    VerificationKind.FACTORIZATION: "rhs",
+}
 
-    Only the `candidate` field is linted. It is the one field whose contents
-    must come verbatim from the user's claim; every other field legitimately
-    contains values the model derived (exponents, rearrangements, and so on).
-    Linting those produced false positives in testing.
+
+def unsupported_numbers(question: str, request: VerificationRequest) -> list[str]:
+    """Numbers in the model's transcription of the claim that the question never states.
+
+    A value present in the check but absent from the question was invented by
+    the model. The most damaging form of that is silent correction: the user
+    claims something false, the model checks the true version instead, and
+    every component behaves correctly while the answer addresses a question
+    nobody asked.
     """
-    if request.kind is not VerificationKind.SOLUTION or not request.candidate:
+    field = _CLAIMED_FIELD.get(request.kind)
+    if field is None:
+        return []
+    claimed_text = getattr(request, field, "")
+    if not claimed_text:
         return []
 
     asked = _numbers(question)
-    claimed = _NUMBER.findall(request.candidate)
+    claimed = _NUMBER.findall(claimed_text)
 
     unsupported = []
     for raw in claimed:

@@ -129,6 +129,60 @@ def test_lint_ignores_non_solution_checks():
     assert unsupported_numbers("What is the derivative of x cubed?", request) == []
 
 
+def test_lint_flags_a_silently_corrected_series():
+    """Observed failure: a deliberately wrong expansion was replaced by the
+    right one, so a false claim was reported as verified true."""
+    request = VerificationRequest(
+        kind=VerificationKind.SERIES,
+        lhs="exp(x)",
+        rhs="1 + x + x**2/2 + x**3/6",
+        point="0",
+        order="4",
+    )
+    question = "Is the Maclaurin series of e^x up to the x^3 term equal to 1 + x + x^2 + x^3?"
+    assert unsupported_numbers(question, request) == ["6"]
+
+
+def test_lint_accepts_a_series_transcribed_from_the_question():
+    request = VerificationRequest(
+        kind=VerificationKind.SERIES,
+        lhs="exp(x)",
+        rhs="1 + x + x**2/2 + x**3/6",
+        point="0",
+        order="4",
+    )
+    question = (
+        "Is the Maclaurin series of e^x up to the x^3 term equal to "
+        "1 + x + x^2/2 + x^3/6?"
+    )
+    assert unsupported_numbers(question, request) == []
+
+
+def test_lint_flags_a_silently_corrected_factorization():
+    """8 * 45 is a false claim; quietly checking 2^3*3^2*5 answers a different one."""
+    request = VerificationRequest(
+        kind=VerificationKind.FACTORIZATION, lhs="360", rhs="2**3 * 3**2 * 5"
+    )
+    question = "Is the prime factorization of 360 equal to 8 * 45?"
+    assert unsupported_numbers(question, request) != []
+
+
+def test_lint_accepts_a_factorization_transcribed_from_the_question():
+    request = VerificationRequest(
+        kind=VerificationKind.FACTORIZATION, lhs="360", rhs="2**3 * 3**2 * 5"
+    )
+    question = "Is the prime factorization of 360 equal to 2^3 * 3^2 * 5?"
+    assert unsupported_numbers(question, request) == []
+
+
+def test_lint_leaves_derived_fields_alone():
+    """lhs holds the expression under test, not a transcription of the claim."""
+    request = VerificationRequest(
+        kind=VerificationKind.SERIES, lhs="exp(x)", rhs="1 + x", point="0", order="99"
+    )
+    assert unsupported_numbers("Is the series of e^x equal to 1 + x?", request) == []
+
+
 def test_guard_downgrades_an_unfaithful_check_instead_of_endorsing_it():
     verdict = guard.decide(
         "Is 2 the only solution of x^2 = 4?", [solution_check(S.TRUE, "2, -2")]

@@ -25,6 +25,7 @@ class VerificationKind(str, Enum):
     MATRIX = "matrix"        # are two matrix expressions equal?
     INEQUALITY = "inequality"      # does lhs `relation` rhs hold for all real values?
     FACTORIZATION = "factorization"  # is rhs the prime factorisation of lhs?
+    FORMAL = "formal"        # does a proof assistant accept a proof of `statement`?
     NONE = "none"            # nothing here can be checked deterministically
 
 
@@ -44,6 +45,8 @@ class VerificationRequest:
     point: str = ""           # what the variable approaches (LIMIT, SERIES)
     order: str = ""           # how many terms to expand (SERIES only)
     relation: str = ""        # one of < <= > >= (INEQUALITY only)
+    statement: str = ""       # the theorem, in the prover's language (FORMAL)
+    proof: str = ""           # the proof of that theorem (FORMAL)
 
     @property
     def is_checkable(self) -> bool:

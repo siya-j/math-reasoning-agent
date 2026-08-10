@@ -63,11 +63,21 @@ solution of x² = 4?", the agent checked "are the solutions 2 and −2?",
 SymPy correctly said yes, and the system confidently answered the wrong
 question.
 
-`pipeline/faithfulness.py` compares the numbers in a claimed solution set
-against the numbers in the question. A value that appears in the check but
-nowhere in the question was invented, so the verdict is downgraded to
-UNKNOWN. Narrow and deterministic — it catches one observed, damaging
-mistake using arithmetic rather than another language model.
+`pipeline/faithfulness.py` compares the numbers in the model's transcription
+of the claim against the numbers in the question. A value that appears in
+the check but nowhere in the question was invented, so the verdict is
+downgraded to UNKNOWN. Narrow and deterministic — arithmetic rather than
+another language model.
+
+Only fields that should be *transcriptions* are linted, one entry per
+observed substitution: `SOLUTION.candidate`, `SERIES.rhs`,
+`FACTORIZATION.rhs`. Fields like `lhs` hold the expression under test and
+legitimately contain derived values; linting them produced false positives.
+
+This is a mitigation, not a solution. The lint cannot see semantic drift
+that preserves the numbers. A general fix needs back-translation — render
+the formal check back into English and ask whether it matches the question —
+which requires a model good enough to be trusted with that judgment.
 
 ## What can be verified
 
@@ -115,7 +125,9 @@ if the model answers without calling any tool.
 
 ## Evaluation
 
-34 golden cases in `eval/golden.json`.
+109 golden cases in `eval/golden.json`, across ten areas. Twelve are abstract
+claims no CAS can settle — they are there to check that the system refuses
+rather than guesses.
 
 ```bash
 python scripts/evaluate.py --limit 5
@@ -132,32 +144,49 @@ python scripts/evaluate.py
 `missed` is acceptable. **`wrong` must stay at zero.** `evaluate.py` exits
 non-zero if any appear, so it works as a regression gate.
 
-### Results (qwen2.5:3b, 34 cases)
+### Results
 
-| Run | Accuracy | Soundness | Coverage |
-|-----|----------|-----------|----------|
-| fixed workflow (`eval/baseline_workflow.json`) | 91% | 94% | 93% |
-| tool-calling agent (`eval/baseline_agent.json`) | 82% | 97% | 79% |
+| Architecture | Model | Cases | Tools | Accuracy | Soundness | Coverage |
+|---|---|---|---|---|---|---|
+| fixed workflow | qwen2.5:3b | 34 | 5 | 91% | 94% | 93% |
+| tool-calling agent | qwen2.5:3b | 34 | 5 | 82% | 97% | 79% |
+| hybrid | qwen2.5:7b | 87 | 5 | 95% | 99% | 95% |
+| hybrid | qwen2.5:7b | 109 | 9 | 96% | 99% | 96% |
 
-Model-directed control bought soundness and cost coverage at this model
-size. A 3B model choosing its own tools is a harder task than filling in a
-fixed schema; it sometimes calls no tool at all, or calls one eleven times.
+At 3B, model-directed control bought soundness and cost coverage: choosing
+tools is harder than filling in a fixed schema, and the model sometimes
+called no tool at all, or called one eleven times. The hybrid restored the
+coverage by putting retry and decomposition back in code.
 
-Three failures found by evaluation, all real, all fixed:
+**Confounds, stated plainly.** Row 3 changes both architecture and model
+size; row 4 changes both case count and tool count. Neither improvement can
+be attributed to a single variable. Separating them needs the same
+architecture run across models on a fixed case set.
 
-1. **Constant of integration** — `integrate(2*x, x)` vs `x**2 + C` was
-   declared FALSE by substituting a value for the unbound `C`.
-2. **Invented symbol** — the model produced a meaningless name and the
-   numeric checker ruled on it.
-3. **Claim substitution** — asked "is 2 the only solution of x² = 4?", the
-   agent checked "are the solutions 2 and −2?" instead. Every component was
-   correct and the answer was still wrong.
+Restraint on abstract claims has been 100% since the hybrid: zero tool calls
+on all twelve claims no CAS can settle.
 
-(1) and (2) are fixed in the verifier: it now refuses ill-posed checks.
-(3) cannot be fully fixed by the guard, because the guard sees only that a
-check passed, not which claim it was for. Mitigations: every tool now takes
-a `claim` argument, the banner prints it, and the system prompt forbids
-silently correcting the user's claim.
+### Failures found by evaluation
+
+Every bug below was found by running the eval. Code review found none of
+them.
+
+| # | Failure | Status |
+|---|---|---|
+| 1 | Constant of integration treated as a counterexample | fixed — verifier refuses one-sided symbols |
+| 2 | Invented symbol ruled on numerically | fixed — numeric checks require a number |
+| 3 | Claim substitution: "is 2 the *only* solution?" checked as "are they 2 and −2?" | mitigated |
+| 4 | Docstring examples copied verbatim into unrelated questions | fixed — no literals in model-facing docstrings |
+| 5 | Phases 4 and 5 silently deleted by the agent rewrite | fixed — hybrid outer loop |
+| 6 | Oscillating limit reported as a definite value | fixed — `AccumBounds`/`nan` refused |
+| 7 | Lowercase `i` parsed as a variable, making a true claim FALSE | fixed — symbols absent from the equation are refused |
+| 8 | A deliberately wrong series silently replaced with the correct one | mitigated — lint extended to `SERIES.rhs` |
+
+Failures 3 and 8 are the same underlying problem and are **not solved**. The
+guard can prove a check passed; it cannot prove the check corresponds to the
+question asked. Mitigations: every tool takes a `claim` argument, the banner
+prints it, the system prompt forbids silently correcting the user, and the
+faithfulness lint catches substitutions that change the numbers.
 
 ## Adding a verifier
 

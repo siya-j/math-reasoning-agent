@@ -559,7 +559,8 @@
     "id": "ser-exp-wrong",
     "area": "series",
     "question": "Is the Maclaurin series of e^x up to the x^3 term equal to 1 + x + x^2 + x^3?",
-    "expected": "false"
+    "expected": "false",
+    "note": "Deliberately wrong expansion. The model silently substituted the correct one; caught now by the faithfulness lint, not by SymPy."
   },
   {
     "id": "ser-geometric",
