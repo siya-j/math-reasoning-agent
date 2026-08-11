@@ -20,6 +20,7 @@ from domain.verdict import Verdict, VerificationStatus
 class ProofStage(str, Enum):
     """Which part of the strategy produced an attempt (Prover Agent, §3)."""
 
+    CHEAP = "cheap"            # standard tactics and retrieved premises, no model
     DIRECT = "direct"          # straight attempt, informally guided
     REFINE = "refine"          # revised using the compiler's errors
     SYNTHESIS = "synthesis"    # assembled from lemmas that were proved

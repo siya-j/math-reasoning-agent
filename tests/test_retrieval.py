@@ -73,9 +73,12 @@ def test_hits_become_premises():
     assert premises[0].module == "Mathlib.Data.Nat.Prime.Defs"
 
 
-def test_a_premise_renders_as_name_plus_type():
+def test_a_premise_renders_with_its_docstring():
+    """Mathlib's docstring often says more than the type signature does."""
     premise = searcher(HITS).search("Nat.Prime")[1]
-    assert premise.render() == "Nat.exists_infinite_primes (n : ℕ) : ∃ p, n ≤ p ∧ Nat.Prime p"
+    rendered = premise.render()
+    assert "Nat.exists_infinite_primes" in rendered
+    assert "infinitude of primes" in rendered
 
 
 def test_a_null_docstring_does_not_become_the_string_none():

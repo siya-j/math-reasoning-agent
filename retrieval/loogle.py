@@ -49,8 +49,19 @@ class Premise:
     doc: str = ""
 
     def render(self) -> str:
-        """One compact line, for pasting into a prompt."""
-        return f"{self.name}{self.type}".strip()
+        """One line for a prompt, with the first sentence of the docstring.
+
+        The docstring is often the most informative part — Mathlib labels
+        `Nat.exists_infinite_primes` as "Euclid's theorem on the infinitude
+        of primes", which tells a model far more than the type signature.
+        """
+        line = f"{self.name}{self.type}".strip()
+        summary = (self.doc or "").strip().replace("\n", " ")
+        if summary:
+            summary = summary.split(". ")[0].strip(" .*")
+            if summary:
+                line = f"{line}    -- {summary[:110]}"
+        return line
 
 
 def conclusion_of(statement: str) -> str:

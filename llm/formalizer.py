@@ -115,6 +115,7 @@ class Formalizer:
         # the five attempts on a goal. Without this, a single goal made up to
         # forty identical HTTP requests.
         self._premise_cache: dict[str, str] = {}
+        self._premise_objects: dict[str, list] = {}
 
     def _ask(self, prompt: str) -> str:
         result = self._model.invoke(prompt)
@@ -127,6 +128,18 @@ class Formalizer:
     def sketch(self, goal: str) -> str:
         """An informal proof, used only as context for the formal one."""
         return self._ask(SKETCH_PROMPT.format(goal=goal)).strip()
+
+    def premises_for(self, statement: str) -> list:
+        """Retrieved premises as objects, for the deterministic tactic attempt.
+
+        Cached alongside the rendered form so the mechanical attempt and the
+        prompt share one set of lookups.
+        """
+        if self._search is None:
+            return []
+        if statement not in self._premise_objects:
+            self._premise_objects[statement] = self._search.premises_for(statement)
+        return self._premise_objects[statement]
 
     def _premises(self, statement: str) -> str:
         """Retrieved Mathlib declarations, or nothing if search is unavailable.

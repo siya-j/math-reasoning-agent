@@ -65,3 +65,8 @@ MAX_PREMISE_QUERIES = 4
 # Total premises put in front of the model. A prompt stuffed with premises is
 # as unhelpful as an empty one, so the ladder in premises_for() stops here.
 PREMISE_BUDGET = 24
+
+# How many retrieved premises the deterministic tactic attempt tries. Every
+# one adds alternatives to a single `first | ...` block, so the cost is file
+# size rather than extra Lean invocations.
+CHEAP_PREMISES = 12

@@ -136,7 +136,7 @@ def test_the_proof_is_kept_even_when_review_objects():
         depth=0,
         reviewer=Reviewer(model=FakeModel(DIFFERS)),
     )
-    assert run.proof == "by trivial"
+    assert run.proof, "the artefact was discarded along with the claim"
 
 
 def test_no_objection_leaves_the_verdict_alone():

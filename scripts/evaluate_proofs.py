@@ -95,7 +95,9 @@ def main() -> int:
                     detail=str(exc),
                 )
             )
-            print(f"ERROR  {str(exc)[:50]}")
+            # Show enough of the error to act on. Truncating to 50 characters
+            # turned a diagnosable API fault into "INVALID_AR...".
+            print(f"          ERROR  {str(exc)[:400]}")
             if consecutive_errors >= CONSECUTIVE_ERROR_LIMIT:
                 print(
                     f"\nAborting: {CONSECUTIVE_ERROR_LIMIT} consecutive errors. "

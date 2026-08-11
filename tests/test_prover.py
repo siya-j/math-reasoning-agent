@@ -76,14 +76,27 @@ def accepts_after(failures):
 
 
 # ------------------------------------------------------------ direct proving
-def test_a_proof_accepted_immediately_stops():
+def test_standard_tactics_close_a_goal_without_any_model_call():
+    """The point of the mechanical attempt: when `exact <lemma>` works, no
+    sketch-and-generate round trip is paid for."""
     fake = FakeFormalizer()
     run = prove("True holds", formalizer=fake, check=ACCEPTS_EVERYTHING)
 
     assert run.proved
-    assert len(run.attempts) == 1
-    assert run.attempts[0].stage is ProofStage.DIRECT
+    assert [a.stage for a in run.attempts] == [ProofStage.CHEAP]
+    assert fake.proof_calls == [], "a model call was spent unnecessarily"
     assert run.lemmas == []
+
+
+def test_the_model_is_used_when_standard_tactics_fail():
+    fake = FakeFormalizer()
+    run = prove(
+        "harder", formalizer=fake, check=accepts_after(1), depth=0
+    )  # the cheap attempt fails, the first direct one succeeds
+
+    assert run.proved
+    assert [a.stage for a in run.attempts] == [ProofStage.CHEAP, ProofStage.DIRECT]
+    assert fake.proof_calls, "the model was never asked"
 
 
 def test_direct_attempts_are_tried_before_refinement():
@@ -91,7 +104,8 @@ def test_direct_attempts_are_tried_before_refinement():
     run = prove("hard", formalizer=fake, check=ACCEPTS_NOTHING, depth=0)
 
     stages = [a.stage for a in run.attempts]
-    assert stages[: config.PROOF_ATTEMPTS] == [ProofStage.DIRECT] * config.PROOF_ATTEMPTS
+    assert stages[0] is ProofStage.CHEAP
+    assert stages[1 : 1 + config.PROOF_ATTEMPTS] == [ProofStage.DIRECT] * config.PROOF_ATTEMPTS
     assert ProofStage.REFINE in stages
 
 
@@ -125,7 +139,7 @@ def test_refinement_can_recover_a_proof():
     run = prove(
         "recoverable",
         formalizer=fake,
-        check=accepts_after(config.PROOF_ATTEMPTS),
+        check=accepts_after(config.PROOF_ATTEMPTS + 1),   # +1 for the cheap attempt
         depth=0,
     )
 
@@ -169,7 +183,8 @@ def test_attempts_are_bounded():
     fake = FakeFormalizer()
     run = prove("impossible", formalizer=fake, check=ACCEPTS_NOTHING, depth=0)
 
-    assert len(run.attempts) == config.PROOF_ATTEMPTS + config.PROOF_REFINEMENTS
+    # +1: the deterministic `first | ...` attempt precedes the model ones
+    assert len(run.attempts) == 1 + config.PROOF_ATTEMPTS + config.PROOF_REFINEMENTS
 
 
 # ---------------------------------------------------------- auxiliary lemmas

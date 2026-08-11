@@ -31,6 +31,7 @@ from domain.proof import Lemma, ProofAttempt, ProofRun, ProofStage  # noqa: F401
 from domain.verdict import Verdict, VerificationStatus
 from domain.verification import VerificationKind, VerificationRequest
 from llm.formalizer import Formalizer
+from pipeline.tactics import cheap_attempt
 from verifiers import verify as verify_request
 
 
@@ -80,6 +81,22 @@ def prove(
         run.verdict = _unknown("The claim could not be stated formally.")
         return run
     run.log("formalise", run.statement)
+
+    # --- the mechanical attempt -------------------------------------------
+    # One Lean compile, no model call. Every outcome measured so far turned on
+    # retrieval rather than proof search, and once the right lemma is in hand
+    # `exact <lemma>` usually closes the goal. Trying that first is free
+    # compared with a sketch-and-generate round trip.
+    note("standard tactics")
+    premises = getattr(formalizer, "premises_for", lambda _: [])(run.statement)
+    candidate = cheap_attempt(premises)
+    if candidate:
+        verdict = check(run.statement, candidate)
+        run.record(
+            ProofAttempt(len(run.attempts) + 1, ProofStage.CHEAP, candidate, verdict)
+        )
+        if verdict.status is VerificationStatus.TRUE:
+            return _succeed(run, candidate, verdict, reviewer)
 
     note("sketching")
     sketch = formalizer.sketch(goal)
@@ -132,11 +149,19 @@ def prove(
 
 # ------------------------------------------------------------------ helpers
 def best_draft(run: ProofRun) -> ProofAttempt:
-    """The failed attempt closest to compiling, by error count.
+    """The failed model-written attempt closest to compiling, by error count.
 
     Ties go to the earliest attempt, so the choice is deterministic.
+
+    The mechanical `first | ...` attempt is excluded: it is not a draft
+    anyone wrote, and asking a model to repair a list of alternatives it
+    never proposed produces confusion rather than a fix.
     """
-    return min(run.attempts, key=lambda attempt: (attempt.error_count, attempt.number))
+    drafts = [a for a in run.attempts if a.stage is not ProofStage.CHEAP]
+    return min(
+        drafts or run.attempts,
+        key=lambda attempt: (attempt.error_count, attempt.number),
+    )
 
 
 def _try(run, formalizer, check, stage, sketch, errors="", previous="",
