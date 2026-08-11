@@ -230,21 +230,32 @@ def _try_skeleton(run, formalizer, check, structure_check, sketch, note,
     claims = hole_claims(proof)
     premises = getattr(formalizer, "premises_for", lambda _: [])(run.statement)
 
-    for index, claim in enumerate(claims[: config.MAX_HOLES]):
-        note(f"hole {index + 1}/{min(len(claims), config.MAX_HOLES)}")
+    # `position` indexes the holes STILL PRESENT. A successful fill removes
+    # one, so the next hole slides down to where this one was; a failed fill
+    # leaves it in place and we step past it.
+    position = 0
+    total = min(len(claims), config.MAX_HOLES)
+
+    for index, claim in enumerate(claims[:total]):
+        note(f"hole {index + 1}/{total}")
 
         # Mechanical first: a subgoal is exactly the size `simp` or a cited
         # premise tends to close, and it costs no model call.
-        candidate = fill_hole(proof, index, cheap_attempt(premises))
+        candidate = fill_hole(proof, position, cheap_attempt(premises))
         if structure_check(run.statement, candidate):
             proof = candidate
             continue
 
         fill = getattr(formalizer, "hole", None)
         if claim and fill:
-            filled = fill_hole(proof, index, f"by {fill(claim, proof, run.statement)}")
+            filled = fill_hole(
+                proof, position, f"by {fill(claim, proof, run.statement)}"
+            )
             if structure_check(run.statement, filled):
                 proof = filled
+                continue
+
+        position += 1   # this hole survived; aim past it
 
     verdict = check(run.statement, proof)
     run.record(ProofAttempt(len(run.attempts) + 1, ProofStage.SKELETON, proof, verdict))
