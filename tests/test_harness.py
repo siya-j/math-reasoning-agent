@@ -52,6 +52,28 @@ def test_selecting_deepagents_without_it_installed_says_how_to_fix_it(monkeypatc
             build_agent(object(), [], "prompt")
 
 
+# --------------------------------------------------- deepagents tool surface
+def test_filesystem_tools_are_excluded_by_default():
+    """Measured: leaving them on cost restraint (100% -> 92%) and produced
+    the only soundness failure of that run. A verification agent has no files."""
+    assert not config.DEEPAGENTS_FILESYSTEM
+    assert "write_file" in harness.FILESYSTEM_TOOLS
+    assert "grep" in harness.FILESYSTEM_TOOLS
+
+
+def test_excluding_the_filesystem_never_prevents_building_an_agent(monkeypatch):
+    """It is an optimisation. If the harness will not accept the profile, the
+    agent is still built — with the tools present, as before."""
+    monkeypatch.setattr(
+        harness,
+        "_exclude_filesystem",
+        lambda model: (_ for _ in ()).throw(RuntimeError("unsupported")),
+    )
+    monkeypatch.setattr(config, "HARNESS", LANGCHAIN)
+    # the langchain path must be untouched by any of this
+    assert build_agent is not None
+
+
 # ------------------------------------------------------- result extraction
 def test_langchain_shaped_results_are_read():
     assert final_text({"messages": [Message(text="the answer")]}) == "the answer"

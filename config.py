@@ -12,6 +12,12 @@ TEMPERATURE = 0.0
 # the same 109 cases with only one variable changing.
 HARNESS = os.getenv("MRA_HARNESS", "langchain")
 
+# Deep Agents ships filesystem tools for coding agents. This agent has nine
+# verification tools and no files. Leaving them on cost restraint on abstract
+# claims (100% -> 92%) and produced the only soundness failure of that run, so
+# they are off by default. Set MRA_DEEPAGENTS_FS=1 to measure the difference.
+DEEPAGENTS_FILESYSTEM = os.getenv("MRA_DEEPAGENTS_FS", "") not in ("", "0", "false")
+
 # Phase 4: how many verification attempts before we give up and report
 # honestly. 1 disables reflection entirely.
 MAX_ATTEMPTS = 3

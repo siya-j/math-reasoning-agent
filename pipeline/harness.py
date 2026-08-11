@@ -41,6 +41,41 @@ def _langchain_agent(model, tools, system_prompt):
     return create_agent(model=model, tools=tools, system_prompt=system_prompt)
 
 
+# Deep Agents ships a virtual filesystem for coding agents. This agent has
+# nine verification tools and no files, so those are surface without purpose —
+# and measured cost: restraint on abstract claims fell from 100% to 92% under
+# the deepagents harness, producing the run's only soundness failure
+# (`abs-continuous-differentiable`). Given more ways to act, a model finds
+# something to do on an unanswerable question instead of declining.
+FILESYSTEM_TOOLS = frozenset(
+    {"ls", "read_file", "write_file", "edit_file", "delete", "glob", "grep"}
+)
+
+
+def _exclude_filesystem(model) -> None:
+    """Hide the filesystem tools from the model, if the harness allows it.
+
+    Written against the published API. If registration is unavailable or its
+    signature differs, the agent is still built — with the filesystem tools
+    present, which is the previous behaviour rather than a failure.
+    """
+    try:
+        from deepagents import HarnessProfile, register_harness_profile
+    except ImportError:
+        return
+
+    name = model if isinstance(model, str) else getattr(model, "model_name", None)
+    if not name:
+        name = config.MODEL.split(":", 1)[-1]
+
+    try:
+        register_harness_profile(
+            name, HarnessProfile(excluded_tools=FILESYSTEM_TOOLS)
+        )
+    except Exception:  # noqa: BLE001 - an optimisation, never a hard failure
+        return
+
+
 def _deep_agent(model, tools, system_prompt):
     """Build a LangChain Deep Agent.
 
@@ -62,6 +97,9 @@ def _deep_agent(model, tools, system_prompt):
             "  pip install deepagents        # needs Python 3.11+\n"
             f"Original error: {exc}"
         ) from exc
+
+    if not config.DEEPAGENTS_FILESYSTEM:
+        _exclude_filesystem(model)
 
     return create_deep_agent(
         model=model,
