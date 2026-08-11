@@ -93,6 +93,26 @@ def conclusion_of(statement: str) -> str:
     return statement[marker + 1 :].strip() if marker >= 0 else ""
 
 
+def generalise(expression: str) -> str:
+    """Blank the variable names, keep the Mathlib anchors.
+
+    Dotted names (`Nat.card`) and multi-letter capitalised ones (`IsCyclic`)
+    identify a lemma; everything else is a bound variable. Bare capitals go
+    too — `G` in `IsCyclic G` is a type variable, not a declaration.
+
+    Must operate on whole identifiers: blanking `card` inside `Nat.card`
+    produces `Nat._`, which matches nothing.
+    """
+
+    def blank(match: re.Match) -> str:
+        name = match.group(0)
+        if "." in name or (name[0].isupper() and len(name) > 1):
+            return name
+        return "_"
+
+    return re.sub(r"[A-Za-z][A-Za-z0-9_'.]*", blank, expression)
+
+
 def conclusion_pattern(statement: str) -> str:
     """A Loogle conclusion query built from the goal's own shape.
 
@@ -103,22 +123,54 @@ def conclusion_pattern(statement: str) -> str:
     if not conclusion:
         return ""
 
-    def blank(match: re.Match) -> str:
-        name = match.group(0)
-        # Keep the anchors: dotted names and multi-letter capitalised ones
-        # (Nat.Prime, IsCyclic). Blank everything else, including bare
-        # capitals — `G` in `IsCyclic G` is a type variable, not a lemma.
-        if "." in name or (name[0].isupper() and len(name) > 1):
-            return name
-        return "_"
-
-    generalised = re.sub(r"[A-Za-z][A-Za-z0-9_'.]*", blank, conclusion)
+    generalised = generalise(conclusion)
     generalised = re.sub(r"_\s*:\s*_+", "_", generalised)   # drop `p : ℕ` binders
     generalised = re.sub(r"\s+", " ", generalised).strip()
     return f"|- {generalised}" if generalised.strip("_ ") else ""
 
 
 _ANCHOR = re.compile(r"[A-Za-z][A-Za-z0-9_']*\.[A-Za-z0-9_']+|[A-Z][A-Za-z0-9_']+")
+
+# `(h : Nat.card α = p)` — an explicit hypothesis. Instance binders `[Group G]`
+# are excluded: they constrain the types, not the shape of the lemma wanted.
+_HYPOTHESIS = re.compile(r"\(\s*\w+\s*:\s*([^()]+?)\s*\)")
+
+
+def hypothesis_query(statement: str) -> str:
+    """A Loogle query combining a hypothesis shape with the conclusion.
+
+    Loogle accepts comma-separated patterns and returns declarations matching
+    all of them. Measured against the live service:
+
+        IsCyclic                          2163 hits
+        |- IsCyclic _                       54 hits
+        Nat.card _ = _, IsCyclic _          10 hits, and
+                                            isCyclic_of_prime_card is FIRST
+
+    Conclusion alone says what a lemma proves. Adding a hypothesis says what
+    it needs, and the pair identifies the lemma almost uniquely.
+    """
+    conclusion = conclusion_pattern(statement)
+    if not conclusion:
+        return ""
+
+    body = statement[: statement.rfind(conclusion_of(statement))] or statement
+
+    best = ""
+    for raw in _HYPOTHESIS.findall(body):
+        # `(G : Type*)` and `(n : ℕ)` declare variables; they say nothing
+        # about which lemma is wanted.
+        if raw.startswith(("Type", "Sort")) or not _ANCHOR.search(raw):
+            continue
+        shape = re.sub(r"\s+", " ", generalise(raw)).strip()
+        # The most informative hypothesis is the one naming the most Mathlib
+        # concepts — `Nat.card α = p` over `0 < n`.
+        if shape.strip("_ ") and len(_ANCHOR.findall(shape)) >= len(
+            _ANCHOR.findall(best)
+        ):
+            best = shape
+
+    return f"{best}, {conclusion[len('|- '):]}" if best else ""
 
 
 def conclusion_patterns(statement: str) -> list[str]:
@@ -242,7 +294,11 @@ class LoogleSearch:
         # A ladder, most specific first. Every rung is tried and the results
         # are MERGED — earlier first-hit-wins meant one broad query could
         # crowd out the precise one.
-        ladder = conclusion_patterns(statement)
+        # Hypothesis + conclusion is the most selective query available, so it
+        # leads: 2163 hits for the bare name, 54 for the conclusion alone, 10
+        # with a hypothesis — and the right lemma first.
+        ladder = [hypothesis_query(statement)]
+        ladder += conclusion_patterns(statement)
         ladder += [f"|- {name} _" for name in identifiers]
         ladder += identifiers
 

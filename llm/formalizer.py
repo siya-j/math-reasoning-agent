@@ -30,8 +30,22 @@ def strip_fence(text: str) -> str:
     return (match.group(1) if match else (text or "")).strip()
 
 
-STATEMENT_PROMPT = """Translate this mathematical claim into a single Lean 4
-theorem statement using Mathlib.
+LEAN_CONTEXT = """You are producing Lean 4 for Mathlib. Conventions that apply
+to everything below:
+
+- Mathlib is imported. Use its real names; do not invent identifiers.
+- Citing an existing lemma beats constructing an argument. If a retrieved
+  premise closes the goal, use it.
+- `sorry` and `admit` are worse than failing. They compile and prove nothing.
+- Never introduce an `axiom`, and never leave `exact?`, `apply?` or `simp?`
+  in an answer — those report candidates rather than committing to a proof.
+- Mathlib's argument order is often not the obvious one. Prefer the exact
+  signature of a retrieved premise over what you remember.
+
+"""
+
+STATEMENT_PROMPT = LEAN_CONTEXT + """Translate this mathematical claim into a
+single Lean 4 theorem statement using Mathlib.
 
 Claim: {goal}
 
@@ -50,7 +64,7 @@ Claim: {goal}
 Be concise and name the key theorems or lemmas you rely on. This sketch is
 guidance for writing a formal proof; it will not itself be accepted as one."""
 
-PROOF_PROMPT = """Write a Lean 4 proof of this theorem, using Mathlib.
+PROOF_PROMPT = LEAN_CONTEXT + """Write a Lean 4 proof of this theorem, using Mathlib.
 
 Theorem: {statement}
 
@@ -73,7 +87,7 @@ The compiler rejected it:
 Repair that attempt. Fix the specific errors above rather than starting over.
 """
 
-SKELETON_PROMPT = """Break this theorem into steps. Do NOT prove it.
+SKELETON_PROMPT = LEAN_CONTEXT + """Break this theorem into steps. Do NOT prove it.
 
 Theorem: {statement}
 
@@ -96,7 +110,7 @@ Example shape:
   have h2 : n ≠ 0 := by sorry
   exact foo h1 h2"""
 
-HOLE_PROMPT = """Prove one small Lean 4 goal, using Mathlib.
+HOLE_PROMPT = LEAN_CONTEXT + """Prove one small Lean 4 goal, using Mathlib.
 
 Goal: {claim}
 
@@ -120,7 +134,7 @@ Every lemma must be true if the original claim is true.
 
 Output one lemma per line, in plain English, with no numbering or commentary."""
 
-SYNTHESIS_PROMPT = """Prove this theorem in Lean 4, using Mathlib.
+SYNTHESIS_PROMPT = LEAN_CONTEXT + """Prove this theorem in Lean 4, using Mathlib.
 
 Theorem: {statement}
 

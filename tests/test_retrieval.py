@@ -163,6 +163,46 @@ def test_both_conjunction_orderings_are_issued():
     assert "|- ∃ _, _ ∧ Nat.Prime _" in patterns
 
 
+def test_a_hypothesis_narrows_the_query():
+    """Measured on the real blocker. `isCyclic_of_prime_card` needs
+    `(h : Nat.card α = p)`, and searching hypothesis AND conclusion together
+    found it first of ten, where the conclusion alone gave fifty-four."""
+    from retrieval.loogle import hypothesis_query
+
+    query = hypothesis_query(
+        "theorem t (G : Type*) [Group G] (p : ℕ) (h : Nat.card G = p) : IsCyclic G"
+    )
+    assert query == "Nat.card _ = _, IsCyclic _"
+
+
+def test_type_binders_are_not_treated_as_hypotheses():
+    """`(G : Type*)` declares a variable; it says nothing about the lemma."""
+    from retrieval.loogle import hypothesis_query
+
+    assert hypothesis_query("theorem t (G : Type*) : IsCyclic G") == ""
+
+
+def test_dotted_names_survive_generalisation():
+    """Blanking `card` inside `Nat.card` yields `Nat._`, which matches nothing."""
+    from retrieval.loogle import generalise
+
+    assert generalise("Nat.card G = p") == "Nat.card _ = _"
+    assert generalise("IsCyclic G") == "IsCyclic _"
+
+
+def test_the_hypothesis_query_leads_the_ladder():
+    asked = []
+
+    def fetch(url):
+        asked.append(url)
+        return HITS
+
+    LoogleSearch(fetch=fetch).premises_for(
+        "theorem t (G : Type*) (p : ℕ) (h : Nat.card G = p) : IsCyclic G"
+    )
+    assert "Nat.card" in asked[0], "the most selective query was not tried first"
+
+
 def test_a_conclusion_without_a_conjunction_yields_one_pattern():
     from retrieval.loogle import conclusion_patterns
 
@@ -318,7 +358,8 @@ def test_the_formalizer_works_without_search():
     formalizer = Formalizer(model=model, search=None)
 
     assert formalizer.proof("theorem t : Nat.Prime 2", "sketch") == "by simp"
-    assert "do not invent" not in model.prompts[0]
+    # the shared Lean context is always present; the PREMISE block is not
+    assert "declarations exist" not in model.prompts[0]
 
 
 def test_search_failing_does_not_break_proof_generation():

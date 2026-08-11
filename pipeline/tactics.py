@@ -38,9 +38,11 @@ import config
 STANDARD_TACTICS = (
     "rfl",
     "trivial",
+    "assumption",
     "norm_num",
     "decide",
     "simp",
+    "simp_all",
     "positivity",
     "omega",
     "linarith",
@@ -48,12 +50,27 @@ STANDARD_TACTICS = (
 )
 
 # Ways a retrieved premise might close a goal, in increasing desperation.
+#
+# The `assumption` variants exist because Mathlib lemmas usually take their
+# hypotheses explicitly, and the goal's own context already holds them:
+#
+#   isCyclic_of_prime_card [Group α] [Fact (Nat.Prime p)] (h : Nat.card α = p)
+#
+# A bare `exact isCyclic_of_prime_card` cannot work — `h` must be supplied.
+#
+# The `Fact.mk` form handles INSTANCE arguments, which are a separate problem
+# again: `Fact (Nat.Prime p)` must be in scope as an instance, not passed as
+# an argument, so a `haveI` has to introduce it first.
 PREMISE_FORMS = (
     "exact {name}",
     "exact {name} _",
     "apply {name}",
     "simpa using {name}",
     "exact ⟨_, {name}⟩",
+    "exact {name} (by assumption)",
+    "exact {name} ‹_›",
+    "apply {name} <;> assumption",
+    "(haveI := Fact.mk (by assumption); exact {name} (by assumption))",
 )
 
 
