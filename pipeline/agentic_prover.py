@@ -36,7 +36,7 @@ from domain.verdict import Verdict, VerificationStatus
 from llm.client import get_model
 from llm.formalizer import Formalizer
 from pipeline.harness import build_agent, final_text
-from pipeline.proof_tools import ProofLog, make_proof_tools
+from pipeline.proof_tools import Budget, BudgetExhausted, ProofLog, make_proof_tools
 from retrieval.loogle import LoogleSearch
 
 SYSTEM_PROMPT = """You are proving a theorem in Lean 4 using Mathlib.
@@ -81,6 +81,7 @@ def prove(
     reviewer=None,
     progress=None,
     agent_factory=build_agent,
+    budget=None,
     **_ignored,
 ) -> ProofRun:
     """Attempt a proof by conversation. Everything is injected for testing."""
@@ -112,7 +113,20 @@ def prove(
     if search is None and config.RETRIEVAL_ENABLED:
         search = LoogleSearch()
 
-    log = ProofLog(statement=run.statement, telemetry=run.telemetry)
+    # An agent with the wheel can also drive in circles. A near-mathlib goal
+    # ran without terminating and had to be interrupted by hand, leaving no
+    # proof, no verdict and no record. Termination is now a property of the
+    # code rather than a hope about the model.
+    log = ProofLog(
+        statement=run.statement,
+        telemetry=run.telemetry,
+        budget=budget
+        or Budget(
+            max_tool_calls=config.MAX_AGENT_STEPS,
+            max_lean_calls=config.MAX_AGENT_LEAN_CALLS,
+            max_seconds=config.MAX_AGENT_SECONDS,
+        ),
+    )
     tools = make_proof_tools(log, check, search)
 
     note("agent")
@@ -134,6 +148,12 @@ def prove(
             }
         )
         prose = final_text(result)
+    except BudgetExhausted as exc:
+        # The agent kept calling tools after being told to stop. Unwinding
+        # here is what guarantees the run ends; everything recorded so far
+        # is kept, including a proof if one was already accepted.
+        prose = ""
+        log.trace.append(f"stopped: {exc}")
     except Exception as exc:  # noqa: BLE001 - a crash must not lose the record
         prose = ""
         log.trace.append(f"agent failed: {exc}")
@@ -148,10 +168,13 @@ def prove(
     if accepted is not None:
         return _succeed(run, accepted.proof, accepted.verdict, reviewer)
 
+    # Distinguish "tried and failed" from "ran out of budget". They are
+    # different results and conflating them would misreport a proof rate.
+    stopped = f" Stopped early: {log.budget.reason}." if log.budget.reason else ""
     run.verdict = Verdict(
         VerificationStatus.UNKNOWN,
         "prover",
-        f"No proof found in {len(log.attempts)} compilation(s). "
+        f"No proof found in {len(log.attempts)} compilation(s).{stopped} "
         "Failure to find a proof is not evidence that the claim is false."
         + (f" The agent reported: {prose[:200]}" if prose else ""),
     )

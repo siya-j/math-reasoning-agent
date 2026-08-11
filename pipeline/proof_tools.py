@@ -24,6 +24,7 @@ what it learns — and the conversation is the memory.
 
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass, field
 
 import config
@@ -31,6 +32,78 @@ from domain.proof import ProofAttempt, ProofStage, Telemetry
 from domain.verdict import Verdict, VerificationStatus
 from pipeline.tactics import cheap_attempt
 from retrieval.loogle import Premise, render_premises
+
+
+class BudgetExhausted(RuntimeError):
+    """Raised to unwind an agent that will not stop when asked."""
+
+
+@dataclass
+class Budget:
+    """A hard stop on an agent that can otherwise loop forever.
+
+    Giving a model the wheel means it can also drive in circles. Observed:
+    a near-mathlib goal that never terminated and had to be interrupted by
+    hand — no proof, no verdict, no record.
+
+    Enforced in TWO stages, because a polite request is not a guarantee:
+
+      1. At the limit, every tool returns "STOP" instead of doing work. The
+         agent gets a chance to conclude cleanly and report what it has.
+      2. After a short grace, tools raise. `agentic_prover` catches that,
+         keeps everything recorded so far, and reports honestly.
+
+    Stage 2 is what makes termination a property of the code rather than a
+    hope about the model.
+    """
+
+    max_tool_calls: int = 20
+    max_lean_calls: int = 8
+    max_seconds: float = 300.0
+    started: float = field(default_factory=time.monotonic)
+
+    tool_calls: int = 0
+    lean_calls: int = 0
+    grace: int = 3          # tool calls allowed after the limit, then raise
+    reason: str = ""
+
+    @property
+    def elapsed(self) -> float:
+        return time.monotonic() - self.started
+
+    def _over(self, lean: bool) -> str:
+        """Which limit blocks THIS call, if any.
+
+        Each budget bounds only what it names. A spent compilation budget
+        must not block a search — searches cost milliseconds where a compile
+        costs twenty seconds — and termination is still guaranteed, because
+        `max_tool_calls` bounds everything.
+        """
+        if self.elapsed > self.max_seconds:
+            return f"time budget spent ({self.max_seconds:.0f}s)"
+        if self.tool_calls >= self.max_tool_calls:
+            return f"tool budget spent ({self.max_tool_calls} calls)"
+        if lean and self.lean_calls >= self.max_lean_calls:
+            return f"compilation budget spent ({self.max_lean_calls} compiles)"
+        return ""
+
+    def spend(self, *, lean: bool = False) -> str:
+        """Charge one tool call. Returns a STOP message, or "" to proceed."""
+        over = self._over(lean)
+        if not over:
+            self.tool_calls += 1
+            if lean:
+                self.lean_calls += 1
+            return ""
+
+        self.reason = over
+        self.grace -= 1
+        if self.grace < 0:
+            raise BudgetExhausted(over)
+        return (
+            f"STOP: {over}. Do not call any more tools. If nothing has been "
+            "accepted, say so plainly and finish."
+        )
 
 
 @dataclass
@@ -42,6 +115,7 @@ class ProofLog:
     premises: list[Premise] = field(default_factory=list)
     telemetry: Telemetry = field(default_factory=Telemetry)
     trace: list[str] = field(default_factory=list)
+    budget: Budget = field(default_factory=Budget)
 
     @property
     def accepted(self) -> ProofAttempt | None:
@@ -78,6 +152,10 @@ def make_proof_tools(log: ProofLog, check, search=None) -> list:
             which is usually what closes a goal. Separate a hypothesis shape
             and a conclusion with a comma to narrow further.
         """
+        stop = log.budget.spend()
+        if stop:
+            return stop
+
         log.telemetry.retrieval_calls += 1
         if search is None:
             return "Search is unavailable. Rely on names you are certain of."
@@ -102,6 +180,10 @@ def make_proof_tools(log: ProofLog, check, search=None) -> list:
         proof: the proof body, what follows `:=`. Do not restate the theorem.
             Never use `sorry` or `admit`; they compile and prove nothing.
         """
+        stop = log.budget.spend(lean=True)
+        if stop:
+            return stop
+
         log.telemetry.lean_calls += 1
         verdict = check(log.statement, proof)
         log.record(ProofStage.DIRECT, proof, verdict)
@@ -117,6 +199,10 @@ def make_proof_tools(log: ProofLog, check, search=None) -> list:
         and `apply` forms against everything found so far. Cheap and worth
         trying before writing a proof by hand.
         """
+        stop = log.budget.spend(lean=True)
+        if stop:
+            return stop
+
         log.telemetry.lean_calls += 1
         candidate = cheap_attempt(log.premises)
         verdict = check(log.statement, candidate)

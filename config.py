@@ -61,6 +61,16 @@ MAX_HOLES = 6
 # comparison says otherwise.
 PROVER = os.getenv("MRA_PROVER", "pipeline")
 
+# Bounds on the agentic prover. Without them a goal can loop indefinitely —
+# observed on near-mathlib, where a run had to be interrupted by hand and
+# produced no proof, no verdict and no record.
+#
+# Lean calls are budgeted separately because they are the expensive ones:
+# each is roughly twenty seconds of Mathlib loading.
+MAX_AGENT_STEPS = int(os.getenv("MRA_MAX_AGENT_STEPS", "20"))
+MAX_AGENT_LEAN_CALLS = int(os.getenv("MRA_MAX_AGENT_LEAN", "8"))
+MAX_AGENT_SECONDS = float(os.getenv("MRA_MAX_AGENT_SECONDS", "300"))
+
 # Retrieval can be turned off to attribute its contribution in an ablation.
 RETRIEVAL_ENABLED = os.getenv("MRA_RETRIEVAL", "1") not in ("0", "false", "")
 
