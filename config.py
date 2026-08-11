@@ -55,6 +55,15 @@ MAX_LEMMAS = 3
 SKELETON_STEPS = 4
 MAX_HOLES = 6
 
+# Which prover runs: "pipeline" (the measured baseline, a fixed sequence of
+# stateless calls) or "agentic" (one conversation with tools and persistent
+# state). A switch, not a replacement — the baseline stays default until the
+# comparison says otherwise.
+PROVER = os.getenv("MRA_PROVER", "pipeline")
+
+# Retrieval can be turned off to attribute its contribution in an ablation.
+RETRIEVAL_ENABLED = os.getenv("MRA_RETRIEVAL", "1") not in ("0", "false", "")
+
 # How deep lemma generation may recurse. 1 means lemmas are proved directly
 # and never decomposed further. Raise with care: cost grows multiplicatively.
 LEMMA_DEPTH = 1

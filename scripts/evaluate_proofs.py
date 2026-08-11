@@ -27,7 +27,7 @@ from eval.proof_metrics import (  # noqa: E402
     summarize,
 )
 from llm.reviewer import Reviewer  # noqa: E402
-from pipeline.prover import prove  # noqa: E402
+from pipeline.proving import prove  # noqa: E402
 from verifiers.lean_runner import lean_is_available  # noqa: E402
 
 OUT = Path(__file__).parent.parent / "eval" / "last_proof_run.json"
@@ -126,6 +126,7 @@ def main() -> int:
     reviewer = Reviewer() if args.review else None
 
     print(f"model: {config.MODEL}")
+    print(f"prover: {config.PROVER}")
     print(f"review: {'on' if reviewer else 'off'}")
     print(f"goals: {len(goals)}  depth: {args.depth if args.depth is not None else config.LEMMA_DEPTH}\n")
 
@@ -184,7 +185,7 @@ def main() -> int:
             ProofOutcome.NOT_FORMALIZED: "NOT FORMALISED",
         }[result.outcome]
         extra = f"  ({result.lemmas_proved}/{result.lemmas_total} lemmas)" if result.lemmas_total else ""
-        print(f"          ----- {mark}{extra}  [{time.monotonic() - started:.0f}s]\n")
+        print(f"          ----- {mark}{extra}  [{run.telemetry.summary()}]\n")
 
     summary = summarize(results)
     print()

@@ -71,6 +71,27 @@ class Lemma:
 
 
 @dataclass
+class Telemetry:
+    """What a proof attempt cost, in comparable units.
+
+    Both provers populate this, so "the agentic one proves more" can be
+    weighed against "it also spent four times the calls". A success rate
+    without a budget is not a comparison.
+    """
+
+    model_calls: int = 0
+    lean_calls: int = 0
+    retrieval_calls: int = 0
+    seconds: float = 0.0
+
+    def summary(self) -> str:
+        return (
+            f"{self.model_calls} model, {self.lean_calls} lean, "
+            f"{self.retrieval_calls} retrieval, {self.seconds:.0f}s"
+        )
+
+
+@dataclass
 class ProofRun:
     """Explicit state for one proof attempt (Principle 5)."""
 
@@ -82,6 +103,7 @@ class ProofRun:
     verdict: Verdict | None = None
     trace: list[str] = field(default_factory=list)
     review: object | None = None                # llm.reviewer.Review, if run
+    telemetry: Telemetry = field(default_factory=Telemetry)
 
     def log(self, event: str, detail: str = "") -> None:
         self.trace.append(f"{event}: {detail}" if detail else event)
