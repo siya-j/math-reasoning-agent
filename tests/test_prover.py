@@ -49,7 +49,8 @@ class FakeFormalizer:
 
     def hole(self, claim, context, statement=""):
         self.holes_filled = getattr(self, "holes_filled", 0) + 1
-        return "trivial"
+        # distinctive: the mechanical ladder also contains `trivial`
+        return "model_fill"
 
     def lemmas(self, goal, count):
         return self._lemmas[:count]
@@ -233,14 +234,10 @@ def test_holes_are_closed_mechanically_before_any_model_call():
 
 def test_the_model_fills_holes_the_tactics_cannot():
     fake = FakeFormalizer(skeleton=SKELETON)
-    # The skeleton itself typechecks; mechanical fills do not; model fills do.
-    seen = {"n": 0}
-
+    # The skeleton typechecks; mechanical fills do not. A mechanical fill is
+    # recognisable by its `first | ...` block, which a model fill never has.
     def structure(statement, proof):
-        seen["n"] += 1
-        if seen["n"] == 1:
-            return True                    # the skeleton is structurally sound
-        return "trivial" in proof          # only the model's fill is accepted
+        return "first" not in proof
 
     prove("hard", formalizer=fake, check=ACCEPTS_NOTHING, depth=0,
           structure_check=structure)
