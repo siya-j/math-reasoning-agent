@@ -18,6 +18,7 @@ from __future__ import annotations
 import re
 
 from llm.client import get_model
+from llm.retry import call_with_backoff
 from retrieval.loogle import render_premises
 
 _FENCE = re.compile(r"```(?:lean4?|)\n?(.*?)```", re.DOTALL)
@@ -118,7 +119,10 @@ class Formalizer:
         self._premise_objects: dict[str, list] = {}
 
     def _ask(self, prompt: str) -> str:
-        result = self._model.invoke(prompt)
+        # Backoff on limits that waiting may clear. Without it a single
+        # transient error ends a proof run that the verification path,
+        # which has had retries since Phase 4, would have survived.
+        result = call_with_backoff(lambda: self._model.invoke(prompt))
         return getattr(result, "text", None) or getattr(result, "content", "") or ""
 
     def statement(self, goal: str) -> str:

@@ -38,6 +38,7 @@ import re
 from dataclasses import dataclass, field
 
 from llm.client import get_model
+from llm.retry import call_with_backoff
 
 REVIEW_PROMPT = """Compare a mathematical question with its formal translation.
 
@@ -122,8 +123,10 @@ class Reviewer:
         if not question.strip() or not statement.strip():
             return Review(performed=False)
         try:
-            reply = self._model.invoke(
-                REVIEW_PROMPT.format(question=question, statement=statement)
+            reply = call_with_backoff(
+                lambda: self._model.invoke(
+                    REVIEW_PROMPT.format(question=question, statement=statement)
+                )
             )
             text = getattr(reply, "text", None) or getattr(reply, "content", "") or ""
         except Exception:
