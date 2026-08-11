@@ -34,6 +34,60 @@ OUT = Path(__file__).parent.parent / "eval" / "last_proof_run.json"
 CONSECUTIVE_ERROR_LIMIT = 3
 
 
+def completed(resume: bool):
+    """Goals already DECIDED in the previous run.
+
+    Errors are deliberately excluded: a goal that never reached the model was
+    not decided, and skipping it would bake a quota outage into the results.
+    """
+    if not resume or not OUT.exists():
+        return []
+    try:
+        saved = json.loads(OUT.read_text())
+    except (ValueError, OSError):
+        return []
+
+    carried = []
+    for row in saved.get("results", []):
+        if row.get("outcome") == ProofOutcome.ERROR.value:
+            continue
+        try:
+            carried.append(
+                ProofResult(
+                    goal_id=row["goal_id"],
+                    area=row["area"],
+                    tier=Tier(row["tier"]),
+                    outcome=ProofOutcome(row["outcome"]),
+                    statement=row.get("statement", ""),
+                    attempts=row.get("attempts", 0),
+                    lemmas_total=row.get("lemmas_total", 0),
+                    lemmas_proved=row.get("lemmas_proved", 0),
+                    via_synthesis=row.get("via_synthesis", False),
+                    detail=row.get("detail", ""),
+                )
+            )
+        except (KeyError, ValueError):
+            continue
+    return carried
+
+
+def save(results, summary) -> None:
+    """Write after every goal, so an interrupted run loses nothing."""
+    OUT.write_text(
+        json.dumps(
+            {
+                "summary": summary,
+                "results": [
+                    r.__dict__ | {"tier": r.tier.value, "outcome": r.outcome.value}
+                    for r in results
+                ],
+            },
+            indent=2,
+            default=str,
+        )
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tier", choices=[t.value for t in Tier])
@@ -46,6 +100,11 @@ def main() -> int:
         "--review",
         action="store_true",
         help="check each accepted statement against the question (one extra call)",
+    )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="skip goals already decided in the last run (not errors)",
     )
     args = parser.parse_args()
 
@@ -70,7 +129,15 @@ def main() -> int:
     print(f"review: {'on' if reviewer else 'off'}")
     print(f"goals: {len(goals)}  depth: {args.depth if args.depth is not None else config.LEMMA_DEPTH}\n")
 
-    results: list[ProofResult] = []
+    # A goal costs minutes and dozens of calls. Losing completed work to a
+    # rate limit on a later goal is pure waste, so decided outcomes carry over
+    # and only errors are retried.
+    results: list[ProofResult] = list(completed(args.resume))
+    done = {r.goal_id for r in results}
+    if done:
+        print(f"resuming: {len(done)} goal(s) already decided\n")
+        goals = [g for g in goals if g.id not in done]
+
     consecutive_errors = 0
 
     for index, goal in enumerate(goals, start=1):
@@ -109,6 +176,7 @@ def main() -> int:
         consecutive_errors = 0
         result = result_from(goal, run)
         results.append(result)
+        save(results, summarize(results))   # survive an abort on a later goal
 
         mark = {
             ProofOutcome.PROVED: "PROVED",
@@ -122,13 +190,7 @@ def main() -> int:
     print()
     print(render(summary))
 
-    OUT.write_text(
-        json.dumps(
-            {"summary": summary, "results": [r.__dict__ | {"tier": r.tier.value, "outcome": r.outcome.value} for r in results]},
-            indent=2,
-            default=str,
-        )
-    )
+    save(results, summary)
     print(f"\nSaved to {OUT}")
 
     # Unlike the verification gate, failing to prove is not a regression —
