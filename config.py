@@ -52,7 +52,16 @@ LEMMA_DEPTH = 1
 LOOGLE_URL = os.getenv("MRA_LOOGLE_URL", "https://loogle.lean-lang.org/json")
 LOOGLE_TIMEOUT = int(os.getenv("MRA_LOOGLE_TIMEOUT", "10"))
 
-# Results kept per query, and how many identifiers from a statement to look
-# up. Both small: a prompt full of premises is as unhelpful as an empty one.
-PREMISES_PER_QUERY = 6
+# Results kept per query, how many identifiers to look up, and the total
+# shown to the model.
+#
+# PREMISES_PER_QUERY was 6, which was measured to be far too few: Loogle
+# ranks by module order rather than relevance, so a correct query can still
+# bury the needed lemma. On the infinitude-of-primes goal the model was shown
+# "11 is prime, 5 is prime, 7 is prime" and nothing else.
+PREMISES_PER_QUERY = 12
 MAX_PREMISE_QUERIES = 4
+
+# Total premises put in front of the model. A prompt stuffed with premises is
+# as unhelpful as an empty one, so the ladder in premises_for() stops here.
+PREMISE_BUDGET = 24

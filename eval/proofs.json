@@ -2,10 +2,18 @@
   {
     "id": "num-infinitude-of-primes",
     "area": "number theory",
-    "goal": "For every natural number n there exists a prime p with n < p",
+    "goal": "For every natural number n there exists a prime p with n <= p",
     "tier": "in-mathlib",
     "mathlib": "Nat.exists_infinite_primes",
-    "note": "Verified present via Loogle. If this fails, the model is the problem, not the library."
+    "note": "Mathlib states this with <=. Verified present via Loogle. Direct citation should close it."
+  },
+  {
+    "id": "num-primes-strictly-above",
+    "area": "number theory",
+    "goal": "For every natural number n there exists a prime p with n < p",
+    "tier": "near-mathlib",
+    "mathlib": null,
+    "note": "Mathlib gives n <= p. Needs exists_infinite_primes (n+1) plus arithmetic, so citation alone is not enough."
   },
   {
     "id": "grp-prime-order-cyclic",
@@ -47,7 +55,6 @@
     "mathlib": "sq_nonneg",
     "note": "Also decidable by SymPy, so it doubles as a routing check."
   },
-
   {
     "id": "grp-subgroup-of-cyclic",
     "area": "group theory",
@@ -96,7 +103,6 @@
     "mathlib": null,
     "note": "Nat.Prime.irrational_sqrt exists; connecting it to the statement is the work."
   },
-
   {
     "id": "novel-goldbach-small",
     "area": "number theory",

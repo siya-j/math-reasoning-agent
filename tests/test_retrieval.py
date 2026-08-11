@@ -113,6 +113,60 @@ def test_an_empty_query_makes_no_request():
     assert LoogleSearch(fetch=fetch).search("   ") == []
 
 
+# ------------------------------------------------------ conclusion patterns
+def test_the_conclusion_is_taken_from_after_the_final_top_level_colon():
+    from retrieval.loogle import conclusion_of
+
+    assert (
+        conclusion_of("theorem t (n : ℕ) : ∃ p, n < p ∧ Nat.Prime p")
+        == "∃ p, n < p ∧ Nat.Prime p"
+    )
+
+
+def test_colons_inside_binders_are_not_mistaken_for_the_conclusion():
+    from retrieval.loogle import conclusion_of
+
+    assert conclusion_of("theorem t (G : Type*) [Group G] : IsCyclic G") == "IsCyclic G"
+
+
+def test_the_conclusion_pattern_finds_existence_lemmas():
+    """The measured failure: `|- Nat.Prime _` has 31 hits and does NOT
+    include Nat.exists_infinite_primes, because that concludes an existential.
+    `|- ∃ _, _ < _ ∧ Nat.Prime _` returns it as the single hit."""
+    from retrieval.loogle import conclusion_pattern
+
+    pattern = conclusion_pattern("theorem t (n : ℕ) : ∃ p, n < p ∧ Nat.Prime p")
+    assert pattern.startswith("|- ∃")
+    assert "Nat.Prime" in pattern
+
+
+def test_bare_capitals_are_generalised_in_the_pattern():
+    """`G` in `IsCyclic G` is a type variable, not a lemma name."""
+    from retrieval.loogle import conclusion_pattern
+
+    assert conclusion_pattern("theorem t [Group G] : IsCyclic G") == "|- IsCyclic _"
+
+
+def test_a_statement_with_no_conclusion_yields_no_pattern():
+    from retrieval.loogle import conclusion_pattern
+
+    assert conclusion_pattern("theorem t") == ""
+    assert conclusion_pattern("") == ""
+
+
+def test_the_conclusion_pattern_is_the_first_query_tried():
+    asked = []
+
+    def fetch(url):
+        asked.append(url)
+        return HITS
+
+    LoogleSearch(fetch=fetch).premises_for(
+        "theorem t (n : ℕ) : ∃ p, n < p ∧ Nat.Prime p"
+    )
+    assert "%E2%88%83" in asked[0], "the existential pattern was not tried first"
+
+
 # --------------------------------------------------------- query extraction
 def test_identifiers_are_pulled_from_a_statement():
     queries = extract_queries(
@@ -179,8 +233,8 @@ def test_conclusion_patterns_are_tried_before_plain_name_search():
     assert "%7C-" in asked[0] or "|-" in asked[0], "no conclusion pattern tried"
 
 
-def test_plain_name_search_is_the_fallback():
-    """If nothing concludes X, fall back to anything mentioning X."""
+def test_every_rung_of_the_ladder_is_tried_and_merged():
+    """First-hit-wins let one broad query crowd out the precise one."""
     asked = []
 
     def fetch(url):
@@ -189,19 +243,25 @@ def test_plain_name_search_is_the_fallback():
 
     premises = LoogleSearch(fetch=fetch).premises_for("theorem t : Nat.Prime 2")
 
-    assert len(asked) == 2, "fallback did not happen"
-    assert premises, "fallback returned nothing"
+    assert len(asked) > 1, "stopped after the first query"
+    assert premises, "a later rung returned nothing"
 
 
-def test_a_successful_conclusion_search_skips_the_fallback():
-    asked = []
+def test_results_from_different_rungs_are_deduplicated():
+    premises = LoogleSearch(fetch=lambda url: HITS).premises_for(
+        "theorem t : Nat.Prime 2"
+    )
+    names = [p.name for p in premises]
+    assert len(names) == len(set(names))
 
-    def fetch(url):
-        asked.append(url)
-        return HITS
 
-    LoogleSearch(fetch=fetch).premises_for("theorem t : Nat.Prime 2")
-    assert len(asked) == 1, "queried twice when once sufficed"
+def test_the_total_number_of_premises_is_capped():
+    import config
+
+    premises = LoogleSearch(fetch=lambda url: HITS).premises_for(
+        "theorem t (n : Nat) : Nat.Prime n ∧ IsCyclic G ∧ Nat.card G = n"
+    )
+    assert len(premises) <= config.PREMISE_BUDGET
 
 
 # ------------------------------------------------- integration with the prover

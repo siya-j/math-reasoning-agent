@@ -53,6 +53,60 @@ class Premise:
         return f"{self.name}{self.type}".strip()
 
 
+def conclusion_of(statement: str) -> str:
+    """The part of a Lean theorem after the final top-level `:`.
+
+    This is what the theorem CONCLUDES, and it is the single most informative
+    thing about which lemma will close it. Searching identifiers alone loses
+    it, with measured consequences:
+
+        goal:  ∃ p, n < p ∧ Nat.Prime p
+        |- Nat.Prime _          31 hits, WITHOUT Nat.exists_infinite_primes
+        |- ∃ _, _ ∧ Nat.Prime _  1 hit, which IS Nat.exists_infinite_primes
+
+    Binders are skipped by tracking bracket depth, so the `:` inside
+    `(n : ℕ)` or `[Group G]` is never mistaken for the conclusion marker.
+    """
+    depth = 0
+    marker = -1
+    for index, character in enumerate(statement or ""):
+        if character in "([{":
+            depth += 1
+        elif character in ")]}":
+            depth -= 1
+        elif character == ":" and depth == 0:
+            # `:=` starts the proof, not the conclusion.
+            if index + 1 < len(statement) and statement[index + 1] == "=":
+                break
+            marker = index
+    return statement[marker + 1 :].strip() if marker >= 0 else ""
+
+
+def conclusion_pattern(statement: str) -> str:
+    """A Loogle conclusion query built from the goal's own shape.
+
+    Concrete arguments are replaced by `_` so the pattern matches the general
+    lemma rather than one instance of it.
+    """
+    conclusion = conclusion_of(statement)
+    if not conclusion:
+        return ""
+
+    def blank(match: re.Match) -> str:
+        name = match.group(0)
+        # Keep the anchors: dotted names and multi-letter capitalised ones
+        # (Nat.Prime, IsCyclic). Blank everything else, including bare
+        # capitals — `G` in `IsCyclic G` is a type variable, not a lemma.
+        if "." in name or (name[0].isupper() and len(name) > 1):
+            return name
+        return "_"
+
+    generalised = re.sub(r"[A-Za-z][A-Za-z0-9_'.]*", blank, conclusion)
+    generalised = re.sub(r"_\s*:\s*_+", "_", generalised)   # drop `p : ℕ` binders
+    generalised = re.sub(r"\s+", " ", generalised).strip()
+    return f"|- {generalised}" if generalised.strip("_ ") else ""
+
+
 def extract_queries(statement: str, limit: int) -> list[str]:
     """Which Mathlib names to look up, given a formal statement.
 
@@ -128,19 +182,25 @@ class LoogleSearch:
         proving needs. A plain name search asks for anything mentioning X,
         which is dominated by the definition and its instances.
         """
+        identifiers = extract_queries(statement, config.MAX_PREMISE_QUERIES)
+
+        # A ladder, most specific first. Every rung is tried and the results
+        # are MERGED — earlier first-hit-wins meant one broad query could
+        # crowd out the precise one.
+        ladder = [conclusion_pattern(statement)]
+        ladder += [f"|- {name} _" for name in identifiers]
+        ladder += identifiers
+
         found: list[Premise] = []
         seen: set[str] = set()
-        for identifier in extract_queries(statement, config.MAX_PREMISE_QUERIES):
-            for query in (f"|- {identifier} _", identifier):
-                hits = self.search(query)
-                if not hits:
-                    continue  # fall back to the plain name search
-                for premise in hits:
-                    if premise.name not in seen:
-                        seen.add(premise.name)
-                        found.append(premise)
-                break
-        return found
+        for query in ladder:
+            if not query or len(found) >= config.PREMISE_BUDGET:
+                continue
+            for premise in self.search(query):
+                if premise.name not in seen:
+                    seen.add(premise.name)
+                    found.append(premise)
+        return found[: config.PREMISE_BUDGET]
 
 
 def render_premises(premises: list[Premise]) -> str:

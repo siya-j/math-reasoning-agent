@@ -3,5 +3,14 @@ __pycache__/
 .env
 .venv/
 .pytest_cache/
+.DS_Store
+
+# Scratch output of the most recent run. Superseded on every invocation, so
+# committing it produces noise rather than a record.
 eval/last_run.json
 eval/last_proof_run.json
+
+# eval/results/ is DELIBERATELY tracked. scripts/run_experiments.py files each
+# run into a timestamped folder with its logs, artefacts and a manifest of the
+# model, package versions and git commit. That is the durable experimental
+# record and it belongs in history.
