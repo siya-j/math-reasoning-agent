@@ -39,14 +39,52 @@ class LeanResult:
 
     @property
     def errors(self) -> list[str]:
-        """Every compiler error, in order."""
-        return [line.strip() for line in self.output.splitlines() if "error:" in line]
+        """Every compiler error as a BLOCK, not a line.
+
+        Lean puts the most useful information on the lines AFTER the error:
+
+            Claim.lean:5:2: error: unsolved goals
+            case h
+            G : Type u_1
+            inst✝ : Group G
+            ⊢ IsCyclic G
+
+        Collecting only lines containing `error:` discarded the goal state —
+        so refinement was told "unsolved goals" without being told WHICH.
+        A block runs from its header until the next diagnostic header.
+        """
+        blocks: list[str] = []
+        current: list[str] = []
+
+        for line in self.output.splitlines():
+            header = _DIAGNOSTIC.match(line)
+            if header:
+                if current:
+                    blocks.append("\n".join(current).rstrip())
+                    current = []
+                # Warnings end the previous block but start no new one.
+                current = [line.rstrip()] if "error:" in line else []
+            elif current:
+                current.append(line.rstrip())
+
+        if current:
+            blocks.append("\n".join(current).rstrip())
+        return blocks
+
+    @property
+    def goals(self) -> list[str]:
+        """Remaining proof obligations, as Lean printed them (`⊢ ...`)."""
+        return [
+            line.strip()
+            for line in self.output.splitlines()
+            if line.lstrip().startswith("⊢")
+        ]
 
     @property
     def first_error(self) -> str:
         """The first compiler error, for reporting. Lean is verbose."""
         if self.errors:
-            return self.errors[0]
+            return self.errors[0].splitlines()[0]
         return self.output.strip().splitlines()[0] if self.output.strip() else ""
 
 
@@ -63,6 +101,10 @@ _SORRY_MARKERS = ("declaration uses 'sorry'", "uses 'sorry'")
 #   axiom           assumes the goal instead of deriving it
 #   apply? exact?   suggestion tactics; they report candidates rather than
 #                   committing to a proof
+# `Claim.lean:5:2: error: ...` — the start of a diagnostic. Anything after it
+# and before the next one belongs to it, including the goal state.
+_DIAGNOSTIC = re.compile(r"^\S*?:\d+:\d+:\s*(error|warning):")
+
 _PLACEHOLDER = re.compile(r"\b(sorry|admit)\b")
 _AXIOM = re.compile(r"^\s*axiom\s+\S", re.MULTILINE)
 _SUGGESTION = re.compile(r"\b(apply|exact|rw|simp|aesop|norm_num|hint)\?")

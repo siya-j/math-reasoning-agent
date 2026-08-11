@@ -106,9 +106,18 @@ class LeanVerifier(Verifier):
             )
 
         if result.outcome is LeanOutcome.ERRORS:
-            # Every error, not just the first: refinement is only as good as
-            # the feedback it receives.
+            # Whole error blocks, not just header lines: Lean puts the goal
+            # state on the lines that follow, and that is the single most
+            # useful thing a refinement attempt can be told.
             listed = "\n".join(result.errors[:5]) or result.first_error
+
+            # Repeat the goals at the end. Buried in a wall of context they
+            # are easy to miss; stated plainly they are the instruction.
+            goals = result.goals
+            if goals:
+                remaining = "\n".join(goals[:3])
+                listed = f"{listed}\n\nStill to prove:\n{remaining}"
+
             return self._unknown(
                 "Lean rejected the proof, which does NOT make the claim false "
                 f"— only unproved.\n{listed}"

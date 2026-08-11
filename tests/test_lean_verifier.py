@@ -122,6 +122,40 @@ def test_every_compiler_error_is_reported_not_just_the_first():
     assert "second" in verdict.detail
 
 
+UNSOLVED = """Claim.lean:5:2: error: unsolved goals
+case h
+G : Type u_1
+inst✝ : Group G
+⊢ IsCyclic G"""
+
+
+def test_the_goal_state_reaches_the_refinement_feedback():
+    """The measured gap: collecting only lines containing `error:` discarded
+    the goal, so refinement was told "unsolved goals" without being told
+    WHICH goal — the most useful thing the compiler had to say."""
+    verdict = verifier_returning(LeanOutcome.ERRORS, UNSOLVED).verify(request())
+    assert "⊢ IsCyclic G" in verdict.detail
+    assert "G : Type u_1" in verdict.detail
+
+
+def test_the_remaining_goals_are_restated_plainly():
+    """Buried in a wall of context they are missed; stated plainly they are
+    the instruction."""
+    verdict = verifier_returning(LeanOutcome.ERRORS, UNSOLVED).verify(request())
+    assert "Still to prove:" in verdict.detail
+
+
+def test_an_error_block_stops_at_the_next_diagnostic():
+    from verifiers.lean_runner import LeanResult
+
+    output = UNSOLVED + "\nClaim.lean:9:0: warning: declaration uses 'sorry'"
+    blocks = LeanResult(LeanOutcome.ERRORS, output).errors
+
+    assert len(blocks) == 1
+    assert "declaration uses" not in blocks[0], "a warning leaked into the block"
+    assert "⊢ IsCyclic G" in blocks[0]
+
+
 # --------------------------------------------------------- honest degradation
 def test_missing_lean_is_unknown_not_a_crash():
     verdict = verifier_returning(LeanOutcome.UNAVAILABLE).verify(request())
