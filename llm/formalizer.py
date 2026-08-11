@@ -73,6 +73,41 @@ The compiler rejected it:
 Repair that attempt. Fix the specific errors above rather than starting over.
 """
 
+SKELETON_PROMPT = """Break this theorem into steps. Do NOT prove it.
+
+Theorem: {statement}
+
+Informal proof for guidance:
+{sketch}
+{premises}
+Write a Lean 4 proof SKELETON: a sequence of `have` steps whose claims lead to
+the goal, each one deferred.
+
+Rules:
+- Output ONLY the proof body — what follows `:=`.
+- Every step must be exactly `have <name> : <claim> := by sorry`.
+- The final line must close the goal FROM those steps, with no `sorry`.
+- Aim for {count} steps or fewer. Each should be a claim a competent Lean user
+  could discharge in a line or two.
+- The claims matter, not the proofs. State them precisely and in Lean syntax.
+
+Example shape:
+  have h1 : 0 < n := by sorry
+  have h2 : n ≠ 0 := by sorry
+  exact foo h1 h2"""
+
+HOLE_PROMPT = """Prove one small Lean 4 goal, using Mathlib.
+
+Goal: {claim}
+
+It arises inside this proof, where the other steps may be assumed:
+{context}
+{premises}
+Rules:
+- Output ONLY the tactic block that proves this goal — what follows `by`.
+- One or two tactics if possible.
+- Never use `sorry` or `admit`."""
+
 LEMMAS_PROMPT = """This claim could not be proved directly:
 
 {goal}
@@ -181,6 +216,36 @@ class Formalizer:
                     sketch=sketch,
                     premises=self._premises(statement),
                     errors=block,
+                )
+            )
+        )
+
+    def skeleton(self, statement: str, sketch: str, count: int = 4) -> str:
+        """A proof decomposed into deferred `have` steps.
+
+        The claims are what matter. A skeleton that compiles WITH `sorry`
+        proves the decomposition typechecks, which turns one hard problem
+        into several independent easy ones.
+        """
+        return strip_fence(
+            self._ask(
+                SKELETON_PROMPT.format(
+                    statement=statement,
+                    sketch=sketch,
+                    premises=self._premises(statement),
+                    count=count,
+                )
+            )
+        )
+
+    def hole(self, claim: str, context: str, statement: str = "") -> str:
+        """A tactic block for one subgoal of a skeleton."""
+        return strip_fence(
+            self._ask(
+                HOLE_PROMPT.format(
+                    claim=claim,
+                    context=context,
+                    premises=self._premises(statement or claim),
                 )
             )
         )

@@ -49,6 +49,12 @@ PROOF_REFINEMENTS = 3
 # How many auxiliary lemmas to propose when direct proving fails.
 MAX_LEMMAS = 3
 
+# Skeleton proving: how many `have` steps to ask for, and how many holes to
+# discharge. Each hole costs at most one model call and one Lean compile, and
+# the mechanical ladder is tried first, so many cost nothing.
+SKELETON_STEPS = 4
+MAX_HOLES = 6
+
 # How deep lemma generation may recurse. 1 means lemmas are proved directly
 # and never decomposed further. Raise with care: cost grows multiplicatively.
 LEMMA_DEPTH = 1

@@ -38,6 +38,8 @@ class ExplodingModel:
 
 
 class Formalizer:
+    _skeleton = "by trivial"
+
     def statement(self, goal):
         return "theorem t : True"
 
@@ -46,6 +48,13 @@ class Formalizer:
 
     def proof(self, statement, sketch, errors="", previous=""):
         return "by trivial"
+
+    def skeleton(self, statement, sketch, count=4):
+        return self._skeleton
+
+    def hole(self, claim, context, statement=""):
+        self.holes_filled = getattr(self, "holes_filled", 0) + 1
+        return "trivial"
 
     def lemmas(self, goal, count):
         return []

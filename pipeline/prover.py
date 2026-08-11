@@ -31,6 +31,7 @@ from domain.proof import Lemma, ProofAttempt, ProofRun, ProofStage  # noqa: F401
 from domain.verdict import Verdict, VerificationStatus
 from domain.verification import VerificationKind, VerificationRequest
 from llm.formalizer import Formalizer
+from pipeline.skeleton import fill_hole, hole_claims, hole_count, summarise
 from pipeline.tactics import cheap_attempt
 from verifiers import verify as verify_request
 
@@ -44,6 +45,20 @@ def lean_check(statement: str, proof: str) -> Verdict:
     )
 
 
+def lean_structure_ok(statement: str, proof: str) -> bool:
+    """Does this proof TYPECHECK, even if it still contains `sorry`?
+
+    This is the skeleton signal. A decomposition that compiles with holes has
+    proved every `have` is well formed and that the final step follows from
+    them — the remaining work is a set of independent subgoals.
+    """
+    from verifiers.lean_runner import LeanOutcome, run_lean
+    from verifiers.lean_verifier import build_source
+
+    result = run_lean(build_source(statement, proof))
+    return result.outcome in (LeanOutcome.COMPILED, LeanOutcome.INCOMPLETE)
+
+
 def _unknown(detail: str) -> Verdict:
     return Verdict(status=VerificationStatus.UNKNOWN, method="prover", detail=detail)
 
@@ -55,6 +70,7 @@ def prove(
     depth: int | None = None,
     progress=None,
     reviewer=None,
+    structure_check=None,
 ) -> ProofRun:
     """Attempt a formal proof of `goal`. Returns an explicit record either way.
 
@@ -67,6 +83,7 @@ def prove(
     """
     formalizer = formalizer or Formalizer()
     depth = config.LEMMA_DEPTH if depth is None else depth
+    structure_check = structure_check or lean_structure_ok
 
     def note(stage: str) -> None:
         if progress:
@@ -126,6 +143,15 @@ def prove(
         ):
             return run
 
+    # --- skeleton, then fill the holes ------------------------------------
+    # Decomposition WITHIN the proof, before decomposition across lemmas.
+    # A skeleton that compiles with `sorry` has proved its decomposition
+    # typechecks, which turns one hard goal into several independent easy
+    # ones — each attacked mechanically before any model call is spent.
+    note("skeleton")
+    if _try_skeleton(run, formalizer, check, structure_check, sketch, note, reviewer):
+        return run
+
     # --- auxiliary lemmas -------------------------------------------------
     if depth > 0:
         _gather_lemmas(run, formalizer, check, depth)
@@ -175,6 +201,55 @@ def _try(run, formalizer, check, stage, sketch, errors="", previous="",
 
     if verdict.status is VerificationStatus.TRUE:
         _succeed(run, candidate, verdict, reviewer)
+        return True
+    return False
+
+
+def _try_skeleton(run, formalizer, check, structure_check, sketch, note,
+                  reviewer) -> bool:
+    """Decompose, verify the decomposition, then discharge each hole."""
+    # Optional capability: a formalizer that cannot decompose simply skips
+    # this stage, exactly as one without retrieval skips premises.
+    make_skeleton = getattr(formalizer, "skeleton", None)
+    if make_skeleton is None:
+        return False
+
+    proof = make_skeleton(run.statement, sketch, config.SKELETON_STEPS)
+    if not hole_count(proof):
+        return False   # not a skeleton; the direct path already covered this
+
+    run.log("skeleton", summarise(proof))
+
+    # The decomposition itself must typecheck. Filling holes in a skeleton
+    # that does not compile is wasted effort, and the failure is structural
+    # rather than something a subgoal tactic could repair.
+    if not structure_check(run.statement, proof):
+        run.log("skeleton", "rejected: the decomposition does not typecheck")
+        return False
+
+    claims = hole_claims(proof)
+    premises = getattr(formalizer, "premises_for", lambda _: [])(run.statement)
+
+    for index, claim in enumerate(claims[: config.MAX_HOLES]):
+        note(f"hole {index + 1}/{min(len(claims), config.MAX_HOLES)}")
+
+        # Mechanical first: a subgoal is exactly the size `simp` or a cited
+        # premise tends to close, and it costs no model call.
+        candidate = fill_hole(proof, index, cheap_attempt(premises))
+        if structure_check(run.statement, candidate):
+            proof = candidate
+            continue
+
+        fill = getattr(formalizer, "hole", None)
+        if claim and fill:
+            filled = fill_hole(proof, index, f"by {fill(claim, proof, run.statement)}")
+            if structure_check(run.statement, filled):
+                proof = filled
+
+    verdict = check(run.statement, proof)
+    run.record(ProofAttempt(len(run.attempts) + 1, ProofStage.SKELETON, proof, verdict))
+    if verdict.status is VerificationStatus.TRUE:
+        _succeed(run, proof, verdict, reviewer)
         return True
     return False
 

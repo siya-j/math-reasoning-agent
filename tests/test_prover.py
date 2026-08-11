@@ -23,8 +23,9 @@ class FakeFormalizer:
     need to express.
     """
 
-    def __init__(self, statement=None, lemmas=None):
+    def __init__(self, statement=None, lemmas=None, skeleton="by attempt"):
         self._statement = statement
+        self._skeleton = skeleton
         self._lemmas = list(lemmas or [])
         self.proof_calls = []
         self.drafts_sent = []
@@ -42,6 +43,13 @@ class FakeFormalizer:
         self.proof_calls.append(errors)
         self.drafts_sent.append(previous)
         return "by attempt"
+
+    def skeleton(self, statement, sketch, count=4):
+        return self._skeleton
+
+    def hole(self, claim, context, statement=""):
+        self.holes_filled = getattr(self, "holes_filled", 0) + 1
+        return "trivial"
 
     def lemmas(self, goal, count):
         return self._lemmas[:count]
@@ -185,6 +193,82 @@ def test_attempts_are_bounded():
 
     # +1: the deterministic `first | ...` attempt precedes the model ones
     assert len(run.attempts) == 1 + config.PROOF_ATTEMPTS + config.PROOF_REFINEMENTS
+
+
+# ------------------------------------------------------------------ skeleton
+SKELETON = """by
+  have h1 : 0 < n := by sorry
+  have h2 : n ≠ 0 := by sorry
+  exact foo h1 h2"""
+
+
+def test_a_skeleton_that_does_not_typecheck_is_abandoned():
+    """Filling holes in a broken decomposition is wasted effort — the failure
+    is structural, not something a subgoal tactic can repair."""
+    fake = FakeFormalizer(skeleton=SKELETON)
+    run = prove(
+        "hard",
+        formalizer=fake,
+        check=ACCEPTS_NOTHING,
+        depth=0,
+        structure_check=lambda statement, proof: False,
+    )
+
+    assert getattr(fake, "holes_filled", 0) == 0, "holes filled in a broken skeleton"
+    assert any("does not typecheck" in entry for entry in run.trace)
+
+
+def test_holes_are_closed_mechanically_before_any_model_call():
+    """A subgoal is exactly the size `simp` or a cited premise tends to close."""
+    fake = FakeFormalizer(skeleton=SKELETON)
+    prove(
+        "hard",
+        formalizer=fake,
+        check=ACCEPTS_NOTHING,
+        depth=0,
+        structure_check=lambda statement, proof: True,   # every fill accepted
+    )
+    assert getattr(fake, "holes_filled", 0) == 0, "a model call was spent on a hole"
+
+
+def test_the_model_fills_holes_the_tactics_cannot():
+    fake = FakeFormalizer(skeleton=SKELETON)
+    # The skeleton itself typechecks; mechanical fills do not; model fills do.
+    seen = {"n": 0}
+
+    def structure(statement, proof):
+        seen["n"] += 1
+        if seen["n"] == 1:
+            return True                    # the skeleton is structurally sound
+        return "trivial" in proof          # only the model's fill is accepted
+
+    prove("hard", formalizer=fake, check=ACCEPTS_NOTHING, depth=0,
+          structure_check=structure)
+
+    assert getattr(fake, "holes_filled", 0) == 2, "the model never closed a hole"
+
+
+def test_a_filled_skeleton_that_compiles_is_a_proof():
+    fake = FakeFormalizer(skeleton=SKELETON)
+    attempts = 1 + config.PROOF_ATTEMPTS + config.PROOF_REFINEMENTS
+    run = prove(
+        "hard",
+        formalizer=fake,
+        check=accepts_after(attempts),   # only the skeleton attempt is accepted
+        depth=0,
+        structure_check=lambda statement, proof: True,
+    )
+
+    assert run.proved
+    assert run.attempts[-1].stage is ProofStage.SKELETON
+
+
+def test_a_proof_without_holes_is_not_treated_as_a_skeleton():
+    """The direct path already covered it; re-checking wastes a compile."""
+    fake = FakeFormalizer(skeleton="by norm_num")
+    run = prove("hard", formalizer=fake, check=ACCEPTS_NOTHING, depth=0)
+
+    assert ProofStage.SKELETON not in [a.stage for a in run.attempts]
 
 
 # ---------------------------------------------------------- auxiliary lemmas

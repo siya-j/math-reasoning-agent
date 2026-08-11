@@ -23,6 +23,7 @@ class ProofStage(str, Enum):
     CHEAP = "cheap"            # standard tactics and retrieved premises, no model
     DIRECT = "direct"          # straight attempt, informally guided
     REFINE = "refine"          # revised using the compiler's errors
+    SKELETON = "skeleton"      # decomposed into `have` steps, holes filled
     SYNTHESIS = "synthesis"    # assembled from lemmas that were proved
 
 
