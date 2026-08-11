@@ -224,7 +224,11 @@ def _try_skeleton(run, formalizer, check, structure_check, sketch, note,
     # that does not compile is wasted effort, and the failure is structural
     # rather than something a subgoal tactic could repair.
     if not structure_check(run.statement, proof):
+        # Record the source. A rejected skeleton is the most diagnostic
+        # artefact in a failed run — it shows exactly how the model chose to
+        # decompose the problem — and it is lost if only the outcome is kept.
         run.log("skeleton", "rejected: the decomposition does not typecheck")
+        run.log("skeleton source", proof[:400])
         return False
 
     claims = hole_claims(proof)

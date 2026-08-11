@@ -159,6 +159,35 @@ def test_a_result_is_built_from_a_proof_run():
     assert result.lemmas_proved == 1
 
 
+def test_the_trace_and_every_attempt_are_recorded():
+    """A failed run whose cause has to be guessed at is not a measurement.
+
+    The summary says `not proved` after six attempts; it does not say what
+    those attempts contained or why the compiler refused them.
+    """
+    attempted = run(verdict=REJECTED)
+    attempted.log("skeleton", "rejected: the decomposition does not typecheck")
+    attempted.attempts.append(
+        ProofAttempt(1, ProofStage.DIRECT, "by nonsense", REJECTED)
+    )
+
+    result = result_from(goal(), attempted)
+
+    assert result.stages, "no attempt sources recorded"
+    assert result.stages[0]["proof"] == "by nonsense"
+    assert "error" in result.stages[0]["errors"]
+    assert any("does not typecheck" in entry for entry in result.trace)
+
+
+def test_recorded_sources_are_bounded():
+    """A proof is small; a Mathlib error dump is not."""
+    attempted = run(verdict=REJECTED)
+    attempted.attempts.append(
+        ProofAttempt(1, ProofStage.DIRECT, "x" * 5000, REJECTED)
+    )
+    assert len(result_from(goal(), attempted).stages[0]["proof"]) <= 600
+
+
 def test_synthesis_is_recorded_so_lemma_yield_can_be_computed():
     result = result_from(
         goal(),

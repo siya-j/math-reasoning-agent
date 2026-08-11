@@ -51,6 +51,12 @@ class ProofResult:
     via_synthesis: bool = False
     detail: str = ""
 
+    # Without these a failed run is opaque, and a cause has to be guessed at.
+    # `trace` says which stages ran and what they decided; `stages` records
+    # what each attempt produced and why the compiler refused it.
+    trace: tuple[str, ...] = ()
+    stages: tuple[dict, ...] = ()
+
     @property
     def counted(self) -> bool:
         """Did this run actually produce evidence about the system?"""
@@ -79,6 +85,15 @@ def result_from(goal: Goal, run: ProofRun) -> ProofResult:
             and run.attempts[-1].stage is ProofStage.SYNTHESIS
         ),
         detail=run.verdict.detail if run.verdict else "",
+        trace=tuple(run.trace),
+        stages=tuple(
+            {
+                "stage": attempt.stage.value,
+                "proof": attempt.proof[:600],
+                "errors": attempt.verdict.detail[:600],
+            }
+            for attempt in run.attempts
+        ),
     )
 
 
