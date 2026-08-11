@@ -107,6 +107,50 @@ def conclusion_pattern(statement: str) -> str:
     return f"|- {generalised}" if generalised.strip("_ ") else ""
 
 
+_ANCHOR = re.compile(r"[A-Za-z][A-Za-z0-9_']*\.[A-Za-z0-9_']+|[A-Z][A-Za-z0-9_']+")
+
+
+def conclusion_patterns(statement: str) -> list[str]:
+    """Several patterns for one conclusion, loosest last.
+
+    Loogle matches structurally, so a conjunction only matches in the order it
+    is written — but a model has no way to know Mathlib's convention. Measured
+    on the same goal:
+
+        Gemini wrote   ∃ p, Nat.Prime p ∧ n < p
+        Mathlib has    ∃ p, n ≤ p ∧ Nat.Prime p
+
+        |- ∃ _, _ ∧ Nat.Prime _    1 hit  (Nat.exists_infinite_primes)
+        |- ∃ _, Nat.Prime _ ∧ _   12 hits (Nat.bertrand, and others that
+                                           also close the goal)
+
+    Neither ordering alone is enough, so both are issued. Conjuncts with no
+    named anchor are blanked, because `n < p` versus `n ≤ p` should not
+    decide whether a lemma is visible.
+    """
+    exact = conclusion_pattern(statement)
+    if not exact:
+        return []
+
+    patterns = [exact]
+    body = exact[len("|- ") :]
+
+    # Keep any `∃ _,` style prefix intact; permute only the conjunction.
+    prefix, _, rest = body.rpartition(",")
+    prefix = f"{prefix}," if prefix else ""
+
+    pieces = [piece.strip() for piece in rest.split("∧")]
+    if len(pieces) < 2:
+        return patterns
+
+    loose = [piece if _ANCHOR.search(piece) else "_" for piece in pieces]
+    for ordering in (loose, list(reversed(loose))):
+        candidate = f"|- {prefix} {' ∧ '.join(ordering)}".replace("  ", " ").strip()
+        if candidate not in patterns:
+            patterns.append(candidate)
+    return patterns
+
+
 def extract_queries(statement: str, limit: int) -> list[str]:
     """Which Mathlib names to look up, given a formal statement.
 
@@ -187,7 +231,7 @@ class LoogleSearch:
         # A ladder, most specific first. Every rung is tried and the results
         # are MERGED — earlier first-hit-wins meant one broad query could
         # crowd out the precise one.
-        ladder = [conclusion_pattern(statement)]
+        ladder = conclusion_patterns(statement)
         ladder += [f"|- {name} _" for name in identifiers]
         ladder += identifiers
 

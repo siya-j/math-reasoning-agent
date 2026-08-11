@@ -124,6 +124,13 @@ def run_lean(
                 [*argv_prefix, str(path)],
                 capture_output=True,
                 text=True,
+                # Lean speaks UTF-8 — its errors quote goals full of ∀, ∃, ℕ.
+                # Windows defaults to cp1252 here and raises UnicodeDecodeError
+                # on the first such message, turning a compiler error into a
+                # crash. `replace` means a stray byte costs one character, not
+                # the whole run.
+                encoding="utf-8",
+                errors="replace",
                 timeout=timeout,
                 cwd=working_directory or directory,
             )

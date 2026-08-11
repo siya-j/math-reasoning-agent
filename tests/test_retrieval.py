@@ -140,6 +140,32 @@ def test_the_conclusion_pattern_finds_existence_lemmas():
     assert "Nat.Prime" in pattern
 
 
+def test_both_conjunction_orderings_are_issued():
+    """Measured on the real failure. Gemini produced
+
+        ∃ p, Nat.Prime p ∧ n < p
+
+    where Mathlib has `∃ p, n ≤ p ∧ Nat.Prime p`. Loogle matches structurally,
+    so each ordering finds different lemmas and neither alone is sufficient:
+
+        |- ∃ _, Nat.Prime _ ∧ _   12 hits, including Nat.bertrand
+        |- ∃ _, _ ∧ Nat.Prime _    1 hit,  Nat.exists_infinite_primes
+    """
+    from retrieval.loogle import conclusion_patterns
+
+    patterns = conclusion_patterns(
+        "theorem t (n : Nat) : ∃ p, Nat.Prime p ∧ n < p"
+    )
+    assert "|- ∃ _, Nat.Prime _ ∧ _" in patterns
+    assert "|- ∃ _, _ ∧ Nat.Prime _" in patterns
+
+
+def test_a_conclusion_without_a_conjunction_yields_one_pattern():
+    from retrieval.loogle import conclusion_patterns
+
+    assert conclusion_patterns("theorem t [Group G] : IsCyclic G") == ["|- IsCyclic _"]
+
+
 def test_bare_capitals_are_generalised_in_the_pattern():
     """`G` in `IsCyclic G` is a type variable, not a lemma name."""
     from retrieval.loogle import conclusion_pattern
