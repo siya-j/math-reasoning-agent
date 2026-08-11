@@ -53,6 +53,7 @@ def prove(
     check=lean_check,
     depth: int | None = None,
     progress=None,
+    reviewer=None,
 ) -> ProofRun:
     """Attempt a formal proof of `goal`. Returns an explicit record either way.
 
@@ -86,7 +87,8 @@ def prove(
     # --- direct proving ---------------------------------------------------
     for attempt in range(config.PROOF_ATTEMPTS):
         note(f"direct {attempt + 1}/{config.PROOF_ATTEMPTS}")
-        if _try(run, formalizer, check, ProofStage.DIRECT, sketch):
+        if _try(run, formalizer, check, ProofStage.DIRECT, sketch,
+                reviewer=reviewer):
             return run
 
     # --- refinement on compiler feedback ---------------------------------
@@ -103,6 +105,7 @@ def prove(
             sketch,
             errors=draft.verdict.detail,
             previous=draft.proof,
+            reviewer=reviewer,
         ):
             return run
 
@@ -122,7 +125,7 @@ def prove(
                 )
             )
             if verdict.status is VerificationStatus.TRUE:
-                return _succeed(run, candidate, verdict)
+                return _succeed(run, candidate, verdict, reviewer)
 
     return _give_up(run)
 
@@ -136,7 +139,8 @@ def best_draft(run: ProofRun) -> ProofAttempt:
     return min(run.attempts, key=lambda attempt: (attempt.error_count, attempt.number))
 
 
-def _try(run, formalizer, check, stage, sketch, errors="", previous="") -> bool:
+def _try(run, formalizer, check, stage, sketch, errors="", previous="",
+         reviewer=None) -> bool:
     """One proposal-and-check cycle. True if the compiler accepted it."""
     candidate = formalizer.proof(
         run.statement, sketch, errors=errors, previous=previous
@@ -145,7 +149,7 @@ def _try(run, formalizer, check, stage, sketch, errors="", previous="") -> bool:
     run.record(ProofAttempt(len(run.attempts) + 1, stage, candidate, verdict))
 
     if verdict.status is VerificationStatus.TRUE:
-        _succeed(run, candidate, verdict)
+        _succeed(run, candidate, verdict, reviewer)
         return True
     return False
 
@@ -169,9 +173,32 @@ def _gather_lemmas(run, formalizer, check, depth) -> None:
     )
 
 
-def _succeed(run: ProofRun, proof: str, verdict: Verdict) -> ProofRun:
+def _succeed(run: ProofRun, proof: str, verdict: Verdict, reviewer=None) -> ProofRun:
+    """Record a compiler-accepted proof, then let review DOWNGRADE it.
+
+    Review runs only here, on success, because that is the only point where
+    the system is about to claim something. It can move TRUE to UNKNOWN and
+    can do nothing else — see llm/reviewer.py for why granting approval would
+    be unsafe.
+    """
     run.proof = proof
     run.verdict = verdict
+
+    if reviewer is None:
+        return run
+
+    run.review = reviewer.review(run.goal, run.statement)
+    if run.review.objected:
+        run.log("review", "objected")
+        run.verdict = Verdict(
+            status=VerificationStatus.UNKNOWN,
+            method="reviewer",
+            detail=(
+                "Lean accepted a proof, but the formal statement may not match "
+                f"the question asked: {run.review.concerns[0]} "
+                "The proof is recorded; the claim is not treated as settled."
+            ),
+        )
     return run
 
 

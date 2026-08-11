@@ -26,6 +26,7 @@ from eval.proof_metrics import (  # noqa: E402
     result_from,
     summarize,
 )
+from llm.reviewer import Reviewer  # noqa: E402
 from pipeline.prover import prove  # noqa: E402
 from verifiers.lean_runner import lean_is_available  # noqa: E402
 
@@ -40,6 +41,11 @@ def main() -> int:
     parser.add_argument("--limit", type=int)
     parser.add_argument(
         "--depth", type=int, default=None, help="override config.LEMMA_DEPTH"
+    )
+    parser.add_argument(
+        "--review",
+        action="store_true",
+        help="check each accepted statement against the question (one extra call)",
     )
     args = parser.parse_args()
 
@@ -58,7 +64,10 @@ def main() -> int:
     if not lean_is_available():
         print("WARNING: Lean not found. Every goal will be NOT PROVED.\n")
 
+    reviewer = Reviewer() if args.review else None
+
     print(f"model: {config.MODEL}")
+    print(f"review: {'on' if reviewer else 'off'}")
     print(f"goals: {len(goals)}  depth: {args.depth if args.depth is not None else config.LEMMA_DEPTH}\n")
 
     results: list[ProofResult] = []
@@ -72,7 +81,9 @@ def main() -> int:
             print(f"          {time.monotonic() - _start:5.0f}s  {stage}", flush=True)
 
         try:
-            run = prove(goal.goal, depth=args.depth, progress=show)
+            run = prove(
+                goal.goal, depth=args.depth, progress=show, reviewer=reviewer
+            )
         except Exception as exc:
             consecutive_errors += 1
             results.append(

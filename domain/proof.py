@@ -79,6 +79,7 @@ class ProofRun:
     proof: str = ""                             # the accepted proof, if any
     verdict: Verdict | None = None
     trace: list[str] = field(default_factory=list)
+    review: object | None = None                # llm.reviewer.Review, if run
 
     def log(self, event: str, detail: str = "") -> None:
         self.trace.append(f"{event}: {detail}" if detail else event)
@@ -115,6 +116,9 @@ class ProofRun:
             for lemma in self.lemmas:
                 mark = "proved" if lemma.is_proved else "unproved"
                 lines.append(f"    [{mark}] {lemma.informal}")
+
+        if self.review is not None:
+            lines.append(f"  {self.review.note()}")
 
         if self.proved:
             lines.append("  proof accepted by the compiler:")

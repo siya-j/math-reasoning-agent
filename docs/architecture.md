@@ -367,6 +367,28 @@ From the project design document:
 | | tactic-level goal states | **not built** |
 | **miniF2F Revisited** (2511.03108) | separate formalisation from proving when measuring | methodology only |
 | | LLM judges are unreliable (97.5% vs 62.7% human) | informs caution |
+| **AI Co-Mathematician** (2605.06651) | hard programmatic constraints beat better prompting | the guard, anti-cheat checks |
+| | bounded iteration prevents the "death spiral" | `MAX_ATTEMPTS`, never retry on FALSE |
+| | reviewers can be optimised against | **design constraint, below** |
+
+### A constraint on the reviewer agent, before it is built
+
+The planned statement-preservation reviewer must be able to **lower** confidence
+and never to **grant** it. It may downgrade a verdict to UNKNOWN. It must not
+be able to produce a TRUE.
+
+Two independent findings force this:
+
+- *AI Co-Mathematician* (2605.06651): optimising against a reviewer can
+  "converge to an argument that remains flawed, but where the errors can no
+  longer be detected by the reviewer agent." A gate teaches the system to
+  produce arguments that gate cannot catch.
+- *miniF2F Revisited* (2511.03108): an LLM judge rated formalisations 97.5%
+  correct where human experts found 62.7%.
+
+A reviewer that can only refuse is safe under both. A reviewer that can approve
+is a new way to be confidently wrong — which is the failure this entire
+architecture exists to prevent.
 
 ---
 
@@ -406,6 +428,10 @@ it has no evidence for.*
 - **No model available yet writes Lean.** The proving path is fully built and
   fully tested against stubs and a real compiler; it has never produced a
   proof.
+- **Autoformalisation is implemented but unvalidated.** `Formalizer.statement()`
+  has prompts, retrieval and tests — all against a fake model. It has never run
+  against a real one, and `formalization_rate` has never produced a number.
+  "Implemented" is true; "works" is not yet supported by any evidence.
 - **Results are confounded.** Architecture and model size changed together.
 - **Retrieval ranking is syntactic.** Loogle is not semantic search; LeanDojo's
   learned retriever would rank better.
