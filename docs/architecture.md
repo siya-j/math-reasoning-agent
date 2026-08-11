@@ -4,8 +4,12 @@ The authoritative description of what this system is, how it works, and why
 each decision was made. For the historical record of the consolidation phase,
 see [consolidation-report.md](consolidation-report.md).
 
-**Status:** 5,295 lines of Python · 177 tests · 109 golden cases · 9 SymPy
-tools · 2 LangChain imports in the architecture.
+**Status:** ~6,000 lines of Python · 238 tests · 109 golden cases · 15 proof
+goals · 9 SymPy tools · 2 LangChain imports in the architecture.
+
+**Measured with Gemini 3.5 Flash:** verification 97% accuracy / 100%
+soundness · autoformalisation 100% · the proving path produces
+machine-checked Lean proofs.
 
 ---
 
@@ -200,7 +204,36 @@ built and evaluated:
 | fixed workflow, 3B, 34 cases | 91% | 94% | 93% |
 | tool-calling agent, 3B, 34 cases | 82% | 97% | 79% |
 | hybrid, 7B, 87 cases | 95% | 99% | 95% |
-| hybrid, 7B, 109 cases, 9 tools | **96%** | **99%** | **96%** |
+| hybrid, 7B, 109 cases, 9 tools | 96% | 99% | 96% |
+| **hybrid, Gemini 3.5 Flash, 109 cases** | **97%** | **100%** | **97%** |
+| hybrid + Deep Agents, Gemini, 109 cases | 96% | 99% | 97% |
+
+### The confound is resolved
+
+The table above was ambiguous for most of the project: architecture and model
+size had always changed together, so "did the hybrid help, or was it just a
+bigger model?" was unanswerable.
+
+Gemini on the same 109 cases settles it. **96% at 7B, 97% with a frontier
+model — a one-point difference.** The architecture was doing the work, not the
+model. That also means the guarantee is portable: soundness has now been
+measured at 94–100% across a 3B local model, a 7B local model and a frontier
+API model.
+
+### Deep Agents: no benefit, one new failure
+
+Same model, same cases, one variable — the harness (`MRA_HARNESS`).
+
+Coverage held at 97%, so the feared repeat of the v2 collapse did **not**
+happen. But restraint on abstract claims fell to 92%, producing the only
+soundness failure of the run: `abs-continuous-differentiable` — *"is every
+continuous function differentiable?"* — where the correct behaviour is to
+refuse.
+
+Different failure mode from v2, same underlying cause. Given more tools and a
+filesystem, a model finds something to *do* on an unanswerable question
+rather than declining. Reported here as measured rather than resolved: the
+specific tool call that produced the verdict has not been inspected.
 
 The pure agent version *silently deleted Phases 4 and 5*: the model simply
 chose not to iterate, and `mean checks per case` fell to 0.94. The capability
@@ -286,6 +319,29 @@ the verdict. In the proving path, proved lemmas **are** allowed to contribute
 are inputs to something that gets checked, not evidence trusted on its own.
 Remove the final verification step and this becomes unsound immediately.
 
+### The mechanical attempt
+
+Before any model call, one Lean compile tries everything obvious:
+
+```lean
+by first
+  | rfl | trivial | norm_num | decide | simp | positivity | omega | linarith | aesop
+  | exact Nat.exists_infinite_primes
+  | apply Nat.exists_infinite_primes
+  | simpa using Nat.exists_infinite_primes
+  ...
+```
+
+`first | ...` commits to whichever alternative closes the goal, so ~57
+candidates cost ONE invocation rather than 57. Nine standard closers plus
+four forms against each of the top twelve retrieved premises.
+
+This exists because every measured outcome turned on retrieval rather than
+proof search. `Nat.exists_infinite_primes n` closes the infinitude goal with
+no reasoning at all, so no model call should have been spent on it. A
+consequence worth stating: goals in this class remain provable when the model
+is rate limited, since only the formalisation call is needed.
+
 ### Refinement repairs the best draft
 
 Prover Agent §3.1: refine the attempt with the **fewest** compiler errors,
@@ -310,9 +366,40 @@ Loogle answers over HTTP, so this needs neither Lean nor an API key.
 | `\|- IsCyclic _` | 54 | ✅ rank 4 |
 
 `|- X _` asks for declarations that *conclude* X, which is what proving
-needs. Query extraction is deterministic — a regex over capitalised
-identifiers — because asking the model what to search for would put a guess
-in front of the lookup that exists to replace guessing.
+needs. Query extraction is deterministic — a regex over the statement's own
+structure — because asking the model what to search for would put a guess in
+front of the lookup that exists to replace guessing.
+
+**The conclusion's shape, not its identifiers.** The first version of the
+above extracted bare identifiers, which discards exactly the information that
+matters:
+
+| Query | Hits | Found `Nat.exists_infinite_primes`? |
+|---|---|---|
+| `\|- Nat.Prime _` | 31 | ❌ — it concludes an existential |
+| `\|- ∃ _, _ ∧ Nat.Prime _` | 1 | ✅ |
+
+The goal concludes `∃ p, ...`, not `Nat.Prime _`, so the needed lemma was
+structurally invisible. With `PREMISES_PER_QUERY = 6` the model was shown
+*"11 is prime, 5 is prime, 7 is prime"* and asked to prove there are
+infinitely many. Five attempts never had a chance.
+
+**Both conjunction orderings.** Loogle matches structurally, and a model has
+no way to know Mathlib's convention:
+
+```
+the model wrote   ∃ p, Nat.Prime p ∧ n < p
+Mathlib has       ∃ p, n ≤ p ∧ Nat.Prime p
+```
+
+`|- ∃ _, Nat.Prime _ ∧ _` returns 12 hits including `Nat.bertrand`;
+`|- ∃ _, _ ∧ Nat.Prime _` returns 1, which is `Nat.exists_infinite_primes`.
+Neither ordering alone is sufficient, so both are issued, and conjuncts with
+no named anchor are blanked so `<` versus `≤` cannot hide a lemma.
+
+After these three fixes the same goal was proved on the **first attempt**,
+where five had previously failed. The prover did not improve; it was shown
+the right lemma.
 
 **Nothing in the module raises.** Bad query, malformed JSON, network down,
 timeout: all return `[]`. Retrieval is an optimisation; without it the system
@@ -410,11 +497,25 @@ Twelve real defects. **Code review found one of them.**
 | 10 | Name search burying the needed theorem | running it |
 | 11 | Probe reporting a conclusion when no call reached the model | running it |
 | 12 | Execution-flow steps 1–2 orphaned as unimportable dead code | design-doc audit |
+| 13 | Retrieval searched identifiers, not the goal's conclusion | running it |
+| 14 | Conjunction order hid the needed lemma from Loogle | running it |
+| 15 | Six premises per query, ranked by module order, not relevance | running it |
+| 16 | `in-mathlib` goal stated `n < p` where Mathlib gives `n ≤ p` | running it |
+| 17 | Verification rates counted errored cases in the denominator | running it |
+| 18 | The proving path had no rate-limit backoff | a failed run |
+| 19 | Windows decoded Lean's UTF-8 output as cp1252 and crashed | a failed run |
 
 Failures 3 and 8 are the same underlying problem and are **not solved**.
-Failure 11 is the same shape as a bug previously fixed in `variance.py`:
-*a script that counts crashes as results will confidently report a conclusion
-it has no evidence for.*
+
+Failures 11 and 17 are the same shape as one previously fixed in
+`variance.py` — three occurrences of: *a rate whose denominator includes
+failures-to-run will eventually lie to you.* A Deep Agents run answered 8 of
+8 correctly, was rate limited on the last two, and reported 80%.
+
+Failures 13–15 are all retrieval, and 13 was **introduced by a fix**: the
+conclusion-pattern change improved `IsCyclic` and silently broke every goal
+concluding a quantifier. The lesson is not "test more" — it is that an
+improvement verified on one example is a hypothesis, not a fix.
 
 ---
 
@@ -425,13 +526,16 @@ it has no evidence for.*
   back-translation, which needs a model trustworthy enough to judge.
 - **Coverage.** SymPy cannot touch topology, group theory or set theory. Lean
   can, but needs a model that writes Mathlib.
-- **No model available yet writes Lean.** The proving path is fully built and
-  fully tested against stubs and a real compiler; it has never produced a
-  proof.
-- **Autoformalisation is implemented but unvalidated.** `Formalizer.statement()`
-  has prompts, retrieval and tests — all against a fake model. It has never run
-  against a real one, and `formalization_rate` has never produced a number.
-  "Implemented" is true; "works" is not yet supported by any evidence.
+- **Proving is demonstrated, not yet characterised.** Euclid's infinitude of
+  primes has been proved twice, reproducibly, on the first attempt after the
+  retrieval fixes. That is one theorem. The proof rate across a full tier is
+  unmeasured, blocked on API quota rather than on anything in the code.
+- **Statement preservation remains open.** The reviewer exists and is
+  constrained to refuse only, but its own accuracy is unmeasured — and the
+  literature says LLM judges overstate agreement by 30 points.
+- **Deep Agents costs restraint.** 92% versus the LangChain harness, with one
+  soundness failure. The specific tool call responsible has not been
+  inspected.
 - **Results are confounded.** Architecture and model size changed together.
 - **Retrieval ranking is syntactic.** Loogle is not semantic search; LeanDojo's
   learned retriever would rank better.
