@@ -196,6 +196,69 @@ multiplies API cost and is the easiest thing to get wrong under a rate limit.
 
 ---
 
+## 4b. What SymPy is actually FOR on the proving path
+
+Not "another verifier". A different job:
+
+> **SymPy tells you what is true. Lean proves it.**
+
+Four concrete uses, in descending order of value:
+
+1. **Computing a witness.** An existential goal needs one:
+   `∃ p, n < p ∧ Nat.Prime p`. A CAS produces the actual prime instantly, and
+   the Lean proof collapses to `⟨103, by norm_num, by norm_num⟩` instead of a
+   search. This is where a CAS is unbeatable and Lean is weakest.
+2. **Refuting before proving.** If SymPy finds a counterexample to an
+   inequality, no proof exists and the agent should stop. Today it would spend
+   eight compilations and 300 seconds discovering nothing.
+   `_find_counterexample` already exists in `sympy_verifier.py`.
+3. **Deciding a side condition.** "Is 561 prime?" — knowing it is 3·11·17
+   tells the model which lemma to reach for and whether the claim is even true.
+4. **Normal forms.** A factorisation or series expansion tells the model what
+   shape the goal should reduce to before it writes `simp` and hopes.
+
+All four are the model asking a question, not the system reaching a verdict.
+
+---
+
+## 4c. Where each paper's strategy lands in an agentic design
+
+The agentic architecture does not discard these. It changes **who decides when
+to apply them**. The pipeline hard-coded the order — sketch, direct, refine,
+skeleton, lemmas, synthesis. The agent chooses the order instead.
+
+**The rule that decides where each idea belongs:**
+
+> A strategy that **generates** something becomes a TOOL the model may call.
+> A constraint that **guarantees** something stays in CODE, where the model
+> cannot skip it.
+
+| Paper | Idea | Pipeline form | Agentic form |
+|---|---|---|---|
+| Prover Agent | informal proof as guidance | `sketch()`, one call | **subsumed** — the conversation is the sketch |
+| | refinement on compiler errors | `PROOF_REFINEMENTS=3` | **already the core loop**, bounded by Budget not by stage |
+| | auxiliary lemmas, bottom-up | `_gather_lemmas` | tool: `try_lemma` — model decides when |
+| | refine the fewest-error draft | `best_draft()` | selection rule for best-of-N |
+| | synthesis from proved lemmas | `ProofStage.SYNTHESIS` | automatic — proved lemmas sit in context |
+| AxProverBase | Proposer / Compiler / Reviewer | three stages | proposer+compiler are one conversation; reviewer stays separate |
+| | `sorry`/`admit`/`axiom` detection | `cheating_devices` | **stays in code.** Never a tool — a check the model can skip is not a check |
+| | library search | `retrieval/` | tool: `search_mathlib` |
+| LeanDojo | premise selection is the bottleneck | — | **confirmed here**: bug 20 killed 19 of 20 searches |
+| | learned retriever | not built | not built — Loogle is syntactic; biggest known weakness |
+| | tactic-level goal states | partial | `try_proof` returns the goal state, but not per tactic |
+| miniF2F Revisited | separate formalisation from proving | — | **landed**: `statement_ok` → `NOT_FORMALIZED` |
+| | LLM judges are unreliable | — | reviewer may only refuse |
+| AI Co-Mathematician | hard constraints beat better prompting | the guard | **stays in code** — the guard, the Budget, anti-cheat |
+| | bounded iteration prevents the death spiral | `MAX_ATTEMPTS` | the Budget, with a raise behind it |
+| | reviewers can be optimised against | — | reviewer may only downgrade, never approve |
+
+Read the right-hand column as the target design. Two entries are the whole
+argument for the agentic prover — refinement stops being a fixed count of
+rounds, and lemma generation stops being a stage that fires whether or not it
+is wanted.
+
+---
+
 ## 5. What this changes about the queued experiment
 
 Nothing — run the three arms first. Stage 1 changes what the agentic prover can
