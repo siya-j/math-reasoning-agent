@@ -11,6 +11,7 @@ the fixes.
 """
 
 import asyncio
+import time
 
 import pytest
 
@@ -153,12 +154,44 @@ def test_the_wall_clock_stops_everything(tmp_path, monkeypatch, lean_calls):
 def test_a_compile_is_not_started_when_it_cannot_finish_in_time(
         tmp_path, monkeypatch, lean_calls):
     """A compile begun near the deadline still runs a full Lean timeout past it."""
-    monkeypatch.setattr(budget, "MAX_SECONDS", _aura.DEFAULT_TIMEOUT / 2)
+    # Reserve the whole budget, so any elapsed time at all leaves too little.
+    monkeypatch.setattr(budget, "MAX_SECONDS", 100.0)
+    monkeypatch.setattr(budget, "LEAN_RESERVE_SECONDS", 100.0)
+    monkeypatch.setattr(budget, "MAX_RESERVE_FRACTION", 1.0)
     rt = runtime_for(tmp_path)
 
-    run(try_proof.ainvoke({"proof": "trivial", "statement": STATEMENT,
-                           "runtime": rt}))
+    result = run(try_proof.ainvoke({"proof": "trivial", "statement": STATEMENT,
+                                    "runtime": rt}))
     assert lean_calls == []
+    assert result["limit"] == "time"
+
+
+def test_the_reservation_can_never_eat_the_budget_it_protects(monkeypatch):
+    """It reserved 180s of a 300s budget, so 60% was unusable and the agent was
+    refused before it ever attempted a proof. Measured, on the first real run."""
+    monkeypatch.setattr(budget, "MAX_SECONDS", 300.0)
+    assert budget.reserve() == 60.0
+    assert 300.0 - budget.reserve() == 240.0      # the old prover's window
+
+    for limit in (60.0, 120.0, 300.0, 900.0):
+        monkeypatch.setattr(budget, "MAX_SECONDS", limit)
+        assert budget.reserve() <= limit * budget.MAX_RESERVE_FRACTION + 1e-9, limit
+
+
+def test_the_stop_message_reports_what_was_SPENT_not_just_the_limit(monkeypatch):
+    """It said "time budget spent (300s)" after 127s, which reads as a lie."""
+    monkeypatch.setattr(budget, "MAX_SECONDS", 300.0)
+
+    state = dict(tool_calls=0, lean_calls=0, started=time.time() - 127)
+    _, over_budget = budget._over(state, lean=False)
+    assert "127s of 300s" in over_budget or over_budget == "", over_budget
+
+    # And the reservation message names the spend and the shortfall, not the cap.
+    state = dict(tool_calls=0, lean_calls=0, started=time.time() - 260)
+    kind, message = budget._over(state, lean=True)
+    assert kind == "time"
+    assert "260s of the 300s budget used" in message, message
+    assert "60s left" in message, message
 
 
 def test_every_lean_tool_is_charged(tmp_path, monkeypatch, lean_calls):

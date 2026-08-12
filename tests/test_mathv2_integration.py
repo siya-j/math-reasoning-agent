@@ -165,9 +165,11 @@ def test_attempts_and_trace_survive_the_conversion(tmp_path, compiler_rejects):
         ]),
     )
 
-    assert len(run.attempts) == 3          # the statement check, then two proofs
+    # Two PROOF attempts. The statement check is a check, not an attempt.
+    assert len(run.attempts) == 2
+    assert any("statement check" in entry for entry in run.trace)
     assert any("execution mode" in entry for entry in run.trace)
-    assert run.telemetry.lean_calls == 3
+    assert run.telemetry.lean_calls == 3   # the check plus the two attempts
 
 
 def test_an_agent_crash_still_returns_what_was_recorded(tmp_path, compiler_accepts):

@@ -97,15 +97,32 @@ def test_several_tool_calls_in_one_run(tmp_path, compiler_rejects):
     assert run.telemetry.lean_calls == 2      # the statement check, then the proof
 
 
-def test_the_failure_would_have_been_invisible_without_this(tmp_path,
-                                                            compiler_rejects):
-    """It presents as a crashed agent, not as a wiring fault. Hence the test."""
+def test_a_statement_check_is_reported_as_a_check_not_a_failed_proof(
+        tmp_path, compiler_rejects):
+    """A passing check reads as "compiles but uses sorry", which is not a failure.
+
+    Rendered as a DIRECT attempt with an empty proof, it made an
+    infrastructural failure look like a reasoning failure — and inflated
+    `mean attempts`, which is meant to count tries at the goal.
+    """
     run = harness.prove(
         "is 2 + 2 = 4?",
         model=scripted_model(("check_statement", {"statement": STATEMENT})),
         workdir=str(tmp_path),
     )
-    assert run.attempts, "a run with no attempts looks like a model problem"
+
+    assert run.attempts == [], "a statement check was counted as a proof attempt"
+    assert any("statement check" in entry for entry in run.trace), run.trace
+
+
+def test_the_model_calls_are_counted_rather_than_hardcoded(tmp_path,
+                                                           compiler_rejects):
+    run = harness.prove(
+        "is 2 + 2 = 4?",
+        model=scripted_model(("check_statement", {"statement": STATEMENT})),
+        workdir=str(tmp_path),
+    )
+    assert run.telemetry.model_calls > 0, "reported 0 model calls for a real run"
 
 
 # ------------------------------------------------------------- the bridge

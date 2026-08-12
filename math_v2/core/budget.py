@@ -57,6 +57,32 @@ MAX_SYMBOLIC_CALLS = int(os.getenv("MRA_MAX_AGENT_SYMBOLIC", "20"))
 MAX_SECONDS = float(os.getenv("MRA_MAX_AGENT_SECONDS", "900"))
 GRACE = int(os.getenv("MRA_AGENT_GRACE", "3"))
 
+# How much clock to hold back so a compile that starts can also finish.
+#
+# MEASURED FAILURE. This used to reserve `_aura.DEFAULT_TIMEOUT` (180s), the
+# time ONE compile is allowed to take. At MRA_MAX_AGENT_SECONDS=300 that made
+# 60% of the budget unusable: every compile was refused once 120s had elapsed.
+# On num-primes-strictly-above the first `lake env lean` — a cold Mathlib
+# import, roughly two minutes on Windows rather than the ~20s assumed
+# everywhere — consumed exactly that window, so the agent formalised, searched
+# twice, and was refused before it ever attempted a proof. Nothing about its
+# mathematics was measured.
+#
+# Two separate quantities, conflated:
+#   what one compile may TAKE     -> _aura.DEFAULT_TIMEOUT, the kill timeout
+#   what we hold back to START one -> this, a typical compile
+#
+# The cap matters as much as the value. A reservation may never eat more than
+# a quarter of the budget, whatever either number is set to, so this can never
+# again silently consume the run it exists to protect.
+LEAN_RESERVE_SECONDS = float(os.getenv("MRA_LEAN_RESERVE", "60"))
+MAX_RESERVE_FRACTION = 0.25
+
+
+def reserve():
+    """Seconds held back so a started compile can finish."""
+    return min(LEAN_RESERVE_SECONDS, MAX_SECONDS * MAX_RESERVE_FRACTION)
+
 # The limits the previous agentic experiment actually ran under. Kept here so
 # a comparison against its 86% is like-for-like rather than silently generous:
 # the defaults above are larger, and a run at 900s/12 compiles measured against
@@ -127,7 +153,7 @@ def _over(state, lean):
     """Which limit blocks THIS call: (kind, message). ("", "") to proceed."""
     spent = time.time() - state["started"]
     if spent > MAX_SECONDS:
-        return "time", f"time budget spent ({MAX_SECONDS:.0f}s)"
+        return "time", f"time budget spent ({spent:.0f}s of {MAX_SECONDS:.0f}s)"
     if state["tool_calls"] >= MAX_TOOL_CALLS:
         return "tool", f"tool budget spent ({MAX_TOOL_CALLS} calls)"
     if lean:
@@ -135,10 +161,10 @@ def _over(state, lean):
             return "lean", f"compilation budget spent ({MAX_LEAN_CALLS} compiles)"
         # Refusing to START a compile that cannot finish inside the budget.
         # Measured overshoot without this rule: 494s against 300s.
-        if MAX_SECONDS - spent < _aura.DEFAULT_TIMEOUT:
+        if MAX_SECONDS - spent < reserve():
             return "time", (
-                f"time budget spent ({MAX_SECONDS:.0f}s) — too little left to "
-                "finish a compilation"
+                f"{spent:.0f}s of the {MAX_SECONDS:.0f}s budget used — under "
+                f"{reserve():.0f}s left, too little to finish a compilation"
             )
     return "", ""
 

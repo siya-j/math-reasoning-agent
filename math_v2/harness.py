@@ -75,11 +75,22 @@ Settle this claim. If it needs a proof, formalise it in Lean 4 and prove it;
 if a computation decides it, compute. Call `finish` when you are done, passing
 the original question as `claim`."""
 
+# Which records are ATTEMPTS AT A PROOF. A statement check is not one: it
+# compiles `statement := by sorry` to find out whether the signature
+# elaborates, and a PASS is reported by Lean as "compiles but uses sorry".
+# Mapped to DIRECT, a successful check rendered as
+#
+#     attempt 1: direct
+#     proof:                                    <- empty, it has no proof
+#     compiler said: ... uses `sorry` ... proves nothing.
+#
+# which reads as a failed proof and is the reason a purely infrastructural
+# failure looked like a reasoning failure. It also inflated `mean attempts`,
+# a metric that is supposed to count tries at the goal.
 _STAGE = {
     log.PROOF: ProofStage.DIRECT,
     log.LEMMA: ProofStage.DIRECT,
     log.SKELETON: ProofStage.SKELETON,
-    log.STATEMENT_CHECK: ProofStage.DIRECT,
 }
 
 
@@ -119,17 +130,20 @@ def prove(
 
     note("agent")
     prose = ""
+    model_calls = 0
     try:
         agent = agent_factory(model, create_math_v2_tools(),
                               MATH_SYSTEM_PROMPT + COMPUTE_ENV_GUIDANCE)
         result = _invoke(agent, goal, workdir)
         prose = _final_text(result)
+        model_calls = _count_model_calls(result)
     except Exception as exc:  # noqa: BLE001 - a crash must not lose the record
         # Everything the agent actually did is on disk already, so a harness
         # failure costs the prose and nothing else.
         log.note(workdir, f"agent failed: {exc}")
 
-    return _to_proof_run(run, workdir, prose, time.monotonic() - started)
+    return _to_proof_run(run, workdir, prose, time.monotonic() - started,
+                         model_calls)
 
 
 def _run_sync(coroutine):
@@ -191,6 +205,23 @@ def _invoke(agent, goal, workdir):
     return _run_sync(_ainvoke(agent, goal, workdir))
 
 
+def _count_model_calls(result) -> int:
+    """Assistant turns in the transcript — a real count, not a placeholder.
+
+    It was hardcoded to 0, which reported "0 model" for a run that had plainly
+    called the model. A number nobody can trust is worse than no number.
+    """
+    messages = (result or {}).get("messages") if isinstance(result, dict) else None
+    if not messages:
+        return 0
+    return sum(
+        1 for message in messages
+        if getattr(message, "type", "") == "ai"
+        or message.__class__.__name__ == "AIMessage"
+        or (isinstance(message, dict) and message.get("role") == "assistant")
+    )
+
+
 def _final_text(result) -> str:
     """The assistant's last message. Prose is shown to a human and never read
     by the guard, so failing to extract it must not fail the run."""
@@ -204,7 +235,8 @@ def _final_text(result) -> str:
             or (last.get("content", "") if isinstance(last, dict) else "")) or ""
 
 
-def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float) -> ProofRun:
+def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
+                  model_calls: int = 0) -> ProofRun:
     """Translate the on-disk record into a ProofRun. THE VERDICT IS RE-DERIVED.
 
     `finish`'s own reply is not consulted. The outcome is computed here from
@@ -219,7 +251,15 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float) -> Pr
     run.statement = statement
     run.statement_ok = decision["outcome"] != verdicts.NOT_FORMALIZED
 
-    for index, record in enumerate(log.records(workdir), start=1):
+    for record in log.records(workdir, log.STATEMENT_CHECK):
+        run.trace.append(
+            "statement check: "
+            + ("elaborates" if record.get("status") == log.TRUE
+               else "does NOT elaborate — " + (record.get("detail") or "")[:200])
+        )
+
+    attempts = [r for r in log.records(workdir) if r.get("kind") in _STAGE]
+    for index, record in enumerate(attempts, start=1):
         status = {
             log.TRUE: VerificationStatus.TRUE,
             log.FALSE: VerificationStatus.FALSE,
@@ -241,7 +281,7 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float) -> Pr
         run.trace.append(f"stopped early: {spent['reason']}")
 
     run.telemetry = Telemetry(
-        model_calls=0,                       # not observable from the record
+        model_calls=model_calls,
         lean_calls=spent["lean_calls"],
         retrieval_calls=spent["searches"],
         seconds=seconds,
