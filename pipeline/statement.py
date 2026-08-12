@@ -112,18 +112,34 @@ def name_hints(errors: str, search=None) -> str:
 
 
 def ensure_elaborates(run, goal, formalizer, search=None, note=None,
-                      checker=None) -> bool:
-    """Check `run.statement`, repair it once, and record what happened.
+                      checker=None, rounds=None) -> bool:
+    """Check `run.statement`, repair it, and record what happened.
 
     Returns True if the statement elaborates. On False the caller should stop:
     no proof of an unelaborable statement exists to be found.
 
     Mutates `run` — `statement`, `statement_ok`, `telemetry` and the trace.
+
+    WHY THIS IS A LOOP AND NOT A SINGLE ATTEMPT
+    -------------------------------------------
+    Lean reports what stopped it, not everything wrong. A statement can be
+    wrong in several independent ways at once — an outdated name AND an
+    undeclared universe — and fixing the first only reveals the second. One
+    attempt can therefore only ever repair one KIND of fault.
+
+    WHY EVERY ATTEMPT SEES ALL THE PREVIOUS ONES
+    --------------------------------------------
+    This is the lesson that produced the agentic prover, applied here. The
+    baseline prover asked for a proof five times through a stateless call and
+    got byte-identical proposals back, because a fresh mind given the same
+    prompt makes the same mistake. A repair loop without history is that same
+    failure with a different name.
     """
     if not config.CHECK_STATEMENT:
         return True
 
     checker = checker or elaboration_errors
+    rounds = config.MAX_STATEMENT_REPAIRS if rounds is None else rounds
 
     def say(stage: str) -> None:
         if note:
@@ -137,29 +153,45 @@ def ensure_elaborates(run, goal, formalizer, search=None, note=None,
 
     run.log("statement rejected", errors[:300])
 
-    say("repairing the statement")
-    hints = name_hints(errors, search)
-    if hints:
-        run.telemetry.retrieval_calls += 1
+    # Every rejected attempt, so a repair is never asked to guess blind twice.
+    history: list[tuple[str, str]] = [(run.statement, errors)]
+    seen = {run.statement.strip()}
 
-    try:
-        repaired = formalizer.repair_statement(goal, run.statement, errors, hints)
-    except Exception as exc:  # noqa: BLE001
-        run.log("repair failed", str(exc)[:200])
-        repaired = ""
-    run.telemetry.model_calls += 1
+    for attempt in range(rounds):
+        say(f"repairing the statement ({attempt + 1}/{rounds})")
 
-    if repaired.strip() and repaired.strip() != run.statement.strip():
-        remaining = checker(repaired)
+        hints = name_hints(errors, search)
+        if hints:
+            run.telemetry.retrieval_calls += 1
+
+        try:
+            repaired = formalizer.repair_statement(
+                goal, run.statement, errors, hints, history=tuple(history)
+            )
+        except Exception as exc:  # noqa: BLE001
+            run.log("repair failed", str(exc)[:200])
+            break
+        run.telemetry.model_calls += 1
+
+        repaired = repaired.strip()
+        if not repaired or repaired in seen:
+            # The same answer again. More rounds will not help.
+            run.log("repair repeated itself", repaired[:200])
+            break
+        seen.add(repaired)
+
+        errors = checker(repaired)
         run.telemetry.lean_calls += 1
-        if not remaining:
+        if not errors:
             # Recorded loudly. A repair may fix a NAME; if it quietly fixed
             # the MATHEMATICS instead, this line is the only place a human
             # will see it.
             run.log("statement repaired", f"{run.statement}  ->  {repaired}")
             run.statement = repaired
             return True
-        errors = remaining
+
+        run.log(f"repair {attempt + 1} rejected", f"{repaired}\n{errors[:200]}")
+        history.append((repaired, errors))
 
     run.statement_ok = False
     run.log("statement not elaborable", errors[:300])

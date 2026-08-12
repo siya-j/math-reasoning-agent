@@ -90,6 +90,12 @@ MAX_CONSECUTIVE_SEARCHES = int(os.getenv("MRA_MAX_CONSECUTIVE_SEARCHES", "3"))
 # rate of 100%. Costs one Lean invocation per goal.
 CHECK_STATEMENT = os.getenv("MRA_CHECK_STATEMENT", "1") not in ("0", "false", "")
 
+# Repair attempts for a statement Lean rejects. More than one because Lean
+# reports what stopped it, not everything wrong: an outdated name AND an
+# undeclared universe are two faults, and fixing the first only reveals the
+# second. Each attempt sees every earlier one, or it just repeats itself.
+MAX_STATEMENT_REPAIRS = int(os.getenv("MRA_MAX_STATEMENT_REPAIRS", "2"))
+
 # Retrieval can be turned off to attribute its contribution in an ablation.
 RETRIEVAL_ENABLED = os.getenv("MRA_RETRIEVAL", "1") not in ("0", "false", "")
 

@@ -31,14 +31,19 @@ BASIS_ERROR = (
 class Formalizer:
     """Records the repair request and returns whatever it was told to."""
 
-    def __init__(self, repaired=""):
+    def __init__(self, repaired="", replies=None):
+        self._replies = list(replies) if replies is not None else None
         self._repaired = repaired
         self.asked = None
+        self.calls = []
 
-    def repair_statement(self, goal, statement, errors, hints=""):
+    def repair_statement(self, goal, statement, errors, hints="", history=()):
         self.asked = {"goal": goal, "statement": statement,
-                      "errors": errors, "hints": hints}
-        return self._repaired
+                      "errors": errors, "hints": hints, "history": history}
+        self.calls.append(self.asked)
+        if self._replies is None:
+            return self._repaired
+        return self._replies.pop(0) if self._replies else ""
 
 
 class Search:
@@ -163,18 +168,51 @@ def test_a_repair_that_still_does_not_elaborate_gives_up():
     assert not run.statement_ok
 
 
-def test_only_one_repair_is_attempted():
+def test_the_repair_loop_is_bounded():
     """Otherwise a confidently wrong formalizer loops on the model's budget."""
-    formalizer = Formalizer(repaired="theorem t : StillWrong")
-    calls = []
-
-    def checker(statement):
-        calls.append(statement)
-        return BASIS_ERROR
+    formalizer = Formalizer(replies=["one", "two", "three", "four"])
 
     ensure_elaborates(run_for("theorem t : Basis"), "a claim", formalizer,
-                      checker=checker)
-    assert len(calls) == 2, "the repair loop ran more than once"
+                      checker=broken, rounds=3)
+    assert len(formalizer.calls) == 3
+
+
+def test_a_second_fault_can_be_repaired_after_the_first_is_fixed():
+    """Lean reports what stopped it, not everything wrong.
+
+    An outdated name AND an undeclared universe are two faults; fixing the
+    first only reveals the second, so one attempt can never fix both.
+    """
+    formalizer = Formalizer(replies=["names fixed", "universes fixed too"])
+    errors = iter([BASIS_ERROR, "unknown universe level 'u'", ""])
+    run = run_for("theorem t : Basis")
+
+    assert ensure_elaborates(run, "a claim", formalizer,
+                             checker=lambda _s: next(errors), rounds=3)
+    assert run.statement == "universes fixed too"
+
+
+def test_each_repair_is_shown_the_ones_already_rejected():
+    """A stateless retry is a fresh mind given the same prompt.
+
+    This is the failure that produced the agentic prover: the baseline asked
+    for a proof five times and got byte-identical proposals back.
+    """
+    formalizer = Formalizer(replies=["first try", "second try"])
+    ensure_elaborates(run_for("theorem t : Basis"), "a claim", formalizer,
+                      checker=broken, rounds=2)
+
+    tried = [attempt for attempt, _ in formalizer.calls[1]["history"]]
+    assert "theorem t : Basis" in tried
+    assert "first try" in tried, "the second repair could not see the first"
+
+
+def test_a_repair_that_repeats_itself_stops_the_loop():
+    """Same answer again means more rounds will not help. Do not pay for them."""
+    formalizer = Formalizer(repaired="theorem t : StillWrong")
+    ensure_elaborates(run_for("theorem t : Basis"), "a claim", formalizer,
+                      checker=broken, rounds=5)
+    assert len(formalizer.calls) == 2, "an identical answer was paid for twice"
 
 
 def test_a_formalizer_that_raises_does_not_take_the_run_down():

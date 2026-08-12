@@ -92,6 +92,13 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tier", choices=[t.value for t in Tier])
     parser.add_argument("--area")
+    parser.add_argument(
+        "--goal",
+        action="append",
+        help="run only this goal id; repeatable. Selecting one goal with "
+        "--limit depends on dataset ORDER, which is not a stable way to "
+        "name a thing.",
+    )
     parser.add_argument("--limit", type=int)
     parser.add_argument(
         "--depth", type=int, default=None, help="override config.LEMMA_DEPTH"
@@ -113,6 +120,13 @@ def main() -> int:
         goals = [g for g in goals if g.tier.value == args.tier]
     if args.area:
         goals = [g for g in goals if g.area == args.area]
+    if args.goal:
+        wanted = set(args.goal)
+        unknown = wanted - {g.id for g in load_goals()}
+        if unknown:
+            print(f"No such goal: {', '.join(sorted(unknown))}")
+            return 2
+        goals = [g for g in goals if g.id in wanted]
     if args.limit:
         goals = goals[: args.limit]
 

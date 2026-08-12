@@ -67,7 +67,7 @@ Statement:
 
 Lean reported:
 {errors}
-{hints}
+{hints}{history}
 Rules:
 - Output ONLY the corrected theorem signature, ending just before `:=`.
 - Do not write a proof.
@@ -200,17 +200,29 @@ class Formalizer:
         return strip_fence(self._ask(STATEMENT_PROMPT.format(goal=goal)))
 
     def repair_statement(
-        self, goal: str, statement: str, errors: str, hints: str = ""
+        self, goal: str, statement: str, errors: str, hints: str = "",
+        history: tuple = (),
     ) -> str:
         """A statement Lean rejected -> one corrected attempt.
 
         The only feedback loop formalisation has. Everything else in this
         class is asked once and never told whether it worked.
+
+        `history` is every earlier rejected version with its error. Without it
+        a second call is a fresh mind given the same prompt, which produces
+        the same answer — the failure that motivated the agentic prover.
         """
+        earlier = ""
+        if len(history) > 1:
+            earlier = "\n\nVersions already tried and rejected — do not repeat these:\n"
+            for index, (attempt, error) in enumerate(history, start=1):
+                earlier += f"\n{index}. {attempt}\n   Lean: {error[:200]}\n"
+
         return strip_fence(
             self._ask(
                 REPAIR_PROMPT.format(
-                    goal=goal, statement=statement, errors=errors[:1500], hints=hints
+                    goal=goal, statement=statement, errors=errors[:1500],
+                    hints=hints, history=earlier,
                 )
             )
         )
