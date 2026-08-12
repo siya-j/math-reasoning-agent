@@ -188,34 +188,80 @@ names, types and one routing description, no logic.
 
 ---
 
-## Option B — a prompt for an assistant on that machine
+## Option B — attach these files, paste this prompt
 
-> I need to write a new agent package in this repo, `math_v2`, following
-> `AGENT_BLUEPRINT.md`. Do not paste whole files. Answer these, quoting only
-> signatures and field names:
+### Files to attach
+
+Seven required. Each maps to a question in the prompt below.
+
+| # | Path | Answers |
+|---|---|---|
+| 1 | `aura_framework/subagents/lean_common.py` | Q1, Q2, Q3 |
+| 2 | `aura_framework/core/command_spec.py` | Q4 |
+| 3 | `aura_framework/subagents/chem_v2/tools/_util.py` | Q5 |
+| 4 | `aura_framework/subagents/chem_v2/agent.py` | Q6 |
+| 5 | `aura_framework/subagents/chem_v2/tools/__init__.py` | Q7 |
+| 6 | `aura_framework/subagents/chem_v2/tools/control.py` | Q8 |
+| 7 | `aura_framework/core/session_factory.py` | Q9 |
+
+Four optional — attach if easy, skip if not:
+
+| Path | Adds |
+|---|---|
+| `aura_framework/core/mcp/native_meta.py` | `tag_tools`'s real signature rather than one inferred from a call site |
+| `aura_framework/core/backends/__init__.py` | `get_backend_for_runtime`'s signature and the resolution order |
+| `aura_framework/core/backends/sif_registry.py` | `DEFAULT_SIF_NAMES`, needed for wiring step 2 |
+| `aura_framework/subagents/chem_v2/context.py` | confirms the context really is just `workdir` |
+
+`AGENT_BLUEPRINT.md` is already in that repo, so the assistant can read it
+without an attachment — but say so in case it needs pointing at it.
+
+> **The point of attaching files rather than sending them.** The assistant
+> reads them *there*; what comes back here is a page of signatures. Nothing
+> proprietary needs to leave the machine.
+
+### The prompt
+
+> I am writing a new agent package in this repo, `math_v2`, following
+> `AGENT_BLUEPRINT.md` (in this repo — read it first). The attached files are
+> the ones the blueprint points at.
+>
+> I need an **interface summary**, not code. Do not paste function bodies, and
+> do not reproduce any file. Quote only signatures, field names, types and
+> literal values. Where I ask *how* something works, two or three sentences of
+> plain description is exactly right — no source.
+>
+> Answer in this order, with a heading per question:
 >
 > 1. `lean_common.make_agent_middleware` and `make_lean_backend` — full
->    signatures with defaults.
-> 2. `LiteratureSearchCapMiddleware` — its `__init__` signature, which
->    middleware hooks it overrides, and *how it stops a tool* once the cap is
->    hit: does it return an error `ToolMessage`, raise, or use `jump_to`?
->    Describe the mechanism in one or two sentences.
-> 3. `TurnToolBudgetMiddleware` — same, if it exists.
-> 4. `CommandSpec`, `Resources`, `ExecutionResult` — every field name and type.
->    The allowed values of the `RuntimeName` Literal.
+>    signatures with defaults, and what each returns.
+> 2. `LiteratureSearchCapMiddleware` — `__init__` signature, which middleware
+>    hooks it overrides, and **how it stops a tool call once the cap is hit**:
+>    does it return an error `ToolMessage`, raise, or use `jump_to`? This one
+>    matters most — describe the mechanism precisely.
+> 3. `TurnToolBudgetMiddleware` — the same, if it exists. Note whether the
+>    "hard stop" actually prevents the call or only instructs the model to stop.
+> 4. `CommandSpec`, `Resources` and `ExecutionResult` — every field name, type
+>    and default. The allowed values of the `RuntimeName` Literal. Whether
+>    `CommandSpec` is a dataclass or a pydantic model.
 > 5. `chem_v2/tools/_util.py` — the helper a tool calls to run something.
->    Its name, signature, what it returns, and how it surfaces a failure
->    (`stderr_path`?) to the model. Two or three sentences, no body.
-> 6. `chem_v2/agent.py` — the factory signature and the exact keyword arguments
->    passed to `create_deep_agent`.
-> 7. `chem_v2/tools/__init__.py` — `tag_tools`'s signature, the import paths for
->    `IN_PROCESS`, `GEN_UI_TOOLS` and `research_internet`, and what the
->    collector returns.
-> 8. `chem_v2/tools/control.py::finish` — its signature, what it returns, and
->    how it validates that a claimed artefact exists.
-> 9. `_V2_FACTORIES` in `session_factory.py` — the shape of one entry, and the
->    exact keyword arguments the supervisor calls a factory with.
-> 10. Versions of `deepagents`, `langchain` and Python.
+>    Its name, exact signature, what it returns, and how a failure reaches the
+>    model (does it surface `stderr_path`?). Is it `async`?
+> 6. `chem_v2/agent.py` — the factory's full signature, and the exact keyword
+>    arguments passed to `create_deep_agent`, in order.
+> 7. `chem_v2/tools/__init__.py` — `tag_tools`'s signature, the import paths
+>    for `IN_PROCESS`, `GEN_UI_TOOLS` and `research_internet`, and what the
+>    collector function returns.
+> 8. `chem_v2/tools/control.py::finish` — its signature, its return shape, and
+>    how it validates that a claimed artefact actually exists.
+> 9. `session_factory.py` — one `_V2_FACTORIES` entry quoted verbatim
+>    (`chem` is fine), and the exact keyword arguments the supervisor uses to
+>    call a factory.
+> 10. Versions of `deepagents`, `langchain`, `langgraph` and Python.
+>
+> Finally: name anything in these files that a new agent **must** do and that
+> the blueprint does not already state, especially anything that fails
+> silently rather than loudly.
 
 ---
 
