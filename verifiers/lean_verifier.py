@@ -138,54 +138,71 @@ class LeanVerifier(Verifier):
 
     # --------------------------------------------------------------- policy
     def _interpret(self, result: LeanResult, statement: str) -> Verdict:
-        if result.outcome is LeanOutcome.COMPILED:
-            return Verdict(
-                status=VerificationStatus.TRUE,
-                method=self.name,
-                detail=f"Lean accepted a complete proof of: {statement}",
-            )
-
-        if result.outcome is LeanOutcome.INCOMPLETE:
-            return self._unknown(
-                "The proof compiles but uses `sorry` or `admit`, which proves "
-                "nothing. Lean accepted a placeholder, not an argument."
-            )
-
-        if result.outcome is LeanOutcome.CHEATED:
-            return self._unknown(
-                "The proof compiles, but only by using "
-                f"{result.output}. Compiling is not the same as proving."
-            )
-
-        if result.outcome is LeanOutcome.ERRORS:
-            # Whole error blocks, not just header lines: Lean puts the goal
-            # state on the lines that follow, and that is the single most
-            # useful thing a refinement attempt can be told.
-            listed = "\n".join(result.errors[:5]) or result.first_error
-
-            # Repeat the goals at the end. Buried in a wall of context they
-            # are easy to miss; stated plainly they are the instruction.
-            goals = result.goals
-            if goals:
-                remaining = "\n".join(goals[:3])
-                listed = f"{listed}\n\nStill to prove:\n{remaining}"
-
-            return self._unknown(
-                "Lean rejected the proof, which does NOT make the claim false "
-                f"— only unproved.\n{listed}"
-            )
-
-        if result.outcome is LeanOutcome.TIMEOUT:
-            return self._unknown(
-                "Lean did not finish within the time budget. Slow is not false."
-            )
-
-        return self._unknown(
-            "Lean is not installed on this machine, so the claim could not be "
-            "checked. Install Lean and Mathlib, or set MRA_LEAN to the binary."
-        )
+        return interpret(result, statement, method=self.name)
 
     def _unknown(self, detail: str) -> Verdict:
+        return unknown(detail, method=self.name)
+
+
+def unknown(detail: str, method: str = "lean") -> Verdict:
+    return Verdict(status=VerificationStatus.UNKNOWN, method=method, detail=detail)
+
+
+def interpret(result: LeanResult, statement: str, method: str = "lean") -> Verdict:
+    """What a compiler result MEANS. Pure policy, no I/O.
+
+    Public because the math_v2 tools dispatch Lean through a CommandSpec and
+    then need exactly this decision, without the synchronous runner that
+    `LeanVerifier.verify` owns. One implementation, two callers.
+    """
+    if result.outcome is LeanOutcome.COMPILED:
         return Verdict(
-            status=VerificationStatus.UNKNOWN, method=self.name, detail=detail
+            status=VerificationStatus.TRUE,
+            method=method,
+            detail=f"Lean accepted a complete proof of: {statement}",
         )
+
+    if result.outcome is LeanOutcome.INCOMPLETE:
+        return unknown(
+            "The proof compiles but uses `sorry` or `admit`, which proves "
+            "nothing. Lean accepted a placeholder, not an argument.",
+            method,
+        )
+
+    if result.outcome is LeanOutcome.CHEATED:
+        return unknown(
+            "The proof compiles, but only by using "
+            f"{result.output}. Compiling is not the same as proving.",
+            method,
+        )
+
+    if result.outcome is LeanOutcome.ERRORS:
+        # Whole error blocks, not just header lines: Lean puts the goal state
+        # on the lines that follow, and that is the single most useful thing a
+        # refinement attempt can be told.
+        listed = "\n".join(result.errors[:5]) or result.first_error
+
+        # Repeat the goals at the end. Buried in a wall of context they are
+        # easy to miss; stated plainly they are the instruction.
+        goals = result.goals
+        if goals:
+            remaining = "\n".join(goals[:3])
+            listed = f"{listed}\n\nStill to prove:\n{remaining}"
+
+        return unknown(
+            "Lean rejected the proof, which does NOT make the claim false "
+            f"\u2014 only unproved.\n{listed}",
+            method,
+        )
+
+    if result.outcome is LeanOutcome.TIMEOUT:
+        return unknown(
+            "Lean did not finish within the time budget. Slow is not false.",
+            method,
+        )
+
+    return unknown(
+        "Lean is not installed on this machine, so the claim could not be "
+        "checked. Install Lean and Mathlib, or set MRA_LEAN to the binary.",
+        method,
+    )
