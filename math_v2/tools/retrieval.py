@@ -14,7 +14,7 @@ from langchain.tools import ToolRuntime
 from langchain_core.tools import tool
 
 from math_v2.context import MathContext
-from math_v2.core import retrieval
+from math_v2.core import budget, retrieval
 
 _SEARCH = None
 
@@ -57,6 +57,9 @@ async def search_mathlib(query: str, runtime: ToolRuntime[MathContext]) -> dict:
                 may be separated by a comma.
     """
     workdir = runtime.context.workdir
+    stop = budget.spend(workdir, search=True)
+    if stop:
+        return stop
     return await asyncio.to_thread(
         retrieval.search_mathlib, workdir, query, get_search()
     )

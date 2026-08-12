@@ -11,7 +11,7 @@ from langchain.tools import ToolRuntime
 from langchain_core.tools import tool
 
 from math_v2.context import MathContext
-from math_v2.core import log, proving
+from math_v2.core import budget, log, proving
 from math_v2.tools._util import lean_runner
 
 
@@ -22,6 +22,16 @@ def _goal(runtime, statement):
         log.set_goal(workdir, statement.strip())
         return workdir, statement.strip()
     return workdir, log.current_goal(workdir)
+
+
+def _charge(runtime, **kind):
+    """Budget check for a tool that is about to do expensive work.
+
+    Returns a structured stop, or None to proceed. Enforced HERE, in the tool
+    layer, so no compilation, dispatch or lookup happens once a limit is hit —
+    independently of any middleware and of what the model decides to do next.
+    """
+    return budget.spend(runtime.context.workdir, **kind)
 
 
 def _no_goal():
@@ -52,6 +62,9 @@ async def check_statement(statement: str, runtime: ToolRuntime[MathContext]) -> 
         statement: the complete Lean 4 theorem signature, beginning `theorem`
             or `lemma` and ending just before `:=`. Do not include a proof.
     """
+    stop = _charge(runtime, lean=True)
+    if stop:
+        return stop
     workdir, goal = _goal(runtime, statement)
     if not goal:
         return _no_goal()
@@ -74,6 +87,9 @@ async def try_proof(proof: str, runtime: ToolRuntime[MathContext],
             `admit`: they compile and prove nothing, and are rejected.
         statement: only if proving something other than the current statement.
     """
+    stop = _charge(runtime, lean=True)
+    if stop:
+        return stop
     workdir, goal = _goal(runtime, statement)
     if not goal:
         return _no_goal()
@@ -94,6 +110,9 @@ async def try_standard_tactics(runtime: ToolRuntime[MathContext],
         statement: only if working on something other than the current
             statement.
     """
+    stop = _charge(runtime, lean=True)
+    if stop:
+        return stop
     workdir, goal = _goal(runtime, statement)
     if not goal:
         return _no_goal()
@@ -118,6 +137,9 @@ async def try_lemma(statement: str, proof: str,
             `lemma <name>`. Give it a name Mathlib does not already use.
         proof: the proof body of that lemma.
     """
+    stop = _charge(runtime, lean=True)
+    if stop:
+        return stop
     workdir = runtime.context.workdir
     return await proving.try_lemma(workdir, statement, proof, lean_runner(workdir))
 
@@ -141,6 +163,9 @@ async def try_skeleton(proof: str, runtime: ToolRuntime[MathContext],
         statement: only if working on something other than the current
             statement.
     """
+    stop = _charge(runtime, lean=True)
+    if stop:
+        return stop
     workdir, goal = _goal(runtime, statement)
     if not goal:
         return _no_goal()

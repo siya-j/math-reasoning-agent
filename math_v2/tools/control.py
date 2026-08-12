@@ -27,7 +27,7 @@ from langchain_core.tools import tool
 
 from math_v2 import _aura
 from math_v2.context import MathContext
-from math_v2.core import log, verdict
+from math_v2.core import budget, log, verdict
 from math_v2.tools._enums import OutcomeLit
 
 
@@ -37,6 +37,7 @@ async def finish(
     outcome: OutcomeLit,
     runtime: ToolRuntime[MathContext],
     statement: str = "",
+    claim: str = "",
 ) -> dict:
     """Report the result. The record decides whether your claim is allowed.
 
@@ -55,6 +56,10 @@ async def finish(
             proof. Required for `proved` — it is what the record is matched
             against, so a proof of a different claim cannot be offered for
             this one.
+        claim: the user's original question, in their words. Used to check
+            that the theorem proved is the one that was asked about. Strongly
+            recommended for `proved`: a proof of the wrong theorem is more
+            convincing than no proof at all, not less.
     """
     workdir = runtime.context.workdir
     decision = verdict.proof_verdict(workdir, statement)
@@ -70,6 +75,23 @@ async def finish(
             ),
         }
 
+    # A compiled proof of the WRONG theorem is failures 3 and 8 with a proof
+    # assistant attached. Lean guarantees the statement is true; nothing
+    # guarantees it is the statement the user asked about, so the lint runs
+    # here, on the accepted statement, before anything is reported.
+    if outcome == verdict.PROVED:
+        proved = decision.get("evidence", {}).get("statement", statement)
+        unfaithful = verdict.faithfulness_failure(proved, claim)
+        if unfaithful:
+            return {
+                "ok": True,
+                "accepted": False,
+                "outcome": verdict.NOT_VERIFIED,
+                "error": "unfaithful_statement",
+                "message": "REFUSED. " + unfaithful,
+                "budget": budget.summary(workdir),
+            }
+
     refusal = verdict.refuse(outcome, decision)
     if refusal:
         return {
@@ -77,9 +99,16 @@ async def finish(
             "accepted": False,
             "outcome": decision["outcome"],
             "message": "REFUSED. " + refusal,
+            "budget": budget.summary(workdir),
         }
 
     warnings = []
+    spent = budget.summary(workdir)
+    if spent["terminated_early"]:
+        # Ran out rather than finished. Different results, and conflating them
+        # would misreport a proof rate.
+        warnings.append(f"Stopped early: {spent['reason']}.")
+
     dropped = _aura.dropped_fields()
     if dropped:
         # Not cosmetic. A dropped `timeout` means a runaway compile was bounded
@@ -103,5 +132,6 @@ async def finish(
             "lemmas_kept": len(log.kept_lemmas(workdir)),
             "computations": len(log.records(workdir, "computation")),
         },
+        "budget": spent,
         "warnings": warnings,
     }

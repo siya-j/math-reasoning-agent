@@ -30,6 +30,8 @@ and stops there. Both rules are enforced below rather than requested in a
 prompt.
 """
 
+from pipeline.faithfulness import unsupported_in
+
 from math_v2.core import log
 
 # What `finish` is allowed to conclude.
@@ -96,6 +98,39 @@ def proof_verdict(workdir: str, statement: str = "") -> dict:
         ),
         "evidence": {"attempts": len(attempts), "lemmas": lemmas},
     }
+
+
+def faithfulness_failure(statement: str, claim: str) -> str:
+    """Why a compiled proof still does not answer the question asked. "" if it does.
+
+    THE GAP THIS CLOSES
+    -------------------
+    Lean proves that the STATEMENT is true. Nothing proves the statement says
+    what the user asked. That gap produced failures 3 and 8 in this project:
+    asked "is 2 the only solution of x^2 = 4?", the system checked "are the
+    solutions 2 and -2?", every component behaved correctly, and the answer
+    addressed a question nobody asked.
+
+    A compiled proof of the wrong theorem is the same failure with a proof
+    assistant attached, and it is MORE convincing, which makes it worse.
+
+    Deliberately narrow, and arithmetic rather than another language model: it
+    compares the numbers in the formal statement against the numbers in the
+    question. It cannot see `sin` swapped for `cos`. It catches one specific,
+    observed, damaging mistake.
+    """
+    if not claim.strip() or not statement.strip():
+        return ""
+
+    invented = unsupported_in(statement, claim)
+    if not invented:
+        return ""
+    return (
+        "The formal statement uses " + ", ".join(sorted(set(invented))) + ", which "
+        "the question never mentions, so what was proved is not what was asked. "
+        "Restate the theorem using only the values in the question, and prove "
+        "that."
+    )
 
 
 def refuse(claim_outcome: str, verdict: dict) -> str:

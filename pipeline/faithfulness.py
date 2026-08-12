@@ -55,6 +55,27 @@ _CLAIMED_FIELD = {
 }
 
 
+def unsupported_in(claimed_text: str, question: str) -> list[str]:
+    """Numbers in a transcription of a claim that the question never states.
+
+    Extracted so the proving path can reuse the SAME rule: a formal statement
+    is a transcription of the user's claim exactly as `candidate` is, and a
+    number appearing in it but nowhere in the question was invented by the
+    model. One implementation, two callers — a second copy would drift.
+    """
+    if not claimed_text:
+        return []
+
+    asked = _numbers(question)
+    unsupported = []
+    for raw in _NUMBER.findall(claimed_text):
+        value = float(raw)
+        key = str(int(value)) if value.is_integer() else str(value)
+        if key not in asked:
+            unsupported.append(raw.strip())
+    return unsupported
+
+
 def unsupported_numbers(question: str, request: VerificationRequest) -> list[str]:
     """Numbers in the model's transcription of the claim that the question never states.
 
@@ -67,20 +88,7 @@ def unsupported_numbers(question: str, request: VerificationRequest) -> list[str
     field = _CLAIMED_FIELD.get(request.kind)
     if field is None:
         return []
-    claimed_text = getattr(request, field, "")
-    if not claimed_text:
-        return []
-
-    asked = _numbers(question)
-    claimed = _NUMBER.findall(claimed_text)
-
-    unsupported = []
-    for raw in claimed:
-        value = float(raw)
-        key = str(int(value)) if value.is_integer() else str(value)
-        if key not in asked:
-            unsupported.append(raw.strip())
-    return unsupported
+    return unsupported_in(getattr(request, field, ""), question)
 
 
 def is_faithful(question: str, request: VerificationRequest) -> bool:

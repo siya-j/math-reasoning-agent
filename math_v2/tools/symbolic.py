@@ -16,7 +16,7 @@ from langchain.tools import ToolRuntime
 from langchain_core.tools import tool
 
 from math_v2.context import MathContext
-from math_v2.core import symbolic
+from math_v2.core import budget, symbolic
 from math_v2.tools._enums import RelationLit
 from math_v2.tools._util import worker_dispatch
 
@@ -28,6 +28,9 @@ SYNTAX = (
 
 async def _run(runtime, op, **args):
     workdir = runtime.context.workdir
+    stop = budget.spend(workdir, symbolic=True)
+    if stop:
+        return stop
     return await symbolic.compute(workdir, op, args, worker_dispatch(workdir))
 
 
