@@ -120,6 +120,17 @@ def remember_premises(workdir: str, names: list) -> None:
     _write(workdir, data)
 
 
+def set_goal(workdir: str, statement: str) -> None:
+    """Remember the statement being worked on, so tools need not repeat it."""
+    data = read(workdir)
+    data["goal"] = statement
+    _write(workdir, data)
+
+
+def current_goal(workdir: str) -> str:
+    return read(workdir).get("goal", "") or ""
+
+
 def records(workdir: str, kind: str = "") -> list:
     everything = read(workdir)["records"]
     return [r for r in everything if not kind or r.get("kind") == kind]
