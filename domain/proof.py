@@ -97,6 +97,7 @@ class ProofRun:
 
     goal: str                                   # the question, in English
     statement: str = ""                         # the goal, formalised
+    statement_ok: bool = True                   # ...and Lean can elaborate it
     attempts: list[ProofAttempt] = field(default_factory=list)
     lemmas: list[Lemma] = field(default_factory=list)
     proof: str = ""                             # the accepted proof, if any

@@ -37,6 +37,7 @@ from llm.client import get_model
 from llm.formalizer import Formalizer
 from pipeline.harness import build_agent, final_text
 from pipeline.proof_tools import Budget, BudgetExhausted, ProofLog, make_proof_tools
+from pipeline.statement import ensure_elaborates
 from retrieval.loogle import LoogleSearch
 
 SYSTEM_PROMPT = """You are proving a theorem in Lean 4 using Mathlib.
@@ -82,6 +83,7 @@ def prove(
     progress=None,
     agent_factory=build_agent,
     budget=None,
+    statement_check=None,
     **_ignored,
 ) -> ProofRun:
     """Attempt a proof by conversation. Everything is injected for testing."""
@@ -112,6 +114,18 @@ def prove(
 
     if search is None and config.RETRIEVAL_ENABLED:
         search = LoogleSearch()
+
+    # Does the STATEMENT elaborate? A goal naming a Mathlib identifier that no
+    # longer exists cannot be proved by anyone, and spending compilations on
+    # it reports a proving failure for a formalisation fault.
+    if not ensure_elaborates(run, goal, formalizer, search, progress, statement_check):
+        run.verdict = Verdict(
+            VerificationStatus.UNKNOWN, "prover",
+            "Lean could not make sense of the formal statement, so the claim "
+            "was never put to the prover. This is a formalisation failure, "
+            "not evidence about the claim.",
+        )
+        return run
 
     # An agent with the wheel can also drive in circles. A near-mathlib goal
     # ran without terminating and had to be interrupted by hand, leaving no

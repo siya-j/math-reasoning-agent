@@ -57,6 +57,27 @@ Rules:
 
 Example shape: theorem my_claim (n : Nat) : n + 0 = n"""
 
+REPAIR_PROMPT = LEAN_CONTEXT + """This Lean 4 theorem statement does not
+compile. The problem is in the STATEMENT itself, not in any proof.
+
+Claim: {goal}
+
+Statement:
+{statement}
+
+Lean reported:
+{errors}
+{hints}
+Rules:
+- Output ONLY the corrected theorem signature, ending just before `:=`.
+- Do not write a proof.
+- Fix NAMES and NOTATION. Mathlib renames things, and a name you remember may
+  now live in a different namespace.
+- Do NOT change what the statement says. Do not weaken it, strengthen it, add
+  a hypothesis that makes it easier, or replace it with a related claim that
+  happens to compile. A statement that compiles but says something else is
+  worse than one that does not compile at all."""
+
 SKETCH_PROMPT = """Prove this claim in ordinary mathematical English.
 
 Claim: {goal}
@@ -177,6 +198,22 @@ class Formalizer:
     def statement(self, goal: str) -> str:
         """English claim -> Lean theorem signature."""
         return strip_fence(self._ask(STATEMENT_PROMPT.format(goal=goal)))
+
+    def repair_statement(
+        self, goal: str, statement: str, errors: str, hints: str = ""
+    ) -> str:
+        """A statement Lean rejected -> one corrected attempt.
+
+        The only feedback loop formalisation has. Everything else in this
+        class is asked once and never told whether it worked.
+        """
+        return strip_fence(
+            self._ask(
+                REPAIR_PROMPT.format(
+                    goal=goal, statement=statement, errors=errors[:1500], hints=hints
+                )
+            )
+        )
 
     def sketch(self, goal: str) -> str:
         """An informal proof, used only as context for the formal one."""

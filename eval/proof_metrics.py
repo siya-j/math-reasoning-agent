@@ -64,7 +64,11 @@ class ProofResult:
 
 
 def classify(run: ProofRun) -> ProofOutcome:
-    if not run.statement.strip():
+    # A statement Lean cannot elaborate is a FORMALISATION failure, not a
+    # proving failure. Counting it as "not proved" credited the formalizer
+    # with a success it did not have and blamed the prover for a proof that
+    # could never have existed.
+    if not run.statement.strip() or not run.statement_ok:
         return ProofOutcome.NOT_FORMALIZED
     return ProofOutcome.PROVED if run.proved else ProofOutcome.NOT_PROVED
 

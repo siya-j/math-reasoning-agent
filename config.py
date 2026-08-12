@@ -83,6 +83,13 @@ MAX_AGENT_SEARCHES = int(os.getenv("MRA_MAX_AGENT_SEARCHES", "8"))
 # it indefinitely. This is a nudge enforced in code, not asked for in prose.
 MAX_CONSECUTIVE_SEARCHES = int(os.getenv("MRA_MAX_CONSECUTIVE_SEARCHES", "3"))
 
+# Compile the STATEMENT with `sorry` before proving it, and repair it once if
+# Lean cannot make sense of it. Measured on lin-vector-space-basis: the
+# formalizer wrote `Basis`, which current Mathlib calls `Module.Basis`, so no
+# proof could ever have compiled — and the run still reported a formalisation
+# rate of 100%. Costs one Lean invocation per goal.
+CHECK_STATEMENT = os.getenv("MRA_CHECK_STATEMENT", "1") not in ("0", "false", "")
+
 # Retrieval can be turned off to attribute its contribution in an ablation.
 RETRIEVAL_ENABLED = os.getenv("MRA_RETRIEVAL", "1") not in ("0", "false", "")
 

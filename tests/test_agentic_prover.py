@@ -8,6 +8,8 @@ The load-bearing test is `test_prose_alone_never_establishes_a_proof`. An
 agent that says it is finished must not be believed.
 """
 
+import pytest
+
 import config
 from domain.proof import ProofStage
 from domain.verdict import Verdict, VerificationStatus as S
@@ -27,6 +29,16 @@ class Formalizer:
 
     def statement(self, goal):
         return self._statement
+
+
+@pytest.fixture(autouse=True)
+def _no_statement_check(monkeypatch):
+    """These tests are about the agent loop, not the statement pre-flight.
+
+    Also keeps the suite honest: without this the pre-flight calls the real
+    `run_lean`, so the tests would pass only on a machine with no Lean.
+    """
+    monkeypatch.setattr(config, "CHECK_STATEMENT", False)
 
 
 class Search:
