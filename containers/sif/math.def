@@ -1,0 +1,114 @@
+Bootstrap: docker
+From: debian:stable-slim
+
+# Runtime image for the math agent: Lean 4 + Mathlib for formal proof, SymPy
+# for symbolic computation. Built from the REPO ROOT — %files paths below are
+# repo-relative (blueprint gotcha 13).
+#
+#   apptainer build containers/sif/math.sif containers/sif/math.def
+#   apptainer test  containers/sif/math.sif
+#
+# TWO THINGS THAT DRIVE EVERY CHOICE HERE
+# ---------------------------------------
+# 1. There is no network at runtime (blueprint §7.3). Mathlib's compiled
+#    .olean cache must therefore be fetched and built in %post, where network
+#    IS available. Skipping it does not fail the build — it moves a ~40 minute
+#    compile into the first proof the agent attempts, per call.
+# 2. Only /workspace is writable (gotcha 11). Lean writes alongside its input,
+#    so the .lean file is written into the workspace and compiled from there
+#    with `lake env lean`, which is the only way `import Mathlib` resolves.
+
+%labels
+    Runtime math
+    Version 0.1.0
+    Description Lean 4 + Mathlib formal proof and SymPy symbolic computation
+
+%files
+    subagents/math/scripts /app/aura_framework/subagents/math/scripts
+    domain /app/aura_framework/subagents/math/scripts/domain
+    verifiers /app/aura_framework/subagents/math/scripts/verifiers
+
+%post
+    set -eux
+
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        ca-certificates curl git build-essential
+    rm -rf /var/lib/apt/lists/*
+
+    # --- Python: SymPy for the op worker -------------------------------
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="/root/.local/bin:$PATH"
+    uv venv /opt/python
+    VIRTUAL_ENV=/opt/python uv pip install "sympy>=1.12" "mpmath>=1.3"
+
+    # --- Lean toolchain -------------------------------------------------
+    export ELAN_HOME=/opt/elan
+    curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+        -o /tmp/elan-init.sh
+    sh /tmp/elan-init.sh -y --no-modify-path --default-toolchain none
+    export PATH="$ELAN_HOME/bin:$PATH"
+
+    # --- A Lake project that depends on Mathlib -------------------------
+    # `lake env lean` from inside this project is the ONLY way a bare
+    # `import Mathlib` resolves; a plain `lean file.lean` cannot see it.
+    mkdir -p /opt/lean-workspace
+    cd /opt/lean-workspace
+    cat > lakefile.toml <<'LAKEFILE'
+name = "mra"
+defaultTargets = ["Mra"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+
+[[lean_lib]]
+name = "Mra"
+LAKEFILE
+    mkdir -p Mra
+    echo 'import Mathlib' > Mra.lean
+
+    # Pin the toolchain Mathlib expects, then let elan install exactly that.
+    lake update
+    elan toolchain install "$(cat lean-toolchain)"
+    elan default "$(cat lean-toolchain)"
+
+    # The expensive, network-bound step. Prebuilt .oleans, not a source build.
+    lake exe cache get
+    lake build
+
+    # --- tidy ------------------------------------------------------------
+    find /opt -name '__pycache__' -type d -prune -exec rm -rf {} + || true
+    rm -rf /root/.cache /tmp/elan-init.sh
+    mkdir -p /opt/aura/data
+    chmod -R a+rX /opt /app
+
+%environment
+    export PATH="/opt/python/bin:/opt/elan/bin:$PATH"
+    export ELAN_HOME=/opt/elan
+    export LEAN_WORKSPACE=/opt/lean-workspace
+    export AURA_DATA_DIR=/opt/aura/data
+    export PYTHONPATH="/app/aura_framework/subagents/math/scripts:$PYTHONPATH"
+    export MPLBACKEND=Agg
+
+%runscript
+    exec "$@"
+
+%test
+    set -eux
+
+    # SymPy, and the op worker end to end through its real entry point.
+    /opt/python/bin/python -c "import sympy; print('sympy', sympy.__version__)"
+    echo '{"lhs": "7919"}' | /opt/python/bin/python \
+        -m math_worker check_primality | grep -q '"status": "true"'
+    echo '{"lhs": "561"}' | /opt/python/bin/python \
+        -m math_worker check_primality | grep -q '"status": "false"'
+
+    # Lean, and Mathlib actually resolving — the assertion that matters. A
+    # green build with an unresolvable import is the failure this catches.
+    export PATH="/opt/elan/bin:$PATH"
+    cd /opt/lean-workspace
+    lean --version
+    printf 'import Mathlib\ntheorem mra_smoke : 2 + 2 = 4 := by norm_num\n' \
+        > /tmp/smoke.lean
+    lake env lean /tmp/smoke.lean
