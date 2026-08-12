@@ -30,20 +30,20 @@ from llm.reviewer import Reviewer  # noqa: E402
 from pipeline.proving import prove  # noqa: E402
 from verifiers.lean_runner import lean_is_available  # noqa: E402
 
-OUT = Path(__file__).parent.parent / "eval" / "last_proof_run.json"
+DEFAULT_OUT = Path(__file__).parent.parent / "eval" / "last_proof_run.json"
 CONSECUTIVE_ERROR_LIMIT = 3
 
 
-def completed(resume: bool):
+def completed(resume: bool, out: Path):
     """Goals already DECIDED in the previous run.
 
     Errors are deliberately excluded: a goal that never reached the model was
     not decided, and skipping it would bake a quota outage into the results.
     """
-    if not resume or not OUT.exists():
+    if not resume or not out.exists():
         return []
     try:
-        saved = json.loads(OUT.read_text())
+        saved = json.loads(out.read_text())
     except (ValueError, OSError):
         return []
 
@@ -71,9 +71,9 @@ def completed(resume: bool):
     return carried
 
 
-def save(results, summary) -> None:
+def save(results, summary, out: Path) -> None:
     """Write after every goal, so an interrupted run loses nothing."""
-    OUT.write_text(
+    out.write_text(
         json.dumps(
             {
                 "summary": summary,
@@ -101,6 +101,10 @@ def main() -> int:
     )
     parser.add_argument("--limit", type=int)
     parser.add_argument(
+        "--out",
+        help="where to write the results. Each run OVERWRITES the default, so comparing two configurations needs a separate file for each.",
+    )
+    parser.add_argument(
         "--depth", type=int, default=None, help="override config.LEMMA_DEPTH"
     )
     parser.add_argument(
@@ -114,6 +118,8 @@ def main() -> int:
         help="skip goals already decided in the last run (not errors)",
     )
     args = parser.parse_args()
+    out = Path(args.out) if args.out else DEFAULT_OUT
+    out.parent.mkdir(parents=True, exist_ok=True)
 
     goals = load_goals()
     if args.tier:
@@ -147,7 +153,7 @@ def main() -> int:
     # A goal costs minutes and dozens of calls. Losing completed work to a
     # rate limit on a later goal is pure waste, so decided outcomes carry over
     # and only errors are retried.
-    results: list[ProofResult] = list(completed(args.resume))
+    results: list[ProofResult] = list(completed(args.resume, out))
     done = {r.goal_id for r in results}
     if done:
         print(f"resuming: {len(done)} goal(s) already decided\n")
@@ -191,7 +197,7 @@ def main() -> int:
         consecutive_errors = 0
         result = result_from(goal, run)
         results.append(result)
-        save(results, summarize(results))   # survive an abort on a later goal
+        save(results, summarize(results), out)  # survive an abort on a later goal
 
         mark = {
             ProofOutcome.PROVED: "PROVED",
@@ -205,8 +211,8 @@ def main() -> int:
     print()
     print(render(summary))
 
-    save(results, summary)
-    print(f"\nSaved to {OUT}")
+    save(results, summary, out)
+    print(f"\nSaved to {out}")
 
     # Unlike the verification gate, failing to prove is not a regression —
     # it is the expected state of the art. Only errors are a problem.
