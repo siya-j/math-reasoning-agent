@@ -59,6 +59,29 @@ def full_statement(workdir, statement):
     return "\n\n".join(lemmas + [statement]) if lemmas else statement
 
 
+def normalise(proof):
+    """A proof's identity for repeat detection: whitespace is not a change.
+
+    Deliberately crude. Reformatting the same tactic block is the same attempt;
+    an agent that changes a variable name HAS changed something and is allowed
+    to spend a compile finding out it did not help.
+    """
+    return " ".join((proof or "").split())
+
+
+def already_tried(workdir, proof, statement):
+    """The earlier rejected attempt identical to this one, or {}."""
+    target = normalise(proof)
+    for record in log.records(workdir, log.PROOF):
+        if record.get("status") == log.TRUE:
+            continue
+        if record.get("statement", "").strip() != (statement or "").strip():
+            continue
+        if normalise(record.get("proof")) == target:
+            return record
+    return {}
+
+
 def _premises(workdir):
     return [Premise(**entry) for entry in log.read(workdir)["premises"]]
 
@@ -103,7 +126,31 @@ async def check_statement(workdir, statement, run_lean):
 
 
 async def try_proof(workdir, statement, proof, run_lean):
-    """Compile a candidate proof of the goal and report exactly what Lean said."""
+    """Compile a candidate proof of the goal and report exactly what Lean said.
+
+    An attempt already rejected is refused WITHOUT compiling. The failure this
+    guards is measured: the stateless baseline emitted byte-identical proposals
+    (attempts 2/3 identical, 4/5/6 identical), and a conversation is supposed to
+    prevent that rather than being trusted to. Twenty seconds spent re-learning
+    a known answer is twenty seconds not spent on a new idea.
+    """
+    repeat = already_tried(workdir, proof, statement)
+    if repeat:
+        return {
+            "ok": False,
+            "error": "duplicate_attempt",
+            "outputs": {"accepted": False},
+            "message": (
+                "REFUSED: this exact proof was already submitted and rejected, "
+                "so it was not compiled again. Lean said:\n"
+                + (repeat.get("detail", "") or "")[:600]
+                + "\n\nChange the approach rather than the formatting. If you "
+                "are out of ideas for the whole proof, call `proof_state` to see "
+                "what you have, then decompose with `try_skeleton` and "
+                "`try_lemma`."
+            ),
+        }
+
     source = build_source(full_statement(workdir, statement), proof)
     result = await run_lean(source)
     verdict = interpret(result, statement)

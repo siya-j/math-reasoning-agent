@@ -11,7 +11,7 @@ from langchain.tools import ToolRuntime
 from langchain_core.tools import tool
 
 from math_v2.context import MathContext
-from math_v2.core import budget, log, proving
+from math_v2.core import budget, log, progress, proving
 from math_v2.tools._util import lean_runner
 
 
@@ -43,6 +43,25 @@ def _no_goal():
             "theorem signature first."
         ),
     }
+
+
+@tool
+async def proof_state(runtime: ToolRuntime[MathContext]) -> dict:
+    """Review what you have established so far, before deciding what to do next.
+
+    Costs nothing — it reads the record of what already ran and compiles
+    nothing. Call it when a proof has been rejected more than once, when you
+    are about to change approach, or when you have proved helper lemmas and
+    want to assemble them.
+
+    It reports the goal, the auxiliary lemmas you have proved and can cite by
+    name, the steps still left as `sorry` in your last working decomposition,
+    the attempts the compiler rejected and why, any symbolic results, and what
+    the budget has spent.
+    """
+    workdir = runtime.context.workdir
+    state = progress.snapshot(workdir)
+    return {"ok": True, "outputs": state, "message": progress.render(state)}
 
 
 @tool

@@ -22,6 +22,7 @@ Not re-implemented, because deepagents supplies them through the backend:
 from math_v2.tools.control import finish
 from math_v2.tools.proving import (
     check_statement,
+    proof_state,
     try_lemma,
     try_proof,
     try_skeleton,
@@ -39,6 +40,7 @@ PROOF_TOOLS = [
     try_proof,
     try_lemma,
     try_skeleton,
+    proof_state,
 ]
 
 TAGS = {
@@ -57,6 +59,7 @@ TAGS = {
     "try_proof": ["lean", "proof", "compile"],
     "try_lemma": ["lean", "lemma", "decomposition"],
     "try_skeleton": ["lean", "decomposition", "plan"],
+    "proof_state": ["progress", "review", "replan"],
     "finish": ["report", "verdict"],
 }
 
@@ -79,6 +82,10 @@ def _tag():
                   tags={n: TAGS[n] for n in
                         ("check_statement", "try_standard_tactics", "try_proof",
                          "try_lemma", "try_skeleton")})
+        # Reads the record and compiles nothing, so it is in-process like the
+        # other tools that touch no compute.
+        tag_tools([proof_state], category="proving", sif=IN_PROCESS, runtime=None,
+                  tags={"proof_state": TAGS["proof_state"]})
         # Retrieval is HTTP on the orchestrator: no SIF, no runtime.
         tag_tools([search_mathlib], category="retrieval", sif=IN_PROCESS,
                   runtime=None, tags={"search_mathlib": TAGS["search_mathlib"]})

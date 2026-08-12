@@ -71,7 +71,7 @@ def test_every_tool_is_registered_once():
     tools = create_math_v2_tools()
     names = [t.name for t in tools]
     assert len(names) == len(set(names)), "a tool is registered twice"
-    assert len(tools) == 16
+    assert len(tools) == 17
 
 
 def test_finish_is_present_because_it_is_the_guard():
@@ -79,11 +79,11 @@ def test_finish_is_present_because_it_is_the_guard():
     assert finish in create_math_v2_tools()
 
 
-def test_the_nine_symbolic_and_five_proving_tools_are_all_there():
+def test_the_symbolic_and_proving_tools_are_all_there():
     assert len(SYMBOLIC_TOOLS) == 9
     assert {t.name for t in PROOF_TOOLS} == {
         "check_statement", "search_mathlib", "try_standard_tactics",
-        "try_proof", "try_lemma", "try_skeleton",
+        "try_proof", "try_lemma", "try_skeleton", "proof_state",
     }
 
 

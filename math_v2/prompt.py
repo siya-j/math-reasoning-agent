@@ -50,20 +50,57 @@ For a COMPUTATIONAL claim:
 2. Report the verdict. If it is FALSE, say so plainly and stop.
 
 For a claim needing PROOF:
-1. `check_statement` first. A signature Lean cannot elaborate can never be
-   proved, and finding that out costs one compile instead of eight.
-2. `search_mathlib` before writing anything. Most such goals are already a
+
+1. UNDERSTAND IT FIRST, with the computation tools. Before formalising
+   anything, spend a little effort finding out what is actually going on. This
+   is cheap — milliseconds against twenty seconds for a compile — and it is
+   what a mathematician does before writing anything down:
+
+   - TEST SMALL CASES. A claim about all n is worth checking at n = 2, 3, 5
+     with `check_numeric` or `check_primality`. If a small case fails, the
+     claim is false and no proof exists: stop and report it. If they all hold,
+     you now know the shape of the argument.
+   - FIND A WITNESS. An existential goal needs an actual object. A computer
+     algebra system produces one instantly, where Lean checks proofs but does
+     not search for numbers. A witness turns a search into a citation.
+   - FACTOR, EXPAND, SIMPLIFY. `check_factorization`, `check_series` and
+     `check_equality` tell you the normal form the goal should reduce to, so
+     you can aim a tactic at it instead of guessing.
+   - LOOK FOR A COUNTEREXAMPLE. `check_inequality` reports one when it exists.
+     Twenty seconds spent refuting a claim is far better spent than eight
+     compilations failing to prove it.
+
+   A symbolic result is EVIDENCE, never a proof: `check_numeric` agreeing that
+   2 + 2 = 4 does not prove a theorem about it. Use it to decide what to prove
+   and how, then prove it in Lean.
+
+2. `check_statement`. A signature Lean cannot elaborate can never be proved,
+   and finding that out costs one compile instead of eight.
+3. `search_mathlib` before writing anything. Most such goals are already a
    theorem in the library, and citing one beats reconstructing it.
-3. `try_standard_tactics` early — one compile, roughly thirty candidates.
-4. Write a proof with `try_proof`. When it fails, READ THE GOAL STATE. It says
+4. `try_standard_tactics` early — one compile, roughly thirty candidates.
+5. Write a proof with `try_proof`. When it fails, READ THE GOAL STATE. It says
    exactly what remains. Change approach in response to it rather than
-   resubmitting a variation of the same proof.
-5. If the whole proof resists you, DECOMPOSE rather than trying harder. Sketch
-   it with `try_skeleton`, leaving each unproved step as `sorry`. A skeleton
-   that typechecks has proved the shape of the argument is right and turns one
-   hard goal into several independent easy ones. Prove those with `try_lemma`,
-   then assemble. Nobody writes a long Mathlib proof in one attempt.
-6. `finish` when you are done, whatever the outcome.
+   resubmitting a variation of the same proof — an identical resubmission is
+   refused without compiling.
+6. If the whole proof resists you, DECOMPOSE rather than trying harder.
+
+   What the computations in step 1 told you is where the intermediate claims
+   come from. A special case that held, a factorisation that came out, a bound
+   that checked — each is a candidate auxiliary lemma, and each is smaller than
+   the goal.
+
+   Sketch the argument with `try_skeleton`, leaving each unproved step as
+   `sorry`. A skeleton that typechecks has proved the shape of the argument is
+   right and turns one hard goal into several independent easy ones. Prove
+   those with `try_lemma` — a kept lemma is citable by name in everything you
+   write afterwards — then assemble the whole proof with `try_proof`. Nobody
+   writes a long Mathlib proof in one attempt.
+
+7. STUCK? Call `proof_state`. It costs nothing and reports what you have
+   proved, what was rejected and why, and which steps are still open. Use it
+   before changing approach, and before assembling lemmas into a final proof.
+8. `finish` when you are done, whatever the outcome.
 
 ## Lean conventions
 
@@ -136,6 +173,14 @@ looks like a verified one.
   search_mathlib("Basis") -> Loogle suggests Module.Basis
   check_statement with the corrected name -> elaborates
   ... then prove as above
+
+"Every even number between 2 and 100 is a sum of two primes."
+  check_primality on a few cases, and check_numeric on 4 = 2 + 2, 6 = 3 + 3
+      -> the pattern holds and you know which decomposition to state
+  check_statement -> elaborates
+  try_skeleton with a `have` per range -> typechecks
+  try_lemma on each -> kept
+  try_proof citing them -> ACCEPTED
 
 "For every n there is a prime p > n."
   search_mathlib("exists_infinite_primes") -> Nat.exists_infinite_primes,
