@@ -40,6 +40,10 @@ _IDENTIFIER = re.compile(r"\b[A-Z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_']+)*")
 # Names that appear in almost every statement and retrieve nothing useful.
 _TOO_COMMON = frozenset({"Type", "Prop", "Sort", "Set", "Nat", "Int", "Real"})
 
+# Loogle answers an unknown identifier with up to forty near-matches. Enough
+# to correct a name, few enough not to bury the prompt.
+_SUGGESTION_LIMIT = 10
+
 
 @dataclass(frozen=True)
 class Premise:
@@ -249,18 +253,61 @@ class LoogleSearch:
 
     def search(self, query: str, limit: int | None = None) -> list[Premise]:
         """Declarations matching `query`, or [] if anything at all goes wrong."""
+        return self.search_with_suggestions(query, limit)[0]
+
+    def search_with_suggestions(
+        self, query: str, limit: int | None = None, _retry: bool = True
+    ) -> tuple[list[Premise], list[str]]:
+        """Premises, plus the names Loogle proposes when a query does not parse.
+
+        WHY THE SUGGESTIONS MATTER
+        --------------------------
+        A bare identifier is a CONSTANT lookup. Loogle rejects it outright if
+        no such constant exists, and a name FRAGMENT must be quoted:
+
+            ?q=exists_infinite_primes
+              {"error": "unknown identifier 'exists_infinite_primes'",
+               "suggestions": ["\\"exists_infinite_primes\\"",
+                               "Nat.exists_infinite_primes"]}
+
+            ?q="exists_infinite_primes"
+              Nat.exists_infinite_primes (n : ℕ) : ∃ p, n ≤ p ∧ Nat.Prime p
+
+        This method previously returned [] for the first form and discarded
+        the suggestions. Measured cost on `num-primes-strictly-above`: 19 of
+        20 searches returned nothing, the agent never compiled once, and
+        Loogle had named the right lemma every single time.
+
+        So an unparseable query is retried with Loogle's own first suggestion,
+        and the remaining suggestions are handed back for the model to read —
+        `Basis` is unknown in current Mathlib, and the suggestion list is
+        where `Module.Basis` is written down.
+        """
         limit = limit or config.PREMISES_PER_QUERY
         if not query.strip():
-            return []
+            return [], []
 
         url = f"{self._url}?q={urllib.parse.quote(query)}"
         try:
             payload = json.loads(self._fetch(url))
         except (urllib.error.URLError, OSError, ValueError, TimeoutError):
-            return []
+            return [], []
 
-        if not isinstance(payload, dict) or "error" in payload:
-            return []
+        if not isinstance(payload, dict):
+            return [], []
+
+        if "error" in payload:
+            raw = payload.get("suggestions") or []
+            suggestions = [s for s in raw if isinstance(s, str)][:_SUGGESTION_LIMIT]
+            # One retry, never a chain: a suggestion that also fails to parse
+            # would otherwise walk the library one name at a time.
+            if suggestions and _retry:
+                found, _ = self.search_with_suggestions(
+                    suggestions[0], limit, _retry=False
+                )
+                if found:
+                    return found, suggestions[1:]
+            return [], suggestions
 
         return [
             Premise(
@@ -271,7 +318,7 @@ class LoogleSearch:
             )
             for hit in payload.get("hits", [])[:limit]
             if hit.get("name")
-        ]
+        ], []
 
     def premises_for(self, statement: str) -> list[Premise]:
         """Look up every promising identifier in a formal statement.

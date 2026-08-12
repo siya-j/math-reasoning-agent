@@ -6,6 +6,7 @@ Retrieval must degrade quietly: every failure path returns [], never raises.
 """
 
 import json
+import urllib.parse
 
 from llm.formalizer import Formalizer
 from retrieval.loogle import (
@@ -367,3 +368,58 @@ def test_search_failing_does_not_break_proof_generation():
     formalizer = Formalizer(model=model, search=exploding(OSError("down")))
 
     assert formalizer.proof("theorem t : Nat.Prime 2", "sketch") == "by simp"
+
+
+# ------------------------------------------------ Loogle's own corrections
+def _replies(*payloads):
+    """A fetch that returns each payload in turn, recording the queries."""
+    seen = []
+    queue = list(payloads)
+
+    def fetch(url):
+        seen.append(urllib.parse.unquote(url.split("?q=", 1)[1]))
+        return json.dumps(queue.pop(0))
+
+    return fetch, seen
+
+
+def test_an_unparseable_query_is_retried_with_loogles_suggestion():
+    """Measured: 19 of 20 searches returned nothing and Loogle knew the answer.
+
+    A bare identifier is a CONSTANT lookup, so a name FRAGMENT must be
+    quoted. Loogle says so in the error, and we used to throw it away.
+    """
+    fetch, seen = _replies(
+        {"error": "unknown identifier 'exists_infinite_primes'",
+         "suggestions": ['"exists_infinite_primes"', "Nat.exists_infinite_primes"]},
+        {"count": 1, "hits": [{"name": "Nat.exists_infinite_primes",
+                               "type": " (n : ℕ) : ∃ p, n ≤ p ∧ Nat.Prime p",
+                               "module": "Mathlib.Data.Nat.Prime.Infinite"}]},
+    )
+    found = LoogleSearch(fetch=fetch).search("exists_infinite_primes")
+
+    assert [p.name for p in found] == ["Nat.exists_infinite_primes"]
+    assert seen[1] == '"exists_infinite_primes"', "the suggestion was not used"
+
+
+def test_the_remaining_suggestions_are_handed_back():
+    """`Basis` no longer exists; `Module.Basis` is in the suggestion list."""
+    fetch, _ = _replies(
+        {"error": "unknown identifier 'Basis'",
+         "suggestions": ['"Basis"', "Module.Basis", "PowerBasis.basis"]},
+        {"count": 0, "hits": []},
+    )
+    found, suggestions = LoogleSearch(fetch=fetch).search_with_suggestions("Basis")
+
+    assert found == []
+    assert "Module.Basis" in suggestions
+
+
+def test_a_failing_suggestion_is_not_chased_further():
+    """Otherwise a bad name walks the library one suggestion at a time."""
+    fetch, seen = _replies(
+        {"error": "unknown identifier 'a'", "suggestions": ["b"]},
+        {"error": "unknown identifier 'b'", "suggestions": ["c"]},
+    )
+    assert LoogleSearch(fetch=fetch).search("a") == []
+    assert len(seen) == 2, "the retry chained instead of stopping"

@@ -39,8 +39,11 @@ class Search:
         ]
 
     def search(self, query, limit=None):
+        return self.search_with_suggestions(query, limit)[0]
+
+    def search_with_suggestions(self, query, limit=None):
         self.queries.append(query)
-        return list(self._results)
+        return list(self._results), []
 
 
 def scripted_agent(script):

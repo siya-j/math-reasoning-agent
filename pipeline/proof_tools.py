@@ -199,10 +199,15 @@ def make_proof_tools(log: ProofLog, check, search=None) -> list:
         or signature. Search as often as you like; guessing a name that does
         not exist wastes a compile.
 
-        query: either a declaration name fragment, or a type pattern.
-            Prefix with `|- ` to find declarations whose CONCLUSION matches,
-            which is usually what closes a goal. Separate a hypothesis shape
-            and a conclusion with a comma to narrow further.
+        query: one of three forms, and the difference matters.
+            "fragment"    IN DOUBLE QUOTES — any declaration whose NAME
+                          contains that text. Use this when you are unsure of
+                          a name. An unquoted fragment is read as a full
+                          constant name and will simply not be found.
+            Full.Name     an exact constant, unquoted.
+            |- pattern    declarations whose CONCLUSION matches, which is
+                          usually what closes a goal. A hypothesis shape and
+                          a conclusion may be separated by a comma.
         """
         stop = log.budget.spend(search=True)
         if stop:
@@ -212,7 +217,9 @@ def make_proof_tools(log: ProofLog, check, search=None) -> list:
         if search is None:
             return "Search is unavailable. Rely on names you are certain of."
 
-        found = search.search(query, limit=config.PREMISES_PER_QUERY)
+        found, suggestions = search.search_with_suggestions(
+            query, limit=config.PREMISES_PER_QUERY
+        )
         for premise in found:
             if premise.name not in {p.name for p in log.premises}:
                 log.premises.append(premise)
@@ -222,9 +229,20 @@ def make_proof_tools(log: ProofLog, check, search=None) -> list:
         # the agent ignored it", and those call for opposite fixes.
         names = ", ".join(p.name for p in found[:8]) if found else "nothing"
         log.trace.append(f"search: {query!r} -> {names}")
+
+        # Loogle's own near-matches. Mathlib renames things — `Basis` is now
+        # `Module.Basis` — and this list is where that is written down.
+        hint = (
+            f"\n\nLoogle also knows these similar names: {', '.join(suggestions)}"
+            if suggestions
+            else ""
+        )
         if not found:
-            return f"No declarations match {query!r}. Try a broader pattern."
-        return render_premises(found)
+            return (
+                f"No declarations match {query!r}. Quote a name FRAGMENT "
+                f'("prime_gt"); leave a full constant name unquoted.{hint}'
+            )
+        return render_premises(found) + hint
 
     def try_proof(proof: str) -> str:
         """Compile a candidate proof and report exactly what Lean said.

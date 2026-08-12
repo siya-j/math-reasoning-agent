@@ -13,7 +13,7 @@ import pytest
 from domain.verdict import VerificationStatus as S
 from domain.verification import VerificationKind, VerificationRequest
 from verifiers.lean_runner import LeanOutcome, LeanResult, lean_is_available
-from verifiers.lean_verifier import LeanVerifier, build_source
+from verifiers.lean_verifier import LeanVerifier, build_source, rename_goal
 
 STATEMENT = "theorem infinitude_of_primes : ∀ n : ℕ, ∃ p, n < p ∧ Nat.Prime p"
 PROOF = "exact Nat.exists_infinite_primes"
@@ -271,7 +271,8 @@ def test_sympy_still_handles_its_own_requests():
 def test_source_includes_mathlib_and_the_theorem():
     source = build_source(STATEMENT, PROOF)
     assert "import Mathlib" in source
-    assert STATEMENT in source
+    # The declared name is replaced (see rename_goal); the rest is verbatim.
+    assert rename_goal(STATEMENT) in source
     assert PROOF in source
 
 
@@ -297,3 +298,32 @@ def test_end_to_end_against_a_real_lean_installation():
 
     placeholder = run_lean("theorem lazy : True := by sorry\n")
     assert placeholder.outcome is LeanOutcome.INCOMPLETE
+
+
+# --------------------------------------------- the goal must not shadow Mathlib
+def test_the_goal_is_renamed_so_it_cannot_collide_with_the_library():
+    """Measured: `theorem irrational_sqrt_two` made its own proof impossible.
+
+        error: `irrational_sqrt_two` has already been declared
+
+    The collision is at DECLARATION, so no proof can work around it — and a
+    GOOD formalizer hits this more often, because the right name for a known
+    theorem is the library's name.
+    """
+    source = build_source(
+        "theorem irrational_sqrt_two : Irrational (Real.sqrt 2)",
+        "exact irrational_sqrt_two",
+    )
+    assert "theorem mra_goal :" in source
+    assert "exact irrational_sqrt_two" in source, "the PROOF must not be rewritten"
+
+
+def test_renaming_keeps_binders_and_a_trailing_assignment():
+    assert rename_goal("lemma foo (n : Nat) : n + 0 = n") == (
+        "lemma mra_goal (n : Nat) : n + 0 = n"
+    )
+    assert rename_goal("theorem t : True :=").endswith(":=")
+
+
+def test_renaming_leaves_a_statement_with_no_declaration_alone():
+    assert rename_goal("example : True") == "example : True"

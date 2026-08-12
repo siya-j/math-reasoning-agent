@@ -27,6 +27,8 @@ honestly return UNKNOWN.
 
 from __future__ import annotations
 
+import re
+
 from domain.verdict import Verdict, VerificationStatus
 from domain.verification import VerificationKind, VerificationRequest
 from verifiers.base import Verifier
@@ -37,9 +39,40 @@ from verifiers.lean_runner import LeanOutcome, LeanResult, run_lean
 DEFAULT_PREAMBLE = "import Mathlib\n"
 
 
+GOAL_NAME = "mra_goal"
+
+# `theorem <name>` / `lemma <name>` at the very start of the statement.
+_DECLARED_NAME = re.compile(r"^(\s*(?:theorem|lemma)\s+)([A-Za-z_][\w'.]*)")
+
+
+def rename_goal(statement: str, name: str = GOAL_NAME) -> str:
+    """Give the goal a name that cannot collide with the library.
+
+    A formalizer asked for "the square root of 2 is irrational" produces:
+
+        theorem irrational_sqrt_two : Irrational (Real.sqrt 2)
+
+    which is the name Mathlib already uses. The proof `exact
+    irrational_sqrt_two` is then correct AND impossible:
+
+        error: `irrational_sqrt_two` has already been declared
+
+    The collision is at DECLARATION, so no proof can work around it — the
+    agent tried `_root_.` and was defeated by a problem upstream of it. And
+    the better the formalizer names things, the more often this fires,
+    because a good name for a known theorem IS the library's name. It hits
+    precisely the in-mathlib and near-mathlib tiers.
+
+    Renaming here rather than at formalisation keeps every path covered:
+    both provers, the tactic ladder and the skeleton all build files through
+    this function.
+    """
+    return _DECLARED_NAME.sub(rf"\g<1>{name}", statement, count=1)
+
+
 def build_source(statement: str, proof: str, preamble: str = DEFAULT_PREAMBLE) -> str:
     """Assemble a complete Lean file from a theorem and its proof."""
-    statement = statement.strip()
+    statement = rename_goal(statement.strip())
     proof = proof.strip()
 
     # A bare tactic ("exact foo") needs a `by` block; a term proof or an
