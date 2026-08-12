@@ -124,6 +124,8 @@ def prove(
         or Budget(
             max_tool_calls=config.MAX_AGENT_STEPS,
             max_lean_calls=config.MAX_AGENT_LEAN_CALLS,
+            max_searches=config.MAX_AGENT_SEARCHES,
+            max_consecutive_searches=config.MAX_CONSECUTIVE_SEARCHES,
             max_seconds=config.MAX_AGENT_SECONDS,
         ),
     )

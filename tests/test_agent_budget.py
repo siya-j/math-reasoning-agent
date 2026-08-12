@@ -9,6 +9,8 @@ that matters. A polite request to stop is not a guarantee; the raise is.
 
 import pytest
 
+import config
+
 from domain.verdict import Verdict, VerificationStatus as S
 from pipeline.agentic_prover import prove
 from pipeline.proof_tools import Budget, BudgetExhausted, ProofLog, make_proof_tools
@@ -89,6 +91,55 @@ def test_lean_calls_are_budgeted_separately():
     assert not tools["search_mathlib"]("anything").startswith("STOP")
 
 
+# -------------------------------------------------- search cannot starve proof
+def test_searching_cannot_consume_the_whole_tool_budget():
+    """Measured: 20 tool calls spent on search, 0 compiles, nothing proved."""
+    log = ProofLog(
+        statement="theorem t : True",
+        budget=Budget(max_tool_calls=20, max_searches=3,
+                      max_consecutive_searches=99, grace=99),
+    )
+    tools = {t.__name__: t for t in make_proof_tools(log, rejects)}
+
+    for _ in range(3):
+        assert not tools["search_mathlib"]("q").startswith("ENOUGH")
+    assert tools["search_mathlib"]("q").startswith("ENOUGH")
+
+    # the run is NOT over — the compilations were never touched
+    assert not tools["try_proof"]("a proof").startswith("STOP")
+
+
+def test_a_redirect_is_still_charged_so_it_cannot_loop_forever():
+    log = ProofLog(
+        statement="theorem t : True",
+        budget=Budget(max_tool_calls=6, max_searches=1, grace=99),
+    )
+    tools = {t.__name__: t for t in make_proof_tools(log, rejects)}
+
+    for _ in range(6):
+        tools["search_mathlib"]("q")
+    assert tools["search_mathlib"]("q").startswith("STOP"), (
+        "redirects were free, so an agent that only searches never terminates"
+    )
+
+
+def test_compiling_resets_the_consecutive_search_count():
+    """The cap is on searching WITHOUT compiling, not on searching."""
+    log = ProofLog(
+        statement="theorem t : True",
+        budget=Budget(max_tool_calls=99, max_searches=99,
+                      max_consecutive_searches=2, grace=99),
+    )
+    tools = {t.__name__: t for t in make_proof_tools(log, rejects)}
+
+    tools["search_mathlib"]("q")
+    tools["search_mathlib"]("q")
+    assert tools["search_mathlib"]("q").startswith("ENOUGH")
+
+    tools["try_proof"]("something")
+    assert not tools["search_mathlib"]("q").startswith("ENOUGH")
+
+
 def test_the_time_budget_is_respected():
     log = ProofLog(
         statement="theorem t : True",
@@ -109,6 +160,21 @@ def test_the_stop_message_names_the_limit_that_was_hit():
 
     budget = Budget(max_seconds=-1, grace=99)
     assert "time budget" in budget.spend()
+
+
+def test_a_compilation_is_refused_when_too_little_time_remains():
+    """A compile begun near the deadline still runs a full LEAN_TIMEOUT past it."""
+    budget = Budget(max_seconds=config.LEAN_TIMEOUT / 2, grace=99)
+    assert budget.spend(lean=True).startswith("STOP")
+    assert not budget.spend(search=True), "cheap work was blocked too"
+
+
+def test_the_clock_gets_less_grace_than_the_other_budgets():
+    """Each graced round trip is spent in the currency that ran out."""
+    budget = Budget(max_seconds=-1, grace=3)
+    assert budget.spend().startswith("STOP")
+    with pytest.raises(BudgetExhausted):
+        budget.spend()
 
 
 def test_grace_runs_out_and_then_it_raises():

@@ -71,6 +71,18 @@ MAX_AGENT_STEPS = int(os.getenv("MRA_MAX_AGENT_STEPS", "20"))
 MAX_AGENT_LEAN_CALLS = int(os.getenv("MRA_MAX_AGENT_LEAN", "8"))
 MAX_AGENT_SECONDS = float(os.getenv("MRA_MAX_AGENT_SECONDS", "300"))
 
+# Search needs its own ceiling, not just a share of the total. Measured on
+# near-mathlib: `num-primes-strictly-above` spent all 20 tool calls on search
+# and never compiled once. The run terminated correctly and proved nothing —
+# the bound worked, the allocation did not.
+MAX_AGENT_SEARCHES = int(os.getenv("MRA_MAX_AGENT_SEARCHES", "8"))
+
+# Searches allowed back-to-back before the agent must compile something. A
+# rejected compile returns the goal state, which is worth more than another
+# query; searching is also the cheap action, so an uncertain agent will prefer
+# it indefinitely. This is a nudge enforced in code, not asked for in prose.
+MAX_CONSECUTIVE_SEARCHES = int(os.getenv("MRA_MAX_CONSECUTIVE_SEARCHES", "3"))
+
 # Retrieval can be turned off to attribute its contribution in an ablation.
 RETRIEVAL_ENABLED = os.getenv("MRA_RETRIEVAL", "1") not in ("0", "false", "")
 

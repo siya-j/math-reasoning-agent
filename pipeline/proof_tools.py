@@ -59,11 +59,15 @@ class Budget:
 
     max_tool_calls: int = 20
     max_lean_calls: int = 8
+    max_searches: int = 8
+    max_consecutive_searches: int = 3
     max_seconds: float = 300.0
     started: float = field(default_factory=time.monotonic)
 
     tool_calls: int = 0
     lean_calls: int = 0
+    searches: int = 0
+    searches_since_compile: int = 0
     grace: int = 3          # tool calls allowed after the limit, then raise
     reason: str = ""
 
@@ -71,8 +75,12 @@ class Budget:
     def elapsed(self) -> float:
         return time.monotonic() - self.started
 
-    def _over(self, lean: bool) -> str:
-        """Which limit blocks THIS call, if any.
+    @property
+    def remaining(self) -> float:
+        return self.max_seconds - self.elapsed
+
+    def _over(self, lean: bool) -> tuple[str, str]:
+        """Which limit blocks THIS call: (kind, message). ("", "") to proceed.
 
         Each budget bounds only what it names. A spent compilation budget
         must not block a search — searches cost milliseconds where a compile
@@ -80,30 +88,74 @@ class Budget:
         `max_tool_calls` bounds everything.
         """
         if self.elapsed > self.max_seconds:
-            return f"time budget spent ({self.max_seconds:.0f}s)"
+            return "time", f"time budget spent ({self.max_seconds:.0f}s)"
         if self.tool_calls >= self.max_tool_calls:
-            return f"tool budget spent ({self.max_tool_calls} calls)"
-        if lean and self.lean_calls >= self.max_lean_calls:
-            return f"compilation budget spent ({self.max_lean_calls} compiles)"
+            return "tool", f"tool budget spent ({self.max_tool_calls} calls)"
+        if lean:
+            if self.lean_calls >= self.max_lean_calls:
+                return "lean", f"compilation budget spent ({self.max_lean_calls} compiles)"
+            # Refusing to START a compile that cannot finish inside the budget.
+            # Measured overshoot without this: 494s against a 300s budget,
+            # because a compile begun at 290s still runs a full LEAN_TIMEOUT.
+            if self.remaining < config.LEAN_TIMEOUT:
+                return "time", (
+                    f"time budget spent ({self.max_seconds:.0f}s) — too little "
+                    "left to finish a compilation"
+                )
+        return "", ""
+
+    def spend(self, *, lean: bool = False, search: bool = False) -> str:
+        """Charge one tool call. Returns a STOP/redirect message, or "".
+
+        Two kinds of message come back, and they mean different things:
+
+        STOP     the run is over; nothing useful is left to do.
+        ENOUGH   this particular tool is spent, but the run is not. The agent
+                 is pushed towards the work it has been avoiding.
+        """
+        kind, over = self._over(lean)
+        if over:
+            self.reason = over
+            # Grace exists so the agent can conclude cleanly rather than be
+            # cut off mid-thought. That reasoning does not apply to the clock:
+            # each graced round trip is spent in the very currency that ran
+            # out, which is how a 300s budget became 494s.
+            if kind == "time":
+                self.grace = min(self.grace, 1)
+            self.grace -= 1
+            if self.grace < 0:
+                raise BudgetExhausted(over)
+            return (
+                f"STOP: {over}. Do not call any more tools. If nothing has been "
+                "accepted, say so plainly and finish."
+            )
+
+        self.tool_calls += 1
+        if lean:
+            self.lean_calls += 1
+            self.searches_since_compile = 0
+        if search:
+            self.searches += 1
+            self.searches_since_compile += 1
+
+        # A redirect is charged like any other call, so an agent that only
+        # ever searches is still bounded by max_tool_calls.
+        if search:
+            left = self.max_lean_calls - self.lean_calls
+            if self.searches > self.max_searches:
+                return (
+                    f"ENOUGH SEARCHING: {self.max_searches} searches used and "
+                    f"nothing compiled yet. You have {left} compilation(s) left. "
+                    "Write a proof from what you already have."
+                )
+            if self.searches_since_compile > self.max_consecutive_searches:
+                return (
+                    f"ENOUGH SEARCHING: {self.searches_since_compile - 1} searches "
+                    "in a row without compiling. Compile something. A rejected "
+                    "attempt returns the goal state, which will tell you more "
+                    f"than another query. You have {left} compilation(s) left."
+                )
         return ""
-
-    def spend(self, *, lean: bool = False) -> str:
-        """Charge one tool call. Returns a STOP message, or "" to proceed."""
-        over = self._over(lean)
-        if not over:
-            self.tool_calls += 1
-            if lean:
-                self.lean_calls += 1
-            return ""
-
-        self.reason = over
-        self.grace -= 1
-        if self.grace < 0:
-            raise BudgetExhausted(over)
-        return (
-            f"STOP: {over}. Do not call any more tools. If nothing has been "
-            "accepted, say so plainly and finish."
-        )
 
 
 @dataclass
@@ -152,7 +204,7 @@ def make_proof_tools(log: ProofLog, check, search=None) -> list:
             which is usually what closes a goal. Separate a hypothesis shape
             and a conclusion with a comma to narrow further.
         """
-        stop = log.budget.spend()
+        stop = log.budget.spend(search=True)
         if stop:
             return stop
 
@@ -165,7 +217,11 @@ def make_proof_tools(log: ProofLog, check, search=None) -> list:
             if premise.name not in {p.name for p in log.premises}:
                 log.premises.append(premise)
 
-        log.trace.append(f"search: {query!r} -> {len(found)} result(s)")
+        # Record the NAMES, not just the count. A count cannot distinguish
+        # "retrieval never surfaced the lemma" from "retrieval surfaced it and
+        # the agent ignored it", and those call for opposite fixes.
+        names = ", ".join(p.name for p in found[:8]) if found else "nothing"
+        log.trace.append(f"search: {query!r} -> {names}")
         if not found:
             return f"No declarations match {query!r}. Try a broader pattern."
         return render_premises(found)
