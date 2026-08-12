@@ -35,9 +35,28 @@ The proof log and the budget both live in the workspace. Reusing one directory
 would let goal 2 inherit goal 1's spent budget and — far worse — its accepted
 proofs, so `accepted_proof` could match the wrong goal. One directory per goal,
 always.
+
+SYNCHRONOUS OUTSIDE, ASYNCHRONOUS INSIDE
+----------------------------------------
+`prove()` stays synchronous because `scripts/evaluate_proofs.py` calls it that
+way and is not being changed. Everything below it is async: every tool is an
+`async def`, so LangChain builds a `StructuredTool` with a coroutine and NO
+sync implementation.
+
+Calling `agent.invoke()` on that graph fails the moment the model requests a
+tool, with
+
+    StructuredTool does not support sync invocation.
+
+and — because the failure happens inside the graph — it looks like the agent
+crashed rather than like a wiring fault: 0 model calls, 0 Lean calls, nothing
+in the record. That is exactly what the first benchmark produced. So the bridge
+below drives `ainvoke` and runs the coroutine itself.
 """
 
 import asyncio
+import concurrent.futures
+import inspect
 import tempfile
 import time
 from pathlib import Path
@@ -113,14 +132,63 @@ def prove(
     return _to_proof_run(run, workdir, prose, time.monotonic() - started)
 
 
-def _invoke(agent, goal, workdir):
+def _run_sync(coroutine):
+    """Run a coroutine from synchronous code, with or without a live loop.
+
+    `asyncio.run` refuses to nest inside a running loop, which happens when
+    something upstream is already async. Falling back to a worker thread with
+    its own loop keeps `prove()` callable from either world.
+    """
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(coroutine)
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+        return pool.submit(asyncio.run, coroutine).result()
+
+
+def _takes_context(call):
+    """Does this entry point accept `context=`? Checked, not guessed.
+
+    A `try/except TypeError` around the call would also swallow a TypeError
+    raised INSIDE the agent, turning a real failure into a silent retry
+    without context — which is the class of bug this whole fix is about.
+    """
+    try:
+        parameters = inspect.signature(call).parameters
+    except (TypeError, ValueError):
+        return True
+    if "context" in parameters:
+        return True
+    return any(p.kind is inspect.Parameter.VAR_KEYWORD for p in parameters.values())
+
+
+async def _ainvoke(agent, goal, workdir):
+    """Drive the agent, preferring the async path its tools require.
+
+    Every math_v2 tool is `async def`, so the compiled graph has no working
+    sync path once a tool is called. A scripted test agent may still be
+    synchronous, and is supported — but the real one always goes through
+    `ainvoke`.
+    """
     payload = {"messages": [{"role": "user", "content": TASK.format(goal=goal)}]}
     context = MathContext(workdir=workdir)
-    try:
-        return agent.invoke(payload, context=context)
-    except TypeError:
-        # A scripted test agent may not take `context`.
-        return agent.invoke(payload)
+
+    call = getattr(agent, "ainvoke", None)
+    if call is not None:
+        if _takes_context(call):
+            return await call(payload, context=context)
+        return await call(payload)
+
+    call = agent.invoke
+    if _takes_context(call):
+        return call(payload, context=context)
+    return call(payload)
+
+
+def _invoke(agent, goal, workdir):
+    return _run_sync(_ainvoke(agent, goal, workdir))
 
 
 def _final_text(result) -> str:

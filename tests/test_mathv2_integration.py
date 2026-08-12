@@ -40,7 +40,10 @@ def scripted(script):
         factory.tools = list(by_name)
 
         class Agent:
-            def invoke(self, payload, context=None):
+            # ASYNC, like the real graph. The tools are `async def`, so a
+            # synchronous fake that nests `asyncio.run` models an interface
+            # the agent does not have — and hid the sync-invocation bug.
+            async def ainvoke(self, payload, context=None):
                 from langchain.tools import ToolRuntime
 
                 runtime = ToolRuntime(
@@ -49,9 +52,7 @@ def scripted(script):
                     tool_call_id="t", store=None,
                 )
                 for name, kwargs in script:
-                    asyncio.run(
-                        by_name[name].ainvoke({**kwargs, "runtime": runtime})
-                    )
+                    await by_name[name].ainvoke({**kwargs, "runtime": runtime})
                 return {"messages": [type("M", (), {"text": "finished"})()]}
 
         return Agent()
@@ -172,7 +173,7 @@ def test_attempts_and_trace_survive_the_conversion(tmp_path, compiler_rejects):
 def test_an_agent_crash_still_returns_what_was_recorded(tmp_path, compiler_accepts):
     def exploding(model, tools, system_prompt):
         class Agent:
-            def invoke(self, payload, context=None):
+            async def ainvoke(self, payload, context=None):
                 raise RuntimeError("model provider is down")
 
         return Agent()
@@ -208,7 +209,7 @@ def test_each_goal_gets_its_own_directory_when_none_is_given(compiler_accepts):
 
     def capture(model, tools, system_prompt):
         class Agent:
-            def invoke(self, payload, context=None):
+            async def ainvoke(self, payload, context=None):
                 seen.append(context.workdir)
                 return {"messages": []}
 
