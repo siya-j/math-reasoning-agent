@@ -30,7 +30,7 @@ from verifiers.lean_runner import (
     _uses_placeholder,
 )
 
-from math_v2 import _aura
+from math_v2 import _aura, _local
 
 # Where the agent's scratch .lean files go. Inside the workspace because that
 # is the only writable mount (gotcha 11), and /tmp is discarded between the
@@ -38,6 +38,25 @@ from math_v2 import _aura
 SCRATCH = "math/lean"
 
 WORKER = "math_worker"
+
+
+def lean_argv(path):
+    """The command that compiles one file. ONE definition, both execution modes.
+
+    `lake env lean` from inside the Mathlib project is the only way a bare
+    `import Mathlib` resolves. If local and dispatched ever built different
+    argv, a local run would stop predicting a dispatched one.
+    """
+    return ["lake", "env", "lean", path]
+
+
+def worker_argv(op):
+    return ["python3", "-m", WORKER, op]
+
+
+def mode():
+    """Which execution path is in use. Reported by `finish`."""
+    return "local" if _local.enabled() else "dispatch"
 
 
 def _classify(source, stdout, ok):
@@ -68,13 +87,14 @@ def lean_runner(workdir):
         with open(path, "w", encoding="utf-8") as handle:
             handle.write(source)
 
-        spec = _aura.command_spec(
-            argv=["lake", "env", "lean", path],
-            workdir=workdir,
-            tool="lean",
-        )
+        argv = lean_argv(path)
         try:
-            result = await _aura.run(spec)
+            if _local.enabled():
+                result = await _local.run(argv, workdir,
+                                          timeout=_aura.DEFAULT_TIMEOUT)
+            else:
+                result = await _aura.run(_aura.command_spec(
+                    argv=argv, workdir=workdir, tool="lean"))
         except Exception as exc:  # noqa: BLE001 - a verifier never crashes the graph
             return LeanResult(LeanOutcome.UNAVAILABLE, f"Lean could not be run: {exc}")
 
@@ -90,18 +110,17 @@ def worker_dispatch(workdir):
     """An async `(op, args) -> envelope`, the seam `core/symbolic.py` injects."""
 
     async def dispatch(op, args):
-        spec = _aura.command_spec(
-            argv=["python3", "-m", WORKER, op],
-            workdir=workdir,
-            tool=f"symbolic:{op}",
-            stdin=json.dumps(args),
-            timeout=60.0,
-            memory_gb=2,
-            cpus=1,
-            sandbox_policy="strict",
-        )
+        argv = worker_argv(op)
+        payload = json.dumps(args)
         try:
-            result = await _aura.run(spec)
+            if _local.enabled():
+                result = await _local.run(argv, workdir, stdin=payload,
+                                          timeout=60.0, cwd=_worker_dir())
+            else:
+                result = await _aura.run(_aura.command_spec(
+                    argv=argv, workdir=workdir, tool=f"symbolic:{op}",
+                    stdin=payload, timeout=60.0, memory_gb=2, cpus=1,
+                    sandbox_policy="strict"))
         except Exception as exc:  # noqa: BLE001
             return {"ok": False, "error": f"the computation could not be run: {exc}"}
 
@@ -122,6 +141,20 @@ def worker_dispatch(workdir):
     return dispatch
 
 
+def _worker_dir():
+    """Where `python3 -m math_worker` resolves locally.
+
+    In the SIF the module is on PYTHONPATH via %environment; on a host it is
+    found by running from the scripts directory.
+    """
+    import os
+
+    return os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+        "subagents", "math", "scripts",
+    )
+
+
 def stdin_unsupported():
     """True when the installed CommandSpec cannot carry stdin.
 
@@ -129,4 +162,6 @@ def stdin_unsupported():
     symbolic op would silently receive `{}` — so this is checked and reported
     rather than left to produce confidently wrong answers.
     """
+    if _local.enabled():
+        return False        # a subprocess always has stdin
     return "stdin" not in _aura.accepted_fields(_aura.CommandSpec)

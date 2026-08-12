@@ -2,6 +2,7 @@
 
     MRA_PROVER=pipeline   the baseline: a fixed sequence of stateless calls
     MRA_PROVER=agentic    one conversation with tools and persistent state
+    MRA_PROVER=math_v2    the blueprint Deep Agent package
 
 A SWITCH, NOT A REPLACEMENT
 ---------------------------
@@ -27,6 +28,7 @@ from llm.formalizer import Formalizer
 
 PIPELINE = "pipeline"
 AGENTIC = "agentic"
+MATH_V2 = "math_v2"
 
 
 class CountingFormalizer:
@@ -75,6 +77,15 @@ def prove(goal: str, **kwargs) -> ProofRun:
 
     telemetry = Telemetry()
     started = time.monotonic()
+
+    if config.PROVER == MATH_V2:
+        # The blueprint agent. It keeps its own record on disk and re-derives
+        # the verdict from it, so nothing is wrapped or counted here — the
+        # instrumentation below exists to make the BASELINE comparable, and
+        # imposing it would mean two sources of truth for one run.
+        from math_v2 import harness
+
+        return harness.prove(goal, **kwargs)
 
     if config.PROVER == AGENTIC:
         run = agentic_prover.prove(goal, **kwargs)

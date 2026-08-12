@@ -57,6 +57,22 @@ MAX_SYMBOLIC_CALLS = int(os.getenv("MRA_MAX_AGENT_SYMBOLIC", "20"))
 MAX_SECONDS = float(os.getenv("MRA_MAX_AGENT_SECONDS", "900"))
 GRACE = int(os.getenv("MRA_AGENT_GRACE", "3"))
 
+# The limits the previous agentic experiment actually ran under. Kept here so
+# a comparison against its 86% is like-for-like rather than silently generous:
+# the defaults above are larger, and a run at 900s/12 compiles measured against
+# a run at 300s/8 would be a different experiment wearing the same name.
+#
+# Applied by setting the environment, never by changing the defaults:
+#   MRA_MAX_AGENT_SECONDS=300  MRA_MAX_AGENT_LEAN=8
+#   MRA_MAX_AGENT_STEPS=20     MRA_MAX_AGENT_SEARCHES=8
+BENCHMARK_2026_08 = {
+    "MRA_MAX_AGENT_SECONDS": "300",
+    "MRA_MAX_AGENT_LEAN": "8",
+    "MRA_MAX_AGENT_STEPS": "20",
+    "MRA_MAX_AGENT_SEARCHES": "8",
+    "MRA_MAX_CONSECUTIVE_SEARCHES": "3",
+}
+
 EXHAUSTED = "budget_exhausted"
 REDIRECT = "budget_redirect"
 
