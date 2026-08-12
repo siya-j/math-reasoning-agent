@@ -287,4 +287,6 @@ def test_the_agent_is_told_that_saying_so_is_not_proving():
         "search_mathlib",
         "try_proof",
         "try_standard_tactics",
+        "try_lemma",
+        "try_skeleton",
     }

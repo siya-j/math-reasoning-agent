@@ -42,7 +42,7 @@ from retrieval.loogle import LoogleSearch
 
 SYSTEM_PROMPT = """You are proving a theorem in Lean 4 using Mathlib.
 
-You have three tools. Use them in whatever order the problem demands.
+Use the tools in whatever order the problem demands.
 
 Strategy that works:
 1. Search Mathlib before writing anything. Most goals of this kind are
@@ -53,8 +53,13 @@ Strategy that works:
    resubmitting a variation of the same proof.
 4. If a lemma you wanted does not exist under the name you guessed, search
    again with a different pattern rather than guessing a second name.
-5. If the whole proof resists you, prove intermediate steps with `have` and
-   assemble them.
+5. If the whole proof resists you, DECOMPOSE rather than trying harder.
+   Sketch the argument with `try_skeleton`, leaving each step you have not
+   proved as `sorry`. A skeleton that typechecks has proved the shape of the
+   argument is right, and turns one hard goal into several independent easy
+   ones. Prove those with `try_lemma` — a kept lemma can be cited by name in
+   everything you write afterwards — and then assemble the whole proof.
+   Nobody writes a long Mathlib proof in one attempt.
 
 Rules:
 - `sorry` and `admit` compile and prove nothing. Never use them.
@@ -84,6 +89,7 @@ def prove(
     agent_factory=build_agent,
     budget=None,
     statement_check=None,
+    structure_check=None,
     **_ignored,
 ) -> ProofRun:
     """Attempt a proof by conversation. Everything is injected for testing."""
@@ -143,7 +149,11 @@ def prove(
             max_seconds=config.MAX_AGENT_SECONDS,
         ),
     )
-    tools = make_proof_tools(log, check, search)
+    if structure_check is None:
+        from pipeline.prover import lean_structure_ok
+
+        structure_check = lean_structure_ok
+    tools = make_proof_tools(log, check, search, structure_check)
 
     note("agent")
     # Build a real model only when the real harness is going to use one. An

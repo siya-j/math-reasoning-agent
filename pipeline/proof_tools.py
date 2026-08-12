@@ -30,8 +30,10 @@ from dataclasses import dataclass, field
 import config
 from domain.proof import ProofAttempt, ProofStage, Telemetry
 from domain.verdict import Verdict, VerificationStatus
+from pipeline.skeleton import hole_claims
 from pipeline.tactics import cheap_attempt
 from retrieval.loogle import Premise, render_premises
+from verifiers.lean_verifier import declaration
 
 
 class BudgetExhausted(RuntimeError):
@@ -169,13 +171,39 @@ class ProofLog:
     trace: list[str] = field(default_factory=list)
     budget: Budget = field(default_factory=Budget)
 
+    # Auxiliary lemmas the compiler accepted, as complete declarations. Kept
+    # SEPARATE from `attempts` on purpose — see `accepted` below.
+    lemmas: list[str] = field(default_factory=list)
+    lemma_attempts: list[ProofAttempt] = field(default_factory=list)
+
     @property
     def accepted(self) -> ProofAttempt | None:
-        """The first attempt the compiler accepted, if any."""
+        """The first attempt at THE GOAL that the compiler accepted, if any.
+
+        Reads `attempts` and never `lemma_attempts`. Proving a helper lemma is
+        real progress and is not progress towards TRUE: a run that proves five
+        lemmas and never closes the goal has proved nothing about the goal.
+        Recording lemmas in the same list would have made the guard read a
+        lemma's success as the goal's.
+        """
         for attempt in self.attempts:
             if attempt.verdict.status is VerificationStatus.TRUE:
                 return attempt
         return None
+
+    @property
+    def context(self) -> str:
+        """Proved lemmas, as Lean text to place ahead of the goal."""
+        return "\n\n".join(self.lemmas)
+
+    @property
+    def full_statement(self) -> str:
+        """The goal, preceded by every lemma already proved.
+
+        Lean needs a declaration before it can be cited. `rename_goal` renames
+        the LAST declaration, so the lemmas keep the names the proof uses.
+        """
+        return f"{self.context}\n\n{self.statement}" if self.lemmas else self.statement
 
     def record(self, stage: ProofStage, proof: str, verdict: Verdict) -> None:
         self.attempts.append(
@@ -184,7 +212,7 @@ class ProofLog:
         self.trace.append(f"{stage.value}: {verdict.status.value}")
 
 
-def make_proof_tools(log: ProofLog, check, search=None) -> list:
+def make_proof_tools(log: ProofLog, check, search=None, structure_check=None) -> list:
     """Tools for one proof attempt. `check` and `search` are injected.
 
     Docstrings are the tool descriptions the model sees, so they carry no
@@ -259,12 +287,110 @@ def make_proof_tools(log: ProofLog, check, search=None) -> list:
             return stop
 
         log.telemetry.lean_calls += 1
-        verdict = check(log.statement, proof)
+        verdict = check(log.full_statement, proof)
         log.record(ProofStage.DIRECT, proof, verdict)
 
         if verdict.status is VerificationStatus.TRUE:
             return "ACCEPTED. The proof compiles. You are done; stop here."
         return f"REJECTED.\n{verdict.detail}"
+
+    def try_lemma(statement: str, proof: str) -> str:
+        """Prove a smaller helper result, and keep it if the compiler accepts.
+
+        A kept lemma is available to every later attempt, by the name you gave
+        it, exactly as if it were part of Mathlib. Use this when the whole
+        proof is too large to write at once: prove the pieces, then cite them.
+
+        statement: a complete Lean signature beginning `theorem <name>` or
+            `lemma <name>`, ending just before `:=`. Give it a name nothing in
+            Mathlib uses.
+        proof: the proof body of that lemma, what follows `:=`.
+        """
+        stop = log.budget.spend(lean=True)
+        if stop:
+            return stop
+
+        if len(log.lemmas) >= config.MAX_AGENT_LEMMAS:
+            return (
+                f"Lemma budget spent ({config.MAX_AGENT_LEMMAS} kept). Use the "
+                "ones you have and prove the goal."
+            )
+
+        log.telemetry.lean_calls += 1
+        # Compiled against the lemmas already kept, so a helper may build on
+        # an earlier helper.
+        combined = f"{log.context}\n\n{statement}" if log.lemmas else statement
+        verdict = check(combined, proof)
+        log.lemma_attempts.append(
+            ProofAttempt(len(log.lemma_attempts) + 1, ProofStage.DIRECT, proof, verdict)
+        )
+
+        if verdict.status is not VerificationStatus.TRUE:
+            log.trace.append(f"lemma rejected: {statement[:80]}")
+            return (
+                "The lemma was REJECTED, so it has not been kept.\n"
+                f"{verdict.detail}"
+            )
+
+        log.lemmas.append(declaration(statement, proof))
+        log.trace.append(f"lemma kept: {statement[:80]}")
+        return (
+            "ACCEPTED and kept. You may now cite it by name in any later "
+            f"attempt. Lemmas held: {len(log.lemmas)}.\n"
+            "This proves the LEMMA, not the goal — the goal still needs "
+            "`try_proof`."
+        )
+
+    def try_skeleton(proof: str) -> str:
+        """Check that a decomposition holds together before filling it in.
+
+        Submit a proof whose steps are stated but not yet proved, each left as
+        `sorry`. If it typechecks, the shape of the argument is correct and
+        what remains is a set of smaller INDEPENDENT goals — prove those with
+        `try_lemma`, then submit the whole thing with `try_proof`.
+
+        This never proves anything on its own: `sorry` is a placeholder, and a
+        skeleton that compiles is a plan that is well formed, not an argument.
+
+        proof: the proof body, using `have <name> : <claim> := by sorry` for
+            each step you have not proved yet.
+        """
+        stop = log.budget.spend(lean=True)
+        if stop:
+            return stop
+
+        if structure_check is None:
+            return "Skeleton checking is unavailable here."
+
+        log.telemetry.lean_calls += 1
+        holds = structure_check(log.full_statement, proof)
+        # Recorded as UNKNOWN whatever happens. A skeleton cannot be a proof,
+        # so this must never be able to reach `accepted`.
+        log.record(
+            ProofStage.SKELETON,
+            proof,
+            Verdict(
+                VerificationStatus.UNKNOWN,
+                "lean",
+                "Skeleton typechecked." if holds else "Skeleton did not typecheck.",
+            ),
+        )
+
+        if not holds:
+            return (
+                "The decomposition does NOT typecheck, so the steps do not yet "
+                "combine into the goal. Fix the shape before proving anything."
+            )
+
+        claims = hole_claims(proof)
+        remaining = "\n".join(f"  {index + 1}. {claim}"
+                              for index, claim in enumerate(claims))
+        return (
+            "The decomposition TYPECHECKS. The steps do combine into the goal, "
+            "so what is left is independent and smaller:\n"
+            f"{remaining or '  (no holes found)'}\n"
+            "Prove these with `try_lemma`, then submit the assembled proof."
+        )
 
     def try_standard_tactics() -> str:
         """Try the usual closers and every retrieved premise in one compile.
@@ -279,7 +405,7 @@ def make_proof_tools(log: ProofLog, check, search=None) -> list:
 
         log.telemetry.lean_calls += 1
         candidate = cheap_attempt(log.premises)
-        verdict = check(log.statement, candidate)
+        verdict = check(log.full_statement, candidate)
         log.record(ProofStage.CHEAP, candidate, verdict)
 
         if verdict.status is VerificationStatus.TRUE:
@@ -289,4 +415,7 @@ def make_proof_tools(log: ProofLog, check, search=None) -> list:
             f"the proof.\n{verdict.detail[:600]}"
         )
 
-    return [search_mathlib, try_proof, try_standard_tactics]
+    tools = [search_mathlib, try_proof, try_standard_tactics, try_lemma]
+    if structure_check is not None:
+        tools.append(try_skeleton)
+    return tools

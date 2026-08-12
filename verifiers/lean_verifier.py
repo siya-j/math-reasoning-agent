@@ -41,8 +41,12 @@ DEFAULT_PREAMBLE = "import Mathlib\n"
 
 GOAL_NAME = "mra_goal"
 
-# `theorem <name>` / `lemma <name>` at the very start of the statement.
-_DECLARED_NAME = re.compile(r"^(\s*(?:theorem|lemma)\s+)([A-Za-z_][\w'.]*)")
+# `theorem <name>` / `lemma <name>` starting a line. MULTILINE because proved
+# auxiliary lemmas are prepended to the goal, so the file may hold several
+# declarations; a lemma body is indented and cannot match.
+_DECLARED_NAME = re.compile(
+    r"^([ \t]*(?:theorem|lemma)[ \t]+)([A-Za-z_][\w'.]*)", re.MULTILINE
+)
 
 
 def rename_goal(statement: str, name: str = GOAL_NAME) -> str:
@@ -66,13 +70,23 @@ def rename_goal(statement: str, name: str = GOAL_NAME) -> str:
     Renaming here rather than at formalisation keeps every path covered:
     both provers, the tactic ladder and the skeleton all build files through
     this function.
+
+    THE LAST DECLARATION, NOT THE FIRST. When auxiliary lemmas the agent has
+    proved are prepended to the goal, the goal is last. The lemmas must keep
+    their names — the goal's proof cites them — and only the goal may be
+    renamed. With no lemmas the last declaration is the only one, so this is
+    unchanged for every other caller.
     """
-    return _DECLARED_NAME.sub(rf"\g<1>{name}", statement, count=1)
+    matches = list(_DECLARED_NAME.finditer(statement))
+    if not matches:
+        return statement
+    last = matches[-1]
+    return statement[: last.start()] + last.group(1) + name + statement[last.end():]
 
 
-def build_source(statement: str, proof: str, preamble: str = DEFAULT_PREAMBLE) -> str:
-    """Assemble a complete Lean file from a theorem and its proof."""
-    statement = rename_goal(statement.strip())
+def declaration(statement: str, proof: str) -> str:
+    """One complete Lean declaration: a signature with its proof attached."""
+    statement = statement.strip()
     proof = proof.strip()
 
     # A bare tactic ("exact foo") needs a `by` block; a term proof or an
@@ -81,7 +95,12 @@ def build_source(statement: str, proof: str, preamble: str = DEFAULT_PREAMBLE) -
         proof = f"by\n  {proof}"
 
     separator = "" if statement.endswith(":=") else " :="
-    return f"{preamble}\n{statement}{separator} {proof}\n"
+    return f"{statement}{separator} {proof}"
+
+
+def build_source(statement: str, proof: str, preamble: str = DEFAULT_PREAMBLE) -> str:
+    """Assemble a complete Lean file from a theorem and its proof."""
+    return f"{preamble}\n{declaration(rename_goal(statement.strip()), proof)}\n"
 
 
 class LeanVerifier(Verifier):

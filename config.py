@@ -77,6 +77,10 @@ MAX_AGENT_SECONDS = float(os.getenv("MRA_MAX_AGENT_SECONDS", "300"))
 # the bound worked, the allocation did not.
 MAX_AGENT_SEARCHES = int(os.getenv("MRA_MAX_AGENT_SEARCHES", "8"))
 
+# Auxiliary lemmas the agent may keep. Each one is a Lean compile and grows
+# the file every later attempt must recompile, so this is not free.
+MAX_AGENT_LEMMAS = int(os.getenv("MRA_MAX_AGENT_LEMMAS", "4"))
+
 # Searches allowed back-to-back before the agent must compile something. A
 # rejected compile returns the goal state, which is worth more than another
 # query; searching is also the cheap action, so an uncertain agent will prefer
