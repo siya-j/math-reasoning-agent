@@ -56,3 +56,29 @@ def _clean_environment(monkeypatch):
     for name in list(os.environ):
         if name.startswith("MRA_"):
             monkeypatch.delenv(name, raising=False)
+
+
+@pytest.fixture(autouse=True)
+def _no_statement_preflight(monkeypatch):
+    """The old prover's statement pre-flight is off unless a test asks for it.
+
+    `pipeline/agentic_prover.prove` calls `ensure_elaborates` before anything
+    else, and with no `statement_check` injected that reaches the REAL
+    `run_lean`. The outcome then depends on the machine:
+
+        no Lean at all      -> UNAVAILABLE -> "" -> the statement passes
+        Lean but no Mathlib -> ERRORS      -> the statement FAILS
+
+    A developer box has the first; a box set up to run benchmarks has the
+    second, because `lean` is on PATH from elan while a bare `lean` cannot
+    resolve `import Mathlib`. On that machine the prover returned before
+    making a single attempt, so the budget and selector tests reported
+    `attempts=[]` and never reached the behaviour they exist to check.
+
+    Whether a statement elaborates is not what those tests are about, and a
+    test whose result depends on what is installed is not a test. The
+    statement-check tests re-enable it explicitly.
+    """
+    import config
+
+    monkeypatch.setattr(config, "CHECK_STATEMENT", False)

@@ -306,16 +306,19 @@ def test_the_local_worker_uses_an_interpreter_that_exists(monkeypatch):
     assert _util.worker_argv("check_primality")[0] == "python3"
 
 
-def test_the_local_runner_returns_a_result_rather_than_raising():
-    result = asyncio.run(_local.run(["definitely-not-a-command"], "/tmp"))
+def test_the_local_runner_returns_a_result_rather_than_raising(tmp_path):
+    result = asyncio.run(_local.run(["definitely-not-a-command"], str(tmp_path)))
     assert result.ok is False
     assert result.returncode == -1
 
 
-def test_the_local_runner_honours_a_timeout():
+def test_the_local_runner_honours_a_timeout(tmp_path):
+    # A real directory from the fixture, not a hardcoded "/tmp": that is not a
+    # path on Windows and the subprocess cwd fails with WinError 267 before the
+    # timeout under test is ever reached.
     result = asyncio.run(
         _local.run([sys.executable, "-c", "import time; time.sleep(5)"],
-                   "/tmp", timeout=0.4)
+                   str(tmp_path), timeout=0.4)
     )
     assert result.ok is False
     assert "timed out" in result.stderr
