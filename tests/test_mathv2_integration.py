@@ -285,9 +285,25 @@ def test_local_mode_is_off_unless_asked_for():
 def test_both_execution_modes_build_the_same_argv():
     """If they diverged, a local run would stop predicting a dispatched one."""
     assert _util.lean_argv("/w/c.lean") == ["lake", "env", "lean", "/w/c.lean"]
-    assert _util.worker_argv("check_primality") == [
-        "python3", "-m", "math_worker", "check_primality"
+
+    # Everything after the interpreter must match. The interpreter itself
+    # cannot: `python3` exists in the SIF by construction and may not exist on
+    # a host at all — Windows usually has no `python3`, which is what broke the
+    # local worker there while every mocked test passed.
+    assert _util.worker_argv("check_primality")[1:] == [
+        "-m", "math_worker", "check_primality"
     ]
+    assert _util.worker_argv("check_primality", python="python3")[0] == "python3"
+
+
+def test_the_local_worker_uses_an_interpreter_that_exists(monkeypatch):
+    import sys
+
+    monkeypatch.setattr(_local, "MODE", "local")
+    assert _util.worker_argv("check_primality")[0] == sys.executable
+
+    monkeypatch.setattr(_local, "MODE", "")
+    assert _util.worker_argv("check_primality")[0] == "python3"
 
 
 def test_the_local_runner_returns_a_result_rather_than_raising():

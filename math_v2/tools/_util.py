@@ -50,8 +50,33 @@ def lean_argv(path):
     return ["lake", "env", "lean", path]
 
 
-def worker_argv(op):
-    return ["python3", "-m", WORKER, op]
+def worker_argv(op, python=None):
+    """The command that runs one symbolic operation.
+
+    The interpreter differs between the two modes and cannot not: inside the
+    SIF `python3` is on PATH by construction (%environment puts /opt/python/bin
+    there), while on a host it may not exist at all — Windows typically has
+    `python` or the py launcher and no `python3`. That is what made the local
+    worker fail there while every mocked test passed.
+
+    Everything after the interpreter is identical in both modes, and there is
+    a test asserting it.
+    """
+    return [python or _interpreter(), "-m", WORKER, op]
+
+
+def _interpreter():
+    """The interpreter to run the worker with.
+
+    Locally, the one running this process — guaranteed to exist and to be the
+    same Python the tests import the worker with. In the SIF, `python3`, which
+    resolves to the baked venv.
+    """
+    if _local.enabled():
+        import sys
+
+        return sys.executable
+    return "python3"
 
 
 def mode():
