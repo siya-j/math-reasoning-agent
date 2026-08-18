@@ -1,0 +1,48 @@
+{
+  "summary": {
+    "total": 1,
+    "errors": 0,
+    "attempted": 1,
+    "formalization_rate": 1.0,
+    "proof_rate": 1.0,
+    "proof_rate_of_formalized": 1.0,
+    "lemma_yield": null,
+    "mean_attempts": 2.0,
+    "proof_rate_in-mathlib": null,
+    "proof_rate_near-mathlib": 1.0,
+    "proof_rate_novel": null
+  },
+  "results": [
+    {
+      "goal_id": "num-primes-strictly-above",
+      "area": "number theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "attempts": 2,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"exists_prime_gt\"' -> Nat.forall_exists_prime_gt_and_modEq, Nat.forall_exists_prime_gt_and_zmodEq, Nat.forall_exists_prime_gt_and_eq_mod, Nat.exists_prime_gt_modEq_one",
+        "search: '\"exists_infinite_primes\"' -> Nat.exists_infinite_primes",
+        "search: '\"succ_le\"' -> Nat.not_succ_le_self, Nat.not_succ_le_zero, Nat.le_of_succ_le_succ, Nat.succ_le_succ, Nat.le_of_succ_le, Nat.lt_of_succ_le, Nat.succ_le_of_lt, Nat.succ_le_iff",
+        "execution mode: local"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.forall_exists_prime_gt_and_modEq\n    | exact Nat.forall_exists_prime_gt_and_modEq _\n    | apply Nat.forall_exists_prime_gt_and_modEq\n    | simpa using Nat.forall_exists_prime_gt_and_modEq\n    | exact \u27e8_, Nat.forall_exists_prime_gt_and_modEq\u27e9\n    | exact Nat.forall_exists_prime_gt_and_modEq (by assumption)\n    | exact Nat.forall_exists_prime_gt_and_modEq \u2039_\u203a\n    | apply Nat.forall_exists_prime_gt_and_modEq <;> assumptio",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_tljpuv2v\\math/lean\\claim_b4973f30.lean:3:55: error: unsolved goals\nn : \u2115\n\u22a2 \u2203 p, Nat.Prime p \u2227 n < p\n\nStill to prove:\n\u22a2 \u2203 p, Nat.Prime p \u2227 n < p"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  obtain \u27e8p, hp1, hp2\u27e9 := Nat.exists_infinite_primes (n + 1)\n  use p\n  refine \u27e8hp2, ?_\u27e9\n  exact Nat.lt_of_succ_le hp1",
+          "errors": "Lean accepted a complete proof of: theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p"
+        }
+      ]
+    }
+  ]
+}

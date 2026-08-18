@@ -1,0 +1,235 @@
+{
+  "summary": {
+    "total": 7,
+    "errors": 0,
+    "attempted": 7,
+    "formalization_rate": 1.0,
+    "proof_rate": 1.0,
+    "proof_rate_of_formalized": 1.0,
+    "proof_rate_of_tested": 1.0,
+    "not_formalized": 0,
+    "exhausted": 0,
+    "suspect_statements": 0,
+    "genuinely_tested": 7,
+    "lemma_yield": null,
+    "mean_attempts": 1.0,
+    "proof_rate_in-mathlib": null,
+    "proof_rate_near-mathlib": 1.0,
+    "proof_rate_novel": null,
+    "proof_rate_proofnet": null
+  },
+  "results": [
+    {
+      "goal_id": "num-primes-strictly-above",
+      "area": "number theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "model_calls": 5,
+      "lean_calls": 2,
+      "retrieval_calls": 1,
+      "symbolic_calls": 0,
+      "seconds": 150.2,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"exists_infinite_primes\"' -> Nat.exists_infinite_primes",
+        "execution mode: local"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  obtain \u27e8p, hp1, hp2\u27e9 := Nat.exists_infinite_primes (n + 1)\n  use p\n  exact \u27e8hp2, hp1\u27e9",
+          "errors": "Lean accepted a complete proof of: theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p"
+        }
+      ]
+    },
+    {
+      "goal_id": "grp-subgroup-of-cyclic",
+      "area": "group theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem subgroup_of_cyclic_is_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem subgroup_of_cyclic_is_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H",
+      "model_calls": 7,
+      "lean_calls": 2,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 110.3,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"is_cyclic\"' -> nothing",
+        "search: '\"Cyclic\"' -> IsAddCyclic, IsCyclic, IsAddCyclic.exists_zsmul_surjective, IsAddCyclic.mk, IsCyclic.exists_zpow_surjective, IsCyclic.mk, not_isAddCyclic_of_denselyOrdered, not_isCyclic_of_denselyOrdered",
+        "search: '|- IsCyclic _' -> IsCyclic.mk, FreeGroup.instIsCyclicOfUnique, isCyclic_of_subsingleton, isCyclic_of_prime_card, isCyclic_of_card_dvd_prime, isCyclic_multiplicative, isCyclic_of_orderOf_eq_card, isCyclic_of_card_le_orderOf",
+        "execution mode: local"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by exact Subgroup.isCyclic H",
+          "errors": "Lean accepted a complete proof of: theorem subgroup_of_cyclic_is_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H"
+        }
+      ]
+    },
+    {
+      "goal_id": "ana-continuous-compact-max",
+      "area": "analysis",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+      "model_calls": 7,
+      "lean_calls": 2,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 127.0,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"exists_forall_ge\"' -> exists_forall_ge_and, Filter.Tendsto.exists_forall_ge, Continuous.exists_forall_ge_of_hasCompactMulSupport, Continuous.exists_forall_ge_of_hasCompactSupport, Continuous.exists_forall_ge, Continuous.exists_forall_ge', Continuous.exists_forall_ge_of_isBounded",
+        "search: '\"IsCompact.exists\"' -> IsCompact.exists_clusterPt_of_frequently, IsCompact.exists_clusterPt, IsCompact.exists_mapClusterPt_of_frequently, IsCompact.exists_mapClusterPt, IsCompact.exists_isOpen_closure_subset, IsCompact.exists_isGreatest, IsCompact.exists_isLeast, IsCompact.exists_isGLB",
+        "search: 'IsMaxOn' -> IsMaxOn, isMaxOn_const, IsMaxOn.isExtr, isMaxOn_univ_iff, IsMaxOn.bddAbove, IsMaxOn.inter, IsMaxOn.on_subset, IsExtrOn.elim",
+        "execution mode: local"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  rcases hs.exists_isMaxOn hne hf with \u27e8x, hx, hmax\u27e9\n  use x, hx\n  exact isMaxOn_iff.mp hmax",
+          "errors": "Lean accepted a complete proof of: theorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x"
+        }
+      ]
+    },
+    {
+      "goal_id": "set-reals-uncountable",
+      "area": "set theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem real_uncountable : Uncountable \u211d",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem real_uncountable : Uncountable \u211d",
+      "model_calls": 7,
+      "lean_calls": 2,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 109.8,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"uncountable\"' -> Uncountable, instInfiniteOfUncountable, instUncountablePLift, instUncountableULift, not_uncountable, Uncountable.mk, Uncountable.not_countable, not_uncountable_iff",
+        "search: '\"uncountable_real\"' -> nothing",
+        "search: '|- Uncountable \u211d' -> Cardinal.instUncountableReal",
+        "execution mode: local"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact Cardinal.instUncountableReal",
+          "errors": "Lean accepted a complete proof of: theorem real_uncountable : Uncountable \u211d"
+        }
+      ]
+    },
+    {
+      "goal_id": "lin-vector-space-basis",
+      "area": "linear algebra",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem every_vector_space_has_basis (K : Type u) (V : Type v) [Field K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type v), Nonempty (Module.Basis \u03b9 K V)",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem every_vector_space_has_basis (K : Type u) (V : Type v) [Field K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type v), Nonempty (Module.Basis \u03b9 K V)",
+      "model_calls": 8,
+      "lean_calls": 3,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 178.8,
+      "trace": [
+        "statement check: does NOT elaborate \u2014 Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_03yp6jq3\\math/lean\\claim_3d9e2957.lean:3:111: error: Function expected at\n  Ba",
+        "statement check: elaborates",
+        "search: '\"exists_basis\"' -> Module.Free.exists_basis, finrank_eq_zero_of_not_exists_basis, finrank_eq_zero_of_not_exists_basis_finite, finrank_eq_zero_of_not_exists_basis_finset, Module.Basis.exists_basis, exists_basis_of_pairing_eq_zero, exists_basis_of_pairing_ne_zero, Algebra.norm_eq_one_of_not_exists_basis",
+        "search: 'Module.Basis.exists_basis' -> Module.Basis.exists_basis",
+        "search: '\"Basis\"' -> Module.Basis, Module.Basis.instFunLike, Module.Basis.reindex, Module.Basis.instInhabitedFinsupp, Module.Basis.reindex_refl, Module.Basis.sumCoords, Module.Basis.coord, Module.Basis.injective",
+        "execution mode: local"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  rcases Module.Basis.exists_basis K V with \u27e8s, hs\u27e9\n  exact \u27e8\u21a5s, hs\u27e9",
+          "errors": "Lean accepted a complete proof of: theorem every_vector_space_has_basis (K : Type u) (V : Type v) [Field K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type v), Nonempty (Module.Basis \u03b9 K V)"
+        }
+      ]
+    },
+    {
+      "goal_id": "top-compact-image",
+      "area": "topology",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]\n  {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]\n  {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)",
+      "model_calls": 5,
+      "lean_calls": 2,
+      "retrieval_calls": 1,
+      "symbolic_calls": 0,
+      "seconds": 114.8,
+      "trace": [
+        "statement check: elaborates",
+        "search: \"|- IsCompact (_ '' _)\" -> IsCompact.image, IsCompact.image_of_continuousOn, Polynomial.isCompact_image_comap_of_monic, ContinuousLinearMap.isCompact_image_coe_closedBall, ContinuousLinearMap.isCompact_image_coe_of_bounded_of_closed_image, ContinuousLinearMap.isCompact_image_coe_of_bounded_of_weak_closed, SmoothBumpFunction.isCompact_symm_image_closedBall",
+        "execution mode: local"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact hs.image hf",
+          "errors": "Lean accepted a complete proof of: theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]\n  {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)"
+        }
+      ]
+    },
+    {
+      "goal_id": "num-sqrt-two-irrational",
+      "area": "number theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem my_irrational_sqrt_two : Irrational (Real.sqrt 2)",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem my_irrational_sqrt_two : Irrational (Real.sqrt 2)",
+      "model_calls": 5,
+      "lean_calls": 2,
+      "retrieval_calls": 1,
+      "symbolic_calls": 0,
+      "seconds": 114.8,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"irrational_sqrt_two\"' -> irrational_sqrt_two",
+        "execution mode: local"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact irrational_sqrt_two",
+          "errors": "Lean accepted a complete proof of: theorem my_irrational_sqrt_two : Irrational (Real.sqrt 2)"
+        }
+      ]
+    }
+  ]
+}

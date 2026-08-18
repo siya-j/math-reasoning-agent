@@ -1,0 +1,224 @@
+{
+  "summary": {
+    "total": 7,
+    "errors": 0,
+    "attempted": 7,
+    "formalization_rate": 0.857,
+    "proof_rate": 0.857,
+    "proof_rate_of_formalized": 1.0,
+    "lemma_yield": null,
+    "mean_attempts": 1.57,
+    "proof_rate_in-mathlib": null,
+    "proof_rate_near-mathlib": 0.857,
+    "proof_rate_novel": null
+  },
+  "results": [
+    {
+      "goal_id": "num-primes-strictly-above",
+      "area": "number theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem exists_prime_greater (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem exists_prime_greater (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "trace": [
+        "formalise: theorem exists_prime_greater (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+        "search: '\"exists_prime_greater\"' -> nothing",
+        "search: '\"exists_infinite_primes\"' -> Nat.exists_infinite_primes",
+        "search: '\"exists_prime_gt\"' -> Nat.forall_exists_prime_gt_and_modEq, Nat.forall_exists_prime_gt_and_zmodEq, Nat.forall_exists_prime_gt_and_eq_mod, Nat.exists_prime_gt_modEq_one",
+        "direct: true"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  rcases Nat.exists_infinite_primes (n + 1) with \u27e8p, hp1, hp2\u27e9\n  exact \u27e8p, hp2, hp1\u27e9",
+          "errors": "Lean accepted a complete proof of: theorem exists_prime_greater (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p"
+        }
+      ]
+    },
+    {
+      "goal_id": "grp-subgroup-of-cyclic",
+      "area": "group theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem subgroup_of_cyclic_is_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H",
+      "attempts": 3,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem subgroup_of_cyclic_is_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H",
+      "trace": [
+        "formalise: theorem subgroup_of_cyclic_is_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H",
+        "search: '\"cyclic\"' -> Lean.MVarId.acyclic, IsAddCyclic, IsCyclic, IsAddCyclic.exists_zsmul_surjective, IsAddCyclic.mk, IsCyclic.exists_zpow_surjective, IsCyclic.mk, Aesop.MVarClusterRef.checkAcyclic",
+        "search: '\"subgroup\"' -> AddSubgroup, Subgroup, AddSubgroup.Normal, AddSubgroup.instPartialOrder, Subgroup.Normal, Subgroup.instPartialOrder, AddSubgroup.instSetLike, AddSubgroup.normalizer",
+        "search: '\"IsCyclic\"' -> IsCyclic, IsCyclic.exists_zpow_surjective, IsCyclic.mk, not_isCyclic_of_denselyOrdered, FreeGroup.instIsCyclicOfUnique, isCyclic_of_subsingleton, IsCyclic.commGroup, Nontrivial.of_not_isCyclic",
+        "cheap: unknown",
+        "search: '\"isCyclic\"' -> IsCyclic, IsCyclic.exists_zpow_surjective, IsCyclic.mk, not_isCyclic_of_denselyOrdered, FreeGroup.instIsCyclicOfUnique, isCyclic_of_subsingleton, IsCyclic.commGroup, Nontrivial.of_not_isCyclic",
+        "search: '\"Subgroup.isCyclic\"' -> Subgroup.isCyclic_zpowers, Subgroup.isCyclic, Subgroup.isCyclic_iff_exists_zpowers_eq_top, Subgroup.isCyclic_of_le",
+        "direct: unknown",
+        "direct: true"
+      ],
+      "stages": [
+        {
+          "stage": "cheap",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Lean.MVarId.acyclic\n    | exact Lean.MVarId.acyclic _\n    | apply Lean.MVarId.acyclic\n    | simpa using Lean.MVarId.acyclic\n    | exact \u27e8_, Lean.MVarId.acyclic\u27e9\n    | exact Lean.MVarId.acyclic (by assumption)\n    | exact Lean.MVarId.acyclic \u2039_\u203a\n    | apply Lean.MVarId.acyclic <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Lean.MVarId.acyclic (by assumption))\n    | exact IsAddCyclic\n    | exact IsAddCyclic _\n",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\tmpy597kotg\\Claim.lean:3:85: error: unsolved goals\nG : Type u_1\ninst\u271d\u00b9 : Group G\ninst\u271d : IsCyclic G\nH : Subgroup G\n\u22a2 IsCyclic \u21a5H\n\nStill to prove:\n\u22a2 IsCyclic \u21a5H"
+        },
+        {
+          "stage": "direct",
+          "proof": "Subgroup.isCyclic H",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\tmp4rot25q5\\Claim.lean:4:3: error: unknown tactic\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\tmp4rot25q5\\Claim.lean:3:85: error: unsolved goals\nG : Type u_1\ninst\u271d\u00b9 : Group G\ninst\u271d : IsCyclic G\nH : Subgroup G\n\u22a2 IsCyclic \u21a5H\n\nStill to prove:\n\u22a2 IsCyclic \u21a5H"
+        },
+        {
+          "stage": "direct",
+          "proof": "exact Subgroup.isCyclic H",
+          "errors": "Lean accepted a complete proof of: theorem subgroup_of_cyclic_is_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H"
+        }
+      ]
+    },
+    {
+      "goal_id": "ana-continuous-compact-max",
+      "area": "analysis",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem continuous_on_compact_attains_max {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem continuous_on_compact_attains_max {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+      "trace": [
+        "formalise: theorem continuous_on_compact_attains_max {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+        "search: '\"exists_forall_ge\"' -> exists_forall_ge_and, Filter.Tendsto.exists_forall_ge, Continuous.exists_forall_ge_of_hasCompactMulSupport, Continuous.exists_forall_ge_of_hasCompactSupport, Continuous.exists_forall_ge, Continuous.exists_forall_ge', Continuous.exists_forall_ge_of_isBounded",
+        "search: '\"IsCompact.exists\"' -> IsCompact.exists_clusterPt_of_frequently, IsCompact.exists_clusterPt, IsCompact.exists_mapClusterPt_of_frequently, IsCompact.exists_mapClusterPt, IsCompact.exists_isOpen_closure_subset, IsCompact.exists_isGreatest, IsCompact.exists_isLeast, IsCompact.exists_isGLB",
+        "search: '\"IsMaxOn\"' -> IsMaxOn, isMaxOn_const, IsMaxOn.isExtr, isMaxOn_univ_iff, IsMaxOn.bddAbove, IsMaxOn.inter, IsMaxOn.on_subset, isMaxOn_iff",
+        "direct: true"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  rcases hs.exists_isMaxOn hne hf with \u27e8x, hx, hmax\u27e9\n  exact \u27e8x, hx, hmax\u27e9\n",
+          "errors": "Lean accepted a complete proof of: theorem continuous_on_compact_attains_max {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x"
+        }
+      ]
+    },
+    {
+      "goal_id": "set-reals-uncountable",
+      "area": "set theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem real_uncountable : Uncountable \u211d",
+      "attempts": 2,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem real_uncountable : Uncountable \u211d",
+      "trace": [
+        "formalise: theorem real_uncountable : Uncountable \u211d",
+        "search: '\"Uncountable\"' -> Uncountable, instInfiniteOfUncountable, instUncountablePLift, instUncountableULift, not_uncountable, Uncountable.mk, Uncountable.not_countable, not_uncountable_iff",
+        "search: '\"uncountable\"' -> Uncountable, instInfiniteOfUncountable, instUncountablePLift, instUncountableULift, not_uncountable, Uncountable.mk, Uncountable.not_countable, not_uncountable_iff",
+        "search: '\"Real\"' -> IO.RealWorld, IO.RealWorld.nonemptyType, IO.RealWorld.instNonempty, IO.FS.realPath, IO.instMonadLiftSTRealWorldBaseIO, Lean.realPathNormalized, Lean.Environment.isRealizing, _private.Lean.Environment.0.Lean.AsyncConst.isRealized",
+        "cheap: unknown",
+        "search: '\"uncountable\"' -> Uncountable, instInfiniteOfUncountable, instUncountablePLift, instUncountableULift, not_uncountable, Uncountable.mk, Uncountable.not_countable, not_uncountable_iff",
+        "search: '|- \u00ac Countable \u211d' -> nothing",
+        "search: '\"not_countable\"' -> not_countable, Uncountable.not_countable, not_countable_iff, uncountable_iff_not_countable, Set.not_countable_univ, Set.not_countable_univ_iff, exists_perfect_nonempty_of_isClosed_of_not_countable, IsClosed.exists_nat_bool_injection_of_not_countable",
+        "direct: true"
+      ],
+      "stages": [
+        {
+          "stage": "cheap",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Uncountable\n    | exact Uncountable _\n    | apply Uncountable\n    | simpa using Uncountable\n    | exact \u27e8_, Uncountable\u27e9\n    | exact Uncountable (by assumption)\n    | exact Uncountable \u2039_\u203a\n    | apply Uncountable <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Uncountable (by assumption))\n    | exact instInfiniteOfUncountable\n    | exact instInfiniteOfUncountable _\n    | apply instInfiniteOfUncountable\n    | ",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\tmpldaa5j09\\Claim.lean:3:36: error: unsolved goals\n\u22a2 Uncountable \u211d\n\nStill to prove:\n\u22a2 Uncountable \u211d"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  rw [\u2190 Set.not_countable_univ_iff]\n  exact Cardinal.not_countable_real",
+          "errors": "Lean accepted a complete proof of: theorem real_uncountable : Uncountable \u211d"
+        }
+      ]
+    },
+    {
+      "goal_id": "lin-vector-space-basis",
+      "area": "linear algebra",
+      "tier": "near-mathlib",
+      "outcome": "not_formalized",
+      "statement": "theorem vector_space_has_basis (K : Type u) [DivisionRing K] (V : Type v) [AddCommGroup V] [Module K V] :\n  \u2203 (\u03b9 : Type v), Nonempty (Basis \u03b9 K V)",
+      "attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean could not make sense of the formal statement, so the claim was never put to the prover. This is a formalisation failure, not evidence about the claim.",
+      "trace": [
+        "formalise: theorem vector_space_has_basis (K : Type u) [DivisionRing K] (V : Type v) [AddCommGroup V] [Module K V] :\n  \u2203 (\u03b9 : Type v), Nonempty (Basis \u03b9 K V)",
+        "statement rejected: C:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\tmpq1cvaie8\\Claim.lean:4:28: error: Function expected at\n  Basis\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  \u03b9\n\nHint: The identifier `Basis` is unknown, and Lean's `autoImplicit` option causes an u",
+        "statement not elaborable: C:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\tmpq1cvaie8\\Claim.lean:4:28: error: Function expected at\n  Basis\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  \u03b9\n\nHint: The identifier `Basis` is unknown, and Lean's `autoImplicit` option causes an u"
+      ],
+      "stages": []
+    },
+    {
+      "goal_id": "top-compact-image",
+      "area": "topology",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem continuous_image_compact {\u03b1 \u03b2 : Type*} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2]\n  {f : \u03b1 \u2192 \u03b2} {s : Set \u03b1} (hf : Continuous f) (hs : IsCompact s) : IsCompact (f '' s)",
+      "attempts": 2,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem continuous_image_compact {\u03b1 \u03b2 : Type*} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2]\n  {f : \u03b1 \u2192 \u03b2} {s : Set \u03b1} (hf : Continuous f) (hs : IsCompact s) : IsCompact (f '' s)",
+      "trace": [
+        "formalise: theorem continuous_image_compact {\u03b1 \u03b2 : Type*} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2]\n  {f : \u03b1 \u2192 \u03b2} {s : Set \u03b1} (hf : Continuous f) (hs : IsCompact s) : IsCompact (f '' s)",
+        "search: '\"IsCompact\" \"image\"' -> nothing",
+        "search: '\"isCompact\"' -> IsCompactlyGenerated, IsCompactElement, CompleteLattice.isCompactlyGenerated_of_wellFoundedGT, IsCompactlyGenerated.exists_sSup_eq, IsCompactlyGenerated.mk, CompleteLattice.isCompactElement_finsetSup, CompleteLattice.IsCompactElement.directed_sSup_lt_of_lt, CompleteLattice.isCompactElement_iff_exists_le_iSup_of_le_iSup",
+        "search: '\"IsCompact.image\"' -> IsCompact.image, IsCompact.image_of_continuousOn",
+        "direct: unknown",
+        "direct: true"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "hs.image hf",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\tmp8pnodahj\\Claim.lean:5:3: error: unknown tactic\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\tmp8pnodahj\\Claim.lean:4:89: error: unsolved goals\n\u03b1 : Type u_1\n\u03b2 : Type u_2\ninst\u271d\u00b9 : TopologicalSpace \u03b1\ninst\u271d : TopologicalSpace \u03b2\nf : \u03b1 \u2192 \u03b2\ns : Set \u03b1\nhf : Continuous f\nhs : IsCompact s\n\u22a2 IsCompact (f '' s)\n\nStill to prove:\n\u22a2 IsCompact (f '' s)"
+        },
+        {
+          "stage": "direct",
+          "proof": "exact hs.image hf",
+          "errors": "Lean accepted a complete proof of: theorem continuous_image_compact {\u03b1 \u03b2 : Type*} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2]\n  {f : \u03b1 \u2192 \u03b2} {s : Set \u03b1} (hf : Continuous f) (hs : IsCompact s) : IsCompact (f '' s)"
+        }
+      ]
+    },
+    {
+      "goal_id": "num-sqrt-two-irrational",
+      "area": "number theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem irrational_sqrt_two : Irrational (Real.sqrt 2)",
+      "attempts": 2,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem irrational_sqrt_two : Irrational (Real.sqrt 2)",
+      "trace": [
+        "formalise: theorem irrational_sqrt_two : Irrational (Real.sqrt 2)",
+        "search: '\"irrational_sqrt_two\"' -> irrational_sqrt_two",
+        "direct: unknown",
+        "direct: true"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "irrational_sqrt_two",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\tmpmx91tmdr\\Claim.lean:4:3: error: unknown tactic\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\tmpmx91tmdr\\Claim.lean:3:47: error: unsolved goals\n\u22a2 Irrational \u221a2\n\nStill to prove:\n\u22a2 Irrational \u221a2"
+        },
+        {
+          "stage": "direct",
+          "proof": "exact irrational_sqrt_two",
+          "errors": "Lean accepted a complete proof of: theorem irrational_sqrt_two : Irrational (Real.sqrt 2)"
+        }
+      ]
+    }
+  ]
+}
