@@ -1257,3 +1257,70 @@ def test_the_subprocess_path_is_untouched_by_any_of_this(tmp_path, repl_off,
     run(_util.lean_runner(str(tmp_path))(source))
 
     assert written == [source], "the subprocess path saw a rewritten source"
+
+
+# ================== N. THE EXACT SOURCE THAT DISAGREED ON THE GATE
+#
+# Verbatim from `scripts/compare_lean_modes.py`, row "a stray import the model
+# wrote", which is itself verbatim from a real near-Mathlib run. It has failed
+# the gate through three different import implementations, so it gets its own
+# test rather than being covered by a general one.
+GATE_ROW = (
+    "import Mathlib\n"
+    "import Mathlib.Topology.Order\n"
+    "import Mathlib.Data.Real.Basic\n"
+    "\n"
+    "theorem cmp_j : True := trivial"
+)
+
+
+def test_the_failing_gate_row_is_routed_to_lean_itself():
+    """Offline and exact. No session, no Lean, no ambiguity."""
+    assert _repl.needs_subprocess(GATE_ROW) is True
+
+    imports, body = _repl.split_imports(GATE_ROW)
+    assert imports == ["import Mathlib",
+                       "import Mathlib.Topology.Order",
+                       "import Mathlib.Data.Real.Basic"]
+    assert body == "theorem cmp_j : True := trivial"
+
+
+def test_the_failing_gate_row_reaches_lean_unmodified(tmp_path, repl_on,
+                                                      monkeypatch):
+    """Both arms call `_subprocess_compile` with the SAME text, so the two
+    cannot disagree on this row. That is the property, asserted."""
+    fake = FakeRepl().install(monkeypatch)
+    seen = []
+
+    async def capture(source, workdir):
+        seen.append(source)
+        return True, "", 0.0
+
+    monkeypatch.setattr(_util, "_subprocess_compile", capture)
+
+    result = run(_util.lean_runner(str(tmp_path))(GATE_ROW))
+
+    assert seen == [GATE_ROW], "the source was altered before Lean saw it"
+    assert fake.sent == [], "the session was asked to serve it"
+    assert result.outcome is LeanOutcome.COMPILED
+
+
+def test_the_failing_gate_row_gets_the_same_result_either_way(tmp_path,
+                                                              monkeypatch):
+    """The gate's own assertion, offline: same source, same compiler, same
+    answer, whichever backend is selected."""
+    outcomes = {}
+    for backend in ("subprocess", "repl"):
+        monkeypatch.setenv("MRA_LEAN_BACKEND", backend)
+        _util.forget()
+        FakeRepl().install(monkeypatch)
+
+        async def capture(source, workdir):
+            return True, "", 0.0
+
+        monkeypatch.setattr(_util, "_subprocess_compile", capture)
+        outcomes[backend] = run(
+            _util.lean_runner(str(tmp_path / backend))(GATE_ROW)).outcome
+    _repl.shutdown()
+
+    assert outcomes["subprocess"] is outcomes["repl"], outcomes
