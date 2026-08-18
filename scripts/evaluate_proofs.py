@@ -33,6 +33,35 @@ from verifiers.lean_runner import lean_is_available  # noqa: E402
 DEFAULT_OUT = Path(__file__).parent.parent / "eval" / "last_proof_run.json"
 CONSECUTIVE_ERROR_LIMIT = 3
 
+# How each outcome prints on the per-goal line.
+#
+# EXHAUSTIVE OVER ProofOutcome, and there is a test that says so. This was a
+# dict literal indexed inline, covering three of the six members; adding
+# SUSPECT_STATEMENT and EXHAUSTED to the enum crashed a live benchmark run with
+# a KeyError on the FIRST goal, after the model call had already been paid for.
+# A reporting layer that can abort a run is not a reporting layer.
+#
+# Case carries meaning: a proof is the only result shouted. NOT FORMALISED and
+# SUSPECT STATEMENT are capitalised because they are statements about the
+# benchmark row rather than about the prover, and reading them as prover
+# failures is the exact mistake this vocabulary exists to prevent.
+MARKS = {
+    ProofOutcome.PROVED: "PROVED",
+    ProofOutcome.NOT_PROVED: "not proved",
+    ProofOutcome.NOT_FORMALIZED: "NOT FORMALISED",
+    ProofOutcome.SUSPECT_STATEMENT: "SUSPECT STATEMENT",
+    ProofOutcome.EXHAUSTED: "budget exhausted",
+    ProofOutcome.ERROR: "ERROR",
+}
+
+
+def mark_for(outcome: ProofOutcome) -> str:
+    """Never raises. A missing label must not end a run that is paying for
+    model calls — it degrades to the outcome's own name and the run continues.
+    The test keeps MARKS complete; this keeps the run alive if it ever is not.
+    """
+    return MARKS.get(outcome, outcome.value.replace("_", " "))
+
 
 def completed(resume: bool, out: Path):
     """Goals already DECIDED in the previous run.
@@ -205,11 +234,7 @@ def main() -> int:
         results.append(result)
         save(results, summarize(results), out)  # survive an abort on a later goal
 
-        mark = {
-            ProofOutcome.PROVED: "PROVED",
-            ProofOutcome.NOT_PROVED: "not proved",
-            ProofOutcome.NOT_FORMALIZED: "NOT FORMALISED",
-        }[result.outcome]
+        mark = mark_for(result.outcome)
         extra = f"  ({result.lemmas_proved}/{result.lemmas_total} lemmas)" if result.lemmas_total else ""
         print(f"          ----- {mark}{extra}  [{run.telemetry.summary()}]\n")
 
