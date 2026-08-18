@@ -30,6 +30,11 @@ def _charge(runtime, **kind):
     Returns a structured stop, or None to proceed. Enforced HERE, in the tool
     layer, so no compilation, dispatch or lookup happens once a limit is hit —
     independently of any middleware and of what the model decides to do next.
+
+    `goal_state=True` on the four tools that return one. `check_statement` does
+    not: it reports elaborates / does not, which tells you nothing about which
+    lemma to search for, and treating it as feedback let each statement check
+    buy three more searches. See the note in core/budget.py.
     """
     return budget.spend(runtime.context.workdir, **kind)
 
@@ -106,7 +111,7 @@ async def try_proof(proof: str, runtime: ToolRuntime[MathContext],
             `admit`: they compile and prove nothing, and are rejected.
         statement: only if proving something other than the current statement.
     """
-    stop = _charge(runtime, lean=True)
+    stop = _charge(runtime, lean=True, goal_state=True)
     if stop:
         return stop
     workdir, goal = _goal(runtime, statement)
@@ -129,7 +134,7 @@ async def try_standard_tactics(runtime: ToolRuntime[MathContext],
         statement: only if working on something other than the current
             statement.
     """
-    stop = _charge(runtime, lean=True)
+    stop = _charge(runtime, lean=True, goal_state=True)
     if stop:
         return stop
     workdir, goal = _goal(runtime, statement)
@@ -156,7 +161,7 @@ async def try_lemma(statement: str, proof: str,
             `lemma <name>`. Give it a name Mathlib does not already use.
         proof: the proof body of that lemma.
     """
-    stop = _charge(runtime, lean=True)
+    stop = _charge(runtime, lean=True, goal_state=True)
     if stop:
         return stop
     workdir = runtime.context.workdir
@@ -182,7 +187,7 @@ async def try_skeleton(proof: str, runtime: ToolRuntime[MathContext],
         statement: only if working on something other than the current
             statement.
     """
-    stop = _charge(runtime, lean=True)
+    stop = _charge(runtime, lean=True, goal_state=True)
     if stop:
         return stop
     workdir, goal = _goal(runtime, statement)

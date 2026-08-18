@@ -154,6 +154,84 @@ def test_the_deadline_is_configurable_for_an_ablation(monkeypatch):
     assert 0 < budget.SEARCH_DEADLINE_FRACTION <= 1
 
 
+# ------------------------------- 2b. the cap the pilot proved was not binding
+def searches_allowed(workdir, monkeypatch, *, before, **charge):
+    """How many searches run given `before` searches, then one charged call."""
+    monkeypatch.setattr(budget, "MAX_SECONDS", 1e9)
+    budget.reset(workdir)
+    for _ in range(before):
+        budget.spend(workdir, search=True)
+    budget.spend(workdir, **charge)
+    ran = 0
+    while budget.spend(workdir, search=True) is None:
+        ran += 1
+    return ran
+
+
+def test_a_statement_check_does_not_buy_three_more_searches(tmp_path, monkeypatch):
+    """THE bug the four ProofNet traces show, and the one my earlier isolated
+    test could not see because it never made a second Lean call.
+
+    `searches_since_compile` was reset by every Lean call, so the cap bounded
+    RUNS of searching rather than searching. Two or three `check_statement`
+    calls per goal bought three more queries each: 5, 5, 6 and 7 searches
+    executed under a cap of 3.
+    """
+    allowed = searches_allowed(str(tmp_path), monkeypatch,
+                               before=budget.MAX_CONSECUTIVE_SEARCHES,
+                               lean=True)
+
+    assert allowed == 0, (
+        "a statement check refilled the search allowance — this is how "
+        "exercise_1_13a executed six searches under a cap of three"
+    )
+
+
+def test_a_rejected_proof_does_buy_more_searches(tmp_path, monkeypatch):
+    """The other half. A proof attempt returns a GOAL STATE, so the next query
+    can be aimed at what actually remains. That is targeted retrieval and it is
+    exactly what the allowance is for — refusing it would make the agent search
+    blindly once and then never again."""
+    allowed = searches_allowed(str(tmp_path), monkeypatch,
+                               before=budget.MAX_CONSECUTIVE_SEARCHES,
+                               lean=True, goal_state=True)
+
+    assert allowed == budget.MAX_CONSECUTIVE_SEARCHES
+
+
+def test_the_pilots_own_sequence_is_now_bounded(tmp_path, monkeypatch):
+    """exercise_1_13a as it actually ran: statement check, tactic ladder, then
+    the agent searching until something stopped it. Six searches got through."""
+    monkeypatch.setattr(budget, "MAX_SECONDS", 1e9)
+    workdir = str(tmp_path)
+    budget.reset(workdir)
+
+    budget.spend(workdir, lean=True)                     # check_statement
+    budget.spend(workdir, lean=True, goal_state=True)    # try_standard_tactics
+    ran = 0
+    while budget.spend(workdir, search=True) is None:
+        ran += 1
+
+    assert ran == budget.MAX_CONSECUTIVE_SEARCHES, f"{ran} searches, not 3"
+
+
+def test_the_tactic_ladder_counts_as_feedback(tmp_path, monkeypatch):
+    """It reports which of ~30 tactics failed and how, on the real goal."""
+    import inspect
+
+    from math_v2.tools import proving as proving_tools
+
+    src = inspect.getsource(proving_tools)
+    charges = src.count("_charge(runtime, lean=True, goal_state=True)")
+    assert charges == 4, (
+        "try_proof, try_lemma, try_skeleton and try_standard_tactics return a "
+        f"goal state; found {charges} marked so"
+    )
+    assert src.count("_charge(runtime, lean=True)\n") == 1, (
+        "only check_statement should charge Lean without a goal state"
+    )
+
+
 # ------------------------------------ 3. four failures, four categories
 def proof_run(*, statement="theorem t : True", ok=True, proved=False, trace=()):
     run = ProofRun(goal="q", statement=statement, statement_ok=ok)

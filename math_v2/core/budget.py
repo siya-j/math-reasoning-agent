@@ -108,6 +108,24 @@ BENCHMARK_2026_08 = {
 # is refused so the remainder goes to Lean.
 SEARCH_DEADLINE_FRACTION = float(os.getenv("MRA_SEARCH_DEADLINE", "0.5"))
 
+# WHY THE CONSECUTIVE-SEARCH CAP DID NOT BIND, MEASURED
+# -----------------------------------------------------
+# `searches_since_compile` used to be reset by EVERY Lean call. It is a cap on
+# RUNS of searching, not on searching, so each Lean call bought three more
+# queries — and `check_statement` is a Lean call. The four ProofNet goals ran
+# two or three statement checks each and executed 5, 5, 6 and 7 searches under
+# a cap of 3, which is exactly what the code as written permits. Tested in
+# isolation the cap fired at search 4 and looked correct; the isolated test
+# never made a second Lean call, so it could not see this.
+#
+# The distinction that matters is not "did Lean run" but "is there something
+# new to search AGAINST". A rejected proof returns a goal state — the next
+# query can be aimed at what actually remains, which is targeted retrieval and
+# is worth paying for. A statement check returns only elaborates / does not,
+# and teaches you nothing about which lemma to look for. So only a call that
+# returns a goal state refills the search allowance.
+
+
 EXHAUSTED = "budget_exhausted"
 REDIRECT = "budget_redirect"
 
@@ -199,11 +217,15 @@ def _stop(state, kind, message, terminal):
     }
 
 
-def spend(workdir, *, lean=False, search=False, symbolic=False):
+def spend(workdir, *, lean=False, search=False, symbolic=False, goal_state=False):
     """Charge one tool call. Returns None to proceed, or a structured stop.
 
     `finish` is never charged: it is the clean exit, and refusing it would be
     the one way to guarantee a run ends with no verdict at all.
+
+    `goal_state` marks a call that returns a goal state — a proof attempt, a
+    lemma, a skeleton, the tactic ladder. Only those refill the search
+    allowance, because only those give the next query something to aim at.
     """
     data, state = _state(workdir)
 
@@ -227,6 +249,9 @@ def spend(workdir, *, lean=False, search=False, symbolic=False):
     state["tool_calls"] += 1
     if lean:
         state["lean_calls"] += 1
+    if goal_state:
+        # NOT `if lean`. See the note above SEARCH_DEADLINE_FRACTION: resetting
+        # on every Lean call let two statement checks buy six searches.
         state["searches_since_compile"] = 0
     if search:
         state["searches"] += 1
