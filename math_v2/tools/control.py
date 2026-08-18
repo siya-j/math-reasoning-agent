@@ -71,7 +71,23 @@ async def finish(
     # Recorded in the trace, where the evaluator reads it. Never a verdict:
     # the guard still reports the goal as unproved, and this only stops a
     # benchmark row we cannot trust being scored against the prover.
-    if outcome == "statement_suspect":
+    #
+    # It is GUARDED like a verdict even so, because it ends the run. Measured:
+    # three of four ProofNet goals took this exit having compiled no proof at
+    # all, so `genuinely_tested` was 0 of 4. Requiring one rejected attempt
+    # makes the report cost the same as trying, which removes the incentive to
+    # prefer it. See verdict.suspect_refusal.
+    if outcome == verdict.STATEMENT_SUSPECT:
+        unearned = verdict.suspect_refusal(workdir)
+        if unearned:
+            return {
+                "ok": True,
+                "accepted": False,
+                "outcome": verdict.NOT_PROVED,
+                "error": "suspect_unearned",
+                "message": "REFUSED. " + unearned,
+                "budget": budget.summary(workdir),
+            }
         log.note(workdir, f"suspect statement: {summary[:300]}")
 
     if outcome == verdict.PROVED and not statement.strip():

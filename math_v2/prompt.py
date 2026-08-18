@@ -119,6 +119,14 @@ For a claim needing PROOF:
    and it is far more useful than silently failing to prove something that
    cannot be proved.
 
+   YOU MUST HAVE COMPILED A PROOF ATTEMPT FIRST. `statement_suspect` ends the
+   run, so it is checked like any other conclusion, and a statement check does
+   not count. Try the proof: if the statement really is missing a hypothesis
+   the rejection will show you exactly where the argument fails, which is the
+   evidence for your claim rather than a substitute for it. If it is genuinely
+   unprovable as written, prove the part that IS true with `try_lemma` and say
+   what is missing.
+
 ## Lean conventions
 
 - Mathlib is imported. Use its real names; do not invent identifiers.

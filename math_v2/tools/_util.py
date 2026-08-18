@@ -21,6 +21,7 @@ expects, so nothing in core changes between a local subprocess and the SIF.
 
 import json
 import os
+import time
 import uuid
 
 from verifiers.lean_runner import (
@@ -31,6 +32,7 @@ from verifiers.lean_runner import (
 )
 
 from math_v2 import _aura, _local
+from math_v2.core import budget
 
 # Where the agent's scratch .lean files go. Inside the workspace because that
 # is the only writable mount (gotcha 11), and /tmp is discarded between the
@@ -102,9 +104,17 @@ def _classify(source, stdout, ok):
 
 
 def lean_runner(workdir):
-    """An async `(source) -> LeanResult`, the seam `core/proving.py` injects."""
+    """An async `(source) -> LeanResult`, the seam `core/proving.py` injects.
+
+    ALSO where a compile is TIMED. Every Lean invocation in the agent passes
+    through here, so this is the one place that can tell the budget what a
+    compile actually costs on this machine — which is how the reserve stops
+    being a constant guessed on someone else's hardware. Measured failure:
+    1032s against a 300s budget, three compiles at ~340s each, 60s reserved.
+    """
 
     async def run_lean(source):
+        started = time.time()
         scratch = os.path.join(workdir, SCRATCH)
         os.makedirs(scratch, exist_ok=True)
         name = f"claim_{uuid.uuid4().hex[:8]}.lean"
@@ -122,6 +132,12 @@ def lean_runner(workdir):
                     argv=argv, workdir=workdir, tool="lean"))
         except Exception as exc:  # noqa: BLE001 - a verifier never crashes the graph
             return LeanResult(LeanOutcome.UNAVAILABLE, f"Lean could not be run: {exc}")
+        finally:
+            # In `finally` deliberately: a compile that timed out or died is
+            # still evidence of what this machine costs, and it is the SLOW
+            # ones the reserve exists to survive. Recording only successes
+            # would learn the cheapest number and keep the bug.
+            budget.record_lean_seconds(workdir, time.time() - started)
 
         text = _aura.result_text(result)
         if not getattr(result, "ok", False) and not text.strip():

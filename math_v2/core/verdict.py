@@ -41,6 +41,9 @@ VERIFIED_FALSE = "verified_false"
 NOT_PROVED = "not_proved"
 NOT_FORMALIZED = "not_formalized"
 NOT_VERIFIED = "not_verified"
+# A REPORT that the statement looks false or ill-posed. Not a verdict — we
+# cannot confirm it — but it ends the run, so it is guarded like one.
+STATEMENT_SUSPECT = "statement_suspect"
 
 BANNERS = {
     PROVED: "PROVED (Lean accepted a complete proof)",
@@ -49,7 +52,21 @@ BANNERS = {
     NOT_PROVED: "NOT PROVED",
     NOT_FORMALIZED: "NOT FORMALISED",
     NOT_VERIFIED: "NOT VERIFIED",
+    STATEMENT_SUSPECT: "STATEMENT SUSPECT (the agent's report, not a verdict)",
 }
+
+
+def attempted_a_proof(workdir: str) -> bool:
+    """Did the agent actually put a proof to the compiler for this goal?
+
+    A statement check does NOT count. It compiles the signature with a
+    placeholder and answers "can Lean parse this", which is not an attempt at
+    the mathematics.
+    """
+    return any(
+        (record.get("proof") or "").strip()
+        for record in log.records(workdir, log.PROOF)
+    )
 
 
 def proof_verdict(workdir: str, statement: str = "") -> dict:
@@ -152,3 +169,42 @@ def refuse(claim_outcome: str, verdict: dict) -> str:
             "computation as a computation, or prove the claim in Lean."
         )
     return ""
+
+
+def suspect_refusal(workdir: str) -> str:
+    """Why `statement_suspect` is not yet allowed. "" when it is.
+
+    MEASURED. On the four ProofNet goals the agent reported `statement_suspect`
+    three times and put a proof to the compiler ZERO times, once, and zero
+    times. `genuinely_tested` came out 0 of 4.
+
+    The mathematics was right — Stein & Shakarchi Ch.1 Ex.13 is stated over a
+    REGION, open and connected, and the ProofNet port has only `IsOpen`, so
+    without connectedness f can be a different constant on each component. That
+    is one of the 118/371 broken rows arXiv 2406.07222 documents, and finding
+    them is worth having.
+
+    But the exit cost nothing. Every other terminal claim in this system is
+    checked against recorded tool executions; this one was checked against
+    prose, and it ENDS THE RUN. So it had a gradient: quitting became cheaper
+    than proving, and once searching was capped the freed budget went to
+    quitting rather than to the compiler.
+
+    The rule is therefore effort, not correctness — we cannot check the
+    mathematics, and blocking the report outright would suppress a real finding
+    on a benchmark that is 31.8% broken. One compiled, rejected proof attempt
+    is enough: it makes the report cost the same as trying, so the agent has no
+    reason to prefer it, and a rejection also produces the goal state that
+    usually shows WHY the statement is wrong.
+    """
+    if attempted_a_proof(workdir):
+        return ""
+    return (
+        "You reported the statement as suspect without ever putting a proof to "
+        "the compiler. Failing to see a proof is not evidence that none exists, "
+        "and this report ends the run. Call `try_proof` with your best attempt "
+        "first — if the statement really is false the rejection will show you "
+        "which hypothesis is missing, and you may then report it. If you are "
+        "sure it is unprovable as written, prove the part that IS true with "
+        "`try_lemma` and say what the missing hypothesis is."
+    )

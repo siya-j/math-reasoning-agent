@@ -75,13 +75,37 @@ GRACE = int(os.getenv("MRA_AGENT_GRACE", "3"))
 # The cap matters as much as the value. A reservation may never eat more than
 # a quarter of the budget, whatever either number is set to, so this can never
 # again silently consume the run it exists to protect.
+# MEASURED AGAIN, and the constant was wrong a second time. On exercise_1_19b
+# the run took 1032s against a 300s budget: three statement checks at roughly
+# 340s each on Windows, where 60s was reserved. The rule "refuse to start a
+# compile that cannot finish" is FALSE whenever a compile costs more than the
+# reserve, which is exactly the case it exists to handle — so the guarantee
+# held on the hardware the number was guessed on and nowhere else.
+#
+# A constant cannot know this. The machine can: after one compile we know what
+# a compile costs here. So the reserve is now the SLOWEST compile observed for
+# this goal, and the constant below is only the seed used before there is any
+# measurement to use instead.
 LEAN_RESERVE_SECONDS = float(os.getenv("MRA_LEAN_RESERVE", "60"))
 MAX_RESERVE_FRACTION = 0.25
 
 
-def reserve():
-    """Seconds held back so a started compile can finish."""
-    return min(LEAN_RESERVE_SECONDS, MAX_SECONDS * MAX_RESERVE_FRACTION)
+def reserve(state=None):
+    """Seconds held back so a started compile can finish.
+
+    The slowest compile seen so far on this machine, seeded with
+    LEAN_RESERVE_SECONDS and capped at a quarter of the budget.
+
+    THE CAP IS LOAD-BEARING AND CUTS BOTH WAYS. Without it a 340s measurement
+    against a 300s budget would refuse every compile forever, turning an
+    overshoot into a run that does nothing at all — which is why the cap is
+    applied to the measurement too, not just to the seed. What the cap costs is
+    honesty about the overshoot: if one compile really takes longer than a
+    quarter of the budget, the budget is too small for this machine and the
+    right fix is a faster compile, not a bigger number.
+    """
+    seen = float((state or {}).get("slowest_lean") or 0.0)
+    return min(max(LEAN_RESERVE_SECONDS, seen), MAX_SECONDS * MAX_RESERVE_FRACTION)
 
 # The limits the previous agentic experiment actually ran under. Kept here so
 # a comparison against its 86% is like-for-like rather than silently generous:
@@ -130,7 +154,27 @@ EXHAUSTED = "budget_exhausted"
 REDIRECT = "budget_redirect"
 
 _FIELDS = ("tool_calls", "lean_calls", "searches", "symbolic_calls",
-           "searches_since_compile", "grace", "started", "reason", "terminated")
+           "searches_since_compile", "grace", "started", "reason", "terminated",
+           "slowest_lean")
+
+
+def record_lean_seconds(workdir, seconds):
+    """What a compile cost on this machine. Called by the Lean seam.
+
+    Only the slowest is kept. The reserve exists to survive the worst case, so
+    an average would let a fast compile talk us into starting a slow one — the
+    precise mistake that produced 1032s against a 300s budget.
+    """
+    try:
+        data, state = _state(workdir)
+        if seconds > float(state.get("slowest_lean") or 0.0):
+            state["slowest_lean"] = round(float(seconds), 1)
+            _save(workdir, data, state)
+    except Exception:  # noqa: BLE001
+        # Timing must never break a compile. This runs in a `finally` around
+        # the compiler, so an exception here would replace a real Lean result
+        # — or a real Lean error — with a stack trace about bookkeeping.
+        return
 
 
 def _state(workdir):
@@ -141,7 +185,7 @@ def _state(workdir):
     base = {
         "tool_calls": 0, "lean_calls": 0, "searches": 0, "symbolic_calls": 0,
         "searches_since_compile": 0, "grace": GRACE, "started": time.time(),
-        "reason": "", "terminated": False,
+        "reason": "", "terminated": False, "slowest_lean": 0.0,
     }
     base.update({k: v for k, v in state.items() if k in _FIELDS})
     return data, base
@@ -163,7 +207,7 @@ def reset(workdir):
     data["budget"] = {
         "tool_calls": 0, "lean_calls": 0, "searches": 0, "symbolic_calls": 0,
         "searches_since_compile": 0, "grace": GRACE, "started": time.time(),
-        "reason": "", "terminated": False,
+        "reason": "", "terminated": False, "slowest_lean": 0.0,
     }
     log._write(workdir, data)
 
@@ -188,10 +232,12 @@ def _over(state, lean):
             return "lean", f"compilation budget spent ({MAX_LEAN_CALLS} compiles)"
         # Refusing to START a compile that cannot finish inside the budget.
         # Measured overshoot without this rule: 494s against 300s.
-        if MAX_SECONDS - spent < reserve():
+        if MAX_SECONDS - spent < reserve(state):
             return "time", (
                 f"{spent:.0f}s of the {MAX_SECONDS:.0f}s budget used — under "
-                f"{reserve():.0f}s left, too little to finish a compilation"
+                f"{reserve(state):.0f}s left, too little to finish a "
+                f"compilation (slowest seen here: "
+                f"{float(state.get('slowest_lean') or 0):.0f}s)"
             )
     return "", ""
 
