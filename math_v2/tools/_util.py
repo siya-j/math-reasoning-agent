@@ -143,7 +143,12 @@ def lean_runner(workdir):
             # outcome vocabulary, the memo, the timing — is shared, so a
             # divergence in behaviour between them can only come from Lean
             # itself and not from our bookkeeping.
-            if _repl.enabled():
+            # A source carrying imports beyond the base one goes to a fresh
+            # `lake env lean` even in REPL mode. See `_repl.needs_subprocess`:
+            # three attempts to make the session handle imports each got it
+            # wrong in a different direction, so Lean reads those files itself.
+            # Identical to the subprocess arm by construction, not by argument.
+            if _repl.enabled() and not _repl.needs_subprocess(source):
                 ok, text, _startup[0] = await _repl.compile_source(
                     source, cwd=_local.LEAN_PROJECT or workdir)
             else:

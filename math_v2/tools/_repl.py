@@ -63,38 +63,14 @@ import time
 
 from math_v2 import _local
 
-# IMPORT HANDLING — MEASURED, AND WRONG TWICE BEFORE THIS
-# --------------------------------------------------------
-# The REPL rejects `import` when an `env` is specified, correctly: the import
-# is what the base environment already IS. So imports have to come out of the
-# command body. The question is what to do with them, and the first two answers
-# were both wrong.
+# IMPORT HANDLING. The session serves ONE import: `import Mathlib`, the base.
+# Anything else is routed to `lake env lean` by `needs_subprocess` below, which
+# is where the full history of getting this wrong is written down.
 #
-#   v1  `^\s*import\s+\S`, substituting only the match -> `import Mathlib`
-#       became a stray `athlib` at the top of every command.
-#
-#   v2  strip EVERY import line anywhere in the source. Silent, and therefore
-#       MORE PERMISSIVE THAN LEAN. Measured on the 15-snippet gate:
-#
-#           import Mathlib.Does.Not.Exist
-#           theorem cmp_k : True := trivial
-#
-#           subprocess -> errors     (unknown module)
-#           repl       -> compiled   (the line vanished)
-#
-#       A backend that accepts a file Lean rejects cannot be used to produce a
-#       comparable proof rate.
-#
-# v3, below, is positional and defers to Lean for everything else:
-#
-#   * Only the LEADING import block is removed — the run of import lines before
-#     the first declaration. Blank lines and comments do not end it, which is
-#     Lean's own rule and is why a real run's stray imports compiled.
-#   * An import AFTER a declaration is left exactly where it is, so Lean
-#     rejects it, exactly as the subprocess path does.
-#   * Leading imports beyond `import Mathlib` are not assumed valid. They are
-#     sent to Lean as a real import command, so a nonexistent module produces
-#     the compiler's own error rather than our silence.
+# These two patterns exist only to decide that routing, and to take the base
+# import off the front of a command the REPL will not accept it in. Blank lines
+# and `--` comments do not end an import block — Lean's rule, and the reason a
+# real run's stray imports compiled on the subprocess path.
 _IMPORT_LINE = re.compile(r"^[ \t]*import[ \t]+\S")
 _COMMENT_OR_BLANK = re.compile(r"^[ \t]*(?:--.*)?$")
 
@@ -182,9 +158,6 @@ class Session(object):
         self.base = None
         self.commands = 0
         self.version = ""
-        # Environments for sources with extra leading imports.
-        # Per session, so a recycle discards them with everything else.
-        self._import_envs = {}
         self._startup = 0.0
         self._lock = threading.Lock()
 
@@ -341,46 +314,26 @@ class Session(object):
                                   timeout or TIMEOUT)
 
     def run_source(self, source, timeout=None):
-        """Run one assembled Lean source, imports handled the way Lean does.
+        """Run one assembled Lean source against the base environment.
 
-        The common case — a source whose only leading import is `import
-        Mathlib` — costs one command against BASE and is unchanged.
-
-        A source with EXTRA leading imports pays a real import, because that is
-        the only way to find out whether the module exists without guessing.
-        The resulting environment is cached per import block, so a benchmark
-        that keeps writing the same two imports pays once, and it is a NEW base
-        rather than a derived one: bodies still run against a fixed
-        environment, never against another attempt's result.
+        The caller has already checked `needs_subprocess(source)`, so the only
+        leading import here is the base one and there is no import anywhere
+        else. Every command therefore carries `"env": BASE` — the isolation
+        property, unchanged and unqualified.
         """
         with self._lock:
             self.commands += 1
             imports, body = split_imports(source)
-            base, failure = self._base_for(extra_imports(imports), timeout)
-            if failure is not None:
-                # Lean could not resolve an import. Return it as a compile
-                # result, NOT as a transport failure: the subprocess path
-                # reports `unknown module` as ERRORS and so must this.
-                return failure
-            return self._exchange({"cmd": body, "env": base}, timeout or TIMEOUT)
-
-    def _base_for(self, extra, timeout=None):
-        """`(env, None)` to proceed, or `(None, reply)` if an import failed."""
-        if not extra:
-            return self.base, None
-
-        key = "\n".join(extra)
-        if key in self._import_envs:
-            return self._import_envs[key], None
-
-        # No `env` field: this is the one command that is ALLOWED to import,
-        # and Lean resolves the module names itself.
-        reply = self._exchange(
-            {"cmd": BASE_COMMAND + "\n" + key}, timeout or START_TIMEOUT)
-        if not accepted(reply) or "env" not in reply:
-            return None, reply
-        self._import_envs[key] = reply["env"]
-        return reply["env"], None
+            if extra_imports(imports):
+                # Unreachable through `compile_source`. If a future caller
+                # reaches it, fail loudly rather than quietly serving a source
+                # this session cannot represent faithfully.
+                raise ReplUnavailable(
+                    "this source needs imports the session cannot provide; "
+                    "`needs_subprocess` should have routed it to `lake env lean`"
+                )
+            return self._exchange({"cmd": body, "env": self.base},
+                                  timeout or TIMEOUT)
 
 
 # One session per process. Isolation is per COMMAND, via `env`, so there is no
@@ -467,11 +420,64 @@ def split_imports(source):
 def extra_imports(imports):
     """Leading imports the base environment does not already provide.
 
-    `import Mathlib` is the base by construction. Anything else has to be put
-    to Lean, because we cannot tell a real module from a typo and must not
-    guess — guessing is what made the REPL accept a file Lean rejects.
+    `import Mathlib` is the base by construction. Anything else this session
+    cannot serve — see `needs_subprocess`.
     """
     return [line for line in imports if line != BASE_COMMAND]
+
+
+def needs_subprocess(source):
+    """Must this source go to a fresh `lake env lean` instead of the session?
+
+    TRUE FOR ANY IMPORT THAT IS NOT A LEADING `import Mathlib`, and this is
+    the third attempt at import handling. The first two both tried to make the
+    REPL do it:
+
+      v1  strip the import lines with a regex that matched only part of the
+          line -> `import Mathlib` became a stray `athlib`.
+
+      v2  strip every import line, anywhere, silently. MORE PERMISSIVE THAN
+          LEAN: `import Mathlib.Does.Not.Exist` vanished and the file compiled
+          where the subprocess reported `unknown module`.
+
+      v3  send the extra imports to the live session as a real import command
+          with no `env`, so Lean would resolve them. This REGRESSED a case
+          that had been working:
+
+              import Mathlib
+              import Mathlib.Topology.Order
+              import Mathlib.Data.Real.Basic
+              theorem cmp_j : True := trivial
+
+              subprocess -> compiled     repl -> errors
+
+          Both modules exist — the subprocess compiled the identical source,
+          and this exact header came out of a real run. So the failure is not
+          module resolution; it is that a second `import` command in an
+          already-running REPL session does not behave like the first. The
+          README permits `import` only when no `env` is given and says nothing
+          about doing it twice.
+
+    Rather than guess at the REPL's import semantics a fourth time, a source
+    that needs anything beyond the base import goes to the SUBPROCESS. That is
+    not a fallback in the apologetic sense: it is the same compiler, given the
+    same file, and it is therefore identical to the subprocess arm BY
+    CONSTRUCTION rather than by our reasoning about it. All four required
+    behaviours — valid single import, valid multiple imports, invalid import,
+    import after a declaration — come out right because Lean decides all four,
+    reading the file itself.
+
+    The cost is honest and small. Of the 35 sources a real near-Mathlib run
+    produced, 2 carried extra imports: ~6% of compiles pay the full ~40s, and
+    94% keep the ~1s session path. Buying exactness for 6% of the compiles is
+    a good trade; being subtly more permissive than Lean is not.
+    """
+    imports, body = split_imports(source)
+    if extra_imports(imports):
+        return True
+    # An import after a declaration is a Lean error. It stays in the body, and
+    # rather than rely on the session reporting it the same way, Lean reads it.
+    return any(_IMPORT_LINE.match(line) for line in body.splitlines())
 
 
 def strip_imports(source):

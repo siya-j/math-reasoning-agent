@@ -1102,87 +1102,118 @@ def test_a_leading_import_of_mathlib_is_the_base(tmp_path, repl_on, monkeypatch)
     assert fake.sent == ["theorem t : True := trivial"]
 
 
-def test_valid_extra_leading_imports_are_put_to_lean(tmp_path, repl_on, monkeypatch):
-    """From a REAL run: the agent wrote two imports into its statement and the
-    subprocess arm compiled it. Blank lines do not end Lean's import block."""
+def compiled_by(monkeypatch, source, tmp_path, subprocess_result=(True, "", 0.0)):
+    """Run one source in REPL mode and report WHICH path served it."""
     fake = FakeRepl().install(monkeypatch)
-    source = ("import Mathlib\n\nimport Mathlib.Topology.Order\n"
-              "import Mathlib.Data.Real.Basic\n\ntheorem t : True := trivial")
+    took_subprocess = []
 
+    async def capture(src, workdir):
+        took_subprocess.append(src)
+        return subprocess_result
+
+    monkeypatch.setattr(_util, "_subprocess_compile", capture)
     result = run(_util.lean_runner(str(tmp_path))(source))
+    return result, ("subprocess" if took_subprocess else "repl"), fake, took_subprocess
 
+
+def test_a_valid_single_leading_import_matches_the_subprocess(tmp_path, repl_on,
+                                                              monkeypatch):
+    """REGRESSION. `import Mathlib.Topology.Order` compiled on the subprocess
+    path and ERRORED in the REPL, because v3 sent a second import command to an
+    already-running session. Both modules exist; the failure was ours."""
+    result, path, fake, written = compiled_by(
+        monkeypatch,
+        "import Mathlib\nimport Mathlib.Topology.Order\n\ntheorem t : True := trivial",
+        tmp_path)
+
+    assert path == "subprocess", "the session tried to serve an extra import again"
     assert result.outcome is LeanOutcome.COMPILED
-    assert len(fake.imported) == 1, "the extra imports were not resolved by Lean"
-    assert "Mathlib.Topology.Order" in fake.imported[0]
-    assert "Mathlib.Data.Real.Basic" in fake.imported[0]
+    assert written[0].startswith("import Mathlib"), "the source was rewritten"
 
 
-def test_a_nonexistent_module_is_an_error_not_a_silent_removal(tmp_path, repl_on,
-                                                               monkeypatch):
-    """THE FIX. This is the snippet that failed the gate."""
-    FakeRepl().install(monkeypatch)
+def test_valid_multiple_leading_imports_match_the_subprocess(tmp_path, repl_on,
+                                                             monkeypatch):
+    """The exact header a real run produced, and the row that regressed."""
+    result, path, fake, written = compiled_by(
+        monkeypatch,
+        "import Mathlib\n\nimport Mathlib.Topology.Order\n"
+        "import Mathlib.Data.Real.Basic\n\ntheorem cmp_j : True := trivial",
+        tmp_path)
 
-    result = run(_util.lean_runner(str(tmp_path))(
-        "import Mathlib\nimport Mathlib.Does.Not.Exist\ntheorem t : True := trivial"))
+    assert path == "subprocess"
+    assert result.outcome is LeanOutcome.COMPILED
+    assert "Mathlib.Topology.Order" in written[0]
+    assert "Mathlib.Data.Real.Basic" in written[0]
 
-    assert result.outcome is LeanOutcome.ERRORS, (
-        "the REPL accepted a file Lean rejects"
-    )
+
+def test_an_invalid_leading_import_is_an_error(tmp_path, repl_on, monkeypatch):
+    """Lean reports `unknown module`; so must we. Not stripped, not ignored."""
+    result, path, fake, _ = compiled_by(
+        monkeypatch,
+        "import Mathlib\nimport Mathlib.Does.Not.Exist\ntheorem t : True := trivial",
+        tmp_path,
+        subprocess_result=(False, "error: unknown module prefix 'Mathlib.Does'", 0.0))
+
+    assert path == "subprocess"
+    assert result.outcome is LeanOutcome.ERRORS
     assert "unknown module" in result.output
 
 
-def test_a_bad_import_never_reaches_the_body(tmp_path, repl_on, monkeypatch):
-    """If the import fails, the theorem must not be compiled anyway — Lean
-    would not have got that far either."""
-    fake = FakeRepl().install(monkeypatch)
+def test_the_bare_base_import_still_uses_the_session(tmp_path, repl_on, monkeypatch):
+    """The point of all this. ~94% of real sources look like this and must keep
+    the fast path — routing everything to the subprocess would be correct and
+    useless."""
+    result, path, fake, _ = compiled_by(
+        monkeypatch, "import Mathlib\ntheorem t : True := trivial", tmp_path)
 
-    run(_util.lean_runner(str(tmp_path))(
-        "import Mathlib\nimport Mathlib.Nope\ntheorem t : True := trivial"))
-
-    assert fake.sent == [], "the body ran despite an unresolvable import"
-
-
-def test_a_bad_import_is_a_compile_result_not_a_transport_failure(tmp_path,
-                                                                  repl_on,
-                                                                  monkeypatch):
-    """ERRORS, never UNAVAILABLE. The subprocess path reports `unknown module`
-    as a compiler rejection, and a mismatch here would put the goal in the
-    wrong benchmark category."""
-    FakeRepl().install(monkeypatch)
-
-    result = run(_util.lean_runner(str(tmp_path))(
-        "import Mathlib\nimport Mathlib.Nope\ntheorem t : True := trivial"))
-
-    assert result.outcome is not LeanOutcome.UNAVAILABLE
-
-
-def test_a_bad_import_does_not_kill_the_session(tmp_path, repl_on, monkeypatch):
-    """It is an ordinary rejection. Restarting on one would give back the speed."""
-    fake = FakeRepl().install(monkeypatch)
-    runner = _util.lean_runner(str(tmp_path))
-
-    run(runner("import Mathlib\nimport Mathlib.Nope\ntheorem a : True := trivial"))
-    result = run(runner("import Mathlib\ntheorem b : True := trivial"))
-
+    assert path == "repl"
+    assert fake.sent == ["theorem t : True := trivial"]
     assert result.outcome is LeanOutcome.COMPILED
-    assert fake.starts == 1
 
 
-def test_a_non_leading_import_is_left_for_lean_to_reject(tmp_path, repl_on,
-                                                         monkeypatch):
-    """Requirement: it must behave like the subprocess rather than silently
-    disappearing. So it stays exactly where the model put it, after a
-    declaration, and Lean says what it thinks."""
+def test_routing_is_decided_by_the_source_alone():
+    """Deterministic and offline — no session, no Lean, no model."""
+    assert _repl.needs_subprocess("import Mathlib\ntheorem t : True := trivial") is False
+    assert _repl.needs_subprocess("theorem t : True := trivial") is False
+    for source in (
+        "import Mathlib\nimport Mathlib.Order.Basic\ntheorem t : True := trivial",
+        "import Mathlib\nimport Mathlib.Nope\ntheorem t : True := trivial",
+        "import Mathlib\ntheorem a : True := trivial\nimport Mathlib.Late",
+    ):
+        assert _repl.needs_subprocess(source) is True, source
+
+
+def test_the_session_refuses_a_source_it_cannot_represent(tmp_path):
+    """Belt and braces. If a future caller bypasses the routing, fail loudly
+    rather than quietly serving a source with the imports missing."""
+    session = _repl.Session()
+    session.base = 0
+    session.process = object()
+
+    with pytest.raises(_repl.ReplUnavailable):
+        session.run_source("import Mathlib\nimport Mathlib.Order.Basic\n"
+                           "theorem t : True := trivial")
+
+
+def test_a_non_leading_import_goes_to_lean_itself(tmp_path, repl_on, monkeypatch):
+    """Requirement 4. It must behave like the subprocess rather than silently
+    disappearing — so Lean reads the file and says what it thinks."""
     fake = FakeRepl().install(monkeypatch)
+    written = []
+
+    async def capture(source, workdir):
+        written.append(source)
+        return False, "error: invalid 'import' command", 0.0
+
+    monkeypatch.setattr(_util, "_subprocess_compile", capture)
     source = ("import Mathlib\ntheorem a : True := trivial\n"
               "import Mathlib.Data.Real.Basic")
 
-    run(_util.lean_runner(str(tmp_path))(source))
+    result = run(_util.lean_runner(str(tmp_path))(source))
 
-    assert fake.imported == [], "a non-leading import was hoisted to the top"
-    assert "import Mathlib.Data.Real.Basic" in fake.sent[0], (
-        "the non-leading import vanished instead of reaching Lean"
-    )
+    assert result.outcome is LeanOutcome.ERRORS
+    assert written == [source], "the source was rewritten before Lean saw it"
+    assert fake.sent == [], "the session served a source it cannot represent"
 
 
 def test_comments_and_blank_lines_do_not_end_the_import_block():
@@ -1208,68 +1239,6 @@ def test_the_base_import_is_not_re_requested():
     assert _repl.extra_imports(
         ["import Mathlib", "import Mathlib.Order.Basic"]
     ) == ["import Mathlib.Order.Basic"]
-
-
-def test_an_import_environment_is_resolved_once_per_block(tmp_path, repl_on,
-                                                          monkeypatch):
-    """A real import costs what a subprocess compile costs. Paying it twice for
-    the same block would give back the speed for no correctness."""
-    fake = FakeRepl().install(monkeypatch)
-    runner = _util.lean_runner(str(tmp_path))
-    header = "import Mathlib\nimport Mathlib.Order.Basic\n"
-
-    run(runner(header + "theorem a : True := trivial"))
-    run(runner(header + "theorem b : True := trivial"))
-
-    assert len(fake.imported) == 1
-
-
-def test_an_import_environment_is_still_a_fixed_base(tmp_path, repl_on, monkeypatch):
-    """Isolation is unchanged: bodies run against BASE or against an
-    import-environment, and never against another attempt's result."""
-    sent = []
-
-    class Recording(_repl.Session):
-        def start(self):
-            self.base = 0
-            self.process = object()
-            self._import_envs = {}
-            return self
-
-        def alive(self):
-            return True
-
-        def _exchange(self, payload, timeout):
-            sent.append(payload)
-            if "env" not in payload:
-                return {"env": 500, "messages": []}
-            return {"env": 900 + len(sent), "messages": []}
-
-    monkeypatch.setattr(_repl, "Session", Recording)
-    _repl.shutdown()
-    runner = _util.lean_runner(str(tmp_path))
-    header = "import Mathlib\nimport Mathlib.Order.Basic\n"
-
-    run(runner(header + "theorem a : True := trivial"))
-    run(runner(header + "theorem b : True := trivial"))
-    run(runner("import Mathlib\ntheorem c : True := trivial"))
-
-    bodies = [p["env"] for p in sent if "env" in p]
-    assert bodies == [500, 500, 0], f"a derived environment was reused: {bodies}"
-
-
-def test_recycling_discards_the_import_environments(recyclable):
-    """They belong to the dead process. Carrying an id across a restart would
-    address an environment that no longer exists."""
-    first = _repl.session()
-    first._import_envs["import Mathlib.Order.Basic"] = 500
-    for _ in range(3):
-        first.command("theorem t : True := trivial")
-
-    second = _repl.session()
-
-    assert second is not first
-    assert second._import_envs == {}
 
 
 def test_the_subprocess_path_is_untouched_by_any_of_this(tmp_path, repl_off,
