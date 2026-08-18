@@ -25,6 +25,11 @@ OutcomeLit = Literal[
     "verified_true",    # a computation decided it true
     "verified_false",   # a computation decided it false
     "not_verified",     # nothing deterministic settled it
+    # The claim looks false or ill-posed AS STATED. A REPORT, not a verdict:
+    # we cannot confirm it, but recording it stops a broken benchmark row
+    # being counted as a proving failure. Measured on exercise_1_13c, where
+    # the agent correctly observed that the domain is not assumed connected.
+    "statement_suspect",
 ]
 
 # Which engine a claim was put to. Recorded so a report cannot blur the line

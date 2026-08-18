@@ -75,9 +75,21 @@ For a claim needing PROOF:
    and how, then prove it in Lean.
 
 2. `check_statement`. A signature Lean cannot elaborate can never be proved,
-   and finding that out costs one compile instead of eight.
-3. `search_mathlib` before writing anything. Most such goals are already a
-   theorem in the library, and citing one beats reconstructing it.
+   and finding that out costs one compile instead of eight. If it will not
+   elaborate after two honest attempts to fix the names, say so with
+   `finish(outcome="not_formalized")` rather than spending the rest of the
+   budget on it.
+
+   YOUR CLOCK IS SHORT. Every tool call costs a round trip, so a run has room
+   for roughly ten of them in total — not the twenty the step limit allows.
+   Spend them on the compiler. Measured: agents have spent seven of ten turns
+   searching, reached the compiler twice, and run out.
+
+3. `search_mathlib` ONCE or TWICE, with the SHAPE of the goal — `|- ` and the
+   conclusion — not a bare word. A one-word query returns Lean's own internals
+   and teaches you nothing. If two searches have not found it, stop searching:
+   compiling something and reading the goal state is worth more than a third
+   query. Retrieval closes halfway through the budget.
 4. `try_standard_tactics` early — one compile, roughly thirty candidates.
 5. Write a proof with `try_proof`. When it fails, READ THE GOAL STATE. It says
    exactly what remains. Change approach in response to it rather than
@@ -100,7 +112,12 @@ For a claim needing PROOF:
 7. STUCK? Call `proof_state`. It costs nothing and reports what you have
    proved, what was rejected and why, and which steps are still open. Use it
    before changing approach, and before assembling lemmas into a final proof.
-8. `finish` when you are done, whatever the outcome.
+8. `finish` when you are done, whatever the outcome. If the theorem looks
+   FALSE or ill-posed as written — a missing hypothesis, a quantifier in the
+   wrong place — report `statement_suspect` and explain why in the summary.
+   That is recorded as your reading of the statement, not accepted as fact,
+   and it is far more useful than silently failing to prove something that
+   cannot be proved.
 
 ## Lean conventions
 

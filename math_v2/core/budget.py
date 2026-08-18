@@ -99,6 +99,15 @@ BENCHMARK_2026_08 = {
     "MRA_MAX_CONSECUTIVE_SEARCHES": "3",
 }
 
+# Searching is only useful EARLY. Measured across four ProofNet goals: the
+# clock is bought by model latency, not tool work — roughly 31 seconds per
+# tool call — so a 300s budget buys about ten turns however high
+# MAX_AGENT_STEPS is set. Searches took 23 of the 35 turns available, 66%, and
+# every search after the halfway mark produced nothing usable while consuming
+# the turns that compiling needed. Past this fraction of the clock, retrieval
+# is refused so the remainder goes to Lean.
+SEARCH_DEADLINE_FRACTION = float(os.getenv("MRA_SEARCH_DEADLINE", "0.5"))
+
 EXHAUSTED = "budget_exhausted"
 REDIRECT = "budget_redirect"
 
@@ -228,7 +237,17 @@ def spend(workdir, *, lean=False, search=False, symbolic=False):
     redirect = None
     if search:
         left = MAX_LEAN_CALLS - state["lean_calls"]
-        if state["searches"] > MAX_SEARCHES:
+        spent_now = time.time() - state["started"]
+        if spent_now > MAX_SECONDS * SEARCH_DEADLINE_FRACTION:
+            redirect = (
+                f"SEARCH IS CLOSED: {spent_now:.0f}s of the {MAX_SECONDS:.0f}s "
+                "budget is gone and the rest belongs to the compiler. You have "
+                f"{left} compilation(s) left — use them. A rejected attempt "
+                "returns the goal state, which is worth more than another "
+                "query. If the whole proof is out of reach, decompose it with "
+                "`try_skeleton` and `try_lemma`."
+            )
+        elif state["searches"] > MAX_SEARCHES:
             redirect = (
                 f"ENOUGH SEARCHING: {MAX_SEARCHES} searches used. You have "
                 f"{left} compilation(s) left. Work with what you have."

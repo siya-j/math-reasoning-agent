@@ -50,8 +50,12 @@ async def finish(
     Args:
         summary: what you did and what you concluded, for the reader.
         outcome: proved | not_proved | not_formalized | verified_true |
-            verified_false | not_verified. Use `proved` only when `try_proof`
-            reported ACCEPTED. A symbolic computation is never `proved`.
+            verified_false | not_verified | statement_suspect. Use `proved`
+            only when `try_proof` reported ACCEPTED. A symbolic computation is
+            never `proved`. Use `statement_suspect` when the theorem looks
+            false or ill-posed AS WRITTEN — say why in the summary. That is
+            recorded as your report, not accepted as fact, and it keeps a
+            broken statement from counting against the proof rate.
         statement: the formal statement you are claiming, when reporting a
             proof. Required for `proved` — it is what the record is matched
             against, so a proof of a different claim cannot be offered for
@@ -63,6 +67,12 @@ async def finish(
     """
     workdir = runtime.context.workdir
     decision = verdict.proof_verdict(workdir, statement)
+
+    # Recorded in the trace, where the evaluator reads it. Never a verdict:
+    # the guard still reports the goal as unproved, and this only stops a
+    # benchmark row we cannot trust being scored against the prover.
+    if outcome == "statement_suspect":
+        log.note(workdir, f"suspect statement: {summary[:300]}")
 
     if outcome == verdict.PROVED and not statement.strip():
         return {

@@ -290,4 +290,6 @@ def test_the_outcome_vocabulary_is_closed():
     assert set(typing.get_args(OutcomeLit)) == {
         verdict.PROVED, verdict.NOT_PROVED, verdict.NOT_FORMALIZED,
         verdict.VERIFIED_TRUE, verdict.VERIFIED_FALSE, verdict.NOT_VERIFIED,
+        # A REPORT that the benchmark row looks wrong, not a verdict on it.
+        "statement_suspect",
     }

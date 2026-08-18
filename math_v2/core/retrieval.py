@@ -21,6 +21,35 @@ from math_v2.core import log
 
 MAX_SHOWN = 8
 
+# Modules that are Lean/Mathlib MACHINERY, never proof content. Measured: a
+# search for "constant" returned Std.Sat.AIG.getConstant, Lean.ConstantInfo and
+# Lean.instBEqConstantVal; "re" returned Lean.defaultMaxRecDepth and
+# Lean.Macro.MethodsRef. Eight slots of a result list, none of them usable in a
+# proof, and each wasted list cost the agent a ~30s model turn to read and
+# another to search again.
+NOISE = (
+    "Lean.", "Std.", "Init.", "Qq.", "Aesop.", "Plausible.",
+    "Mathlib.Tactic", "Batteries.Tactic",
+)
+
+
+def is_noise(premise) -> bool:
+    """Metaprogramming rather than mathematics."""
+    where = f"{getattr(premise, 'module', '')}.{getattr(premise, 'name', '')}"
+    return any(part in where for part in NOISE)
+
+
+def drop_noise(found):
+    """Filter machinery out of a result list — but NEVER down to nothing.
+
+    A filter that can empty the list would turn a poor search into a silent
+    one, and the agent cannot tell those apart. If everything matched the
+    noise patterns the query itself was wrong, and seeing that is the useful
+    signal.
+    """
+    kept = [p for p in found if not is_noise(p)]
+    return (kept, len(found) - len(kept)) if kept else (found, 0)
+
 
 def search_mathlib(workdir, query, search, limit=None):
     """Search Mathlib, remember what came back, and pass on Loogle's own hints.
@@ -39,6 +68,7 @@ def search_mathlib(workdir, query, search, limit=None):
         }
 
     found, suggestions = search.search_with_suggestions(query, limit=limit)
+    found, dropped = drop_noise(found)
 
     log.remember_premises(workdir, [
         {"name": p.name, "type": p.type, "module": p.module, "doc": p.doc}
@@ -55,6 +85,12 @@ def search_mathlib(workdir, query, search, limit=None):
         "\n\nLoogle also knows these similar names: " + ", ".join(suggestions)
         if suggestions else ""
     )
+    if dropped:
+        hint += (
+            f"\n({dropped} compiler-internal result(s) hidden. If a query keeps "
+            "returning machinery, it is too generic — search for the SHAPE of "
+            "the goal with `|- ` instead of a bare word.)"
+        )
 
     if not found:
         return {
