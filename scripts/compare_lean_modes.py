@@ -66,12 +66,17 @@ SNIPPETS = [
      "import Mathlib.Topology.Order\nimport Mathlib.Data.Real.Basic\n\n"
      "theorem cmp_j : True := trivial"),
     ("an import of a module that does not exist",
-     # THE KNOWN ASYMMETRY, and the reason this snippet is here rather than
-     # being assumed away. Subprocess: `unknown module` -> errors. REPL:
-     # strip_imports removes it -> compiles. If this row DISAGREES that is
-     # expected and documented; it is listed so the difference is visible in
-     # every run rather than discovered later.
+     # THE ROW THAT FAILED, and the reason the import handling was rewritten.
+     # It used to read: subprocess `errors` (unknown module) vs repl
+     # `compiled`, because every import line was stripped silently. A backend
+     # that accepts a file Lean rejects cannot produce a comparable proof rate.
+     # Leading imports beyond `import Mathlib` are now put to Lean, so this
+     # must agree. All fifteen rows are a hard gate; none is excused.
      "import Mathlib.Does.Not.Exist\ntheorem cmp_k : True := trivial"),
+    ("an import AFTER a declaration",
+     # Left exactly where the model put it, so Lean rejects it — the
+     # subprocess path's behaviour, not a silent removal.
+     "theorem cmp_p : True := trivial\nimport Mathlib.Data.Real.Basic"),
     ("several declarations, as kept lemmas produce",
      "lemma cmp_helper (n : Nat) : n = n := rfl\n"
      "lemma cmp_helper2 (n : Nat) : n + 0 = n := by simp\n"
