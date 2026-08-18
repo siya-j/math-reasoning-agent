@@ -10,6 +10,13 @@ Two dispatchers, because this agent has two kinds of compute:
       `lake env lean` from inside the prebuilt Mathlib project — the only way
       `import Mathlib` resolves.
 
+      With MRA_LEAN_REPL=1 the compile goes to a persistent Lean process
+      instead (`_repl.py`), which imports Mathlib once rather than on every
+      call. That is the ONLY thing the flag changes: both paths return
+      `(ok, text)` and are classified, memoised and timed by the same code
+      below, so the anti-cheat and the outcome vocabulary cannot diverge
+      between them.
+
   worker_dispatch(workdir) -> async (op, args) -> envelope
       Op-registry RPC, the `builder_v2` shape. One `math_worker` module, op
       name in argv, arguments as JSON on stdin, so SymPy's import is paid once
@@ -33,6 +40,7 @@ from verifiers.lean_runner import (
 
 from math_v2 import _aura, _local
 from math_v2.core import budget
+from math_v2.tools import _repl
 
 # Where the agent's scratch .lean files go. Inside the workspace because that
 # is the only writable mount (gotcha 11), and /tmp is discarded between the
@@ -119,21 +127,17 @@ def lean_runner(workdir):
             return cached
 
         started = time.time()
-        scratch = os.path.join(workdir, SCRATCH)
-        os.makedirs(scratch, exist_ok=True)
-        name = f"claim_{uuid.uuid4().hex[:8]}.lean"
-        path = os.path.join(scratch, name)
-        with open(path, "w", encoding="utf-8") as handle:
-            handle.write(source)
-
-        argv = lean_argv(path)
         try:
-            if _local.enabled():
-                result = await _local.run(argv, workdir,
-                                          timeout=_aura.DEFAULT_TIMEOUT)
+            # THE ONLY DIFFERENCE BETWEEN THE TWO EXECUTION PATHS. Both produce
+            # `(ok, text)` and everything after this — the anti-cheat, the
+            # outcome vocabulary, the memo, the timing — is shared, so a
+            # divergence in behaviour between them can only come from Lean
+            # itself and not from our bookkeeping.
+            if _repl.enabled():
+                ok, text = await _repl.compile_source(
+                    source, cwd=_local.LEAN_PROJECT or workdir)
             else:
-                result = await _aura.run(_aura.command_spec(
-                    argv=argv, workdir=workdir, tool="lean"))
+                ok, text = await _subprocess_compile(source, workdir)
         except Exception as exc:  # noqa: BLE001 - a verifier never crashes the graph
             return LeanResult(LeanOutcome.UNAVAILABLE, f"Lean could not be run: {exc}")
         finally:
@@ -143,14 +147,34 @@ def lean_runner(workdir):
             # would learn the cheapest number and keep the bug.
             budget.record_lean_seconds(workdir, time.time() - started)
 
-        text = _aura.result_text(result)
-        if not getattr(result, "ok", False) and not text.strip():
-            text = _aura.failure_detail(result)
-        outcome = _classify(source, text, bool(getattr(result, "ok", False)))
+        outcome = _classify(source, text, ok)
         _remember(workdir, source, outcome)
         return outcome
 
     return run_lean
+
+
+async def _subprocess_compile(source, workdir):
+    """One fresh `lake env lean`. The default path, unchanged."""
+    scratch = os.path.join(workdir, SCRATCH)
+    os.makedirs(scratch, exist_ok=True)
+    name = f"claim_{uuid.uuid4().hex[:8]}.lean"
+    path = os.path.join(scratch, name)
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(source)
+
+    argv = lean_argv(path)
+    if _local.enabled():
+        result = await _local.run(argv, workdir, timeout=_aura.DEFAULT_TIMEOUT)
+    else:
+        result = await _aura.run(_aura.command_spec(
+            argv=argv, workdir=workdir, tool="lean"))
+
+    ok = bool(getattr(result, "ok", False))
+    text = _aura.result_text(result)
+    if not ok and not text.strip():
+        text = _aura.failure_detail(result)
+    return ok, text
 
 
 # Identical source compiled twice for one goal. Lean is deterministic, so the
