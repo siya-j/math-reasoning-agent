@@ -1259,68 +1259,117 @@ def test_the_subprocess_path_is_untouched_by_any_of_this(tmp_path, repl_off,
     assert written == [source], "the subprocess path saw a rewritten source"
 
 
-# ================== N. THE EXACT SOURCE THAT DISAGREED ON THE GATE
+# ============ N. THE DEBUG SCRIPT AND THE GATE MUST BE THE SAME THING
 #
-# Verbatim from `scripts/compare_lean_modes.py`, row "a stray import the model
-# wrote", which is itself verbatim from a real near-Mathlib run. It has failed
-# the gate through three different import implementations, so it gets its own
-# test rather than being covered by a general one.
-GATE_ROW = (
-    "import Mathlib\n"
-    "import Mathlib.Topology.Order\n"
-    "import Mathlib.Data.Real.Basic\n"
-    "\n"
-    "theorem cmp_j : True := trivial"
-)
+# MEASURED FAILURE OF METHOD, not of code. `debug_one_source.py` retyped the
+# gate's source and reported AGREE while the gate reported DISAGREE on the same
+# commit. The string turned out to be identical, but that could not be known
+# without checking — and a debugging tool that might not be reproducing the
+# bug is worse than none, because it produces confident false negatives.
+#
+# So the case and the compile path are now IMPORTED, and these tests make it
+# impossible for them to drift apart again.
+import importlib.util
+from pathlib import Path
+
+SCRIPTS = Path(__file__).resolve().parent.parent / "scripts"
+TARGET_ROW = "a stray import the model wrote"
 
 
-def test_the_failing_gate_row_is_routed_to_lean_itself():
+def load_script(name):
+    spec = importlib.util.spec_from_file_location(name, SCRIPTS / f"{name}.py")
+    module = importlib.util.module_from_spec(spec)
+    import sys as _sys
+
+    _sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_the_debug_script_defines_no_case_of_its_own():
+    """It must not retype a source. One canonical definition, imported."""
+    text = (SCRIPTS / "debug_one_source.py").read_text(encoding="utf-8")
+
+    assert "import Mathlib.Topology.Order" not in text, (
+        "the debug script hard-codes a Lean source again"
+    )
+    assert "clm.SNIPPETS" in text or "SNIPPETS" in text
+    assert "compare_lean_modes" in text
+
+
+def test_the_debug_script_reuses_the_gate_compile_path():
+    """`compile_all` and `in_mode` are the gate's own functions, so the two
+    scripts cannot execute different pipelines."""
+    text = (SCRIPTS / "debug_one_source.py").read_text(encoding="utf-8")
+
+    assert "clm.compile_all" in text, "the debug script reimplements compiling"
+    assert "clm.in_mode" in text, "the debug script reimplements backend selection"
+
+
+def test_both_scripts_resolve_the_same_source_for_the_target_row():
+    """The assertion the first version needed and did not have."""
+    clm = load_script("compare_lean_modes")
+    debug = load_script("debug_one_source")
+
+    label, body = next(s for s in clm.SNIPPETS if s[0] == TARGET_ROW)
+    from_gate = clm.MATHLIB + body
+
+    assert debug.TARGET == TARGET_ROW
+    matched = [s for s in debug.gate().SNIPPETS if debug.TARGET in s[0]]
+    assert matched, "the debug script cannot find the row it targets"
+    assert debug.gate().MATHLIB + matched[0][1] == from_gate
+
+
+def test_the_target_row_routes_to_lean_itself():
     """Offline and exact. No session, no Lean, no ambiguity."""
-    assert _repl.needs_subprocess(GATE_ROW) is True
+    clm = load_script("compare_lean_modes")
+    label, body = next(s for s in clm.SNIPPETS if s[0] == TARGET_ROW)
+    source = clm.MATHLIB + body
 
-    imports, body = _repl.split_imports(GATE_ROW)
+    assert _repl.needs_subprocess(source) is True
+
+    imports, rest = _repl.split_imports(source)
     assert imports == ["import Mathlib",
                        "import Mathlib.Topology.Order",
                        "import Mathlib.Data.Real.Basic"]
-    assert body == "theorem cmp_j : True := trivial"
+    assert rest == "theorem cmp_j : True := trivial"
 
 
-def test_the_failing_gate_row_reaches_lean_unmodified(tmp_path, repl_on,
-                                                      monkeypatch):
-    """Both arms call `_subprocess_compile` with the SAME text, so the two
-    cannot disagree on this row. That is the property, asserted."""
+def test_the_target_row_reaches_lean_unmodified(tmp_path, repl_on, monkeypatch):
+    """Both arms hand `_subprocess_compile` the SAME text."""
+    clm = load_script("compare_lean_modes")
+    label, body = next(s for s in clm.SNIPPETS if s[0] == TARGET_ROW)
+    source = clm.MATHLIB + body
+
     fake = FakeRepl().install(monkeypatch)
     seen = []
 
-    async def capture(source, workdir):
-        seen.append(source)
+    async def capture(src, workdir):
+        seen.append(src)
         return True, "", 0.0
 
     monkeypatch.setattr(_util, "_subprocess_compile", capture)
+    result = run(_util.lean_runner(str(tmp_path))(source))
 
-    result = run(_util.lean_runner(str(tmp_path))(GATE_ROW))
-
-    assert seen == [GATE_ROW], "the source was altered before Lean saw it"
+    assert seen == [source], "the source was altered before Lean saw it"
     assert fake.sent == [], "the session was asked to serve it"
     assert result.outcome is LeanOutcome.COMPILED
 
 
-def test_the_failing_gate_row_gets_the_same_result_either_way(tmp_path,
-                                                              monkeypatch):
-    """The gate's own assertion, offline: same source, same compiler, same
-    answer, whichever backend is selected."""
-    outcomes = {}
-    for backend in ("subprocess", "repl"):
-        monkeypatch.setenv("MRA_LEAN_BACKEND", backend)
-        _util.forget()
-        FakeRepl().install(monkeypatch)
+def test_routing_does_not_depend_on_what_ran_before(tmp_path, repl_on, monkeypatch):
+    """SEQUENCE was the only untested variable between the two scripts. The
+    routing decision is a pure function of the source, and must stay one."""
+    clm = load_script("compare_lean_modes")
+    label, body = next(s for s in clm.SNIPPETS if s[0] == TARGET_ROW)
+    source = clm.MATHLIB + body
 
-        async def capture(source, workdir):
-            return True, "", 0.0
+    FakeRepl().install(monkeypatch)
+    decisions = [_repl.needs_subprocess(source)]
 
-        monkeypatch.setattr(_util, "_subprocess_compile", capture)
-        outcomes[backend] = run(
-            _util.lean_runner(str(tmp_path / backend))(GATE_ROW)).outcome
-    _repl.shutdown()
+    for _, earlier in clm.SNIPPETS[:9]:
+        run(_util.lean_runner(str(tmp_path))(clm.MATHLIB + earlier))
+        decisions.append(_repl.needs_subprocess(source))
 
-    assert outcomes["subprocess"] is outcomes["repl"], outcomes
+    assert set(decisions) == {True}, (
+        f"routing changed as the run progressed: {decisions}"
+    )
