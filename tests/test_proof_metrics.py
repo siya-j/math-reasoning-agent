@@ -205,9 +205,17 @@ def test_the_goal_set_loads_and_is_well_formed():
     assert all(g.goal.strip() for g in goals)
 
 
-def test_every_tier_is_represented():
+def test_every_curated_tier_is_represented():
+    """PROOFNET is excluded on purpose: it is an EXTERNAL benchmark.
+
+    It lives in its own file, loaded with --goals, so that a run against 365
+    problems we did not choose can never perturb the fifteen we did.
+    """
+    curated = set(Tier) - {Tier.PROOFNET}
     tiers = {g.tier for g in load_goals()}
-    assert tiers == set(Tier), f"missing tiers: {set(Tier) - tiers}"
+
+    assert tiers == curated, f"missing tiers: {curated - tiers}"
+    assert Tier.PROOFNET not in tiers, "an external benchmark leaked into eval/proofs.json"
 
 
 def test_in_mathlib_goals_name_the_theorem_where_known():
