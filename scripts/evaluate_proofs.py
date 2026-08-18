@@ -27,7 +27,7 @@ from eval.proof_metrics import (  # noqa: E402
     summarize,
 )
 from llm.reviewer import Reviewer  # noqa: E402
-from pipeline.proving import prove  # noqa: E402
+from pipeline.proving import environment, prove  # noqa: E402
 from verifiers.lean_runner import lean_is_available  # noqa: E402
 
 DEFAULT_OUT = Path(__file__).parent.parent / "eval" / "last_proof_run.json"
@@ -105,6 +105,7 @@ def save(results, summary, out: Path) -> None:
     out.write_text(
         json.dumps(
             {
+                "environment": environment(),
                 "summary": summary,
                 "results": [
                     r.__dict__ | {"tier": r.tier.value, "outcome": r.outcome.value}
@@ -182,6 +183,12 @@ def main() -> int:
 
     print(f"model: {config.MODEL}")
     print(f"prover: {config.PROVER}")
+    where = environment()
+    if where:
+        print(f"exec:   {where.get('execution_mode', '?')}   "
+              f"lean:   {where.get('lean_backend', '?')}"
+              + (f"   toolchain: {where['lean_toolchain']}"
+                 if where.get("lean_toolchain") else ""))
     print(f"review: {'on' if reviewer else 'off'}")
     print(f"goals: {len(goals)}  depth: {args.depth if args.depth is not None else config.LEMMA_DEPTH}\n")
 

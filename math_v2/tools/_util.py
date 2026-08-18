@@ -90,8 +90,14 @@ def _interpreter():
 
 
 def mode():
-    """Which execution path is in use. Reported by `finish`."""
+    """WHERE commands run. Reported by `finish` and written into the trace."""
     return "local" if _local.enabled() else "dispatch"
+
+
+def lean_backend():
+    """HOW Lean runs. A separate axis from `mode()` and reported separately:
+    `local+repl` would read as a third execution mode, and it is not one."""
+    return _local.lean_backend()
 
 
 def _classify(source, stdout, ok):
@@ -127,6 +133,10 @@ def lean_runner(workdir):
             return cached
 
         started = time.time()
+        # A list because `finally` may run before the assignment below — an
+        # exception on the very first compile would otherwise leave the name
+        # unbound and turn a Lean failure into a NameError.
+        _startup = [0.0]
         try:
             # THE ONLY DIFFERENCE BETWEEN THE TWO EXECUTION PATHS. Both produce
             # `(ok, text)` and everything after this — the anti-cheat, the
@@ -134,10 +144,10 @@ def lean_runner(workdir):
             # divergence in behaviour between them can only come from Lean
             # itself and not from our bookkeeping.
             if _repl.enabled():
-                ok, text = await _repl.compile_source(
+                ok, text, _startup[0] = await _repl.compile_source(
                     source, cwd=_local.LEAN_PROJECT or workdir)
             else:
-                ok, text = await _subprocess_compile(source, workdir)
+                ok, text, _startup[0] = await _subprocess_compile(source, workdir)
         except Exception as exc:  # noqa: BLE001 - a verifier never crashes the graph
             return LeanResult(LeanOutcome.UNAVAILABLE, f"Lean could not be run: {exc}")
         finally:
@@ -145,7 +155,14 @@ def lean_runner(workdir):
             # still evidence of what this machine costs, and it is the SLOW
             # ones the reserve exists to survive. Recording only successes
             # would learn the cheapest number and keep the bug.
-            budget.record_lean_seconds(workdir, time.time() - started)
+            #
+            # MINUS `startup`, which is the REPL's one-time Mathlib import and
+            # not the cost of a compile. Including it would teach the reserve
+            # that a compile costs 35s when it costs 0.2s, and a quarter of
+            # every budget would be held back for the rest of the run. The
+            # wall clock is unaffected: it is measured from `budget.reset` and
+            # never from this, so startup still counts against the deadline.
+            budget.record_lean_seconds(workdir, time.time() - started - _startup[0])
 
         outcome = _classify(source, text, ok)
         _remember(workdir, source, outcome)
@@ -174,7 +191,9 @@ async def _subprocess_compile(source, workdir):
     text = _aura.result_text(result)
     if not ok and not text.strip():
         text = _aura.failure_detail(result)
-    return ok, text
+    # The triple is shared with the REPL path. A fresh process has no
+    # amortised startup to separate out — every second of it IS the compile.
+    return ok, text, 0.0
 
 
 # Identical source compiled twice for one goal. Lean is deterministic, so the

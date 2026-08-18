@@ -316,7 +316,11 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
         ))
 
     run.trace.extend(log.read(workdir)["trace"])
+    # TWO DIMENSIONS, REPORTED SEPARATELY. `local+repl` would read as a third
+    # execution mode; it is a Lean backend running inside the local one. An
+    # A/B whose two arms cannot be told apart in the record is not an A/B.
     run.trace.append(f"execution mode: {_util.mode()}")
+    run.trace.append(f"lean backend: {_util.lean_backend()}")
     if spent["terminated_early"]:
         run.trace.append(f"stopped early: {spent['reason']}")
 

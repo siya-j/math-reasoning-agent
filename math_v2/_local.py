@@ -32,6 +32,32 @@ import subprocess
 
 MODE = os.getenv("MRA_EXEC", "").strip().lower()
 
+# TWO AXES, DELIBERATELY NOT ONE
+# ------------------------------
+#   MRA_EXEC          where a command runs   local | dispatch
+#   MRA_LEAN_BACKEND  how Lean runs          subprocess | repl
+#
+# Overloading `MRA_EXEC` with a third value was considered and rejected.
+# `enabled()` gates four unrelated things — the Lean path, the SymPy worker's
+# interpreter, the SymPy worker's dispatch, and what the trace reports — so
+# `MRA_EXEC=repl` would have silently sent every `check_numeric` through Aura
+# and broken symbolic computation on a host that has no Aura. The axes are
+# independent and are named independently.
+SUBPROCESS = "subprocess"
+REPL = "repl"
+
+
+def lean_backend():
+    """How Lean runs. Read at call time so tests and reloads see changes."""
+    backend = os.getenv("MRA_LEAN_BACKEND", "").strip().lower()
+    if backend in (SUBPROCESS, REPL):
+        return backend
+    # Backwards-compatible alias. Phase 2 shipped behind this flag and runs
+    # recorded with it must stay reproducible.
+    if os.getenv("MRA_LEAN_REPL", "").strip().lower() in ("1", "true", "yes"):
+        return REPL
+    return SUBPROCESS
+
 # Where a local Lean run happens. `lake env lean` must run from inside a Lake
 # project that depends on Mathlib — it is the only way `import Mathlib`
 # resolves, however Mathlib is installed.

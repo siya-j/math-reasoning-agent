@@ -71,6 +71,29 @@ def counting_check(check, telemetry: Telemetry):
     return counted
 
 
+def environment() -> dict:
+    """How the configured prover is executing, for the results file.
+
+    THE SAME SEAM AS `prove`, and for the same reason. `scripts/
+    evaluate_proofs.py` must not import `math_v2` — it drives whichever prover
+    is configured and knowing about one of them by name is how a "switch"
+    quietly becomes a dependency. So the evaluator asks here, and here is the
+    one place that knows which prover is selected.
+
+    Why it exists at all: the subprocess and REPL Lean backends differ by ~8x
+    in wall clock, and a results file that cannot be attributed to one of them
+    is not a measurement.
+    """
+    if config.PROVER == MATH_V2:
+        try:
+            from math_v2.tools import _repl
+
+            return _repl.describe()
+        except Exception:  # noqa: BLE001 - reporting must not break a run
+            return {"prover": MATH_V2}
+    return {"prover": config.PROVER}
+
+
 def prove(goal: str, **kwargs) -> ProofRun:
     """Run the configured prover, instrumented identically either way."""
     from pipeline import agentic_prover, prover

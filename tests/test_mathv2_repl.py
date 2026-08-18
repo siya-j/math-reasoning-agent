@@ -114,7 +114,7 @@ def _names_referenced(body):
 
 @pytest.fixture
 def repl_on(monkeypatch):
-    monkeypatch.setenv("MRA_LEAN_REPL", "1")
+    monkeypatch.setenv("MRA_LEAN_BACKEND", "repl")
     _util.forget()
     yield
     _repl.shutdown()
@@ -123,6 +123,7 @@ def repl_on(monkeypatch):
 
 @pytest.fixture
 def repl_off(monkeypatch):
+    monkeypatch.delenv("MRA_LEAN_BACKEND", raising=False)
     monkeypatch.delenv("MRA_LEAN_REPL", raising=False)
     _util.forget()
     yield
@@ -138,15 +139,15 @@ def test_the_repl_is_off_unless_asked_for(repl_off):
     assert _repl.enabled() is False
 
 
-@pytest.mark.parametrize("value", ["0", "false", "no", "", "  "])
+@pytest.mark.parametrize("value", ["subprocess", "", "  ", "nonsense"])
 def test_only_an_explicit_yes_turns_it_on(monkeypatch, value):
-    monkeypatch.setenv("MRA_LEAN_REPL", value)
+    monkeypatch.setenv("MRA_LEAN_BACKEND", value)
     assert _repl.enabled() is False
 
 
-@pytest.mark.parametrize("value", ["1", "true", "TRUE", "yes"])
+@pytest.mark.parametrize("value", ["repl", "REPL", " repl "])
 def test_the_documented_flag_turns_it_on(monkeypatch, value):
-    monkeypatch.setenv("MRA_LEAN_REPL", value)
+    monkeypatch.setenv("MRA_LEAN_BACKEND", value)
     assert _repl.enabled() is True
 
 
@@ -157,7 +158,7 @@ def test_with_the_flag_off_the_subprocess_path_runs(tmp_path, repl_off, monkeypa
 
     async def fake_subprocess(source, workdir):
         calls.append(source)
-        return True, ""
+        return True, "", 0.0
 
     monkeypatch.setattr(_util, "_subprocess_compile", fake_subprocess)
 
@@ -375,7 +376,7 @@ def test_both_modes_agree(tmp_path, monkeypatch, label, body, reply,
     source = MATHLIB + body
 
     # --- REPL mode
-    monkeypatch.setenv("MRA_LEAN_REPL", "1")
+    monkeypatch.setenv("MRA_LEAN_BACKEND", "repl")
     _util.forget()
 
     class Fixed(_repl.Session):
@@ -396,11 +397,12 @@ def test_both_modes_agree(tmp_path, monkeypatch, label, body, reply,
     _repl.shutdown()
 
     # --- subprocess mode
+    monkeypatch.delenv("MRA_LEAN_BACKEND", raising=False)
     monkeypatch.delenv("MRA_LEAN_REPL", raising=False)
     _util.forget()
 
     async def fake_subprocess(src, workdir):
-        return subprocess_result
+        return subprocess_result + (0.0,)
 
     monkeypatch.setattr(_util, "_subprocess_compile", fake_subprocess)
     via_subprocess = run(_util.lean_runner(str(tmp_path / "sub"))(source))
@@ -677,3 +679,369 @@ def test_a_configured_binary_is_launched_through_lake_env(monkeypatch):
     monkeypatch.setenv("MRA_LEAN_REPL_BIN", "/opt/repl/.lake/build/bin/repl")
 
     assert _repl.argv() == ["lake", "env", "/opt/repl/.lake/build/bin/repl"]
+
+
+# ================================ H. THE TWO AXES ARE INDEPENDENT (decision 1)
+def test_exec_and_lean_backend_are_separate_knobs(monkeypatch):
+    """`MRA_EXEC=repl` was rejected deliberately. `_local.enabled()` gates the
+    SymPy worker's interpreter and dispatch as well as Lean, so overloading it
+    would have sent every `check_numeric` through Aura on a host with no Aura
+    — a silent break in symbolic computation, caused by a Lean setting."""
+    monkeypatch.setenv("MRA_EXEC", "local")
+    monkeypatch.setenv("MRA_LEAN_BACKEND", "repl")
+    monkeypatch.setattr(_local, "MODE", "local")
+
+    assert _local.enabled() is True, "the SymPy worker path was disturbed"
+    assert _local.lean_backend() == "repl"
+    assert _util.mode() == "local"
+    assert _util.lean_backend() == "repl"
+
+
+def test_the_repl_backend_does_not_change_where_the_worker_runs(monkeypatch):
+    monkeypatch.setenv("MRA_LEAN_BACKEND", "repl")
+    monkeypatch.setattr(_local, "MODE", "local")
+
+    import sys
+
+    assert _util.worker_argv("check_primality")[0] == sys.executable
+
+
+def test_dispatch_mode_is_untouched_by_the_lean_backend(monkeypatch):
+    monkeypatch.setenv("MRA_LEAN_BACKEND", "repl")
+    monkeypatch.setattr(_local, "MODE", "dispatch")
+
+    assert _local.enabled() is False
+    assert _util.mode() == "dispatch"
+
+
+def test_the_old_flag_still_selects_the_repl(monkeypatch):
+    """Backwards compatibility. Runs recorded under MRA_LEAN_REPL=1 must stay
+    reproducible."""
+    monkeypatch.delenv("MRA_LEAN_BACKEND", raising=False)
+    monkeypatch.setenv("MRA_LEAN_REPL", "1")
+
+    assert _local.lean_backend() == "repl"
+
+
+def test_an_explicit_backend_beats_the_alias(monkeypatch):
+    monkeypatch.setenv("MRA_LEAN_BACKEND", "subprocess")
+    monkeypatch.setenv("MRA_LEAN_REPL", "1")
+
+    assert _local.lean_backend() == "subprocess"
+
+
+def test_the_default_is_the_subprocess(monkeypatch):
+    monkeypatch.delenv("MRA_LEAN_BACKEND", raising=False)
+    monkeypatch.delenv("MRA_LEAN_REPL", raising=False)
+
+    assert _local.lean_backend() == "subprocess"
+
+
+# ==================================== I. SESSION RECYCLING (decision 2)
+class Recyclable(_repl.Session):
+    """A Session with a real command counter and no process."""
+
+    spawned = 0
+
+    def _spawn(self):
+        type(self).spawned += 1
+        self.process = object()
+
+    def _exchange(self, payload, timeout):
+        if payload["cmd"] == _repl.BASE_COMMAND:
+            return {"env": 0}
+        if payload["cmd"] == _repl.VERSION_COMMAND:
+            return {"messages": [{"severity": "info", "data": "4.33.0"}]}
+        return {"env": 99, "messages": []}
+
+    def alive(self):
+        return self.process is not None
+
+    def close(self):
+        self.process = None
+
+
+@pytest.fixture
+def recyclable(monkeypatch):
+    Recyclable.spawned = 0
+    monkeypatch.setattr(_repl, "Session", Recyclable)
+    monkeypatch.setattr(_repl, "MAX_COMMANDS", 3)
+    _repl.shutdown()
+    yield Recyclable
+    _repl.shutdown()
+
+
+def test_a_session_is_reused_until_the_threshold(recyclable):
+    for _ in range(3):
+        _repl.session().command("theorem t : True := trivial")
+
+    assert recyclable.spawned == 1
+
+
+def test_the_session_is_recycled_at_the_threshold(recyclable):
+    """Every command creates an environment the REPL retains and cannot free.
+    Over a 183-goal split that is ~1,500 of them on top of Mathlib's 4-6 GB."""
+    for _ in range(4):
+        _repl.session().command("theorem t : True := trivial")
+
+    assert recyclable.spawned == 2, "the session was never recycled"
+
+
+def test_recycling_rebuilds_the_base_environment(recyclable):
+    for _ in range(4):
+        live = _repl.session()
+        live.command("theorem t : True := trivial")
+
+    assert live.base == 0, "the recycled session lost its base environment"
+    assert live.commands == 1, "the command counter did not reset"
+
+
+def test_a_recycled_session_cannot_carry_state(recyclable):
+    """A new process, so isolation is if anything stronger. What must NOT
+    happen is a recycled session inheriting a derived environment id."""
+    first = _repl.session()
+    for _ in range(3):
+        first.command("theorem a : True := trivial")
+    second = _repl.session()
+
+    assert second is not first
+    assert second.base == 0
+    assert first.process is None, "the old session was not closed"
+
+
+def test_recycling_is_configurable_and_conservative_by_default(monkeypatch):
+    import importlib
+
+    monkeypatch.delenv("MRA_LEAN_REPL_MAX_COMMANDS", raising=False)
+    reloaded = importlib.reload(_repl)
+    try:
+        assert reloaded.MAX_COMMANDS == 200
+    finally:
+        monkeypatch.setattr(_repl, "MAX_COMMANDS", reloaded.MAX_COMMANDS)
+
+
+def test_recycling_can_be_switched_off(recyclable, monkeypatch):
+    monkeypatch.setattr(_repl, "MAX_COMMANDS", 0)
+
+    for _ in range(10):
+        _repl.session().command("theorem t : True := trivial")
+
+    assert recyclable.spawned == 1
+
+
+def test_shutdown_closes_the_session(recyclable):
+    live = _repl.session()
+    _repl.shutdown()
+
+    assert live.process is None
+    assert _repl._session is None
+
+
+# ============================= J. TOOLCHAIN VALIDATION (decision 5)
+class Versioned(Recyclable):
+    reported = "4.33.0"
+
+    def _exchange(self, payload, timeout):
+        if payload["cmd"] == _repl.VERSION_COMMAND:
+            return {"messages": [{"severity": "info",
+                                  "data": f'"{type(self).reported}"'}]}
+        return super()._exchange(payload, timeout)
+
+
+def write_toolchain(tmp_path, version):
+    (tmp_path / "lean-toolchain").write_text(f"leanprover/lean4:v{version}\n")
+    return str(tmp_path)
+
+
+def test_the_project_toolchain_is_read(tmp_path):
+    assert _repl.project_toolchain(write_toolchain(tmp_path, "4.33.0")) == "4.33.0"
+
+
+def test_a_missing_toolchain_file_is_not_an_error(tmp_path):
+    assert _repl.project_toolchain(str(tmp_path)) == ""
+
+
+def test_a_matching_repl_starts(tmp_path, monkeypatch):
+    Versioned.reported = "4.33.0"
+    monkeypatch.setattr(_repl, "Session", Versioned)
+    _repl.shutdown()
+
+    live = _repl.session(write_toolchain(tmp_path, "4.33.0"))
+
+    assert live.version == "4.33.0"
+    _repl.shutdown()
+
+
+def test_a_mismatched_repl_is_a_setup_error_not_a_proof_failure(tmp_path,
+                                                                repl_on,
+                                                                monkeypatch):
+    """A REPL built for another Lean produces unknown identifiers and
+    elaboration failures — in a results file, indistinguishable from the agent
+    being bad at mathematics. A whole benchmark can be spent on it."""
+    Versioned.reported = "4.20.0"
+    monkeypatch.setattr(_repl, "Session", Versioned)
+    _repl.shutdown()
+    project = write_toolchain(tmp_path, "4.33.0")
+
+    result = run(_util.lean_runner(project)(MATHLIB + "theorem t : True := trivial"))
+
+    assert result.outcome is LeanOutcome.UNAVAILABLE
+    assert "SETUP ERROR" in result.output
+    assert "4.20.0" in result.output and "4.33.0" in result.output
+    _repl.shutdown()
+
+
+def test_an_unreadable_version_does_not_block_startup(tmp_path, monkeypatch):
+    """Better to run than to refuse over a version we could not determine —
+    the mismatch check is a safety net, not a gate."""
+    class Silent(Recyclable):
+        def _exchange(self, payload, timeout):
+            if payload["cmd"] == _repl.VERSION_COMMAND:
+                return {"messages": []}
+            return super()._exchange(payload, timeout)
+
+    monkeypatch.setattr(_repl, "Session", Silent)
+    _repl.shutdown()
+
+    live = _repl.session(write_toolchain(tmp_path, "4.33.0"))
+    assert live.base == 0
+    _repl.shutdown()
+
+
+# ============================ K. BUDGET ACCOUNTING (decision 6)
+def test_the_one_time_import_is_excluded_from_the_compile_estimate(tmp_path,
+                                                                   repl_on,
+                                                                   monkeypatch):
+    """The reserve holds back enough for ONE compile. Teaching it that a
+    compile costs 35s when it costs 0.2s would hold back a quarter of every
+    budget for the rest of the run."""
+    from math_v2.core import budget
+
+    fake = FakeRepl().install(monkeypatch)
+
+    async def slow_start(source, cwd=None, timeout=None):
+        return True, "", 40.0          # 40s of it was the Mathlib import
+
+    monkeypatch.setattr(_repl, "compile_source", slow_start)
+    budget.reset(str(tmp_path))
+
+    run(_util.lean_runner(str(tmp_path))(MATHLIB + "theorem t : True := trivial"))
+
+    assert budget.read(str(tmp_path))["slowest_lean"] == 0.0, (
+        "the session import was counted as compile cost"
+    )
+
+
+def test_startup_still_counts_against_the_wall_clock(tmp_path):
+    """Excluded from the ESTIMATE, not excused from the DEADLINE. The wall
+    clock runs from `budget.reset` and never from the compile timer."""
+    import inspect
+
+    from math_v2.core import budget
+
+    assert "started" in inspect.getsource(budget._over)
+    assert "record_lean_seconds" not in inspect.getsource(budget._over)
+
+
+def test_the_subprocess_path_reports_no_startup_to_exclude(tmp_path, repl_off,
+                                                           monkeypatch):
+    """A fresh process has no amortised startup — every second of it IS the
+    compile, and excluding any of it would understate the real cost."""
+    from math_v2.core import budget
+
+    async def fake_subprocess(source, workdir):
+        import time as t
+
+        t.sleep(0.05)
+        return True, "", 0.0
+
+    monkeypatch.setattr(_util, "_subprocess_compile", fake_subprocess)
+    budget.reset(str(tmp_path))
+
+    run(_util.lean_runner(str(tmp_path))(MATHLIB + "theorem t : True := trivial"))
+
+    assert budget.read(str(tmp_path))["slowest_lean"] > 0
+
+
+# ================================ L. OBSERVABILITY (decisions 3 and 4)
+def test_the_trace_reports_the_two_dimensions_separately(tmp_path, monkeypatch):
+    """`local+repl` would read as a third execution mode. It is not one."""
+    from math_v2 import harness
+    from math_v2.core import budget
+
+    monkeypatch.setenv("MRA_LEAN_BACKEND", "repl")
+    monkeypatch.setattr(_local, "MODE", "local")
+    monkeypatch.setattr(budget, "MAX_SECONDS", 60.0)
+
+    class Agent:
+        async def ainvoke(self, payload, context=None):
+            return {"messages": [{"role": "assistant", "content": "done"}]}
+
+    run_result = harness.prove("q", model=object(), workdir=str(tmp_path),
+                               agent_factory=lambda m, t, p: Agent())
+
+    assert "execution mode: local" in run_result.trace
+    assert "lean backend: repl" in run_result.trace
+    assert not any("local+repl" in entry for entry in run_result.trace)
+
+
+def test_the_trace_reports_the_subprocess_backend_too(tmp_path, repl_off,
+                                                      monkeypatch):
+    from math_v2 import harness
+    from math_v2.core import budget
+
+    monkeypatch.setattr(_local, "MODE", "local")
+    monkeypatch.setattr(budget, "MAX_SECONDS", 60.0)
+
+    class Agent:
+        async def ainvoke(self, payload, context=None):
+            return {"messages": [{"role": "assistant", "content": "done"}]}
+
+    run_result = harness.prove("q", model=object(), workdir=str(tmp_path),
+                               agent_factory=lambda m, t, p: Agent())
+
+    assert "lean backend: subprocess" in run_result.trace
+
+
+def test_the_backend_is_recorded_in_the_results_file(tmp_path, repl_on, monkeypatch):
+    """A results file that cannot be attributed to a backend is not a
+    measurement. The two arms of the A/B differ by ~8x in wall clock."""
+    import config
+    from eval.proof_dataset import Tier
+    from eval.proof_metrics import ProofOutcome, ProofResult, summarize
+    from scripts.evaluate_proofs import save
+
+    monkeypatch.setattr(config, "PROVER", "math_v2")
+    monkeypatch.setattr(_local, "MODE", "local")
+    out = tmp_path / "run.json"
+    results = [ProofResult(goal_id="g", area="a", tier=Tier.PROOFNET,
+                           outcome=ProofOutcome.PROVED)]
+
+    save(results, summarize(results), out)
+    written = json.loads(out.read_text())
+
+    assert written["environment"]["lean_backend"] == "repl"
+    assert written["environment"]["execution_mode"] == "local"
+
+
+def test_the_description_names_everything_needed_to_reproduce(repl_on, monkeypatch):
+    monkeypatch.setenv("MRA_LEAN_REPL_BIN", "/opt/repl/.lake/build/bin/repl")
+    monkeypatch.setattr(_local, "MODE", "local")
+
+    where = _repl.describe()
+
+    for key in ("lean_backend", "execution_mode", "lean_project",
+                "lean_toolchain", "repl_binary", "repl_version",
+                "repl_max_commands"):
+        assert key in where, key
+    assert where["repl_binary"].endswith("repl")
+
+
+def test_the_subprocess_description_does_not_claim_a_repl(repl_off, monkeypatch):
+    monkeypatch.setattr(_local, "MODE", "local")
+
+    where = _repl.describe()
+
+    assert where["lean_backend"] == "subprocess"
+    assert where["repl_binary"] == ""
+    assert where["repl_max_commands"] is None

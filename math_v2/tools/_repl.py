@@ -59,6 +59,9 @@ import os
 import re
 import subprocess
 import threading
+import time
+
+from math_v2 import _local
 
 # Lines that must not be sent inside a command: the REPL rejects `import` when
 # an `env` is specified, and the whole point is that the import already
@@ -82,9 +85,44 @@ TIMEOUT = float(os.getenv("MRA_LEAN_REPL_TIMEOUT", "180"))
 # allowance. Measured cold on Windows: 116s.
 START_TIMEOUT = float(os.getenv("MRA_LEAN_REPL_START_TIMEOUT", "600"))
 
+# SESSION RECYCLING, against unbounded memory.
+#
+# Every command creates a NEW environment which the REPL retains — env ids
+# simply increment and there is no command to free one. One session holding
+# Mathlib is 4-6 GB before any of that. Over a 183-goal split at ~8 attempts
+# each that is ~1,500 retained environments, and a benchmark that dies at goal
+# 140 with an out-of-memory kill is worse than one that pays a 35s import every
+# so often.
+#
+# Deliberately NOT tuned. 200 is a conservative guess; the threshold is here to
+# be measured later, not to be optimal now.
+MAX_COMMANDS = int(os.getenv("MRA_LEAN_REPL_MAX_COMMANDS", "200"))
+
+# Asks the running Lean what version it is. Compared against the project's
+# lean-toolchain at session start, because a REPL built for a different Lean
+# fails in ways that look like mathematics: unknown identifiers, elaboration
+# errors, statements that "do not elaborate". A benchmark can be entirely
+# ruined by it and read as a bad proof rate.
+VERSION_COMMAND = "#eval Lean.versionString"
+_VERSION = re.compile(r"(\d+\.\d+\.\d+(?:-\w+)?)")
+
 
 def enabled():
-    return os.getenv("MRA_LEAN_REPL", "").strip().lower() in ("1", "true", "yes")
+    """Is the REPL backend selected? The decision lives in `_local`."""
+    return _local.lean_backend() == _local.REPL
+
+
+def project_toolchain(project=None):
+    """The Lean version the Lake project pins, or "" if it cannot be read."""
+    project = project or _local.LEAN_PROJECT
+    if not project:
+        return ""
+    try:
+        with open(os.path.join(project, "lean-toolchain"), encoding="utf-8") as f:
+            found = _VERSION.search(f.read())
+    except OSError:
+        return ""
+    return found.group(1) if found else ""
 
 
 def argv():
@@ -118,11 +156,27 @@ class Session(object):
         self.cwd = cwd
         self.process = None
         self.base = None
+        self.commands = 0
+        self.version = ""
+        self._startup = 0.0
         self._lock = threading.Lock()
 
     # ------------------------------------------------------------- lifecycle
     def start(self):
         """Spawn the process and pay for `import Mathlib` once."""
+        began = time.time()
+        self._spawn()
+        reply = self._exchange({"cmd": BASE_COMMAND}, START_TIMEOUT)
+        if "env" not in reply:
+            raise ReplUnavailable(
+                f"the REPL did not return a base environment: {str(reply)[:300]}"
+            )
+        self.base = reply["env"]
+        self._check_version()
+        self._startup = time.time() - began
+        return self
+
+    def _spawn(self):
         self.process = subprocess.Popen(
             argv(),
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -134,16 +188,56 @@ class Session(object):
             encoding="utf-8", errors="replace",
             bufsize=1,
         )
-        reply = self._exchange({"cmd": BASE_COMMAND}, START_TIMEOUT)
-        if "env" not in reply:
+
+    def _check_version(self):
+        """Refuse a REPL built against a different Lean than the project pins.
+
+        A mismatch does not announce itself. It produces unknown identifiers
+        and elaboration failures — indistinguishable, in a results file, from
+        the agent being bad at mathematics. A whole benchmark can be spent on
+        it. So it is checked once, at startup, and reported as what it is: a
+        setup error, never a proof failure.
+        """
+        expected = project_toolchain(self.cwd)
+        reply = self._exchange({"cmd": VERSION_COMMAND, "env": self.base}, TIMEOUT)
+        found = _VERSION.search(
+            " ".join(str(m.get("data", "")) for m in (reply.get("messages") or []))
+        )
+        self.version = found.group(1) if found else ""
+
+        if expected and self.version and self.version != expected:
             raise ReplUnavailable(
-                f"the REPL did not return a base environment: {str(reply)[:300]}"
+                "SETUP ERROR, not a proof failure: the REPL binary is Lean "
+                f"{self.version} but the project pins {expected}. Rebuild the "
+                "REPL against the project's lean-toolchain:\n"
+                "    cp <project>/lean-toolchain <repl>/lean-toolchain\n"
+                "    cd <repl> && lake build\n"
+                "Results from a mismatched REPL look like mathematical "
+                "failures and are not usable."
             )
-        self.base = reply["env"]
-        return self
 
     def alive(self):
         return self.process is not None and self.process.poll() is None
+
+    def exhausted(self):
+        """Has this session run enough commands to be recycled?"""
+        return MAX_COMMANDS > 0 and self.commands >= MAX_COMMANDS
+
+    def consume_startup(self):
+        """The one-time import cost, reported ONCE.
+
+        `budget.record_lean_seconds` learns what a compile costs here so the
+        reserve can hold back enough for one. The session-start import is not
+        a compile — counting it would teach the budget that a compile costs 35s
+        when it costs 0.2s, and the reserve would hold back a quarter of the
+        clock for the rest of the run.
+
+        It still costs wall-clock time, and the wall clock is measured
+        independently from `budget.reset`, so this excludes it from the
+        steady-state ESTIMATE without excusing it from the deadline.
+        """
+        spent, self._startup = self._startup, 0.0
+        return spent
 
     def close(self):
         if self.process is None:
@@ -215,6 +309,7 @@ class Session(object):
     def command(self, body, timeout=None):
         """Run one command in a fresh environment derived from BASE."""
         with self._lock:
+            self.commands += 1
             return self._exchange({"cmd": body, "env": self.base},
                                   timeout or TIMEOUT)
 
@@ -227,14 +322,36 @@ _session_lock = threading.Lock()
 
 
 def session(cwd=None):
+    """The live session, started or RECYCLED as needed.
+
+    Recycling is transparent: the caller gets a working session either way and
+    the result semantics do not change, because a fresh session rebuilds the
+    same base environment from the same import. What it cannot do is carry
+    state across — a recycled session is a new process, so isolation is if
+    anything stronger, never weaker.
+    """
     global _session
     with _session_lock:
-        if _session is not None and _session.alive():
+        if _session is not None and _session.alive() and not _session.exhausted():
             return _session
         if _session is not None:
             _session.close()
         _session = Session(cwd=cwd).start()
         return _session
+
+
+def describe():
+    """What ran, for the results file. A benchmark number that cannot be
+    attributed to a backend is not a measurement."""
+    return {
+        "lean_backend": _local.lean_backend(),
+        "execution_mode": "local" if _local.enabled() else "dispatch",
+        "lean_project": _local.LEAN_PROJECT or "",
+        "lean_toolchain": project_toolchain(),
+        "repl_binary": os.getenv("MRA_LEAN_REPL_BIN", "") if enabled() else "",
+        "repl_version": (_session.version if _session is not None else ""),
+        "repl_max_commands": MAX_COMMANDS if enabled() else None,
+    }
 
 
 def shutdown():
@@ -293,8 +410,12 @@ def accepted(reply):
 
 
 async def compile_source(source, cwd=None, timeout=None):
-    """Run one source. Returns `(ok, text)` — the same pair the subprocess path
-    produces, so the caller classifies both identically.
+    """Run one source. Returns `(ok, text, startup_seconds)`.
+
+    The first two match the subprocess path exactly, so the caller classifies
+    both identically. The third is the one-time session import, reported so it
+    can be excluded from the steady-state compile-cost estimate — see
+    `Session.consume_startup`.
 
     RECOVERY. A timeout or a dead process destroys the session and the command
     is retried ONCE on a fresh one. That covers the two cases that matter: a
@@ -308,8 +429,9 @@ async def compile_source(source, cwd=None, timeout=None):
     for attempt in (1, 2):
         try:
             live = await asyncio.to_thread(session, cwd)
+            startup = live.consume_startup()
             reply = await asyncio.to_thread(live.command, body, timeout)
-            return accepted(reply), render(reply)
+            return accepted(reply), render(reply), startup
         except ReplUnavailable as exc:
             await asyncio.to_thread(shutdown)
             if attempt == 2:

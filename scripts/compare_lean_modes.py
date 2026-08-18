@@ -95,7 +95,8 @@ def in_mode(repl: bool, fn, *args):
     """Run `fn` with the flag set, reloading the modules that read it."""
     import importlib
 
-    os.environ["MRA_LEAN_REPL"] = "1" if repl else "0"
+    os.environ["MRA_LEAN_BACKEND"] = "repl" if repl else "subprocess"
+    os.environ.pop("MRA_LEAN_REPL", None)
     from math_v2.tools import _repl, _util
 
     importlib.reload(_repl)

@@ -266,11 +266,19 @@ def test_the_other_provers_still_route(monkeypatch):
     )
 
 
-def test_evaluate_proofs_was_not_modified():
-    """Constraint: the evaluation harness stays untouched."""
+def test_evaluate_proofs_never_imports_a_prover_directly():
+    """Constraint: the evaluator drives whichever prover is CONFIGURED.
+
+    Naming one of them turns a switch into a dependency. When the Lean backend
+    had to be recorded in the results file, the description was routed through
+    `pipeline.proving.environment()` — the same seam as `prove` — rather than
+    importing `math_v2.tools._repl` here.
+    """
     source = (ROOT / "scripts" / "evaluate_proofs.py").read_text("utf-8")
     assert "math_v2" not in source
-    assert "from pipeline.proving import prove" in source
+    assert "agentic_prover" not in source
+    assert "from pipeline.proving import" in source
+    assert "prove" in source and "environment" in source
 
 
 # ------------------------------------------------------------ local backend
