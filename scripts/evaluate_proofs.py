@@ -90,6 +90,12 @@ def save(results, summary, out: Path) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--goals",
+        help="a goals file other than the default eval/proofs.json — e.g. "
+        "eval/proofnet.json. The seven-goal near-mathlib set is never "
+        "touched by this.",
+    )
     parser.add_argument("--tier", choices=[t.value for t in Tier])
     parser.add_argument("--area")
     parser.add_argument(
@@ -121,7 +127,7 @@ def main() -> int:
     out = Path(args.out) if args.out else DEFAULT_OUT
     out.parent.mkdir(parents=True, exist_ok=True)
 
-    goals = load_goals()
+    goals = load_goals(Path(args.goals) if args.goals else None)
     if args.tier:
         goals = [g for g in goals if g.tier.value == args.tier]
     if args.area:

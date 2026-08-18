@@ -51,6 +51,13 @@ class ProofResult:
     via_synthesis: bool = False
     detail: str = ""
 
+    # Cost, so a proof rate is never quoted without the budget that bought it.
+    model_calls: int = 0
+    lean_calls: int = 0
+    retrieval_calls: int = 0
+    symbolic_calls: int = 0
+    seconds: float = 0.0
+
     # Without these a failed run is opaque, and a cause has to be guessed at.
     # `trace` says which stages ran and what they decided; `stages` records
     # what each attempt produced and why the compiler refused it.
@@ -89,6 +96,11 @@ def result_from(goal: Goal, run: ProofRun) -> ProofResult:
             and run.attempts[-1].stage is ProofStage.SYNTHESIS
         ),
         detail=run.verdict.detail if run.verdict else "",
+        model_calls=run.telemetry.model_calls,
+        lean_calls=run.telemetry.lean_calls,
+        retrieval_calls=run.telemetry.retrieval_calls,
+        symbolic_calls=run.telemetry.symbolic_calls,
+        seconds=round(run.telemetry.seconds, 1),
         trace=tuple(run.trace),
         stages=tuple(
             {

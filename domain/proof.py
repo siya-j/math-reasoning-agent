@@ -82,12 +82,17 @@ class Telemetry:
     model_calls: int = 0
     lean_calls: int = 0
     retrieval_calls: int = 0
+    # Symbolic computation is the bridge between the two engines, and until
+    # now it was tracked by the budget and reported nowhere. A run that never
+    # computed and a run that computed twenty times looked identical.
+    symbolic_calls: int = 0
     seconds: float = 0.0
 
     def summary(self) -> str:
         return (
             f"{self.model_calls} model, {self.lean_calls} lean, "
-            f"{self.retrieval_calls} retrieval, {self.seconds:.0f}s"
+            f"{self.retrieval_calls} retrieval, "
+            f"{self.symbolic_calls} sympy, {self.seconds:.0f}s"
         )
 
 

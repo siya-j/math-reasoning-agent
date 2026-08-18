@@ -29,6 +29,9 @@ class Tier(str, Enum):
     IN_MATHLIB = "in-mathlib"
     NEAR_MATHLIB = "near-mathlib"
     NOVEL = "novel"
+    # External benchmark, loaded from its own file via --goals. Our three
+    # tiers are goals we chose; this one is not, which is the point of it.
+    PROOFNET = "proofnet"
 
 
 @dataclass(frozen=True)

@@ -61,7 +61,7 @@ import tempfile
 import time
 from pathlib import Path
 
-from domain.proof import ProofAttempt, ProofRun, ProofStage, Telemetry
+from domain.proof import Lemma, ProofAttempt, ProofRun, ProofStage, Telemetry
 from domain.verdict import Verdict, VerificationStatus
 
 from math_v2.context import MathContext
@@ -280,10 +280,24 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
     if spent["terminated_early"]:
         run.trace.append(f"stopped early: {spent['reason']}")
 
+    # Auxiliary lemmas. `ProofResult.lemmas_total` has always existed and was
+    # always 0, because nothing populated `run.lemmas` — so "did decomposition
+    # fire?" was unanswerable from the results file. Every KEPT lemma was
+    # accepted by the compiler, hence a TRUE verdict; rejected ones stay in
+    # `lemma_attempts` and are not offered here.
+    for declaration in log.kept_lemmas(workdir):
+        run.lemmas.append(Lemma(
+            informal="",
+            statement=declaration.split(":=")[0].strip(),
+            proof=declaration,
+            verdict=Verdict(VerificationStatus.TRUE, "lean", "kept"),
+        ))
+
     run.telemetry = Telemetry(
         model_calls=model_calls,
         lean_calls=spent["lean_calls"],
         retrieval_calls=spent["searches"],
+        symbolic_calls=spent["symbolic_calls"],
         seconds=seconds,
     )
 
