@@ -57,6 +57,37 @@ MAX_SYMBOLIC_CALLS = int(os.getenv("MRA_MAX_AGENT_SYMBOLIC", "20"))
 MAX_SECONDS = float(os.getenv("MRA_MAX_AGENT_SECONDS", "900"))
 GRACE = int(os.getenv("MRA_AGENT_GRACE", "3"))
 
+# A statement check is a full compile — ~45s, the same as a proof attempt —
+# and it answers "can Lean parse this", not "is this true". MEASURED on
+# exercise_1_13c: three of them, 135s, 45% of a 300s budget spent before the
+# agent attempted any mathematics. Two is enough to fix a name and retry;
+# a third has never found something the second did not.
+MAX_STATEMENT_CHECKS = int(os.getenv("MRA_MAX_STATEMENT_CHECKS", "2"))
+
+# The wall clock is enforced twice, and this is the OUTER one.
+#
+# `spend()` samples the clock, and it is only called from inside a tool, so
+# time that passes with no tool running is invisible to it until the next tool
+# call. MEASURED: exercise_1_19b, three compiles ending near t=330, next budget
+# observation at t=1031 — roughly 700 unbudgeted seconds inside a model call
+# that was retrying with backoff.
+#
+# `harness.prove` therefore also bounds the whole agent loop. The margin is
+# what one in-flight compile may still need: cutting the loop off while a
+# legitimate compile is running would turn a working run into a timeout, so
+# the outer deadline is deliberately later than anything the inner budget
+# permits. Overshoot is then bounded by (MAX_SECONDS + margin) rather than
+# unbounded, which is the whole point.
+WALL_CLOCK_MARGIN = float(os.getenv("MRA_WALL_CLOCK_MARGIN", "0")) or None
+
+
+def wall_clock_deadline():
+    """Seconds after which the whole agent loop is abandoned."""
+    margin = WALL_CLOCK_MARGIN
+    if margin is None:
+        margin = _aura.DEFAULT_TIMEOUT
+    return MAX_SECONDS + margin
+
 # How much clock to hold back so a compile that starts can also finish.
 #
 # MEASURED FAILURE. This used to reserve `_aura.DEFAULT_TIMEOUT` (180s), the
@@ -155,7 +186,25 @@ REDIRECT = "budget_redirect"
 
 _FIELDS = ("tool_calls", "lean_calls", "searches", "symbolic_calls",
            "searches_since_compile", "grace", "started", "reason", "terminated",
-           "slowest_lean")
+           "slowest_lean", "statement_checks")
+
+
+def terminate(workdir, reason):
+    """End the run from OUTSIDE a tool. The wall-clock deadline's only lever.
+
+    Written to the same field the in-tool path sets, so a wall-clock stop and a
+    budget stop are indistinguishable downstream: `summary()` reports
+    `terminated_early`, `harness` writes "stopped early: ..." into the trace,
+    and `eval.proof_metrics.classify` reads that and returns EXHAUSTED. Nothing
+    needed a new outcome — an agent that ran out of clock ran out of clock.
+    """
+    try:
+        data, state = _state(workdir)
+        state["terminated"] = True
+        state["reason"] = state["reason"] or reason
+        _save(workdir, data, state)
+    except Exception:  # noqa: BLE001 - recording a stop must not raise
+        return
 
 
 def record_lean_seconds(workdir, seconds):
@@ -186,6 +235,7 @@ def _state(workdir):
         "tool_calls": 0, "lean_calls": 0, "searches": 0, "symbolic_calls": 0,
         "searches_since_compile": 0, "grace": GRACE, "started": time.time(),
         "reason": "", "terminated": False, "slowest_lean": 0.0,
+        "statement_checks": 0,
     }
     base.update({k: v for k, v in state.items() if k in _FIELDS})
     return data, base
@@ -208,6 +258,7 @@ def reset(workdir):
         "tool_calls": 0, "lean_calls": 0, "searches": 0, "symbolic_calls": 0,
         "searches_since_compile": 0, "grace": GRACE, "started": time.time(),
         "reason": "", "terminated": False, "slowest_lean": 0.0,
+        "statement_checks": 0,
     }
     log._write(workdir, data)
 
@@ -263,7 +314,8 @@ def _stop(state, kind, message, terminal):
     }
 
 
-def spend(workdir, *, lean=False, search=False, symbolic=False, goal_state=False):
+def spend(workdir, *, lean=False, search=False, symbolic=False, goal_state=False,
+          statement_check=False):
     """Charge one tool call. Returns None to proceed, or a structured stop.
 
     `finish` is never charged: it is the clean exit, and refusing it would be
@@ -272,12 +324,35 @@ def spend(workdir, *, lean=False, search=False, symbolic=False, goal_state=False
     `goal_state` marks a call that returns a goal state — a proof attempt, a
     lemma, a skeleton, the tactic ladder. Only those refill the search
     allowance, because only those give the next query something to aim at.
+
+    `statement_check` is `check_statement`, capped separately because it costs
+    a full compile and settles nothing about the mathematics.
     """
     data, state = _state(workdir)
 
     if state["terminated"]:
         result = _stop(state, "terminated", state["reason"] or "budget spent", True)
         return result
+
+    # Before the general limits, and CHARGED, so an agent that only ever
+    # re-checks its statement is still bounded by max_tool_calls.
+    if statement_check and state.get("statement_checks", 0) >= MAX_STATEMENT_CHECKS:
+        state["tool_calls"] += 1
+        _save(workdir, data, state)
+        return {
+            "ok": False,
+            "error": REDIRECT,
+            "terminated": False,
+            "message": (
+                f"ENOUGH CHECKING: {MAX_STATEMENT_CHECKS} statement checks used, "
+                "and each costs a full compilation. A check tells you whether "
+                "Lean can PARSE the claim, never whether it is true. If the "
+                "signature still will not elaborate, report it with "
+                "`finish(outcome=\"not_formalized\")` and say which name Lean "
+                "rejected. If it elaborated, prove it — `try_standard_tactics` "
+                "or `try_proof`."
+            ),
+        }
 
     kind, message = _over(state, lean)
     if message:
@@ -293,6 +368,8 @@ def spend(workdir, *, lean=False, search=False, symbolic=False, goal_state=False
         return _stop(state, kind, message, terminal)
 
     state["tool_calls"] += 1
+    if statement_check:
+        state["statement_checks"] = state.get("statement_checks", 0) + 1
     if lean:
         state["lean_calls"] += 1
     if goal_state:
@@ -355,6 +432,7 @@ def summary(workdir):
         "lean_calls": state["lean_calls"],
         "searches": state["searches"],
         "symbolic_calls": state["symbolic_calls"],
+        "statement_checks": state.get("statement_checks", 0),
         "seconds": round(time.time() - state["started"], 1),
         "terminated_early": bool(state["terminated"]),
         "reason": state["reason"],

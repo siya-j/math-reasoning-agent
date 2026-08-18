@@ -114,6 +114,10 @@ def lean_runner(workdir):
     """
 
     async def run_lean(source):
+        cached = _memo.get((workdir, _digest(source)))
+        if cached is not None:
+            return cached
+
         started = time.time()
         scratch = os.path.join(workdir, SCRATCH)
         os.makedirs(scratch, exist_ok=True)
@@ -142,9 +146,46 @@ def lean_runner(workdir):
         text = _aura.result_text(result)
         if not getattr(result, "ok", False) and not text.strip():
             text = _aura.failure_detail(result)
-        return _classify(source, text, bool(getattr(result, "ok", False)))
+        outcome = _classify(source, text, bool(getattr(result, "ok", False)))
+        _remember(workdir, source, outcome)
+        return outcome
 
     return run_lean
+
+
+# Identical source compiled twice for one goal. Lean is deterministic, so the
+# second compile can only produce the same answer — and at ~45s each, of which
+# ~35s is re-importing Mathlib, that is a third of a 300s budget thrown away.
+# Keyed by workdir, and a workdir is created per goal, so the cache lives
+# exactly as long as the goal does.
+_memo = {}
+
+# Cheaper than it looks, and worth stating: only VERDICTS are cached. A
+# compile that timed out, or found no compiler at all, says nothing about the
+# source and everything about the moment — caching those would turn one
+# transient failure into a permanent one for the rest of the goal.
+_CACHEABLE = (LeanOutcome.COMPILED, LeanOutcome.INCOMPLETE,
+              LeanOutcome.CHEATED, LeanOutcome.ERRORS)
+
+
+def _digest(source):
+    import hashlib
+
+    return hashlib.sha256(source.encode("utf-8")).hexdigest()
+
+
+def _remember(workdir, source, result):
+    if result.outcome in _CACHEABLE:
+        _memo[(workdir, _digest(source))] = result
+
+
+def forget(workdir=None):
+    """Drop cached compiles. Called when a goal starts; all of it if None."""
+    if workdir is None:
+        _memo.clear()
+        return
+    for key in [k for k in _memo if k[0] == workdir]:
+        del _memo[key]
 
 
 def worker_dispatch(workdir):

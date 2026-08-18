@@ -122,6 +122,8 @@ def prove(
     Path(workdir).mkdir(parents=True, exist_ok=True)
     log.clear(workdir)
     budget.reset(workdir)
+    # A reused workdir must not inherit another goal's compiles.
+    _util.forget(workdir)
 
     if model is None and agent_factory is build_agent:
         from llm.client import get_model
@@ -131,12 +133,29 @@ def prove(
     note("agent")
     prose = ""
     model_calls = 0
+    deadline = budget.wall_clock_deadline()
     try:
         agent = agent_factory(model, create_math_v2_tools(),
                               MATH_SYSTEM_PROMPT + COMPUTE_ENV_GUIDANCE)
-        result = _invoke(agent, goal, workdir)
+        result = _invoke(agent, goal, workdir, deadline)
         prose = _final_text(result)
         model_calls = _count_model_calls(result)
+    except (asyncio.TimeoutError, TimeoutError):
+        # THE OUTER WALL CLOCK. `budget.spend` samples the clock and is only
+        # called from inside a tool, so time spent between tool calls — a model
+        # call retrying with backoff, most of it — was invisible until the next
+        # tool call, by which point it was gone. Measured: 1032s against a 300s
+        # budget, ~700s of it inside one model call.
+        #
+        # Recorded through `budget.terminate` rather than as a new outcome, so
+        # everything downstream is unchanged: `summary()` reports
+        # `terminated_early`, `_to_proof_run` writes "stopped early: ..." into
+        # the trace, and `eval.proof_metrics.classify` reads that and returns
+        # EXHAUSTED. An agent that ran out of clock ran out of clock, however
+        # the clock was read.
+        budget.terminate(workdir, f"wall clock spent ({deadline:.0f}s)")
+        log.note(workdir, f"stopped: wall clock spent ({deadline:.0f}s) — "
+                          "the agent loop was abandoned")
     except Exception as exc:  # noqa: BLE001 - a crash must not lose the record
         # Everything the agent actually did is on disk already, so a harness
         # failure costs the prose and nothing else.
@@ -201,8 +220,29 @@ async def _ainvoke(agent, goal, workdir):
     return call(payload)
 
 
-def _invoke(agent, goal, workdir):
-    return _run_sync(_ainvoke(agent, goal, workdir))
+def _invoke(agent, goal, workdir, deadline=None):
+    """Drive the agent, bounded by a real wall clock.
+
+    `asyncio.wait_for` is applied INSIDE the coroutine that `_run_sync` runs,
+    so it works on both paths — `asyncio.run` and the worker-thread fallback —
+    without either needing to know about it.
+
+    WHAT THIS DOES AND DOES NOT GUARANTEE, precisely. It abandons the agent
+    loop: no further model call is awaited and no further tool runs. A Lean
+    subprocess already in flight is NOT killed by this, because
+    `asyncio.to_thread` cannot be cancelled — that one is bounded separately by
+    the `timeout=` passed to `subprocess.run` in `_local.run`. So the true
+    worst case is `deadline + _aura.DEFAULT_TIMEOUT`, which is finite and
+    known, where before it was whatever the model SDK felt like doing.
+    """
+    if not deadline or deadline <= 0:
+        return _run_sync(_ainvoke(agent, goal, workdir))
+
+    async def bounded():
+        return await asyncio.wait_for(_ainvoke(agent, goal, workdir),
+                                      timeout=deadline)
+
+    return _run_sync(bounded())
 
 
 def _count_model_calls(result) -> int:

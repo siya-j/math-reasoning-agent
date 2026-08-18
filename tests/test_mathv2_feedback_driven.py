@@ -227,8 +227,13 @@ def test_the_tactic_ladder_counts_as_feedback(tmp_path, monkeypatch):
         "try_proof, try_lemma, try_skeleton and try_standard_tactics return a "
         f"goal state; found {charges} marked so"
     )
-    assert src.count("_charge(runtime, lean=True)\n") == 1, (
+    # check_statement is the one Lean call that returns no goal state. It now
+    # also carries statement_check=True, which caps it separately.
+    assert src.count("_charge(runtime, lean=True, statement_check=True)") == 1, (
         "only check_statement should charge Lean without a goal state"
+    )
+    assert "goal_state=True, statement_check=True" not in src, (
+        "a statement check must not refill the search allowance"
     )
 
 

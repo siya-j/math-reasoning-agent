@@ -86,7 +86,7 @@ async def check_statement(statement: str, runtime: ToolRuntime[MathContext]) -> 
         statement: the complete Lean 4 theorem signature, beginning `theorem`
             or `lemma` and ending just before `:=`. Do not include a proof.
     """
-    stop = _charge(runtime, lean=True)
+    stop = _charge(runtime, lean=True, statement_check=True)
     if stop:
         return stop
     workdir, goal = _goal(runtime, statement)
