@@ -94,13 +94,24 @@ class Trace:
         real_repl = _repl.compile_source
 
         async def traced_subprocess(source, workdir):
+            # THE DISCRIMINATING FACT. A routed row shells out to `lake env
+            # lean` while the REPL session may still be running. Both arms call
+            # this same function on the same text, so if they disagree the
+            # difference is environmental, and a live `lake env repl` process
+            # holding the project's .lake directory is the obvious candidate —
+            # especially on Windows, where files are locked while open.
+            #
+            # Measured shapes in the failing run: a real Mathlib compile costs
+            # ~28-33s, an `unknown module` failure ~17-19s. The disagreeing row
+            # took 18.2s in the REPL arm. It is dying early.
+            live = _repl._session is not None and _repl._session.alive()
             ok, text, startup = await real_subprocess(source, workdir)
-            self.rows.append(("lake env lean", source, ok, text))
+            self.rows.append(("lake env lean", source, ok, text, live))
             return ok, text, startup
 
         async def traced_repl(source, cwd=None, timeout=None):
             ok, text, startup = await real_repl(source, cwd=cwd, timeout=timeout)
-            self.rows.append(("repl session", source, ok, text))
+            self.rows.append(("repl session", source, ok, text, True))
             return ok, text, startup
 
         _util._subprocess_compile = traced_subprocess
@@ -108,7 +119,7 @@ class Trace:
         return self
 
     def last(self):
-        return self.rows[-1] if self.rows else ("(nothing ran)", "", None, "")
+        return self.rows[-1] if self.rows else ("(nothing ran)", "", None, "", False)
 
 
 def run_arm(clm, backend, snippets, workdir):
@@ -191,13 +202,19 @@ def main() -> int:
     repl_results, repl_trace = run_arm(clm, "repl", sequence,
                                        os.path.join(workdir, "rpl"))
 
-    sub_path, sub_source, _, sub_raw = sub_trace.last()
-    repl_path, repl_source, _, repl_raw = repl_trace.last()
+    sub_path, sub_source, _, sub_raw, sub_live = sub_trace.last()
+    repl_path, repl_source, _, repl_raw, repl_live = repl_trace.last()
 
     print("\nBACKEND SELECTED:")
     print("-" * len("BACKEND SELECTED:"))
-    print(f"  subprocess arm     {sub_path}")
-    print(f"  repl arm           {repl_path}")
+    print(f"  subprocess arm     {sub_path:<16} repl session alive: {sub_live}")
+    print(f"  repl arm           {repl_path:<16} repl session alive: {repl_live}")
+    if sub_path == repl_path == "lake env lean" and repl_live and not sub_live:
+        print()
+        print("  *** Both arms ran the SAME function on the SAME text, and the")
+        print("  *** only difference is that a live `lake env repl` process was")
+        print("  *** running during the repl arm. If they disagree, that is the")
+        print("  *** cause: the session interferes with shelling out to lake.")
 
     block("SOURCE ACTUALLY PASSED TO COMPILER (subprocess arm):", sub_source)
     block("SOURCE ACTUALLY PASSED TO COMPILER (repl arm):", repl_source)
@@ -215,8 +232,8 @@ def main() -> int:
     if prefix:
         print("\nWHAT THE REPL ARM DID BEFORE THE TARGET ROW")
         print("-" * len("WHAT THE REPL ARM DID BEFORE THE TARGET ROW"))
-        for (path, _, ok, _), (row_label, _) in zip(repl_trace.rows, sequence):
-            print(f"  {row_label:<44} {path:<16} ok={ok}")
+        for (path, _, ok, _, live), (row_label, _) in zip(repl_trace.rows, sequence):
+            print(f"  {row_label:<44} {path:<16} ok={str(ok):<6} session={live}")
 
     print()
     if sub_outcome is repl_outcome:
