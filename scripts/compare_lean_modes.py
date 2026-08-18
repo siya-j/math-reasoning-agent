@@ -55,6 +55,38 @@ SNIPPETS = [
      "theorem cmp_h : True := by exact?"),
     ("an open header, as ProofNet statements carry",
      "open Complex Filter in\ntheorem cmp_i : True := trivial"),
+
+    # ---- added after the near-Mathlib A/B, which showed the nine above could
+    # not have caught an import-handling difference.
+    ("a stray import the model wrote",
+     # MEASURED, from a real run: the agent put two imports in its statement
+     # and the subprocess arm COMPILED it — blank lines do not terminate
+     # Lean's import block, so this is a legal file. The REPL strips them and
+     # its base is full Mathlib, so both should accept. Verifying, not assuming.
+     "import Mathlib.Topology.Order\nimport Mathlib.Data.Real.Basic\n\n"
+     "theorem cmp_j : True := trivial"),
+    ("an import of a module that does not exist",
+     # THE KNOWN ASYMMETRY, and the reason this snippet is here rather than
+     # being assumed away. Subprocess: `unknown module` -> errors. REPL:
+     # strip_imports removes it -> compiles. If this row DISAGREES that is
+     # expected and documented; it is listed so the difference is visible in
+     # every run rather than discovered later.
+     "import Mathlib.Does.Not.Exist\ntheorem cmp_k : True := trivial"),
+    ("several declarations, as kept lemmas produce",
+     "lemma cmp_helper (n : Nat) : n = n := rfl\n"
+     "lemma cmp_helper2 (n : Nat) : n + 0 = n := by simp\n"
+     "theorem cmp_l (n : Nat) : n + 0 = n := cmp_helper2 n"),
+    ("unicode-heavy goal state",
+     "theorem cmp_m (\u03b5 : \u211d) (h\u03b5 : \u03b5 > 0) : "
+     "\u2203 \u03b4 > 0, \u03b4 \u2264 \u03b5 := \u27e8\u03b5, h\u03b5, le_refl \u03b5\u27e9"),
+    ("a long error, stressing the response framing",
+     # The REPL frames responses with blank lines. A long multi-error reply is
+     # where an accumulate-until-blank reader would break if it were wrong.
+     "theorem cmp_n : \u2200 n : Nat, n = n + 1 := by\n"
+     "  intro n\n  simp\n  omega\n  ring_nf\n  norm_num"),
+    ("a compile that takes real time",
+     # Not a timeout, but slow enough that a hung reader would show up.
+     "theorem cmp_o : (2 : Nat) ^ 12 = 4096 := by decide"),
 ]
 
 ISOLATION = [

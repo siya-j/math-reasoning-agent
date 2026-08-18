@@ -2,10 +2,40 @@
 
     python scripts/compare_backends.py
 
-THE ACCEPTANCE GATE FOR PHASE 2. The REPL is 8x faster on snippets; that is
-worth nothing unless it decides the same goals the same way. This runs the
-curated suite — the one that has been 7/7 since the migration — through both
-backends and fails if any goal is classified differently.
+NOT A GATE, AND IT USED TO BE ONE. THAT WAS A MISTAKE.
+
+This reports; it does not judge. Per-goal outcome equality is not a valid
+acceptance test for a stochastic agent, and requiring it here conflated two
+different questions:
+
+  BACKEND CORRECTNESS  does Lean classify the same SOURCE the same way?
+      Deterministic, so equality IS valid. Tested by
+      `scripts/compare_lean_modes.py` (fixed snippets) and
+      `scripts/replay_sources.py` (every source a real run produced).
+
+  AGENT PERFORMANCE    what does a cheaper compiler buy the agent?
+      Stochastic. Per-goal outcomes need NOT match and it is a mistake to
+      demand it.
+
+MEASURED, from the first run of this script. Subprocess 71% / REPL 86%, and
+the arms were not comparable:
+
+    subprocess   50 model calls   15 lean calls   1387s
+    repl         72 model calls   33 lean calls    276s
+
+The subprocess arm's own trace says why —
+
+    budget: 293s of the 300s budget used - under 60s left,
+            too little to finish a compilation (slowest seen here: 52s)
+
+— it ran out of WALL CLOCK, not of compiles. Both arms were allowed 8
+compilations; the slow one could not afford them. So the two arms ran
+different experiments, and the honest reading of 71% vs 86% is not "the REPL
+is better at mathematics" but "the subprocess arm was starved". Which is a
+finding about the BUDGET, and worth having, but it is not this script's
+verdict to give.
+
+It therefore always exits 0. Read the numbers.
 
 ONE VARIABLE. Model, prover, budgets, retrieval and agent steps are whatever
 the environment says; only MRA_LEAN_BACKEND changes between the two arms. It
@@ -70,7 +100,9 @@ def load(path: Path) -> dict:
 
 
 def compare(a: dict, b: dict) -> list[str]:
-    """Per-goal disagreements. Outcome and statement, not wall clock."""
+    """Per-goal differences. INFORMATION, not failures — see the module
+    docstring. A different trajectory is the expected consequence of a
+    different compile budget, not evidence about Lean."""
     left = {r["goal_id"]: r for r in a.get("results", [])}
     right = {r["goal_id"]: r for r in b.get("results", [])}
     problems = []
@@ -157,16 +189,29 @@ def main() -> int:
     for arm, data in (("subprocess", sub), ("repl", repl)):
         print(f"    {arm:<12} {data.get('environment', {})}")
 
-    problems = compare(sub, repl)
+    differences = compare(sub, repl)
     print()
-    if problems:
-        print("FAILED — the backends disagree:")
-        for problem in problems:
-            print(f"  - {problem}")
-        print("\nThe REPL backend is NOT ready for the ProofNet A/B.")
-        return 1
+    if differences:
+        print("Per-goal differences (EXPECTED — the arms explore differently):")
+        for difference in differences:
+            print(f"  - {difference}")
+        print()
+        print("This is not a failure. Whether the BACKENDS agree is settled by")
+        print("scripts/replay_sources.py, which recompiles every source a real")
+        print("run produced through both and costs no model calls.")
+    else:
+        print("Both arms happened to reach the same outcome on every goal.")
+        print("With a stochastic agent that is luck, not proof of equivalence.")
 
-    print("Both backends classified every goal identically.")
+    starved = [r for r in sub.get("results", [])
+               if any("budget:" in entry or "stopped early" in entry
+                      for entry in (r.get("trace") or []))]
+    if starved:
+        print()
+        print(f"NOTE: {len(starved)} subprocess goal(s) hit a budget limit. The")
+        print("arms are then not comparable on outcome, only on cost — a goal")
+        print("that ran out of clock was not measured, it was interrupted.")
+
     return 0
 
 
