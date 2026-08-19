@@ -1,0 +1,254 @@
+{
+  "environment": {
+    "lean_backend": "subprocess",
+    "execution_mode": "local",
+    "lean_project": "C:\\Users\\SiyaJethliya\\Projects\\lean-workspace",
+    "lean_toolchain": "4.33.0",
+    "repl_binary": "",
+    "repl_version": "",
+    "repl_max_commands": null
+  },
+  "summary": {
+    "total": 7,
+    "errors": 0,
+    "attempted": 7,
+    "formalization_rate": 0.857,
+    "proof_rate": 0.714,
+    "proof_rate_of_formalized": 0.833,
+    "proof_rate_of_tested": 0.833,
+    "not_formalized": 1,
+    "exhausted": 0,
+    "suspect_statements": 0,
+    "genuinely_tested": 6,
+    "lemma_yield": null,
+    "mean_attempts": 1.0,
+    "proof_rate_in-mathlib": null,
+    "proof_rate_near-mathlib": 0.714,
+    "proof_rate_novel": null,
+    "proof_rate_proofnet": null
+  },
+  "results": [
+    {
+      "goal_id": "num-primes-strictly-above",
+      "area": "number theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "model_calls": 5,
+      "lean_calls": 2,
+      "retrieval_calls": 1,
+      "symbolic_calls": 0,
+      "seconds": 157.7,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"exists_infinite_primes\"' -> Nat.exists_infinite_primes",
+        "execution mode: local",
+        "lean backend: subprocess"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  obtain \u27e8p, hp1, hp2\u27e9 := Nat.exists_infinite_primes (n + 1)\n  use p\n  exact \u27e8hp2, hp1\u27e9",
+          "errors": "Lean accepted a complete proof of: theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p"
+        }
+      ]
+    },
+    {
+      "goal_id": "grp-subgroup-of-cyclic",
+      "area": "group theory",
+      "tier": "near-mathlib",
+      "outcome": "not_proved",
+      "statement": "theorem subgroup_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "No accepted compilation of the goal in 1 attempt(s). Failure to find a proof is not evidence that the claim is false. The agent reported: }",
+      "model_calls": 10,
+      "lean_calls": 2,
+      "retrieval_calls": 7,
+      "symbolic_calls": 0,
+      "seconds": 329.2,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"IsCyclic\"' -> IsCyclic, IsCyclic.exists_zpow_surjective, IsCyclic.mk, not_isCyclic_of_denselyOrdered, FreeGroup.instIsCyclicOfUnique, isCyclic_of_subsingleton, IsCyclic.commGroup, Nontrivial.of_not_isCyclic",
+        "search: '\"subgroup\" \"IsCyclic\"' -> nothing",
+        "search: '\"isCyclic\"' -> IsCyclic, IsCyclic.exists_zpow_surjective, IsCyclic.mk, not_isCyclic_of_denselyOrdered, FreeGroup.instIsCyclicOfUnique, isCyclic_of_subsingleton, IsCyclic.commGroup, Nontrivial.of_not_isCyclic",
+        "search: '\"IsCyclic\" \"Subgroup\"' -> nothing",
+        "search: '\"subgroup\" \"cyclic\"' -> nothing",
+        "search: '\"subgroup\"' -> AddSubgroup, Subgroup, AddSubgroup.Normal, AddSubgroup.instPartialOrder, Subgroup.Normal, Subgroup.instPartialOrder, AddSubgroup.instSetLike, AddSubgroup.normalizer",
+        "execution mode: local",
+        "lean backend: subprocess"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact IsCyclic\n    | exact IsCyclic _\n    | apply IsCyclic\n    | simpa using IsCyclic\n    | exact \u27e8_, IsCyclic\u27e9\n    | exact IsCyclic (by assumption)\n    | exact IsCyclic \u2039_\u203a\n    | apply IsCyclic <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsCyclic (by assumption))\n    | exact IsCyclic.exists_zpow_surjective\n    | exact IsCyclic.exists_zpow_surjective _\n    | apply IsCyclic.exists_zpow_surjective\n    | simpa usi",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_q4e3kpy7\\math/lean\\claim_78d8e7ea.lean:3:85: error: unsolved goals\nG : Type u_1\ninst\u271d\u00b9 : Group G\ninst\u271d : IsCyclic G\nH : Subgroup G\n\u22a2 IsCyclic \u21a5H\n\nStill to prove:\n\u22a2 IsCyclic \u21a5H"
+        }
+      ]
+    },
+    {
+      "goal_id": "ana-continuous-compact-max",
+      "area": "analysis",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "import Mathlib.Topology.Order\nimport Mathlib.Data.Real.Basic\n\ntheorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) (f : X \u2192 \u211d) (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, IsMaxOn f s x",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: import Mathlib.Topology.Order\nimport Mathlib.Data.Real.Basic\n\ntheorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) (f : X \u2192 \u211d) (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, IsMaxOn f s x",
+      "model_calls": 10,
+      "lean_calls": 3,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 158.2,
+      "trace": [
+        "statement check: does NOT elaborate \u2014 Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_9oqd6w60\\math/lean\\claim_a6bda645.lean:1:0: error: object file 'C:\\Users\\SiyaJ",
+        "statement check: elaborates",
+        "search: '\"IsCompact.exists\"' -> IsCompact.exists_clusterPt_of_frequently, IsCompact.exists_clusterPt, IsCompact.exists_mapClusterPt_of_frequently, IsCompact.exists_mapClusterPt, IsCompact.exists_isOpen_closure_subset, IsCompact.exists_isGreatest, IsCompact.exists_isLeast, IsCompact.exists_isGLB",
+        "search: '\"IsMaxOn\"' -> IsMaxOn, isMaxOn_const, IsMaxOn.isExtr, isMaxOn_univ_iff, IsMaxOn.bddAbove, IsMaxOn.inter, IsMaxOn.on_subset, isMaxOn_iff",
+        "search: 'IsCompact.exists_isMaxOn' -> IsCompact.exists_isMaxOn",
+        "execution mode: local",
+        "lean backend: subprocess"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact IsCompact.exists_isMaxOn hs hne hf",
+          "errors": "Lean accepted a complete proof of: import Mathlib.Topology.Order\nimport Mathlib.Data.Real.Basic\n\ntheorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) (f : X \u2192 \u211d) (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, IsMaxOn f s x"
+        }
+      ]
+    },
+    {
+      "goal_id": "set-reals-uncountable",
+      "area": "set theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem real_uncountable : Uncountable \u211d",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem real_uncountable : Uncountable \u211d",
+      "model_calls": 7,
+      "lean_calls": 2,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 122.2,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"uncountable\"' -> Uncountable, instInfiniteOfUncountable, instUncountablePLift, instUncountableULift, not_uncountable, Uncountable.mk, Uncountable.not_countable, not_uncountable_iff",
+        "search: '\"Real\"' -> IO.RealWorld, IO.RealWorld.nonemptyType, IO.RealWorld.instNonempty, IO.FS.realPath, IO.instMonadLiftSTRealWorldBaseIO, Lean.realPathNormalized, Lean.Environment.isRealizing, _private.Lean.Environment.0.Lean.AsyncConst.isRealized",
+        "search: '|- Uncountable \u211d' -> Cardinal.instUncountableReal",
+        "execution mode: local",
+        "lean backend: subprocess"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact Cardinal.instUncountableReal",
+          "errors": "Lean accepted a complete proof of: theorem real_uncountable : Uncountable \u211d"
+        }
+      ]
+    },
+    {
+      "goal_id": "lin-vector-space-basis",
+      "area": "linear algebra",
+      "tier": "near-mathlib",
+      "outcome": "not_formalized",
+      "statement": "theorem every_vector_space_has_basis (K : Type*) (V : Type*) [DivisionRing K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type*) (b : Basis \u03b9 K V), True",
+      "attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean could not make sense of the formal statement, so the claim was never put to the prover. The agent reported: The claim **\"Every vector space has a basis\"** is a fundamental theorem in linear algebra. It is equivalent to the Axiom of Choice.\n\nIn Lean 4 with Mathlib, this theorem is already formalized and prov",
+      "model_calls": 7,
+      "lean_calls": 1,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 301.5,
+      "trace": [
+        "statement check: does NOT elaborate \u2014 Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_ulu398ds\\math/lean\\claim_8f8d9220.lean:3:109: error: Function expected at\n  Ba",
+        "search: '\"exists_basis\"' -> Module.Free.exists_basis, finrank_eq_zero_of_not_exists_basis, finrank_eq_zero_of_not_exists_basis_finite, finrank_eq_zero_of_not_exists_basis_finset, Module.Basis.exists_basis, exists_basis_of_pairing_eq_zero, exists_basis_of_pairing_ne_zero, Algebra.norm_eq_one_of_not_exists_basis",
+        "search: 'Module.Basis.exists_basis' -> Module.Basis.exists_basis",
+        "search: '\"Basis\"' -> Module.Basis, Module.Basis.instFunLike, Module.Basis.reindex, Module.Basis.instInhabitedFinsupp, Module.Basis.reindex_refl, Module.Basis.sumCoords, Module.Basis.coord, Module.Basis.injective",
+        "budget: 293s of the 300s budget used \u2014 under 60s left, too little to finish a compilation (slowest seen here: 52s)",
+        "execution mode: local",
+        "lean backend: subprocess"
+      ],
+      "stages": []
+    },
+    {
+      "goal_id": "top-compact-image",
+      "area": "topology",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)",
+      "model_calls": 5,
+      "lean_calls": 2,
+      "retrieval_calls": 1,
+      "symbolic_calls": 0,
+      "seconds": 116.1,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"IsCompact.image\"' -> IsCompact.image, IsCompact.image_of_continuousOn",
+        "execution mode: local",
+        "lean backend: subprocess"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact hs.image hf",
+          "errors": "Lean accepted a complete proof of: theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)"
+        }
+      ]
+    },
+    {
+      "goal_id": "num-sqrt-two-irrational",
+      "area": "number theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem sqrt_two_irrational : Irrational \u221a2",
+      "attempts": 2,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem sqrt_two_irrational : Irrational \u221a2",
+      "model_calls": 6,
+      "lean_calls": 3,
+      "retrieval_calls": 1,
+      "symbolic_calls": 0,
+      "seconds": 198.8,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"irrational_sqrt\"' -> Nat.Prime.irrational_sqrt, irrational_sqrt_natCast_iff, irrational_sqrt_two, irrational_sqrt_intCast_iff_of_nonneg, irrational_sqrt_ratCast_iff_of_nonneg, irrational_sqrt_intCast_iff, irrational_sqrt_ratCast_iff, irrational_sqrt_ofNat_iff",
+        "execution mode: local",
+        "lean backend: subprocess"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "irrational_sqrt_two",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_x653duk0\\math/lean\\claim_082d3159.lean:4:3: error: unknown tactic\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_x653duk0\\math/lean\\claim_082d3159.lean:3:36: error: unsolved goals\n\u22a2 Irrational \u221a2\n\nStill to prove:\n\u22a2 Irrational \u221a2"
+        },
+        {
+          "stage": "direct",
+          "proof": "exact irrational_sqrt_two",
+          "errors": "Lean accepted a complete proof of: theorem sqrt_two_irrational : Irrational \u221a2"
+        }
+      ]
+    }
+  ]
+}
