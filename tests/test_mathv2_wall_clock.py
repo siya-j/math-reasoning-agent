@@ -378,3 +378,56 @@ def test_the_anticheat_still_runs_on_a_cached_result(tmp_path, local_backend,
     assert first.outcome is LeanOutcome.INCOMPLETE
     assert second.outcome is LeanOutcome.INCOMPLETE
     assert backend.calls == 1
+
+
+# ------------- a budget stop is EXHAUSTED even when the agent obeys it
+def test_hitting_the_compile_budget_is_recorded_as_stopped_early(tmp_path):
+    """MEASURED on proofnet `exercise_1_2`. The agent proved both helper
+    lemmas, hit the compile limit, was told to stop, and stopped — so
+    `terminated` was never set, no note was written, and the run was scored
+    NOT_PROVED instead of EXHAUSTED.
+
+    The incentive that created is backwards: ignoring the stop and burning the
+    grace got you excluded from the denominator; obeying it got you counted as
+    a proving failure.
+    """
+    from domain.proof import ProofRun
+    from eval.proof_metrics import ProofOutcome, classify
+    from math_v2.core import budget
+
+    workdir = str(tmp_path)
+    budget.reset(workdir)
+    monkey = budget.MAX_LEAN_CALLS
+    try:
+        budget.MAX_LEAN_CALLS = 1
+        assert budget.spend(workdir, lean=True) is None      # the one allowed
+        stop = budget.spend(workdir, lean=True)              # blocked
+    finally:
+        budget.MAX_LEAN_CALLS = monkey
+
+    spent = budget.summary(workdir)
+
+    assert stop is not None, "the second compile was not refused"
+    assert spent["terminated_early"] is False, "grace was not consumed"
+    assert spent["reason"], "no reason recorded for the block"
+
+    # What `harness` now writes, and what `classify` reads.
+    run_ = ProofRun(goal="q", statement="theorem t : True", statement_ok=True)
+    run_.trace.append(f"stopped early: {spent['reason']}")
+
+    assert classify(run_) is ProofOutcome.EXHAUSTED
+
+
+def test_a_search_redirect_is_not_mistaken_for_exhaustion(tmp_path):
+    """`_over` sets `reason` only for the time, tool and compile budgets. A
+    search redirect must not make a goal look exhausted."""
+    from math_v2.core import budget
+
+    workdir = str(tmp_path)
+    budget.reset(workdir)
+    for _ in range(budget.MAX_CONSECUTIVE_SEARCHES + 2):
+        budget.spend(workdir, search=True)
+
+    assert budget.summary(workdir)["reason"] == "", (
+        "a search redirect set the exhaustion reason"
+    )

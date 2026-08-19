@@ -321,7 +321,19 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
     # A/B whose two arms cannot be told apart in the record is not an A/B.
     run.trace.append(f"execution mode: {_util.mode()}")
     run.trace.append(f"lean backend: {_util.lean_backend()}")
-    if spent["terminated_early"]:
+    # `reason`, NOT `terminated_early`. MEASURED on proofnet `exercise_1_2`:
+    # the agent proved both helper lemmas, hit the compile limit, was told to
+    # stop, and stopped cleanly on the first warning. `terminated` is only set
+    # once the GRACE of 3 further calls is also spent, so no note was written
+    # and `eval.proof_metrics.classify` fell through to NOT_PROVED — a budget
+    # failure scored as a proving failure, in the proof-rate denominator.
+    #
+    # The perverse incentive is the point: an agent that ignored the stop and
+    # burned three more calls was classified EXHAUSTED (excluded), while one
+    # that obeyed it was classified NOT_PROVED (counted against). `reason` is
+    # set the moment a limit blocks a call, and `_over` sets it only for the
+    # time, tool and compile budgets — a search redirect never touches it.
+    if spent["reason"]:
         run.trace.append(f"stopped early: {spent['reason']}")
 
     # Auxiliary lemmas. `ProofResult.lemmas_total` has always existed and was
