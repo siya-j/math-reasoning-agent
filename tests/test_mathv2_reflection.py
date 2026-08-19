@@ -80,10 +80,16 @@ def test_whitespace_is_not_a_change(tmp_path, lean_calls):
 
 
 def test_a_genuinely_different_proof_is_compiled(tmp_path, lean_calls):
-    """The check must stop repetition, not stop work."""
+    """The check must stop repetition, not stop work.
+
+    `by norm_num` after `by simp` is no longer "different" — both are closers
+    `try_standard_tactics` runs in one file, so the second cannot learn
+    anything the first did not. A real argument still compiles.
+    """
     rt = runtime_for(tmp_path)
     run(try_proof.ainvoke({"proof": "by simp", "statement": STATEMENT, "runtime": rt}))
-    run(try_proof.ainvoke({"proof": "by norm_num", "runtime": rt}))
+    run(try_proof.ainvoke({"proof": "by\n  have h : 2 + 2 = 4 := by norm_num\n  exact h",
+                           "runtime": rt}))
 
     assert len(lean_calls) == 2
 

@@ -92,7 +92,11 @@ async def check_statement(statement: str, runtime: ToolRuntime[MathContext]) -> 
     workdir, goal = _goal(runtime, statement)
     if not goal:
         return _no_goal()
-    return await proving.check_statement(workdir, goal, lean_runner(workdir))
+    from math_v2.tools.retrieval import get_search
+
+    return await proving.check_statement(
+        workdir, goal, lean_runner(workdir), get_search()
+    )
 
 
 @tool

@@ -85,17 +85,62 @@ For a claim needing PROOF:
    Spend them on the compiler. Measured: agents have spent seven of ten turns
    searching, reached the compiler twice, and run out.
 
-3. `search_mathlib` ONCE or TWICE, with the SHAPE of the goal — `|- ` and the
-   conclusion — not a bare word. A one-word query returns Lean's own internals
-   and teaches you nothing. If two searches have not found it, stop searching:
-   compiling something and reading the goal state is worth more than a third
-   query. Retrieval closes halfway through the budget.
-4. `try_standard_tactics` early — one compile, roughly thirty candidates.
-5. Write a proof with `try_proof`. When it fails, READ THE GOAL STATE. It says
-   exactly what remains. Change approach in response to it rather than
-   resubmitting a variation of the same proof — an identical resubmission is
-   refused without compiling.
-6. If the whole proof resists you, DECOMPOSE rather than trying harder.
+3. SAY THE ARGUMENT BEFORE YOU WRITE ANY LEAN. One or two sentences, in
+   mathematics, in your reasoning:
+
+     what KIND of object the goal is about        (a holomorphic function on
+                                                   an open set)
+     what the standard argument is                (constant real part forces
+                                                   f' = 0 via Cauchy-Riemann;
+                                                   f' = 0 on a CONNECTED open
+                                                   set forces f constant)
+     which step is the one Mathlib will have      (deriv = 0 -> constant on a
+                                                   preconnected open set)
+     what could make it FALSE as stated           (Ω is only assumed open, not
+                                                   connected)
+
+   This is not commentary. Each line becomes something concrete: the third is
+   your search query, the fourth is a `try_refutation`, and the second is the
+   list of `have`s in your skeleton. Skipping it is how a goal about complex
+   analysis ends up answered with `aesop`.
+
+4. `search_mathlib` for the STEP you named, not for a word in the statement.
+   `"constant"` and `"deriv"` return Lean's own internals and teach you
+   nothing. Search the SHAPE — `|- ` and the conclusion you need — or a name
+   fragment in double quotes. Two searches, then stop: compiling something and
+   reading the goal state is worth more than a third query.
+
+   READ THE SIGNATURES that come back, do not just take the names. Mathlib's
+   argument order is often not the obvious one, and the hypotheses it demands
+   are what tell you whether your argument actually goes through. A lemma
+   wanting `IsPreconnected Ω` when you only have `IsOpen Ω` has just told you
+   something important about the statement.
+
+5. `try_standard_tactics` ONCE. It compiles about thirty closers — rfl, simp,
+   decide, omega, linarith, aesop and the rest — in a single file. That is the
+   whole of what generic tactics can do for this goal.
+
+   So when it fails, DO NOT submit `by aesop`, `by simp` or `by trivial` on
+   their own. They were in the ladder, they were tried, Lean said no; a second
+   one is refused without compiling. The goal now needs an argument.
+
+6. Write the argument with `try_proof`, one meaningful step at a time. When it
+   fails, READ THE GOAL STATE — it says exactly what remains, and the
+   rejection tells you what KIND of failure it was:
+
+     unknown identifier      -> the name is wrong; search the fragment
+     type mismatch           -> the lemma is right, the arguments are not;
+                                search its exact name and read the signature
+     typeclass / instance    -> a coercion or a type problem, not a
+                                mathematical one
+     unsolved goals          -> your steps were ACCEPTED; what is printed is
+                                the new, smaller target. Aim at that.
+
+   Change approach in response to the specific failure rather than
+   resubmitting a variation — an identical resubmission is refused without
+   compiling, and so is a second generic closer.
+
+7. If the whole proof resists you, DECOMPOSE rather than trying harder.
 
    What the computations in step 1 told you is where the intermediate claims
    come from. A special case that held, a factorisation that came out, a bound
@@ -109,10 +154,10 @@ For a claim needing PROOF:
    write afterwards — then assemble the whole proof with `try_proof`. Nobody
    writes a long Mathlib proof in one attempt.
 
-7. STUCK? Call `proof_state`. It costs nothing and reports what you have
+8. STUCK? Call `proof_state`. It costs nothing and reports what you have
    proved, what was rejected and why, and which steps are still open. Use it
    before changing approach, and before assembling lemmas into a final proof.
-8. `finish` when you are done, whatever the outcome. If the theorem looks
+9. `finish` when you are done, whatever the outcome. If the theorem looks
    FALSE or ill-posed as written — a missing hypothesis, a quantifier in the
    wrong place — report `statement_suspect` and explain why in the summary.
    That is recorded as your reading of the statement, not accepted as fact,
@@ -219,6 +264,21 @@ looks like a verified one.
   search_mathlib("exists_infinite_primes") -> Nat.exists_infinite_primes,
       which gives n <= p, not n < p
   try_proof citing it at n+1 -> ACCEPTED
+
+"f is holomorphic on an open Omega and Re(f) is constant; show f is constant."
+  strategy, before any Lean: Re(f) constant -> Cauchy-Riemann -> f' = 0;
+      f' = 0 on a CONNECTED open set -> f constant. Omega is only assumed
+      OPEN. That gap is the whole problem.
+  check_statement -> elaborates
+  search_mathlib("|- _ = _", "is_const_of_deriv_eq_zero") -> the Mathlib
+      lemma wants IsPreconnected, which the statement does not give us
+  try_standard_tactics -> rejected, as expected for a goal like this
+  try_proof with the have-chain down to `deriv f = 0` -> rejected, unsolved
+      goal is exactly the connectedness step
+  -> the statement is missing a hypothesis, and now that is EVIDENCE
+  try_refutation with Omega = ball(-2,1) union ball(2,1), f = 0 on one and
+      f = I on the other -> ACCEPTED
+  finish(outcome="statement_suspect") -> reported as REFUTED
 """
 
 COMPUTE_ENV_GUIDANCE = """

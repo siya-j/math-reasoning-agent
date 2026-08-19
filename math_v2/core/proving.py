@@ -37,7 +37,7 @@ from verifiers.lean_runner import has_placeholder
 from verifiers.lean_verifier import build_source, declaration, interpret
 from domain.verdict import VerificationStatus
 
-from math_v2.core import log
+from math_v2.core import diagnosis, log
 
 # Kept lemmas grow the file that every later attempt must recompile, so this is
 # a resource limit, not a limit on the agent's looping — that is the budget
@@ -115,6 +115,51 @@ def _placeholder_refusal():
     }
 
 
+def _generic_already_failed(workdir, proof, statement):
+    """Refuse a second bare closer once one has been rejected. None to proceed.
+
+    MEASURED on the 4-goal run. `try_standard_tactics` compiles ~30 closers in
+    ONE file — rfl, trivial, assumption, norm_num, decide, simp, simp_all,
+    positivity, omega, linarith, aesop. The agent then spent separate compiles
+    submitting `by aesop`, and `by rfl`, and a `have` chain ending in
+    `trivial`. Lean had already answered all three, in the ladder, and said no.
+
+    So this is not a judgement about the mathematics. It is arithmetic: the
+    tactic is in the set the ladder ran, the ladder ran, the ladder failed.
+    Compiling it alone cannot produce a different answer, and the budget is
+    twelve compiles.
+    """
+    if not diagnosis.is_generic(proof):
+        return None
+
+    tried = [r for r in log.records(workdir, log.PROOF)
+             if r.get("status") != log.TRUE
+             and r.get("statement", "").strip() == (statement or "").strip()
+             and diagnosis.is_generic(r.get("proof"))]
+    if not tried:
+        return None
+
+    return {
+        "ok": False,
+        "error": "generic_exhausted",
+        "outputs": {"accepted": False},
+        "message": (
+            "REFUSED, and not compiled: this is a generic closer, and a "
+            "generic attempt on this goal has already been rejected. "
+            "`try_standard_tactics` runs about thirty of them — rfl, simp, "
+            "aesop, omega, linarith and the rest — inside a single "
+            "compilation, so submitting one on its own cannot produce a new "
+            "answer.\n\nThis goal needs an ARGUMENT. Read the goal state from "
+            "the last rejection and do one of:\n"
+            "  - cite a Mathlib lemma whose CONCLUSION is that goal "
+            "(`search_mathlib` with `|- <shape>`), or\n"
+            "  - `try_skeleton` a `have` per step of the mathematical "
+            "argument, then `try_lemma` each hole, or\n"
+            "  - if you believe the statement is false, `try_refutation`."
+        ),
+    }
+
+
 def _premises(workdir):
     return [Premise(**entry) for entry in log.read(workdir)["premises"]]
 
@@ -137,7 +182,52 @@ def _says_nothing_refusal(statement):
     }
 
 
-async def check_statement(workdir, statement, run_lean):
+def seed_premises(workdir, statement, search):
+    """Run the goal-shape query ladder ONCE, deterministically, for free.
+
+    THE MACHINERY WAS ALREADY THERE AND NOTHING CALLED IT.
+    `retrieval.loogle.premises_for` builds a ladder from the goal itself —
+    hypothesis+conclusion, then conclusion patterns, then bare identifiers —
+    and it is measurably better than the bare names a model types:
+
+        IsCyclic                      2163 hits, wanted lemma not in first 200
+        |- IsCyclic _                   54 hits, wanted lemma fourth
+        Nat.card _ = _, IsCyclic _      10 hits, wanted lemma FIRST
+
+    `pipeline/` used it. `math_v2` never did: its only premise source was
+    whatever string the model passed to `search_mathlib`, which on the 4-goal
+    run was `"constant"`, `"const"`, `"deriv"` — bare words, every time.
+
+    So the ladder runs here, off the statement, the moment the statement is
+    known to elaborate. No model call, no extra turn, and the premises are in
+    the store before the agent's first search.
+    """
+    if search is None:
+        return []
+    try:
+        found = search.premises_for(statement)
+    except Exception:  # noqa: BLE001
+        return []          # retrieval is an optimisation; it may never break a run
+
+    found = [p for p in found if not _is_noise(p)]
+    if found:
+        log.remember_premises(workdir, [
+            {"name": p.name, "type": p.type, "module": p.module, "doc": p.doc}
+            for p in found
+        ])
+        log.note(workdir, "seeded from goal shape -> " + ", ".join(
+            p.name for p in found[:8]))
+    return found
+
+
+def _is_noise(premise):
+    """Imported lazily to keep this module free of the tool layer."""
+    from math_v2.core.retrieval import is_noise
+
+    return is_noise(premise)
+
+
+async def check_statement(workdir, statement, run_lean, search=None):
     """Does the SIGNATURE elaborate? Checked with `sorry` as the proof.
 
     A goal naming an identifier Mathlib no longer has cannot be proved by
@@ -168,8 +258,17 @@ async def check_statement(workdir, statement, run_lean):
     ))
 
     if elaborates:
-        return {"ok": True, "outputs": {"elaborates": True},
-                "message": "The statement elaborates. You can try to prove it."}
+        seeded = seed_premises(workdir, statement, search)
+        listed = (
+            "\n\nRetrieved from the SHAPE of your goal, before you asked:\n"
+            + "\n".join(f"  {p.render()}" for p in seeded[:6])
+            + "\n\nRead the signatures. If one CONCLUDES your goal, cite it."
+            if seeded else ""
+        )
+        return {"ok": True, "outputs": {"elaborates": True,
+                                        "premises": [p.name for p in seeded]},
+                "message": "The statement elaborates. You can try to prove it."
+                           + listed}
     return {
         "ok": True,
         "outputs": {"elaborates": False, "detail": verdict.detail},
@@ -215,6 +314,12 @@ async def try_proof(workdir, statement, proof, run_lean):
             ),
         }
 
+    # After the repeat guard: an exact repeat has a more specific diagnosis
+    # than "this is generic", and both would otherwise fire on the same input.
+    exhausted = _generic_already_failed(workdir, proof, statement)
+    if exhausted:
+        return exhausted
+
     source = build_source(full_statement(workdir, statement), proof)
     result = await run_lean(source)
     verdict = interpret(result, statement)
@@ -227,10 +332,17 @@ async def try_proof(workdir, statement, proof, run_lean):
     if verdict.status is VerificationStatus.TRUE:
         return {"ok": True, "outputs": {"accepted": True},
                 "message": "ACCEPTED. The proof compiles. Report it with `finish`."}
+
+    # The error was always returned; what was missing was what to DO with it.
+    # Measured: every rejection in the 4-goal run was answered with another
+    # generic closer, whatever Lean had actually said.
+    action = diagnosis.next_action(verdict.detail)
     return {
         "ok": True,
-        "outputs": {"accepted": False},
-        "message": f"REJECTED.\n{verdict.detail}",
+        "outputs": {"accepted": False,
+                    "failure": diagnosis.classify(verdict.detail)},
+        "message": (f"REJECTED.\n{verdict.detail}"
+                    + (f"\n\nWHAT THIS MEANS: {action}" if action else "")),
     }
 
 
