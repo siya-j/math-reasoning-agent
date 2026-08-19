@@ -31,6 +31,7 @@ the compiler's answer means. `cheap_attempt` builds the tactic ladder.
 from pipeline.skeleton import hole_claims
 from pipeline.tactics import cheap_attempt
 from retrieval.loogle import Premise
+from verifiers.lean_runner import has_placeholder
 from verifiers.lean_verifier import build_source, declaration, interpret
 from domain.verdict import VerificationStatus
 
@@ -80,6 +81,30 @@ def already_tried(workdir, proof, statement):
         if normalise(record.get("proof")) == target:
             return record
     return {}
+
+
+def _placeholder_refusal():
+    """Refuse `sorry`/`admit` without compiling.
+
+    Lean ACCEPTS both, so the answer is knowable from the text and the compile
+    teaches nothing. Measured on proofnet `exercise_1_13a`: attempt 2 of 3 was
+    the single word `sorry`, and it cost a REPL round-trip and a third of the
+    budget. Shaped like `duplicate_attempt` — nothing is logged, so a refusal
+    is not an attempt.
+
+    `try_skeleton` is exempt: holes are the point there.
+    """
+    return {
+        "ok": False,
+        "error": "placeholder_proof",
+        "outputs": {"accepted": False},
+        "message": (
+            "REFUSED: this contains `sorry` or `admit`, so it was not "
+            "compiled. Lean accepts both and they prove nothing. If you "
+            "cannot close the goal outright, decompose it — `try_skeleton` is "
+            "where holes belong, and `try_lemma` proves them one at a time."
+        ),
+    }
 
 
 def _premises(workdir):
@@ -134,6 +159,10 @@ async def try_proof(workdir, statement, proof, run_lean):
     prevent that rather than being trusted to. Twenty seconds spent re-learning
     a known answer is twenty seconds not spent on a new idea.
     """
+    # Cheapest check first: a regex on the candidate, before the log scan.
+    if has_placeholder(proof):
+        return _placeholder_refusal()
+
     repeat = already_tried(workdir, proof, statement)
     if repeat:
         return {
@@ -207,6 +236,9 @@ async def try_lemma(workdir, statement, proof, run_lean, limit=MAX_KEPT_LEMMAS):
     recorded as `kind=LEMMA`, which is what stops the guard reading a helper's
     success as the goal's.
     """
+    if has_placeholder(proof):
+        return _placeholder_refusal()
+
     kept = log.kept_lemmas(workdir)
     if len(kept) >= limit:
         return {

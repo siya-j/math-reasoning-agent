@@ -29,6 +29,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from dataclasses import dataclass
+from itertools import islice
 
 import config
 
@@ -43,6 +44,38 @@ _TOO_COMMON = frozenset({"Type", "Prop", "Sort", "Set", "Nat", "Int", "Real"})
 # Loogle answers an unknown identifier with up to forty near-matches. Enough
 # to correct a name, few enough not to bury the prompt.
 _SUGGESTION_LIMIT = 10
+
+# Loogle indexes everything Mathlib imports, which includes Lean's own
+# metaprogramming API and Std's SAT solver. A name-FRAGMENT query answers with
+# those first, because they match the fragment and nothing ranks them down:
+#
+#     ?q="constant"   Std.Sat.AIG.getConstant, Std.Sat.AIG.isConstant,
+#                     Lean.ConstantInfo, Lean.ConstantVal, ...
+#
+# The cost is not the wasted lookup. Retrieved names are spliced into the
+# tactic ladder, so the agent then compiles `exact Std.Sat.AIG.getConstant`
+# against a complex-analysis goal. Measured on proofnet `exercise_1_13a`: six
+# searches, zero usable premises, four compiles spent on SAT-solver internals.
+#
+# Judged on the ROOT namespace. Nothing under these proves a theorem about
+# mathematics, so dropping them cannot hide a premise worth having.
+_INTERNAL_ROOTS = frozenset({
+    "Lean", "Std", "Aesop", "Qq", "Mathport", "Cli", "ImportGraph",
+    "Plausible", "ProofWidgets", "LeanSearchClient", "Duper", "Auto",
+})
+
+
+def is_mathematical(name: str, module: str = "") -> bool:
+    """False for metaprogramming and tooling declarations.
+
+    The name is checked first and the module second: Loogle omits `module` on
+    some hits, and the name is always there.
+    """
+    if not name:
+        return False
+    if name.split(".", 1)[0] in _INTERNAL_ROOTS:
+        return False
+    return module.split(".", 1)[0] not in _INTERNAL_ROOTS
 
 
 @dataclass(frozen=True)
@@ -298,7 +331,11 @@ class LoogleSearch:
 
         if "error" in payload:
             raw = payload.get("suggestions") or []
-            suggestions = [s for s in raw if isinstance(s, str)][:_SUGGESTION_LIMIT]
+            # Same filter: the retry below searches `suggestions[0]`, and a
+            # metaprogramming name there costs a lookup and poisons the rest.
+            suggestions = [
+                s for s in raw if isinstance(s, str) and is_mathematical(s)
+            ][:_SUGGESTION_LIMIT]
             # One retry, never a chain: a suggestion that also fails to parse
             # would otherwise walk the library one name at a time.
             if suggestions and _retry:
@@ -309,15 +346,22 @@ class LoogleSearch:
                     return found, suggestions[1:]
             return [], suggestions
 
+        # Filtered BEFORE the limit is applied, not after. Loogle returns hits
+        # in its own order, and `"constant"` puts ten Std/Lean names at the
+        # front — slicing first would spend the whole budget on them and
+        # return nothing.
+        usable = (
+            hit for hit in payload.get("hits", [])
+            if is_mathematical(hit.get("name", ""), hit.get("module") or "")
+        )
         return [
             Premise(
-                name=hit.get("name", ""),
+                name=hit["name"],
                 type=hit.get("type", ""),
                 module=hit.get("module", ""),
                 doc=(hit.get("doc") or ""),
             )
-            for hit in payload.get("hits", [])[:limit]
-            if hit.get("name")
+            for hit in islice(usable, limit)
         ], []
 
     def premises_for(self, statement: str) -> list[Premise]:

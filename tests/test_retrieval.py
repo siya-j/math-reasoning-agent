@@ -423,3 +423,51 @@ def test_a_failing_suggestion_is_not_chased_further():
     )
     assert LoogleSearch(fetch=fetch).search("a") == []
     assert len(seen) == 2, "the retry chained instead of stopping"
+
+
+# ------------------------------------------------- metaprogramming is not maths
+# Recorded from the proofnet `exercise_1_13a` run: the agent searched
+# `"constant"` for a complex-analysis goal and Loogle answered with the SAT
+# solver. Those names then reached the tactic ladder as
+# `exact Std.Sat.AIG.getConstant`, one compile each.
+CONSTANT_HITS = json.dumps(
+    {
+        "count": 812,
+        "hits": [
+            {"name": "Std.Sat.AIG.getConstant", "type": " : Bool",
+             "module": "Std.Sat.AIG.Basic", "doc": None},
+            {"name": "Std.Sat.AIG.isConstant", "type": " : Bool",
+             "module": "Std.Sat.AIG.Basic", "doc": None},
+            {"name": "Lean.ConstantInfo", "type": " : Type",
+             "module": "Lean.Declaration", "doc": None},
+            {"name": "IsConstant.differentiable", "type": " : Differentiable ℂ f",
+             "module": "Mathlib.Analysis.Calculus.FDeriv.Const", "doc": None},
+        ],
+    }
+)
+
+
+def test_metaprogramming_declarations_are_dropped():
+    """They match the fragment, they cannot prove a theorem, and they compile."""
+    found = LoogleSearch(fetch=lambda url: CONSTANT_HITS).search('"constant"')
+
+    assert [p.name for p in found] == ["IsConstant.differentiable"]
+
+
+def test_the_filter_runs_before_the_limit():
+    """Junk is FIRST in Loogle's order, so slicing first returns nothing."""
+    found = LoogleSearch(fetch=lambda url: CONSTANT_HITS).search('"constant"', limit=1)
+
+    assert [p.name for p in found] == ["IsConstant.differentiable"]
+
+
+def test_a_metaprogramming_suggestion_is_not_chased():
+    """The retry searches suggestions[0]; a Std name there poisons the retry."""
+    fetch, seen = _replies(
+        {"error": "unknown identifier 'constant'",
+         "suggestions": ["Std.Sat.AIG.getConstant", '"constant"']},
+        {"count": 0, "hits": []},
+    )
+    LoogleSearch(fetch=fetch).search("constant")
+
+    assert seen[1] == '"constant"', "the SAT solver was searched instead"

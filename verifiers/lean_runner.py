@@ -124,6 +124,16 @@ def _uses_placeholder(source: str, output: str) -> bool:
     return bool(_PLACEHOLDER.search(source))
 
 
+def has_placeholder(source: str) -> bool:
+    """`sorry` or `admit` in a proof, without asking the compiler.
+
+    The same regex `_uses_placeholder` applies after a compile, exposed so a
+    caller can decline to spend the compile at all. A skeleton is SUPPOSED to
+    contain `sorry`, so this is a question, not a verdict.
+    """
+    return bool(_PLACEHOLDER.search(source or ""))
+
+
 def cheating_devices(source: str) -> list[str]:
     """Constructs that make a file compile without proving the theorem."""
     found = []

@@ -259,3 +259,44 @@ def test_the_lemma_and_skeleton_machinery_is_untouched():
     names = {t.name for t in create_math_v2_tools()}
     assert {"try_lemma", "try_skeleton"} <= names
     assert len(names) == 17          # 16 before, plus proof_state
+
+
+# --------------------------------------------------------- no placeholders
+def test_a_sorry_proof_is_refused_without_compiling(tmp_path, lean_calls):
+    """Measured on proofnet `exercise_1_13a`: attempt 2 of 3 was `by sorry`.
+
+    Lean ACCEPTS it, so the compile teaches nothing the text did not already
+    say — and the budget is three attempts.
+    """
+    rt = runtime_for(tmp_path)
+    result = run(try_proof.ainvoke({"proof": "by sorry", "statement": STATEMENT,
+                                    "runtime": rt}))
+
+    assert result["error"] == "placeholder_proof"
+    assert lean_calls == [], "the placeholder reached the compiler"
+    assert "try_skeleton" in result["message"], "no route out was offered"
+
+
+def test_admit_is_refused_too(tmp_path, lean_calls):
+    rt = runtime_for(tmp_path)
+    result = run(try_proof.ainvoke({"proof": "by admit", "statement": STATEMENT,
+                                    "runtime": rt}))
+
+    assert result["error"] == "placeholder_proof"
+
+
+def test_a_refused_placeholder_does_not_spend_an_attempt(tmp_path, lean_calls):
+    """It is not logged, so it cannot be read back as a proof attempt."""
+    rt = runtime_for(tmp_path)
+    run(try_proof.ainvoke({"proof": "by sorry", "statement": STATEMENT, "runtime": rt}))
+
+    assert log.records(str(tmp_path), log.PROOF) == []
+
+
+def test_a_real_proof_still_compiles(tmp_path, lean_calls):
+    """The check must stop placeholders, not stop work."""
+    rt = runtime_for(tmp_path)
+    run(try_proof.ainvoke({"proof": "by norm_num", "statement": STATEMENT,
+                           "runtime": rt}))
+
+    assert len(lean_calls) == 1
