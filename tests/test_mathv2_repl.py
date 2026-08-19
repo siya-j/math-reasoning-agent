@@ -1373,3 +1373,122 @@ def test_routing_does_not_depend_on_what_ran_before(tmp_path, repl_on, monkeypat
     assert set(decisions) == {True}, (
         f"routing changed as the run progressed: {decisions}"
     )
+
+
+# ===== O. TWO LEAN PROCESSES CANNOT BOTH HOLD MATHLIB
+#
+# THE ROOT CAUSE, found after four wrong attempts at import handling. A routed
+# source shelled out to `lake env lean` while the session still had the whole
+# library memory-mapped, and Lean reported:
+#
+#     error: failed to read file '...\Mathlib\AlgebraicTopology\SimplicialSet\
+#            AnodyneExtensions\UnionProd.olean.private'
+#
+# It was never about imports. It was about two processes.
+
+def test_the_session_is_released_before_a_routed_compile(tmp_path, repl_on,
+                                                         monkeypatch):
+    """THE REGRESSION, in the order the gate runs it:
+    REPL commands first -> an import-bearing source routed to the subprocess
+    -> it must compile, which means no session may be alive when it does."""
+    clm = load_script("compare_lean_modes")
+    fake = FakeRepl().install(monkeypatch)
+    alive_during_shellout = []
+
+    async def capture(source, workdir):
+        alive_during_shellout.append(
+            _repl._session is not None and _repl._session.alive())
+        return True, "", 0.0
+
+    monkeypatch.setattr(_util, "_subprocess_compile", capture)
+    runner = _util.lean_runner(str(tmp_path))
+
+    # Rows 1-9 of the gate: ordinary sources, served by the session.
+    for _, body in clm.SNIPPETS[:9]:
+        _util.forget()
+        run(runner(clm.MATHLIB + body))
+    assert fake.starts == 1, "the session never started, so this proves nothing"
+    assert _repl._session is not None and _repl._session.alive()
+
+    # Row 10: carries extra imports, so it is routed to `lake env lean`.
+    _util.forget()
+    label, body = clm.SNIPPETS[9]
+    result = run(runner(clm.MATHLIB + body))
+
+    assert alive_during_shellout == [False], (
+        "the session was still holding Mathlib while lake env lean ran"
+    )
+    assert result.outcome is LeanOutcome.COMPILED
+
+
+def test_a_routed_compile_does_not_end_the_run(tmp_path, repl_on, monkeypatch):
+    """Releasing the session must be transparent. The next session-eligible
+    source starts a fresh one — the recycling path, already proved stateless."""
+    fake = FakeRepl().install(monkeypatch)
+
+    async def capture(source, workdir):
+        return True, "", 0.0
+
+    monkeypatch.setattr(_util, "_subprocess_compile", capture)
+    runner = _util.lean_runner(str(tmp_path))
+
+    run(runner(MATHLIB + "theorem a : True := trivial"))            # session
+    _util.forget()
+    run(runner(MATHLIB + "import Mathlib.Order.Basic\ntheorem b : True := trivial"))
+    _util.forget()
+    result = run(runner(MATHLIB + "theorem c : True := trivial"))   # session again
+
+    assert result.outcome is LeanOutcome.COMPILED
+    assert fake.starts == 2, "the session did not come back after being released"
+
+
+def test_a_fresh_session_after_release_carries_nothing(tmp_path, repl_on,
+                                                       monkeypatch):
+    """A released session is a dead process, so isolation is if anything
+    stronger. What must not happen is a stale env id surviving."""
+    fake = FakeRepl().install(monkeypatch)
+
+    async def capture(source, workdir):
+        return True, "", 0.0
+
+    monkeypatch.setattr(_util, "_subprocess_compile", capture)
+    runner = _util.lean_runner(str(tmp_path))
+
+    run(runner(MATHLIB + "theorem leaked : True := trivial"))
+    first = _repl._session
+    _util.forget()
+    run(runner(MATHLIB + "import Mathlib.Order.Basic\ntheorem b : True := trivial"))
+    _util.forget()
+    run(runner(MATHLIB + "theorem uses_it : True := by exact leaked"))
+
+    assert _repl._session is not first
+    assert _repl._session.base == 0
+
+
+def test_releasing_is_a_no_op_when_no_session_exists():
+    _repl.shutdown()
+    assert _repl.release_for_subprocess() is False
+
+
+def test_releasing_reports_that_it_closed_something(recyclable):
+    _repl.session()
+    assert _repl.release_for_subprocess() is True
+    assert _repl._session is None
+
+
+def test_the_subprocess_backend_never_releases_anything(tmp_path, repl_off,
+                                                        monkeypatch):
+    """With the REPL off there is no session to release, and the default path
+    must not gain a step it does not need."""
+    called = []
+    monkeypatch.setattr(_repl, "release_for_subprocess",
+                        lambda: called.append(True))
+
+    async def capture(source, workdir):
+        return True, "", 0.0
+
+    monkeypatch.setattr(_util, "_subprocess_compile", capture)
+    run(_util.lean_runner(str(tmp_path))(
+        MATHLIB + "import Mathlib.Order.Basic\ntheorem t : True := trivial"))
+
+    assert called == []

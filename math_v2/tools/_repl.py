@@ -385,6 +385,45 @@ def shutdown():
         _session = None
 
 
+def release_for_subprocess():
+    """Close the session before a routed source is compiled by `lake env lean`.
+
+    MEASURED, and it is the reason the deterministic gate failed on exactly one
+    row for four attempts. A routed source shelled out while the session was
+    still alive, and Lean reported:
+
+        error: failed to read file '...\\Mathlib\\AlgebraicTopology\\
+               SimplicialSet\\AnodyneExtensions\\UnionProd.olean.private'
+
+    TWO LEAN PROCESSES CANNOT BOTH HOLD MATHLIB. The session has the whole
+    library memory-mapped; a second `lake env lean` tries to map the same
+    .olean files and fails — a sharing violation on Windows, or simply two
+    ~5 GB environments not fitting at once.
+
+    Everything about the failure follows from that and nothing else did:
+
+      * only the REPL arm, because only it has a live session
+      * 18.2s rather than the 28.6s a real compile costs — it dies partway
+        through loading, not after
+      * only the row whose correct answer is `compiled`. The other two routed
+        rows are `errors` either way, so the same failure was invisible there
+      * `--isolated` passed, because no session had started yet
+      * the source and the routing were identical throughout, which is why
+        four attempts at import handling could not fix it
+
+    Returns True if a session was closed, so callers can report it. The next
+    source that is session-eligible starts a fresh one, which is the recycling
+    path and is already tested to carry no state.
+    """
+    global _session
+    with _session_lock:
+        if _session is None:
+            return False
+        _session.close()
+        _session = None
+        return True
+
+
 def split_imports(source):
     """`(leading imports, the rest)`.
 

@@ -26,6 +26,7 @@ Both return the SAME types the portable core in `math_v2/core/` already
 expects, so nothing in core changes between a local subprocess and the SIF.
 """
 
+import asyncio
 import json
 import os
 import time
@@ -152,6 +153,15 @@ def lean_runner(workdir):
                 ok, text, _startup[0] = await _repl.compile_source(
                     source, cwd=_local.LEAN_PROJECT or workdir)
             else:
+                if _repl.enabled():
+                    # TWO LEAN PROCESSES CANNOT BOTH HOLD MATHLIB. The session
+                    # has the library memory-mapped; a second `lake env lean`
+                    # fails to map the same .olean files. Measured:
+                    #     failed to read file '...UnionProd.olean.private'
+                    # See `_repl.release_for_subprocess`. Costs one Mathlib
+                    # import on the next session-eligible source, and routed
+                    # sources are ~6% of a real run.
+                    await asyncio.to_thread(_repl.release_for_subprocess)
                 ok, text, _startup[0] = await _subprocess_compile(source, workdir)
         except Exception as exc:  # noqa: BLE001 - a verifier never crashes the graph
             return LeanResult(LeanOutcome.UNAVAILABLE, f"Lean could not be run: {exc}")
