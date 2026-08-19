@@ -30,6 +30,15 @@ MAX_SHOWN = 8
 NOISE = (
     "Lean.", "Std.", "Init.", "Qq.", "Aesop.", "Plausible.",
     "Mathlib.Tactic", "Batteries.Tactic",
+    # MEASURED on proofnet `exercise_1_18a`. A search for `"inner"` — the
+    # inner product, on EuclideanSpace — returned
+    #
+    #     Array.Matcher.Iterator.inner, Batteries.HashMap.inner,
+    #     LieDerivation.inner, MeasureTheory.Measure.InnerRegular
+    #
+    # Data structures, not mathematics. `Batteries.Tactic` above was too
+    # narrow: the whole of `Batteries.` and `Array.` is container plumbing.
+    "Batteries.", "Array.",
 )
 
 

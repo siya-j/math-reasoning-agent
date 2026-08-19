@@ -287,3 +287,30 @@ def test_a_repeated_name_appears_once():
     ])
 
     assert [p.name for p in ranked] == ["dup", "other"]
+
+
+def test_container_plumbing_is_filtered_from_retrieval():
+    """MEASURED on proofnet `exercise_1_18a`: `"inner"` — the inner product —
+    returned `Array.Matcher.Iterator.inner` and `Batteries.HashMap.inner`.
+    `Batteries.Tactic` was too narrow a prefix to catch them."""
+    noisy = [
+        Premise(name="Array.Matcher.Iterator.inner", module="Array.Match"),
+        Premise(name="Batteries.HashMap.inner", module="Batteries.HashMap"),
+    ]
+    real = Premise(name="inner_self_eq_norm_sq", type=" : ⟪x, x⟫ = ‖x‖ ^ 2",
+                   module="Mathlib.Analysis.InnerProductSpace.Basic")
+
+    kept, dropped = retrieval.drop_noise(noisy + [real])
+
+    assert [p.name for p in kept] == ["inner_self_eq_norm_sq"]
+    assert dropped == 2
+
+
+def test_a_list_of_only_noise_is_not_emptied():
+    """Unchanged behaviour: an empty result would look like a failed search,
+    and the agent cannot tell those apart. Seeing the junk is the signal."""
+    noisy = [Premise(name="Array.Matcher.Iterator.inner", module="Array.Match")]
+
+    kept, dropped = retrieval.drop_noise(noisy)
+
+    assert len(kept) == 1 and dropped == 0
