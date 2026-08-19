@@ -28,6 +28,7 @@ the compiler's answer means. `cheap_attempt` builds the tactic ladder.
 `hole_claims` reads a skeleton. All of it is existing, tested code.
 """
 
+import asyncio
 import re
 
 from pipeline.skeleton import hole_claims
@@ -209,6 +210,7 @@ def seed_premises(workdir, statement, search):
     except Exception:  # noqa: BLE001
         return []          # retrieval is an optimisation; it may never break a run
 
+
     found = [p for p in found if not _is_noise(p)]
     if found:
         log.remember_premises(workdir, [
@@ -258,7 +260,13 @@ async def check_statement(workdir, statement, run_lean, search=None):
     ))
 
     if elaborates:
-        seeded = seed_premises(workdir, statement, search)
+        # OFF THE EVENT LOOP. `premises_for` is synchronous urllib walking a
+        # ladder of up to twelve queries, so on a slow or unreachable Loogle it
+        # would otherwise block the loop for up to twelve times LOOGLE_TIMEOUT.
+        # Typical cost is one or two round trips: the ladder stops once
+        # PREMISE_BUDGET is filled, and the first query usually fills it.
+        seeded = await asyncio.to_thread(
+            seed_premises, workdir, statement, search)
         listed = (
             "\n\nRetrieved from the SHAPE of your goal, before you asked:\n"
             + "\n".join(f"  {p.render()}" for p in seeded[:6])
