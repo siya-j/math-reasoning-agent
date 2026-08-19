@@ -467,3 +467,143 @@ def test_the_prompt_describes_what_the_code_now_enforces(tmp_path,
     assert "ASCRIBE THE TYPE" in prompt, "the unascribed-have limitation"
     assert "already returned" in prompt, "error-driven retrieval"
     assert "tactic failed" in prompt, "the fifth error class"
+
+
+# ------------------------------- 8. no compiling path escapes the budget
+def test_no_sequence_of_tools_can_exceed_the_compile_budget(tmp_path, monkeypatch):
+    """THE budget regression. Several paths now compile MORE than once inside a
+    single tool call — the tactic ladder, hole synthesis, assembly — and an
+    uncharged one would silently overrun the limit the budget exists to hold.
+
+    Drives every compiling tool repeatedly and counts actual compilations.
+    """
+    from math_v2.core import budget
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    compiles = []
+
+    async def run_lean(source):
+        compiles.append(source)
+        if "sorry" in source:
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        return LeanResult(LeanOutcome.COMPILED, "")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    skeleton = ("by\n  have h1 : 1 = 1 := by sorry\n  have h2 : 2 = 2 := by sorry\n"
+                "  have h3 : 3 = 3 := by sorry\n  exact foo h1 h2 h3")
+    script = [("check_statement", {"statement": GOAL})]
+    for i in range(12):
+        script.append(("try_skeleton", {"proof": skeleton.replace("1 = 1",
+                                                                  f"{i} = {i}")}))
+        script.append(("try_proof", {"proof": f"by\n  have z{i} : 1 = 1 := rfl\n"
+                                              f"  exact g{i} z{i}"}))
+        script.append(("try_standard_tactics", {}))
+
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=scripted(script))
+
+    assert len(compiles) <= budget.MAX_LEAN_CALLS, (
+        f"{len(compiles)} compilations against a budget of "
+        f"{budget.MAX_LEAN_CALLS}"
+    )
+
+
+def test_the_in_call_compiles_of_a_skeleton_are_all_charged(tmp_path, monkeypatch):
+    """A skeleton may spend one compile per hole plus one to assemble. The
+    counter must move by the same amount the compiler was actually called."""
+    from math_v2.core import budget
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    compiles = []
+
+    async def run_lean(source):
+        compiles.append(source)
+        if "sorry" in source:
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        return LeanResult(LeanOutcome.COMPILED, "")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=scripted([
+                      ("check_statement", {"statement": GOAL}),
+                      ("try_skeleton", {"proof":
+                          "by\n  have h1 : 1 = 1 := by sorry\n"
+                          "  have h2 : 2 = 2 := by sorry\n  exact foo h1 h2"}),
+                  ]))
+
+    charged = budget.summary(str(tmp_path))["lean_calls"]
+    assert charged == len(compiles), (
+        f"charged {charged} for {len(compiles)} actual compilations"
+    )
+
+
+def test_error_driven_retrieval_never_compiles(tmp_path, monkeypatch):
+    """It is an HTTP lookup. If it ever started compiling it would be an
+    uncharged path straight through the budget."""
+    from retrieval.loogle import Premise
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    compiles = []
+
+    class Search:
+        def premises_for(self, statement):
+            return []
+
+        def search_with_suggestions(self, query, limit=None):
+            return [Premise(name="X", type=" : 1 = 1", module="Mathlib.A")], []
+
+    async def run_lean(source):
+        compiles.append(source)
+        if "sorry" in source:
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        return LeanResult(LeanOutcome.ERRORS, "error: Unknown constant `Foo.bar`")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+    monkeypatch.setattr("math_v2.tools.retrieval.get_search", lambda: Search())
+
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=scripted([
+                      ("check_statement", {"statement": GOAL}),
+                      ("try_proof", {"proof": "by exact Foo.bar"}),
+                  ]))
+
+    assert len(compiles) == 2, "retrieval on rejection compiled something"
+
+
+# --------------- 9. the recorded WINNING attempts are still allowed through
+def test_the_four_syntactic_variants_that_won_a_real_goal_are_not_refused(
+        tmp_path, monkeypatch):
+    """From near-mathlib-repl, num-primes-strictly-above: rcases, obtain, match
+    and cases — all citing `Nat.exists_infinite_primes`, the FOURTH accepted.
+    A "same underlying strategy" refusal would have destroyed a proof we have.
+    """
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    compiles = []
+
+    async def run_lean(source):
+        compiles.append(source)
+        if "sorry" in source:
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        if "cases Nat.exists_infinite_primes" in source:
+            return LeanResult(LeanOutcome.COMPILED, "")
+        return LeanResult(LeanOutcome.ERRORS, "f.lean:1:1: error: unsolved goals")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    goal = "theorem exists_prime_gt (n : ℕ) : ∃ p, Nat.Prime p ∧ n < p"
+    run = harness.prove("q", model=object(), workdir=str(tmp_path),
+                        agent_factory=scripted([
+                            ("check_statement", {"statement": goal}),
+                            ("try_proof", {"proof": "rcases Nat.exists_infinite_primes (n + 1) with ⟨p, hp1, hp2⟩\n  exact ⟨p, hp2, hp1⟩"}),
+                            ("try_proof", {"proof": "obtain ⟨p, hp1, hp2⟩ := Nat.exists_infinite_primes (n + 1)\n  use p"}),
+                            ("try_proof", {"proof": "match Nat.exists_infinite_primes (n + 1) with\n| ⟨p, hp1, hp2⟩ => exact ⟨p, hp2, hp1⟩"}),
+                            ("try_proof", {"proof": "cases Nat.exists_infinite_primes (n + 1) with\n| intro p hp => exact ⟨p, hp.2, hp.1⟩"}),
+                            ("finish", {"summary": "done", "outcome": "proved",
+                                        "statement": goal}),
+                        ]))
+
+    assert run.proved, "the winning fourth variant was refused as a repeat"
+    assert len(compiles) == 5, f"only {len(compiles) - 1} of 4 variants compiled"

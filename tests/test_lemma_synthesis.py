@@ -194,9 +194,13 @@ def test_the_assembled_proof_is_recorded_as_a_proof_of_the_goal(workdir):
 
 
 def test_nothing_is_assembled_while_a_hole_is_open(workdir):
+    # Ordered so the SKELETON matches as a skeleton, then hole 2 genuinely
+    # fails. This test previously passed for the wrong reason: both holes were
+    # accepted and the assembly silently failed to fill the second.
     run_lean, seen = compiler([
-        ("deriv f x = 0", LeanOutcome.COMPILED),
         ("sorry", LeanOutcome.INCOMPLETE),
+        ("f x = c", LeanOutcome.ERRORS),
+        ("deriv f x = 0", LeanOutcome.COMPILED),
     ])
 
     run(proving.try_skeleton(workdir, GOAL, SKELETON, run_lean, 4))
@@ -356,3 +360,30 @@ def test_a_skeleton_of_unascribed_haves_costs_no_extra_compiles(workdir):
 
     assert result["outputs"]["typechecks"] is True
     assert len(seen) == 1, "a compile was spent on a claim that does not exist"
+
+
+# ------------------- assembling MORE than one hole
+def test_every_hole_is_filled_when_several_are_proved(workdir):
+    """`fill_hole` counts `sorry` in the CURRENT string, so filling hole 0 first
+    renumbers hole 1 and the second fill misses it. The assembled proof then
+    still contained `sorry` and was compiled anyway — only the placeholder
+    anti-cheat stopped it being read as a proof."""
+    two = ("by\n  have h1 : 1 = 1 := by sorry\n"
+           "  have h2 : 2 = 2 := by sorry\n  exact foo h1 h2")
+    run_lean, seen = compiler([("sorry", LeanOutcome.INCOMPLETE)])
+
+    # Everything without `sorry` compiles, so both holes are proved.
+    async def accepting(source):
+        seen.append(source)
+        if "sorry" in source:
+            return LeanResult(LeanOutcome.INCOMPLETE, TYPECHECKS)
+        return LeanResult(LeanOutcome.COMPILED, "")
+
+    result = run(proving.try_skeleton(workdir, GOAL, two, accepting, 6))
+
+    assembled = [s for s in seen if "mra_lemma_2" in s and "mra_goal" in s]
+    assert assembled, "the proof was never assembled"
+    body = assembled[-1].split("mra_goal", 1)[1]
+    assert "sorry" not in body, "a hole was left unfilled by the second fill"
+    assert "mra_lemma_1" in body and "mra_lemma_2" in body
+    assert result["outputs"]["accepted"] is True

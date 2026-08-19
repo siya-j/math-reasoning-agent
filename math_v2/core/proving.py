@@ -783,7 +783,13 @@ async def assemble(workdir, statement, proof, proved, run_lean):
     all the way from decomposition to PROVED.
     """
     assembled = proof
-    for lemma in proved:
+    # DESCENDING. `fill_hole` counts `sorry` tokens in the CURRENT string, so
+    # filling hole 0 first renumbers every hole after it and the second fill
+    # silently misses. Measured on a two-hole skeleton: hole 1 stayed `sorry`,
+    # the assembled proof was compiled anyway, and only the `sorry` anti-cheat
+    # stopped it being read as a proof. Filling from the back leaves the
+    # earlier indices untouched.
+    for lemma in sorted(proved, key=lambda l: l["index"], reverse=True):
         assembled = fill_hole(
             assembled, lemma["index"],
             f"(first | exact {lemma['name']} "
