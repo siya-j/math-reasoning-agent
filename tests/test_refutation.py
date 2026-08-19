@@ -83,6 +83,21 @@ def test_a_rejected_negation_is_not_refuted(workdir):
     assert verdict.verified_refutation(workdir) == {}
 
 
+def test_a_refutation_may_cite_the_lemmas_already_proved(workdir):
+    """A counterexample is a construction — define the object, then prove its
+    properties. Forcing all of that into one declaration would make the tool
+    unusable for exactly the cases it exists for."""
+    log.keep_lemma(workdir, "theorem helper : True := trivial")
+    run_lean, seen = compiler(LeanOutcome.COMPILED)
+
+    run(proving.try_refutation(workdir, NEGATION, "by exact helper", run_lean))
+
+    assert "theorem helper" in seen[0], "kept lemmas were not in the file"
+    # `rename_goal` touches the LAST declaration only, so the helper keeps the
+    # name the refutation cites.
+    assert "theorem helper : True" in seen[0]
+
+
 # --------------------------------------------------- 2. and it cannot be faked
 @pytest.mark.parametrize(
     "outcome",

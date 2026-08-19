@@ -335,7 +335,12 @@ async def try_refutation(workdir, statement, proof, run_lean):
             ),
         }
 
-    result = await run_lean(build_source(statement, proof))
+    # Compiled against the kept lemmas, like every other attempt. A
+    # counterexample is a CONSTRUCTION — the function, then its properties —
+    # and it is the last thing that should be forced into one declaration.
+    # `rename_goal` renames only the last, so the lemmas keep the names the
+    # refutation cites.
+    result = await run_lean(build_source(full_statement(workdir, statement), proof))
     verdict = interpret(result, statement)
     refuted = verdict.status is VerificationStatus.TRUE
 
