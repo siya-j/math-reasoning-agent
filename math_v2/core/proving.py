@@ -72,10 +72,16 @@ def normalise(proof):
     return " ".join((proof or "").split())
 
 
-def already_tried(workdir, proof, statement):
-    """The earlier rejected attempt identical to this one, or {}."""
+def already_tried(workdir, proof, statement, kind=log.PROOF):
+    """The earlier rejected attempt identical to this one, or {}.
+
+    `kind` because a repeated SKELETON costs exactly what a repeated proof
+    costs. Measured on proofnet `exercise_1_26`: three of five attempts were
+    the same decomposition with a `sorry` in the same place, and the guard was
+    reading only `kind == PROOF`, so none of them was caught.
+    """
     target = normalise(proof)
-    for record in log.records(workdir, log.PROOF):
+    for record in log.records(workdir, kind):
         if record.get("status") == log.TRUE:
             continue
         if record.get("statement", "").strip() != (statement or "").strip():
@@ -113,6 +119,24 @@ def _premises(workdir):
     return [Premise(**entry) for entry in log.read(workdir)["premises"]]
 
 
+def _says_nothing_refusal(statement):
+    """Refuse a goal that has been weakened into triviality. Costs no compile."""
+    return {
+        "ok": False,
+        "error": "trivial_conclusion",
+        "outputs": {"elaborates": False},
+        "message": (
+            "REFUSED: this statement concludes `True`, which every proof "
+            "closes and which asserts nothing. Compiling it would record a "
+            "formalisation success for a claim that was thrown away.\n"
+            "State the actual mathematical claim as the conclusion. If it will "
+            "not elaborate, the elaboration error is the problem to solve — "
+            "report `not_formalized` and say what Lean rejected, rather than "
+            "weakening the theorem until it compiles."
+        ),
+    }
+
+
 async def check_statement(workdir, statement, run_lean):
     """Does the SIGNATURE elaborate? Checked with `sorry` as the proof.
 
@@ -121,6 +145,13 @@ async def check_statement(workdir, statement, run_lean):
     formalisation fault. Measured on `lin-vector-space-basis`, where `Basis`
     had become `Module.Basis`.
     """
+    if says_nothing(statement):
+        log.append(workdir, log.Record(
+            kind=log.STATEMENT_CHECK, statement=statement, status=log.FALSE,
+            detail="The conclusion is `True`; the claim was thrown away.",
+        ))
+        return _says_nothing_refusal(statement)
+
     result = await run_lean(build_source(statement, "sorry"))
     verdict = interpret(result, statement)
 
@@ -161,9 +192,11 @@ async def try_proof(workdir, statement, proof, run_lean):
     prevent that rather than being trusted to. Twenty seconds spent re-learning
     a known answer is twenty seconds not spent on a new idea.
     """
-    # Cheapest check first: a regex on the candidate, before the log scan.
+    # Cheapest checks first: regexes on the text, before any log scan.
     if has_placeholder(proof):
         return _placeholder_refusal()
+    if says_nothing(statement):
+        return _says_nothing_refusal(statement)
 
     repeat = already_tried(workdir, proof, statement)
     if repeat:
@@ -288,6 +321,89 @@ async def try_lemma(workdir, statement, proof, run_lean, limit=MAX_KEPT_LEMMAS):
 _NEGATION = re.compile(r"¬|≠|\bNot\b|(?:→|->)\s*False\s*$")
 
 
+# `theorem foo` / `lemma foo`, and everything up to the top-level `:` is the
+# binder list. Both are needed to turn a goal into its own negation.
+_HEAD = re.compile(r"^\s*(?:theorem|lemma)\s+([A-Za-z_][\w'.]*)\s*", re.MULTILINE)
+
+# A goal that concludes `True` proves nothing. `by trivial` closes it, and the
+# run then reports a formalisation success for a statement that says nothing.
+_TRIVIAL = re.compile(r"^\(*\s*True\s*\)*$")
+
+
+def split_signature(statement):
+    """(name, binders, conclusion) for a Lean theorem, or ("", "", "").
+
+    THE FIRST top-level `:`, not the last. `retrieval.loogle.conclusion_of`
+    takes the last, which is right for its job (find what a lemma concludes)
+    and wrong for this one: proofnet `exercise_1_26` concludes
+
+        : ∃ c : ℂ, ∀ x, F₁ x = F₂ x + c
+
+    and that inner `: ℂ` is also at bracket depth 0, so taking the last colon
+    cuts the conclusion in half and produces `¬ (∀ ... : ∃ c, ℂ, ...)` — which
+    is not Lean. Binders are bracketed; the first unbracketed colon ends them.
+    """
+    head = _HEAD.search(statement or "")
+    if not head:
+        return "", "", ""
+
+    depth = 0
+    for index in range(head.end(), len(statement)):
+        character = statement[index]
+        if character in "([{⟨":
+            depth += 1
+        elif character in ")]}⟩":
+            depth -= 1
+        elif character == ":" and depth == 0:
+            if statement[index + 1:index + 2] == "=":
+                break
+            return (head.group(1),
+                    statement[head.end():index].strip(),
+                    statement[index + 1:].strip())
+    return "", "", ""
+
+
+def negation_of(statement):
+    """The goal's own negation, as a Lean theorem. "" if it cannot be built.
+
+    Mechanical, and that is the point. Asked to state a negation the model
+    rewrites the binders from memory and gets one of them wrong; here they are
+    the ORIGINAL text, moved inside a `¬ (∀ ...)` untouched:
+
+        theorem ex {f : ℂ → ℂ} (Ω : Set ℂ) (h : IsOpen Ω) : f a = f b
+        theorem ex_refutation : ¬ (∀ {f : ℂ → ℂ} (Ω : Set ℂ) (h : IsOpen Ω),
+                                     f a = f b)
+
+    Lean's `∀` accepts implicit and instance binders in exactly the form a
+    theorem declares them, so no rewriting is needed and none is done. The
+    hypotheses stay binders rather than becoming arrows for the same reason:
+    every transformation is a chance to be wrong, and none is required.
+    """
+    name, binders, conclusion = split_signature(statement)
+    if not name or not conclusion:
+        return ""
+    if not binders:
+        return f"theorem {name}_refutation : ¬ ({conclusion})"
+    return f"theorem {name}_refutation : ¬ (∀ {binders}, {conclusion})"
+
+
+def says_nothing(statement):
+    """Is the goal's conclusion trivially true?
+
+    MEASURED on proofnet `exercise_1_19b`, where the model could not get the
+    real claim past the elaborator and submitted this instead:
+
+        theorem test (z : ℂ) (s : ℕ → ℂ) (h : s = ...) : True
+
+    It elaborates, `by trivial` closes it, and the run scored a formalisation
+    success. The claim being formalised was "the series converges on |z| = 1".
+    Nothing whatever was established, and the number said otherwise — which is
+    worse than the failure it replaced, because it is invisible.
+    """
+    _, _, conclusion = split_signature(statement)
+    return bool(_TRIVIAL.match(conclusion))
+
+
 def negates(statement):
     """Does this theorem's CONCLUSION state a negation?
 
@@ -320,6 +436,11 @@ async def try_refutation(workdir, statement, proof, run_lean):
     `exact?` comes back CHEATED, not TRUE. There is no path to REFUTED that
     does not go through a proof Lean accepted.
     """
+    # The negation is derivable from the goal, so the agent is not required to
+    # restate it — the binders are what it gets wrong, and a regex gets them
+    # right by not touching them.
+    statement = (statement or "").strip() or negation_of(log.current_goal(workdir))
+
     if has_placeholder(proof):
         return _placeholder_refusal()
 
@@ -378,6 +499,24 @@ async def try_skeleton(workdir, statement, proof, run_lean):
     so what remains is independent and smaller. It proves nothing on its own,
     and is recorded UNKNOWN whatever the compiler says.
     """
+    if says_nothing(statement):
+        return _says_nothing_refusal(statement)
+
+    repeat = already_tried(workdir, proof, statement, kind=log.SKELETON)
+    if repeat:
+        return {
+            "ok": False,
+            "error": "duplicate_attempt",
+            "outputs": {"typechecks": False},
+            "message": (
+                "REFUSED: this exact decomposition was already submitted and "
+                "rejected, so it was not compiled again. Lean said:\n"
+                + (repeat.get("detail", "") or "")[:600]
+                + "\n\nChange the decomposition, or prove one of its holes "
+                "with `try_lemma`."
+            ),
+        }
+
     source = build_source(full_statement(workdir, statement), proof)
     result = await run_lean(source)
     verdict = interpret(result, statement)

@@ -92,7 +92,7 @@ def test_a_repeat_against_a_DIFFERENT_statement_is_allowed(tmp_path, lean_calls)
     """The same tactic may be right for one goal and wrong for another."""
     rt = runtime_for(tmp_path)
     run(try_proof.ainvoke({"proof": "by simp", "statement": STATEMENT, "runtime": rt}))
-    run(try_proof.ainvoke({"proof": "by simp", "statement": "theorem other : True",
+    run(try_proof.ainvoke({"proof": "by simp", "statement": "theorem other : 3 + 3 = 6",
                            "runtime": rt}))
 
     assert len(lean_calls) == 2

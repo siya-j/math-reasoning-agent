@@ -121,8 +121,8 @@ async def try_proof(proof: str, runtime: ToolRuntime[MathContext],
 
 
 @tool
-async def try_refutation(statement: str, proof: str,
-                         runtime: ToolRuntime[MathContext]) -> dict:
+async def try_refutation(proof: str, runtime: ToolRuntime[MathContext],
+                         statement: str = "") -> dict:
     """Prove that the goal is FALSE as written, when you believe it is.
 
     Use this when a rejected attempt has shown you the statement is missing a
@@ -132,17 +132,18 @@ async def try_refutation(statement: str, proof: str,
     result rather than a failure to prove.
 
     Args:
-        statement: the full Lean theorem stating the NEGATION, with its own
-            name — `theorem mra_refutation : ¬ (∀ ...)`. It must conclude a
-            negation, or it is refused.
-        proof: the proof body only, what follows `:=`. Construct the
-            counterexample explicitly. `sorry` and `admit` are refused.
+        proof: the proof body only, what follows `:=`. Give the CONCRETE
+            counterexample — the actual function, set and points — then derive
+            the contradiction. `sorry` and `admit` are refused.
+        statement: leave empty and the negation of the current goal is built
+            for you, binders and all. Pass one only to refute something else;
+            it must conclude a negation or it is refused.
     """
     stop = _charge(runtime, lean=True, goal_state=True)
     if stop:
         return stop
     workdir = runtime.context.workdir
-    if not statement.strip():
+    if not statement.strip() and not log.current_goal(workdir):
         return _no_goal()
     return await proving.try_refutation(
         workdir, statement.strip(), proof, lean_runner(workdir)

@@ -211,10 +211,13 @@ def test_finish_upgrades_a_suspect_report_when_the_negation_compiled(workdir):
 
 
 def test_finish_leaves_an_unverified_report_as_a_diagnostic(workdir):
-    """The agent says the same thing; nothing compiled, so nothing changes."""
+    """The agent tried the counterexample and it was rejected. The report is
+    allowed — trying is the requirement — but it stays a diagnostic."""
     from math_v2.tools.control import finish
 
     _attempted_and_failed(workdir)
+    run(proving.try_refutation(
+        workdir, NEGATION, "by simp", compiler(LeanOutcome.ERRORS, "error")[0]))
 
     report = run(finish.ainvoke({"summary": "Ω is not assumed connected",
                                  "outcome": "statement_suspect",

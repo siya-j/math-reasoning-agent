@@ -61,6 +61,22 @@ BANNERS = {
 }
 
 
+def _negation_of(statement: str) -> str:
+    """Imported lazily: `core.proving` imports this module's siblings, and a
+    top-level import would close the cycle."""
+    from math_v2.core.proving import negation_of
+
+    return negation_of(statement)
+
+
+def attempted_a_refutation(workdir: str) -> bool:
+    """Did the agent put a counterexample to the compiler? Pass or fail."""
+    return any(
+        (record.get("proof") or "").strip()
+        for record in log.records(workdir, log.REFUTATION)
+    )
+
+
 def verified_refutation(workdir: str) -> dict:
     """The accepted proof of the goal's negation, or {}.
 
@@ -217,14 +233,46 @@ def suspect_refusal(workdir: str) -> str:
     reason to prefer it, and a rejection also produces the goal state that
     usually shows WHY the statement is wrong.
     """
-    if attempted_a_proof(workdir):
-        return ""
-    return (
-        "You reported the statement as suspect without ever putting a proof to "
-        "the compiler. Failing to see a proof is not evidence that none exists, "
-        "and this report ends the run. Call `try_proof` with your best attempt "
-        "first — if the statement really is false the rejection will show you "
-        "which hypothesis is missing, and you may then report it. If you are "
-        "sure it is unprovable as written, prove the part that IS true with "
-        "`try_lemma` and say what the missing hypothesis is."
-    )
+    if not attempted_a_proof(workdir):
+        return (
+            "You reported the statement as suspect without ever putting a proof "
+            "to the compiler. Failing to see a proof is not evidence that none "
+            "exists, and this report ends the run. Call `try_proof` with your "
+            "best attempt first — if the statement really is false the "
+            "rejection will show you which hypothesis is missing, and you may "
+            "then report it."
+        )
+
+    # SECOND GATE, ADDED AFTER THE 4-GOAL RUN. All three suspect reports came
+    # with a counterexample written out in prose — Ω = D(-2,1) ∪ D(2,1), f = 0
+    # on one disc and something else on the other — and `try_refutation` was
+    # never called once. The tool existed and the prompt described it; nothing
+    # in the CONTROL FLOW ever put the model in front of it, so the cheapest
+    # path was still to describe the counterexample and stop.
+    #
+    # So the ask is made here, where the exit is, and made once. The negation
+    # is constructed for the model rather than requested from it, because
+    # restating the binders is the step it gets wrong and the step a regex can
+    # do exactly. One refused attempt is enough to pass — the requirement is
+    # that the counterexample was PUT to Lean, not that it succeeded.
+    if not attempted_a_refutation(workdir):
+        goal = log.current_goal(workdir)
+        negation = _negation_of(goal)
+        offer = (
+            f"\n\nThe negation of your goal is:\n\n    {negation}\n\n"
+            "Call `try_refutation` with that statement and a proof of it."
+            if negation else
+            "\n\nState the negation as a theorem and prove it with "
+            "`try_refutation`."
+        )
+        return (
+            "You have described a counterexample but never compiled one. In "
+            "prose that establishes nothing; in Lean it establishes the whole "
+            "claim, and the goal is then reported as REFUTED — a verified "
+            "result rather than an unverified suspicion." + offer +
+            "\n\nInstantiate it: give the concrete function, set and points "
+            "from your counterexample, then derive the contradiction. If the "
+            "attempt is rejected you may report `statement_suspect` anyway — "
+            "what is not allowed is not having tried."
+        )
+    return ""

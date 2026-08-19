@@ -314,11 +314,15 @@ def test_the_categories_appear_in_the_rendered_report():
 # ---------------------------------------- finish records, never concludes
 def test_reporting_a_suspect_statement_is_allowed_and_recorded(tmp_path):
     """Still allowed — the agent is often right, ProofNet being 31.8% broken —
-    but no longer FREE. The rerun showed three of four goals taking this exit
-    with zero proofs compiled, so it now costs one rejected attempt, the same
-    as trying. See tests/test_mathv2_earned_exits.py."""
-    log.append(str(tmp_path), log.Record(kind=log.PROOF, statement="theorem t : True",
+    but no longer FREE. It costs one rejected proof attempt AND one compiled
+    counterexample — the 4-goal rerun showed all three suspect reports carrying
+    a prose counterexample that was never put to Lean. Neither has to succeed.
+    See tests/test_mathv2_earned_exits.py."""
+    log.append(str(tmp_path), log.Record(kind=log.PROOF, statement="theorem t : 2 = 3",
                                          proof="by simp", status=log.UNKNOWN))
+    log.append(str(tmp_path), log.Record(kind=log.REFUTATION,
+                                         statement="theorem t : ¬ (2 = 3)",
+                                         proof="by decide", status=log.FALSE))
 
     result = run(finish.ainvoke({
         "summary": "Omega is not assumed connected, so this is false as stated.",

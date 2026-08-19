@@ -65,6 +65,15 @@ def record_attempt(workdir, proof="by simp", status=None):
                                         status=status or log.UNKNOWN))
 
 
+def record_refutation(workdir, proof="by simp", status=None):
+    """A counterexample PUT to the compiler. Passing is not required — the
+    second gate asks that it was tried, not that it worked."""
+    log.append(str(workdir), log.Record(kind=log.REFUTATION,
+                                        statement="theorem t : ¬ (2 = 3)",
+                                        proof=proof,
+                                        status=status or log.FALSE))
+
+
 # ---------------------------------------- 1. the suspect exit must be earned
 def test_calling_a_statement_suspect_without_proving_anything_is_refused(tmp_path):
     """THE fix. exercise_1_13a: one statement check, three searches, zero
@@ -86,15 +95,43 @@ def test_a_statement_check_does_not_count_as_having_tried(tmp_path):
     assert call_finish(tmp_path, outcome="statement_suspect")["accepted"] is False
 
 
-def test_one_rejected_attempt_earns_the_report(tmp_path):
-    """The agent is often RIGHT — 31.8% of ProofNet's Lean statements are
-    broken. This must stay possible, just not free."""
+def test_a_proof_attempt_alone_no_longer_earns_the_report(tmp_path):
+    """TIGHTENED after the 4-goal run. All three suspect reports came with a
+    counterexample written out in prose, and `try_refutation` was never called
+    once — the tool existed, the prompt described it, and nothing in the
+    control flow ever put the model in front of it."""
     record_attempt(tmp_path)
+
+    result = call_finish(tmp_path, outcome="statement_suspect")
+
+    assert result["accepted"] is False
+    assert result["error"] == "suspect_unearned"
+    assert "try_refutation" in result["message"]
+
+
+def test_a_tried_and_failed_refutation_earns_the_report(tmp_path):
+    """The agent is often RIGHT — 31.8% of ProofNet's Lean statements are
+    broken. This must stay possible, just not free. The requirement is that the
+    counterexample reached the compiler, NOT that it compiled."""
+    record_attempt(tmp_path)
+    record_refutation(tmp_path)
 
     result = call_finish(tmp_path, outcome="statement_suspect")
 
     assert result["accepted"] is True
     assert any("suspect statement" in e for e in log.read(str(tmp_path))["trace"])
+
+
+def test_the_second_gate_hands_over_the_negation_to_prove(tmp_path):
+    """A refusal that only says "try harder" burns the remaining turns. This one
+    carries the statement the model would have had to write."""
+    record_attempt(tmp_path)
+    log.set_goal(str(tmp_path), STATEMENT)
+
+    message = call_finish(tmp_path, outcome="statement_suspect")["message"]
+
+    assert "try_refutation" in message
+    assert "¬" in message, "the negation itself was not offered"
 
 
 def test_the_report_is_still_never_a_verdict(tmp_path):
@@ -130,7 +167,7 @@ def test_the_refusal_names_the_tool_that_would_satisfy_it(tmp_path):
     """A refusal the model cannot act on just burns the remaining turns."""
     message = call_finish(tmp_path, outcome="statement_suspect")["message"]
 
-    assert "try_proof" in message and "try_lemma" in message
+    assert "try_proof" in message
 
 
 # -------------------------------------------- 2. the reserve is now measured

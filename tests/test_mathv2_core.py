@@ -76,7 +76,8 @@ def test_a_rejected_proof_returns_the_goal_state(workdir):
 def test_the_model_never_writes_the_lean_file(workdir):
     """qe_v2's rule: the file is rendered, and the goal is renamed for us."""
     compiler = lean(LeanOutcome.COMPILED)
-    run(proving.try_proof(workdir, "theorem irrational_sqrt_two : True",
+    run(proving.try_proof(workdir,
+                          "theorem irrational_sqrt_two : Irrational (Real.sqrt 2)",
                           "exact irrational_sqrt_two", compiler))
 
     source = compiler.seen[0]
