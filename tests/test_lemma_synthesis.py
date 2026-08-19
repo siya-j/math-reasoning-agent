@@ -319,3 +319,40 @@ def test_a_placeholder_skeleton_hole_is_still_allowed(workdir):
     result = run(proving.try_skeleton(workdir, GOAL, ONE_HOLE, run_lean, 0))
 
     assert result["outputs"]["typechecks"] is True
+
+
+# ------------- an unascribed `have` states no claim and must not be mined
+def test_an_unascribed_have_yields_no_claim(workdir):
+    """MEASURED on `lin-vector-space-basis`. `have h := f x` has no ascription,
+    so the `:` of `:=` was read as the ascription colon and the claim became
+    everything up to the next `:=` — syntactic debris beginning `= Module...`.
+
+    `worth_proving` then said yes to it, so the controller would have spent a
+    compile proving a fragment that is not a proposition.
+    """
+    skeleton = ("by\n  have h := Module.Basis.exists_basis K V\n"
+                "  rcases h with ⟨s, hs⟩\n  have b := hs.some\n  sorry")
+
+    from pipeline.skeleton import hole_claims
+
+    assert hole_claims(skeleton) == [""]
+    assert not proving.worth_proving(hole_claims(skeleton)[0], GOAL, workdir)
+
+
+def test_an_ascribed_have_beside_an_unascribed_one_is_still_found(workdir):
+    """The fix must not blind the parser to real claims."""
+    from pipeline.skeleton import hole_claims
+
+    assert hole_claims("by\n  have h := f x\n  have g : 1 = 1 := by sorry\n"
+                       "  exact g") == ["1 = 1"]
+
+
+def test_a_skeleton_of_unascribed_haves_costs_no_extra_compiles(workdir):
+    """End to end: nothing to mine means nothing is attempted."""
+    skeleton = "by\n  have h := Module.Basis.exists_basis K V\n  sorry"
+    run_lean, seen = compiler([("sorry", LeanOutcome.INCOMPLETE)])
+
+    result = run(proving.try_skeleton(workdir, GOAL, skeleton, run_lean, 4))
+
+    assert result["outputs"]["typechecks"] is True
+    assert len(seen) == 1, "a compile was spent on a claim that does not exist"

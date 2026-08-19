@@ -32,7 +32,24 @@ import re
 _HOLE = re.compile(r"\bsorry\b")
 
 # `have <name> : <claim> := by sorry` — the claim is what a filler must prove.
-_HAVE = re.compile(r"have\s+(\w+)\s*:\s*(.+?)\s*:=", re.DOTALL)
+#
+# `:(?!=)` IS LOAD-BEARING. Without it, `have h := f x` matches with the `:` of
+# `:=` read as the ascription colon, and the "claim" becomes everything up to
+# the NEXT `:=`. Measured on the near-mathlib goal `lin-vector-space-basis`,
+# whose skeleton was
+#
+#     have h := Module.Basis.exists_basis K V
+#     rcases h with ⟨s, hs⟩
+#     have b := hs.some
+#     sorry
+#
+# and which yielded the claim
+#
+#     '= Module.Basis.exists_basis K V\n  rcases h with ⟨s, hs⟩\n  have b'
+#
+# An unascribed `have` states no claim, so it must produce "" — the same answer
+# as a `sorry` that is not a `have` at all.
+_HAVE = re.compile(r"have\s+(\w+)\s*:(?!=)\s*(.+?)\s*:=", re.DOTALL)
 
 
 def hole_count(proof: str) -> int:
