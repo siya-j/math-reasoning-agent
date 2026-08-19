@@ -179,27 +179,39 @@ def summarize(results: list[ProofResult]) -> dict:
     formalized = [r for r in counted if r.outcome is not ProofOutcome.NOT_FORMALIZED]
     proved = [r for r in counted if r.outcome is ProofOutcome.PROVED]
 
-    # The prover was only really TESTED where the statement elaborated, the
-    # budget did not run out first, and the goal was not shown to be FALSE.
-    #
-    # WHY SUSPECT STAYS IN THE DENOMINATOR
-    # ------------------------------------
-    # It used to be excluded, and that handed the agent control of its own
-    # denominator: `suspect_statement` is reached by the model ASSERTING the
-    # statement is false, nothing checked the assertion, and the exit ends the
-    # run. Excluding it made "declare it suspect" the cheapest way out of any
-    # hard goal, so the rate would have drifted towards measuring the suspect
-    # detector's false-positive rate instead of proving ability — quietly, and
-    # in the flattering direction.
-    #
-    # REFUTED is excluded instead, because it is not the agent's word for it:
-    # Lean accepted a proof of the negation, through the same `interpret` and
-    # the same anti-cheat as any other proof. An unprovable goal genuinely is
-    # not a proving failure — but it has to be earned, not declared.
     exhausted = [r for r in counted if r.outcome is ProofOutcome.EXHAUSTED]
     suspect = [r for r in counted if r.outcome is ProofOutcome.SUSPECT_STATEMENT]
     refuted = [r for r in counted if r.outcome is ProofOutcome.REFUTED]
-    tested = [r for r in formalized if r not in exhausted and r not in refuted]
+
+    # TWO DIFFERENT SETS, AND THEY ARE NOT INTERCHANGEABLE
+    # ---------------------------------------------------
+    # `attempted_the_proof` — the prover put a proof to the compiler. A
+    # DIAGNOSTIC: it answers "did we do the work", and a suspect row belongs in
+    # it because the agent did try before reporting (`verdict.suspect_refusal`
+    # requires exactly that).
+    #
+    # `valid_targets` — the goals a proof rate may be quoted over. A statement
+    # only qualifies if it elaborated AND was treated as a genuine thing to
+    # prove. Three exclusions, for three different reasons:
+    #
+    #   NOT_FORMALIZED    never reached the prover; a formalisation failure
+    #   REFUTED           Lean proved the NEGATION, so no proof could exist
+    #   SUSPECT_STATEMENT the agent reported it broken and did not verify that
+    #
+    # The last is the one to keep an eye on. It is the agent's own reading, and
+    # nothing checks it, so it is the one exclusion that is not bought with a
+    # compilation — the guard is `verdict.suspect_refusal` (one rejected
+    # attempt before the exit is allowed) plus the fact that
+    # `suspect_unverified` is printed next to `refuted` on every run. If the
+    # first climbs while the second stays at zero, this denominator is being
+    # eaten by a detector that is talking rather than working, and the rate
+    # above it means less than it appears to.
+    #
+    # EXHAUSTED stays out as it always has: the budget ran out, so the goal was
+    # not refused by the mathematics.
+    attempted_the_proof = [r for r in formalized if r not in exhausted]
+    valid_targets = [r for r in attempted_the_proof
+                     if r not in suspect and r not in refuted]
 
     # Lemma yield: of the goals that got as far as decomposition, how many
     # were rescued by it? This is the number that justifies Phase 5.
@@ -213,16 +225,22 @@ def summarize(results: list[ProofResult]) -> dict:
         "formalization_rate": _rate(len(formalized), len(counted)),
         "proof_rate": _rate(len(proved), len(counted)),
         "proof_rate_of_formalized": _rate(len(proved), len(formalized)),
-        "proof_rate_of_tested": _rate(len(proved), len(tested)),
+        # THE proof rate. None — printed "n/a" — when nothing qualified, which
+        # is not the same statement as 0% and must never be rendered as one:
+        # 0% says the prover was given valid goals and closed none of them.
+        "proof_rate_of_tested": _rate(len(proved), len(valid_targets)),
         "not_formalized": len(counted) - len(formalized),
         "exhausted": len(exhausted),
         # Verified by the compiler, and a result rather than a failure.
         "refuted": len(refuted),
-        # Asserted and NOT verified. A diagnostic: it touches no rate. If this
-        # grows while `refuted` does not, the detector is talking, not working.
+        # Asserted and NOT verified. Excluded from the rate above, and printed
+        # beside `refuted` so the exclusion stays visible.
         "suspect_unverified": len(suspect),
         "suspect_statements": len(suspect),   # retained: read by compare_backends
-        "genuinely_tested": len(tested),
+        # Diagnostic only. "The prover put a proof to the compiler", suspect
+        # rows included — deliberately NOT the denominator above.
+        "genuinely_tested": len(attempted_the_proof),
+        "valid_proof_targets": len(valid_targets),
         "lemma_yield": _rate(len(rescued), len(decomposed)),
         "mean_attempts": (
             round(sum(r.attempts for r in counted) / len(counted), 2)
@@ -253,13 +271,14 @@ def render(summary: dict) -> str:
         f"  formalisation rate     {_percent(summary['formalization_rate'])}",
         f"  proof rate             {_percent(summary['proof_rate'])}",
         f"  proof rate | formalised{_percent(summary['proof_rate_of_formalized']):>13}",
-        f"  proof rate | tested    {_percent(summary['proof_rate_of_tested'])}",
+        f"  proof rate | valid     {_percent(summary['proof_rate_of_tested'])}",
         "-" * 52,
         f"  statement not elaborable {summary['not_formalized']}",
         f"  statement refuted        {summary['refuted']}  (negation compiled)",
         f"  statement suspect        {summary['suspect_unverified']}  (unverified)",
         f"  budget exhausted         {summary['exhausted']}",
-        f"  genuinely tested         {summary['genuinely_tested']}",
+        f"  valid proof targets      {summary['valid_proof_targets']}  (the denominator)",
+        f"  genuinely tested         {summary['genuinely_tested']}  (diagnostic)",
         "-" * 52,
         f"  lemma yield            {_percent(summary['lemma_yield'])}",
         f"  mean attempts          {summary['mean_attempts']}",

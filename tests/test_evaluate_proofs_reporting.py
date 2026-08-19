@@ -118,40 +118,62 @@ def test_the_rendered_summary_names_every_category(tmp_path):
         assert line in text, line
 
 
-# ------------------------- 3. asserted and verified are counted DIFFERENTLY
-def test_an_unverified_suspect_statement_stays_in_the_denominator():
-    """REVERSED DELIBERATELY, and this is the load-bearing test of the change.
-
-    It used to be excluded. `SUSPECT_STATEMENT` is reached by the model
-    ASSERTING the goal is false, nothing checks the assertion, and the exit
-    ends the run — so excluding it let the agent shrink its own denominator,
-    and "declare it suspect" became the cheapest way out of a hard goal. The
-    rate would then have measured the detector's false-positive rate, in the
-    flattering direction, quietly.
-
-    An unverified report is therefore an unproved goal.
-    """
+# ------------------------- 3. the denominator holds VALID PROOF TARGETS only
+def test_a_suspect_statement_is_not_a_valid_proof_target():
+    """A goal the agent reported broken is not one the prover was fairly asked
+    to close, so it leaves the denominator — and `genuinely_tested` keeps
+    counting it, because the work was done."""
     summary = summarize([result(ProofOutcome.PROVED, "a"),
                          result(ProofOutcome.SUSPECT_STATEMENT, "b")])
 
-    assert summary["genuinely_tested"] == 2
-    assert summary["proof_rate_of_tested"] == 0.5
+    assert summary["valid_proof_targets"] == 1
+    assert summary["proof_rate_of_tested"] == 1.0
+    assert summary["genuinely_tested"] == 2, "the diagnostic still counts it"
     assert summary["suspect_unverified"] == 1
-    assert summary["refuted"] == 0
-    assert summary["proof_rate"] == 0.5
 
 
-def test_a_verified_refutation_is_excluded_from_the_denominator():
-    """The other half. Lean accepted a proof of the NEGATION, so the goal was
-    unprovable and its failure says nothing about the prover — but the
-    exclusion is bought with a compilation, not with a claim."""
+def test_a_verified_refutation_is_excluded_too():
+    """Same exclusion, different reason: Lean proved the negation, so no proof
+    could have existed."""
     summary = summarize([result(ProofOutcome.PROVED, "a"),
                          result(ProofOutcome.REFUTED, "b")])
 
-    assert summary["genuinely_tested"] == 1
+    assert summary["valid_proof_targets"] == 1
     assert summary["proof_rate_of_tested"] == 1.0
     assert summary["refuted"] == 1
-    assert summary["suspect_unverified"] == 0
+
+
+def test_no_valid_target_reports_n_a_and_never_zero_percent():
+    """THE case from the 4-goal run: 1 not_formalized, 3 suspect, 0 proved.
+
+    0% would say the prover was handed valid goals and closed none of them.
+    Nothing of the sort happened — it was handed none. The two readings lead
+    to opposite decisions about what to work on next, so the report must not
+    blur them.
+    """
+    summary = summarize([result(ProofOutcome.NOT_FORMALIZED, "a"),
+                         result(ProofOutcome.SUSPECT_STATEMENT, "b"),
+                         result(ProofOutcome.SUSPECT_STATEMENT, "c"),
+                         result(ProofOutcome.SUSPECT_STATEMENT, "d")])
+
+    assert summary["valid_proof_targets"] == 0
+    assert summary["proof_rate_of_tested"] is None
+    assert "n/a" in render(summary)
+    # The diagnostics still say what happened.
+    assert summary["genuinely_tested"] == 3
+    assert summary["not_formalized"] == 1
+    assert summary["suspect_unverified"] == 3
+
+
+def test_the_denominator_is_never_silently_the_diagnostic_count():
+    """They differ exactly when a suspect row is present, and that is the
+    difference the whole distinction exists to hold."""
+    summary = summarize([result(ProofOutcome.NOT_PROVED, "a"),
+                         result(ProofOutcome.SUSPECT_STATEMENT, "b")])
+
+    assert summary["genuinely_tested"] == 2
+    assert summary["valid_proof_targets"] == 1
+    assert summary["proof_rate_of_tested"] == 0.0, "one valid goal, unproved"
 
 
 def test_the_headline_rate_is_never_moved_by_either_suspect_state():
