@@ -219,3 +219,97 @@ def test_reporting_changes_did_not_touch_what_counts_as_a_proof():
 
     assert classify(run) is ProofOutcome.SUSPECT_STATEMENT
     assert not run.proved, "a report became a proof"
+
+
+# ------------------------------- 5. `--goal` against a CUSTOM `--goals` file
+def custom_goals(tmp_path, ids):
+    """A goals file whose ids are deliberately absent from eval/proofs.json."""
+    path = tmp_path / "custom.json"
+    path.write_text(json.dumps([
+        {"id": goal_id, "area": "proofnet 1", "goal": "Prove this.",
+         "tier": "proofnet"}
+        for goal_id in ids
+    ]), encoding="utf-8")
+    return path
+
+
+def run_cli(monkeypatch, argv, seen):
+    """`main()` with the prover stubbed. No model, no Lean."""
+    import scripts.evaluate_proofs as cli
+    from domain.proof import ProofRun
+
+    def fake_prove(goal, **kwargs):
+        seen.append(goal)
+        return ProofRun(goal=goal, statement="theorem t : True", statement_ok=True)
+
+    monkeypatch.setattr(cli, "prove", fake_prove)
+    monkeypatch.setattr(cli, "lean_is_available", lambda: True)
+    monkeypatch.setattr(sys, "argv", ["evaluate_proofs.py", *argv])
+    return cli.main()
+
+
+def test_a_goal_from_a_custom_file_is_not_checked_against_the_default_set(
+        tmp_path, monkeypatch):
+    """THE bug. `--goal` was validated with a second `load_goals()` call that
+    took no argument, so every id from a `--goals` file was compared against
+    `eval/proofs.json` and rejected — `exercise_1_1a` exists in
+    `eval/proofnet-formal.json` and still printed "No such goal"."""
+    goals_file = custom_goals(tmp_path, ["exercise_1_1a", "exercise_1_2"])
+    seen = []
+
+    code = run_cli(monkeypatch, [
+        "--goals", str(goals_file), "--goal", "exercise_1_1a",
+        "--out", str(tmp_path / "out.json"),
+    ], seen)
+
+    assert code != 2, "a goal present in the custom file was rejected"
+    assert len(seen) == 1, f"{len(seen)} goals ran; expected exactly the one asked for"
+
+
+def test_the_id_really_is_absent_from_the_default_dataset(tmp_path):
+    """Guards the test above: if `exercise_1_1a` were ever added to
+    eval/proofs.json the regression would pass for the wrong reason."""
+    from eval.proof_dataset import load_goals as load
+
+    assert "exercise_1_1a" not in {g.id for g in load()}
+
+
+def test_an_id_in_no_file_at_all_is_still_rejected(tmp_path, monkeypatch):
+    """The fix must not turn the validation off."""
+    goals_file = custom_goals(tmp_path, ["exercise_1_1a"])
+    seen = []
+
+    code = run_cli(monkeypatch, [
+        "--goals", str(goals_file), "--goal", "does_not_exist",
+        "--out", str(tmp_path / "out.json"),
+    ], seen)
+
+    assert code == 2
+    assert seen == [], "a run started despite an unknown goal id"
+
+
+def test_several_goals_from_a_custom_file_are_all_selected(tmp_path, monkeypatch):
+    goals_file = custom_goals(tmp_path, ["exercise_1_1a", "exercise_1_2",
+                                         "exercise_1_18a"])
+    seen = []
+
+    code = run_cli(monkeypatch, [
+        "--goals", str(goals_file),
+        "--goal", "exercise_1_1a", "--goal", "exercise_1_18a",
+        "--out", str(tmp_path / "out.json"),
+    ], seen)
+
+    assert code != 2
+    assert len(seen) == 2
+
+
+def test_the_default_dataset_still_works_without_goals(tmp_path, monkeypatch):
+    """No `--goals`: validation must fall back to eval/proofs.json as before."""
+    seen = []
+
+    code = run_cli(monkeypatch, [
+        "--goal", "num-two-plus-two", "--out", str(tmp_path / "out.json"),
+    ], seen)
+
+    assert code != 2
+    assert len(seen) == 1

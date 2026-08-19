@@ -158,14 +158,23 @@ def main() -> int:
     out = Path(args.out) if args.out else DEFAULT_OUT
     out.parent.mkdir(parents=True, exist_ok=True)
 
-    goals = load_goals(Path(args.goals) if args.goals else None)
+    # Loaded ONCE, and `--goal` is validated against THIS dataset. It used to
+    # call `load_goals()` a second time with no argument, so a `--goal` from a
+    # `--goals` file was checked against the default `eval/proofs.json` and
+    # every ProofNet id was rejected as "No such goal".
+    #
+    # Validated against `dataset` rather than the filtered `goals`, so
+    # `--tier`/`--area` combined with `--goal` still report an id that exists
+    # but was filtered out as a selection of nothing rather than a typo.
+    dataset = load_goals(Path(args.goals) if args.goals else None)
+    goals = list(dataset)
     if args.tier:
         goals = [g for g in goals if g.tier.value == args.tier]
     if args.area:
         goals = [g for g in goals if g.area == args.area]
     if args.goal:
         wanted = set(args.goal)
-        unknown = wanted - {g.id for g in load_goals()}
+        unknown = wanted - {g.id for g in dataset}
         if unknown:
             print(f"No such goal: {', '.join(sorted(unknown))}")
             return 2
