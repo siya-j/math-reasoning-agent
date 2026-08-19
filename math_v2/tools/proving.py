@@ -123,8 +123,11 @@ async def try_proof(proof: str, runtime: ToolRuntime[MathContext],
         return _no_goal()
     from math_v2.tools.retrieval import get_search
 
-    return await proving.try_proof(workdir, goal, proof, lean_runner(workdir),
-                                   get_search())
+    result = await proving.try_proof(workdir, goal, proof, lean_runner(workdir),
+                                     get_search())
+    # An automatic `exact` repair compiles a second time inside this one call.
+    budget.charge_lean(workdir, result.get("outputs", {}).get("compiles_used", 0))
+    return result
 
 
 @tool

@@ -332,7 +332,8 @@ async def _retrieve_for_failure(workdir, detail, search):
     return found
 
 
-async def try_proof(workdir, statement, proof, run_lean, search=None):
+async def try_proof(workdir, statement, proof, run_lean, search=None,
+                    repair=True):
     """Compile a candidate proof of the goal and report exactly what Lean said.
 
     An attempt already rejected is refused WITHOUT compiling. The failure this
@@ -386,13 +387,37 @@ async def try_proof(workdir, statement, proof, run_lean, search=None):
     # The error was always returned; what was missing was what to DO with it.
     # Measured: every rejection in the 4-goal run was answered with another
     # generic closer, whatever Lean had actually said.
+    # ONE automatic repair, and only for the one failure mode the traces
+    # actually show. `repair` is False on the recursive call, so a repair can
+    # never trigger another.
+    repair_compiles = 0
+    if repair and diagnosis.classify(verdict.detail) is diagnosis.UNKNOWN_TACTIC:
+        wrapped = diagnosis.exact_repair(proof)
+        if wrapped and not already_tried(workdir, wrapped, statement):
+            fixed = await try_proof(workdir, statement, wrapped, run_lean,
+                                    search, repair=False)
+            # Charged whether or not it worked: the compiler ran either way.
+            repair_compiles = 1
+            fixed.setdefault("outputs", {})["compiles_used"] = 1
+            if fixed.get("outputs", {}).get("accepted"):
+                fixed["message"] = (
+                    "ACCEPTED after an automatic repair. Your term was correct; "
+                    f"it needed `exact`. Compiled:\n\n    {wrapped}\n\n"
+                    "The proof body sits inside `by ...`, so submit tactics — "
+                    "`exact <term>` — not bare terms."
+                ) + "\n\n" + fixed.get("message", "")
+                return fixed
+            # The repair failed too. Report the ORIGINAL rejection: the term
+            # itself is what needs rethinking, not its wrapper.
+
     action = diagnosis.next_action(verdict.detail)
     found = await _retrieve_for_failure(workdir, verdict.detail, search)
     return {
         "ok": True,
         "outputs": {"accepted": False,
                     "failure": diagnosis.classify(verdict.detail),
-                    "retrieved": [p.name for p in found]},
+                    "retrieved": [p.name for p in found],
+                    "compiles_used": repair_compiles},
         "message": (f"REJECTED.\n{verdict.detail}"
                     + (f"\n\nWHAT THIS MEANS: {action}" if action else "")
                     + _render_retrieved(found)),

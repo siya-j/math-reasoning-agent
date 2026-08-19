@@ -29,6 +29,7 @@ import re
 
 # --------------------------------------------------------------- error kinds
 UNKNOWN_IDENTIFIER = "unknown_identifier"
+UNKNOWN_TACTIC = "unknown_tactic"
 TYPE_MISMATCH = "type_mismatch"
 TYPECLASS = "typeclass"
 UNSOLVED = "unsolved_goals"
@@ -48,6 +49,10 @@ _PATTERNS = (
         r"[Aa]pplication type mismatch|type mismatch|argument.*has type")),
     (SYNTAX, re.compile(
         r"unexpected token|expected ['`]|unterminated|unexpected identifier")),
+    # BEFORE `TACTIC_FAILED`, whose pattern would otherwise swallow it. This
+    # is not a tactic that failed; it is a TERM submitted where Lean expected
+    # a tactic, and the two need opposite responses.
+    (UNKNOWN_TACTIC, re.compile(r"unknown tactic")),
     (TACTIC_FAILED, re.compile(
         r"Tactic `\w+` failed|tactic '\w+' failed|failed to prove the goal")),
     (UNSOLVED, re.compile(r"unsolved goals")),
@@ -87,6 +92,11 @@ _NEXT_ACTION = {
         "still missing. That remaining goal is now your target: search for a "
         "lemma concluding it with `|- `, or make it a `have` and prove it "
         "separately with `try_lemma`."
+    ),
+    UNKNOWN_TACTIC: (
+        "What you submitted is a TERM, not a tactic. The proof body is placed "
+        "inside `by ...`, so a bare term like `hs.image hf` is read as a "
+        "tactic name and there is no such tactic. Write `exact <term>`."
     ),
     UNCLASSIFIED: "",
 }
@@ -209,3 +219,53 @@ def retrieval_query(detail):
     # guess here would be noise. SYNTAX and TACTIC_FAILED are not retrieval
     # problems at all.
     return ""
+
+
+# ------------------------------------------------ term -> `exact <term>`
+# MEASURED on near-mathlib-repl. Three attempts across two goals were rejected
+# for this and this alone:
+#
+#   top-compact-image      `hs.image hf`         -> "2:3: error: unknown tactic"
+#                          `by exact hs.image hf`-> ACCEPTED
+#   grp-subgroup-of-cyclic `by inferInstance`    -> "1:89: error: unknown tactic"
+#                          `inferInstance`       -> "2:3: error: unknown tactic"
+#                          `by exact inferInstance` -> ACCEPTED
+#
+# The mathematics was right every time. The word `exact` was missing.
+
+# Anything that is unmistakably a tactic block rather than a term. A proof
+# using these is not a citation that forgot `exact`, and wrapping it would be
+# nonsense.
+_TACTIC_SHAPED = re.compile(
+    r"^\s*(?:by\s+)?(?:have|obtain|rcases|rintro|induction|cases|refine|calc"
+    r"|intro|use|constructor|apply|exact|simpa|rw|first|repeat|·|<;>)\b"
+)
+
+
+def exact_repair(proof):
+    """`by exact <term>` for a proof that is a bare TERM, else "".
+
+    Returns "" for anything already tactic-shaped, anything multi-line, and
+    anything containing a placeholder — a `sorry` must never be smuggled
+    through a repair.
+    """
+    body = (proof or "").strip()
+    if not body:
+        return ""
+
+    # `by foo` and `foo` are the same mistake; strip one leading `by`.
+    stripped = re.sub(r"^by\b", "", body).strip()
+    if not stripped or "\n" in stripped:
+        return ""
+    if _TACTIC_SHAPED.match(stripped) or _TACTIC_SHAPED.match(body):
+        return ""
+    if re.search(r"\b(sorry|admit)\b", stripped):
+        return ""
+    # A real tactic name is a tactic, not a term. `exact aesop` is nonsense.
+    # In practice Lean would not answer `aesop` with "unknown tactic" and the
+    # error gate alone would stop this, but the two guards are independent on
+    # purpose: a repair that can rewrite a legitimate tactic is a repair that
+    # can corrupt a proof search.
+    if stripped in GENERIC_TACTICS:
+        return ""
+    return f"by\n  exact {stripped}"

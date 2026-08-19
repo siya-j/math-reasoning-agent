@@ -607,3 +607,62 @@ def test_the_four_syntactic_variants_that_won_a_real_goal_are_not_refused(
 
     assert run.proved, "the winning fourth variant was refused as a repeat"
     assert len(compiles) == 5, f"only {len(compiles) - 1} of 4 variants compiled"
+
+
+# ------------------------ 10. the `exact` repair, through the real harness
+def test_the_live_path_repairs_a_bare_term_with_exact(tmp_path, monkeypatch):
+    """Replays top-compact-image from near-mathlib-repl: `hs.image hf` was
+    rejected as `unknown tactic` and `by exact hs.image hf` was accepted. The
+    model now gets that in ONE tool call instead of two attempts."""
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    compiles = []
+
+    async def run_lean(source):
+        compiles.append(source)
+        if "sorry" in source:
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        if "exact hs.image hf" in source:
+            return LeanResult(LeanOutcome.COMPILED, "")
+        return LeanResult(LeanOutcome.ERRORS, "f.lean:2:3: error: unknown tactic")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    goal = ("theorem continuous_image_compact (hs : IsCompact s) "
+            "(hf : Continuous f) : IsCompact (f '' s)")
+    run = harness.prove("q", model=object(), workdir=str(tmp_path),
+                        agent_factory=scripted([
+                            ("check_statement", {"statement": goal}),
+                            ("try_proof", {"proof": "hs.image hf"}),
+                            ("finish", {"summary": "done", "outcome": "proved",
+                                        "statement": goal}),
+                        ]))
+
+    assert run.proved, "the repaired proof did not reach the verdict"
+    assert any("exact hs.image hf" in s for s in compiles)
+
+
+def test_the_repair_compile_is_charged_on_the_live_path(tmp_path, monkeypatch):
+    from math_v2.core import budget
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    compiles = []
+
+    async def run_lean(source):
+        compiles.append(source)
+        if "sorry" in source:
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        return LeanResult(LeanOutcome.ERRORS, "f.lean:2:3: error: unknown tactic")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=scripted([
+                      ("check_statement", {"statement": GOAL}),
+                      ("try_proof", {"proof": "some.term arg"}),
+                  ]))
+
+    charged = budget.summary(str(tmp_path))["lean_calls"]
+    assert charged == len(compiles) == 3, (
+        f"charged {charged} for {len(compiles)} compilations"
+    )

@@ -143,6 +143,10 @@ For a claim needing PROOF:
                                 the new, smaller target — aim at that
      tactic failed           -> the goal is not that tactic's shape. Do not
                                 reach for another tactic
+     unknown tactic          -> you wrote a TERM where a tactic was expected.
+                                The body sits inside `by ...`, so write
+                                `exact <term>`. This one is repaired for you
+                                automatically, once
 
    An identical resubmission is refused without compiling, and so is a second
    generic closer. Change the ARGUMENT, not the syntax: a `have` chain and an
