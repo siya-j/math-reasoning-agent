@@ -127,6 +127,14 @@ For a claim needing PROOF:
    unprovable as written, prove the part that IS true with `try_lemma` and say
    what is missing.
 
+   BETTER: PROVE IT FALSE. If you have a counterexample, state the negation as
+   a theorem and compile it with `try_refutation`. A rejected statement backed
+   by a compiled negation is a REFUTATION — a real result, reported as such,
+   and worth more than closing a routine goal. Without one, your report is
+   recorded as an unverified reading and the goal still counts as unproved. An
+   argument in prose that a statement is false establishes nothing; the same
+   argument in Lean establishes it completely.
+
 ## Lean conventions
 
 - Mathlib is imported. Use its real names; do not invent identifiers.

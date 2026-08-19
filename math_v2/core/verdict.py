@@ -44,6 +44,10 @@ NOT_VERIFIED = "not_verified"
 # A REPORT that the statement looks false or ill-posed. Not a verdict — we
 # cannot confirm it — but it ends the run, so it is guarded like one.
 STATEMENT_SUSPECT = "statement_suspect"
+# The same report, once Lean has accepted a proof of the NEGATION. This one IS
+# a verdict: it rests on a compilation, not on the agent's account of one. The
+# agent never claims it — `finish` derives it from the record.
+REFUTED = "refuted"
 
 BANNERS = {
     PROVED: "PROVED (Lean accepted a complete proof)",
@@ -53,7 +57,23 @@ BANNERS = {
     NOT_FORMALIZED: "NOT FORMALISED",
     NOT_VERIFIED: "NOT VERIFIED",
     STATEMENT_SUSPECT: "STATEMENT SUSPECT (the agent's report, not a verdict)",
+    REFUTED: "REFUTED (Lean accepted a proof of the negation)",
 }
+
+
+def verified_refutation(workdir: str) -> dict:
+    """The accepted proof of the goal's negation, or {}.
+
+    Read from `kind == REFUTATION` records with `status == TRUE`, which are
+    written by `core.proving.try_refutation` only after `interpret` reported
+    the compiler accepted a COMPLETE proof. A file that compiled via `sorry`
+    comes back INCOMPLETE and one that leaned on `axiom` comes back CHEATED;
+    neither is TRUE, so neither reaches here.
+    """
+    for record in log.records(workdir, log.REFUTATION):
+        if record.get("status") == log.TRUE:
+            return record
+    return {}
 
 
 def attempted_a_proof(workdir: str) -> bool:

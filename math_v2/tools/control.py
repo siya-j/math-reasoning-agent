@@ -88,7 +88,24 @@ async def finish(
                 "message": "REFUSED. " + unearned,
                 "budget": budget.summary(workdir),
             }
-        log.note(workdir, f"suspect statement: {summary[:300]}")
+        # Two different things share this exit, and only one of them is a
+        # result. A compiled proof of the negation makes the report a VERDICT;
+        # without one it stays a diagnostic, and the goal is still scored as
+        # unproved. The agent cannot choose between them — the record does.
+        refutation = verdict.verified_refutation(workdir)
+        if refutation:
+            outcome = verdict.REFUTED
+            log.note(workdir, f"refuted statement: {summary[:300]}")
+            # Without this the report says "refuted" and nothing says of what.
+            decision["evidence"] = {
+                **decision.get("evidence", {}),
+                "refutation": {
+                    "statement": refutation.get("statement", ""),
+                    "proof": refutation.get("proof", ""),
+                },
+            }
+        else:
+            log.note(workdir, f"suspect statement: {summary[:300]}")
 
     if outcome == verdict.PROVED and not statement.strip():
         return {

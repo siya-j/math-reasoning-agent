@@ -223,9 +223,9 @@ def test_the_tactic_ladder_counts_as_feedback(tmp_path, monkeypatch):
 
     src = inspect.getsource(proving_tools)
     charges = src.count("_charge(runtime, lean=True, goal_state=True)")
-    assert charges == 4, (
-        "try_proof, try_lemma, try_skeleton and try_standard_tactics return a "
-        f"goal state; found {charges} marked so"
+    assert charges == 5, (
+        "try_proof, try_lemma, try_skeleton, try_standard_tactics and "
+        f"try_refutation return a goal state; found {charges} marked so"
     )
     # check_statement is the one Lean call that returns no goal state. It now
     # also carries statement_check=True, which caps it separately.
@@ -292,8 +292,11 @@ def test_the_four_pilot_goals_no_longer_collapse_into_one_number():
     assert summary["not_formalized"] == 1
     assert summary["suspect_statements"] == 1
     assert summary["exhausted"] == 1
-    assert summary["genuinely_tested"] == 1, (
-        "the prover was put to the test once, not four times"
+    # Two: 1_19b never elaborated and 1_26 ran out of clock, so those two come
+    # out. 1_13c reported the statement suspect WITHOUT compiling the negation,
+    # and an unverified report is still an unproved goal.
+    assert summary["genuinely_tested"] == 2, (
+        "only the formalisation and budget failures come out of the denominator"
     )
     assert summary["proof_rate_of_tested"] == 0.0
 

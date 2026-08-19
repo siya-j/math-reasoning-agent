@@ -121,6 +121,35 @@ async def try_proof(proof: str, runtime: ToolRuntime[MathContext],
 
 
 @tool
+async def try_refutation(statement: str, proof: str,
+                         runtime: ToolRuntime[MathContext]) -> dict:
+    """Prove that the goal is FALSE as written, when you believe it is.
+
+    Use this when a rejected attempt has shown you the statement is missing a
+    hypothesis — a ProofNet row that says `IsOpen` where the textbook says
+    connected, say. Arguing in prose that a statement is broken does not
+    establish it; a compiled proof of the negation does, and it is a real
+    result rather than a failure to prove.
+
+    Args:
+        statement: the full Lean theorem stating the NEGATION, with its own
+            name — `theorem mra_refutation : ¬ (∀ ...)`. It must conclude a
+            negation, or it is refused.
+        proof: the proof body only, what follows `:=`. Construct the
+            counterexample explicitly. `sorry` and `admit` are refused.
+    """
+    stop = _charge(runtime, lean=True, goal_state=True)
+    if stop:
+        return stop
+    workdir = runtime.context.workdir
+    if not statement.strip():
+        return _no_goal()
+    return await proving.try_refutation(
+        workdir, statement.strip(), proof, lean_runner(workdir)
+    )
+
+
+@tool
 async def try_standard_tactics(runtime: ToolRuntime[MathContext],
                                statement: str = "") -> dict:
     """Try the usual closers and every premise found so far, in one compilation.

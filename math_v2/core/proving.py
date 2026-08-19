@@ -28,9 +28,11 @@ the compiler's answer means. `cheap_attempt` builds the tactic ladder.
 `hole_claims` reads a skeleton. All of it is existing, tested code.
 """
 
+import re
+
 from pipeline.skeleton import hole_claims
 from pipeline.tactics import cheap_attempt
-from retrieval.loogle import Premise
+from retrieval.loogle import Premise, conclusion_of
 from verifiers.lean_runner import has_placeholder
 from verifiers.lean_verifier import build_source, declaration, interpret
 from domain.verdict import VerificationStatus
@@ -276,6 +278,89 @@ async def try_lemma(workdir, statement, proof, run_lean, limit=MAX_KEPT_LEMMAS):
             "ACCEPTED and kept. You may cite it by name in any later attempt. "
             f"Lemmas held: {len(kept) + 1}. This proves the LEMMA, not the "
             "goal — the goal still needs `try_proof`."
+        ),
+    }
+
+
+# A refutation must CONCLUDE a negation. Without this the tool would accept a
+# proof of any true theorem — `2 + 2 = 4` compiles, and would otherwise be
+# recorded as having refuted the goal.
+_NEGATION = re.compile(r"¬|≠|\bNot\b|(?:→|->)\s*False\s*$")
+
+
+def negates(statement):
+    """Does this theorem's CONCLUSION state a negation?
+
+    A LINT, and deliberately a weak one. It establishes that the agent is
+    claiming a negation, not that the negation is of THIS goal — that would
+    need the two statements related inside Lean, which is a second proof system
+    and not what this is for. The goal is recorded next to the refutation so a
+    reader can see both, and the honest limit is written into the outcome name:
+    a refutation is verified, the CORRESPONDENCE is reviewed.
+    """
+    return bool(_NEGATION.search(conclusion_of(statement) or statement or ""))
+
+
+async def try_refutation(workdir, statement, proof, run_lean):
+    """Prove the NEGATION of the goal — the only way a statement becomes refuted.
+
+    WHY THIS EXISTS
+    ---------------
+    `statement_suspect` was the one terminal claim in this system checked
+    against prose rather than against a compilation. Measured on proofnet
+    `exercise_1_13a`: the agent was RIGHT — the ProofNet port of Stein &
+    Shakarchi 1.13a drops connectedness, so f can be a different constant on
+    each component — and it had the counterexample, Ω = D(0,1) ∪ D(3,1). It
+    never formalised it, so the finding was recorded as prose and the run
+    scored as a failure to prove.
+
+    This routes that claim through the same compiler, the same `interpret`, and
+    therefore the same anti-cheat as every other proof: `sorry` and `admit` are
+    refused before dispatch, and a file that only compiles via `axiom` or
+    `exact?` comes back CHEATED, not TRUE. There is no path to REFUTED that
+    does not go through a proof Lean accepted.
+    """
+    if has_placeholder(proof):
+        return _placeholder_refusal()
+
+    if not negates(statement):
+        return {
+            "ok": False,
+            "error": "not_a_negation",
+            "outputs": {"refuted": False},
+            "message": (
+                "REFUSED: this statement does not conclude a negation, so "
+                "proving it would not refute anything. State the negation "
+                "explicitly — `¬ (∀ ...)`, `... ≠ ...` — and prove THAT."
+            ),
+        }
+
+    result = await run_lean(build_source(statement, proof))
+    verdict = interpret(result, statement)
+    refuted = verdict.status is VerificationStatus.TRUE
+
+    log.append(workdir, log.Record(
+        kind=log.REFUTATION, statement=statement, proof=proof,
+        status=log.TRUE if refuted else log.FALSE, detail=verdict.detail,
+    ))
+
+    if not refuted:
+        return {
+            "ok": True,
+            "outputs": {"refuted": False},
+            "message": (
+                "The negation was NOT established, so the statement stays "
+                f"unproved rather than refuted.\n{verdict.detail}"
+            ),
+        }
+    return {
+        "ok": True,
+        "outputs": {"refuted": True},
+        "message": (
+            "REFUTED. Lean accepted a proof of the negation, so the goal is "
+            "false as written. Report it with `finish` as `statement_suspect` "
+            "— the compiled refutation is what upgrades that to a verified "
+            "result. Say in the summary which hypothesis is missing."
         ),
     }
 

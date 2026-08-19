@@ -49,7 +49,8 @@ MARKS = {
     ProofOutcome.PROVED: "PROVED",
     ProofOutcome.NOT_PROVED: "not proved",
     ProofOutcome.NOT_FORMALIZED: "NOT FORMALISED",
-    ProofOutcome.SUSPECT_STATEMENT: "SUSPECT STATEMENT",
+    ProofOutcome.REFUTED: "REFUTED (negation compiled)",
+    ProofOutcome.SUSPECT_STATEMENT: "SUSPECT STATEMENT (unverified)",
     ProofOutcome.EXHAUSTED: "budget exhausted",
     ProofOutcome.ERROR: "ERROR",
 }

@@ -55,6 +55,7 @@ class ProofOutcome(str, Enum):
     NOT_PROVED = "not_proved"          # ran, had the budget, found nothing
     NOT_FORMALIZED = "not_formalized"  # the statement never elaborated
     EXHAUSTED = "exhausted"            # ran out of clock or compilations
+    REFUTED = "refuted"                # the compiler accepted the NEGATION
     SUSPECT_STATEMENT = "suspect_statement"   # reported false/ill-posed AS STATED
     ERROR = "error"                    # crashed, or never reached the model
 
@@ -109,9 +110,16 @@ def classify(run: ProofRun) -> ProofOutcome:
     if not run.statement.strip() or not run.statement_ok:
         return ProofOutcome.NOT_FORMALIZED
 
-    # Reported by the agent, and labelled as a REPORT rather than a verdict.
-    # We cannot confirm a statement is false; we can record that the agent
-    # said so and stop counting it against the prover.
+    # A COMPILED proof of the negation, so this one is a compiler fact like
+    # PROVED and outranks the agent's report of the same thing. `finish` writes
+    # this note only when `verdict.verified_refutation` found an accepted
+    # `refutation` record, so the prose cannot reach here on its own.
+    if any("refuted statement" in entry for entry in run.trace):
+        return ProofOutcome.REFUTED
+
+    # Reported by the agent and NOT confirmed: the negation was never
+    # established. Recorded as a diagnostic so the claim is visible, and
+    # deliberately still counted as an unproved goal — see `summarize`.
     if any("suspect statement" in entry for entry in run.trace):
         return ProofOutcome.SUSPECT_STATEMENT
 
@@ -172,11 +180,26 @@ def summarize(results: list[ProofResult]) -> dict:
     proved = [r for r in counted if r.outcome is ProofOutcome.PROVED]
 
     # The prover was only really TESTED where the statement elaborated, the
-    # benchmark row was not suspect, and the budget did not run out first.
-    # Every other bucket measures something else.
+    # budget did not run out first, and the goal was not shown to be FALSE.
+    #
+    # WHY SUSPECT STAYS IN THE DENOMINATOR
+    # ------------------------------------
+    # It used to be excluded, and that handed the agent control of its own
+    # denominator: `suspect_statement` is reached by the model ASSERTING the
+    # statement is false, nothing checked the assertion, and the exit ends the
+    # run. Excluding it made "declare it suspect" the cheapest way out of any
+    # hard goal, so the rate would have drifted towards measuring the suspect
+    # detector's false-positive rate instead of proving ability — quietly, and
+    # in the flattering direction.
+    #
+    # REFUTED is excluded instead, because it is not the agent's word for it:
+    # Lean accepted a proof of the negation, through the same `interpret` and
+    # the same anti-cheat as any other proof. An unprovable goal genuinely is
+    # not a proving failure — but it has to be earned, not declared.
     exhausted = [r for r in counted if r.outcome is ProofOutcome.EXHAUSTED]
     suspect = [r for r in counted if r.outcome is ProofOutcome.SUSPECT_STATEMENT]
-    tested = [r for r in formalized if r not in exhausted and r not in suspect]
+    refuted = [r for r in counted if r.outcome is ProofOutcome.REFUTED]
+    tested = [r for r in formalized if r not in exhausted and r not in refuted]
 
     # Lemma yield: of the goals that got as far as decomposition, how many
     # were rescued by it? This is the number that justifies Phase 5.
@@ -193,7 +216,12 @@ def summarize(results: list[ProofResult]) -> dict:
         "proof_rate_of_tested": _rate(len(proved), len(tested)),
         "not_formalized": len(counted) - len(formalized),
         "exhausted": len(exhausted),
-        "suspect_statements": len(suspect),
+        # Verified by the compiler, and a result rather than a failure.
+        "refuted": len(refuted),
+        # Asserted and NOT verified. A diagnostic: it touches no rate. If this
+        # grows while `refuted` does not, the detector is talking, not working.
+        "suspect_unverified": len(suspect),
+        "suspect_statements": len(suspect),   # retained: read by compare_backends
         "genuinely_tested": len(tested),
         "lemma_yield": _rate(len(rescued), len(decomposed)),
         "mean_attempts": (
@@ -228,7 +256,8 @@ def render(summary: dict) -> str:
         f"  proof rate | tested    {_percent(summary['proof_rate_of_tested'])}",
         "-" * 52,
         f"  statement not elaborable {summary['not_formalized']}",
-        f"  statement suspect        {summary['suspect_statements']}",
+        f"  statement refuted        {summary['refuted']}  (negation compiled)",
+        f"  statement suspect        {summary['suspect_unverified']}  (unverified)",
         f"  budget exhausted         {summary['exhausted']}",
         f"  genuinely tested         {summary['genuinely_tested']}",
         "-" * 52,

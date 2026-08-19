@@ -258,7 +258,7 @@ def test_the_lemma_and_skeleton_machinery_is_untouched():
 
     names = {t.name for t in create_math_v2_tools()}
     assert {"try_lemma", "try_skeleton"} <= names
-    assert len(names) == 17          # 16 before, plus proof_state
+    assert len(names) == 18          # 16, plus proof_state and try_refutation
 
 
 # --------------------------------------------------------- no placeholders

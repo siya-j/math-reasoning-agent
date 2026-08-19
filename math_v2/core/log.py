@@ -36,6 +36,7 @@ PROOF = "proof"                 # an attempt at THE GOAL
 LEMMA = "lemma"                 # an attempt at a helper result
 SKELETON = "skeleton"           # a decomposition, which proves nothing alone
 STATEMENT_CHECK = "statement"   # does the signature elaborate at all
+REFUTATION = "refutation"       # an attempt at the NEGATION of the goal
 
 TRUE = "true"
 FALSE = "false"

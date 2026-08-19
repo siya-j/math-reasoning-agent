@@ -25,6 +25,7 @@ from math_v2.tools.proving import (
     proof_state,
     try_lemma,
     try_proof,
+    try_refutation,
     try_skeleton,
     try_standard_tactics,
 )
@@ -40,6 +41,7 @@ PROOF_TOOLS = [
     try_proof,
     try_lemma,
     try_skeleton,
+    try_refutation,
     proof_state,
 ]
 
@@ -59,6 +61,7 @@ TAGS = {
     "try_proof": ["lean", "proof", "compile"],
     "try_lemma": ["lean", "lemma", "decomposition"],
     "try_skeleton": ["lean", "decomposition", "plan"],
+    "try_refutation": ["lean", "counterexample", "negation"],
     "proof_state": ["progress", "review", "replan"],
     "finish": ["report", "verdict"],
 }
@@ -77,11 +80,11 @@ def _tag():
         tag_tools(SYMBOLIC_TOOLS, category="symbolic", sif=_SIF, runtime="math",
                   tags={t.name: TAGS.get(t.name, []) for t in SYMBOLIC_TOOLS})
         tag_tools([check_statement, try_standard_tactics, try_proof, try_lemma,
-                   try_skeleton],
+                   try_skeleton, try_refutation],
                   category="proving", sif=_SIF, runtime="math",
                   tags={n: TAGS[n] for n in
                         ("check_statement", "try_standard_tactics", "try_proof",
-                         "try_lemma", "try_skeleton")})
+                         "try_lemma", "try_skeleton", "try_refutation")})
         # Reads the record and compiles nothing, so it is in-process like the
         # other tools that touch no compute.
         tag_tools([proof_state], category="proving", sif=IN_PROCESS, runtime=None,

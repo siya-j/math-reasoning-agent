@@ -48,7 +48,14 @@ def test_every_outcome_has_a_display_label():
 
 
 def test_the_outcome_that_crashed_the_pilot_prints():
-    assert mark_for(ProofOutcome.SUSPECT_STATEMENT) == "SUSPECT STATEMENT"
+    assert mark_for(ProofOutcome.SUSPECT_STATEMENT).startswith("SUSPECT STATEMENT")
+
+
+def test_a_verified_refutation_does_not_read_like_an_unverified_report():
+    """They are different claims and the log must not blur them: one rests on a
+    compilation, the other on the agent's prose."""
+    assert MARKS[ProofOutcome.REFUTED] != MARKS[ProofOutcome.SUSPECT_STATEMENT]
+    assert "unverified" in MARKS[ProofOutcome.SUSPECT_STATEMENT]
 
 
 def test_a_label_lookup_never_raises():
@@ -111,19 +118,50 @@ def test_the_rendered_summary_names_every_category(tmp_path):
         assert line in text, line
 
 
-# --------------------------------- 3. and it is not counted as a proof failure
-def test_a_suspect_statement_is_excluded_from_the_prover_denominator():
-    """Requirement 4, restated as arithmetic. One proof, one suspect row: the
-    prover was tested ONCE and succeeded, so the rate is 100%, not 50%."""
+# ------------------------- 3. asserted and verified are counted DIFFERENTLY
+def test_an_unverified_suspect_statement_stays_in_the_denominator():
+    """REVERSED DELIBERATELY, and this is the load-bearing test of the change.
+
+    It used to be excluded. `SUSPECT_STATEMENT` is reached by the model
+    ASSERTING the goal is false, nothing checks the assertion, and the exit
+    ends the run — so excluding it let the agent shrink its own denominator,
+    and "declare it suspect" became the cheapest way out of a hard goal. The
+    rate would then have measured the detector's false-positive rate, in the
+    flattering direction, quietly.
+
+    An unverified report is therefore an unproved goal.
+    """
     summary = summarize([result(ProofOutcome.PROVED, "a"),
                          result(ProofOutcome.SUSPECT_STATEMENT, "b")])
 
+    assert summary["genuinely_tested"] == 2
+    assert summary["proof_rate_of_tested"] == 0.5
+    assert summary["suspect_unverified"] == 1
+    assert summary["refuted"] == 0
+    assert summary["proof_rate"] == 0.5
+
+
+def test_a_verified_refutation_is_excluded_from_the_denominator():
+    """The other half. Lean accepted a proof of the NEGATION, so the goal was
+    unprovable and its failure says nothing about the prover — but the
+    exclusion is bought with a compilation, not with a claim."""
+    summary = summarize([result(ProofOutcome.PROVED, "a"),
+                         result(ProofOutcome.REFUTED, "b")])
+
     assert summary["genuinely_tested"] == 1
     assert summary["proof_rate_of_tested"] == 1.0
-    assert summary["suspect_statements"] == 1
-    # The blunt rate still counts it, deliberately — it answers a different
-    # question ("of everything we ran") and both belong in the report.
-    assert summary["proof_rate"] == 0.5
+    assert summary["refuted"] == 1
+    assert summary["suspect_unverified"] == 0
+
+
+def test_the_headline_rate_is_never_moved_by_either_suspect_state():
+    """`proof_rate` is the end-to-end number and stays agent-independent."""
+    asserted = summarize([result(ProofOutcome.PROVED, "a"),
+                          result(ProofOutcome.SUSPECT_STATEMENT, "b")])
+    verified = summarize([result(ProofOutcome.PROVED, "a"),
+                          result(ProofOutcome.REFUTED, "b")])
+
+    assert asserted["proof_rate"] == verified["proof_rate"] == 0.5
 
 
 def test_an_exhausted_run_is_excluded_too():
@@ -142,7 +180,10 @@ def test_the_four_pilot_outcomes_produce_four_different_lines():
 
     assert len(set(lines)) == 4
     summary = summarize([result(o, goal_id=o.value) for o in outcomes])
-    assert summary["genuinely_tested"] == 1, "the prover was tested once, not four times"
+    # Two, not one: the suspect row is an unverified report, so it is still a
+    # goal the prover was asked to prove and did not. Only NOT_FORMALIZED and
+    # EXHAUSTED come out here.
+    assert summary["genuinely_tested"] == 2
     assert summary["proof_rate_of_tested"] == 0.0
 
 
