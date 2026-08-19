@@ -38,7 +38,7 @@ from verifiers.lean_runner import has_placeholder
 from verifiers.lean_verifier import build_source, declaration, interpret
 from domain.verdict import VerificationStatus
 
-from math_v2.core import diagnosis, log
+from math_v2.core import binders, diagnosis, log
 
 # Kept lemmas grow the file that every later attempt must recompile, so this is
 # a resource limit, not a limit on the agent's looping — that is the budget
@@ -290,7 +290,49 @@ async def check_statement(workdir, statement, run_lean, search=None):
     }
 
 
-async def try_proof(workdir, statement, proof, run_lean):
+def _render_retrieved(found):
+    if not found:
+        return ""
+    lines = "\n".join(f"  {p.render()}" for p in found[:5])
+    return ("\n\nSEARCHED FOR YOU, from that error:\n" + lines
+            + "\nRead the signatures. Use one of these rather than searching "
+              "again for a word from the statement.")
+
+
+async def _retrieve_for_failure(workdir, detail, search):
+    """Run the query the ERROR implies, once, and hand back what it found.
+
+    THE LOOP THIS CLOSES. Retrieval was seeded from the goal and then never
+    driven by anything again: after a rejection the model chose its own query
+    and the traces show what it chose — `"constant"`, `"deriv"`, `"abs"`,
+    `"re"` — bare words returning Lean internals. Meanwhile the error itself
+    named exactly what was missing.
+
+    ONE query per rejected compile. That is bounded by MAX_LEAN_CALLS without
+    any new counter, and it costs an HTTP lookup rather than a model turn.
+    """
+    query = diagnosis.retrieval_query(detail)
+    if not query or search is None:
+        return []
+    try:
+        found, _ = await asyncio.to_thread(search.search_with_suggestions, query)
+    except Exception:  # noqa: BLE001
+        return []
+
+    from math_v2.core.retrieval import is_noise
+
+    found = [p for p in found if not is_noise(p)][:5]
+    if found:
+        log.remember_premises(workdir, [
+            {"name": p.name, "type": p.type, "module": p.module, "doc": p.doc}
+            for p in found
+        ])
+        log.note(workdir, f"search (from error): {query!r} -> "
+                          + ", ".join(p.name for p in found))
+    return found
+
+
+async def try_proof(workdir, statement, proof, run_lean, search=None):
     """Compile a candidate proof of the goal and report exactly what Lean said.
 
     An attempt already rejected is refused WITHOUT compiling. The failure this
@@ -345,12 +387,15 @@ async def try_proof(workdir, statement, proof, run_lean):
     # Measured: every rejection in the 4-goal run was answered with another
     # generic closer, whatever Lean had actually said.
     action = diagnosis.next_action(verdict.detail)
+    found = await _retrieve_for_failure(workdir, verdict.detail, search)
     return {
         "ok": True,
         "outputs": {"accepted": False,
-                    "failure": diagnosis.classify(verdict.detail)},
+                    "failure": diagnosis.classify(verdict.detail),
+                    "retrieved": [p.name for p in found]},
         "message": (f"REJECTED.\n{verdict.detail}"
-                    + (f"\n\nWHAT THIS MEANS: {action}" if action else "")),
+                    + (f"\n\nWHAT THIS MEANS: {action}" if action else "")
+                    + _render_retrieved(found)),
     }
 
 
@@ -695,7 +740,14 @@ async def synthesize_lemmas(workdir, statement, proof, run_lean, allowance):
             continue
 
         name = f"mra_lemma_{index + 1}"
-        lemma = f"theorem {name} : {_normalise_claim(claim)}"
+        # CONTEXT-AWARE. A hole of a real goal talks about the goal's own
+        # objects — `Ω`, `f`, `F₁` — which do not exist outside the theorem.
+        # Compiled standalone it could not elaborate, so decomposition fired
+        # and achieved nothing. The binders the claim needs are copied in,
+        # transitively closed, and no others.
+        _, statement_binders, _ = split_signature(statement)
+        lemma = binders.lemma_signature(name, statement_binders,
+                                        _normalise_claim(claim))
         candidate = cheap_attempt(_premises(workdir))
 
         # Compiled with the lemmas already kept, and through the SAME
@@ -732,7 +784,11 @@ async def assemble(workdir, statement, proof, proved, run_lean):
     """
     assembled = proof
     for lemma in proved:
-        assembled = fill_hole(assembled, lemma["index"], f"exact {lemma['name']}")
+        assembled = fill_hole(
+            assembled, lemma["index"],
+            f"(first | exact {lemma['name']} "
+            f"| apply {lemma['name']} <;> assumption "
+            f"| exact {lemma['name']} (by assumption))")
 
     result = await run_lean(
         build_source(full_statement(workdir, statement), assembled))

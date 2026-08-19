@@ -155,3 +155,57 @@ def strategy_of(proof):
 def is_generic(proof):
     """Is this nothing but closers the tactic ladder already ran?"""
     return strategy_of(proof) in (GENERIC, LADDER)
+
+
+# --------------------------------------------- from a failure to a QUERY
+# Telling the agent "search for the identifier" leaves it to guess the query,
+# and the traces show what it guesses: `"constant"`, `"deriv"`, `"abs"`, bare
+# words that return Lean internals. The name is IN the error; the remaining
+# goal is IN the error. Both can be turned into a query without a model.
+
+_UNKNOWN_NAME = re.compile(
+    r"[Uu]nknown (?:identifier|constant|declaration)\s*[`'\u2018]?([\w.'\u2080-\u2089]+)")
+_INSTANCE_OF = re.compile(r"failed to synthesize\s*(?:instance\s*)?([^\n]{0,80})")
+_GOAL_LINE = re.compile(r"^\s*\u22a2\s*(.+)$", re.MULTILINE)
+
+
+def retrieval_query(detail):
+    """A Loogle query derived from what Lean said, or "" when none follows.
+
+    Deliberately conservative — "" is a fine answer. A wrong query costs a
+    lookup and, worse, puts irrelevant names in front of the model.
+    """
+    kind = classify(detail)
+    text = detail or ""
+
+    if kind is UNKNOWN_IDENTIFIER:
+        found = _UNKNOWN_NAME.search(text)
+        if found:
+            # The LAST segment as a quoted fragment: `Complex.abs` is gone, but
+            # a fragment search over `abs` finds what replaced it, where the
+            # full dotted name returns nothing at all.
+            leaf = found.group(1).split(".")[-1]
+            return f'"{leaf}"' if leaf else ""
+        return ""
+
+    if kind is UNSOLVED:
+        goals = _GOAL_LINE.findall(text)
+        if goals:
+            from retrieval.loogle import generalise
+
+            shape = generalise(goals[0].strip())
+            return f"|- {shape}" if shape.strip("_ ") else ""
+        return ""
+
+    if kind is TYPECLASS:
+        found = _INSTANCE_OF.search(text)
+        if found:
+            words = re.findall(r"[A-Z][\w.']*", found.group(1))
+            if words:
+                return f'"{words[0].split(".")[-1]}"'
+        return ""
+
+    # TYPE_MISMATCH: Lean names the argument, not a searchable shape, and a
+    # guess here would be noise. SYNTAX and TACTIC_FAILED are not retrieval
+    # problems at all.
+    return ""

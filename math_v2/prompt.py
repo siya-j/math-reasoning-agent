@@ -124,23 +124,43 @@ For a claim needing PROOF:
    their own. They were in the ladder, they were tried, Lean said no; a second
    one is refused without compiling. The goal now needs an argument.
 
-6. Write the argument with `try_proof`, one meaningful step at a time. When it
-   fails, READ THE GOAL STATE — it says exactly what remains, and the
-   rejection tells you what KIND of failure it was:
+6. Write the argument with `try_proof`, one meaningful step at a time.
 
-     unknown identifier      -> the name is wrong; search the fragment
-     type mismatch           -> the lemma is right, the arguments are not;
-                                search its exact name and read the signature
+   WHEN IT FAILS, THE REPLY ALREADY DID SOME OF THE WORK FOR YOU. A rejection
+   carries the goal state, a line saying what KIND of failure it was, and —
+   where the error implied a query — the premises a search for that error
+   already returned, with their signatures. Use those. Searching again for a
+   word from the statement is how the last four runs were lost.
+
+     unknown identifier      -> the name is gone from this Mathlib. The
+                                replacement is usually already listed for you
+     type mismatch           -> the lemma is right, the arguments are not.
+                                Read its signature; Mathlib's order is rarely
+                                the obvious one
      typeclass / instance    -> a coercion or a type problem, not a
                                 mathematical one
-     unsolved goals          -> your steps were ACCEPTED; what is printed is
-                                the new, smaller target. Aim at that.
+     unsolved goals          -> your steps were ACCEPTED. What is printed is
+                                the new, smaller target — aim at that
+     tactic failed           -> the goal is not that tactic's shape. Do not
+                                reach for another tactic
 
-   Change approach in response to the specific failure rather than
-   resubmitting a variation — an identical resubmission is refused without
-   compiling, and so is a second generic closer.
+   An identical resubmission is refused without compiling, and so is a second
+   generic closer. Change the ARGUMENT, not the syntax: a `have` chain and an
+   `exact` of the same lemma are one idea, not two.
 
 7. If the whole proof resists you, DECOMPOSE rather than trying harder.
+
+   This is now the strongest tool you have, because it is not advice. Submit a
+   `try_skeleton` whose steps are `have <name> : <claim> := by sorry`, and if
+   the decomposition typechecks the system will, without another turn from
+   you: copy the binders each claim needs out of your theorem, compile each
+   claim as its own lemma against the standard tactics and your retrieved
+   premises, keep whatever Lean accepts, and — if every hole closes —
+   reassemble and compile the whole proof. A goal can go from decomposition to
+   PROVED with no further model call.
+
+   ASCRIBE THE TYPE. `have h : <claim> := by sorry` states a claim and can be
+   attempted; `have h := f x` states none and is skipped.
 
    What the computations in step 1 told you is where the intermediate claims
    come from. A special case that held, a factorisation that came out, a bound

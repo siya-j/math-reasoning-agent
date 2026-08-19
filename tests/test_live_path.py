@@ -381,3 +381,89 @@ def test_the_controller_charges_its_extra_compiles_to_the_budget(tmp_path,
 
     spent = budget.summary(str(tmp_path))["lean_calls"]
     assert spent >= 4, f"only {spent} compiles charged for check + skeleton + fill + assembly"
+
+
+# --------------------- 7. context-aware synthesis and error-driven retrieval
+def test_the_live_path_copies_binders_into_a_synthesised_lemma(tmp_path,
+                                                               monkeypatch):
+    """A hole of a real goal mentions the goal's own objects. Compiled
+    standalone it cannot elaborate, so decomposition would fire and achieve
+    nothing — which is what it did before."""
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    seen = []
+
+    async def run_lean(source):
+        seen.append(source)
+        if "sorry" in source:
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        return LeanResult(LeanOutcome.COMPILED, "")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    goal = ("theorem ex {f : ℂ → ℂ} (Ω : Set ℂ) (h : IsOpen Ω) "
+            "(hf : DifferentiableOn ℂ f Ω) : f = f")
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=scripted([
+                      ("check_statement", {"statement": goal}),
+                      ("try_skeleton", {"proof":
+                          "by\n  have hd : ∀ x ∈ Ω, deriv f x = 0 := by sorry\n"
+                          "  exact foo hd"}),
+                  ]))
+
+    lemma_files = [s for s in seen if "deriv f x = 0 :=" in s]
+    assert lemma_files, "the hole was never compiled as a lemma"
+    assert "(Ω : Set ℂ)" in lemma_files[0], "compiled standalone; Ω is unbound"
+    assert "(hf : DifferentiableOn ℂ f Ω)" in lemma_files[0], "hypothesis dropped"
+
+
+def test_the_live_path_searches_from_the_compiler_error(tmp_path, monkeypatch):
+    """The error names what is missing. Before, the model picked the next query
+    itself and picked `"constant"`, `"deriv"`, `"abs"`."""
+    from retrieval.loogle import Premise
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    queries = []
+
+    class Search:
+        def premises_for(self, statement):
+            return []
+
+        def search_with_suggestions(self, query, limit=None):
+            queries.append(query)
+            return [Premise(name="Complex.abs_apply", type=" : ‖z‖ = z.abs",
+                            module="Mathlib.Analysis")], []
+
+    async def run_lean(source):
+        if "sorry" in source:
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        return LeanResult(LeanOutcome.ERRORS,
+                          "2:58: error: Unknown constant `Complex.abs`")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+    monkeypatch.setattr("math_v2.tools.retrieval.get_search", lambda: Search())
+
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=scripted([
+                      ("check_statement", {"statement": GOAL}),
+                      ("try_proof", {"proof": "by exact Complex.abs"}),
+                  ]))
+
+    assert '"abs"' in queries, f"the error was not turned into a query: {queries}"
+    assert "Complex.abs_apply" in [
+        p["name"] for p in log.read(str(tmp_path))["premises"]]
+
+
+def test_the_prompt_describes_what_the_code_now_enforces(tmp_path,
+                                                         rejecting_compiler):
+    """A prompt promising capabilities the code does not have teaches the model
+    a system that does not exist."""
+    factory = scripted([("check_statement", {"statement": GOAL})])
+    harness.prove("q", model=object(), workdir=str(tmp_path), agent_factory=factory)
+
+    prompt = factory.prompt
+
+    assert "copy the binders each claim needs" in prompt, "context-aware synthesis"
+    assert "ASCRIBE THE TYPE" in prompt, "the unascribed-have limitation"
+    assert "already returned" in prompt, "error-driven retrieval"
+    assert "tactic failed" in prompt, "the fifth error class"

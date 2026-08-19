@@ -51,6 +51,35 @@ def drop_noise(found):
     return (kept, len(found) - len(kept)) if kept else (found, 0)
 
 
+def rank(found):
+    """Lemmas before definitions, and no name twice. Fewer, more useful.
+
+    MEASURED on the near-mathlib goal `grp-subgroup-of-cyclic`. Searching
+    `"IsCyclic"` returned, in order:
+
+        IsCyclic, IsCyclic.exists_zpow_surjective, IsCyclic.mk,
+        not_isCyclic_of_denselyOrdered, ...
+
+    The DEFINITION came first and `IsCyclic.mk` (a constructor) came third, so
+    the eight visible slots were spent on things that cannot close a goal. The
+    proof, found four attempts later, was `exact inferInstance`.
+
+    Stable within each group: Loogle's own relevance order is better than
+    anything invented here, so this only moves definitions down, never
+    reshuffles the lemmas.
+    """
+    from pipeline.tactics import provides_a_proof
+
+    seen = set()
+    lemmas, definitions = [], []
+    for premise in found:
+        if premise.name in seen:
+            continue
+        seen.add(premise.name)
+        (lemmas if provides_a_proof(premise) else definitions).append(premise)
+    return lemmas + definitions
+
+
 def search_mathlib(workdir, query, search, limit=None):
     """Search Mathlib, remember what came back, and pass on Loogle's own hints.
 
@@ -69,6 +98,7 @@ def search_mathlib(workdir, query, search, limit=None):
 
     found, suggestions = search.search_with_suggestions(query, limit=limit)
     found, dropped = drop_noise(found)
+    found = rank(found)
 
     log.remember_premises(workdir, [
         {"name": p.name, "type": p.type, "module": p.module, "doc": p.doc}
