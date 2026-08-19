@@ -227,4 +227,12 @@ async def try_skeleton(proof: str, runtime: ToolRuntime[MathContext],
     workdir, goal = _goal(runtime, statement)
     if not goal:
         return _no_goal()
-    return await proving.try_skeleton(workdir, goal, proof, lean_runner(workdir))
+    # The skeleton call itself is already charged above. What is left, minus a
+    # margin so the model still has compiles for the assembled proof, is what
+    # automatic hole-filling may spend.
+    fill_budget = max(0, min(proving.MAX_AUTO_FILLS + 1,
+                             budget.lean_remaining(workdir) - 2))
+    result = await proving.try_skeleton(workdir, goal, proof,
+                                        lean_runner(workdir), fill_budget)
+    budget.charge_lean(workdir, result.get("outputs", {}).get("compiles_used", 0))
+    return result

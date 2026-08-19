@@ -424,6 +424,27 @@ def spend(workdir, *, lean=False, search=False, symbolic=False, goal_state=False
     return None
 
 
+def lean_remaining(workdir):
+    """Compiles still available for this goal. Never negative.
+
+    Read by `try_skeleton`, which may spend several in one tool call: one per
+    hole it attempts plus one to assemble. Without this the automatic
+    decomposition could overrun the compile budget inside a single call, which
+    is exactly the failure the budget exists to prevent.
+    """
+    state = read(workdir)
+    return max(0, MAX_LEAN_CALLS - state["lean_calls"])
+
+
+def charge_lean(workdir, count):
+    """Record compiles already performed inside one tool call."""
+    if count <= 0:
+        return
+    data, state = _state(workdir)
+    state["lean_calls"] += count
+    _save(workdir, data, state)
+
+
 def summary(workdir):
     """What was spent, for `finish` to report."""
     state = read(workdir)

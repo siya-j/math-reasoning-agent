@@ -31,7 +31,7 @@ the compiler's answer means. `cheap_attempt` builds the tactic ladder.
 import asyncio
 import re
 
-from pipeline.skeleton import hole_claims
+from pipeline.skeleton import fill_hole, hole_claims
 from pipeline.tactics import cheap_attempt
 from retrieval.loogle import Premise, conclusion_of
 from verifiers.lean_runner import has_placeholder
@@ -611,7 +611,141 @@ async def try_refutation(workdir, statement, proof, run_lean):
     }
 
 
-async def try_skeleton(workdir, statement, proof, run_lean):
+# How many holes one skeleton may spend compiles on. A ten-`have` skeleton
+# must not eat the twelve-compile budget, and the first few holes are where the
+# decomposition either works or does not.
+MAX_AUTO_FILLS = int(__import__("os").getenv("MRA_MAX_AUTO_FILLS", "3"))
+
+# Claims not worth a compilation. `True` is closed by `trivial` and establishes
+# nothing; a hole with no `have` (the final tactic of the proof) has no claim
+# to prove on its own.
+_TRIVIAL_CLAIM = re.compile(r"^\(*\s*(True|trivial)\s*\)*$")
+
+
+def _normalise_claim(text):
+    return " ".join((text or "").split())
+
+
+def worth_proving(claim, statement, workdir):
+    """Should this hole become a standalone lemma? Deterministic, no model.
+
+    THE RULE IS NOT "IS IT USEFUL". Nothing here can know that. It is the
+    narrower question of whether a compile spent on this claim could possibly
+    tell us something, and there are exactly four ways it could not:
+
+      * no claim at all — a `sorry` that is not a `have`, i.e. the final step
+      * trivially true  — `True`, which `trivial` closes and which proves
+                          nothing, the same collapse `says_nothing` guards
+      * CIRCULAR        — the claim restates the goal's own conclusion, so
+                          "proving" it is proving the goal by assuming it
+      * already handled — kept, or already attempted and rejected
+
+    The model still chooses the decomposition. This only declines to spend the
+    compiler on claims whose answer is already known.
+    """
+    body = _normalise_claim(claim)
+    if not body or _TRIVIAL_CLAIM.match(body):
+        return False
+
+    _, _, conclusion = split_signature(statement)
+    if body == _normalise_claim(conclusion):
+        return False
+
+    if any(body in _normalise_claim(kept) for kept in log.kept_lemmas(workdir)):
+        return False
+    return not any(
+        _normalise_claim(r.get("statement", "")).endswith(body)
+        for r in log.records(workdir, log.LEMMA)
+    )
+
+
+async def synthesize_lemmas(workdir, statement, proof, run_lean, allowance):
+    """Attempt each meaningful hole of a TYPECHECKED skeleton, deterministically.
+
+    THE CONTROL-FLOW GAP THIS CLOSES
+    --------------------------------
+    `try_lemma` was registered, reachable and tested, and across the whole
+    4-goal ProofNet run it was called ZERO times. Decomposition therefore ran
+    half way: `exercise_1_26` produced four skeletons and proved not one of
+    their holes. The tool was never the problem — nothing in the control flow
+    ever turned a hole into an attempt, and a prompt asking more loudly is not
+    a mechanism.
+
+    So the holes are attempted here, by the CONTROLLER, using the deterministic
+    tactic ladder that already exists. No model call is made: `cheap_attempt`
+    builds one `first | ... | ...` from the standard closers plus every
+    retrieved premise, which is the cheapest thing that could work and costs
+    one compile per hole.
+
+    WHAT IS AND IS NOT DECIDED HERE. The model wrote the claims; Lean
+    typechecked the decomposition; this only tries to close what is left. A
+    hole the ladder cannot close is handed back as work for the model, not
+    silently dropped.
+
+    Returns (proved, attempted, compiles_used).
+    """
+    proved = []
+    attempted = []
+    compiles = 0
+
+    for index, claim in enumerate(hole_claims(proof)):
+        if compiles >= allowance or len(log.kept_lemmas(workdir)) >= MAX_KEPT_LEMMAS:
+            break
+        if not worth_proving(claim, statement, workdir):
+            continue
+
+        name = f"mra_lemma_{index + 1}"
+        lemma = f"theorem {name} : {_normalise_claim(claim)}"
+        candidate = cheap_attempt(_premises(workdir))
+
+        # Compiled with the lemmas already kept, and through the SAME
+        # `interpret` as every other attempt — so `sorry`, `admit`, `axiom` and
+        # `exact?` are rejected here exactly as they are everywhere else. There
+        # is no second acceptance rule.
+        result = await run_lean(
+            build_source(full_statement(workdir, lemma), candidate))
+        compiles += 1
+        verdict = interpret(result, lemma)
+        accepted = verdict.status is VerificationStatus.TRUE
+
+        log.append(workdir, log.Record(
+            kind=log.LEMMA, statement=lemma, proof=candidate,
+            status=log.TRUE if accepted else log.FALSE, detail=verdict.detail,
+        ))
+        attempted.append({"name": name, "claim": _normalise_claim(claim),
+                          "index": index, "accepted": accepted})
+        if accepted:
+            log.keep_lemma(workdir, declaration(lemma, candidate))
+            proved.append({"name": name, "claim": _normalise_claim(claim),
+                           "index": index})
+
+    return proved, attempted, compiles
+
+
+async def assemble(workdir, statement, proof, proved, run_lean):
+    """Rebuild the skeleton with its holes cited and compile it. One compile.
+
+    Only when EVERY hole was closed. A skeleton that typechecked plus lemmas
+    for all of its holes is a complete proof, and finding that out costs one
+    compilation and no model call — so the deterministic path can carry a goal
+    all the way from decomposition to PROVED.
+    """
+    assembled = proof
+    for lemma in proved:
+        assembled = fill_hole(assembled, lemma["index"], f"exact {lemma['name']}")
+
+    result = await run_lean(
+        build_source(full_statement(workdir, statement), assembled))
+    verdict = interpret(result, statement)
+
+    log.append(workdir, log.Record(
+        kind=log.PROOF, statement=statement, proof=assembled,
+        status=_status(verdict), detail=verdict.detail,
+    ))
+    return verdict.status is VerificationStatus.TRUE, assembled
+
+
+async def try_skeleton(workdir, statement, proof, run_lean, fill_budget=0):
     """Check that a decomposition holds together before filling it in.
 
     A skeleton that typechecks with `sorry` has proved the SHAPE of the
@@ -662,14 +796,61 @@ async def try_skeleton(workdir, statement, proof, run_lean):
 
     claims = hole_claims(proof)
     listed = "\n".join(f"  {i + 1}. {claim}" for i, claim in enumerate(claims))
+
+    # THE DECOMPOSITION IS NOW ACTED ON, NOT ANNOUNCED. Previously this
+    # returned the hole list and asked the model to call `try_lemma`; across
+    # four ProofNet goals it never did once. The holes are attempted here.
+    proved, attempted, compiles = await synthesize_lemmas(
+        workdir, statement, proof, run_lean, fill_budget)
+
+    outstanding = [c for i, c in enumerate(claims)
+                   if c and not any(p["index"] == i for p in proved)]
+
+    assembled_ok = False
+    if proved and not outstanding and compiles < fill_budget:
+        assembled_ok, _ = await assemble(workdir, statement, proof, proved, run_lean)
+        compiles += 1
+
+    if assembled_ok:
+        return {
+            "ok": True,
+            "outputs": {"typechecks": True, "holes": claims, "accepted": True,
+                        "lemmas_proved": [p["name"] for p in proved],
+                        "compiles_used": compiles},
+            "message": (
+                "ACCEPTED. Every hole was closed and the assembled proof "
+                "compiles — the goal is PROVED. Report it with `finish`."
+            ),
+        }
+
+    report = ""
+    if attempted:
+        report = "\n\nEach hole was then attempted automatically with the "
+        report += "standard tactics and your retrieved premises:\n"
+        report += "\n".join(
+            f"  {a['name']}: {a['claim'][:80]} -> "
+            + ("PROVED and kept, cite it by name" if a["accepted"]
+               else "not closed; this one needs a real argument")
+            for a in attempted
+        )
+    if outstanding:
+        report += (
+            "\n\nStill open: " + "; ".join(c[:60] for c in outstanding)
+            + "\nProve one with `try_lemma`, then assemble with `try_proof`."
+        )
+    elif proved:
+        report += "\n\nAll holes are proved. Assemble them with `try_proof`."
+
     return {
         "ok": True,
-        "outputs": {"typechecks": True, "holes": claims},
+        "outputs": {"typechecks": True, "holes": claims, "accepted": False,
+                    "lemmas_proved": [p["name"] for p in proved],
+                    "outstanding": outstanding, "compiles_used": compiles},
         "message": (
             "The decomposition TYPECHECKS, so the steps do combine into the "
             "goal. What is left is independent and smaller:\n"
-            f"{listed or '  (no holes found)'}\n"
-            "Prove these with `try_lemma`, then submit the assembled proof "
-            "with `try_proof`. The skeleton itself proves nothing."
+            f"{listed or '  (no holes found)'}"
+            + report
+            + "\n\nThe skeleton itself proves nothing."
         ),
     }

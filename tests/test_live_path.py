@@ -314,3 +314,70 @@ def test_the_refutation_uses_the_same_anti_cheat(tmp_path, monkeypatch):
         "a `sorry` refutation was recorded"
     )
     assert len(compiled) == 1, "a `sorry` refutation reached the compiler"
+
+
+# ------------------------------- 6. decomposition acts, on the live path
+def test_the_live_path_carries_a_skeleton_all_the_way_to_a_proof(tmp_path,
+                                                                 monkeypatch):
+    """THE test for the lemma-synthesis change.
+
+    harness.prove -> real tools -> try_skeleton -> hole extracted -> lemma
+    compiled -> lemma kept -> skeleton reassembled -> goal PROVED, with the
+    model doing nothing but proposing the decomposition. `try_lemma` is never
+    called by the script: the controller does the work.
+    """
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    seen = []
+
+    async def run_lean(source):
+        seen.append(source)
+        if "sorry" in source:                 # statement check and skeleton
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        return LeanResult(LeanOutcome.COMPILED, "")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    skeleton = ("by\n  have h_deriv : ∀ x ∈ Ω, deriv f x = 0 := by sorry\n"
+                "  exact foo h_deriv")
+
+    run = harness.prove(
+        "q", model=object(), workdir=str(tmp_path),
+        agent_factory=scripted([
+            ("check_statement", {"statement": GOAL}),
+            ("try_skeleton", {"proof": skeleton}),
+            ("finish", {"summary": "decomposed and proved", "outcome": "proved",
+                        "statement": GOAL}),
+        ]))
+
+    assert log.kept_lemmas(str(tmp_path)), "no lemma was synthesised"
+    assert any("exact mra_lemma_1" in s for s in seen), (
+        "the skeleton was never reassembled with its lemma"
+    )
+    assert run.proved, "the goal was proved by the controller and not reported"
+
+
+def test_the_controller_charges_its_extra_compiles_to_the_budget(tmp_path,
+                                                                 monkeypatch):
+    """Several compiles happen inside ONE tool call. Uncharged, the automatic
+    filling could overrun the compile budget the budget exists to enforce."""
+    from math_v2.core import budget
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    async def run_lean(source):
+        if "sorry" in source:
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        return LeanResult(LeanOutcome.COMPILED, "")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    skeleton = ("by\n  have h_deriv : ∀ x ∈ Ω, deriv f x = 0 := by sorry\n"
+                "  exact foo h_deriv")
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=scripted([
+                      ("check_statement", {"statement": GOAL}),
+                      ("try_skeleton", {"proof": skeleton}),
+                  ]))
+
+    spent = budget.summary(str(tmp_path))["lean_calls"]
+    assert spent >= 4, f"only {spent} compiles charged for check + skeleton + fill + assembly"
