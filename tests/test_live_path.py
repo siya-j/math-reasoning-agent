@@ -92,13 +92,13 @@ def test_the_prompt_the_model_receives_is_the_one_we_edited(tmp_path,
     prompt = factory.prompt
 
     # Strategy before syntax.
-    assert "SAY THE ARGUMENT BEFORE YOU WRITE ANY LEAN" in prompt
+    assert "KNOW WHAT YOU ARE ABOUT TO ARGUE BEFORE YOU FORMALISE IT" in prompt
     # Signatures, not just names.
     assert "READ THE SIGNATURES" in prompt
     # Errors used diagnostically, with distinct routes.
     assert "unknown identifier" in prompt and "type mismatch" in prompt
     # Generic tactics demoted.
-    assert "DO NOT submit `by aesop`" in prompt
+    assert "resubmitting something already tried" in prompt
     # Decomposition and refutation.
     assert "try_skeleton" in prompt and "try_refutation" in prompt
     # Lean as the authority.

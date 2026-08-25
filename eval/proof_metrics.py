@@ -254,11 +254,36 @@ def summarize(results: list[ProofResult]) -> dict:
         summary[f"proof_rate_{tier.value}"] = _rate(
             sum(1 for r in in_tier if r.outcome is ProofOutcome.PROVED), len(in_tier)
         )
+
+    # Per-area breakdown. For our own goals `area` is a topic label; for
+    # ProofNet it is `area_of()`'s textbook-chapter grouping, which is the
+    # only difficulty-adjacent signal ProofNet ships (arXiv 2406.07222's
+    # ports carry no difficulty field). Kept as {rate, n} rather than a bare
+    # percent — a rate off n=1 and a rate off n=12 print identically as a
+    # percent, and a stratified chapter sample is exactly the case where a
+    # reader needs to see which is which.
+    summary["proof_rate_by_area"] = {
+        area: {
+            "rate": _rate(
+                sum(1 for r in counted
+                    if r.area == area and r.outcome is ProofOutcome.PROVED),
+                sum(1 for r in counted if r.area == area),
+            ),
+            "n": sum(1 for r in counted if r.area == area),
+        }
+        for area in sorted({r.area for r in counted})
+    }
     return summary
 
 
 def _percent(value: float | None) -> str:
     return "n/a (no such cases)" if value is None else f"{value:.0%}"
+
+
+def _area_sort_key(area: str):
+    """'proofnet 10' after 'proofnet 2', not before it lexically."""
+    tail = area.rsplit(" ", 1)[-1]
+    return (0, int(tail)) if tail.isdigit() else (1, tail)
 
 
 def render(summary: dict) -> str:
@@ -288,5 +313,16 @@ def render(summary: dict) -> str:
         lines.append(
             f"  {tier.value:<22} {_percent(summary[f'proof_rate_{tier.value}'])}"
         )
+
+    by_area = summary.get("proof_rate_by_area") or {}
+    if len(by_area) > 1:
+        lines.append("-" * 52)
+        lines.append("  proof rate by area  (n = goals attempted)")
+        for area in sorted(by_area, key=_area_sort_key):
+            entry = by_area[area]
+            lines.append(
+                f"    {area:<20} {_percent(entry['rate']):>8}  (n={entry['n']})"
+            )
+
     lines.append("=" * 52)
     return "\n".join(lines)
