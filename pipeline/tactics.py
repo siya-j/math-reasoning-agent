@@ -67,6 +67,13 @@ STANDARD_TACTICS = (
     "trivial",
     "assumption",
     "norm_num",
+    # A decision procedure for commutative (semi)ring equalities — cheap and
+    # complete for exactly that shape, same class as norm_num just above.
+    # MEASURED missing on `hard-sophie-germain`: the goal reduced to a pure
+    # polynomial identity, the ladder had no `ring`, and two model-guided
+    # compiles were spent hand-rolling `simp [add_mul, mul_add, ...]` trying
+    # to reconstruct what `ring` closes in one shot — and failed both times.
+    "ring",
     "decide",
     "simp",
     "simp_all",
