@@ -666,3 +666,87 @@ def test_the_repair_compile_is_charged_on_the_live_path(tmp_path, monkeypatch):
     assert charged == len(compiles) == 3, (
         f"charged {charged} for {len(compiles)} compilations"
     )
+
+
+# --------------------------- a diversion must not relabel the declared goal
+_SOPHIE_GERMAIN = "theorem sophie_germain (n : ℕ) (hn : 1 < n) : ¬ Nat.Prime (n ^ 4 + 4)"
+_K_IDENTITY = ("lemma k_identity (k : ℕ) : "
+               "(k + 1) ^ 4 + 4 = (k * k + 1) * ((k + 2) * (k + 2) + 1)")
+
+
+def test_a_diverted_proof_tool_does_not_relabel_the_declared_goal(tmp_path, monkeypatch):
+    """MEASURED on `hard-sophie-germain`. `try_proof`'s own docstring invites a
+    `statement` "only if proving something other than the current statement" —
+    a deliberate one-off diversion. It shared storage with what the run
+    reports and scores against, so the diversion silently became the goal."""
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    async def run_lean(source):
+        if "sorry" in source:            # the statement check
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        return LeanResult(LeanOutcome.ERRORS, "f.lean:1:1: error: unsolved goals")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    run = harness.prove("q", model=object(), workdir=str(tmp_path),
+                        agent_factory=scripted([
+                            ("check_statement", {"statement": _SOPHIE_GERMAIN}),
+                            ("try_proof", {"statement": _K_IDENTITY, "proof": "by ring"}),
+                        ]))
+
+    assert run.statement == _SOPHIE_GERMAIN, (
+        f"a diversion to {_K_IDENTITY!r} must not relabel the reported goal, "
+        f"got {run.statement!r}"
+    )
+
+
+def test_a_successfully_compiled_diversion_is_never_read_as_proving_the_goal(
+        tmp_path, monkeypatch):
+    """The soundness form of the bug above. Reading `current_goal` (rather
+    than `declared_goal`) at the end of a run would have let
+    `log.accepted_proof` match an accepted diversion against the wrong
+    statement — a claim nobody closed, reported PROVED."""
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    async def run_lean(source):
+        if "sorry" in source:
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        return LeanResult(LeanOutcome.COMPILED, "")   # the diversion "succeeds"
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    run = harness.prove("q", model=object(), workdir=str(tmp_path),
+                        agent_factory=scripted([
+                            ("check_statement", {"statement": _SOPHIE_GERMAIN}),
+                            ("try_proof", {"statement": _K_IDENTITY, "proof": "by ring"}),
+                        ]))
+
+    assert not run.proved, (
+        "a compiled proof of the diversion must not count as proving the goal"
+    )
+    assert run.statement == _SOPHIE_GERMAIN
+
+
+def test_a_genuine_check_statement_repair_still_updates_the_reported_goal(
+        tmp_path, monkeypatch):
+    """The other half of the fix: `check_statement` is still the tool that
+    declares or repairs the goal, and a real repair must still take effect."""
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    broken = "theorem uses_basis (V : Type) : Basis V"
+    repaired = "theorem uses_basis (V : Type) : Module.Basis V"
+
+    async def run_lean(source):
+        return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    run = harness.prove("q", model=object(), workdir=str(tmp_path),
+                        agent_factory=scripted([
+                            ("check_statement", {"statement": broken}),
+                            ("check_statement", {"statement": repaired}),
+                        ]))
+
+    assert run.statement == repaired, (
+        "a genuine check_statement repair must still update the reported goal"
+    )

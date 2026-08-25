@@ -92,6 +92,13 @@ async def check_statement(statement: str, runtime: ToolRuntime[MathContext]) -> 
     workdir, goal = _goal(runtime, statement)
     if not goal:
         return _no_goal()
+    # The ONLY place a statement is declared as the goal for reporting
+    # purposes. `try_proof`/`try_standard_tactics`/`try_skeleton` still update
+    # `current_goal` (via `_goal()`) so a diversion compiles and keeps working
+    # exactly as before; they must never reach `declared_goal`, or a one-off
+    # diversion to an auxiliary claim silently becomes what the run is
+    # reported as being about.
+    log.set_declared_goal(workdir, goal)
     from math_v2.tools.retrieval import get_search
 
     return await proving.check_statement(

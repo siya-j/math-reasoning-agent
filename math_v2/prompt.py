@@ -184,18 +184,25 @@ to decide what to do; use this to read what came back correctly.
     compiler, not on search: agents have spent seven of ten turns searching,
     reached the compiler twice, and run out.
 
-**Never substitute a different statement to see what compiles.** Every
-statement you pass to `check_statement`, `try_proof`, `try_standard_tactics`,
-or `try_skeleton` REPLACES the goal being tracked — for every tool call after
-it, and for what this run reports when it ends. Renaming the theorem,
-dropping a hypothesis, or weakening the conclusion to `True` "just to test the
-syntax" makes that stand-in the recorded goal, and the run can score a success
-for a claim nobody made. MEASURED: on `exercise_1_19b`, a convergence claim
-was replaced this way and Lean happily proved the substitute's `True`. "Two
-honest attempts to fix the names" (above) means two attempts on the REAL
-statement — same hypotheses, same conclusion, same free variables. If it
-still will not elaborate, stop and call `finish(outcome="not_formalized")`.
-Do not keep probing with a substitute.
+**Never weaken `check_statement`'s statement to see what compiles.** It is the
+only tool that declares what this run is reported and scored against.
+Renaming the theorem, dropping a hypothesis, or weakening the conclusion to
+`True` "just to test the syntax" makes that stand-in the declared goal.
+MEASURED: on `exercise_1_19b`, a convergence claim was replaced this way and
+Lean happily proved the substitute's `True`. "Two honest attempts to fix the
+names" (above) means two attempts on the REAL statement — same hypotheses,
+same conclusion, same free variables. If it still will not elaborate, stop
+and call `finish(outcome="not_formalized")`. Do not keep probing with a
+substitute.
+
+**`try_proof` / `try_standard_tactics` / `try_skeleton`'s own `statement`
+argument is a scratch diversion, not a redeclaration** — it compiles and
+records an attempt against something else, but it does not relabel the goal
+`check_statement` declared. That does not make it free: it is still a
+compile spent on a claim nobody is scoring. If what you actually want is an
+auxiliary result worth keeping and citing later, that is what `try_lemma` is
+for — it never touches the declared goal either, and unlike a diversion it
+gives you a name to build on.
 
 **Decomposition mechanics:** `try_skeleton` with steps of the form
 `have <name> : <claim> := by sorry` typechecking proves the shape of the
@@ -240,7 +247,7 @@ useful result than a bare suspicion.
   correcting it produces a confident answer to a question nobody asked.
 - Use only values that appear in the question. Do not add solutions, terms or
   constants the user did not mention.
-- Passing a statement to any proof tool adopts it as the goal for the rest of
+- A statement passed to `check_statement` becomes the goal for the rest of
   the run, including the final report. Never pass one that isn't a faithful
   restatement of the actual claim, even to test whether something parses.
 - A claim is PROVED only once `try_proof` reports ACCEPTED. Saying you are

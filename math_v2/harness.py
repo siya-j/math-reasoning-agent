@@ -284,7 +284,20 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
     the guard would have refused — the guard's authority does not depend on
     anything downstream believing it.
     """
-    statement = log.current_goal(workdir)
+    # `declared_goal`, not `current_goal`: a proof tool may compile against a
+    # one-off diversion ("something other than the current statement") without
+    # that diversion becoming what the run is scored against. Falls back to
+    # `current_goal` only if `check_statement` was never called at all, so
+    # reporting is never silently empty.
+    #
+    # This is not only cosmetic. `verdicts.proof_verdict` -> `log.accepted_proof`
+    # matches an accepted PROOF record's statement against what is passed here
+    # specifically to stop "a proof of an earlier, different claim... offered
+    # as a proof of this one" (accepted_proof's own docstring). That guard is
+    # only as good as this value: reading `current_goal` here meant a
+    # successfully compiled diversion could have been accepted as a proof of
+    # the real goal, not merely mislabeled in the report.
+    statement = log.declared_goal(workdir) or log.current_goal(workdir)
     decision = verdicts.proof_verdict(workdir, statement)
     spent = budget.summary(workdir)
 

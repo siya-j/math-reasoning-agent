@@ -132,6 +132,36 @@ def current_goal(workdir: str) -> str:
     return read(workdir).get("goal", "") or ""
 
 
+def set_declared_goal(workdir: str, statement: str) -> None:
+    """Remember what the run is ABOUT, separately from what is being compiled.
+
+    `set_goal` is called by every proof tool whenever the model passes a
+    `statement` argument — `try_proof`'s own docstring invites this for
+    "proving something other than the current statement", a deliberate
+    one-off-diversion feature. That is fine for compilation; it is not fine
+    for reporting, because a diversion and a genuine repair of the goal were
+    indistinguishable through the same field.
+
+    MEASURED: on `hard-sophie-germain`, the model diverted through a proof
+    tool to an auxiliary identity (`k_identity`), and the run's reported
+    "formal statement" became that identity instead of the theorem actually
+    being scored — the trace was unreadable as evidence about the real goal.
+
+    Call this ONLY from `check_statement`'s tool wrapper — the one tool whose
+    documented purpose is to declare or repair the goal ("call this FIRST...
+    it sets the statement for the other proof tools"). Everything read for
+    reporting (`declared_goal`, and `ProofRun.statement` downstream) comes
+    from here, never from `current_goal`.
+    """
+    data = read(workdir)
+    data["declared_goal"] = statement
+    _write(workdir, data)
+
+
+def declared_goal(workdir: str) -> str:
+    return read(workdir).get("declared_goal", "") or ""
+
+
 def records(workdir: str, kind: str = "") -> list:
     everything = read(workdir)["records"]
     return [r for r in everything if not kind or r.get("kind") == kind]
