@@ -118,5 +118,45 @@
     "tier": "novel",
     "mathlib": null,
     "note": "Fermat's theorem on sums of two squares. Hard even with Mathlib."
+  },
+  {
+    "id": "hard-amgm-sqrt",
+    "area": "analysis",
+    "goal": "For non-negative reals a and b, the square root of (a times b) is at most (a+b)/2",
+    "tier": "hard",
+    "mathlib": null,
+    "note": "No one-shot lemma verified via Loogle. Mathlib has the squared form two_mul_le_add_sq, not the square-root form; nlinarith only closes it given the hint sq_nonneg (sqrt a - sqrt b), which appears nowhere in the goal."
+  },
+  {
+    "id": "hard-sophie-germain",
+    "area": "number theory",
+    "goal": "For every natural number n greater than 1, n^4 + 4 is not prime",
+    "tier": "hard",
+    "mathlib": null,
+    "note": "No lemma about n^4+4 exists in Mathlib. The proof turns on the factorisation n^4+4 = (n^2-2n+2)(n^2+2n+2), which retrieval cannot surface; natural-number subtraction makes the factors treacherous to state directly."
+  },
+  {
+    "id": "hard-sum-odd-squares",
+    "area": "combinatorics",
+    "goal": "The sum of the first n odd numbers equals n squared",
+    "tier": "hard",
+    "mathlib": null,
+    "note": "Mathlib has Gauss's Finset.sum_range_id, not this sum. Provable by induction or by routing through sum_range_id, but either way the agent must construct the argument rather than cite one. Control goal: should be solvable."
+  },
+  {
+    "id": "hard-irrational-sqrt-sum",
+    "area": "number theory",
+    "goal": "The sum of the square root of 2 and the square root of 3 is irrational",
+    "tier": "hard",
+    "mathlib": null,
+    "note": "Irrationality is not closed under addition, so no lemma covers this directly. Needs squaring to 5 + 2*sqrt(6) and citing irrationality of sqrt(6): at least two linked Mathlib results, neither of which mentions the goal."
+  },
+  {
+    "id": "hard-det-vanishes",
+    "area": "linear algebra",
+    "goal": "The determinant of the 3x3 matrix with rows (1,2,3), (4,5,6), (7,8,9) is zero",
+    "tier": "hard",
+    "mathlib": null,
+    "note": "Only Matrix.det_fin_three (an expansion, not an answer) is relevant via Loogle. Expected failure mode is notation/plumbing (!![...] entries), not mathematics -- a bridge probe, not strong evidence about reasoning either way."
   }
 ]

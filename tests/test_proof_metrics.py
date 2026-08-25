@@ -209,7 +209,7 @@ def test_every_curated_tier_is_represented():
     """PROOFNET is excluded on purpose: it is an EXTERNAL benchmark.
 
     It lives in its own file, loaded with --goals, so that a run against 365
-    problems we did not choose can never perturb the fifteen we did.
+    problems we did not choose can never perturb the twenty we did.
     """
     curated = set(Tier) - {Tier.PROOFNET}
     tiers = {g.tier for g in load_goals()}

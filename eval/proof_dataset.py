@@ -9,6 +9,14 @@ result, would score identically on a flat list.
     near-mathlib   a few steps from an existing result. Failure means the
                    refinement loop is not doing enough.
     novel          no lemma exists. Failure is expected and uninformative.
+    hard           no one-shot lemma exists (checked against live Loogle,
+                   per docs/hard-tier-candidates.md), and unlike novel each
+                   goal names what a specific outcome would mean — e.g. a
+                   failure with no `computation` record before the first
+                   compile says the SymPy bridge is unused, not that the
+                   goal is out of reach. Added because near-mathlib stopped
+                   discriminating: it scored 7/7 while only one of its seven
+                   goals needed an actual mathematical idea.
 
 The `mathlib` field records the theorem's name where it is known, so a
 failure can be attributed: if the lemma is there and the model missed it,
@@ -29,8 +37,9 @@ class Tier(str, Enum):
     IN_MATHLIB = "in-mathlib"
     NEAR_MATHLIB = "near-mathlib"
     NOVEL = "novel"
-    # External benchmark, loaded from its own file via --goals. Our three
-    # tiers are goals we chose; this one is not, which is the point of it.
+    HARD = "hard"
+    # External benchmark, loaded from its own file via --goals. Our four
+    # curated tiers are goals we chose; this one is not, which is the point.
     PROOFNET = "proofnet"
 
 
