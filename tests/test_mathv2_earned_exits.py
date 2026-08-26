@@ -127,6 +127,11 @@ def test_the_second_gate_hands_over_the_negation_to_prove(tmp_path):
     carries the statement the model would have had to write."""
     record_attempt(tmp_path)
     log.set_goal(str(tmp_path), STATEMENT)
+    # `suspect_refusal` now builds the offered negation from `declared_goal`,
+    # which is derived from STATEMENT_CHECK records rather than the `goal`
+    # field `set_goal` writes — so a declaration has to be seeded here too.
+    log.append(str(tmp_path), log.Record(kind=log.STATEMENT_CHECK,
+                                         statement=STATEMENT, status=log.TRUE))
 
     message = call_finish(tmp_path, outcome="statement_suspect")["message"]
 

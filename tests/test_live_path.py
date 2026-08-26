@@ -20,7 +20,7 @@ If a change is only reachable from a unit test, it fails here.
 import pytest
 
 from math_v2 import harness
-from math_v2.core import diagnosis, log
+from math_v2.core import diagnosis, log, verdict
 from tests.test_mathv2_integration import scripted
 
 GOAL = "theorem mra_goal (Ω : Set ℂ) (h : IsOpen Ω) : f a = f b"
@@ -749,4 +749,123 @@ def test_a_genuine_check_statement_repair_still_updates_the_reported_goal(
 
     assert run.statement == repaired, (
         "a genuine check_statement repair must still update the reported goal"
+    )
+
+
+# --------------------- closing the wider soundness gap: four more findings
+def test_skipping_check_statement_entirely_still_refuses_a_diverted_proof(
+        tmp_path, monkeypatch):
+    """The other way to reach the same soundness bug as the diversion tests
+    above: never call `check_statement` at all. `declared_goal` then stays
+    empty for the whole run. `log.accepted_proof` treats an EMPTY statement
+    as "no filter, match anything" -- so simply falling back to some other
+    statement here would not be safe either; `proof_verdict` now refuses
+    outright on an empty declared goal instead."""
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    async def run_lean(source):
+        return LeanResult(LeanOutcome.COMPILED, "")   # anything compiles
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    run = harness.prove("q", model=object(), workdir=str(tmp_path),
+                        agent_factory=scripted([
+                            ("try_proof", {"statement": _K_IDENTITY, "proof": "by ring"}),
+                        ]))
+
+    assert not run.proved, (
+        "a compiled proof reached with no declared goal must not count as "
+        "proving it"
+    )
+    assert not run.statement_ok, "no goal was ever declared via check_statement"
+
+
+def test_a_diversions_attempt_does_not_mask_a_real_formalisation_failure(
+        tmp_path, monkeypatch):
+    """`attempts`/`checks` inside `proof_verdict` are now scoped to the
+    declared statement. Before, ANY recorded PROOF record — a diversion's
+    included — suppressed the NOT_FORMALIZED branch, so a goal that never
+    elaborated could be misreported as an ordinary proving failure just
+    because the model tried something else afterward."""
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    async def run_lean(source):
+        # No "sorry"/"admit" in the detail, so this maps to UNKNOWN either
+        # way -- the declared goal's own statement check fails to elaborate,
+        # same as the diversion's attempt.
+        return LeanResult(LeanOutcome.ERRORS, "f.lean:1:1: error: unknown identifier")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    run = harness.prove("q", model=object(), workdir=str(tmp_path),
+                        agent_factory=scripted([
+                            ("check_statement", {"statement": _SOPHIE_GERMAIN}),
+                            ("try_proof", {"statement": _K_IDENTITY, "proof": "by ring"}),
+                        ]))
+
+    assert not run.statement_ok, (
+        "the declared goal never elaborated -- a diversion's attempt "
+        "elsewhere must not mask that as an ordinary proving failure"
+    )
+
+
+def test_a_diversion_does_not_stick_once_the_model_resumes_the_real_goal(
+        tmp_path, monkeypatch):
+    """`_goal()`'s no-argument fallback now reads `declared_goal`, not
+    `current_goal`. Before, a diversion left `current_goal` pointed at
+    itself, so a LATER no-argument call meant to resume the real goal would
+    silently keep compiling against the diversion instead — wasting budget
+    on the wrong statement with nothing to notice it happened."""
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    compiles = []
+
+    async def run_lean(source):
+        compiles.append(source)
+        if "sorry" in source:
+            return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+        return LeanResult(LeanOutcome.ERRORS, "f.lean:1:1: error: unsolved goals")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=scripted([
+                      ("check_statement", {"statement": _SOPHIE_GERMAIN}),
+                      ("try_proof", {"statement": _K_IDENTITY, "proof": "by ring"}),
+                      # No `statement` here -- intends to resume the real goal.
+                      ("try_proof", {"proof": "by omega"}),
+                  ]))
+
+    # `build_source` renames every goal's declaration to `mra_goal` (avoids a
+    # Mathlib name collision — see failure #21 in the project's own log), so
+    # the theorem NAME never survives into the compiled source; check the
+    # BODY instead, which does.
+    last_proof_compile = [c for c in compiles if "sorry" not in c][-1]
+    assert "Nat.Prime (n ^ 4 + 4)" in last_proof_compile, (
+        "a no-argument try_proof after a diversion must resume the declared "
+        f"goal, not stay stuck on the diversion. Compiled:\n{last_proof_compile}"
+    )
+    assert "k_identity" not in last_proof_compile and "k * k" not in last_proof_compile
+
+
+def test_suspect_refusal_offers_the_declared_goals_negation_not_a_diversions(
+        tmp_path):
+    """The same declared/current split matters here too: the refutation
+    `finish(outcome="statement_suspect")` is steered towards must negate what
+    the run is actually scored against, not whatever a diversion left as
+    `current_goal`."""
+    workdir = str(tmp_path)
+    log.append(workdir, log.Record(kind=log.STATEMENT_CHECK,
+                                   statement=_SOPHIE_GERMAIN, status=log.TRUE))
+    log.append(workdir, log.Record(kind=log.PROOF, statement=_SOPHIE_GERMAIN,
+                                   proof="by omega", status=log.FALSE))
+    # Simulates what a diversion leaves behind: `current_goal` pointed at
+    # something other than the declared goal.
+    log.set_goal(workdir, _K_IDENTITY)
+
+    refusal = verdict.suspect_refusal(workdir)
+
+    assert "k_identity" not in refusal, (
+        "the offered negation must not be built from the diverted "
+        f"current_goal:\n{refusal}"
     )

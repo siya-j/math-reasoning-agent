@@ -16,12 +16,26 @@ from math_v2.tools._util import lean_runner
 
 
 def _goal(runtime, statement):
-    """The statement to work on: the one given, else the one being worked on."""
+    """The statement to work on: the one given, else the declared goal.
+
+    NOT `current_goal` for the fallback. Two MEASURED failures, closed by the
+    same one-line change: (1) `check_statement("")` used to fall back to
+    `current_goal`, which a prior diversion (any tool called with an explicit
+    `statement`) may have left pointed at something other than the real goal
+    -- so an empty-argument statement CHECK could silently re-declare a stale
+    diversion as the goal. (2) after a diversion, a later no-argument call to
+    `try_proof`/`try_standard_tactics`/`try_skeleton` -- intended to resume
+    the real goal -- would silently keep compiling against the diversion
+    instead, burning budget on the wrong statement with no error to notice.
+    Falling back to the declared goal instead means "no statement given"
+    always resumes what was actually declared, never whatever was last
+    touched.
+    """
     workdir = runtime.context.workdir
     if statement.strip():
         log.set_goal(workdir, statement.strip())
         return workdir, statement.strip()
-    return workdir, log.current_goal(workdir)
+    return workdir, log.declared_goal(workdir)
 
 
 def _charge(runtime, **kind):
@@ -92,13 +106,15 @@ async def check_statement(statement: str, runtime: ToolRuntime[MathContext]) -> 
     workdir, goal = _goal(runtime, statement)
     if not goal:
         return _no_goal()
-    # The ONLY place a statement is declared as the goal for reporting
-    # purposes. `try_proof`/`try_standard_tactics`/`try_skeleton` still update
-    # `current_goal` (via `_goal()`) so a diversion compiles and keeps working
-    # exactly as before; they must never reach `declared_goal`, or a one-off
-    # diversion to an auxiliary claim silently becomes what the run is
-    # reported as being about.
-    log.set_declared_goal(workdir, goal)
+    # No separate "declare the goal" write happens here. `proving.check_statement`
+    # below always appends a STATEMENT_CHECK record carrying this exact `goal`,
+    # and `log.declared_goal` reads the last one of those — so this is the ONLY
+    # tool whose calls become what the run is reported and scored against, with
+    # no second field to keep in sync. `try_proof`/`try_standard_tactics`/
+    # `try_skeleton` still update `current_goal` (via `_goal()`) so a diversion
+    # compiles and keeps working exactly as before; none of them ever appends a
+    # STATEMENT_CHECK record, so a one-off diversion to an auxiliary claim never
+    # becomes what the run is reported as being about.
     from math_v2.tools.retrieval import get_search
 
     return await proving.check_statement(

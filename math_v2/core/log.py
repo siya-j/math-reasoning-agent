@@ -132,10 +132,10 @@ def current_goal(workdir: str) -> str:
     return read(workdir).get("goal", "") or ""
 
 
-def set_declared_goal(workdir: str, statement: str) -> None:
-    """Remember what the run is ABOUT, separately from what is being compiled.
+def declared_goal(workdir: str) -> str:
+    """What the run is ABOUT, separately from whatever is being compiled.
 
-    `set_goal` is called by every proof tool whenever the model passes a
+    `set_goal` is written by every proof tool whenever the model passes a
     `statement` argument — `try_proof`'s own docstring invites this for
     "proving something other than the current statement", a deliberate
     one-off-diversion feature. That is fine for compilation; it is not fine
@@ -147,19 +147,18 @@ def set_declared_goal(workdir: str, statement: str) -> None:
     "formal statement" became that identity instead of the theorem actually
     being scored — the trace was unreadable as evidence about the real goal.
 
-    Call this ONLY from `check_statement`'s tool wrapper — the one tool whose
-    documented purpose is to declare or repair the goal ("call this FIRST...
-    it sets the statement for the other proof tools"). Everything read for
-    reporting (`declared_goal`, and `ProofRun.statement` downstream) comes
-    from here, never from `current_goal`.
+    No separate field is written for this. `check_statement` — the one tool
+    whose documented purpose is to declare or repair the goal ("call this
+    FIRST... it sets the statement for the other proof tools") — already
+    appends a STATEMENT_CHECK record carrying `statement` on every call,
+    elaborates or not. The last one of those already means exactly "what
+    check_statement most recently declared", so this reads that instead of
+    keeping a second, independently-written copy of the same fact — nothing
+    to resync if a future call site forgets to update it, because there is
+    only the one place it is written.
     """
-    data = read(workdir)
-    data["declared_goal"] = statement
-    _write(workdir, data)
-
-
-def declared_goal(workdir: str) -> str:
-    return read(workdir).get("declared_goal", "") or ""
+    checks = records(workdir, STATEMENT_CHECK)
+    return checks[-1]["statement"] if checks else ""
 
 
 def records(workdir: str, kind: str = "") -> list:

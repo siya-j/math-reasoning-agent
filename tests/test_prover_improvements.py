@@ -119,6 +119,11 @@ def test_a_proof_attempt_alone_no_longer_earns_the_suspect_exit(workdir):
     prose and none in Lean. The tool existed; nothing ever put the model in
     front of it."""
     log.set_goal(workdir, EX_1_13A)
+    # `suspect_refusal` now builds the offered negation from `declared_goal`,
+    # which is derived from STATEMENT_CHECK records rather than the `goal`
+    # field `set_goal` writes — so a declaration has to be seeded here too.
+    log.append(workdir, log.Record(kind=log.STATEMENT_CHECK,
+                                   statement=EX_1_13A, status=log.TRUE))
     log.append(workdir, log.Record(kind=log.PROOF, statement=EX_1_13A,
                                    proof="by aesop", status=log.FALSE))
 

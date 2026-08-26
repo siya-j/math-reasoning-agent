@@ -284,24 +284,23 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
     the guard would have refused — the guard's authority does not depend on
     anything downstream believing it.
     """
-    # `declared_goal`, not `current_goal`: a proof tool may compile against a
-    # one-off diversion ("something other than the current statement") without
-    # that diversion becoming what the run is scored against. Falls back to
-    # `current_goal` only if `check_statement` was never called at all, so
-    # reporting is never silently empty.
-    #
-    # This is not only cosmetic. `verdicts.proof_verdict` -> `log.accepted_proof`
-    # matches an accepted PROOF record's statement against what is passed here
-    # specifically to stop "a proof of an earlier, different claim... offered
-    # as a proof of this one" (accepted_proof's own docstring). That guard is
-    # only as good as this value: reading `current_goal` here meant a
-    # successfully compiled diversion could have been accepted as a proof of
-    # the real goal, not merely mislabeled in the report.
-    statement = log.declared_goal(workdir) or log.current_goal(workdir)
-    decision = verdicts.proof_verdict(workdir, statement)
+    # `declared_goal` ALONE decides the verdict — no fallback here. A proof
+    # tool may compile against a one-off diversion ("something other than the
+    # current statement") without that diversion becoming what the run is
+    # scored against, and `proof_verdict` now refuses outright on an empty
+    # statement rather than let `log.accepted_proof`'s "no filter" behaviour
+    # on "" match any accepted proof. Falling back to `current_goal` HERE
+    # would silently defeat that: it would hand `proof_verdict` a non-empty
+    # statement (the diversion) whenever `check_statement` was never called,
+    # and the new empty-statement guard would never get the chance to fire —
+    # the same soundness gap, reopened one call up.
+    declared = log.declared_goal(workdir)
+    decision = verdicts.proof_verdict(workdir, declared)
     spent = budget.summary(workdir)
 
-    run.statement = statement
+    # The fallback belongs HERE ONLY — a human-readable value for the trace
+    # and report, never fed back into scoring.
+    run.statement = declared or log.current_goal(workdir)
     run.statement_ok = decision["outcome"] != verdicts.NOT_FORMALIZED
 
     for record in log.records(workdir, log.STATEMENT_CHECK):

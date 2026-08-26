@@ -110,6 +110,25 @@ def proof_verdict(workdir: str, statement: str = "") -> dict:
 
     Returns {"outcome", "banner", "reason", "evidence"}.
     """
+    if not statement.strip():
+        # No goal was ever declared -- `check_statement` was never called.
+        # `accepted_proof` treats an EMPTY statement as "no filter, match
+        # anything", so passing one through here would let ANY accepted proof
+        # record decide the outcome, diversion included. Refusing outright,
+        # rather than falling back to some other statement, is what actually
+        # closes that path: a run that never declares what it is proving
+        # cannot be scored as having proved it. Same shape as a signature
+        # that failed to elaborate, so the same outcome.
+        return {
+            "outcome": NOT_FORMALIZED,
+            "banner": BANNERS[NOT_FORMALIZED],
+            "reason": (
+                "No formal statement was ever declared with `check_statement`, "
+                "so nothing was put to the prover."
+            ),
+            "evidence": {},
+        }
+
     accepted = log.accepted_proof(workdir, statement)
     if accepted:
         return {
@@ -123,8 +142,16 @@ def proof_verdict(workdir: str, statement: str = "") -> dict:
             },
         }
 
-    attempts = log.records(workdir, log.PROOF)
-    checks = log.records(workdir, log.STATEMENT_CHECK)
+    # Scoped to THIS statement. An attempt or a statement check against a
+    # DIVERSION must not count towards the declared goal's own history --
+    # MEASURED: an unscoped `attempts` here let a diversion's PROOF record
+    # (any statement, any outcome) suppress the NOT_FORMALIZED branch below
+    # even when the declared goal itself never elaborated, misreporting a
+    # formalisation failure as an ordinary proving failure.
+    attempts = [r for r in log.records(workdir, log.PROOF)
+               if (r.get("statement") or "").strip() == statement.strip()]
+    checks = [r for r in log.records(workdir, log.STATEMENT_CHECK)
+             if (r.get("statement") or "").strip() == statement.strip()]
 
     # A statement Lean cannot elaborate is a FORMALISATION failure. Counting it
     # as "not proved" credits the formalisation with a success it did not have
@@ -256,7 +283,10 @@ def suspect_refusal(workdir: str) -> str:
     # do exactly. One refused attempt is enough to pass — the requirement is
     # that the counterexample was PUT to Lean, not that it succeeded.
     if not attempted_a_refutation(workdir):
-        goal = log.current_goal(workdir)
+        # `declared_goal`, not `current_goal`: the refutation offered here
+        # must negate what the run is actually scored against, not whatever a
+        # one-off diversion last compiled.
+        goal = log.declared_goal(workdir)
         negation = _negation_of(goal)
         offer = (
             f"\n\nThe negation of your goal is:\n\n    {negation}\n\n"

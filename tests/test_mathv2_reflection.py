@@ -44,6 +44,16 @@ def lean_calls(monkeypatch):
     return calls
 
 
+def _declare(workdir, statement=STATEMENT):
+    """Seed a STATEMENT_CHECK record, standing in for a real `check_statement`
+    call. `_goal()`'s no-argument fallback now reads `declared_goal`, which is
+    derived from these records rather than from the `current_goal` field a
+    bare `try_proof` call updates — so a second, statement-less `try_proof`
+    call in these tests needs one of these to resume the same goal at all."""
+    log.append(str(workdir), log.Record(kind=log.STATEMENT_CHECK,
+                                        statement=statement, status=log.TRUE))
+
+
 # ------------------------------------------------------------- no repeats
 def test_an_identical_proof_is_refused_without_compiling(tmp_path, lean_calls):
     """THE guard. The baseline emitted byte-identical proposals; this stops it.
@@ -51,6 +61,7 @@ def test_an_identical_proof_is_refused_without_compiling(tmp_path, lean_calls):
     Twenty seconds spent re-learning a known answer is twenty seconds not spent
     on a new idea.
     """
+    _declare(tmp_path)
     rt = runtime_for(tmp_path)
     first = run(try_proof.ainvoke({"proof": "by simp", "statement": STATEMENT,
                                    "runtime": rt}))
@@ -63,6 +74,7 @@ def test_an_identical_proof_is_refused_without_compiling(tmp_path, lean_calls):
 
 def test_the_refusal_repeats_what_lean_said(tmp_path, lean_calls):
     """Otherwise the agent has to remember why, which is what failed before."""
+    _declare(tmp_path)
     rt = runtime_for(tmp_path)
     run(try_proof.ainvoke({"proof": "by simp", "statement": STATEMENT, "runtime": rt}))
     second = run(try_proof.ainvoke({"proof": "by simp", "runtime": rt}))
@@ -72,6 +84,7 @@ def test_the_refusal_repeats_what_lean_said(tmp_path, lean_calls):
 
 
 def test_whitespace_is_not_a_change(tmp_path, lean_calls):
+    _declare(tmp_path)
     rt = runtime_for(tmp_path)
     run(try_proof.ainvoke({"proof": "by simp", "statement": STATEMENT, "runtime": rt}))
     again = run(try_proof.ainvoke({"proof": "by   simp\n", "runtime": rt}))
@@ -86,6 +99,7 @@ def test_a_genuinely_different_proof_is_compiled(tmp_path, lean_calls):
     `try_standard_tactics` runs in one file, so the second cannot learn
     anything the first did not. A real argument still compiles.
     """
+    _declare(tmp_path)
     rt = runtime_for(tmp_path)
     run(try_proof.ainvoke({"proof": "by simp", "statement": STATEMENT, "runtime": rt}))
     run(try_proof.ainvoke({"proof": "by\n  have h : 2 + 2 = 4 := by norm_num\n  exact h",
