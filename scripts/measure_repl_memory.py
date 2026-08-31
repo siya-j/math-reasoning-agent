@@ -100,7 +100,30 @@ COMMANDS = [
 
 
 def rss_mb(pid: int) -> float:
-    return psutil.Process(pid).memory_info().rss / (1024 * 1024)
+    """Resident memory of the WHOLE process tree rooted at `pid`, in MB.
+
+    NOT just `Process(pid).memory_info().rss`. MEASURED: `argv()` launches
+    `lake env <repl.exe>`, and on Windows `lake` does not replace its own
+    process image the way a POSIX `exec` would — it spawns the real Lean
+    process as a CHILD and waits on it, piping stdin/stdout through. A
+    single-PID reading therefore reports the thin launcher (single-digit MB)
+    and never the multi-GB process actually holding Mathlib, which is
+    invisible under the parent's own number, not merely underestimated by
+    it. Confirmed against a synthetic parent/child pair: the same reading
+    that shows ~12 MB for the parent alone shows ~220 MB once a 200 MB
+    child's memory is included.
+    """
+    try:
+        proc = psutil.Process(pid)
+    except psutil.NoSuchProcess:
+        return 0.0
+    total = proc.memory_info().rss
+    for child in proc.children(recursive=True):
+        try:
+            total += child.memory_info().rss
+        except psutil.NoSuchProcess:
+            continue  # exited between listing and reading; not a real loss
+    return total / (1024 * 1024)
 
 
 def main() -> int:
@@ -126,7 +149,19 @@ def main() -> int:
     session = _repl.Session(cwd=project).start()
     print(f"session started: {session._startup:.1f}s (Mathlib import, one-time)")
     baseline = rss_mb(session.process.pid)
-    print(f"baseline RSS after start: {baseline:.0f} MB\n")
+    print(f"baseline RSS after start: {baseline:.0f} MB")
+    # A sanity floor, not a hard failure: `_repl.py`'s own docstring puts one
+    # Mathlib-loaded session at 4-6 GB. Anything far below that means `rss_mb`
+    # is still not looking at the right process on THIS machine, and every
+    # number below would be as meaningless as the single-PID reading this
+    # replaced was.
+    if baseline < 500:
+        print(f"  WARNING: {baseline:.0f} MB is far below the 4-6 GB a loaded")
+        print("  Mathlib session normally takes. The numbers below are likely")
+        print("  measuring the wrong process on this machine — do not trust")
+        print("  them without checking (e.g. Task Manager) what is actually")
+        print("  using memory while this runs.")
+    print()
 
     samples = [(0, baseline)]
     started = time.time()
