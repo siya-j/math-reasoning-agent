@@ -154,6 +154,17 @@ def main() -> int:
         action="store_true",
         help="skip goals already decided in the last run (not errors)",
     )
+    parser.add_argument(
+        "--pace", type=float, default=0.0,
+        help="seconds to sleep BETWEEN goals (default 0, off). MEASURED: a "
+        "long run can hit a rate limit partway through, and the model "
+        "client's own retry-with-backoff for that is invisible to the wall "
+        "clock -- it can burn the whole per-goal budget just backing off, "
+        "turning a goal that would otherwise have settled into a bare "
+        "'budget exhausted'. A gap between goals spends wall time "
+        "proactively, before hitting the ceiling, rather than reactively "
+        "after.",
+    )
     args = parser.parse_args()
     out = Path(args.out) if args.out else DEFAULT_OUT
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -214,6 +225,12 @@ def main() -> int:
     consecutive_errors = 0
 
     for index, goal in enumerate(goals, start=1):
+        # BEFORE the goal, not after -- applies regardless of whether the
+        # previous goal errored, and `index` is already 1-based over the
+        # post-`--resume`-filtering list, so this is exactly "not the first
+        # goal THIS invocation runs" without tracking anything separately.
+        if args.pace and index > 1:
+            time.sleep(args.pace)
         print(f"[{index}/{len(goals)}] {goal.id}")
         started = time.monotonic()
 
