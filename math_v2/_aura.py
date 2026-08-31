@@ -35,7 +35,16 @@ import inspect
 RUNTIME = "math"
 
 # What we WANT to send. Filtered against reality at call time.
-DEFAULT_TIMEOUT = 180.0        # a Mathlib compile is ~20s; this is generous
+# WRONG WHEN WRITTEN, MEASURED SINCE. A Mathlib compile is not ~20s: the REPL
+# session's own docstring measures a cold `import Mathlib` at 40.5s on the
+# target machine and 116s cold on Windows (`_repl.START_TIMEOUT`), and
+# subprocess-mode goals pay that on EVERY compile, not once — real runs
+# recorded 55-300s per call (`eval/results/near-mathlib-subprocess.json`,
+# `proofnet-4-after-goalstate.json`). 180s is still generous against a SINGLE
+# call under that data, which is all this bounds; it is not generous against a
+# cold REPL start, which is why that path gets its own longer
+# `_repl.START_TIMEOUT` rather than reusing this one.
+DEFAULT_TIMEOUT = 180.0
 DEFAULT_MEMORY_GB = 8          # 8 keeps us on the ephemeral pool; >8 -> SLURM
 DEFAULT_CPUS = 2
 

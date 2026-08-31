@@ -168,10 +168,14 @@ def test_a_compile_is_not_started_when_it_cannot_finish_in_time(
 
 def test_the_reservation_can_never_eat_the_budget_it_protects(monkeypatch):
     """It reserved 180s of a 300s budget, so 60% was unusable and the agent was
-    refused before it ever attempted a proof. Measured, on the first real run."""
+    refused before it ever attempted a proof. Measured, on the first real run.
+    The cap, not the seed, is what applies here: the seed was raised past a
+    quarter of THIS budget once it was measured against real cold imports
+    (see `LEAN_RESERVE_SECONDS`'s own comment), so the fixed point is the cap
+    itself — still nowhere near the 180s that caused the original failure."""
     monkeypatch.setattr(budget, "MAX_SECONDS", 300.0)
-    assert budget.reserve() == 60.0
-    assert 300.0 - budget.reserve() == 240.0      # the old prover's window
+    assert budget.reserve() == 75.0
+    assert 300.0 - budget.reserve() == 225.0      # still most of the budget
 
     for limit in (60.0, 120.0, 300.0, 900.0):
         monkeypatch.setattr(budget, "MAX_SECONDS", limit)
@@ -191,7 +195,7 @@ def test_the_stop_message_reports_what_was_SPENT_not_just_the_limit(monkeypatch)
     kind, message = budget._over(state, lean=True)
     assert kind == "time"
     assert "260s of the 300s budget used" in message, message
-    assert "60s left" in message, message
+    assert "75s left" in message, message
 
 
 def test_every_lean_tool_is_charged(tmp_path, monkeypatch, lean_calls):

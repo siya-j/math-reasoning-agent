@@ -117,7 +117,21 @@ def wall_clock_deadline():
 # a compile costs here. So the reserve is now the SLOWEST compile observed for
 # this goal, and the constant below is only the seed used before there is any
 # measurement to use instead.
-LEAN_RESERVE_SECONDS = float(os.getenv("MRA_LEAN_RESERVE", "60"))
+#
+# MEASURED AGAIN. The seed was 60 — a guess made before a cold Mathlib import
+# had been timed anywhere in this codebase. It since has been, twice: 40.5s
+# steady-state and 116s cold on Windows for the REPL session's one-time
+# import (`_repl.py`'s own docstring; `START_TIMEOUT` there is set from the
+# same number), and 55-300s per call across real subprocess-mode runs
+# (`eval/results/near-mathlib-subprocess.json`), which pays a fresh import on
+# EVERY compile rather than once. A seed of 60 sits below both, so the FIRST
+# compile of a run — the one call this seed alone protects, before any
+# measurement of THIS machine exists to replace it — could be let through
+# with less than half of what a cold import has actually been seen to cost.
+# 120 clears the higher of the two measurements with margin and, like the old
+# value, is still bounded by MAX_RESERVE_FRACTION below, so a small budget
+# cannot have it all reserved before a single compile runs.
+LEAN_RESERVE_SECONDS = float(os.getenv("MRA_LEAN_RESERVE", "120"))
 MAX_RESERVE_FRACTION = 0.25
 
 

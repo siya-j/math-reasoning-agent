@@ -249,9 +249,19 @@ def test_timing_never_breaks_a_compile():
 
 
 def test_a_fast_machine_is_not_penalised(tmp_path, monkeypatch):
-    """20s compiles must not inherit the 60s seed as a floor for BLOCKING —
-    the seed is a floor on the reserve, which is deliberate, but it must stay
+    """20s compiles must not inherit the seed as a floor for BLOCKING — the
+    seed is a floor on the reserve, which is deliberate, but it must stay
     small against a real budget."""
     monkeypatch.setattr(budget, "MAX_SECONDS", 900.0)
 
     assert budget.reserve({"slowest_lean": 20.0}) == budget.LEAN_RESERVE_SECONDS
+
+
+def test_the_seed_clears_both_measured_cold_imports():
+    """MEASURED, twice, elsewhere in this codebase: a cold `import Mathlib`
+    costs 40.5s steady-state and 116s cold on Windows (`_repl.py`'s own
+    docstring; `_repl.START_TIMEOUT` is set from the same number). The seed
+    protects exactly the FIRST compile of a run, before anything about THIS
+    machine has been measured — so it must clear the higher of the two, not
+    just the lower. A seed at the old value (60) failed this by nearly half."""
+    assert budget.LEAN_RESERVE_SECONDS >= 116.0
