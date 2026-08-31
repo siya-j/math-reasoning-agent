@@ -31,7 +31,7 @@ from domain.proof import Lemma, ProofAttempt, ProofRun, ProofStage  # noqa: F401
 from domain.verdict import Verdict, VerificationStatus
 from domain.verification import VerificationKind, VerificationRequest
 from llm.formalizer import Formalizer
-from pipeline.skeleton import fill_hole, hole_claims, hole_count, summarise
+from pipeline.skeleton import bare_tactic, fill_hole, hole_claims, hole_count, summarise
 from pipeline.tactics import cheap_attempt
 from verifiers import verify as verify_request
 
@@ -245,16 +245,23 @@ def _try_skeleton(run, formalizer, check, structure_check, sketch, note,
 
         # Mechanical first: a subgoal is exactly the size `simp` or a cited
         # premise tends to close, and it costs no model call.
-        candidate = fill_hole(proof, position, cheap_attempt(premises))
+        #
+        # `bare_tactic()`: `cheap_attempt` returns a whole standalone proof
+        # body, `by` included — a hole is `sorry` sitting after an existing
+        # `:= by` already, so used verbatim this produced `by by ...`, not
+        # valid Lean. See `pipeline.skeleton.bare_tactic`'s own docstring.
+        candidate = fill_hole(proof, position, bare_tactic(cheap_attempt(premises)))
         if structure_check(run.statement, candidate):
             proof = candidate
             continue
 
         fill = getattr(formalizer, "hole", None)
         if claim and fill:
-            filled = fill_hole(
-                proof, position, f"by {fill(claim, proof, run.statement)}"
-            )
+            # NOT `f"by {fill(...)}"` — `HOLE_PROMPT` already asks for "what
+            # follows `by`", and prepending another one made THIS site the
+            # same `by by ...` mistake as the one above whenever the model
+            # happened to answer with more than one line.
+            filled = fill_hole(proof, position, bare_tactic(fill(claim, proof, run.statement)))
             if structure_check(run.statement, filled):
                 proof = filled
                 continue

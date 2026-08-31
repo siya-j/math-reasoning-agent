@@ -62,15 +62,57 @@ def fill_hole(proof: str, index: int, replacement: str) -> str:
 
     Only one hole changes, so a failed fill can be reverted without
     disturbing holes that already succeeded.
+
+    EVERY LINE PAST THE FIRST is re-indented to the HOLE's own column, not
+    left at whatever column `replacement` was written at. This is the exact
+    bug `verifiers.lean_verifier.declaration()` had and was fixed for: `sorry`
+    sits at some column inside the skeleton (typically deep inside a `have`
+    line), and Lean's tactic blocks are indentation-significant, so a
+    multi-line filler landing at column 0 is SHALLOWER than the skeleton
+    around it and silently ends the enclosing block right there — reported
+    back as "unsolved goals" naming the untouched original claim, no
+    different from the filler's own tactics being wrong. A single-line
+    replacement (the common case: `exact foo`, one `first | ...` alternative
+    written on one line) is returned unchanged; only a real multi-line
+    filler needs this at all.
     """
     seen = -1
 
     def swap(match: re.Match) -> str:
         nonlocal seen
         seen += 1
-        return replacement if seen == index else match.group(0)
+        if seen != index:
+            return match.group(0)
+        lines = replacement.splitlines()
+        if len(lines) <= 1:
+            return replacement
+        column = match.start() - proof.rfind("\n", 0, match.start()) - 1
+        pad = " " * column
+        return "\n".join(
+            [lines[0]] + [f"{pad}{line}" if line.strip() else line
+                         for line in lines[1:]]
+        )
 
     return _HOLE.sub(swap, proof or "")
+
+
+_LEADING_BY = re.compile(r"^\s*by\b\s*", re.DOTALL)
+
+
+def bare_tactic(text: str) -> str:
+    """Strip a caller's own leading `by`, if it has one.
+
+    A hole is always `sorry` sitting right after an existing `:= by` in the
+    skeleton — a filler supplies what comes AFTER that `by`, never another
+    one. MEASURED: `cheap_attempt()` returns a whole standalone proof body,
+    `by` included, because that is what its OTHER callers need; used
+    directly as a hole-filler it produced `:= by by\n  first\n    | ...`,
+    which is not valid Lean (`by` is a term, not a tactic) even before its
+    own multi-line indentation broke the enclosing block too. Idempotent on
+    text that has no leading `by` at all — the ordinary case for a model's
+    reply to `HOLE_PROMPT`, which explicitly asks for "what follows `by`".
+    """
+    return _LEADING_BY.sub("", text, count=1)
 
 
 def hole_claims(proof: str) -> list[str]:

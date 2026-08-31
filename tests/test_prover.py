@@ -245,6 +245,60 @@ def test_the_model_fills_holes_the_tactics_cannot():
     assert getattr(fake, "holes_filled", 0) == 2, "the model never closed a hole"
 
 
+def test_a_multiline_model_fill_reaches_lean_as_valid_indentation():
+    """WIRED, not just correct in isolation. `pipeline.skeleton.fill_hole`
+    and `bare_tactic` are tested directly and offline elsewhere
+    (`tests/test_pipeline_skeleton.py`); this checks that `_try_skeleton`
+    actually uses them on a REAL multi-line model reply, the way every
+    other test here fakes `structure_check` as a substring check or a
+    constant and so never looks at what gets assembled.
+
+    MEASURED, `hard-sophie-germain`: the model's answer to `HOLE_PROMPT`
+    was a case split — `rcases n with _ | n` then a `·` bullet per case,
+    exactly the shape `HOLE_PROMPT`'s "one or two tactics if possible"
+    permits. `structure_check` here receives the RAW (statement, proof)
+    pair `lean_structure_ok` receives in production, so running it through
+    the real `build_source` reproduces exactly what would have reached
+    Lean.
+    """
+    from verifiers.lean_verifier import build_source
+
+    class MultilineFormalizer(FakeFormalizer):
+        def hole(self, claim, context, statement=""):
+            self.holes_filled = getattr(self, "holes_filled", 0) + 1
+            return "rcases n with _ | n\n· contradiction\n· simp"
+
+    fake = MultilineFormalizer(skeleton=SKELETON)
+    seen = []
+
+    def structure(statement, proof):
+        seen.append(proof)
+        return "first" not in proof   # force the model path, as above
+
+    prove("hard", formalizer=fake, check=ACCEPTS_NOTHING, depth=0,
+          structure_check=structure)
+
+    assert getattr(fake, "holes_filled", 0) > 0, "the model fill was never tried"
+    filled = [p for p in seen if "rcases" in p]
+    assert filled, "the model's fill never reached structure_check"
+
+    source = build_source("theorem t (n : Nat) : True", filled[-1])
+    assert "by by" not in source, "a redundant `by` was prepended to the fill"
+
+    lines = source.splitlines()
+    have_line = next(l for l in lines if "rcases" in l)
+    bullet = next(l for l in lines if l.strip() == "· contradiction")
+
+    def col(line):
+        return len(line) - len(line.lstrip(" "))
+
+    hole_column = have_line.index("rcases")   # where the filler's own text starts
+    assert col(bullet) == hole_column, (
+        "the bullet landed shallower than the tactic that opened the "
+        "block, which silently ends it in real Lean"
+    )
+
+
 def test_a_filled_skeleton_that_compiles_is_a_proof():
     fake = FakeFormalizer(skeleton=SKELETON)
     attempts = 1 + config.PROOF_ATTEMPTS + config.PROOF_REFINEMENTS
