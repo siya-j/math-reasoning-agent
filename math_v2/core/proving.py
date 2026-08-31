@@ -286,15 +286,30 @@ async def check_statement(workdir, statement, run_lean, search=None):
                                         "premises": [p.name for p in seeded]},
                 "message": "The statement elaborates. You can try to prove it."
                            + listed}
+    # MEASURED: exercise_1_18a's statement named EuclideanSpace's `inner`
+    # with the wrong arguments -- a TYPE_MISMATCH, the exact failure shape
+    # `try_proof`'s rejection path already diagnoses and searches for. A
+    # statement check had neither: the raw error plus a generic "fix names
+    # and notation" line, with no hint of WHAT KIND of fix, and no search.
+    # Only two attempts exist here (MAX_STATEMENT_CHECKS); an infrastructure
+    # failure gets neither -- there is nothing in a timeout to classify or
+    # search from, and a wasted attempt is refunded upstream, not helped here.
+    action = "" if infra_failure else diagnosis.next_action(verdict.detail)
+    found = [] if infra_failure else await _retrieve_for_failure(
+        workdir, verdict.detail, search)
+
     return {
         "ok": True,
         "outputs": {"elaborates": False, "detail": verdict.detail,
-                   "infra_failure": infra_failure},
+                   "infra_failure": infra_failure,
+                   "retrieved": [p.name for p in found]},
         "message": (
             "Lean cannot make sense of this STATEMENT, so no proof of it can "
             "compile. The fault is in the signature, not in any proof.\n"
-            f"{verdict.detail}\n"
-            "Fix names and notation — Mathlib renames things — without "
+            f"{verdict.detail}"
+            + (f"\n\nWHAT THIS MEANS: {action}" if action else "")
+            + _render_retrieved(found)
+            + "\n\nFix names and notation — Mathlib renames things — without "
             "changing what the statement says."
         ),
     }
@@ -920,6 +935,28 @@ async def try_skeleton(workdir, statement, proof, run_lean, fill_budget=0):
             ),
         }
 
+    # MEASURED, `hard-amgm-sqrt`: this instruction already existed and was
+    # already correct -- the model still abandoned a skeleton one hole away
+    # from working and started an unrelated new one from scratch, several
+    # times, never once writing the final assembling step. The substance
+    # didn't change; the ONE THING TO DO NOW moved from the end of a long
+    # report to the very front, in the imperative, naming the exact claim.
+    lead = ""
+    if outstanding:
+        lead = (
+            "DO NOT WRITE A NEW SKELETON. Exactly " + str(len(outstanding))
+            + " thing" + ("s" if len(outstanding) != 1 else "")
+            + " stand between this decomposition and PROVED:\n"
+            + "\n".join(f"  - {c[:80]}" for c in outstanding)
+            + "\nProve one with `try_lemma` — naming it lets you cite it — "
+            "then assemble everything you have with `try_proof`. If you "
+            "genuinely cannot prove one, that claim is the mathematical "
+            "crux of this goal, not a reason to restart.\n\n"
+        )
+    elif proved:
+        lead = ("DO NOT WRITE A NEW SKELETON. Every hole already has a "
+                "proof — assemble them now with `try_proof`.\n\n")
+
     report = ""
     if attempted:
         report = "\n\nEach hole was then attempted automatically with the "
@@ -930,13 +967,6 @@ async def try_skeleton(workdir, statement, proof, run_lean, fill_budget=0):
                else "not closed; this one needs a real argument")
             for a in attempted
         )
-    if outstanding:
-        report += (
-            "\n\nStill open: " + "; ".join(c[:60] for c in outstanding)
-            + "\nProve one with `try_lemma`, then assemble with `try_proof`."
-        )
-    elif proved:
-        report += "\n\nAll holes are proved. Assemble them with `try_proof`."
 
     return {
         "ok": True,
@@ -944,7 +974,8 @@ async def try_skeleton(workdir, statement, proof, run_lean, fill_budget=0):
                     "lemmas_proved": [p["name"] for p in proved],
                     "outstanding": outstanding, "compiles_used": compiles},
         "message": (
-            "The decomposition TYPECHECKS, so the steps do combine into the "
+            lead
+            + "The decomposition TYPECHECKS, so the steps do combine into the "
             "goal. What is left is independent and smaller:\n"
             f"{listed or '  (no holes found)'}"
             + report

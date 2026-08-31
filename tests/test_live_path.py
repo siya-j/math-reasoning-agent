@@ -927,3 +927,114 @@ def test_an_ordinary_rejection_still_counts_as_a_real_check(tmp_path, monkeypatc
     assert budget_module.summary(str(tmp_path))["statement_checks"] == 1, (
         "a genuine rejection must still be charged"
     )
+
+
+# ------------------------- a rejected statement now searches like a rejected proof
+def test_a_rejected_statement_now_gets_the_same_error_driven_search_as_a_proof(
+        tmp_path, wired_search, monkeypatch):
+    """MEASURED, exercise_1_18a: the statement was rejected and the model got
+    the raw error plus a generic 'fix names and notation' line -- no hint of
+    WHAT KIND of fix, and (for the classes where a query can be derived at
+    all, like this one) no automatic search, unlike `try_proof`'s rejection
+    path, which already had both. `check_statement` only gets two attempts
+    total, so it can least afford to waste one guessing blind."""
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    async def run_lean(source):
+        return LeanResult(
+            LeanOutcome.ERRORS,
+            "f.lean:1:1: error: unknown identifier 'Complex.abs'")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=scripted([
+                      ("check_statement", {"statement": _SOPHIE_GERMAIN}),
+                  ]))
+
+    trace = log.read(str(tmp_path))["trace"]
+    assert any(t.startswith("search (from error)") for t in trace), (
+        f"an UNKNOWN_IDENTIFIER rejection must trigger the same error-driven "
+        f"search a proof rejection already gets. trace:\n{trace}"
+    )
+
+
+def _scripted_capturing_last(script):
+    """Same shape as `scripted()`, but keeps the LAST tool's raw return value
+    where the test can read it afterward -- `scripted()` itself discards
+    every result, which is right for tests that only care what ends up in
+    the log, and wrong for a test that needs the message text a specific
+    tool call actually produced."""
+    captured = {}
+
+    def factory(model, tools, system_prompt):
+        by_name = {t.name: t for t in tools}
+
+        class Agent:
+            async def ainvoke(self, payload, context=None):
+                from langchain.tools import ToolRuntime
+
+                runtime = ToolRuntime(
+                    state=None, context=context, config={},
+                    stream_writer=lambda *a, **k: None,
+                    tool_call_id="t", store=None,
+                )
+                for name, kwargs in script:
+                    captured["result"] = await by_name[name].ainvoke(
+                        {**kwargs, "runtime": runtime})
+                return {"messages": [type("M", (), {"text": "finished"})()]}
+
+        return Agent()
+
+    factory.captured = captured
+    return factory
+
+
+def test_a_type_mismatch_statement_gets_told_what_kind_of_fix_it_needs(
+        tmp_path, wired_search, monkeypatch):
+    """MEASURED, exercise_1_18a: the actual failure was a TYPE_MISMATCH
+    (EuclideanSpace's `inner` called with the wrong arguments), a class where
+    `retrieval_query` deliberately never auto-searches -- "Lean names the
+    argument, not a searchable shape, and a guess here would be noise". What
+    it CAN get is the diagnostic hint that already exists for exactly this
+    failure class on the proving side: search the exact name to see its real
+    signature, rather than guessing a variant."""
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    async def run_lean(source):
+        return LeanResult(
+            LeanOutcome.ERRORS,
+            "f.lean:1:1: error: Application type mismatch\n"
+            "  inner x y\nargument\n  y\nhas type\n  EuclideanSpace ℝ (Fin n) : Type")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    agent_factory = _scripted_capturing_last([
+        ("check_statement", {"statement": _SOPHIE_GERMAIN}),
+    ])
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=agent_factory)
+
+    message = agent_factory.captured["result"]["message"]
+    assert "WHAT THIS MEANS" in message
+    assert "signature" in message, message
+
+
+def test_an_infra_failure_does_not_bother_searching(tmp_path, wired_search, monkeypatch):
+    """A timeout message has nothing in it to search FOR -- there is no
+    query to extract from 'the compiler did not answer in time'."""
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    async def run_lean(source):
+        return LeanResult(LeanOutcome.TIMEOUT, "timed out after 180s")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=scripted([
+                      ("check_statement", {"statement": _SOPHIE_GERMAIN}),
+                  ]))
+
+    trace = log.read(str(tmp_path))["trace"]
+    assert not any(t.startswith("search (from error)") for t in trace)
+    assert not wired_search.asked, "no query should have been issued at all"
