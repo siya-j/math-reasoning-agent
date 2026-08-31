@@ -314,3 +314,112 @@ def test_a_list_of_only_noise_is_not_emptied():
     kept, dropped = retrieval.drop_noise(noisy)
 
     assert len(kept) == 1 and dropped == 0
+
+
+# ============================== 4. illustrate: retrieval gets a worked example
+# MEASURED, exercise_1_18a: search correctly surfaced Mathlib's inner-product
+# bracket notation (`⟪x, y⟫`) after a type mismatch, and the model used it —
+# but wrote it without the disambiguating field subscript Mathlib needs
+# (`⟪x, y⟫_ℝ`), a syntax detail no bare signature shows. `retrieval/
+# usage_examples.py` adds a real citation of the TOP hit, from Mathlib's own
+# source, alongside the signatures already shown. See its own tests in
+# `tests/test_usage_examples.py` for the lookup itself; these test that
+# `try_proof`'s and `check_statement`'s rejection messages actually carry it.
+def _mathlib_source_tree(tmp_path, relative_lean_path, lean_text):
+    """A synthetic `.lake/packages/mathlib/Mathlib` tree, for `MRA_LEAN_PROJECT`."""
+    root = tmp_path / ".lake" / "packages" / "mathlib" / "Mathlib"
+    path = root / relative_lean_path
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(lean_text, encoding="utf-8")
+    return tmp_path
+
+
+def test_a_rejection_is_illustrated_with_a_real_citation(workdir, tmp_path,
+                                                          monkeypatch):
+    project = _mathlib_source_tree(
+        tmp_path, "Analysis/InnerProductSpace/Basic.lean",
+        "theorem uses_it (x y : ℝ) : True := by\n"
+        "  have := inner_self_eq_norm_sq x y\n  trivial\n",
+    )
+    monkeypatch.setenv("MRA_LEAN_PROJECT", str(project))
+    search = FakeSearch([Premise(
+        name="inner_self_eq_norm_sq", type=" : ⟪x, x⟫ = ‖x‖ ^ 2",
+        module="Mathlib.Analysis.InnerProductSpace.Basic")])
+
+    async def run_lean(source):
+        return LeanResult(LeanOutcome.ERRORS,
+                          "2:58: error: Unknown constant `Complex.abs`")
+
+    result = run(proving.try_proof(workdir, GOAL, "by exact Complex.abs",
+                                   run_lean, search))
+
+    assert "USED like this in Mathlib itself" in result["message"]
+    assert "inner_self_eq_norm_sq x y" in result["message"]
+
+
+def test_a_rejection_with_no_citation_available_is_not_illustrated(workdir,
+                                                                    monkeypatch):
+    """No `MRA_LEAN_PROJECT` configured: the signatures still show, with no
+    illustration section rather than a broken or empty one."""
+    monkeypatch.delenv("MRA_LEAN_PROJECT", raising=False)
+    monkeypatch.delenv("MRA_MATHLIB_SOURCE", raising=False)
+    search = FakeSearch([Premise(name="Complex.abs_apply", type=" : ‖z‖ = z.abs",
+                                 module="Mathlib.Analysis")])
+
+    async def run_lean(source):
+        return LeanResult(LeanOutcome.ERRORS,
+                          "2:58: error: Unknown constant `Complex.abs`")
+
+    result = run(proving.try_proof(workdir, GOAL, "by exact Complex.abs",
+                                   run_lean, search))
+
+    assert "SEARCHED FOR YOU" in result["message"]
+    assert "USED like this in Mathlib itself" not in result["message"]
+
+
+def test_a_rejected_statement_check_is_also_illustrated(workdir, tmp_path,
+                                                         monkeypatch):
+    """`check_statement`'s rejection path shares `_render_retrieved` with
+    `try_proof`'s -- the illustration is not proof-only."""
+    project = _mathlib_source_tree(
+        tmp_path, "Analysis/InnerProductSpace/Basic.lean",
+        "theorem uses_it (x y : ℝ) : True := by\n"
+        "  have := inner_self_eq_norm_sq x y\n  trivial\n",
+    )
+    monkeypatch.setenv("MRA_LEAN_PROJECT", str(project))
+    search = FakeSearch([Premise(
+        name="inner_self_eq_norm_sq", type=" : ⟪x, x⟫ = ‖x‖ ^ 2",
+        module="Mathlib.Analysis.InnerProductSpace.Basic")])
+
+    async def run_lean(source):
+        return LeanResult(LeanOutcome.ERRORS,
+                          "2:58: error: Unknown constant `Complex.abs`")
+
+    result = run(proving.check_statement(workdir, GOAL, run_lean, search))
+
+    assert "USED like this in Mathlib itself" in result["message"]
+
+
+def test_only_the_top_hit_is_illustrated(workdir, tmp_path, monkeypatch):
+    """One worked example, not a survey -- and it costs a file-tree walk per
+    lookup, so it must not run once per premise."""
+    project = _mathlib_source_tree(
+        tmp_path, "Analysis/InnerProductSpace/Basic.lean",
+        "theorem uses_it : True := by\n  have := first_hit\n  trivial\n",
+    )
+    monkeypatch.setenv("MRA_LEAN_PROJECT", str(project))
+    search = FakeSearch([
+        Premise(name="first_hit", type=" : 1 = 1"),
+        Premise(name="second_hit", type=" : 2 = 2"),
+    ])
+
+    async def run_lean(source):
+        return LeanResult(LeanOutcome.ERRORS,
+                          "2:58: error: Unknown constant `Complex.abs`")
+
+    result = run(proving.try_proof(workdir, GOAL, "by exact Complex.abs",
+                                   run_lean, search))
+
+    assert "have := first_hit" in result["message"]
+    assert "second_hit" not in result["message"].split(
+        "USED like this in Mathlib itself")[-1]

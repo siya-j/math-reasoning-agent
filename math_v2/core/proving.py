@@ -33,6 +33,7 @@ import re
 
 from pipeline.skeleton import fill_hole, hole_claims
 from pipeline.tactics import cheap_attempt
+from retrieval import usage_examples
 from retrieval.loogle import Premise, conclusion_of
 from verifiers.lean_runner import LeanOutcome, has_placeholder
 from verifiers.lean_verifier import build_source, declaration, interpret
@@ -308,18 +309,33 @@ async def check_statement(workdir, statement, run_lean, search=None):
             "compile. The fault is in the signature, not in any proof.\n"
             f"{verdict.detail}"
             + (f"\n\nWHAT THIS MEANS: {action}" if action else "")
-            + _render_retrieved(found)
+            + await _render_retrieved(found)
             + "\n\nFix names and notation — Mathlib renames things — without "
             "changing what the statement says."
         ),
     }
 
 
-def _render_retrieved(found):
+async def _render_retrieved(found):
+    """Signatures, plus ONE worked example of the top hit actually being used.
+
+    MEASURED, `exercise_1_18a`: search correctly surfaced Mathlib's
+    inner-product bracket notation after a type mismatch, and the model used
+    it — but wrote it without the disambiguating field subscript Mathlib
+    needs, a syntax detail no bare signature shows. A real citation of the
+    same name almost always gets that right, because it had to compile. Only
+    the top hit, not all five: this is one illustrative example, not a
+    survey, and it costs a local file-tree walk per lookup.
+    """
     if not found:
         return ""
     lines = "\n".join(f"  {p.render()}" for p in found[:5])
+    example = await asyncio.to_thread(usage_examples.find, found[0].name)
+    illustrated = (
+        f"\n\n  USED like this in Mathlib itself:\n    {example}" if example else ""
+    )
     return ("\n\nSEARCHED FOR YOU, from that error:\n" + lines
+            + illustrated
             + "\nRead the signatures. Use one of these rather than searching "
               "again for a word from the statement.")
 
@@ -445,7 +461,7 @@ async def try_proof(workdir, statement, proof, run_lean, search=None,
                     "compiles_used": repair_compiles},
         "message": (f"REJECTED.\n{verdict.detail}"
                     + (f"\n\nWHAT THIS MEANS: {action}" if action else "")
-                    + _render_retrieved(found)),
+                    + await _render_retrieved(found)),
     }
 
 
