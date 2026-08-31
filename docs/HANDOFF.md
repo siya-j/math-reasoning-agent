@@ -366,13 +366,14 @@ Non-env constants: `TEMPERATURE=0.0`, `MAX_ATTEMPTS=3`, `MAX_SUBCLAIMS=4`,
 **`eval/golden.json`** — 109 verification cases. `scripts/evaluate.py` exits
 non-zero on any soundness failure, so it works as a regression gate.
 
-**`eval/proofs.json`** — 15 proof goals in three tiers:
+**`eval/proofs.json`** — 20 proof goals in four tiers:
 
 | Tier | n | Meaning |
 |---|---|---|
 | `in-mathlib` | 6 | the theorem exists in Mathlib essentially verbatim |
 | `near-mathlib` | 7 | Mathlib has it in a different shape; needs a bridge |
 | `novel` | 2 | not in Mathlib |
+| `hard` | 5 | near-Mathlib stopped discriminating; needs real decomposition or a multi-step argument |
 
 ```
 in-mathlib     num-infinitude-of-primes    For every natural n there exists a prime p with n <= p
@@ -390,7 +391,19 @@ near-mathlib   top-compact-image           The continuous image of a compact set
 near-mathlib   num-sqrt-two-irrational     The square root of 2 is irrational
 novel          novel-goldbach-small        Every even 2 < n < 100 is a sum of two primes
 novel          novel-sum-of-two-squares    p mod 4 = 1 implies p is a sum of two squares
+hard           hard-amgm-sqrt              sqrt(ab) <= (a+b)/2 for non-negative reals a, b
+hard           hard-sophie-germain         For n > 1, n^4 + 4 is not prime
+hard           hard-sum-odd-squares        The sum of the first n odd numbers equals n squared
+hard           hard-irrational-sqrt-sum    sqrt(2) + sqrt(3) is irrational
+hard           hard-det-vanishes           The determinant of [[1,2,3],[4,5,6],[7,8,9]] is zero
 ```
+
+**Why `hard` exists.** `near-mathlib` stopped discriminating — 7/7 on a
+recent run with only one goal needing real mathematical insight, the rest
+solved by a bridging lemma the agent could find by name. Each `hard` goal was
+chosen so retrieval alone cannot supply the answer (see each goal's `note` in
+`eval/proofs.json`); four need a real multi-step argument or decomposition,
+and `hard-sum-odd-squares` is a deliberate control expected to be solvable.
 
 **Tier design note.** `in-mathlib` vs `near-mathlib` was chosen so retrieval
 and bridging can be measured separately. `num-primes-strictly-above` sits in
