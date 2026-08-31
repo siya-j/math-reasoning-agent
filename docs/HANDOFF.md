@@ -366,7 +366,7 @@ Non-env constants: `TEMPERATURE=0.0`, `MAX_ATTEMPTS=3`, `MAX_SUBCLAIMS=4`,
 **`eval/golden.json`** — 109 verification cases. `scripts/evaluate.py` exits
 non-zero on any soundness failure, so it works as a regression gate.
 
-**`eval/proofs.json`** — 20 proof goals in four tiers:
+**`eval/proofs.json`** — 25 proof goals in five tiers:
 
 | Tier | n | Meaning |
 |---|---|---|
@@ -374,6 +374,7 @@ non-zero on any soundness failure, so it works as a regression gate.
 | `near-mathlib` | 7 | Mathlib has it in a different shape; needs a bridge |
 | `novel` | 2 | not in Mathlib |
 | `hard` | 5 | near-Mathlib stopped discriminating; needs real decomposition or a multi-step argument |
+| `deep` | 5 | a simple statement whose proof necessarily needs advanced machinery — not one advanced methods merely shorten |
 
 ```
 in-mathlib     num-infinitude-of-primes    For every natural n there exists a prime p with n <= p
@@ -396,6 +397,11 @@ hard           hard-sophie-germain         For n > 1, n^4 + 4 is not prime
 hard           hard-sum-odd-squares        The sum of the first n odd numbers equals n squared
 hard           hard-irrational-sqrt-sum    sqrt(2) + sqrt(3) is irrational
 hard           hard-det-vanishes           The determinant of [[1,2,3],[4,5,6],[7,8,9]] is zero
+deep           deep-fta                    Every non-constant complex polynomial has a root
+deep           deep-liouville              A bounded entire function is constant
+deep           deep-nielsen-schreier       Every subgroup of a free group is free
+deep           deep-sylow                  p^n | |G| implies G has a subgroup of order p^n
+deep           deep-dirichlet-ap           Infinitely many primes are congruent to a mod n
 ```
 
 **Why `hard` exists.** `near-mathlib` stopped discriminating — 7/7 on a
@@ -404,6 +410,20 @@ solved by a bridging lemma the agent could find by name. Each `hard` goal was
 chosen so retrieval alone cannot supply the answer (see each goal's `note` in
 `eval/proofs.json`); four need a real multi-step argument or decomposition,
 and `hard-sum-odd-squares` is a deliberate control expected to be solvable.
+
+**Why `deep` exists, and how it differs from `hard`.** `hard` asks whether
+the agent can find an idea Mathlib doesn't state directly. `deep` asks a
+narrower question: is there exactly ONE kind of tool that could possibly
+work — a named theorem from complex analysis, topology, or a specific
+group-theoretic argument — and does the agent recognise that and go get
+it? Each goal is a simple, famous statement whose standard proof is not
+reachable by `omega`/`ring`/`nlinarith`/induction at all. Every claim and
+its Mathlib citation were checked against the local Mathlib source
+directly, not assumed — see `docs/deep-tier-candidates.md`, which also
+documents classical candidates considered and dropped (Fermat's
+sum-of-two-squares, Bertrand's postulate, Abel–Ruffini) because they turned
+out to have genuine elementary proofs or, for Abel–Ruffini, because
+Mathlib's file proves only one direction of it.
 
 **Tier design note.** `in-mathlib` vs `near-mathlib` was chosen so retrieval
 and bridging can be measured separately. `num-primes-strictly-above` sits in

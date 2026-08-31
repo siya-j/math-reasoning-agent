@@ -143,7 +143,7 @@ def test_the_existing_seven_goal_benchmark_is_untouched():
     """THE guard. ProofNet must not perturb the numbers we already trust."""
     goals = load_goals()          # the default eval/proofs.json
 
-    assert len(goals) == 20
+    assert len(goals) == 25
     assert len([g for g in goals if g.tier is Tier.NEAR_MATHLIB]) == 7
     assert not any(g.tier is Tier.PROOFNET for g in goals), (
         "ProofNet leaked into the curated dataset"

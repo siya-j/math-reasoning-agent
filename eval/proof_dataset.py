@@ -17,6 +17,15 @@ result, would score identically on a flat list.
                    goal is out of reach. Added because near-mathlib stopped
                    discriminating: it scored 7/7 while only one of its seven
                    goals needed an actual mathematical idea.
+    deep           a SIMPLE statement whose proof necessarily needs advanced
+                   machinery — not a tedious elementary proof that advanced
+                   methods merely shorten (per docs/deep-tier-candidates.md,
+                   every claim checked against the local Mathlib source, not
+                   assumed). Different question from `hard`: that tier asks
+                   whether the agent can find an idea Mathlib doesn't state
+                   directly; this one asks whether it recognises that ONLY a
+                   specific piece of deep machinery (a named theorem, not a
+                   tactic) can possibly close the goal, and finds it.
 
 The `mathlib` field records the theorem's name where it is known, so a
 failure can be attributed: if the lemma is there and the model missed it,
@@ -38,8 +47,9 @@ class Tier(str, Enum):
     NEAR_MATHLIB = "near-mathlib"
     NOVEL = "novel"
     HARD = "hard"
-    # External benchmark, loaded from its own file via --goals. Our four
-    # curated tiers are goals we chose; this one is not, which is the point.
+    DEEP = "deep"
+    # External benchmark, loaded from its own file via --goals. Our curated
+    # tiers are goals we chose; this one is not, which is the point.
     PROOFNET = "proofnet"
 
 

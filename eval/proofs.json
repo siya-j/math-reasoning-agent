@@ -158,5 +158,45 @@
     "tier": "hard",
     "mathlib": null,
     "note": "Only Matrix.det_fin_three (an expansion, not an answer) is relevant via Loogle. Expected failure mode is notation/plumbing (!![...] entries), not mathematics -- a bridge probe, not strong evidence about reasoning either way."
+  },
+  {
+    "id": "deep-fta",
+    "area": "complex analysis",
+    "goal": "Every non-constant polynomial with complex coefficients has a root in the complex numbers.",
+    "tier": "deep",
+    "mathlib": "Complex.exists_root",
+    "note": "Complex.exists_root {f : ℂ[X]} (hf : 0 < degree f) : ∃ z, IsRoot f z, confirmed in Mathlib/Analysis/Complex/Polynomial/Basic.lean, whose own docstring says it proves this using Liouville's theorem. No purely algebraic or real-analytic proof exists -- every known route needs complex analysis, a topological winding-number argument, or Galois theory. See docs/deep-tier-candidates.md."
+  },
+  {
+    "id": "deep-liouville",
+    "area": "complex analysis",
+    "goal": "A function from the complex numbers to the complex numbers that is complex differentiable everywhere and whose values are bounded must be constant.",
+    "tier": "deep",
+    "mathlib": "Differentiable.exists_eq_const_of_bounded",
+    "note": "Differentiable.exists_eq_const_of_bounded {f : E → F} (hf : Differentiable ℂ f) (hb : IsBounded (Set.range f)) : ∃ c, f = Function.const E c, confirmed in Mathlib/Analysis/Complex/Liouville.lean. Inherently complex-analytic -- bounds all derivatives from one bound on f via Cauchy's integral formula -- and the real-variable analogue is FALSE (sin x is real differentiable everywhere and bounded, not constant), so no elementary substitute can exist. See docs/deep-tier-candidates.md."
+  },
+  {
+    "id": "deep-nielsen-schreier",
+    "area": "group theory",
+    "goal": "Every subgroup of a free group is itself a free group.",
+    "tier": "deep",
+    "mathlib": "subgroupIsFreeOfIsFree",
+    "note": "subgroupIsFreeOfIsFree {G} [Group G] [IsFreeGroup G] (H : Subgroup G) : IsFreeGroup H, confirmed in Mathlib/GroupTheory/FreeGroup/NielsenSchreier.lean, docstring \"The Nielsen-Schreier theorem\". Classical proofs need covering-space topology or the combinatorial Reidemeister-Schreier method; no proof from the group axioms alone is known. Honest caveat: this is an `instance`, not a plain theorem, sitting on unfamiliar IsFreeGroupoid/Groupoid infrastructure -- expect this to test Lean-idiom translation as much as recognition. See docs/deep-tier-candidates.md."
+  },
+  {
+    "id": "deep-sylow",
+    "area": "group theory",
+    "goal": "If p is a prime number and p to the power n divides the order of a finite group G, then G has a subgroup of order p to the power n.",
+    "tier": "deep",
+    "mathlib": "Sylow.exists_subgroup_card_pow_prime",
+    "note": "Sylow.exists_subgroup_card_pow_prime [Finite G] (p : ℕ) {n} [Fact p.Prime] (hdvd : p^n ∣ Nat.card G) : ∃ K, Nat.card K = p^n, confirmed in Mathlib/GroupTheory/Sylow.lean. Borderline pick, flagged deliberately: needs a genuine group-action/orbit-counting idea, not reducible to induction on order alone, but the idea is textbook-clever rather than machinery from an outside field -- cut first if the tier needs trimming toward stricter cases. See docs/deep-tier-candidates.md."
+  },
+  {
+    "id": "deep-dirichlet-ap",
+    "area": "number theory",
+    "goal": "If a and n are coprime natural numbers, there are infinitely many prime numbers congruent to a modulo n.",
+    "tier": "deep",
+    "mathlib": "Nat.forall_exists_prime_gt_and_modEq",
+    "note": "Nat.forall_exists_prime_gt_and_modEq (m : ℕ) {q a} (hq : q ≠ 0) (h : a.Coprime q) : ∃ p > m, p.Prime ∧ p ≡ a [MOD q], confirmed in Mathlib/NumberTheory/LSeries/PrimesInAP.lean, docstring \"Dirichlet's Theorem\". The general theorem's only known proofs use Dirichlet L-functions (L(1,χ) ≠ 0 for every nontrivial character); no elementary proof of the general coprime case exists. Deepest citation target in the set -- buried behind hundreds of lines of L-function machinery, itself a real test of retrieval. See docs/deep-tier-candidates.md."
   }
 ]
