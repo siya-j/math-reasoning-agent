@@ -94,9 +94,28 @@ START_TIMEOUT = float(os.getenv("MRA_LEAN_REPL_START_TIMEOUT", "600"))
 # 140 with an out-of-memory kill is worse than one that pays a 35s import every
 # so often.
 #
-# Deliberately NOT tuned. 200 is a conservative guess; the threshold is here to
-# be measured later, not to be optimal now.
-MAX_COMMANDS = int(os.getenv("MRA_LEAN_REPL_MAX_COMMANDS", "200"))
+# MEASURED, finally, with `scripts/measure_repl_memory.py --replay-from`
+# replaying 113 real statements and proofs recorded from actual runs (not the
+# script's own synthetic set, which measured 0.06 MB/command and was shown by
+# the OOM-at-goal-140 incident above to be a floor, not an estimate — a
+# 140-goal run at ~1,120 commands would have used under 100 MB at that rate,
+# and it did not). The real corpus grew a live session by 0.32 MB/command over
+# 400 commands. The seed was 200 — real proof attempts cost roughly 5x that
+# guess in retained memory, but 200 * 0.32 MB is still only ~64 MB, nowhere
+# near the 4-6 GB Mathlib itself already costs, which means 200 was reserving
+# almost no memory at all: it was paying the ~25-75s reimport far more often
+# than the memory risk it exists for ever required.
+#
+# 2000 is chosen deliberately below the 6,000-25,000 range the script's own
+# per-headroom arithmetic would suggest from this one measurement: that
+# arithmetic extrapolates 15-60x past the 400 commands actually observed, and
+# one data point does not earn that much confidence. At the measured rate,
+# 2000 commands retain ~640 MB — comfortably under a GB, a fraction of what a
+# loaded session already costs — while cutting how often the reimport is paid
+# to a tenth of what 200 required. Re-run the script with more commands
+# before raising this further; the growth rate over 400 is not proof it stays
+# linear over 10,000.
+MAX_COMMANDS = int(os.getenv("MRA_LEAN_REPL_MAX_COMMANDS", "2000"))
 
 # Asks the running Lean what version it is. Compared against the project's
 # lean-toolchain at session start, because a REPL built for a different Lean

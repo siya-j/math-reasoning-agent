@@ -840,13 +840,19 @@ def test_a_recycled_session_cannot_carry_state(recyclable):
     assert first.process is None, "the old session was not closed"
 
 
-def test_recycling_is_configurable_and_conservative_by_default(monkeypatch):
+def test_recycling_is_configurable_and_measured_by_default(monkeypatch):
+    """MEASURED, `scripts/measure_repl_memory.py --replay-from` against 113
+    real recorded statements and proofs: 0.32 MB/command. 2000 retains ~640
+    MB at recycle — comfortably under a GB, a fraction of what a loaded
+    session already costs — deliberately short of the far larger number that
+    measurement's own arithmetic would allow, since it extrapolates well
+    past the 400 commands actually observed."""
     import importlib
 
     monkeypatch.delenv("MRA_LEAN_REPL_MAX_COMMANDS", raising=False)
     reloaded = importlib.reload(_repl)
     try:
-        assert reloaded.MAX_COMMANDS == 200
+        assert reloaded.MAX_COMMANDS == 2000
     finally:
         monkeypatch.setattr(_repl, "MAX_COMMANDS", reloaded.MAX_COMMANDS)
 
