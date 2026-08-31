@@ -302,6 +302,60 @@ def test_an_explicit_by_block_is_not_double_wrapped():
     assert source.count("by") == 1
 
 
+def test_every_line_of_a_multiline_proof_is_indented_not_just_the_first():
+    """MEASURED, `hard-sophie-germain`: a real skeleton submitted as
+
+        rcases n with _ | n
+        · contradiction
+        · rcases n with _ | m
+          · contradiction
+          · sorry
+
+    used to become, after wrapping:
+
+        theorem mra_goal ... := by
+          rcases n with _ | n
+        · contradiction
+        · rcases n with _ | m
+          · contradiction
+          · sorry
+
+    `rcases` at column 2, every bullet at column 0 — shallower than the
+    tactic that opened the block, which ends it right there in Lean 4's
+    indentation-significant syntax. Both resulting goals were reported
+    "unsolved" no matter what the bullets said, indistinguishable from a
+    genuinely wrong tactic. Every line must sit at the same column as
+    `rcases`, and a bullet nested one level deeper in the ORIGINAL proof
+    must stay one level deeper here too, not collapse to the same column
+    as its parent.
+    """
+    proof = (
+        "rcases n with _ | n\n"
+        "· contradiction\n"
+        "· rcases n with _ | m\n"
+        "  · contradiction\n"
+        "  · sorry"
+    )
+    source = build_source("theorem t (n : Nat) : True", proof)
+    lines = source.splitlines()
+
+    rcases_line = next(l for l in lines if "rcases n with _ | n" in l)
+    top_bullet = next(l for l in lines if l.strip() == "· contradiction")
+    nested_bullet = next(l for l in lines if l.strip() == "· sorry")
+
+    def col(line):
+        return len(line) - len(line.lstrip(" "))
+
+    assert col(top_bullet) == col(rcases_line), (
+        "a sibling bullet must sit at the same column as the tactic "
+        "that opened the block"
+    )
+    assert col(nested_bullet) == col(top_bullet) + 2, (
+        "a bullet nested one level deeper in the SUBMITTED proof must "
+        "stay one level deeper here, not collapse onto its parent"
+    )
+
+
 # ------------------------------------- the real thing, when it is available
 @pytest.mark.skipif(not lean_is_available(), reason="Lean is not installed")
 def test_end_to_end_against_a_real_lean_installation():

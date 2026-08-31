@@ -91,8 +91,25 @@ def declaration(statement: str, proof: str) -> str:
 
     # A bare tactic ("exact foo") needs a `by` block; a term proof or an
     # explicit `by ...` is already well formed and must be left alone.
+    #
+    # EVERY LINE, NOT JUST THE FIRST. MEASURED: `f"by\n  {proof}"` put the
+    # first line at column 2 and left every other line at whatever column the
+    # model wrote it — column 0 for a proof indented consistently relative to
+    # ITSELF, which is the ordinary way to write one. Lean 4's tactic blocks
+    # are indentation-significant: a line shallower than the block's own
+    # first tactic ends the block right there, so `rcases n with _ | n` at
+    # column 2 followed by `· contradiction` at column 0 silently closed the
+    # block after `rcases` alone, leaving BOTH resulting goals unsolved no
+    # matter what the bullets said — reported as "unsolved goals" naming the
+    # ORIGINAL goal, indistinguishable from a genuinely wrong tactic. Every
+    # line gets the same 2-space shift now, so relative indentation the model
+    # wrote — nested bullets one level deeper than their siblings — survives
+    # instead of being collapsed against the block's own column.
     if not proof.startswith(("by", ":=")):
-        proof = f"by\n  {proof}"
+        indented = "\n".join(
+            f"  {line}" if line.strip() else line for line in proof.splitlines()
+        )
+        proof = f"by\n{indented}"
 
     separator = "" if statement.endswith(":=") else " :="
     return f"{statement}{separator} {proof}"
