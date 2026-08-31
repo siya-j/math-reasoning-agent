@@ -28,11 +28,27 @@ the machine real evaluations run on (see any `eval/results/*.json`'s
 WHAT IT DOES
 ------------
 Starts one real REPL session (the same `_repl.Session` the agent uses),
-submits a cycle of small but varied theorem commands — varied because a
+submits a cycle of commands, and samples the process's resident memory
+every `--sample-every` commands, well past the current MAX_COMMANDS so the
+trend past today's recycle point is visible rather than assumed.
+
+By default the commands are small synthetic theorems, varied because a
 retained environment's size depends on what it proved, not just that
-something was proved — and samples the process's resident memory every
-`--sample-every` commands, well past the current MAX_COMMANDS so the trend
-past today's recycle point is visible rather than assumed.
+something was proved — but they are still much simpler than a real proof
+attempt, and MEASURING THAT MAKES THE NUMBER A FLOOR, NOT AN ESTIMATE.
+`_repl.py`'s own docstring records a benchmark that died at goal 140 with
+an out-of-memory kill; a 140-goal run at ~8 attempts each is only ~1,120
+commands, and if trivial commands cost what this script's synthetic set
+costs, that run would have used well under 100 MB. It did not. Real proof
+attempts retain far more per environment than `theorem t : True := trivial`
+does, by however much margin separates those two facts.
+
+`--replay-from PATH [PATH ...]` (default: every `eval/results/*.json`)
+replays the REAL statements and proofs a past run actually submitted —
+the same corpus and extraction `scripts/replay_sources.py` uses — instead
+of the synthetic set. This is the number worth trusting; the synthetic
+default exists mainly to sanity-check the plumbing quickly, offline from
+any prior run.
 
 Needs `psutil` (not a hard dependency of the agent itself — see
 requirements.txt) because Windows has no standard-library way to read a
@@ -54,6 +70,7 @@ from __future__ import annotations
 
 import argparse
 import importlib.util
+import json
 import sys
 import time
 from pathlib import Path
@@ -98,6 +115,45 @@ COMMANDS = [
     "theorem mem_probe_f (s : Set Nat) (h : s.Finite) : s.Finite := h",
 ]
 
+# 600 matches `ProofResult.stages`'s own truncation limit (see
+# `replay_sources.py`) — a longer proof was not stored in full, so replaying
+# it would not be replaying what actually ran.
+TRUNCATED = 600
+
+
+def real_sources_from(paths):
+    """Every real `(label, full Lean source)` a past run actually produced.
+
+    Same extraction `scripts/replay_sources.py` uses, kept local rather than
+    imported from it: that script's `build`/`compile_all` reach into
+    `math_v2.tools._util`, which is the exact `math_v2.tools/__init__.py`
+    import chain this script exists to avoid (see the module docstring).
+    `build_source` alone does not: `verifiers/lean_verifier.py` and what it
+    imports touch no framework and no `math_v2` package at all.
+    """
+    from verifiers.lean_verifier import build_source
+
+    found = []
+    for path in paths:
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            print(f"  could not read {path.name}: {exc}")
+            continue
+        for row in data.get("results", []) if isinstance(data, dict) else []:
+            statement = (row.get("statement") or "").strip()
+            if not statement:
+                continue
+            goal = row.get("goal_id", "?")
+            found.append((f"{goal}/statement", build_source(statement, "sorry")))
+            for index, stage in enumerate(row.get("stages") or [], start=1):
+                proof = (stage.get("proof") or "").strip()
+                if not proof or len(proof) >= TRUNCATED:
+                    continue
+                found.append((f"{goal}/attempt{index}",
+                              build_source(statement, proof)))
+    return found
+
 
 def rss_mb(pid: int) -> float:
     """Resident memory of the WHOLE process tree rooted at `pid`, in MB.
@@ -133,6 +189,11 @@ def main() -> int:
                              "today's MAX_COMMANDS=%d default)" % _repl.MAX_COMMANDS)
     parser.add_argument("--sample-every", type=int, default=10,
                         help="sample RSS every N commands (default 10)")
+    parser.add_argument("--replay-from", nargs="*", default=None, metavar="PATH",
+                        help="replay REAL recorded statements/proofs instead "
+                             "of the synthetic set — no argument means every "
+                             "eval/results/*.json. This is the number worth "
+                             "trusting; see the module docstring.")
     args = parser.parse_args()
     total, every = args.commands, args.sample_every
 
@@ -142,9 +203,27 @@ def main() -> int:
         print("real agent uses — this has to be the same Mathlib checkout.")
         return 2
 
+    real = None
+    if args.replay_from is not None:
+        paths = [Path(p) for p in args.replay_from] or sorted(
+            (ROOT / "eval" / "results").glob("*.json"))
+        real = real_sources_from(paths)
+        if not real:
+            print(f"No real (statement, proof) pairs found in {paths}.")
+            print("Falling back to the synthetic set below is NOT done "
+                  "automatically — that would silently answer a different "
+                  "question than the one --replay-from asked.")
+            return 2
+        print(f"replaying {len(real)} real sources from {len(paths)} file(s)")
+
     print(f"project: {project}")
     print(f"repl binary: {_repl.argv()}")
-    print(f"running {total} commands, sampling every {every}\n")
+    print(f"running {total} commands, sampling every {every}")
+    if real is None:
+        print("SYNTHETIC commands — see --replay-from for the number worth "
+              "trusting.\n")
+    else:
+        print()
 
     session = _repl.Session(cwd=project).start()
     print(f"session started: {session._startup:.1f}s (Mathlib import, one-time)")
@@ -165,10 +244,23 @@ def main() -> int:
 
     samples = [(0, baseline)]
     started = time.time()
+    skipped = 0
     for i in range(1, total + 1):
-        body = COMMANDS[i % len(COMMANDS)]
+        if real is None:
+            body = COMMANDS[i % len(COMMANDS)]
+            run = lambda: session.command(body)  # noqa: E731 - used once, inline is clearer than a branch
+        else:
+            label, source = real[i % len(real)]
+            if _repl.needs_subprocess(source):
+                # Same routing production uses (see `_repl.needs_subprocess`'s
+                # own docstring) — a source with extra imports never reaches
+                # the session for real, so replaying it here would measure a
+                # path this session never actually takes.
+                skipped += 1
+                continue
+            run = lambda source=source: session.run_source(source)  # noqa: E731
         try:
-            session.command(body)
+            run()
         except _repl.ReplUnavailable as exc:
             print(f"\nsession died at command {i}: {exc}")
             break
@@ -179,6 +271,10 @@ def main() -> int:
             print(f"  {i:5d} commands   {mb:8.0f} MB   (+{grown:6.0f} MB since start)")
 
     session.close()
+
+    if skipped:
+        print(f"\n{skipped} source(s) needed a subprocess-only import and "
+              "were skipped, not counted as commands.")
 
     if len(samples) < 3:
         print("\nToo few samples to fit a trend — increase --commands.")
@@ -205,6 +301,11 @@ def main() -> int:
         print(f"  to cap retained memory at {headroom_gb} GB: "
               f"MRA_LEAN_REPL_MAX_COMMANDS={suggested}")
 
+    if real is None:
+        print("\nSYNTHETIC commands measure a FLOOR, not an estimate — real")
+        print("proof attempts are larger and almost certainly retain more per")
+        print("environment. Re-run with --replay-from before trusting the")
+        print("suggestions above for anything.")
     print("\nThis reports; it does not change MAX_COMMANDS. Compare the")
     print("suggestion above against how much memory this machine can actually")
     print("give one long-running session, and set MRA_LEAN_REPL_MAX_COMMANDS")
