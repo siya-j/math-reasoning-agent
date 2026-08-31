@@ -201,6 +201,25 @@ def interpret(result: LeanResult, statement: str, method: str = "lean") -> Verdi
             method,
         )
 
+    if result.outcome is LeanOutcome.UNAVAILABLE:
+        # NOT only "Lean genuinely is not installed" any more. `_util.py`'s
+        # dispatch wraps BOTH the REPL and subprocess paths in one
+        # `except Exception` that reports this outcome for ANY unexpected
+        # failure — a wedged or crashed REPL session, a subprocess that could
+        # not be spawned, whatever `exc` turns out to be — and always writes
+        # the real reason into `result.output` (see
+        # `f"Lean could not be run: {exc}"`).
+        #
+        # MEASURED: this branch did not exist, so every one of those distinct
+        # causes fell through to the same generic guess below regardless of
+        # what `result.output` actually said — a run failing because a REPL
+        # session had crashed printed "Lean is not installed on this machine"
+        # even though Lean plainly was, and there was no way to tell a dead
+        # session apart from a missing binary apart from a spawn failure
+        # without reading source. Surface what was actually recorded instead
+        # of a message that is frequently untrue.
+        return unknown(result.output or "Lean could not be run.", method)
+
     return unknown(
         "Lean is not installed on this machine, so the claim could not be "
         "checked. Install Lean and Mathlib, or set MRA_LEAN to the binary.",

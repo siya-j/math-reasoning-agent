@@ -158,9 +158,26 @@ def test_an_error_block_stops_at_the_next_diagnostic():
 
 # --------------------------------------------------------- honest degradation
 def test_missing_lean_is_unknown_not_a_crash():
+    """No captured detail (the genuine "nothing on this machine" case) still
+    falls back to a message, never a crash."""
     verdict = verifier_returning(LeanOutcome.UNAVAILABLE).verify(request())
     assert verdict.status is S.UNKNOWN
-    assert "not installed" in verdict.detail
+    assert verdict.detail
+
+
+def test_unavailable_surfaces_the_real_reason_not_a_generic_guess():
+    """MEASURED: `_util.py` wraps BOTH the REPL and subprocess paths in one
+    `except Exception`, reporting UNAVAILABLE for a wedged REPL session, a
+    subprocess that could not spawn, or an actually-missing binary alike —
+    and always records which one really happened in `output`. A run failing
+    because a REPL session had crashed used to print "Lean is not installed
+    on this machine" even though Lean plainly was, with no way to tell the
+    causes apart without reading source."""
+    real_reason = "Lean could not be run: the REPL did not answer within 180s"
+    verdict = verifier_returning(LeanOutcome.UNAVAILABLE, real_reason).verify(request())
+    assert verdict.status is S.UNKNOWN
+    assert verdict.detail == real_reason
+    assert "not installed" not in verdict.detail
 
 
 def test_a_timeout_is_unknown_not_false():
