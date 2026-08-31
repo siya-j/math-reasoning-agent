@@ -869,3 +869,61 @@ def test_suspect_refusal_offers_the_declared_goals_negation_not_a_diversions(
         "the offered negation must not be built from the diverted "
         f"current_goal:\n{refusal}"
     )
+
+
+def test_a_cold_start_timeout_on_check_statement_does_not_spend_a_repair_attempt(
+        tmp_path, monkeypatch):
+    """MEASURED live: a cold `lake env lean` timed out on the very first
+    statement check after a Lean project was freshly (re)configured, with no
+    bearing on whether the signature was valid -- and MAX_STATEMENT_CHECKS is
+    only 2, so that alone spent half the agent's entire formalisation budget
+    on a question the compiler never actually judged."""
+    from math_v2.core import budget as budget_module
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    monkeypatch.setattr(budget_module, "MAX_STATEMENT_CHECKS", 2)
+
+    calls = {"n": 0}
+
+    async def run_lean(source):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            return LeanResult(LeanOutcome.TIMEOUT, "timed out after 180s")
+        return LeanResult(LeanOutcome.INCOMPLETE, "declaration uses 'sorry'")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=scripted([
+                      ("check_statement", {"statement": _SOPHIE_GERMAIN}),
+                      ("check_statement", {"statement": _SOPHIE_GERMAIN}),
+                  ]))
+
+    assert calls["n"] == 2, "the second check must actually have run, not been cached"
+    assert budget_module.summary(str(tmp_path))["statement_checks"] == 1, (
+        "the timed-out first check must not count against the cap -- only "
+        "the second, genuine one should"
+    )
+
+
+def test_an_ordinary_rejection_still_counts_as_a_real_check(tmp_path, monkeypatch):
+    """The refund is specifically for infrastructure failures. An ordinary
+    compiler rejection IS the syntax being judged, and must still count."""
+    from math_v2.core import budget as budget_module
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    monkeypatch.setattr(budget_module, "MAX_STATEMENT_CHECKS", 2)
+
+    async def run_lean(source):
+        return LeanResult(LeanOutcome.ERRORS, "f.lean:1:1: error: unknown identifier 'Foo'")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: run_lean)
+
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=scripted([
+                      ("check_statement", {"statement": _SOPHIE_GERMAIN}),
+                  ]))
+
+    assert budget_module.summary(str(tmp_path))["statement_checks"] == 1, (
+        "a genuine rejection must still be charged"
+    )

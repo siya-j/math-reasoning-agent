@@ -117,9 +117,19 @@ async def check_statement(statement: str, runtime: ToolRuntime[MathContext]) -> 
     # becomes what the run is reported as being about.
     from math_v2.tools.retrieval import get_search
 
-    return await proving.check_statement(
+    result = await proving.check_statement(
         workdir, goal, lean_runner(workdir), get_search()
     )
+    # MEASURED: a cold-start `lake env lean` timing out, or a crashed REPL
+    # session, used to burn one of only MAX_STATEMENT_CHECKS=2 formalisation
+    # attempts exactly like a genuine syntax mistake would — half the budget
+    # spent on a question the compiler never actually judged. `lean_calls`
+    # stays charged (a real compile genuinely ran and cost real time); only
+    # the repair-attempt count is refunded, and only when the compiler never
+    # rendered a verdict at all.
+    if result.get("outputs", {}).get("infra_failure"):
+        budget.refund_statement_check(workdir)
+    return result
 
 
 @tool

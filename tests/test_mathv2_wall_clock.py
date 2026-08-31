@@ -261,6 +261,47 @@ def test_the_count_is_reported(tmp_path):
     assert budget.summary(workdir)["statement_checks"] == 1
 
 
+def test_refund_statement_check_undoes_one_charge(tmp_path):
+    """MEASURED: a cold-start `lake env lean` timeout, or a crashed REPL
+    session, used to burn one of only MAX_STATEMENT_CHECKS=2 formalisation
+    attempts exactly like a genuine syntax mistake would -- half the budget
+    spent on a question the compiler never actually judged."""
+    workdir = str(tmp_path)
+    budget.reset(workdir)
+
+    budget.spend(workdir, lean=True, statement_check=True)
+    budget.refund_statement_check(workdir)
+
+    assert budget.summary(workdir)["statement_checks"] == 0
+
+
+def test_refund_never_goes_negative(tmp_path):
+    workdir = str(tmp_path)
+    budget.reset(workdir)
+
+    budget.refund_statement_check(workdir)
+
+    assert budget.summary(workdir)["statement_checks"] == 0
+
+
+def test_a_refunded_check_leaves_room_for_a_genuine_third_attempt(tmp_path, monkeypatch):
+    """The actual point: refunding an infra failure must leave the cap able
+    to accept another real check, not just report a nicer number afterward."""
+    monkeypatch.setattr(budget, "MAX_STATEMENT_CHECKS", 2)
+    workdir = str(tmp_path)
+    budget.reset(workdir)
+
+    assert budget.spend(workdir, lean=True, statement_check=True) is None
+    budget.refund_statement_check(workdir)  # that one was an infra failure
+    assert budget.spend(workdir, lean=True, statement_check=True) is None
+    assert budget.spend(workdir, lean=True, statement_check=True) is None
+    # Two GENUINE checks are now charged (the refunded one doesn't count), so
+    # a third is refused exactly as it would be without ever hitting an
+    # infra failure -- the cap still means what it always meant.
+    stop = budget.spend(workdir, lean=True, statement_check=True)
+    assert stop is not None
+
+
 # --------------------------- 3. Option A: identical source is not recompiled
 class CountingBackend:
     def __init__(self, outcome=LeanOutcome.ERRORS):

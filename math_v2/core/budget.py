@@ -445,6 +445,24 @@ def charge_lean(workdir, count):
     _save(workdir, data, state)
 
 
+def refund_statement_check(workdir):
+    """Undo one `statement_check` charge — the compile never judged the syntax.
+
+    `spend(statement_check=True)` charges BEFORE the compile runs, because the
+    budget cannot know in advance whether a call will time out. `lean_calls`
+    stays charged either way — a real Lean process ran and the time was
+    genuinely spent — but `MAX_STATEMENT_CHECKS` is only 2, and it exists to
+    bound how many times the model may re-word a signature, not to bound how
+    many times the machine may be slow. Call this only when the result came
+    back as an infrastructure failure (timeout, or Lean could not be run at
+    all), never on a genuine compiler verdict — an ordinary rejection still
+    counts, because that IS the syntax being judged.
+    """
+    data, state = _state(workdir)
+    state["statement_checks"] = max(0, state.get("statement_checks", 0) - 1)
+    _save(workdir, data, state)
+
+
 def summary(workdir):
     """What was spent, for `finish` to report."""
     state = read(workdir)

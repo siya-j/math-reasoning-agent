@@ -34,7 +34,7 @@ import re
 from pipeline.skeleton import fill_hole, hole_claims
 from pipeline.tactics import cheap_attempt
 from retrieval.loogle import Premise, conclusion_of
-from verifiers.lean_runner import has_placeholder
+from verifiers.lean_runner import LeanOutcome, has_placeholder
 from verifiers.lean_verifier import build_source, declaration, interpret
 from domain.verdict import VerificationStatus
 
@@ -254,6 +254,15 @@ async def check_statement(workdir, statement, run_lean, search=None):
         "sorry" in verdict.detail or "admit" in verdict.detail
     )
 
+    # MEASURED: a cold-start `lake env lean` (first compile against a
+    # freshly-configured project, or against a REPL session that had just
+    # crashed) can time out or fail to run at all, with no bearing on whether
+    # the SIGNATURE itself is valid. `MAX_STATEMENT_CHECKS` is only 2 -- one
+    # infrastructure hiccup was silently spending half the agent's entire
+    # formalisation budget on a question the compiler never actually judged.
+    # The tool layer reads this to refund the charge in that case.
+    infra_failure = result.outcome in (LeanOutcome.TIMEOUT, LeanOutcome.UNAVAILABLE)
+
     log.append(workdir, log.Record(
         kind=log.STATEMENT_CHECK, statement=statement,
         status=log.TRUE if elaborates else log.FALSE, detail=verdict.detail,
@@ -279,7 +288,8 @@ async def check_statement(workdir, statement, run_lean, search=None):
                            + listed}
     return {
         "ok": True,
-        "outputs": {"elaborates": False, "detail": verdict.detail},
+        "outputs": {"elaborates": False, "detail": verdict.detail,
+                   "infra_failure": infra_failure},
         "message": (
             "Lean cannot make sense of this STATEMENT, so no proof of it can "
             "compile. The fault is in the signature, not in any proof.\n"
