@@ -37,16 +37,29 @@ past today's recycle point is visible rather than assumed.
 Needs `psutil` (not a hard dependency of the agent itself — see
 requirements.txt) because Windows has no standard-library way to read a
 process's working set. Install it with `pip install psutil` to run this.
+
+DOES NOT NEED THE AGENT'S OWN DEPENDENCIES INSTALLED. MEASURED: a plain
+`from math_v2.tools import _repl` drags in `math_v2/tools/__init__.py`,
+which eagerly imports every tool including `control.py`, which needs
+`langchain` — a real dependency of running the agent, and nothing to do
+with reading one process's memory. `_repl.py` itself imports only `math_v2
+._local` and the standard library, so it is loaded here by file path,
+bypassing `math_v2.tools`'s own `__init__.py` entirely. This script should
+run in an environment that has never installed the agent's requirements at
+all, because it is answering a question about the Lean process, not the
+agent wrapped around it.
 """
 
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import sys
 import time
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 
 try:
     import psutil
@@ -56,8 +69,22 @@ except ImportError:
     print("this measurement:\n\n    pip install psutil\n")
     raise SystemExit(2)
 
-from math_v2 import _local  # noqa: E402
-from math_v2.tools import _repl  # noqa: E402
+
+def _load_bare(name: str, path: Path):
+    """Import one module by file path, without running its package's
+    `__init__.py`. See the module docstring above for why this is needed."""
+    spec = importlib.util.spec_from_file_location(name, path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+import math_v2  # noqa: E402 - safe: its own __init__ is lazy by design
+
+_local = _load_bare("math_v2._local", ROOT / "math_v2" / "_local.py")
+math_v2._local = _local
+_repl = _load_bare("math_v2.tools._repl", ROOT / "math_v2" / "tools" / "_repl.py")
 
 # Varied on purpose: a retained environment's size depends on what it proved.
 # Cycling through these is closer to a real run than repeating one command,
