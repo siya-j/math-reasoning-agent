@@ -15,3 +15,8 @@ langchain-ollama
 # Optional agent harness, selected with MRA_HARNESS=deepagents.
 # Needs Python 3.11+. The default harness needs nothing extra.
 # deepagents
+
+# Optional, for scripts/measure_repl_memory.py only. Not needed to run the
+# agent itself — Windows just has no standard-library way to read a process's
+# working set, which that script needs.
+# psutil
