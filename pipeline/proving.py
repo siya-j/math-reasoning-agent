@@ -94,6 +94,28 @@ def environment() -> dict:
     return {"prover": config.PROVER}
 
 
+def budget_profile(name: str) -> dict:
+    """Environment defaults for a named budget profile, applied via
+    `os.environ.setdefault` — an env var already exported still wins.
+
+    THE SAME SEAM AS `environment`/`prove`, for the same reason:
+    `scripts/evaluate_proofs.py` must not import `math_v2` directly. Only
+    the math_v2 prover has a budget-profile system today; on any other
+    configured prover this applies nothing and returns {}.
+    """
+    if config.PROVER != MATH_V2:
+        return {}
+
+    import os
+
+    from math_v2.core import budget
+
+    profile = {"hard-reasoning": budget.HARD_REASONING}[name]
+    for key, value in profile.items():
+        os.environ.setdefault(key, value)
+    return profile
+
+
 def prove(goal: str, **kwargs) -> ProofRun:
     """Run the configured prover, instrumented identically either way."""
     from pipeline import agentic_prover, prover

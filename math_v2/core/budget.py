@@ -168,6 +168,45 @@ BENCHMARK_2026_08 = {
     "MRA_MAX_CONSECUTIVE_SEARCHES": "3",
 }
 
+# A deliberately-larger step for goals that need real multi-step search --
+# PutnamBench, and the `hard`/`deep` tiers -- NOT an attempt at SOTA's scale.
+# SOTA reference points, for calibration only, never a target: LongCat-Flash-
+# Prover uses up to 220 attempts/problem; Seed-Prover 1.5's solve-time tail
+# runs to 53h/problem; CAM-Bench's own protocol gives agentic systems an
+# 8-hour budget/instance; Aleph Prover spends $23-68 of compute per Putnam
+# problem. All financially and practically inappropriate for a cost-conscious
+# individual on Gemini 3.5 Flash -- this profile steps up from the default,
+# it does not chase hours/hundreds of attempts.
+#
+# MAX_LEAN_CALLS: MEASURED, not guessed. `hard-irrational-sqrt-sum` needed
+# MORE than 12 real compiles to get from "every needed lemma proved" to
+# "assembled" -- it overran the CURRENT default even past what
+# docs/hard-tier-candidates.md estimated (5-8). 40 clears the observed
+# failure point with real margin, not barely.
+#
+# MAX_SECONDS: 40 compiles at ~45s worst-case each is already 1800s before
+# any search or model latency; 3600s (1 hour) leaves headroom for both while
+# staying inside one sitting, not SOTA's multi-hour tail.
+#
+# MAX_TOOL_CALLS: kept at roughly the default's ~3.3:1 ratio to lean calls.
+# MAX_SEARCHES: kept at the default's 1:1 ratio to lean calls.
+# MAX_CONSECUTIVE_SEARCHES stays at 3 -- it bounds a RUN of searching with no
+# compile in between, a rule that doesn't depend on the total budget's size.
+# MAX_STATEMENT_CHECKS stays at the global default (2, left OUT of this
+# dict) -- it bounds re-wording a SIGNATURE, and a harder proof does not make
+# the signature harder to state; moving it without a measured reason would
+# repeat the exact mistake LEAN_RESERVE_SECONDS's own history warns against.
+#
+# Applied by `scripts/evaluate_proofs.py --budget-profile hard-reasoning`,
+# via `os.environ.setdefault` -- an env var you already exported still wins.
+HARD_REASONING = {
+    "MRA_MAX_AGENT_SECONDS": "3600",
+    "MRA_MAX_AGENT_LEAN": "40",
+    "MRA_MAX_AGENT_STEPS": "120",
+    "MRA_MAX_AGENT_SEARCHES": "40",
+    "MRA_MAX_CONSECUTIVE_SEARCHES": "3",
+}
+
 # Searching is only useful EARLY. Measured across four ProofNet goals: the
 # clock is bought by model latency, not tool work — roughly 31 seconds per
 # tool call — so a 300s budget buys about ten turns however high

@@ -51,6 +51,11 @@ class Tier(str, Enum):
     # External benchmark, loaded from its own file via --goals. Our curated
     # tiers are goals we chose; this one is not, which is the point.
     PROOFNET = "proofnet"
+    # PutnamBench (github.com/trishullab/PutnamBench): 672 competition
+    # problems, the Lean statement always given. Unlike ProofNet, there is no
+    # informal-only mode -- the formal statement is the whole point of this
+    # benchmark, so `--mode` does not exist on eval/putnam.py.
+    PUTNAM = "putnam"
 
 
 @dataclass(frozen=True)

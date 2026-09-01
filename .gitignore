@@ -14,3 +14,7 @@ eval/last_proof_run.json
 # run into a timestamped folder with its logs, artefacts and a manifest of the
 # model, package versions and git commit. That is the durable experimental
 # record and it belongs in history.
+
+# PutnamBench-derived goal files may embed MAA-permissioned informal text
+# (informal/putnam.json). Never committed -- see eval/putnam.py.
+eval/putnam*.json

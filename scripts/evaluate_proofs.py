@@ -119,6 +119,18 @@ def save(results, summary, out: Path) -> None:
     )
 
 
+def apply_budget_profile(name: str) -> dict:
+    """The named profile's environment defaults, applied and returned.
+
+    Routed through `pipeline.proving.budget_profile` — the same seam
+    `environment()`/`prove()` use, so this evaluator never imports a prover
+    directly. Returns what was applied, for the run's own printed summary.
+    """
+    from pipeline.proving import budget_profile
+
+    return budget_profile(name)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -153,6 +165,14 @@ def main() -> int:
         "--resume",
         action="store_true",
         help="skip goals already decided in the last run (not errors)",
+    )
+    parser.add_argument(
+        "--budget-profile", choices=("hard-reasoning",),
+        help="apply a named set of larger budget defaults (see "
+        "pipeline.proving.budget_profile) before the first prove() call. "
+        "An env var you already exported always wins -- this only fills in "
+        "what is not already set. No-op under a prover other than the one "
+        "the profile's env vars belong to.",
     )
     parser.add_argument(
         "--pace", type=float, default=0.0,
@@ -196,6 +216,14 @@ def main() -> int:
     if not goals:
         print("No goals matched.")
         return 2
+
+    if args.budget_profile:
+        profile = apply_budget_profile(args.budget_profile)
+        print(f"budget profile: {args.budget_profile} "
+              f"({', '.join(f'{k}={v}' for k, v in profile.items())})")
+    elif any(g.tier.value in ("putnam", "hard", "deep") for g in goals):
+        print("hint: this selection includes putnam/hard/deep goals; "
+              "consider --budget-profile hard-reasoning\n")
 
     if not lean_is_available():
         print("WARNING: Lean not found. Every goal will be NOT PROVED.\n")
