@@ -175,6 +175,100 @@ def test_the_refusal_names_the_tool_that_would_satisfy_it(tmp_path):
     assert "try_proof" in message
 
 
+# ------------------------------ 1b. not_a_claim: free unless the log objects
+def record_check(workdir, status=None, statement=STATEMENT):
+    log.append(str(workdir), log.Record(kind=log.STATEMENT_CHECK,
+                                        statement=statement,
+                                        status=status or log.TRUE))
+
+
+def test_not_a_claim_costs_nothing_when_nothing_was_ever_checked(tmp_path):
+    """A bare formula pasted with no question attached. Unlike
+    `statement_suspect`, this must be free -- demanding a compiled attempt
+    would force inventing a signature for something that was never a claim,
+    which is the exact fabrication this outcome exists to avoid."""
+    result = call_finish(tmp_path, outcome="not_a_claim", claim="F = ma")
+
+    assert result["accepted"] is True
+
+
+def test_not_a_claim_requires_the_claim_field(tmp_path):
+    """So the report is auditable against what was actually given, not just
+    the agent's account of it."""
+    result = call_finish(tmp_path, outcome="not_a_claim", claim="")
+
+    assert result["ok"] is False
+    assert result["error"] == "claim_required"
+
+
+def test_not_a_claim_is_refused_once_a_statement_elaborated(tmp_path):
+    """THE soundness gate. Lean accepting a signature IS what a claim looks
+    like -- no proof attempt is even needed to close this off, because
+    elaboration alone already contradicts "there was nothing here"."""
+    record_check(tmp_path, status=log.TRUE)
+
+    result = call_finish(tmp_path, outcome="not_a_claim", claim="F = ma")
+
+    assert result["accepted"] is False
+    assert result["error"] == "nonclaim_unearned"
+    assert "proved" in result["message"] or "not_proved" in result["message"]
+
+
+def test_not_a_claim_is_refused_once_a_proof_is_accepted(tmp_path):
+    log.append(str(tmp_path), log.Record(kind=log.PROOF, statement=STATEMENT,
+                                         proof="by simp", status=log.TRUE))
+
+    result = call_finish(tmp_path, outcome="not_a_claim", claim="F = ma")
+
+    assert result["accepted"] is False
+    assert result["error"] == "nonclaim_unearned"
+
+
+def test_a_hard_but_real_claim_cannot_escape_through_not_a_claim(tmp_path):
+    """THE dodge this gate exists to close: a claim that elaborated and then
+    was genuinely tried and failed is not `not_a_claim` -- it is
+    `not_proved`, and that honest exit must stay open on the same state."""
+    record_check(tmp_path, status=log.TRUE)
+    record_attempt(tmp_path, status=log.UNKNOWN)   # tried, rejected
+
+    dodge = call_finish(tmp_path, outcome="not_a_claim", claim="hard claim")
+    honest = call_finish(tmp_path, outcome="not_proved")
+
+    assert dodge["accepted"] is False
+    assert honest["accepted"] is True
+
+
+def test_not_a_claim_does_not_demand_a_compiled_attempt(tmp_path):
+    """Deliberate asymmetry with `statement_suspect`, whose equivalent
+    empty-log case (`test_calling_a_statement_suspect_without_proving_
+    anything_is_refused`) is refused. No compile is evidence about the SHAPE
+    of the original input, so none is required here."""
+    result = call_finish(tmp_path, outcome="not_a_claim", claim="F = ma")
+
+    assert result["accepted"] is True
+    assert not log.records(str(tmp_path), log.PROOF)
+    assert not log.records(str(tmp_path), log.REFUTATION)
+
+
+def test_not_a_claim_is_recorded_in_the_trace_when_accepted(tmp_path):
+    call_finish(tmp_path, outcome="not_a_claim", claim="F = ma")
+
+    assert any("reported not a claim" in e
+              for e in log.read(str(tmp_path))["trace"])
+
+
+def test_a_genuine_proved_claim_is_unaffected_by_the_new_outcome(tmp_path):
+    """Regression: the new outcome must not change anything about the
+    existing, unrelated `proved` path."""
+    record_check(tmp_path, status=log.TRUE)
+    log.append(str(tmp_path), log.Record(kind=log.PROOF, statement=STATEMENT,
+                                         proof="by norm_num", status=log.TRUE))
+
+    result = call_finish(tmp_path, outcome="proved", statement=STATEMENT)
+
+    assert result["accepted"] is True
+
+
 # -------------------------------------------- 2. the reserve is now measured
 def test_the_reserve_starts_at_the_seed_with_nothing_measured():
     assert budget.reserve({}) == min(budget.LEAN_RESERVE_SECONDS,

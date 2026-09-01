@@ -30,6 +30,13 @@ OutcomeLit = Literal[
     # being counted as a proving failure. Measured on exercise_1_13c, where
     # the agent correctly observed that the domain is not assumed connected.
     "statement_suspect",
+    # What was given was never an assertion -- a bare formula, definition or
+    # law pasted with nothing attached to check. Not a failure to formalise
+    # or prove; there was nothing of that kind to formalise or prove. Refused
+    # if the log already shows a claim WAS found (an elaborated statement or
+    # a compiled proof), so this cannot be used to discard a real claim that
+    # turned out to be hard. See verdict.nonclaim_refusal.
+    "not_a_claim",
 ]
 
 # Which engine a claim was put to. Recorded so a report cannot blur the line

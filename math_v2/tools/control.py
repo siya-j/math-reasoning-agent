@@ -50,12 +50,19 @@ async def finish(
     Args:
         summary: what you did and what you concluded, for the reader.
         outcome: proved | not_proved | not_formalized | verified_true |
-            verified_false | not_verified | statement_suspect. Use `proved`
-            only when `try_proof` reported ACCEPTED. A symbolic computation is
-            never `proved`. Use `statement_suspect` when the theorem looks
-            false or ill-posed AS WRITTEN — say why in the summary. That is
-            recorded as your report, not accepted as fact, and it keeps a
-            broken statement from counting against the proof rate.
+            verified_false | not_verified | statement_suspect | not_a_claim.
+            Use `proved` only when `try_proof` reported ACCEPTED. A symbolic
+            computation is never `proved`. Use `statement_suspect` when the
+            theorem looks false or ill-posed AS WRITTEN — say why in the
+            summary. That is recorded as your report, not accepted as fact,
+            and it keeps a broken statement from counting against the proof
+            rate. Use `not_a_claim` when what you were given was never an
+            assertion to check — a bare formula, definition or law with no
+            question attached — rather than forcing it into a theorem
+            signature or a symbolic check it was never asking for. Refused
+            if the record already shows a claim was formalised or proved:
+            this is for when there was nothing to formalise, not for a claim
+            that turned out to be hard.
         statement: the formal statement you are claiming, when reporting a
             proof. Required for `proved` — it is what the record is matched
             against, so a proof of a different claim cannot be offered for
@@ -63,10 +70,43 @@ async def finish(
         claim: the user's original question, in their words. Used to check
             that the theorem proved is the one that was asked about. Strongly
             recommended for `proved`: a proof of the wrong theorem is more
-            convincing than no proof at all, not less.
+            convincing than no proof at all, not less. Required for
+            `not_a_claim`, so the report can be checked against what was
+            actually given rather than only your account of it.
     """
     workdir = runtime.context.workdir
     decision = verdict.proof_verdict(workdir, statement)
+
+    # Distinct from STATEMENT_SUSPECT below: that is a claim that turned out
+    # to look false or ill-posed; this is a report that there was no claim to
+    # begin with (a bare formula, definition or law with nothing attached to
+    # check). No effort toll — see `verdict.nonclaim_refusal`'s own docstring
+    # for why demanding one here would recreate the exact fabrication this
+    # outcome exists to prevent. `claim` is required so the report is
+    # auditable against what was actually given, not just the agent's word.
+    if outcome == verdict.NOT_A_CLAIM:
+        if not claim.strip():
+            return {
+                "ok": False,
+                "accepted": False,
+                "error": "claim_required",
+                "message": (
+                    "To report `not_a_claim` you must say, in `claim`, what "
+                    "you were actually given — so the report is auditable "
+                    "against the request rather than just your word for it."
+                ),
+            }
+        unfounded = verdict.nonclaim_refusal(workdir)
+        if unfounded:
+            return {
+                "ok": True,
+                "accepted": False,
+                "outcome": verdict.NOT_PROVED,
+                "error": "nonclaim_unearned",
+                "message": "REFUSED. " + unfounded,
+                "budget": budget.summary(workdir),
+            }
+        log.note(workdir, f"reported not a claim: {summary[:300]}")
 
     # Recorded in the trace, where the evaluator reads it. Never a verdict:
     # the guard still reports the goal as unproved, and this only stops a

@@ -87,11 +87,15 @@ async def proof_state(runtime: ToolRuntime[MathContext]) -> dict:
 async def check_statement(statement: str, runtime: ToolRuntime[MathContext]) -> dict:
     """Check that a Lean theorem signature makes sense before proving it.
 
-    Call this FIRST for any claim you intend to prove. It compiles the
-    signature with a placeholder proof, so the only thing under test is whether
-    Lean can understand the claim. A signature naming something Mathlib no
-    longer has can never be proved by anyone, and finding that out costs one
-    compilation instead of eight.
+    Call this FIRST for any claim you intend to prove — and only once there
+    IS a claim: an assertion that could be true or false, not a bare formula,
+    definition or law pasted with nothing attached to check. If what you have
+    has no relation to confirm or deny, writing a signature for it invents a
+    claim rather than tests one; call `finish(outcome="not_a_claim")` instead.
+    It compiles the signature with a placeholder proof, so the only thing
+    under test is whether Lean can understand the claim. A signature naming
+    something Mathlib no longer has can never be proved by anyone, and
+    finding that out costs one compilation instead of eight.
 
     It also sets the statement for the other proof tools, so you do not need to
     repeat it.

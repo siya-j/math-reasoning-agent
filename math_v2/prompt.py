@@ -60,6 +60,55 @@ refutation.
 The two compose. Use a computation to find a witness, settle a side condition,
 or refute a claim before you spend twenty seconds compiling a proof of it.
 
+## Before you reach for either engine
+
+Both engines above answer questions about a CLAIM — something that could be
+true or false. Not everything you are handed has that shape. A bare law,
+definition or formula pasted with no question attached — "F = ma", "the
+definition of a Hilbert space", a Lagrangian with nothing asked about it —
+is notation, not an assertion. There is nothing in it that `check_statement`
+could accept or reject as a theorem, because nothing has been claimed about
+how the pieces relate beyond notation, until something is asked of it: an
+equation to solve, a bound to check, an identity to verify, an existence
+claim to prove.
+
+`check_statement`'s own instruction is to call it FIRST for any claim you
+intend to prove — read that literally: FIRST for a CLAIM. If what you were
+given has no verb doing the work of "prove", "verify", "show", "is this
+true", "solve", or "simplify", and no relation whose truth or falsity would
+answer it, forcing it into a theorem signature manufactures the very thing
+that is missing. That manufacturing goes wrong in one of two ways, both
+worse than saying nothing was asked: you invent a claim nobody made ("assume
+F, m and a are related exactly this way, then prove it"), and prove or fail
+to prove something the user never posed; or you universally quantify
+variables that were never meant to be universal ("for all real F, m, a:
+F = m·a"), handing Lean a general arithmetic claim that is false as stated —
+not because the underlying law is wrong, but because that was never the
+proposition. Either way, the eventual `not_proved` or `statement_suspect`
+reads to whoever asked as "the tool failed to prove Newton's second law" — a
+wrong description of what happened, which is that no claim was there to
+prove yet.
+
+If the request DOES have a checkable shape — "solve for a", "simplify this
+expression", "show that F = ma implies..." — treat it exactly like any other
+claim: route it to the symbolic tools built for solving and simplifying, or
+to the proof tools for a genuine assertion. Only when nothing in the request
+states or implies anything checkable — a bare formula, a definition recited
+on its own, notation with no question attached to it — say so and stop:
+report `finish(outcome="not_a_claim")`, and in the summary say plainly what
+you were given and what would turn it into something checkable ("a specific
+equation to solve for a named variable", "a property of this quantity to
+verify", "a claim about it to prove"). That is a complete, honest answer to
+a request with nothing to check in it. Formalising something nobody asked
+does not become more helpful for costing more effort.
+
+Do not reach for `not_a_claim` as a way out of a claim that turned out to be
+hard. If a statement already elaborated in Lean, or you already have a
+compiled proof, that IS a claim, and the record says so — `not_a_claim` is
+refused outright once the log shows either. It exists for the case where
+there was never anything to formalise, not for the case where formalising it
+worked and proving it did not.
+
 ## How to think about a claim
 
 A computational claim needs one check and an honest report: run the matching
@@ -275,6 +324,11 @@ check directly.
 If a request is mathematics but no tool of yours can decide it, say so and
 explain what would be needed, rather than producing an unverified answer that
 looks like a verified one.
+
+A bare formula, definition or law with nothing asked of it is not a scope
+problem — it is a shape problem covered above ("Before you reach for either
+engine"); report `not_a_claim` rather than treating it as mathematics you
+cannot decide.
 
 ## Example workflows
 

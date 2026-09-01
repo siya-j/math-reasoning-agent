@@ -282,7 +282,7 @@ def test_finish_counts_the_record_rather_than_asking(tmp_path):
 
 
 def test_the_outcome_vocabulary_is_closed():
-    """A seventh outcome would be a silent no-op in the guard."""
+    """A ninth outcome would be a silent no-op in the guard."""
     import typing
 
     from math_v2.tools._enums import OutcomeLit
@@ -292,4 +292,6 @@ def test_the_outcome_vocabulary_is_closed():
         verdict.VERIFIED_TRUE, verdict.VERIFIED_FALSE, verdict.NOT_VERIFIED,
         # A REPORT that the benchmark row looks wrong, not a verdict on it.
         "statement_suspect",
+        # A REPORT that nothing here was an assertion to begin with.
+        verdict.NOT_A_CLAIM,
     }

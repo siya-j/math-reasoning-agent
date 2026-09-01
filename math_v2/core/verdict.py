@@ -48,6 +48,13 @@ STATEMENT_SUSPECT = "statement_suspect"
 # a verdict: it rests on a compilation, not on the agent's account of one. The
 # agent never claims it — `finish` derives it from the record.
 REFUTED = "refuted"
+# What was given was never an assertion at all -- a bare formula, definition
+# or law with nothing attached to check. Like STATEMENT_SUSPECT, a REPORT
+# rather than something the guard can verify directly (no record holds the
+# user's original, un-formalised request) -- but refused outright the moment
+# the log shows a claim WAS found, so it cannot be used to discard one that
+# turned out to be hard. See `nonclaim_refusal`.
+NOT_A_CLAIM = "not_a_claim"
 
 BANNERS = {
     PROVED: "PROVED (Lean accepted a complete proof)",
@@ -58,6 +65,7 @@ BANNERS = {
     NOT_VERIFIED: "NOT VERIFIED",
     STATEMENT_SUSPECT: "STATEMENT SUSPECT (the agent's report, not a verdict)",
     REFUTED: "REFUTED (Lean accepted a proof of the negation)",
+    NOT_A_CLAIM: "NOT A CLAIM (nothing here asserted anything to check)",
 }
 
 
@@ -304,5 +312,43 @@ def suspect_refusal(workdir: str) -> str:
             "from your counterexample, then derive the contradiction. If the "
             "attempt is rejected you may report `statement_suspect` anyway — "
             "what is not allowed is not having tried."
+        )
+    return ""
+
+
+def nonclaim_refusal(workdir: str) -> str:
+    """Why `not_a_claim` is not yet allowed. "" when it is.
+
+    DIFFERENT SHAPE FROM `suspect_refusal` ON PURPOSE. That gate demands a
+    compiled attempt because a rejection is evidence about the MATHEMATICS —
+    it can show why a claim is false. No compile is evidence about whether
+    the ORIGINAL input was a claim at all: that is a fact about the shape of
+    the request, not about any theorem, and forcing an attempt here would
+    make the model invent a signature to satisfy the gate — exactly the
+    fabrication this outcome exists to avoid. So there is no effort toll.
+    A genuine non-claim costs nothing to report, by design.
+
+    The risk this DOES have to close is different: a real, hard claim
+    reported as `not_a_claim` to avoid an honest `not_proved`. That is not
+    caught by demanding effort — it is caught by checking whether the log
+    already contradicts the claim that there was nothing here.
+    """
+    if log.accepted_proof(workdir):
+        return (
+            "The record already shows a compiled proof in this run. Report "
+            "`proved` for that statement — you cannot also report that "
+            "nothing here was a claim."
+        )
+    elaborated = any(
+        record.get("status") == log.TRUE
+        for record in log.records(workdir, log.STATEMENT_CHECK)
+    )
+    if elaborated:
+        return (
+            "Lean already accepted a formal statement in this run, which is "
+            "exactly what a claim looks like. Report `proved` or "
+            "`not_proved` for it instead — `not_a_claim` is for when there "
+            "was never anything to formalise, not for a claim that turned "
+            "out to be hard."
         )
     return ""
