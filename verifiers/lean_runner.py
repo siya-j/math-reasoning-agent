@@ -210,7 +210,12 @@ def mathlib_is_available() -> bool:
 
     ok = False
     if lean_toolchain_works():
-        probe = run_lean("import Mathlib\n")
+        # `config.LEAN_COLD_TIMEOUT`, not the default: this compile IS the cold
+        # `import Mathlib`, and at 60s it timed out on a machine where Mathlib
+        # was perfectly reachable -- reporting "unavailable" for what was only
+        # "slow". Slow is not the same as absent, exactly as slow is not the
+        # same as false.
+        probe = run_lean("import Mathlib\n", timeout=config.LEAN_COLD_TIMEOUT)
         ok = probe.outcome is LeanOutcome.COMPILED
     _MATHLIB_AVAILABLE["ok"] = ok
     return ok

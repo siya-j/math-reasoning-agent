@@ -40,7 +40,11 @@ READ THE EXIT CODE
 0  every claimed proof recompiled
 1  at least one did not -- a soundness failure, and the loudest signal this
    repo can produce
-2  nothing could be checked (no claims, or the artefact was not retained)
+2  verification was INCOMPLETE: no claims, an artefact that was not
+   retained, or a compile that timed out or could not run. Deliberately
+   neither 0 nor 1 -- "could not check" is not a pass and not a soundness
+   failure, and conflating it with either is how a checker stops being
+   believed.
 """
 
 from __future__ import annotations
@@ -53,10 +57,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+import config  # noqa: E402
 from verifiers.lean_runner import LeanOutcome, run_lean  # noqa: E402
 from verifiers.lean_verifier import build_source  # noqa: E402
 
 PROVED = "proved"
+# A third answer, distinct from pass and fail. See `check`.
+UNCHECKED = "unchecked"
 
 
 def source_for(claim: dict) -> str:
@@ -89,7 +96,8 @@ def check(claim: dict, runner=None) -> tuple:
     `pipeline/proving.py` documents for `kwargs.setdefault`, and it made the
     exit-code test compile against real Lean instead of the injected fake.
     """
-    runner = runner or run_lean
+    runner = runner or (
+        lambda source: run_lean(source, timeout=config.LEAN_COLD_TIMEOUT))
     if not (claim.get("proof") or "").strip():
         return False, (
             "NO PROOF RETAINED — this result predates the change that stores "
@@ -105,26 +113,42 @@ def check(claim: dict, runner=None) -> tuple:
             "USES `sorry` OR `admit` — Lean exits cleanly on these and they "
             "prove nothing. This is a soundness failure, not a compile error."
         )
+    # SLOW IS NOT UNSOUND, AND NEITHER IS ABSENT. MEASURED: with the default
+    # 60s timeout a cold `import Mathlib` does not finish, and this fell
+    # through to "REJECTED", which the run reported as a soundness failure
+    # with "do not quote a proof rate". On a machine where Lean, the project
+    # and Mathlib were all healthy it would have condemned a genuine proof.
+    # A false alarm in a soundness checker is worse than no checker: it
+    # teaches the reader to ignore the real ones.
+    if result.outcome in (LeanOutcome.TIMEOUT, LeanOutcome.UNAVAILABLE):
+        return UNCHECKED, (
+            f"COULD NOT CHECK ({result.outcome.value}) — this says nothing "
+            "about the proof. A cold `import Mathlib` is slow; raise "
+            "MRA_LEAN_COLD_TIMEOUT, or run scripts/diagnose_lean.py."
+        )
     return False, f"REJECTED — {(result.output or '').strip()[:400]}"
 
 
 def verify(path: Path, runner=None) -> tuple:
-    """(checked, failures) for one results file, printing as it goes."""
+    """(checked, failures, unchecked) for one file, printing as it goes."""
     runner = runner or run_lean
     claims = claims_in(path)
     print(f"\n{path}")
     if not claims:
         print("  no `proved` results to check")
-        return 0, []
+        return 0, [], []
 
     failures = []
+    unchecked = []
     for claim in claims:
         ok, note = check(claim, runner)
-        mark = "  ok  " if ok else "  FAIL"
+        mark = {True: "  ok  ", UNCHECKED: "  ??  "}.get(ok, "  FAIL")
         print(f"{mark}  {claim.get('goal_id', '?')}  {note}")
-        if not ok:
+        if ok is UNCHECKED:
+            unchecked.append((claim.get("goal_id", "?"), note))
+        elif not ok:
             failures.append((claim.get("goal_id", "?"), note))
-    return len(claims), failures
+    return len(claims), failures, unchecked
 
 
 def main(argv=None) -> int:
@@ -139,10 +163,12 @@ def main(argv=None) -> int:
 
     checked = 0
     failures = []
+    unchecked = []
     for path in paths:
-        count, failed = verify(path, run_lean)
+        count, failed, skipped = verify(path)
         checked += count
         failures.extend(failed)
+        unchecked.extend(skipped)
 
     print("\n" + "-" * 60)
     if not checked:
@@ -155,6 +181,13 @@ def main(argv=None) -> int:
         print("\nA claim that does not recompile is a soundness failure. Do "
               "not quote a proof rate from this run until it is explained.")
         return 1
+    if unchecked:
+        # NOT exit 0. Those claims were never actually tested, and reporting
+        # that as a pass is exactly how an unverified run gets quoted as a
+        # verified one.
+        print(f"{len(unchecked)} of {checked} claimed proofs COULD NOT BE "
+              "CHECKED (see above). The rest recompiled.")
+        return 2
     print(f"all {checked} claimed proof(s) recompiled independently")
     return 0
 

@@ -513,8 +513,11 @@ def test_mathlib_reachability_requires_an_actual_compile(monkeypatch):
 
     monkeypatch.setattr(lean_runner, "_MATHLIB_AVAILABLE", {})
     monkeypatch.setattr(lean_runner, "lean_toolchain_works", lambda: True)
+    # `**_` because the probe passes `timeout=LEAN_COLD_TIMEOUT`: a cold
+    # `import Mathlib` does not finish inside the default 60s, and a double
+    # that cannot accept the keyword hides that the real call changed.
     monkeypatch.setattr(lean_runner, "run_lean",
-                        lambda source: LeanResult(LeanOutcome.COMPILED))
+                        lambda source, **_: LeanResult(LeanOutcome.COMPILED))
 
     assert lean_runner.mathlib_is_available() is True
 
@@ -525,7 +528,7 @@ def test_an_unresolved_mathlib_import_is_not_availability(monkeypatch):
 
     monkeypatch.setattr(lean_runner, "_MATHLIB_AVAILABLE", {})
     monkeypatch.setattr(lean_runner, "lean_toolchain_works", lambda: True)
-    monkeypatch.setattr(lean_runner, "run_lean", lambda source: LeanResult(
+    monkeypatch.setattr(lean_runner, "run_lean", lambda source, **_: LeanResult(
         LeanOutcome.ERRORS, "error: unknown module prefix 'Mathlib'"))
 
     assert lean_runner.mathlib_is_available() is False
@@ -538,7 +541,7 @@ def test_mathlib_is_not_probed_when_lean_cannot_run(monkeypatch):
     monkeypatch.setattr(lean_runner, "_MATHLIB_AVAILABLE", {})
     monkeypatch.setattr(lean_runner, "lean_toolchain_works", lambda: False)
 
-    def explode(source):
+    def explode(source, **_):
         raise AssertionError("compiled despite Lean being unusable")
 
     monkeypatch.setattr(lean_runner, "run_lean", explode)
@@ -554,7 +557,7 @@ def test_the_mathlib_probe_is_cached(monkeypatch):
     calls = []
     monkeypatch.setattr(lean_runner, "_MATHLIB_AVAILABLE", {})
     monkeypatch.setattr(lean_runner, "lean_toolchain_works", lambda: True)
-    monkeypatch.setattr(lean_runner, "run_lean", lambda source: (
+    monkeypatch.setattr(lean_runner, "run_lean", lambda source, **_: (
         calls.append(source), LeanResult(LeanOutcome.COMPILED))[1])
 
     lean_runner.mathlib_is_available()

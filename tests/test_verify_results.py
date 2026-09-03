@@ -139,16 +139,19 @@ def test_only_proved_results_are_checked(tmp_path):
     path = _write(tmp_path, [claim(), claim(goal_id="g2", outcome="not_proved"),
                              claim(goal_id="g3", outcome="exhausted")])
 
-    checked, failures = verify_results.verify(path, lean(LeanOutcome.COMPILED))
+    checked, failures, unchecked = verify_results.verify(
+        path, lean(LeanOutcome.COMPILED))
 
     assert checked == 1
     assert failures == []
+    assert unchecked == []
 
 
 def test_a_failure_is_reported_with_its_goal(tmp_path):
     path = _write(tmp_path, [claim(), claim(goal_id="bad")])
 
-    checked, failures = verify_results.verify(path, lean(LeanOutcome.INCOMPLETE))
+    checked, failures, _ = verify_results.verify(
+        path, lean(LeanOutcome.INCOMPLETE))
 
     assert checked == 2
     assert [goal for goal, _ in failures] == ["g1", "bad"]
@@ -222,3 +225,64 @@ def test_the_results_record_keeps_the_lemmas_the_proof_cites():
                               tier=Tier.IN_MATHLIB), run)
 
     assert record.lemmas == ("lemma helper : True := trivial",)
+
+
+# ------------------------------------- slow, absent, and unsound are three
+# MEASURED, on a machine where Lean 4.33.1, the Lake project and Mathlib were
+# all healthy: `import Mathlib` cold TIMED OUT at the default 60s, and this
+# script reported the run's one genuine proof as a soundness failure telling
+# the reader not to quote their proof rate. A checker that cries wolf is worse
+# than no checker.
+@pytest.mark.parametrize("outcome", [LeanOutcome.TIMEOUT,
+                                     LeanOutcome.UNAVAILABLE])
+def test_a_timeout_or_missing_lean_is_not_a_soundness_failure(outcome):
+    ok, note = verify_results.check(claim(), lean(outcome))
+
+    assert ok is verify_results.UNCHECKED, note
+    assert "COULD NOT CHECK" in note
+    assert "soundness" not in note.lower()
+
+
+def test_an_unchecked_claim_exits_two_rather_than_zero(tmp_path, monkeypatch):
+    """"Could not check" must not read as "verified". This is the same
+    conflation the exit codes already separate for the empty case, one step
+    further in."""
+    monkeypatch.setattr(verify_results, "run_lean", lean(LeanOutcome.TIMEOUT))
+    path = _write(tmp_path, [claim()])
+
+    assert verify_results.main([str(path)]) == 2
+
+
+def test_an_unchecked_claim_does_not_exit_one_either(tmp_path, monkeypatch):
+    """Exit 1 means "a claimed proof did not recompile", which is a statement
+    about the PROOF. A timeout is a statement about the machine."""
+    monkeypatch.setattr(verify_results, "run_lean", lean(LeanOutcome.TIMEOUT))
+    path = _write(tmp_path, [claim()])
+
+    assert verify_results.main([str(path)]) != 1
+
+
+def test_a_real_failure_still_outranks_an_unchecked_one(tmp_path, monkeypatch):
+    """With both present, the soundness failure is the headline -- it must not
+    be downgraded to "incomplete" by an unrelated timeout elsewhere."""
+    calls = {"n": 0}
+
+    def alternating(source):
+        calls["n"] += 1
+        outcome = (LeanOutcome.INCOMPLETE if calls["n"] == 1
+                   else LeanOutcome.TIMEOUT)
+        return LeanResult(outcome, "")
+
+    monkeypatch.setattr(verify_results, "run_lean", alternating)
+    path = _write(tmp_path, [claim(), claim(goal_id="g2")])
+
+    assert verify_results.main([str(path)]) == 1
+
+
+def test_the_unchecked_note_says_how_to_fix_it():
+    """A diagnosis the reader cannot act on is a dead end -- the same reason
+    the Mathlib skip reason names MRA_LEAN_PROJECT."""
+    _, note = verify_results.check(claim(), lean(LeanOutcome.TIMEOUT))
+
+    assert "MRA_LEAN_COLD_TIMEOUT" in note
+    assert "diagnose_lean" in note

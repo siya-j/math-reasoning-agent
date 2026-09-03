@@ -47,6 +47,7 @@ situation this file exists to make visible rather than comfortable.
 
 import pytest
 
+import config
 from verifiers.lean_runner import (
     LeanOutcome,
     cheating_devices,
@@ -80,8 +81,15 @@ def judged(source):
     or an unavailable binary would all satisfy it. Every test below routes
     through here so infrastructure can never masquerade as a finding.
     """
-    result = run_lean(source)
+    # `LEAN_COLD_TIMEOUT`, because every compile in this file is a COLD one:
+    # a fresh subprocess paying for `import Mathlib` from scratch. MEASURED:
+    # at the default 60s even the bare import does not finish.
+    result = run_lean(source, timeout=config.LEAN_COLD_TIMEOUT)
     assert result.outcome is not LeanOutcome.UNAVAILABLE, "Lean did not run"
+    assert result.outcome is not LeanOutcome.TIMEOUT, (
+        f"the compile timed out at {config.LEAN_COLD_TIMEOUT}s, so this "
+        "measured nothing; raise MRA_LEAN_COLD_TIMEOUT"
+    )
     assert "unknown module prefix" not in (result.output or ""), (
         f"Mathlib was not on the search path, so this measured nothing:\n"
         f"{result.output}"

@@ -57,6 +57,7 @@ def main() -> int:
         line("  has .lake/packages", (project / ".lake" / "packages").is_dir()
              if project.is_dir() else "n/a")
     line("MRA_LEAN_TIMEOUT", config.LEAN_TIMEOUT)
+    line("MRA_LEAN_COLD_TIMEOUT", config.LEAN_COLD_TIMEOUT)
 
     print("\nWHAT `lean --version` SAYS")
     print("-" * 60)
@@ -80,7 +81,7 @@ def main() -> int:
     print("\nCOMPILING `import Mathlib`")
     print("-" * 60)
     print("  (this is the real probe; it may take a while)")
-    result = run_lean("import Mathlib\n")
+    result = run_lean("import Mathlib\n", timeout=config.LEAN_COLD_TIMEOUT)
     line("outcome", result.outcome.value)
     print("  output:")
     for text in (result.output or "(no output)").splitlines()[:20]:
@@ -91,6 +92,18 @@ def main() -> int:
     if result.outcome is LeanOutcome.COMPILED:
         print("  Mathlib is reachable. tests/test_lean_real.py will RUN.")
         return 0
+
+    if result.outcome is LeanOutcome.TIMEOUT:
+        # MEASURED: this was the real answer on a machine where every other
+        # row above was healthy. A timeout is not an absence, and the earlier
+        # version of this script lumped it in with "the compile failed, read
+        # the output" -- of which there was none, because a timeout produces
+        # no output at all.
+        print(f"  The compile TIMED OUT at {config.LEAN_COLD_TIMEOUT}s. That")
+        print("  is not evidence Mathlib is missing -- a cold `import")
+        print("  Mathlib` in a fresh subprocess is genuinely slow. Raise")
+        print("  MRA_LEAN_COLD_TIMEOUT and try again.")
+        return 1
 
     print("  Mathlib is NOT reachable, so those tests will skip. Likely fix,")
     print("  based on the rows above:")

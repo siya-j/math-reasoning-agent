@@ -39,6 +39,21 @@ LEAN_PROJECT = os.getenv("MRA_LEAN_PROJECT", "")
 # Slow is not the same as false.
 LEAN_TIMEOUT = int(os.getenv("MRA_LEAN_TIMEOUT", "60"))
 
+# THE SAME QUESTION ASKED COLD, WHICH IS A DIFFERENT QUESTION. 60s above is
+# tuned for the agent's own compiles, which go through a warm REPL session
+# that has already paid for `import Mathlib` once. Anything using `run_lean`
+# directly -- the offline verifier, `scripts/verify_results.py`,
+# `tests/test_lean_real.py` -- pays that import on every call, in a fresh
+# subprocess.
+#
+# MEASURED, on a healthy Lean 4.33.1 with a fully built Mathlib project:
+# `import Mathlib` alone TIMED OUT at 60s. `math_v2/tools/_repl.py` records
+# cold-import figures of 40.5s and 116s, and LEAN_RESERVE_SECONDS was raised
+# to 120 against real subprocess-mode calls of 55-300s. 60s was never going
+# to be enough for a cold compile, and treating that timeout as an answer is
+# how `verify_results.py` came to report a real proof as a soundness failure.
+LEAN_COLD_TIMEOUT = int(os.getenv("MRA_LEAN_COLD_TIMEOUT", "600"))
+
 # --- theorem proving (Prover Agent, arXiv 2506.19923) --------------------
 # Direct attempts before falling back to compiler-guided refinement.
 PROOF_ATTEMPTS = 2
