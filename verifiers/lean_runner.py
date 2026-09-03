@@ -125,7 +125,57 @@ _NATIVE = re.compile(r"\b(native_decide|ofReduceBool|ofReduceNat)\b")
 
 
 def lean_is_available(command: str | None = None) -> bool:
+    """Is the `lean` BINARY on PATH? Says nothing about whether it can run.
+
+    Kept as-is because three scripts use it as exactly that question. See
+    `lean_toolchain_works` for the stronger one, and the note there for why
+    the difference turned out to matter.
+    """
     return shutil.which(command or config.LEAN_COMMAND) is not None
+
+
+_TOOLCHAIN_WORKS: dict = {}
+
+
+def lean_toolchain_works(command: str | None = None) -> bool:
+    """Can Lean actually COMPILE anything, not merely be found on PATH?
+
+    MEASURED, and the reason this exists: on a machine where elan is
+    installed but no toolchain is configured, `lean_is_available` returns True
+    and every compile then fails with
+
+        error: no default toolchain configured. run `elan default stable` ...
+
+    So the one real-Lean test in this repo did not SKIP in that environment --
+    it FAILED. Across a long working session that failure was read as
+    environmental noise and deselected every time, which is how the single
+    test guarding the foundation of the whole system quietly stopped running
+    at all. A check that cannot run must be skipped loudly, never failed
+    quietly, or it trains everyone to ignore it.
+
+    NEITHER `which` NOR THE EXIT CODE IS SUFFICIENT, both measured here:
+    `which lean` finds the elan shim, and `lean --version` under an
+    unconfigured elan prints that error and still EXITS 0. So the output is
+    inspected for the version banner a working Lean prints.
+
+    Cached, because a `skipif` at module scope evaluates on every collection
+    and this spawns a process.
+    """
+    name = command or config.LEAN_COMMAND
+    if name in _TOOLCHAIN_WORKS:
+        return _TOOLCHAIN_WORKS[name]
+
+    works = False
+    if shutil.which(name):
+        try:
+            probe = subprocess.run(
+                [name, "--version"], capture_output=True, text=True, timeout=60,
+            )
+            works = "lean (version" in (probe.stdout or "").lower()
+        except (OSError, subprocess.SubprocessError):
+            works = False
+    _TOOLCHAIN_WORKS[name] = works
+    return works
 
 
 def _uses_placeholder(source: str, output: str) -> bool:

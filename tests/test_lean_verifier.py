@@ -12,7 +12,7 @@ import pytest
 
 from domain.verdict import VerificationStatus as S
 from domain.verification import VerificationKind, VerificationRequest
-from verifiers.lean_runner import LeanOutcome, LeanResult, lean_is_available
+from verifiers.lean_runner import LeanOutcome, LeanResult, lean_toolchain_works
 from verifiers.lean_verifier import LeanVerifier, build_source, rename_goal
 
 STATEMENT = "theorem infinitude_of_primes : ∀ n : ℕ, ∃ p, n < p ∧ Nat.Prime p"
@@ -357,7 +357,19 @@ def test_every_line_of_a_multiline_proof_is_indented_not_just_the_first():
 
 
 # ------------------------------------- the real thing, when it is available
-@pytest.mark.skipif(not lean_is_available(), reason="Lean is not installed")
+# GATED ON `lean_toolchain_works`, NOT `lean_is_available`. MEASURED: with elan
+# installed but no toolchain configured, `lean_is_available` is True, so this
+# test did not skip -- it FAILED, with "no default toolchain configured". Read
+# as environmental noise and deselected run after run, which is how the only
+# test guarding the compiler's own behaviour stopped running at all. A check
+# that cannot run must skip loudly rather than fail quietly.
+#
+# tests/test_lean_real.py is the thorough version of this; this stays as the
+# smoke test.
+@pytest.mark.skipif(
+    not lean_toolchain_works(),
+    reason="Lean has no usable toolchain (see lean_toolchain_works)",
+)
 def test_end_to_end_against_a_real_lean_installation():
     from verifiers.lean_runner import run_lean
 
@@ -398,3 +410,89 @@ def test_renaming_keeps_binders_and_a_trailing_assignment():
 
 def test_renaming_leaves_a_statement_with_no_declaration_alone():
     assert rename_goal("example : True") == "example : True"
+
+
+# ------------------------------------------------------------ the real-Lean gate
+# OFFLINE, and living here rather than in tests/test_lean_real.py, because that
+# file's module-level `pytestmark` skips everything in it wherever Lean cannot
+# run -- which would have skipped these too, on exactly the machines where
+# getting the gate right matters most.
+class _Probe:
+    def __init__(self, stdout):
+        self.stdout = stdout
+        self.stderr = ""
+
+
+def test_the_gate_rejects_an_unconfigured_toolchain(monkeypatch):
+    """THE case that made this file necessary. `which lean` finds the elan
+    shim and `lean --version` EXITS 0 while printing the toolchain error, so
+    neither the path check nor the return code can be trusted -- both measured
+    on the machine this was written on."""
+    from verifiers import lean_runner
+
+    monkeypatch.setattr(lean_runner, "_TOOLCHAIN_WORKS", {})
+    monkeypatch.setattr(lean_runner.shutil, "which", lambda name: "/x/lean")
+    monkeypatch.setattr(lean_runner.subprocess, "run", lambda *a, **k: _Probe(
+        "error: no default toolchain configured. run `elan default stable`"))
+
+    assert lean_runner.lean_toolchain_works("lean") is False
+
+
+def test_the_gate_accepts_a_working_toolchain(monkeypatch):
+    from verifiers import lean_runner
+
+    monkeypatch.setattr(lean_runner, "_TOOLCHAIN_WORKS", {})
+    monkeypatch.setattr(lean_runner.shutil, "which", lambda name: "/x/lean")
+    monkeypatch.setattr(lean_runner.subprocess, "run",
+                        lambda *a, **k: _Probe("Lean (version 4.33.0)"))
+
+    assert lean_runner.lean_toolchain_works("lean") is True
+
+
+def test_the_gate_says_no_when_lean_is_absent_without_probing(monkeypatch):
+    from verifiers import lean_runner
+
+    monkeypatch.setattr(lean_runner, "_TOOLCHAIN_WORKS", {})
+    monkeypatch.setattr(lean_runner.shutil, "which", lambda name: None)
+
+    def explode(*a, **k):
+        raise AssertionError("probed a binary that is not there")
+
+    monkeypatch.setattr(lean_runner.subprocess, "run", explode)
+
+    assert lean_runner.lean_toolchain_works("lean") is False
+
+
+def test_a_broken_probe_is_not_a_working_toolchain(monkeypatch):
+    """A timeout or an OSError must read as "cannot compile", never as an
+    exception escaping into collection -- a `skipif` that raises takes the
+    whole test session down."""
+    from verifiers import lean_runner
+
+    for boom in (OSError("nope"), lean_runner.subprocess.TimeoutExpired("lean", 1)):
+        monkeypatch.setattr(lean_runner, "_TOOLCHAIN_WORKS", {})
+        monkeypatch.setattr(lean_runner.shutil, "which", lambda name: "/x/lean")
+
+        def raiser(*a, **k):
+            raise boom
+
+        monkeypatch.setattr(lean_runner.subprocess, "run", raiser)
+
+        assert lean_runner.lean_toolchain_works("lean") is False
+
+
+def test_the_probe_is_cached_so_collection_does_not_respawn_it(monkeypatch):
+    """`skipif` at module scope evaluates on every collection, and this spawns
+    a process."""
+    from verifiers import lean_runner
+
+    calls = []
+    monkeypatch.setattr(lean_runner, "_TOOLCHAIN_WORKS", {})
+    monkeypatch.setattr(lean_runner.shutil, "which", lambda name: "/x/lean")
+    monkeypatch.setattr(lean_runner.subprocess, "run", lambda *a, **k: (
+        calls.append(1), _Probe("Lean (version 4.33.0)"))[1])
+
+    lean_runner.lean_toolchain_works("lean")
+    lean_runner.lean_toolchain_works("lean")
+
+    assert len(calls) == 1
