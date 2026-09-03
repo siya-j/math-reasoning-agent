@@ -496,3 +496,68 @@ def test_the_probe_is_cached_so_collection_does_not_respawn_it(monkeypatch):
     lean_runner.lean_toolchain_works("lean")
 
     assert len(calls) == 1
+
+
+# --------------------------------------------- the Mathlib-reachability gate
+# MEASURED, and the reason this gate exists as well as the toolchain one: on a
+# machine with a perfectly healthy Lean but `MRA_LEAN_PROJECT` unset, all
+# eleven real-Lean tests ran against bare `lean`. Seven failed with "unknown
+# module prefix 'Mathlib'" and FOUR PASSED FOR THE WRONG REASON, because an
+# assertion of the form "this did not compile" is satisfied by any
+# infrastructure fault. A gate proving Lean RUNS does not prove Mathlib is
+# REACHABLE.
+def test_mathlib_reachability_requires_an_actual_compile(monkeypatch):
+    """`import Mathlib` resolving is not inferable from the binary or the
+    version -- it depends on a Lake project, so it has to be compiled."""
+    from verifiers import lean_runner
+
+    monkeypatch.setattr(lean_runner, "_MATHLIB_AVAILABLE", {})
+    monkeypatch.setattr(lean_runner, "lean_toolchain_works", lambda: True)
+    monkeypatch.setattr(lean_runner, "run_lean",
+                        lambda source: LeanResult(LeanOutcome.COMPILED))
+
+    assert lean_runner.mathlib_is_available() is True
+
+
+def test_an_unresolved_mathlib_import_is_not_availability(monkeypatch):
+    """The exact observed failure: Lean runs, the import does not resolve."""
+    from verifiers import lean_runner
+
+    monkeypatch.setattr(lean_runner, "_MATHLIB_AVAILABLE", {})
+    monkeypatch.setattr(lean_runner, "lean_toolchain_works", lambda: True)
+    monkeypatch.setattr(lean_runner, "run_lean", lambda source: LeanResult(
+        LeanOutcome.ERRORS, "error: unknown module prefix 'Mathlib'"))
+
+    assert lean_runner.mathlib_is_available() is False
+
+
+def test_mathlib_is_not_probed_when_lean_cannot_run(monkeypatch):
+    """No point spending a compile to discover what the cheaper gate knows."""
+    from verifiers import lean_runner
+
+    monkeypatch.setattr(lean_runner, "_MATHLIB_AVAILABLE", {})
+    monkeypatch.setattr(lean_runner, "lean_toolchain_works", lambda: False)
+
+    def explode(source):
+        raise AssertionError("compiled despite Lean being unusable")
+
+    monkeypatch.setattr(lean_runner, "run_lean", explode)
+
+    assert lean_runner.mathlib_is_available() is False
+
+
+def test_the_mathlib_probe_is_cached(monkeypatch):
+    """It is a real compile, and a module-scope `skipif` re-evaluates on every
+    collection."""
+    from verifiers import lean_runner
+
+    calls = []
+    monkeypatch.setattr(lean_runner, "_MATHLIB_AVAILABLE", {})
+    monkeypatch.setattr(lean_runner, "lean_toolchain_works", lambda: True)
+    monkeypatch.setattr(lean_runner, "run_lean", lambda source: (
+        calls.append(source), LeanResult(LeanOutcome.COMPILED))[1])
+
+    lean_runner.mathlib_is_available()
+    lean_runner.mathlib_is_available()
+
+    assert len(calls) == 1

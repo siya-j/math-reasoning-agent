@@ -178,6 +178,44 @@ def lean_toolchain_works(command: str | None = None) -> bool:
     return works
 
 
+_MATHLIB_AVAILABLE: dict = {}
+
+
+def mathlib_is_available() -> bool:
+    """Can `import Mathlib` actually resolve? The precondition for any real
+    test of this system, and a STRICTLY stronger question than
+    `lean_toolchain_works`.
+
+    MEASURED, on a machine where Lean itself was perfectly healthy: every
+    real-Lean test failed with
+
+        error: unknown module prefix 'Mathlib'
+        No directory 'Mathlib' or file 'Mathlib.olean' in the search path
+
+    because `import Mathlib` only resolves inside a Lake project that depends
+    on it, and `config.LEAN_PROJECT` (`MRA_LEAN_PROJECT`) was unset in that
+    shell -- so `run_lean` invoked bare `lean` instead of `lake env lean`.
+
+    THE SAME MISTAKE ONE LEVEL DOWN from the one `lean_toolchain_works`
+    exists to fix, and worth stating plainly: a gate that proves Lean RUNS
+    does not prove Mathlib is REACHABLE, and tests gated on the weaker
+    question do not skip when the stronger one fails -- they fail, in seven
+    different confusing ways, while four more PASS for the wrong reason
+    because "this did not compile" is satisfied by any infrastructure fault.
+
+    Costs one real compile, cached. Only ever reached where Lean works.
+    """
+    if "ok" in _MATHLIB_AVAILABLE:
+        return _MATHLIB_AVAILABLE["ok"]
+
+    ok = False
+    if lean_toolchain_works():
+        probe = run_lean("import Mathlib\n")
+        ok = probe.outcome is LeanOutcome.COMPILED
+    _MATHLIB_AVAILABLE["ok"] = ok
+    return ok
+
+
 def _uses_placeholder(source: str, output: str) -> bool:
     """`sorry` or `admit` — the proof compiles and establishes nothing."""
     if any(marker in output for marker in _SORRY_MARKERS):

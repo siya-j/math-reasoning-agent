@@ -51,15 +51,42 @@ from verifiers.lean_runner import (
     LeanOutcome,
     cheating_devices,
     has_placeholder,
-    lean_toolchain_works,
+    mathlib_is_available,
     run_lean,
 )
 from verifiers.lean_verifier import build_source
 
+# GATED ON MATHLIB BEING REACHABLE, not merely on Lean running. MEASURED: on a
+# machine with a perfectly healthy Lean but `MRA_LEAN_PROJECT` unset, the
+# weaker gate let all eleven of these run against bare `lean`; seven failed
+# with "unknown module prefix 'Mathlib'" and FOUR PASSED FOR THE WRONG REASON,
+# because an assertion of the form "this did not compile" is satisfied by any
+# infrastructure fault. Zero of the eleven measured what they claimed to.
+#
+# If this file skips and you expected it to run, set MRA_LEAN_PROJECT to a
+# Lake project that depends on Mathlib.
 pytestmark = pytest.mark.skipif(
-    not lean_toolchain_works(),
-    reason="Lean has no usable toolchain (see lean_toolchain_works)",
+    not mathlib_is_available(),
+    reason="`import Mathlib` does not resolve; set MRA_LEAN_PROJECT",
 )
+
+
+def judged(source):
+    """Compile, and fail LOUDLY if Lean never actually judged the source.
+
+    The second half of the same lesson. Even behind the gate, an assertion
+    that a source did NOT compile is worthless unless the compiler got far
+    enough to have an opinion about it -- a missing import, a broken project
+    or an unavailable binary would all satisfy it. Every test below routes
+    through here so infrastructure can never masquerade as a finding.
+    """
+    result = run_lean(source)
+    assert result.outcome is not LeanOutcome.UNAVAILABLE, "Lean did not run"
+    assert "unknown module prefix" not in (result.output or ""), (
+        f"Mathlib was not on the search path, so this measured nothing:\n"
+        f"{result.output}"
+    )
+    return result
 
 TRUE_CLAIM = "theorem t : (2:Nat) + 2 = 4"
 FALSE_CLAIM = "theorem t : (2:Nat) + 2 = 5"
@@ -69,13 +96,13 @@ FALSE_CLAIM = "theorem t : (2:Nat) + 2 = 5"
 def test_an_honest_proof_compiles():
     """The control. Everything below is a claim about how Lean DEVIATES from
     this, so if this fails nothing else in the file means anything."""
-    result = run_lean(build_source(TRUE_CLAIM, "by norm_num"))
+    result = judged(build_source(TRUE_CLAIM, "by norm_num"))
 
     assert result.outcome is LeanOutcome.COMPILED, result.output
 
 
 def test_a_false_claim_is_rejected():
-    result = run_lean(build_source(FALSE_CLAIM, "by norm_num"))
+    result = judged(build_source(FALSE_CLAIM, "by norm_num"))
 
     assert result.outcome is LeanOutcome.ERRORS, result.output
 
@@ -84,7 +111,7 @@ def test_a_false_claim_is_rejected():
 def test_sorry_compiles_but_is_not_a_proof():
     """Lean exits 0 on `sorry`. The exit code alone is not evidence, which is
     why `_uses_placeholder` reads the output for the warning."""
-    result = run_lean(build_source(TRUE_CLAIM, "by sorry"))
+    result = judged(build_source(TRUE_CLAIM, "by sorry"))
 
     assert result.outcome is LeanOutcome.INCOMPLETE, result.output
 
@@ -94,9 +121,10 @@ def test_admit_is_never_a_proof():
     purpose: `admit` may be a Mathlib alias for `sorry` (INCOMPLETE) or absent
     from this toolchain entirely (ERRORS), and BOTH are acceptable. What is
     not acceptable is it passing as a proof, and that is the assertion."""
-    result = run_lean(build_source(TRUE_CLAIM, "by admit"))
+    result = judged(build_source(TRUE_CLAIM, "by admit"))
 
-    assert result.outcome is not LeanOutcome.COMPILED, result.output
+    assert result.outcome in (LeanOutcome.INCOMPLETE, LeanOutcome.ERRORS), (
+        result.output)
 
 
 def test_sorryAx_is_caught_by_the_compiler_though_not_by_the_regex():
@@ -113,9 +141,13 @@ def test_sorryAx_is_caught_by_the_compiler_though_not_by_the_regex():
         "in test_soundness_attacks.py must be updated"
     )
 
-    result = run_lean(build_source(TRUE_CLAIM, "exact sorryAx _"))
+    result = judged(build_source(TRUE_CLAIM, "exact sorryAx _"))
 
-    assert result.outcome is not LeanOutcome.COMPILED, result.output
+    # INCOMPLETE specifically, not merely "not COMPILED": the claim being
+    # measured is that LEAN WARNS about it, which is the only reason this is
+    # caught at all. ERRORS here would mean it was caught for some other
+    # reason and the defence-in-depth story is wrong.
+    assert result.outcome is LeanOutcome.INCOMPLETE, result.output
 
 
 # ----------------------------------------------------- compiling ≠ proving
@@ -134,7 +166,7 @@ def test_native_decide_compiles_cleanly_which_is_why_it_needs_its_own_guard():
     compiler, not about our own guard agreeing with itself."""
     assert cheating_devices("by native_decide"), "the guard is not even active"
 
-    result = run_lean(build_source(TRUE_CLAIM, "by native_decide"))
+    result = judged(build_source(TRUE_CLAIM, "by native_decide"))
 
     # CHEATED is our classification, and reaching it proves the guard fired on
     # a source Lean did not otherwise object to.
@@ -146,7 +178,7 @@ def test_plain_decide_still_compiles_so_the_fix_broke_no_honest_proof():
     an over-broad regex. `decide` reduces in the KERNEL and is an ordinary
     tactic; if `_NATIVE` ever matched it, honest proofs would start being
     refused as cheating."""
-    result = run_lean(build_source(TRUE_CLAIM, "by decide"))
+    result = judged(build_source(TRUE_CLAIM, "by decide"))
 
     assert result.outcome is LeanOutcome.COMPILED, result.output
 
@@ -160,13 +192,13 @@ def test_an_axiom_declaration_is_flagged_rather_than_believed():
         "theorem mra_goal : (2:Nat) + 2 = 5 := cheat\n"
     )
 
-    result = run_lean(source)
+    result = judged(source)
 
     assert result.outcome is LeanOutcome.CHEATED, result.output
 
 
 def test_a_suggestion_tactic_is_not_a_committed_proof():
-    result = run_lean(build_source(TRUE_CLAIM, "by exact?"))
+    result = judged(build_source(TRUE_CLAIM, "by exact?"))
 
     assert result.outcome is LeanOutcome.CHEATED, result.output
 
@@ -182,7 +214,7 @@ def test_the_goal_state_is_extracted_from_real_compiler_output():
     formatting drifts -- a different bullet, indentation, a pretty-printer
     change -- this silently returns [] and every rejection stops carrying the
     one fact that makes the next attempt better. Nothing else would fail."""
-    result = run_lean(build_source(
+    result = judged(build_source(
         "theorem t (n : Nat) : n + 0 = n ∧ n * 1 = n", "by constructor"))
 
     assert result.outcome is LeanOutcome.ERRORS, result.output
@@ -197,10 +229,13 @@ def test_an_error_block_carries_more_than_its_header_line():
     """`LeanResult.errors` returns BLOCKS because Lean puts the useful part on
     the lines after the header. Measured against real output here, since the
     block boundary is a regex over Lean's own diagnostic format."""
-    result = run_lean(build_source(
+    result = judged(build_source(
         "theorem t (n : Nat) : n + 0 = n ∧ n * 1 = n", "by constructor"))
 
     assert result.errors
+    # The import failure is ALSO multi-line, which is how this passed for the
+    # wrong reason once. Tie it to the error we actually provoked.
+    assert any("unsolved goals" in block for block in result.errors), result.output
     assert "\n" in result.errors[0], (
         f"the error block is a single line; goal state was dropped:\n"
         f"{result.errors[0]}"
