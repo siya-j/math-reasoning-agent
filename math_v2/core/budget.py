@@ -493,6 +493,38 @@ def refund_statement_check(workdir):
     _save(workdir, data, state)
 
 
+def headroom(workdir):
+    """What is LEFT. The counterpart to `summary`, which reports what is SPENT.
+
+    MEASURED, on PutnamBench `putnam_1962_a6`: the model wrote TWENTY
+    consecutive skeletons -- half of a 40-compile budget -- and was never once
+    told how much room remained, so nothing signalled that it was burning the
+    run. The only place a "compilation(s) left" figure ever reached the model
+    was inside a SEARCH redirect in `spend` below, and that stretch of the run
+    barely searched. `summary` exists for `finish`, which runs after the last
+    decision has been made; this exists for the tools, which run while there
+    are still decisions to make.
+    """
+    state = read(workdir)
+    return {
+        "lean_calls_left": max(0, MAX_LEAN_CALLS - state["lean_calls"]),
+        "tool_calls_left": max(0, MAX_TOOL_CALLS - state["tool_calls"]),
+        "searches_left": max(0, MAX_SEARCHES - state["searches"]),
+        "seconds_left": max(
+            0.0, round(MAX_SECONDS - (time.time() - state["started"]), 1)),
+    }
+
+
+def headroom_line(workdir):
+    """`headroom` as one line of prompt text, for a tool's own message."""
+    left = headroom(workdir)
+    return (
+        f"[BUDGET LEFT: {left['lean_calls_left']} of {MAX_LEAN_CALLS} "
+        f"compilations, {left['tool_calls_left']} of {MAX_TOOL_CALLS} tool "
+        f"calls, {left['seconds_left']:.0f}s of {MAX_SECONDS:.0f}s]"
+    )
+
+
 def summary(workdir):
     """What was spent, for `finish` to report."""
     state = read(workdir)

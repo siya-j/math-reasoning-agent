@@ -53,6 +53,32 @@ def _charge(runtime, **kind):
     return budget.spend(runtime.context.workdir, **kind)
 
 
+def _with_headroom(runtime, result):
+    """Append what is LEFT of the budget to a result the model will read.
+
+    Applied to every tool here that spends a compilation. MEASURED, on
+    PutnamBench `putnam_1962_a6`: twenty consecutive skeletons, half the
+    budget, with no signal at any point that the room was running out --
+    because the only "compilations left" figure the model ever saw came from a
+    SEARCH redirect (`core/budget.spend`), and that run barely searched. The
+    figure is cheap, it is already computed for other purposes, and a model
+    pacing against a real number rather than a guess is the whole point of
+    `prompt.system_prompt()` rendering the same limits into the prompt.
+
+    A refusal or a budget stop is returned untouched: it either carries its own
+    more specific message about the budget, or it is a refusal whose whole
+    point is that nothing was spent.
+    """
+    if not isinstance(result, dict) or result.get("error"):
+        return result
+    workdir = runtime.context.workdir
+    result.setdefault("outputs", {})["budget_left"] = budget.headroom(workdir)
+    message = result.get("message") or ""
+    line = budget.headroom_line(workdir)
+    result["message"] = f"{message}\n\n{line}" if message else line
+    return result
+
+
 def _no_goal():
     return {
         "ok": False,
@@ -129,7 +155,7 @@ async def check_statement(statement: str, runtime: ToolRuntime[MathContext]) -> 
     # rendered a verdict at all.
     if result.get("outputs", {}).get("infra_failure"):
         budget.refund_statement_check(workdir)
-    return result
+    return _with_headroom(runtime, result)
 
 
 @tool
@@ -160,7 +186,7 @@ async def try_proof(proof: str, runtime: ToolRuntime[MathContext],
                                      get_search())
     # An automatic `exact` repair compiles a second time inside this one call.
     budget.charge_lean(workdir, result.get("outputs", {}).get("compiles_used", 0))
-    return result
+    return _with_headroom(runtime, result)
 
 
 @tool
@@ -188,9 +214,9 @@ async def try_refutation(proof: str, runtime: ToolRuntime[MathContext],
     workdir = runtime.context.workdir
     if not statement.strip() and not log.current_goal(workdir):
         return _no_goal()
-    return await proving.try_refutation(
+    return _with_headroom(runtime, await proving.try_refutation(
         workdir, statement.strip(), proof, lean_runner(workdir)
-    )
+    ))
 
 
 @tool
@@ -213,7 +239,9 @@ async def try_standard_tactics(runtime: ToolRuntime[MathContext],
     workdir, goal = _goal(runtime, statement)
     if not goal:
         return _no_goal()
-    return await proving.try_standard_tactics(workdir, goal, lean_runner(workdir))
+    return _with_headroom(
+        runtime,
+        await proving.try_standard_tactics(workdir, goal, lean_runner(workdir)))
 
 
 @tool
@@ -238,7 +266,9 @@ async def try_lemma(statement: str, proof: str,
     if stop:
         return stop
     workdir = runtime.context.workdir
-    return await proving.try_lemma(workdir, statement, proof, lean_runner(workdir))
+    return _with_headroom(
+        runtime,
+        await proving.try_lemma(workdir, statement, proof, lean_runner(workdir)))
 
 
 @tool
@@ -274,4 +304,4 @@ async def try_skeleton(proof: str, runtime: ToolRuntime[MathContext],
     result = await proving.try_skeleton(workdir, goal, proof,
                                         lean_runner(workdir), fill_budget)
     budget.charge_lean(workdir, result.get("outputs", {}).get("compiles_used", 0))
-    return result
+    return _with_headroom(runtime, result)

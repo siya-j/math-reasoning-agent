@@ -66,7 +66,7 @@ from domain.verdict import Verdict, VerificationStatus
 
 from math_v2.context import MathContext
 from math_v2.core import budget, log, verdict as verdicts
-from math_v2.prompt import COMPUTE_ENV_GUIDANCE, MATH_SYSTEM_PROMPT
+from math_v2.prompt import system_prompt
 from math_v2.tools import _util, create_math_v2_tools
 
 TASK = """{goal}
@@ -136,7 +136,7 @@ def prove(
     deadline = budget.wall_clock_deadline()
     try:
         agent = agent_factory(model, create_math_v2_tools(),
-                              MATH_SYSTEM_PROMPT + COMPUTE_ENV_GUIDANCE)
+                              system_prompt())
         result = _invoke(agent, goal, workdir, deadline)
         prose = _final_text(result)
         model_calls = _count_model_calls(result)

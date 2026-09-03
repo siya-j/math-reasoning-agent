@@ -39,7 +39,7 @@ from langgraph.checkpoint.memory import MemorySaver
 
 from ..lean_common import make_agent_middleware, make_lean_backend
 from .context import MathContext
-from .prompt import COMPUTE_ENV_GUIDANCE, MATH_SYSTEM_PROMPT
+from .prompt import system_prompt
 from .tools import create_math_v2_tools
 
 # A proof is dozens of tool calls in the worst case: search, compile, read the
@@ -65,7 +65,7 @@ def create_math_v2_agent(
     return create_deep_agent(
         model=model,
         tools=tools,
-        system_prompt=MATH_SYSTEM_PROMPT + COMPUTE_ENV_GUIDANCE,
+        system_prompt=system_prompt(),
         backend=backend,
         checkpointer=checkpointer,
         context_schema=context_schema or MathContext,

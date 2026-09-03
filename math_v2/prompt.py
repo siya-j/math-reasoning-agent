@@ -23,6 +23,20 @@ goal that Lean then happily proved — `core/proving.says_nothing()` refuses
 that specific pattern in code, and this rule is the prompt's attempt to reduce
 how often the pattern is reached for in the first place.
 
+THE BUDGET BLOCK IS FILLED IN AT RUNTIME, NOT WRITTEN DOWN
+---------------------------------------------------------
+`MATH_SYSTEM_PROMPT` is a TEMPLATE and `system_prompt()` is what callers
+should use. MEASURED: the budget block used to hard-code "roughly ten tool
+calls that matter, not the twenty the step limit allows". Those numbers were
+true of the defaults they were written against (12 compiles, 40 steps), and
+`--budget-profile hard-reasoning` does not change the string -- so a
+PutnamBench run paying for 40 compiles and 120 steps was reading a prompt
+that talked it down to ten. Two goals in that run spent their whole budget on
+near-identical monolithic resubmissions, which is what an agent does when it
+believes it has one shot rather than forty. A number stated in this file is a
+number that goes stale the moment a profile moves it; the placeholders below
+cannot.
+
 THE WORKFLOW SECTION IS PRINCIPLES, NOT A SCRIPT
 -------------------------------------------------
 "## How to think about a claim" deliberately does not read as a numbered
@@ -170,19 +184,22 @@ to decide what to do; use this to read what came back correctly.
 
   - `check_statement` first. A signature Lean cannot elaborate can never be
     proved, and finding that out costs one compile instead of eight. After
-    two honest attempts to fix the names, report `not_formalized` rather than
-    spend the rest of the budget on it.
-  - Two `search_mathlib` calls per step, then stop and compile — reading the
-    goal state is worth more than a third query.
+    {max_statement_checks} honest attempts to fix the names, report
+    `not_formalized` rather than spend the rest of the budget on it.
+  - {max_consecutive_searches} `search_mathlib` calls per step, then stop and
+    compile — reading the goal state is worth more than another query.
   - `try_standard_tactics` ONCE per goal. It already compiles about thirty
     closers — rfl, simp, decide, omega, linarith, aesop and the rest — in a
     single file. If it fails, submitting `by aesop` or `by simp` alone is
     resubmitting something already tried; the goal needs an argument, not a
     retry.
-  - Your clock is short overall — a run has room for roughly ten tool calls
-    that matter, not the twenty the step limit allows. Spend them on the
-    compiler, not on search: agents have spent seven of ten turns searching,
-    reached the compiler twice, and run out.
+  - THIS RUN'S ACTUAL BUDGET: {max_lean} compilations, {max_steps} tool calls
+    and {max_searches} searches, over {max_seconds:.0f} seconds. Every tool
+    that compiles reports what is LEFT when it returns — pace against that
+    figure, not against a guess, and do not leave compilations unspent on a
+    goal you have not settled. Spend the budget on the compiler rather than
+    around it: agents have spent seven of ten turns searching, reached the
+    compiler twice, and run out.
 
 **Never weaken `check_statement`'s statement to see what compiles.** It is the
 only tool that declares what this run is reported and scored against.
@@ -341,3 +358,29 @@ Only the workspace is writable. Your proof record is kept there for you at
 `math/proof_log.json` — you never need to write it, and `finish` reads it
 rather than asking you what happened.
 """
+
+
+def system_prompt() -> str:
+    """The full prompt, with THIS run's real budget numbers filled in.
+
+    Callers should use this rather than concatenating `MATH_SYSTEM_PROMPT`
+    themselves: the constant is a template and will render with literal
+    braces if it is used raw.
+
+    `budget` is imported HERE, inside the call, and deliberately not at module
+    scope. Its constants are read from the environment once, at ITS first
+    import, so importing it at the top of this module would fix them before
+    `pipeline.proving.budget_profile` has set a profile's variables -- exactly
+    the import-order bug that once made `--budget-profile` print its own
+    banner while every goal still ran under the old defaults.
+    """
+    from math_v2.core import budget
+
+    return MATH_SYSTEM_PROMPT.format(
+        max_lean=budget.MAX_LEAN_CALLS,
+        max_steps=budget.MAX_TOOL_CALLS,
+        max_searches=budget.MAX_SEARCHES,
+        max_seconds=budget.MAX_SECONDS,
+        max_statement_checks=budget.MAX_STATEMENT_CHECKS,
+        max_consecutive_searches=budget.MAX_CONSECUTIVE_SEARCHES,
+    ) + COMPUTE_ENV_GUIDANCE
