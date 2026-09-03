@@ -278,3 +278,42 @@ def test_a_record_written_before_the_auto_field_reads_as_the_models_own(
                              fill_budget=0))
 
     assert compiler.seen, "a pre-existing record was read as automatic"
+
+
+# ------------------------------------------- found by scripts/mutate_guard.py
+def test_a_lemma_containing_sorry_is_refused_without_compiling(workdir):
+    """THE ONE SURVIVOR of the soundness mutation sweep: deleting
+    `try_lemma`'s `has_placeholder` check left the whole suite green.
+
+    Soundness was never at risk, and measuring that mattered more than
+    assuming it. With the check removed the lemma is still not accepted and
+    still not kept, because the COMPILER-side check sees `sorry` and returns
+    INCOMPLETE, which is not TRUE. What the missing guard costs is one
+    compile -- 8% of the default budget of twelve, spent to learn something
+    the text already said.
+
+    That is exactly the incident `_placeholder_refusal` was written for
+    (proofnet `exercise_1_13a`: "attempt 2 of 3 was the single word `sorry`,
+    and it cost a REPL round-trip and a third of the budget"), and `try_proof`
+    and `try_skeleton` both had tests for it. `try_lemma` did not.
+    """
+    compiler = lean(LeanOutcome.COMPILED)
+
+    result = run(proving.try_lemma(workdir, "lemma helper (n : Nat) : n + 0 = n",
+                                   "by sorry", compiler))
+
+    assert result["ok"] is False
+    assert result["error"] == "placeholder_proof"
+    assert compiler.seen == [], "a `sorry` lemma cost a compile"
+    assert log.kept_lemmas(workdir) == []
+
+
+def test_a_lemma_containing_admit_is_refused_too(workdir):
+    """`admit` is the other half of the same regex and the same collapse."""
+    compiler = lean(LeanOutcome.COMPILED)
+
+    result = run(proving.try_lemma(workdir, "lemma helper (n : Nat) : n + 0 = n",
+                                   "by admit", compiler))
+
+    assert result["error"] == "placeholder_proof"
+    assert compiler.seen == []
