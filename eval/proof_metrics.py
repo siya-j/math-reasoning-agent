@@ -96,6 +96,26 @@ class ProofResult:
     trace: tuple[str, ...] = ()
     stages: tuple[dict, ...] = ()
 
+    # THE EVIDENCE FOR A `proved`, KEPT IN FULL AND DELIBERATELY NOT
+    # TRUNCATED. `stages` caps each proof at 600 characters, which is right
+    # for diagnosing a failure and useless for checking a success: MEASURED on
+    # eval/results/putnam-run2.json, the one PROVED result (`putnam_1962_b1`)
+    # was cut off mid-`have`, so the single claim the whole run rests on could
+    # not be recompiled by anyone. A system whose entire assertion is "the
+    # compiler accepted this" must retain what the compiler accepted.
+    #
+    # `lemmas` is required for the same reason and is not optional detail: a
+    # kept lemma is prepended to the goal before compiling
+    # (`math_v2.core.proving.full_statement`) and the accepted proof CITES
+    # THOSE LEMMAS BY NAME. Without them the proof does not compile, and
+    # re-verification would report a false failure.
+    #
+    # Together these make a results file self-sufficient: `scripts/
+    # verify_results.py` recompiles from it alone, with no model, no agent and
+    # no surviving workspace.
+    proof: str = ""
+    lemmas: tuple[str, ...] = ()
+
     @property
     def counted(self) -> bool:
         """Did this run actually produce evidence about the system?"""
@@ -163,6 +183,8 @@ def result_from(goal: Goal, run: ProofRun) -> ProofResult:
         seconds=round(run.telemetry.seconds, 1),
         input_tokens=run.telemetry.input_tokens,
         output_tokens=run.telemetry.output_tokens,
+        proof=run.proof,
+        lemmas=tuple(lemma.proof for lemma in run.lemmas),
         trace=tuple(run.trace),
         stages=tuple(
             {
