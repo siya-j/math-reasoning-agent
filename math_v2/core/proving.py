@@ -320,6 +320,21 @@ async def check_statement(workdir, statement, run_lean, search=None):
         ))
         return _says_nothing_refusal(statement)
 
+    # A FALSE record, exactly as the `True` case above -- and for the same
+    # reason, which is the whole point of recording rather than just refusing:
+    # `declared_goal` reads the LAST statement check, so a refusal that logged
+    # nothing would leave an earlier, honest statement standing as the
+    # declared goal while the model believed it had substituted this one.
+    # Recording it FALSE means the substitution is visible in the record and
+    # `proof_verdict` can reach NOT_FORMALIZED, which is the honest outcome.
+    if assumes_its_own_conclusion(statement):
+        log.append(workdir, log.Record(
+            kind=log.STATEMENT_CHECK, statement=statement, status=log.FALSE,
+            detail="The conclusion is also a hypothesis; the claim assumes "
+                   "itself.",
+        ))
+        return _assumes_conclusion_refusal(statement)
+
     result = await run_lean(build_source(statement, "sorry"))
     verdict = interpret(result, statement)
 
@@ -463,6 +478,15 @@ async def try_proof(workdir, statement, proof, run_lean, search=None,
         return _placeholder_refusal()
     if says_nothing(statement):
         return _says_nothing_refusal(statement)
+    # CHECKED HERE TOO, exactly as `says_nothing` is. Refusing this only in
+    # `check_statement` is not enough and the attack proved it: the statement
+    # check was refused and the run still reported `proved`, because
+    # `try_proof` accepts a `statement=` of its own, `declared_goal` reads the
+    # last statement CHECK whatever its status, and `accepted_proof` then
+    # found a TRUE proof record for it. No PROOF record may exist for a
+    # statement that assumes itself.
+    if assumes_its_own_conclusion(statement):
+        return _assumes_conclusion_refusal(statement)
 
     repeat = already_tried(workdir, proof, statement)
     if repeat:
@@ -713,6 +737,37 @@ def negation_of(statement):
     return f"theorem {name}_refutation : ¬ (∀ {binders}, {conclusion})"
 
 
+_OPENERS = "([{⦃"
+_CLOSERS = ")]}⦄"
+
+
+def binder_groups(binders):
+    """The text inside each top-level binder group: `(h : P)`, `{h : P}`,
+    `[inst : P]`, `⦃h : P⦄`.
+
+    A DEPTH SCAN, not a regex, and that is not a stylistic preference. The
+    obvious character-class regex cannot express "balanced brackets" and so
+    stops at the first inner `)` -- it read `(h : Irrational (Real.sqrt 2))`
+    as ending after `Real.sqrt 2`, silently missed the whole binder, and made
+    `assumes_its_own_conclusion` return False on the exact attack it was
+    written to catch. `split_signature` above scans depth for the same reason.
+    """
+    groups = []
+    depth = 0
+    start = -1
+    for index, character in enumerate(binders or ""):
+        if character in _OPENERS:
+            if depth == 0:
+                start = index + 1
+            depth += 1
+        elif character in _CLOSERS:
+            depth -= 1
+            if depth == 0 and start >= 0:
+                groups.append(binders[start:index])
+                start = -1
+    return groups
+
+
 def says_nothing(statement):
     """Is the goal's conclusion trivially true?
 
@@ -728,6 +783,69 @@ def says_nothing(statement):
     """
     _, _, conclusion = split_signature(statement)
     return bool(_TRIVIAL.match(conclusion))
+
+
+def assumes_its_own_conclusion(statement):
+    """Does the goal hand itself back as one of its own hypotheses?
+
+    FOUND BY ATTACK, not by a failing run. `tests/test_soundness_attacks.py`
+    submitted
+
+        theorem g (h : Irrational (Real.sqrt 2)) : Irrational (Real.sqrt 2)
+
+    which elaborates, is closed by `exact h`, and was reported PROVED with
+    nothing between the compile and the verdict: `refuse` passed it,
+    `faithfulness_failure` passed it (that lint is arithmetic and no number
+    differs), and `says_nothing` passed it because the conclusion is not
+    `True`.
+
+    The same family as `says_nothing` and the same measured lesson from
+    `exercise_1_19b` -- a substitute that elaborates, compiles, and scores as
+    a success while establishing nothing. `True` was the shape that incident
+    produced; `P -&gt; P` is the shape an adversary reaches for, and it is worse,
+    because the statement still MENTIONS the real objects and so reads
+    plausible in a results file.
+
+    DELIBERATELY NARROW, exactly like `_TRIVIAL`. It compares a binder's type
+    to the conclusion as normalised text and asks for an exact match. It does
+    not reason about implication, instantiation or logical equivalence -- an
+    approximate version would refuse honest statements, and a false refusal
+    here costs a formalisation the agent cannot then retry. A theorem that
+    genuinely has its conclusion in scope as a hypothesis is closed by
+    `exact h` and proves nothing, so no legitimate goal is lost.
+    """
+    _, binders, conclusion = split_signature(statement)
+    target = _normalise_claim(conclusion)
+    if not target:
+        return False
+
+    for body in binder_groups(binders):
+        if ":" not in body:
+            continue
+        _, _, hypothesis = body.partition(":")
+        if _normalise_claim(hypothesis) == target:
+            return True
+    return False
+
+
+def _assumes_conclusion_refusal(statement):
+    """Refuse a goal that assumes what it sets out to prove. No compile."""
+    _, _, conclusion = split_signature(statement)
+    return {
+        "ok": False,
+        "error": "assumes_conclusion",
+        "outputs": {"elaborates": False},
+        "message": (
+            "REFUSED, and not compiled: this statement lists its own "
+            f"conclusion among its hypotheses.\n\n  conclusion: {conclusion[:200]}"
+            "\n\nWith that hypothesis in scope the theorem is closed by "
+            "`exact h` and establishes nothing -- it would compile, and it "
+            "would be reported as a proof of the original claim. State the "
+            "claim with the hypotheses it genuinely has. If the real "
+            "statement will not elaborate, report `not_formalized`; that is "
+            "an honest outcome and this is not."
+        ),
+    }
 
 
 def negates(statement):
@@ -980,6 +1098,8 @@ async def try_skeleton(workdir, statement, proof, run_lean, fill_budget=0):
     """
     if says_nothing(statement):
         return _says_nothing_refusal(statement)
+    if assumes_its_own_conclusion(statement):
+        return _assumes_conclusion_refusal(statement)
 
     repeat = already_tried(workdir, proof, statement, kind=log.SKELETON)
     if repeat:

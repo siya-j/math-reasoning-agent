@@ -108,6 +108,20 @@ _DIAGNOSTIC = re.compile(r"^\S*?:\d+:\d+:\s*(error|warning):")
 _PLACEHOLDER = re.compile(r"\b(sorry|admit)\b")
 _AXIOM = re.compile(r"^\s*axiom\s+\S", re.MULTILINE)
 _SUGGESTION = re.compile(r"\b(apply|exact|rw|simp|aesop|norm_num|hint)\?")
+# `native_decide` evaluates the proposition with the COMPILER rather than the
+# kernel and closes the goal on the result, which adds `Lean.ofReduceBool` to
+# the proof's axioms. That is not a stricter `decide`: it trusts the compiler
+# and the runtime, and Lean's own history contains proofs of False obtained
+# this way. `decide` is deliberately NOT matched -- it reduces in the kernel
+# and is an ordinary tactic.
+#
+# It belongs here for the same reason `axiom` does: this function's subject is
+# "constructs that make a file compile without proving the theorem", and a
+# `native_decide` proof compiles while resting on something the kernel never
+# checked. FOUND BY ATTACK, not by a failing run -- see
+# tests/test_soundness_attacks.py, which reported `proved` for `by
+# native_decide` against every guard in the system.
+_NATIVE = re.compile(r"\b(native_decide|ofReduceBool|ofReduceNat)\b")
 
 
 def lean_is_available(command: str | None = None) -> bool:
@@ -142,6 +156,13 @@ def cheating_devices(source: str) -> list[str]:
     match = _SUGGESTION.search(source)
     if match:
         found.append(f"the suggestion tactic `{match.group(0)}`")
+    native = _NATIVE.search(source)
+    if native:
+        found.append(
+            f"`{native.group(0)}`, which closes the goal on the COMPILER's "
+            "evaluation rather than the kernel's and rests on the "
+            "`Lean.ofReduceBool` axiom"
+        )
     return found
 
 
