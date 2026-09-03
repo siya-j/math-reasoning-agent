@@ -133,6 +133,7 @@ def prove(
     note("agent")
     prose = ""
     model_calls = 0
+    tokens = (0, 0)
     deadline = budget.wall_clock_deadline()
     try:
         agent = agent_factory(model, create_math_v2_tools(),
@@ -140,6 +141,7 @@ def prove(
         result = _invoke(agent, goal, workdir, deadline)
         prose = _final_text(result)
         model_calls = _count_model_calls(result)
+        tokens = _count_tokens(result)
     except (asyncio.TimeoutError, TimeoutError):
         # THE OUTER WALL CLOCK. `budget.spend` samples the clock and is only
         # called from inside a tool, so time spent between tool calls — a model
@@ -162,7 +164,7 @@ def prove(
         log.note(workdir, f"agent failed: {exc}")
 
     return _to_proof_run(run, workdir, prose, time.monotonic() - started,
-                         model_calls)
+                         model_calls, tokens)
 
 
 def _run_sync(coroutine):
@@ -262,6 +264,41 @@ def _count_model_calls(result) -> int:
     )
 
 
+def _count_tokens(result) -> tuple:
+    """(input, output) tokens over the transcript, or (0, 0) if unreported.
+
+    WHY, given `_count_model_calls` already exists: a call count is a poor
+    proxy for money on this path. `build_agent` keeps the whole message
+    history, so every call carries each prior turn and the input side grows
+    with the run -- MEASURED on eval/results/putnam-run2.json, 13 calls on the
+    goal that bailed early against 53 on the hardest, which is 4x the calls
+    but on the order of 16x the input once growth is counted. The user's
+    binding constraint on this project is the API bill, and nothing in the
+    repo could read it.
+
+    Reads `usage_metadata`, the LangChain-standard field, and tolerates its
+    absence: a provider that does not report usage, or a scripted test agent
+    whose messages carry none, yields (0, 0) rather than raising. Deliberately
+    NOT an estimate from string lengths -- a fabricated token count that looks
+    authoritative is worse than an honest zero, and `Telemetry` reports 0 as
+    unknown rather than as free.
+    """
+    messages = (result or {}).get("messages") if isinstance(result, dict) else None
+    if not messages:
+        return 0, 0
+
+    read_in = read_out = 0
+    for message in messages:
+        usage = getattr(message, "usage_metadata", None)
+        if usage is None and isinstance(message, dict):
+            usage = message.get("usage_metadata")
+        if not isinstance(usage, dict):
+            continue
+        read_in += usage.get("input_tokens") or 0
+        read_out += usage.get("output_tokens") or 0
+    return read_in, read_out
+
+
 def _final_text(result) -> str:
     """The assistant's last message. Prose is shown to a human and never read
     by the guard, so failing to extract it must not fail the run."""
@@ -276,7 +313,7 @@ def _final_text(result) -> str:
 
 
 def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
-                  model_calls: int = 0) -> ProofRun:
+                  model_calls: int = 0, tokens: tuple = (0, 0)) -> ProofRun:
     """Translate the on-disk record into a ProofRun. THE VERDICT IS RE-DERIVED.
 
     `finish`'s own reply is not consulted. The outcome is computed here from
@@ -367,6 +404,8 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
         retrieval_calls=spent["searches"],
         symbolic_calls=spent["symbolic_calls"],
         seconds=seconds,
+        input_tokens=tokens[0],
+        output_tokens=tokens[1],
     )
 
     if decision["outcome"] == verdicts.PROVED:

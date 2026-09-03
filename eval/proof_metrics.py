@@ -79,6 +79,16 @@ class ProofResult:
     retrieval_calls: int = 0
     symbolic_calls: int = 0
     seconds: float = 0.0
+    # THE COST THAT IS ACTUALLY BILLED. `model_calls` undercounts it badly on
+    # the math_v2 path, which keeps the whole message history: every call
+    # carries each prior turn, so input grows with the run. MEASURED on
+    # eval/results/putnam-run2.json -- 13 calls on the goal that bailed early
+    # against 53 on the hardest is 4x the calls but roughly 16x the input once
+    # the growth is counted. 0 means "not reported", not "free": the baseline
+    # prover does not populate these and neither does a provider whose
+    # responses carry no usage metadata.
+    input_tokens: int = 0
+    output_tokens: int = 0
 
     # Without these a failed run is opaque, and a cause has to be guessed at.
     # `trace` says which stages ran and what they decided; `stages` records
@@ -151,6 +161,8 @@ def result_from(goal: Goal, run: ProofRun) -> ProofResult:
         retrieval_calls=run.telemetry.retrieval_calls,
         symbolic_calls=run.telemetry.symbolic_calls,
         seconds=round(run.telemetry.seconds, 1),
+        input_tokens=run.telemetry.input_tokens,
+        output_tokens=run.telemetry.output_tokens,
         trace=tuple(run.trace),
         stages=tuple(
             {
@@ -170,6 +182,22 @@ def _rate(numerator: int, denominator: int) -> float | None:
     absence of data. That bug was already fixed once in eval/metrics.py.
     """
     return round(numerator / denominator, 3) if denominator else None
+
+
+def _tokens(value):
+    """A token total for the report, or an explicit "not reported"."""
+    return f"{value:,}" if value else "not reported"
+
+
+def _total(results: list, field: str):
+    """Sum of a reported cost, or None when nothing reported it.
+
+    The distinction matters: 0 would say the run was free, and a provider that
+    returns no usage metadata has said nothing about cost, not that there was
+    none.
+    """
+    values = [getattr(r, field, 0) or 0 for r in results]
+    return sum(values) if any(values) else None
 
 
 def summarize(results: list[ProofResult]) -> dict:
@@ -247,6 +275,13 @@ def summarize(results: list[ProofResult]) -> dict:
             if counted
             else None
         ),
+        # WHAT THE RUN COST TO BILL, summed rather than averaged: the bill is
+        # a total, and a mean would hide that a single hard goal can cost more
+        # than the other four together. `None` when nothing reported usage --
+        # a run against a provider that does not report it must not read as a
+        # run that cost nothing.
+        "input_tokens": _total(counted, "input_tokens"),
+        "output_tokens": _total(counted, "output_tokens"),
     }
 
     for tier in Tier:
@@ -307,6 +342,9 @@ def render(summary: dict) -> str:
         "-" * 52,
         f"  lemma yield            {_percent(summary['lemma_yield'])}",
         f"  mean attempts          {summary['mean_attempts']}",
+        "-" * 52,
+        f"  input tokens           {_tokens(summary['input_tokens'])}",
+        f"  output tokens          {_tokens(summary['output_tokens'])}",
         "-" * 52,
     ]
     for tier in Tier:

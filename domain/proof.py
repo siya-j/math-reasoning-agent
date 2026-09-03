@@ -87,12 +87,29 @@ class Telemetry:
     # computed and a run that computed twenty times looked identical.
     symbolic_calls: int = 0
     seconds: float = 0.0
+    # WHAT THE RUN ACTUALLY COST. `model_calls` is a poor proxy for money: the
+    # evaluation path keeps the whole message history, so each call carries
+    # every prior turn and input grows with the run. MEASURED, on
+    # eval/results/putnam-run2.json: 13 calls on the goal that bailed early
+    # against 53 on the hardest one -- 4x the calls, but on the order of 16x
+    # the input tokens once the growth is counted. A cost constraint that
+    # cannot be read off the results file cannot be optimised against.
+    #
+    # Default 0 and reported as unknown when absent, so a provider whose
+    # responses carry no usage metadata, and the baseline prover which does
+    # not populate these at all, both stay honest rather than reading as free.
+    input_tokens: int = 0
+    output_tokens: int = 0
 
     def summary(self) -> str:
+        tokens = ""
+        if self.input_tokens or self.output_tokens:
+            tokens = (f", {self.input_tokens} in / "
+                      f"{self.output_tokens} out tokens")
         return (
             f"{self.model_calls} model, {self.lean_calls} lean, "
             f"{self.retrieval_calls} retrieval, "
-            f"{self.symbolic_calls} sympy, {self.seconds:.0f}s"
+            f"{self.symbolic_calls} sympy, {self.seconds:.0f}s{tokens}"
         )
 
 
