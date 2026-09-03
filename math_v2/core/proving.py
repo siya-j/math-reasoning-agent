@@ -162,6 +162,81 @@ def _generic_already_failed(workdir, proof, statement):
     }
 
 
+def _unfinished_skeleton(workdir):
+    """The decomposition already on the table, if the model has not itself
+    touched it since. Otherwise {}.
+
+    MEASURED, PutnamBench `putnam_1962_a6`: attempts 19-38 were TWENTY
+    consecutive skeletons -- half of a 40-compile budget -- each a fresh
+    decomposition rather than an attempt at the holes the previous one had
+    already listed. `try_skeleton` has told the model "DO NOT WRITE A NEW
+    SKELETON" in the imperative, at the very front of its message, naming the
+    exact outstanding claims, since the `hard-amgm-sqrt` failure. It said so
+    twenty times here and was ignored twenty times. A rule the model can
+    decline is not a rule, so this one is enforced.
+
+    "The model has not itself touched it" is why `log.Record.auto` exists.
+    Automatic hole-filling writes LEMMA records too, and counting those would
+    let the system satisfy the condition on the model's behalf -- the loop
+    would sustain itself through the very mechanism meant to break it.
+    """
+    records = log.records(workdir)
+    latest = None
+    for index, record in enumerate(records):
+        if (record.get("kind") == log.SKELETON
+                and record.get("status") == log.TRUE):
+            latest = (index, record)
+    if latest is None:
+        return {}
+
+    index, record = latest
+    for later in records[index + 1:]:
+        if later.get("kind") == log.LEMMA and not later.get("auto"):
+            return {}
+    return record
+
+
+def _skeleton_loop_refusal(workdir, record):
+    """Refuse a second decomposition before the first has been engaged with.
+
+    Gated on WHAT THE RECORD SHOWS, not on effort: one `try_lemma` of the
+    model's own -- accepted or rejected -- lifts it. Re-deciding a
+    decomposition after genuinely trying one of its claims is legitimate
+    work; replacing it without trying any of them is the measured loop.
+    """
+    kept = "\n".join(log.kept_lemmas(workdir))
+    outstanding = [claim for claim in hole_claims(record.get("proof", ""))
+                   if claim and claim.strip() not in kept]
+
+    if outstanding:
+        what = (
+            "Its holes are still open:\n"
+            + "\n".join(f"  - {claim[:100]}" for claim in outstanding)
+            + "\n\nProve ONE of them with `try_lemma` — naming it lets you "
+            "cite it — then assemble with `try_proof`. If you genuinely "
+            "cannot prove one, that claim is this goal's mathematical crux, "
+            "and saying so is a real finding; starting a different "
+            "decomposition is not."
+        )
+    else:
+        what = (
+            "Every hole in it already has a proof. Assemble them now with "
+            "`try_proof` — that is the only step between this decomposition "
+            "and PROVED."
+        )
+
+    return {
+        "ok": False,
+        "error": "skeleton_not_engaged",
+        "outputs": {"typechecks": False},
+        "message": (
+            "REFUSED, and not compiled: you already have a decomposition that "
+            "typechecks, and you have not attempted a single one of its "
+            "claims since. " + what
+        ),
+    }
+
+
 def _premises(workdir):
     return [Premise(**entry) for entry in log.read(workdir)["premises"]]
 
@@ -505,6 +580,26 @@ async def try_lemma(workdir, statement, proof, run_lean, limit=MAX_KEPT_LEMMAS):
     if has_placeholder(proof):
         return _placeholder_refusal()
 
+    # MEASURED, PutnamBench `putnam_1962_a4`: ten of thirty-five attempts were
+    # byte-identical to an earlier one. `try_proof` and `try_skeleton` have
+    # both guarded this since `exercise_1_26`; `try_lemma` never did, and a
+    # repeated lemma costs exactly what a repeated proof costs.
+    repeat = already_tried(workdir, proof, statement, kind=log.LEMMA)
+    if repeat:
+        return {
+            "ok": False,
+            "error": "duplicate_attempt",
+            "outputs": {"accepted": False},
+            "message": (
+                "REFUSED: this exact lemma was already submitted and "
+                "rejected, so it was not compiled again. Lean said:\n"
+                + (repeat.get("detail", "") or "")[:600]
+                + "\n\nChange the statement or the argument. If neither "
+                "changes, this claim is the crux and needs a different idea, "
+                "not another submission."
+            ),
+        }
+
     kept = log.kept_lemmas(workdir)
     if len(kept) >= limit:
         return {
@@ -829,6 +924,8 @@ async def synthesize_lemmas(workdir, statement, proof, run_lean, allowance):
         log.append(workdir, log.Record(
             kind=log.LEMMA, statement=lemma, proof=candidate,
             status=log.TRUE if accepted else log.FALSE, detail=verdict.detail,
+            # THE SYSTEM's work, not the model's. See `log.Record.auto`.
+            auto=True,
         ))
         attempted.append({"name": name, "claim": _normalise_claim(claim),
                           "index": index, "accepted": accepted})
@@ -898,6 +995,15 @@ async def try_skeleton(workdir, statement, proof, run_lean, fill_budget=0):
                 "with `try_lemma`."
             ),
         }
+
+    # Not conditioned on the new skeleton DIFFERING from the old one.
+    # `already_tried` deliberately skips records whose status is TRUE, so a
+    # typechecking skeleton resubmitted verbatim reaches here uncaught -- and
+    # it is the same waste as a fresh one. What lifts this is the model
+    # attempting a claim, never the shape of what it submitted next.
+    unfinished = _unfinished_skeleton(workdir)
+    if unfinished:
+        return _skeleton_loop_refusal(workdir, unfinished)
 
     source = build_source(full_statement(workdir, statement), proof)
     result = await run_lean(source)

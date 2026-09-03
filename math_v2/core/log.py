@@ -53,6 +53,15 @@ class Record:
     status: str = UNKNOWN
     detail: str = ""
     at: float = field(default_factory=time.time)
+    # Set on a LEMMA the SYSTEM synthesised while filling a skeleton's holes,
+    # never on one the model submitted through `try_lemma`. The two are
+    # otherwise indistinguishable in the log, and telling them apart is what
+    # lets `proving.try_skeleton` ask "has the model itself engaged with the
+    # decomposition it already has?" -- automatic hole-filling answering that
+    # question on the model's behalf is exactly how a skeleton loop sustains
+    # itself. Absent from records written before this field existed, which
+    # `.get("auto")` reads as falsy, i.e. as the model's own work.
+    auto: bool = False
 
 
 def log_path(workdir: str) -> str:

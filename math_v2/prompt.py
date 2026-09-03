@@ -231,7 +231,12 @@ and compile the whole proof. A goal can reach PROVED with no further model
 call. ASCRIBE THE TYPE: `have h : <claim> := by sorry` states a claim and can
 be attempted; `have h := f x` states none and is skipped. Prove any holes the
 system could not close yourself with `try_lemma`, which makes each one
-citable by name, then assemble with `try_proof`.
+citable by name, then assemble with `try_proof`. A SECOND SKELETON IS
+REFUSED, without compiling, while the first still typechecks and you have not
+attempted a single one of its claims — one `try_lemma` of your own, accepted
+or rejected, lifts that. A hole you cannot prove is this goal's crux and
+worth reporting as such; it is not a reason to decompose the goal a different
+way.
 
 **Finishing:** call `proof_state` first if you are unsure what you have —
 it costs nothing and reports what is proved, rejected, and still open.

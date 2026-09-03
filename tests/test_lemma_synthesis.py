@@ -234,6 +234,15 @@ def test_the_same_claim_is_not_attempted_twice(workdir):
     run_lean, seen = compiler([("sorry", LeanOutcome.INCOMPLETE)])
 
     run(proving.try_skeleton(workdir, GOAL, ONE_HOLE, run_lean, 4))
+    # A lemma of the model's own between the two skeletons, because
+    # `proving.try_skeleton` now REFUSES a second decomposition while the
+    # first has not been engaged with (MEASURED: putnam_1962_a6 wrote twenty
+    # consecutive skeletons). Without this the second call below is refused
+    # before it compiles anything, and the test would pass or fail for a
+    # reason that has nothing to do with claim de-duplication. Its claim is
+    # unrelated to the hole, so `worth_proving`'s own bookkeeping is untouched.
+    run(proving.try_lemma(workdir, "lemma unrelated : 1 < 2", "by norm_num",
+                          run_lean))
     before = len(seen)
     run(proving.try_skeleton(workdir, GOAL,
                              ONE_HOLE.replace("exact foo", "exact bar"), run_lean, 4))
