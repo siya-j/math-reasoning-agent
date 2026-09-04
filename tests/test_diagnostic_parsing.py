@@ -114,3 +114,45 @@ def test_output_with_no_diagnostic_still_falls_back_honestly():
 def test_a_clean_compile_has_no_diagnostics():
     assert LeanResult(LeanOutcome.COMPILED, "").errors == []
     assert LeanResult(LeanOutcome.COMPILED, "").first_error == ""
+
+
+# =====================================================================
+# Driven through the REAL producer, not a string I typed
+# =====================================================================
+def test_the_repl_renderer_emits_something_the_parser_accepts():
+    """THE test that would have caught this, and the one whose absence let it
+    ship. Everything above uses hand-written output; this drives
+    `_repl.render` -- the actual producer -- with a reply shaped like the
+    REPL's own JSON, and asserts the consumer parses what comes out.
+
+    `_repl.render`'s docstring asserted the two backends carried "the same
+    information", and that was checked. Nobody checked that the format
+    survived the trip to `LeanResult.errors`, which is where it died."""
+    from math_v2.tools._repl import render
+
+    reply = {"messages": [
+        {"severity": "warning", "pos": {"line": 41, "column": 97},
+         "data": "Variable name `x` is not explicitly referenced."},
+        {"severity": "error", "pos": {"line": 12, "column": 4},
+         "data": f"unsolved goals\n{ERROR_BODY}"},
+    ]}
+
+    result = LeanResult(LeanOutcome.ERRORS, render(reply))
+
+    assert result.errors, "the real renderer still produces unparseable output"
+    assert "unsolved goals" in " ".join(result.errors)
+    assert "⊢ p (n + 1) = 0" in " ".join(result.errors), "goal state lost"
+    assert "not explicitly referenced" not in " ".join(result.errors)
+
+
+def test_a_repl_sorry_marker_is_also_parseable():
+    """`render` synthesises `0:0: warning: declaration uses 'sorry'` for a
+    structurally-reported sorry. That line has to survive the same trip, or a
+    skeleton's own feedback goes missing too."""
+    from math_v2.tools._repl import render
+
+    text = render({"messages": [], "sorries": [{"pos": {"line": 1}}]})
+
+    assert "declaration uses 'sorry'" in text
+    # It is a warning, so it bounds a block without being reported as an error.
+    assert LeanResult(LeanOutcome.INCOMPLETE, text).errors == []

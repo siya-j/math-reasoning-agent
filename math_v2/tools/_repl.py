@@ -544,14 +544,35 @@ def strip_imports(source):
 
 
 def render(reply):
-    """REPL messages as Lean CLI text, so `_classify` needs no special case.
+    """REPL messages as Lean-style diagnostic text, so `_classify` needs no
+    special case.
 
     THE POINT OF THIS FUNCTION. The anti-cheat, the placeholder check and the
     outcome vocabulary all live in `_util._classify`, which reads compiler
-    output as text. Rendering the structured reply into the same shape Lean's
-    command line produces means both execution paths reach the SAME classifier
-    with the same information — which is what makes the equivalence tests
-    meaningful rather than a comparison of two different code paths.
+    output as text. Rendering the structured reply into diagnostic lines means
+    both execution paths reach the SAME classifier with the same information —
+    which is what makes the equivalence tests meaningful rather than a
+    comparison of two different code paths.
+
+    THE SHAPE IS NOT IDENTICAL TO THE COMMAND LINE'S, and this docstring used
+    to claim it was. Lean's CLI prefixes each diagnostic with the FILE it
+    compiled — an absolute temp path — and the REPL has no file, so these
+    lines begin at `line:column:`. That is not a defect to paper over by
+    inventing a filename; it is a real difference the CONSUMER has to
+    tolerate, and `verifiers.lean_runner._DIAGNOSTIC` now does.
+
+    MEASURED, and the reason this warning is here: that pattern used to
+    REQUIRE the prefix, so nothing this function emitted ever parsed as a
+    diagnostic. `LeanResult.errors` came back empty on every REPL compile and
+    `interpret` fell back to the first line of output. On
+    eval/results/putnam-run2.json that meant 38 of 58 rejections (66%) told
+    the model nothing about what went wrong — on `putnam_1962_a4` the entire
+    feedback for a rejected proof was a cosmetic warning about a variable
+    name. The information really was "the same"; the FORMAT was not, and only
+    the format was ever checked.
+
+    If this rendering changes, `tests/test_diagnostic_parsing.py` is what
+    holds the two ends together.
     """
     lines = []
     for message in reply.get("messages") or []:
