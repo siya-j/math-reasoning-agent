@@ -101,9 +101,35 @@ _SORRY_MARKERS = ("declaration uses 'sorry'", "uses 'sorry'")
 #   axiom           assumes the goal instead of deriving it
 #   apply? exact?   suggestion tactics; they report candidates rather than
 #                   committing to a proof
-# `Claim.lean:5:2: error: ...` — the start of a diagnostic. Anything after it
-# and before the next one belongs to it, including the goal state.
-_DIAGNOSTIC = re.compile(r"^\S*?:\d+:\d+:\s*(error|warning):")
+# The start of a diagnostic. Anything after it and before the next one belongs
+# to it, including the goal state.
+#
+# THE FILE PREFIX IS OPTIONAL, AND MAKING IT SO FIXED A SILENT, TOTAL FAILURE
+# OF THE FEEDBACK LOOP. The two Lean backends format diagnostics differently:
+#
+#     subprocess   Claim.lean:5:2: error: unsolved goals
+#     REPL         5:2: error: unsolved goals
+#
+# `math_v2/tools/_repl.py` builds the second at line 560 and its own comment
+# says the two carry "the same information" -- which is true, and was never
+# checked against the format this pattern requires. The old pattern demanded
+# the path segment, so under the REPL backend NOTHING EVER MATCHED,
+# `LeanResult.errors` was always empty, and `interpret` fell back to
+# `first_error` -- the literal first line of output.
+#
+# MEASURED, on eval/results/putnam-run2.json, which ran on the REPL backend:
+# 38 of 58 rejections (66%) told the model nothing about what went wrong. On
+# `putnam_1962_a4` the ENTIRE feedback for a rejected proof was
+#
+#     41:97: warning: Variable name `x` is not explicitly referenced.
+#
+# a cosmetic warning, because it happened to be the first line. The real
+# error, and everything after it, was discarded. That goal then spent 18
+# attempts bouncing off the same non-message, and `putnam_1962_a6` -- 13 of 15
+# rejections blind -- wrote twenty consecutive skeletons. The prompt's rule
+# "two near-identical resubmissions means you reacted to the surface of the
+# error" was being followed against a surface that was all there was.
+_DIAGNOSTIC = re.compile(r"^(?:\S*?:)?\d+:\d+:\s*(error|warning):")
 
 _PLACEHOLDER = re.compile(r"\b(sorry|admit)\b")
 _AXIOM = re.compile(r"^\s*axiom\s+\S", re.MULTILINE)
