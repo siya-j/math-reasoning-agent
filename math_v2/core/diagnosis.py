@@ -173,8 +173,21 @@ def is_generic(proof):
 # words that return Lean internals. The name is IN the error; the remaining
 # goal is IN the error. Both can be turned into a query without a model.
 
+# The DELIMITER is captured so the closing quote can be told apart from a
+# quote that belongs to the name. Lean writes `unknown identifier 'Complex.abs'`
+# and a prime is legal INSIDE an identifier (`foo'`), so a character class
+# containing `'` swallows the closing quote: the query became `"abs'"`, which
+# matches nothing.
+#
+# FOUND BY AUDIT, not by a failing run, and it could not have been found by
+# one: `retrieval_query` is reached only from `_retrieve_for_failure`, which
+# needs a CLASSIFIED error, and until the `_DIAGNOSTIC` fix no REPL diagnostic
+# ever classified. The mechanism was dead, so its bug was unreachable. Fixing
+# the parser is what made this observable.
 _UNKNOWN_NAME = re.compile(
-    r"[Uu]nknown (?:identifier|constant|declaration)\s*[`'\u2018]?([\w.'\u2080-\u2089]+)")
+    r"[Uu]nknown (?:identifier|constant|declaration)\s*"
+    r"(?:(?P<quote>[`'\u2018])(?P<quoted>.+)(?P=quote)"
+    r"|(?P<bare>[\w.'\u2080-\u2089]+))")
 _INSTANCE_OF = re.compile(r"failed to synthesize\s*(?:instance\s*)?([^\n]{0,80})")
 _GOAL_LINE = re.compile(r"^\s*\u22a2\s*(.+)$", re.MULTILINE)
 
@@ -191,10 +204,11 @@ def retrieval_query(detail):
     if kind is UNKNOWN_IDENTIFIER:
         found = _UNKNOWN_NAME.search(text)
         if found:
+            name = found.group("quoted") or found.group("bare") or ""
             # The LAST segment as a quoted fragment: `Complex.abs` is gone, but
             # a fragment search over `abs` finds what replaced it, where the
             # full dotted name returns nothing at all.
-            leaf = found.group(1).split(".")[-1]
+            leaf = name.split(".")[-1]
             return f'"{leaf}"' if leaf else ""
         return ""
 
