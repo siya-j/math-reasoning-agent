@@ -160,6 +160,55 @@ def classify(run: ProofRun) -> ProofOutcome:
     return ProofOutcome.NOT_PROVED
 
 
+def lemma_name(declaration: str) -> str:
+    """The name a kept lemma is cited by: the token after `lemma`/`theorem`."""
+    words = (declaration or "").split()
+    for index, word in enumerate(words[:-1]):
+        if word in ("lemma", "theorem"):
+            return words[index + 1].strip(":")
+    return ""
+
+
+def _via_synthesis(run: ProofRun) -> bool:
+    """Did DECOMPOSITION close this goal -- did proved lemmas do the work?
+
+    MEASURED, and the reason this is no longer a stage check: the old version
+    asked whether `run.attempts[-1].stage is ProofStage.SYNTHESIS`, and
+    `math_v2` CANNOT EMIT THAT STAGE. Its `harness._STAGE` maps records to
+    DIRECT and SKELETON only; `SYNTHESIS` is produced solely by the old
+    `pipeline/prover.py`. So `via_synthesis` was always False and
+    `lemma_yield` always 0.0 for every math_v2 run ever recorded -- not
+    because decomposition never worked, but because the instrument could not
+    read. On PutnamBench `putnam_1962_b1` the agent proved four lemmas and
+    assembled them into the winning proof, and the summary reported a lemma
+    yield of zero.
+
+    The question the metric NAMES is "was the goal rescued by decomposition",
+    so that is what it now asks, of both provers:
+
+      * the old prover marks its assembled attempt `SYNTHESIS` -- kept, so
+        baseline numbers are unchanged and the two arms stay comparable;
+      * for anything else, the accepted proof CITING a kept lemma by name is
+        the mechanism itself. `full_statement` prepends kept lemmas to the
+        goal precisely so the proof can name them, so a citation is not a
+        heuristic about the text -- it is how the lemma reaches the compiler.
+
+    Deliberately NOT restricted to the automatic hole-filler. Whether the
+    model assembled the pieces or `assemble()` did is an implementation
+    detail of who typed it; the goal was still closed by decomposing it, and
+    a metric that missed `b1` would answer a narrower question than the one
+    its name asks.
+    """
+    if not run.proved:
+        return False
+    if run.attempts and run.attempts[-1].stage is ProofStage.SYNTHESIS:
+        return True
+
+    proof = run.proof or ""
+    names = [lemma_name(lemma.proof) for lemma in run.proved_lemmas]
+    return any(name and name in proof for name in names)
+
+
 def result_from(goal: Goal, run: ProofRun) -> ProofResult:
     return ProofResult(
         goal_id=goal.id,
@@ -170,11 +219,7 @@ def result_from(goal: Goal, run: ProofRun) -> ProofResult:
         attempts=len(run.attempts),
         lemmas_total=len(run.lemmas),
         lemmas_proved=len(run.proved_lemmas),
-        via_synthesis=bool(
-            run.proved
-            and run.attempts
-            and run.attempts[-1].stage is ProofStage.SYNTHESIS
-        ),
+        via_synthesis=_via_synthesis(run),
         detail=run.verdict.detail if run.verdict else "",
         model_calls=run.telemetry.model_calls,
         lean_calls=run.telemetry.lean_calls,
