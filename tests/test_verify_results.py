@@ -286,3 +286,27 @@ def test_the_unchecked_note_says_how_to_fix_it():
 
     assert "MRA_LEAN_COLD_TIMEOUT" in note
     assert "diagnose_lean" in note
+
+
+def test_the_cold_timeout_has_real_margin_over_a_measured_compile():
+    """MEASURED on the operator's machine: one cold `import Mathlib` compile
+    takes about 480 seconds. A 600s ceiling sat 25% above that and produced a
+    FALSE FAILURE -- `by decide` reported as unverifiable when nothing was
+    wrong with it, purely because ordinary variance crossed the line.
+
+    A limit whose job is to catch a hang needs enough margin that normal
+    variance cannot reach it. Three times the observed cost is that margin;
+    600s was not, and 60s (the agent's own timeout, correct for a WARM REPL)
+    was not remotely.
+    """
+    import config
+
+    measured_cold_compile = 484
+
+    assert config.LEAN_COLD_TIMEOUT >= 3 * measured_cold_compile, (
+        f"{config.LEAN_COLD_TIMEOUT}s leaves too little margin over a "
+        f"{measured_cold_compile}s compile; variance will read as a hang"
+    )
+    assert config.LEAN_COLD_TIMEOUT > config.LEAN_TIMEOUT, (
+        "the cold budget must exceed the warm one it exists to replace"
+    )

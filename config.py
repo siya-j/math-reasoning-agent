@@ -46,13 +46,30 @@ LEAN_TIMEOUT = int(os.getenv("MRA_LEAN_TIMEOUT", "60"))
 # `tests/test_lean_real.py` -- pays that import on every call, in a fresh
 # subprocess.
 #
-# MEASURED, on a healthy Lean 4.33.1 with a fully built Mathlib project:
-# `import Mathlib` alone TIMED OUT at 60s. `math_v2/tools/_repl.py` records
-# cold-import figures of 40.5s and 116s, and LEAN_RESERVE_SECONDS was raised
-# to 120 against real subprocess-mode calls of 55-300s. 60s was never going
-# to be enough for a cold compile, and treating that timeout as an answer is
-# how `verify_results.py` came to report a real proof as a soundness failure.
-LEAN_COLD_TIMEOUT = int(os.getenv("MRA_LEAN_COLD_TIMEOUT", "600"))
+# MEASURED TWICE, on a healthy Lean 4.33.1 with a fully built Mathlib project.
+# First: `import Mathlib` alone TIMED OUT at 60s, so the agent's own timeout
+# was never going to serve a cold compile.
+#
+# Then 600s was tried, and it was still wrong -- badly enough to produce a
+# FALSE FAILURE. On that machine one cold compile takes about EIGHT MINUTES
+# (measured: 484s for a single test; 1703s for a run of three, one of which
+# hit the ceiling). A 600s limit sits barely 25% above the real cost, so
+# ordinary variance tips a healthy compile into a timeout -- and it did,
+# reporting `by decide` as unverifiable when nothing was wrong with it.
+#
+# 1800s is three times the observed cost, which is the margin a limit needs
+# when the thing it bounds varies. It is not a performance target: nothing
+# should ever wait this long, and if a compile does, the timeout is a
+# diagnosis rather than a budget.
+#
+# THE REAL LESSON IS NOT THE NUMBER. A cold subprocess compile costs minutes
+# because it re-imports Mathlib every time, which is exactly why the agent
+# uses a warm REPL session and sees 20-45s instead. Anything that compiles
+# repeatedly through `run_lean` -- `scripts/verify_results.py` above all --
+# pays that import per proof and does not scale: five proofs is forty
+# minutes, a hundred is a working day. That is a design problem in the tool,
+# not a number to raise here.
+LEAN_COLD_TIMEOUT = int(os.getenv("MRA_LEAN_COLD_TIMEOUT", "1800"))
 
 # --- theorem proving (Prover Agent, arXiv 2506.19923) --------------------
 # Direct attempts before falling back to compiler-guided refinement.
