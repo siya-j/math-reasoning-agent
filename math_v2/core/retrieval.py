@@ -89,6 +89,45 @@ def rank(found):
     return lemmas + definitions
 
 
+def shape_ladder(workdir, search):
+    """What the GOAL'S OWN SHAPE returns, for a query that found nothing.
+
+    MEASURED, on eval/results/putnam-run2.json: the agent issued 61 searches
+    across five goals. NOT ONE used the `|- <shape>` form, and 22 of them --
+    36% -- returned nothing at all. On `putnam_1962_a3` it was 17 empty out of
+    26, after which the model gave up and fabricated lemmas. Every one of
+    those queries was a bare name: "Routh", "volume", "simplex", "toReal".
+
+    The prompt has always said to search by the conclusion the step produces,
+    "because that is what Mathlib is actually indexed by", and
+    `loogle.premises_for` has always implemented exactly that ladder --
+    hypothesis+conclusion, then conclusion patterns, then names -- with its own
+    measured evidence:
+
+        IsCyclic                      2163 hits, wanted lemma not in first 200
+        |- IsCyclic _                   54 hits, wanted lemma fourth
+        Nat.card _ = _, IsCyclic _      10 hits, wanted lemma FIRST
+
+    `seed_premises` runs that ladder ONCE, when the statement is first checked.
+    Nothing ran it again, so a model that searched badly mid-proof simply got
+    nothing and moved on. This is the third time in this project that a rule
+    stated in the prompt was declined in practice; the answer, as before, is to
+    stop asking and start doing.
+
+    Returns [] on any failure. Retrieval is an optimisation and may never take
+    a run down.
+    """
+    statement = log.current_goal(workdir) or log.declared_goal(workdir)
+    if not statement or search is None:
+        return []
+    try:
+        found = search.premises_for(statement)
+    except Exception:  # noqa: BLE001
+        return []
+    found, _ = drop_noise([p for p in found if not is_noise(p)])
+    return rank(found)
+
+
 def search_mathlib(workdir, query, search, limit=None):
     """Search Mathlib, remember what came back, and pass on Loogle's own hints.
 
@@ -132,12 +171,41 @@ def search_mathlib(workdir, query, search, limit=None):
         )
 
     if not found:
+        # The query found nothing, so spend the turn on the goal's own shape
+        # rather than on an apology. See `shape_ladder`.
+        rescued = shape_ladder(workdir, search)
+        if rescued:
+            log.remember_premises(workdir, [
+                {"name": p.name, "type": p.type, "module": p.module,
+                 "doc": p.doc} for p in rescued
+            ])
+            log.note(workdir, "search: {!r} -> nothing; goal shape -> {}".format(
+                query, ", ".join(p.name for p in rescued[:MAX_SHOWN])))
+            return {
+                "ok": True,
+                "outputs": {
+                    "found": [{"name": p.name, "type": p.type}
+                              for p in rescued[:MAX_SHOWN]],
+                    "suggestions": suggestions,
+                    "from_goal_shape": True,
+                },
+                "message": (
+                    "No declarations match {!r}, so this searched the GOAL'S "
+                    "OWN SHAPE instead — its conclusion, and its hypotheses "
+                    "where they narrow it. That is what Mathlib is indexed "
+                    "by, and it is why a bare word usually returns nothing "
+                    "useful:\n\n{}{}".format(
+                        query, render_premises(rescued[:MAX_SHOWN]), hint)
+                ),
+            }
+
         return {
             "ok": True,
             "outputs": {"found": [], "suggestions": suggestions},
             "message": (
-                'No declarations match {!r}. Quote a name FRAGMENT ("prime_gt"); '
-                "leave a full constant name unquoted.{}".format(query, hint)
+                'No declarations match {!r}, and the goal\'s own shape returns '
+                'nothing either. Quote a name FRAGMENT ("prime_gt"); leave a '
+                "full constant name unquoted.{}".format(query, hint)
             ),
         }
 
