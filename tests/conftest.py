@@ -27,6 +27,27 @@ import os
 
 import pytest
 
+# WHERE THE COMPILER IS, as opposed to WHAT THE CODE DOES. These two are
+# exempt from the clearing below, and the distinction is the whole reason the
+# exemption is safe: every variable the docstring blames --- MRA_EXEC,
+# MRA_PROVER, MRA_MAX_AGENT_SECONDS --- changes the behaviour under test, so
+# clearing it restores a declared default. These name a path on the machine.
+# Clearing them cannot isolate a test; it can only disable one.
+#
+# MEASURED, and it disabled eleven. `tests/test_lean_real.py` skips unless
+# `import Mathlib` resolves, which needs `MRA_LEAN_PROJECT` to point at a Lake
+# project. This hook deleted it before collection, so the probe ran bare
+# `lean`, failed with "unknown module prefix 'Mathlib'", and every real-Lean
+# test skipped --- in a shell where the operator had just exported the
+# variable specifically to run them. The only tests in this repo that touch a
+# compiler could not run under the harness that runs them.
+#
+# Timeouts stay cleared: MRA_LEAN_TIMEOUT and MRA_LEAN_COLD_TIMEOUT change how
+# long the code waits, which is behaviour, and their defaults are the ones the
+# suite should be testing against.
+_LOCATION_ONLY = frozenset({"MRA_LEAN", "MRA_LEAN_PROJECT"})
+
+
 # Modules that read MRA_* into module-level constants at import time. Order
 # matters: config first, then anything that reads from it.
 _ENV_DEPENDENT = (
@@ -37,10 +58,28 @@ _ENV_DEPENDENT = (
 )
 
 
-def pytest_configure(config):  # noqa: ARG001 - pytest hook signature
-    """Runs before collection, so imports during collection see clean defaults."""
+def pytest_configure(config):
+    """Runs before collection, so imports during collection see clean defaults.
+
+    The original environment is stashed ON THE CONFIG OBJECT, not in a module
+    global. A test reaching it via `from tests.conftest import ...` imports
+    this file a SECOND time, as a different module object, and that copy is
+    created AFTER the clearing below -- so a module-level capture records the
+    cleared state and is worse than useless. `request.config` is the same
+    object pytest already made.
+
+    Why capture at all: without it a test cannot tell "the operator set
+    nothing" from "the harness deleted it", and those want opposite responses
+    -- a skip and a failure. A test that skips in both cases cannot catch the
+    bug that produces the second.
+    """
+    config._original_mra_environment = {
+        name: value for name, value in os.environ.items()
+        if name.startswith("MRA_")
+    }
+
     for name in list(os.environ):
-        if name.startswith("MRA_"):
+        if name.startswith("MRA_") and name not in _LOCATION_ONLY:
             del os.environ[name]
 
     for name in _ENV_DEPENDENT:
@@ -54,7 +93,7 @@ def pytest_configure(config):  # noqa: ARG001 - pytest hook signature
 def _clean_environment(monkeypatch):
     """Belt and braces: a test that sets MRA_* cannot leak into the next one."""
     for name in list(os.environ):
-        if name.startswith("MRA_"):
+        if name.startswith("MRA_") and name not in _LOCATION_ONLY:
             monkeypatch.delenv(name, raising=False)
 
 

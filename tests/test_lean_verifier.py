@@ -564,3 +564,62 @@ def test_the_mathlib_probe_is_cached(monkeypatch):
     lean_runner.mathlib_is_available()
 
     assert len(calls) == 1
+
+
+# ------------------------------------------ the harness must not disable itself
+def test_the_conftest_preserves_where_the_compiler_lives():
+    """MEASURED, and it silently disabled every real-Lean test in the repo.
+
+    `conftest.pytest_configure` clears every `MRA_*` variable, for a good
+    reason its own docstring records: a leaked benchmark environment
+    (`MRA_EXEC`, `MRA_PROVER`, `MRA_MAX_AGENT_SECONDS`) once made six tests
+    fail by changing the behaviour under test.
+
+    But `MRA_LEAN_PROJECT` is a different kind of variable. It names a path on
+    the machine, and clearing it cannot restore a declared default -- there is
+    no default location for a Lake project. So `tests/test_lean_real.py`
+    probed with bare `lean`, got "unknown module prefix 'Mathlib'", and
+    skipped all eleven of its tests IN A SHELL WHERE THE OPERATOR HAD JUST
+    EXPORTED THE VARIABLE IN ORDER TO RUN THEM.
+
+    The rule the exemption encodes: clear what changes BEHAVIOUR, keep what
+    says WHERE AN EXTERNAL TOOL IS.
+    """
+    from tests.conftest import _LOCATION_ONLY
+
+    assert "MRA_LEAN_PROJECT" in _LOCATION_ONLY
+    assert "MRA_LEAN" in _LOCATION_ONLY
+
+    # The variables that motivated the clearing must never be exempted.
+    for behaviour in ("MRA_PROVER", "MRA_EXEC", "MRA_MAX_AGENT_SECONDS",
+                      "MRA_MAX_AGENT_LEAN", "MRA_LEAN_TIMEOUT"):
+        assert behaviour not in _LOCATION_ONLY, behaviour
+
+
+def test_an_exported_lean_project_survives_into_the_tests(request):
+    """The end-to-end half, and it compares against what the shell ORIGINALLY
+    held rather than against what is there now.
+
+    The first version of this test read `os.environ` and skipped when the
+    variable was missing -- which is precisely the state the bug produces, so
+    it skipped instead of failing and could never have caught anything. That
+    is the same "silence reads as success" trap as a negative assertion
+    against a compiler that never ran. `conftest.ORIGINAL_ENVIRONMENT` is
+    captured before any clearing, so "the operator set nothing" and "the
+    harness deleted it" are now distinguishable, and only the first is a skip.
+    """
+    import os
+
+    # `request.config`, not a conftest import: importing that file again makes
+    # a SECOND module object, created after the clearing, whose idea of the
+    # "original" environment is the already-cleared one. That mistake made the
+    # previous version of this test skip on exactly the bug it guards.
+    original = getattr(request.config, "_original_mra_environment", {})
+    exported = original.get("MRA_LEAN_PROJECT")
+    if not exported:
+        pytest.skip("MRA_LEAN_PROJECT was not set in this shell")
+
+    assert os.environ.get("MRA_LEAN_PROJECT") == exported, (
+        "the harness cleared the project path the operator exported; "
+        "tests/test_lean_real.py cannot run"
+    )
