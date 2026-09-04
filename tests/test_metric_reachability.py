@@ -183,3 +183,77 @@ def test_lemma_counts_reach_the_record():
 
     assert record.lemmas_total == 2
     assert record.lemmas_proved == 2
+
+
+# =====================================================================
+# Tries at the goal, versus everything that was submitted
+# =====================================================================
+def test_lemma_and_skeleton_work_is_not_a_try_at_the_goal():
+    """MEASURED on `putnam_1962_b1`: 33 recorded attempts, 7 of them skeletons
+    and at least 8 of them lemmas, reported as `mean_attempts` 22.6 while
+    `harness._STAGE`'s own comment claimed that number counted "tries at the
+    goal". Both figures are worth having; conflating them was the bug."""
+    run = run_with(attempts=[
+        ProofAttempt(1, ProofStage.DIRECT, "...", UNKNOWN),
+        ProofAttempt(2, ProofStage.LEMMA, "...", UNKNOWN),
+        ProofAttempt(3, ProofStage.SKELETON, "...", UNKNOWN),
+        ProofAttempt(4, ProofStage.LEMMA, "...", UNKNOWN),
+        ProofAttempt(5, ProofStage.DIRECT, "...", UNKNOWN),
+    ])
+
+    record = result_from(GOAL, run)
+
+    assert record.attempts == 5, "the old, broader count must not move"
+    assert record.goal_attempts == 2
+    assert record.lemma_attempts == 2
+
+
+def test_an_assembled_proof_counts_as_a_try_at_the_goal():
+    """SYNTHESIS is submitted against the goal like any other attempt -- only
+    SKELETON and LEMMA are excluded, and for different reasons."""
+    run = run_with(attempts=[ProofAttempt(1, ProofStage.SYNTHESIS, "...", TRUE)])
+
+    assert result_from(GOAL, run).goal_attempts == 1
+
+
+def test_math_v2_can_actually_emit_a_lemma_stage():
+    """The producer half. `harness._STAGE` collapsed LEMMA into DIRECT, which
+    is what made this measurement impossible -- the same information loss that
+    made `via_synthesis` unreadable. Checking the map directly, because that is
+    where the loss was."""
+    from math_v2.core import log
+    from math_v2.harness import _STAGE
+
+    assert _STAGE[log.LEMMA] is ProofStage.LEMMA
+    assert _STAGE[log.PROOF] is ProofStage.DIRECT
+    assert _STAGE[log.SKELETON] is ProofStage.SKELETON
+
+
+def test_the_mean_goal_attempts_summary_is_populated():
+    record = result_from(GOAL, run_with(attempts=[
+        ProofAttempt(1, ProofStage.DIRECT, "...", UNKNOWN),
+        ProofAttempt(2, ProofStage.LEMMA, "...", UNKNOWN),
+    ]))
+
+    summary = summarize([record])
+
+    assert summary["mean_attempts"] == 2.0
+    assert summary["mean_goal_attempts"] == 1.0
+
+
+def test_lemma_attempts_can_exceed_lemmas_kept():
+    """The point of the new field. `lemmas_total` and `lemmas_proved` are equal
+    by construction -- both are built from `log.kept_lemmas`, and a lemma is
+    only kept once the compiler accepted it -- so "4/4" is the same number
+    twice, not a yield. How many tries it took is the part that carries
+    information."""
+    run = run_with(
+        lemmas=[kept("survived")],
+        attempts=[ProofAttempt(n, ProofStage.LEMMA, "...", UNKNOWN)
+                  for n in range(1, 5)],
+    )
+
+    record = result_from(GOAL, run)
+
+    assert record.lemmas_total == record.lemmas_proved == 1
+    assert record.lemma_attempts == 4, "three rejected tries are invisible"

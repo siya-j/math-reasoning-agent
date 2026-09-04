@@ -68,6 +68,21 @@ class ProofResult:
     outcome: ProofOutcome
     statement: str = ""
     attempts: int = 0
+    # TRIES AT THE GOAL, as distinct from `attempts`, which counts everything
+    # submitted. MEASURED on `putnam_1962_b1`: 33 recorded attempts, of which 7
+    # were skeletons and at least 8 were lemmas -- so `mean_attempts` of 22.6
+    # was describing total submissions while `harness._STAGE`'s own comment
+    # claimed it counted "tries at the goal". Both numbers are worth having;
+    # conflating them is what was wrong. `attempts` keeps its old meaning so
+    # historical results files stay comparable.
+    goal_attempts: int = 0
+    # `lemmas_total` and `lemmas_proved` are EQUAL BY CONSTRUCTION for math_v2
+    # and always have been: `harness._to_proof_run` builds `run.lemmas` from
+    # `log.kept_lemmas` alone, and a lemma is only kept once the compiler
+    # accepted it. So "4/4" is not a success ratio, it is the same number
+    # twice. `lemma_attempts` is the denominator that carries information --
+    # how many helper attempts it took to get those.
+    lemma_attempts: int = 0
     lemmas_total: int = 0
     lemmas_proved: int = 0
     via_synthesis: bool = False
@@ -160,6 +175,16 @@ def classify(run: ProofRun) -> ProofOutcome:
     return ProofOutcome.NOT_PROVED
 
 
+# Stages that are a try at THE GOAL. SKELETON is excluded because a
+# decomposition proves nothing on its own -- it establishes that a plan is well
+# formed. LEMMA is excluded because it never touches the goal. SYNTHESIS is
+# included: an assembled proof is submitted against the goal like any other.
+_AT_THE_GOAL = frozenset({
+    ProofStage.CHEAP, ProofStage.DIRECT, ProofStage.REFINE,
+    ProofStage.SYNTHESIS,
+})
+
+
 def lemma_name(declaration: str) -> str:
     """The name a kept lemma is cited by: the token after `lemma`/`theorem`."""
     words = (declaration or "").split()
@@ -217,6 +242,9 @@ def result_from(goal: Goal, run: ProofRun) -> ProofResult:
         outcome=classify(run),
         statement=run.statement,
         attempts=len(run.attempts),
+        goal_attempts=sum(1 for a in run.attempts if a.stage in _AT_THE_GOAL),
+        lemma_attempts=sum(1 for a in run.attempts
+                           if a.stage is ProofStage.LEMMA),
         lemmas_total=len(run.lemmas),
         lemmas_proved=len(run.proved_lemmas),
         via_synthesis=_via_synthesis(run),
@@ -347,6 +375,10 @@ def summarize(results: list[ProofResult]) -> dict:
         # than the other four together. `None` when nothing reported usage --
         # a run against a provider that does not report it must not read as a
         # run that cost nothing.
+        "mean_goal_attempts": (
+            round(sum(r.goal_attempts for r in counted) / len(counted), 2)
+            if counted else None
+        ),
         "input_tokens": _total(counted, "input_tokens"),
         "output_tokens": _total(counted, "output_tokens"),
     }
@@ -408,7 +440,8 @@ def render(summary: dict) -> str:
         f"  genuinely tested         {summary['genuinely_tested']}  (diagnostic)",
         "-" * 52,
         f"  lemma yield            {_percent(summary['lemma_yield'])}",
-        f"  mean attempts          {summary['mean_attempts']}",
+        f"  mean attempts          {summary['mean_attempts']}  (all submissions)",
+        f"  mean attempts at goal  {summary['mean_goal_attempts']}",
         "-" * 52,
         f"  input tokens           {_tokens(summary['input_tokens'])}",
         f"  output tokens          {_tokens(summary['output_tokens'])}",

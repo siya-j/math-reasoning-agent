@@ -87,9 +87,17 @@ the original question as `claim`."""
 # which reads as a failed proof and is the reason a purely infrastructural
 # failure looked like a reasoning failure. It also inflated `mean attempts`,
 # a metric that is supposed to count tries at the goal.
+#
+# `log.LEMMA` maps to LEMMA, not DIRECT. MEASURED, and it cost two metrics:
+# collapsing helper attempts into DIRECT made them indistinguishable from
+# tries at the goal, so `mean_attempts` counted them (b1 reported 33 attempts
+# of which 7 were skeletons and at least 8 were lemmas), and every lemma
+# attempt rendered in the trace as "attempt N: direct" for something that
+# never touched the goal. It is the same information loss that made
+# `via_synthesis` unreadable.
 _STAGE = {
     log.PROOF: ProofStage.DIRECT,
-    log.LEMMA: ProofStage.DIRECT,
+    log.LEMMA: ProofStage.LEMMA,
     log.SKELETON: ProofStage.SKELETON,
 }
 

@@ -25,6 +25,12 @@ class ProofStage(str, Enum):
     REFINE = "refine"          # revised using the compiler's errors
     SKELETON = "skeleton"      # decomposed into `have` steps, holes filled
     SYNTHESIS = "synthesis"    # assembled from lemmas that were proved
+    # An attempt at a HELPER, not at the goal. Added because its absence was
+    # actively costing measurements: `math_v2` had nowhere to put a `try_lemma`
+    # attempt and mapped it to DIRECT, so lemma work counted as tries at the
+    # goal (inflating `mean_attempts`) and traces rendered "attempt 7: direct"
+    # for something that never touched the goal.
+    LEMMA = "lemma"            # an attempt at a helper result
 
 
 @dataclass(frozen=True)
