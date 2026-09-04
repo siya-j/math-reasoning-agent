@@ -42,10 +42,32 @@ from .context import MathContext
 from .prompt import system_prompt
 from .tools import create_math_v2_tools
 
-# A proof is dozens of tool calls in the worst case: search, compile, read the
-# goal state, revise. Generous enough not to cut off honest work, finite enough
-# that a loop ends.
-TOOL_BUDGET = 40
+# A 2-TUPLE, `(soft, hard)`, because that is what the middleware unpacks:
+# `make_agent_middleware` does `TurnToolBudgetMiddleware(*tool_budget)` and the
+# constructor is `__init__(self, soft, hard)`. This was a bare `40`, so
+# `create_math_v2_agent()` raised `TypeError: argument after * must be an
+# iterable, not int` and COULD NOT BUILD AT ALL. It went unnoticed because the
+# evaluation path does not use this constructor -- `harness.build_agent` calls
+# LangChain's `create_agent` directly -- so every number this project has ever
+# produced came from a path that never touches this file. The Aura integration
+# would have hit it on first use. Every other caller passes a tuple
+# (`research/agent.py` uses `(4, 7)`).
+#
+# DELIBERATELY WELL ABOVE math_v2's OWN BUDGET, which is the part worth
+# thinking about rather than copying. `core/budget.py` already bounds a run:
+# MAX_TOOL_CALLS is 40 by default and 120 under `--budget-profile
+# hard-reasoning`. If these numbers sat at or below those, this middleware
+# would become the binding constraint INVISIBLY -- a run would stop without
+# `budget.summary()` recording a reason, so `eval.proof_metrics.classify`
+# would read it as NOT_PROVED rather than EXHAUSTED and score a budget failure
+# as a proving failure. Two budgets are already one more than ideal; the outer
+# one must never be the one that bites. So this is a runaway guard only, and
+# math_v2's own budget stays the thing that stops a run and says why.
+#
+# soft nudges the model to wrap up; hard blocks further tool calls, except for
+# `finish`, which the middleware always allows -- so a run that hits the hard
+# stop can still report its outcome rather than dying silently.
+TOOL_BUDGET = (150, 200)
 
 
 def create_math_v2_agent(
