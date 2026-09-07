@@ -487,6 +487,25 @@ def refund_statement_check(workdir):
     back as an infrastructure failure (timeout, or Lean could not be run at
     all), never on a genuine compiler verdict — an ordinary rejection still
     counts, because that IS the syntax being judged.
+
+    ALSO CALLED WHEN THE STATEMENT WAS REFUSED BEFORE COMPILING, the same
+    situation reached from the other side: `says_nothing` and
+    `assumes_its_own_conclusion` reject the text without running Lean, so the
+    compiler judged no syntax there either.
+
+    MEASURED on `lin-vector-space-basis` in the mixed run. The agent had two
+    checks. It spent the first on a formalisation using `Basis`, which stopped
+    elaborating when Mathlib renamed it `Module.Basis`. It spent the second on
+    a `theorem dummy : True` probe, which the prompt explicitly forbids and
+    `says_nothing` correctly refused WITHOUT compiling. It then searched,
+    FOUND `Module.Basis`, and had no checks left to use it -- going on to
+    prove the theorem as a scratch diversion (`exists_basis`), which cannot
+    score, so the run recorded `not_formalized` for a goal it had solved.
+
+    Charging for a refusal punishes the agent for a probe the guard has
+    already refused. One refusal, one refund: the guard still costs a turn and
+    still tells it off, but it no longer also consumes the scarce resource --
+    MAX_STATEMENT_CHECKS is 2, against MAX_LEAN_CALLS of 12 or 40.
     """
     data, state = _state(workdir)
     state["statement_checks"] = max(0, state.get("statement_checks", 0) - 1)

@@ -63,6 +63,16 @@ def lean(outcome, output=""):
     return runner
 
 
+def _runtime(workdir):
+    from langchain.tools import ToolRuntime
+
+    from math_v2.context import MathContext
+
+    return ToolRuntime(state=None, context=MathContext(workdir=str(workdir)),
+                       config={}, stream_writer=lambda *a, **k: None,
+                       tool_call_id="t", store=None)
+
+
 @pytest.fixture
 def workdir():
     return tempfile.mkdtemp()
@@ -289,3 +299,60 @@ def test_an_honest_proof_still_reaches_proved(workdir):
 
     assert result["outputs"]["accepted"] is True
     assert outcome_of(workdir) == verdict.PROVED
+
+
+# ===================================================================
+# A refusal that never compiled must not spend a formalisation attempt
+# ===================================================================
+def test_a_refused_statement_check_is_refunded(workdir):
+    """MEASURED on `lin-vector-space-basis` in the mixed run. The agent had
+    two statement checks. It spent the first on a formalisation using `Basis`,
+    which stopped elaborating when Mathlib renamed it `Module.Basis`. It spent
+    the second on a `theorem dummy : True` probe -- forbidden by the prompt
+    and correctly refused by `says_nothing` WITHOUT compiling. It then
+    searched, FOUND `Module.Basis`, and had no checks left to use it; it
+    proved the theorem as a scratch diversion instead, which cannot score, and
+    the run recorded `not_formalized` for a goal it had solved.
+
+    Charging for a refusal punishes the agent for a probe the guard already
+    refused. The guard still costs it a turn; it should not also cost one of
+    only two formalisation attempts.
+    """
+    from math_v2.core import budget
+    from math_v2.tools.proving import check_statement
+
+    budget.reset(workdir)
+    rt = _runtime(workdir)
+
+    result = run(check_statement.ainvoke(
+        {"statement": "theorem dummy : True", "runtime": rt}))
+
+    assert result["error"] == "trivial_conclusion"
+    assert budget.read(workdir)["statement_checks"] == 0, (
+        "a refusal that never reached Lean spent a formalisation attempt"
+    )
+
+
+def test_a_genuine_compiler_rejection_still_counts(workdir):
+    """The control, and the line the refund must not cross: an ordinary
+    rejection IS the syntax being judged, so it costs a check. Refunding that
+    would make MAX_STATEMENT_CHECKS unbounded."""
+    from math_v2.core import budget
+    from math_v2.tools import proving as proving_tools
+    from math_v2.tools.proving import check_statement
+
+    budget.reset(workdir)
+
+    async def rejects(source):
+        return LeanResult(LeanOutcome.ERRORS, "3:2: error: unknown identifier 'Basis'")
+
+    monkey = proving_tools.lean_runner
+    proving_tools.lean_runner = lambda workdir: rejects
+    try:
+        run(check_statement.ainvoke(
+            {"statement": "theorem t : Nonempty (Basis K V)",
+             "runtime": _runtime(workdir)}))
+    finally:
+        proving_tools.lean_runner = monkey
+
+    assert budget.read(workdir)["statement_checks"] == 1

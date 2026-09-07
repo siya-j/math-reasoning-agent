@@ -15,6 +15,12 @@ from math_v2.core import budget, log, progress, proving
 from math_v2.tools._util import lean_runner
 
 
+# Statement-check refusals decided from the TEXT, before Lean is invoked. Both
+# are cheap guards, and neither is the compiler judging a signature -- so
+# neither should consume one of the two formalisation attempts.
+_REFUSED_BEFORE_COMPILING = frozenset({"trivial_conclusion", "assumes_conclusion"})
+
+
 def _goal(runtime, statement):
     """The statement to work on: the one given, else the declared goal.
 
@@ -154,6 +160,14 @@ async def check_statement(statement: str, runtime: ToolRuntime[MathContext]) -> 
     # the repair-attempt count is refunded, and only when the compiler never
     # rendered a verdict at all.
     if result.get("outputs", {}).get("infra_failure"):
+        budget.refund_statement_check(workdir)
+    # A REFUSAL THAT NEVER COMPILED is the same case: `says_nothing` and
+    # `assumes_its_own_conclusion` reject the text before Lean runs, so the
+    # compiler judged no syntax and the scarce `MAX_STATEMENT_CHECKS` should
+    # not be spent. See `budget.refund_statement_check` for the measured
+    # incident -- an agent that found the right Mathlib name after burning
+    # both checks, one of them on a probe the guard had already refused.
+    elif result.get("error") in _REFUSED_BEFORE_COMPILING:
         budget.refund_statement_check(workdir)
     return _with_headroom(runtime, result)
 
