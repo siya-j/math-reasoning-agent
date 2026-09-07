@@ -86,9 +86,14 @@ def environment() -> dict:
     """
     if config.PROVER == MATH_V2:
         try:
+            from math_v2 import harness
             from math_v2.tools import _repl
 
-            return _repl.describe()
+            # Context management belongs here for the same reason the backend
+            # does: a run with trimming and one without are not comparable,
+            # and nothing else in the record would say which this was. Added
+            # when trimming was, so no results file is ambiguous about it.
+            return _repl.describe() | harness.context_policy()
         except Exception:  # noqa: BLE001 - reporting must not break a run
             return {"prover": MATH_V2}
     return {"prover": config.PROVER}

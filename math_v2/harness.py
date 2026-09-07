@@ -26,8 +26,25 @@ Verified: `create_agent` accepts the sixteen tools with
 feature rather than a deepagents one.
 
 STATE THIS WHENEVER A NUMBER FROM HERE IS QUOTED. There is no
-summarisation, self-validation or narration middleware in this path, so what
-is measured is tools + guard + model, not the production stack.
+self-validation or narration middleware in this path, so what is measured is
+tools + guard + model, not the production stack.
+
+ONE PIECE OF MIDDLEWARE IS NOW PRESENT, and this paragraph used to say there
+was none. `build_agent` installs `ContextEditingMiddleware`, which clears OLD
+tool results once the input grows past a threshold. MEASURED on
+eval/results/putnam-run4.json: 3,562,273 input tokens over five goals, about
+29,700 per model call against a system prompt of roughly 4,000 -- so ~85% of
+every call was conversation history re-sent, and the growth is why a hard goal
+cost 16x the input of an easy one rather than 4x. `environment()` records
+whether trimming was active and at what threshold, so a run with it cannot be
+compared against one without it by accident.
+
+WHY CLEARING IS SAFE HERE SPECIFICALLY, which is not a general claim: this
+agent keeps its state on disk, and `proof_state` re-derives the whole picture
+from `math/proof_log.json` in one uncharged call. A cleared tool result is
+therefore recoverable by asking, unlike an agent whose only memory is its
+transcript. `keep` also protects the most recent results, which is where the
+goal state the model is actually working from lives.
 
 FRESH WORKSPACE PER GOAL
 ------------------------
@@ -55,6 +72,7 @@ below drives `ainvoke` and runs the coroutine itself.
 """
 
 import asyncio
+import os
 import concurrent.futures
 import inspect
 import tempfile
@@ -102,12 +120,77 @@ _STAGE = {
 }
 
 
+# WHERE TO START CLEARING, chosen from run4's measured shape rather than left
+# at the library default. That default is 100_000 tokens and this workload
+# peaks around 55_000, so it would NEVER HAVE FIRED -- installing the
+# middleware without moving this would have been a no-op that looked like a
+# fix.
+#
+# Projected against run4's growth curve (4k at the first call rising to ~55k
+# at the last, 24 calls per goal):
+#
+#     cap        per goal      saving
+#     100,000     712,455          0%   never fires
+#      40,000     672,000          6%
+#      24,000     486,000         32%   <- default
+#      16,000     354,000         50%
+#      12,000     276,000         61%
+#
+# 24_000 is the conservative end on purpose: clearing begins only after about
+# nine model calls, so short goals are untouched entirely and long ones keep
+# a wide working window. Lower values save more and are worth measuring, which
+# is why this is an env var and not a literal.
+CONTEXT_TRIM_TRIGGER = int(os.getenv("MRA_CONTEXT_TRIM", "24000"))
+
+# Tool results that are never cleared. `proof_state` is the agent's way back
+# to orientation and is cheap to keep; `check_statement` is where it learns
+# whether its own statement elaborated. Both are called rarely, so excluding
+# them costs almost nothing and removes the two cases where a cleared result
+# would be most confusing.
+CONTEXT_TRIM_KEEP_TOOLS = ("proof_state", "check_statement")
+
+# How many of the most recent tool results survive regardless. The goal state
+# the model is working from is in the last one or two.
+CONTEXT_TRIM_KEEP = int(os.getenv("MRA_CONTEXT_TRIM_KEEP", "3"))
+
+
+def context_policy() -> dict:
+    """What context management was in force, for the results file.
+
+    Recorded for the same reason the Lean backend is: a number produced with
+    trimming and one produced without it are not comparable, and nothing else
+    in the record would say which this was.
+    """
+    return {
+        "context_trimming": bool(CONTEXT_TRIM_TRIGGER),
+        "context_trim_trigger": CONTEXT_TRIM_TRIGGER,
+        "context_trim_keep": CONTEXT_TRIM_KEEP,
+    }
+
+
 def build_agent(model, tools, system_prompt):
     """The LangChain agent. Separate so a test can inject a scripted one."""
     from langchain.agents import create_agent
 
+    middleware = []
+    if CONTEXT_TRIM_TRIGGER > 0:
+        from langchain.agents.middleware import (
+            ClearToolUsesEdit,
+            ContextEditingMiddleware,
+        )
+
+        middleware.append(ContextEditingMiddleware(edits=[ClearToolUsesEdit(
+            trigger=CONTEXT_TRIM_TRIGGER,
+            keep=CONTEXT_TRIM_KEEP,
+            # The CALL stays, only its result goes: the model still sees that
+            # it searched for something and got an answer it no longer holds,
+            # which is less disorienting than the call vanishing.
+            clear_tool_inputs=False,
+            exclude_tools=CONTEXT_TRIM_KEEP_TOOLS,
+        )]))
+
     return create_agent(model=model, tools=tools, system_prompt=system_prompt,
-                        context_schema=MathContext)
+                        context_schema=MathContext, middleware=middleware)
 
 
 def prove(
