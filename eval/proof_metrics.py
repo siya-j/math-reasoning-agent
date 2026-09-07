@@ -104,6 +104,11 @@ class ProofResult:
     # responses carry no usage metadata.
     input_tokens: int = 0
     output_tokens: int = 0
+    # Whether the two above are a measurement or a blank. See
+    # `domain.proof.Telemetry.complete`: a run that timed out or crashed never
+    # returned a transcript to count, so it reports zero cost for work that
+    # certainly cost something.
+    cost_complete: bool = True
 
     # Without these a failed run is opaque, and a cause has to be guessed at.
     # `trace` says which stages ran and what they decided; `stages` records
@@ -256,6 +261,7 @@ def result_from(goal: Goal, run: ProofRun) -> ProofResult:
         seconds=round(run.telemetry.seconds, 1),
         input_tokens=run.telemetry.input_tokens,
         output_tokens=run.telemetry.output_tokens,
+        cost_complete=run.telemetry.complete,
         proof=run.proof,
         lemmas=tuple(lemma.proof for lemma in run.lemmas),
         trace=tuple(run.trace),
@@ -381,6 +387,11 @@ def summarize(results: list[ProofResult]) -> dict:
         ),
         "input_tokens": _total(counted, "input_tokens"),
         "output_tokens": _total(counted, "output_tokens"),
+        # HOW MANY GOALS THE TOTALS ABOVE ACTUALLY COVER. MEASURED on
+        # putnam-run3: three of five goals returned no transcript, so the
+        # totals were the sum of two goals presented as the cost of five. A
+        # total is only a total if you know what it is over.
+        "cost_measured_on": sum(1 for r in counted if r.cost_complete),
     }
 
     for tier in Tier:
@@ -445,6 +456,10 @@ def render(summary: dict) -> str:
         "-" * 52,
         f"  input tokens           {_tokens(summary['input_tokens'])}",
         f"  output tokens          {_tokens(summary['output_tokens'])}",
+        f"  cost measured on       {summary['cost_measured_on']} of "
+        f"{summary['attempted']} goals"
+        + ("" if summary["cost_measured_on"] == summary["attempted"]
+           else "   <-- the rest returned no transcript; the totals are a FLOOR"),
         "-" * 52,
     ]
     for tier in Tier:

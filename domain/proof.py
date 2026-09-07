@@ -106,10 +106,22 @@ class Telemetry:
     # not populate these at all, both stay honest rather than reading as free.
     input_tokens: int = 0
     output_tokens: int = 0
+    # Did the counts above actually come back? They are read off the agent's
+    # returned transcript, and a run that times out or crashes never returns
+    # one -- so they stay at zero for a run that certainly called the model.
+    # MEASURED: three of five goals in eval/results/putnam-run3.json reported
+    # zero cost while having compiled Lean, and the run summary then totalled
+    # the two survivors and presented it as the cost of five.
+    #
+    # Default True because a caller that says nothing is the ordinary,
+    # complete case; only the harness's failure paths set it False.
+    complete: bool = True
 
     def summary(self) -> str:
         tokens = ""
-        if self.input_tokens or self.output_tokens:
+        if not self.complete:
+            tokens = ", cost UNKNOWN (the run did not return a transcript)"
+        elif self.input_tokens or self.output_tokens:
             tokens = (f", {self.input_tokens} in / "
                       f"{self.output_tokens} out tokens")
         return (

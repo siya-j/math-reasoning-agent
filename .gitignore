@@ -18,3 +18,20 @@ eval/last_proof_run.json
 # PutnamBench-derived goal files may embed MAA-permissioned informal text
 # (informal/putnam.json). Never committed -- see eval/putnam.py.
 eval/putnam*.json
+
+# The PutnamBench clone itself. `informal/putnam.json` in it is the text the
+# maintainers describe as available with permission from the MAA, so this must
+# never enter history -- `eval/putnam.py` reads it from a local checkout for
+# exactly that reason. The RESULTS of running it are fine and are tracked:
+# verified, they carry only formal Lean statements, proofs and telemetry, with
+# no `goal` field and no informal prose.
+PutnamBench/
+
+# Stale duplicate snapshots of the whole tree, ~840K, and a live hazard: a
+# grep for anything in this repo matches twice and the second hit is old code.
+claude-context/
+claude-context-2.zip
+
+# A local dump of `git log`, regenerated on demand and already in the history
+# it describes.
+GIT_HISTORY.txt

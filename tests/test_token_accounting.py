@@ -142,3 +142,76 @@ def _proved():
     from eval.proof_metrics import ProofOutcome
 
     return ProofOutcome.PROVED
+
+
+# ================================================================
+# A run that did not finish reports UNKNOWN cost, never zero cost
+# ================================================================
+# MEASURED on eval/results/putnam-run3.json. Three of five goals recorded
+# `model_calls: 0` and zero tokens while having made 1, 4 and 6 Lean calls --
+# they timed out or crashed, so the agent never returned a transcript to
+# count. The summary then added the two survivors and presented 1,229,551
+# input tokens as the cost of five goals.
+#
+# Two of those three also recorded the trace line "agent failed: " with
+# NOTHING after the colon, because `str(exc)` is empty for plenty of real
+# exceptions. The run died twice and the record could not say what killed it.
+def test_a_run_with_no_transcript_is_marked_incomplete():
+    """`complete=False` is the difference between "this cost nothing" and
+    "nobody counted". Only the harness's failure paths set it."""
+    assert Telemetry(model_calls=3, input_tokens=100).complete is True
+    assert "cost UNKNOWN" in Telemetry(complete=False).summary()
+    assert "cost UNKNOWN" not in Telemetry(input_tokens=5).summary()
+
+
+def test_the_summary_says_how_many_goals_the_cost_covers():
+    """A total is only a total if you know what it is over. Two goals'
+    tokens presented as five goals' cost is not a measurement."""
+    from eval.proof_metrics import ProofOutcome
+
+    measured = ProofResult(goal_id="a", area="x", tier=Tier.IN_MATHLIB,
+                           outcome=ProofOutcome.PROVED, input_tokens=1000,
+                           cost_complete=True)
+    lost = ProofResult(goal_id="b", area="x", tier=Tier.IN_MATHLIB,
+                       outcome=ProofOutcome.EXHAUSTED, cost_complete=False)
+
+    summary = summarize([measured, lost])
+
+    assert summary["cost_measured_on"] == 1
+    assert summary["attempted"] == 2
+    assert "FLOOR" in render(summary), (
+        "a partial total must be labelled as a floor, not printed as a total"
+    )
+
+
+def test_a_complete_run_is_not_labelled_a_floor():
+    """The negative control: the warning must not appear on a clean run, or it
+    becomes noise nobody reads."""
+    from eval.proof_metrics import ProofOutcome
+
+    record = ProofResult(goal_id="a", area="x", tier=Tier.IN_MATHLIB,
+                         outcome=ProofOutcome.PROVED, input_tokens=1000)
+
+    assert "FLOOR" not in render(summarize([record]))
+
+
+def test_a_crash_records_the_exception_type(tmp_path, monkeypatch):
+    """MEASURED: "agent failed: " with nothing after it, twice in one run.
+    `str(exc)` is empty for many real exceptions, so the class name is what
+    separates a rate limit from a decode error from a cancelled task."""
+    from math_v2 import harness
+    from math_v2.core import log
+
+    class Boom(Exception):
+        pass
+
+    def explode(*args, **kwargs):
+        raise Boom()          # deliberately empty message, as observed
+
+    monkeypatch.setattr(harness, "_invoke", explode)
+    run = harness.prove("g", model=object(), workdir=str(tmp_path),
+                        agent_factory=lambda *a: object())
+
+    trace = " ".join(log.read(str(tmp_path))["trace"])
+    assert "agent failed: Boom" in trace, trace
+    assert run.telemetry.complete is False, "a crashed run claimed a real cost"

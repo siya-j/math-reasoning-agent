@@ -142,6 +142,19 @@ def prove(
     prose = ""
     model_calls = 0
     tokens = (0, 0)
+    # WHETHER THE COST NUMBERS MEAN ANYTHING. `model_calls` and `tokens` are
+    # read off the agent's returned transcript, and on the timeout and crash
+    # paths below there IS no returned transcript -- so they stay at their
+    # initial zero for a run that certainly called the model.
+    #
+    # MEASURED on eval/results/putnam-run3.json: three of five goals reported
+    # `model_calls: 0` and zero tokens while having made 1, 4 and 6 Lean calls
+    # respectively. The run's summary then added up the two survivors and
+    # presented 1,229,551 input tokens as the cost of five goals. Reading 0 as
+    # "free" is the exact error `Telemetry`'s own comment warns about, arrived
+    # at from the other direction: not a provider that reports nothing, but a
+    # run whose report never came back.
+    telemetry_complete = False
     deadline = budget.wall_clock_deadline()
     try:
         agent = agent_factory(model, create_math_v2_tools(),
@@ -150,6 +163,7 @@ def prove(
         prose = _final_text(result)
         model_calls = _count_model_calls(result)
         tokens = _count_tokens(result)
+        telemetry_complete = True
     except (asyncio.TimeoutError, TimeoutError):
         # THE OUTER WALL CLOCK. `budget.spend` samples the clock and is only
         # called from inside a tool, so time spent between tool calls — a model
@@ -169,10 +183,19 @@ def prove(
     except Exception as exc:  # noqa: BLE001 - a crash must not lose the record
         # Everything the agent actually did is on disk already, so a harness
         # failure costs the prose and nothing else.
-        log.note(workdir, f"agent failed: {exc}")
+        #
+        # THE TYPE, NOT JUST THE MESSAGE. MEASURED on
+        # eval/results/putnam-run3.json: two of five goals recorded the trace
+        # line "agent failed: " -- with NOTHING after the colon, because
+        # `str(exc)` is empty for plenty of real exceptions. Two runs died and
+        # the record could not say what killed them, which made the whole run
+        # unusable as a comparison. `repr` would be noisier and is worth it:
+        # a class name alone already separates a rate limit from a decode
+        # error from a cancelled task.
+        log.note(workdir, f"agent failed: {type(exc).__name__}: {exc}".rstrip(": "))
 
     return _to_proof_run(run, workdir, prose, time.monotonic() - started,
-                         model_calls, tokens)
+                         model_calls, tokens, telemetry_complete)
 
 
 def _run_sync(coroutine):
@@ -321,7 +344,8 @@ def _final_text(result) -> str:
 
 
 def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
-                  model_calls: int = 0, tokens: tuple = (0, 0)) -> ProofRun:
+                  model_calls: int = 0, tokens: tuple = (0, 0),
+                  telemetry_complete: bool = True) -> ProofRun:
     """Translate the on-disk record into a ProofRun. THE VERDICT IS RE-DERIVED.
 
     `finish`'s own reply is not consulted. The outcome is computed here from
@@ -414,6 +438,7 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
         seconds=seconds,
         input_tokens=tokens[0],
         output_tokens=tokens[1],
+        complete=telemetry_complete,
     )
 
     if decision["outcome"] == verdicts.PROVED:
