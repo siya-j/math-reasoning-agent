@@ -451,6 +451,18 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
     run.verdict = Verdict(
         VerificationStatus.UNKNOWN, "prover",
         decision["reason"] + stopped
-        + (f" The agent reported: {prose[:200]}" if prose else ""),
+        # 1200, not 200. MEASURED on eval/results/putnam-run4.json: all three
+        # unproved goals FINISHED VOLUNTARILY with most of their compile
+        # budget unused -- 2 of 40, 6 of 40, 19 of 40 -- and the only record
+        # of WHY was this string, cut off mid-sentence. "The agent reported:
+        # The Putnam 1962 A4 theorem is mathematically true. ### Mathematical
+        # Analysis The standard proof of this claim uses Taylor's theor" is
+        # not enough to tell a correct judgement (Mathlib lacks the machinery)
+        # from a premature one (it had 21 compiles left).
+        #
+        # Prose is shown to a human and never read by the guard, so length
+        # costs nothing but bytes. It is still bounded: this is a diagnostic,
+        # not a transcript.
+        + (f" The agent reported: {prose[:1200]}" if prose else ""),
     )
     return run

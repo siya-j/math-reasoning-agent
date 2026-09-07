@@ -20,6 +20,8 @@ rather than as a run that cost nothing. That is why `summarize` reports None
 and the rendered report prints "not reported".
 """
 
+from pathlib import Path
+
 from domain.proof import ProofRun, Telemetry, Verdict, VerificationStatus
 from eval.proof_dataset import Goal, Tier
 from eval.proof_metrics import ProofResult, render, result_from, summarize
@@ -215,3 +217,22 @@ def test_a_crash_records_the_exception_type(tmp_path, monkeypatch):
     trace = " ".join(log.read(str(tmp_path))["trace"])
     assert "agent failed: Boom" in trace, trace
     assert run.telemetry.complete is False, "a crashed run claimed a real cost"
+
+
+def test_the_agents_stated_reason_survives_long_enough_to_diagnose():
+    """MEASURED on eval/results/putnam-run4.json: all three unproved goals
+    finished VOLUNTARILY with most of their compile budget unused (2 of 40, 6
+    of 40, 19 of 40), and the only record of why was cut off mid-sentence at
+    200 characters. Distinguishing a correct stop (Mathlib lacks the
+    machinery) from a premature one (21 compiles still available) needs the
+    reasoning, and 200 characters does not reach it.
+
+    Prose is shown to a human and never read by the guard, so this is bounded
+    for tidiness rather than for safety.
+    """
+    from math_v2 import harness
+
+    source = (Path(harness.__file__)).read_text(encoding="utf-8")
+
+    assert "prose[:200]}" not in source, "the reason is truncated too early"
+    assert "prose[:1200]}" in source
