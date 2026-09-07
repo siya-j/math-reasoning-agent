@@ -439,6 +439,8 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
         input_tokens=tokens[0],
         output_tokens=tokens[1],
         complete=telemetry_complete,
+        # The ceiling, so "how much was left" is readable from the record.
+        lean_budget=budget.MAX_LEAN_CALLS,
     )
 
     if decision["outcome"] == verdicts.PROVED:

@@ -109,6 +109,9 @@ class ProofResult:
     # returned a transcript to count, so it reports zero cost for work that
     # certainly cost something.
     cost_complete: bool = True
+    # The compile ceiling the run was given. `lean_calls` alone cannot say
+    # whether the agent ran out or walked away.
+    lean_budget: int = 0
 
     # Without these a failed run is opaque, and a cause has to be guessed at.
     # `trace` says which stages ran and what they decided; `stages` records
@@ -262,6 +265,7 @@ def result_from(goal: Goal, run: ProofRun) -> ProofResult:
         input_tokens=run.telemetry.input_tokens,
         output_tokens=run.telemetry.output_tokens,
         cost_complete=run.telemetry.complete,
+        lean_budget=run.telemetry.lean_budget,
         proof=run.proof,
         lemmas=tuple(lemma.proof for lemma in run.lemmas),
         trace=tuple(run.trace),
@@ -344,6 +348,13 @@ def summarize(results: list[ProofResult]) -> dict:
 
     # Lemma yield: of the goals that got as far as decomposition, how many
     # were rescued by it? This is the number that justifies Phase 5.
+    # Unproved goals whose ceiling is known, for the walked-away-or-beaten
+    # question below.
+    unproved_with_budget = [
+        r for r in counted
+        if r.outcome is not ProofOutcome.PROVED and r.lean_budget
+    ]
+
     decomposed = [r for r in counted if r.lemmas_total]
     rescued = [r for r in decomposed if r.via_synthesis]
 
@@ -392,6 +403,21 @@ def summarize(results: list[ProofResult]) -> dict:
         # totals were the sum of two goals presented as the cost of five. A
         # total is only a total if you know what it is over.
         "cost_measured_on": sum(1 for r in counted if r.cost_complete),
+        # DID IT RUN OUT, OR WALK AWAY? An unproved goal that used most of its
+        # compiles was beaten; one that used a fifth of them chose to stop.
+        # Those want opposite responses and were previously indistinguishable.
+        #
+        # MEASURED on the five-goal pilot: a1 stopped at 2 of 40 compiles, a3
+        # at 6, a4 at 19, none of them exhausted. Two of those look like good
+        # judgement -- Mathlib carries neither the convex-position
+        # combinatorics nor Routh's theorem -- so this is reported as a NUMBER
+        # TO LOOK AT rather than acted on. At n=5 it cannot distinguish
+        # judgement from timidity; over a hundred goals it can.
+        "unproved_left_most_of_the_budget": sum(
+            1 for r in unproved_with_budget
+            if r.lean_calls < 0.5 * r.lean_budget
+        ),
+        "unproved_with_a_budget_recorded": len(unproved_with_budget),
     }
 
     for tier in Tier:
@@ -456,6 +482,9 @@ def render(summary: dict) -> str:
         "-" * 52,
         f"  input tokens           {_tokens(summary['input_tokens'])}",
         f"  output tokens          {_tokens(summary['output_tokens'])}",
+        f"  stopped w/ >half budget{summary['unproved_left_most_of_the_budget']:>4d}"
+        f"  of {summary['unproved_with_a_budget_recorded']} unproved"
+        "   (walked away, not beaten)",
         f"  cost measured on       {summary['cost_measured_on']} of "
         f"{summary['attempted']} goals"
         + ("" if summary["cost_measured_on"] == summary["attempted"]

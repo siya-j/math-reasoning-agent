@@ -257,3 +257,54 @@ def test_lemma_attempts_can_exceed_lemmas_kept():
 
     assert record.lemmas_total == record.lemmas_proved == 1
     assert record.lemma_attempts == 4, "three rejected tries are invisible"
+
+
+# =====================================================================
+# Beaten, or walked away? Previously indistinguishable.
+# =====================================================================
+def test_an_unproved_goal_that_barely_compiled_is_counted_separately():
+    """MEASURED on the five-goal pilot: a1 stopped at 2 of 40 compiles, a3 at
+    6, a4 at 19 -- and NONE of them exhausted. An unproved goal that spent its
+    whole budget was beaten; one that spent a fifth chose to stop. Those want
+    opposite responses and the record could not tell them apart, because the
+    ceiling is an environment variable written down nowhere in the results.
+    """
+    walked_away = ProofResult(goal_id="a", area="x", tier=Tier.IN_MATHLIB,
+                              outcome=ProofOutcome.NOT_PROVED,
+                              lean_calls=2, lean_budget=40)
+    beaten = ProofResult(goal_id="b", area="x", tier=Tier.IN_MATHLIB,
+                         outcome=ProofOutcome.NOT_PROVED,
+                         lean_calls=38, lean_budget=40)
+
+    summary = summarize([walked_away, beaten])
+
+    assert summary["unproved_with_a_budget_recorded"] == 2
+    assert summary["unproved_left_most_of_the_budget"] == 1
+
+
+def test_a_proved_goal_is_not_counted_as_having_walked_away():
+    """Proving something in two compiles is the best possible outcome, not an
+    early exit. The negative control that keeps this metric meaningful."""
+    quick = ProofResult(goal_id="a", area="x", tier=Tier.IN_MATHLIB,
+                        outcome=ProofOutcome.PROVED,
+                        lean_calls=2, lean_budget=40)
+
+    summary = summarize([quick])
+
+    assert summary["unproved_with_a_budget_recorded"] == 0
+    assert summary["unproved_left_most_of_the_budget"] == 0
+
+
+def test_the_ceiling_reaches_the_record_from_the_live_budget():
+    """The producer half. `lean_calls` without the ceiling answers nothing,
+    and the ceiling moves between profiles -- 12 by default, 40 under
+    hard-reasoning -- so it has to be recorded per run, not assumed."""
+    from math_v2.core import budget
+
+    run = run_with()
+    run.telemetry = Telemetry(lean_budget=budget.MAX_LEAN_CALLS)
+
+    record = result_from(GOAL, run)
+
+    assert record.lean_budget == budget.MAX_LEAN_CALLS
+    assert record.lean_budget > 0, "the ceiling is not being recorded at all"

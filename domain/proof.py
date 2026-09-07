@@ -116,6 +116,19 @@ class Telemetry:
     # Default True because a caller that says nothing is the ordinary,
     # complete case; only the harness's failure paths set it False.
     complete: bool = True
+    # The compile CEILING this run was given, recorded next to what it spent.
+    # Without it a results file cannot answer "how much budget was left when
+    # the agent stopped", because the ceiling is an environment variable that
+    # is not written down anywhere in the record -- and it moves between
+    # profiles (12 by default, 40 under hard-reasoning).
+    #
+    # MEASURED, and the question it exists to settle: `putnam_1962_a4`
+    # finished `not_proved` after ONE attempt at the goal with 32 of 40
+    # compiles unused, twice. Whether that is good judgement (a1 and a3 stop
+    # early too, and Mathlib genuinely lacks the machinery those need) or
+    # premature timidity is not answerable from one goal, and guessing is how
+    # a nudge gets added that makes a1 and a3 waste forty compiles each.
+    lean_budget: int = 0
 
     def summary(self) -> str:
         tokens = ""
