@@ -10,7 +10,9 @@ costs roughly 28 model calls and five Lean invocations.
 from __future__ import annotations
 
 import argparse
+import datetime
 import json
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -32,6 +34,10 @@ from verifiers.lean_runner import lean_is_available  # noqa: E402
 
 DEFAULT_OUT = Path(__file__).parent.parent / "eval" / "last_proof_run.json"
 CONSECUTIVE_ERROR_LIMIT = 3
+
+# Fixed once per process, so every incremental save carries the run's own
+# start time rather than the time of its most recent write.
+_STARTED = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
 
 # How each outcome prints on the per-goal line.
 #
@@ -101,11 +107,53 @@ def completed(resume: bool, out: Path):
     return carried
 
 
-def save(results, summary, out: Path) -> None:
+def invocation(args, profile: dict) -> dict:
+    """WHAT PRODUCED THESE NUMBERS. Recorded because it was not.
+
+    `environment()` records the Lean backend, and its own docstring gives the
+    reason: "A benchmark number that cannot be attributed to a backend is not
+    a measurement." That is exactly right and it was only half applied -- the
+    MODEL, the BUDGET, the GOALS FILE and the CODE VERSION were printed to the
+    terminal at startup and then lost. A results file said 40% and could not
+    say 40% of what, by which model, under which budget, at which commit.
+
+    For a technical audience that is not a caveat, it is the first question,
+    and the answer was in someone's scrollback. Cheap to record and impossible
+    to reconstruct later, which is the definition of something that belongs in
+    the artefact.
+    """
+    commit = ""
+    try:
+        commit = subprocess.run(
+            ["git", "rev-parse", "HEAD"], capture_output=True, text=True,
+            timeout=30, cwd=str(Path(__file__).resolve().parent.parent),
+        ).stdout.strip()
+    except Exception:  # noqa: BLE001 - a missing git must not fail a run
+        commit = ""
+
+    return {
+        "model": config.MODEL,
+        "prover": config.PROVER,
+        "goals_file": str(getattr(args, "goals", "") or ""),
+        "budget_profile": getattr(args, "budget_profile", None) or "",
+        # The profile's actual values, not just its name: the name means
+        # nothing to a reader six months later, and the values are what the
+        # run was bounded by.
+        "budget": dict(profile),
+        "limit": getattr(args, "limit", None),
+        "tier": getattr(args, "tier", None) or "",
+        "single_goal": getattr(args, "goal", None) or "",
+        "commit": commit,
+        "started": _STARTED,
+    }
+
+
+def save(results, summary, out: Path, run_info: dict | None = None) -> None:
     """Write after every goal, so an interrupted run loses nothing."""
     out.write_text(
         json.dumps(
             {
+                "run": run_info or {},
                 "environment": environment(),
                 "summary": summary,
                 "results": [
@@ -217,6 +265,7 @@ def main() -> int:
         print("No goals matched.")
         return 2
 
+    profile: dict = {}
     if args.budget_profile:
         profile = apply_budget_profile(args.budget_profile)
         print(f"budget profile: {args.budget_profile} "
@@ -224,6 +273,10 @@ def main() -> int:
     elif any(g.tier.value in ("putnam", "hard", "deep") for g in goals):
         print("hint: this selection includes putnam/hard/deep goals; "
               "consider --budget-profile hard-reasoning\n")
+
+    # Built AFTER the profile is applied, so the budget it records is the one
+    # the run actually used rather than the defaults it started from.
+    run_info = invocation(args, profile)
 
     if not lean_is_available():
         print("WARNING: Lean not found. Every goal will be NOT PROVED.\n")
@@ -294,7 +347,7 @@ def main() -> int:
         consecutive_errors = 0
         result = result_from(goal, run)
         results.append(result)
-        save(results, summarize(results), out)  # survive an abort on a later goal
+        save(results, summarize(results), out, run_info)  # survive an abort later
 
         mark = mark_for(result.outcome)
         extra = f"  ({result.lemmas_proved}/{result.lemmas_total} lemmas)" if result.lemmas_total else ""
@@ -304,7 +357,7 @@ def main() -> int:
     print()
     print(render(summary))
 
-    save(results, summary, out)
+    save(results, summary, out, run_info)
     print(f"\nSaved to {out}")
 
     # Unlike the verification gate, failing to prove is not a regression —

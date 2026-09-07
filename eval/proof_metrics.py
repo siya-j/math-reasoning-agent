@@ -176,6 +176,26 @@ def classify(run: ProofRun) -> ProofOutcome:
     if any("suspect statement" in entry for entry in run.trace):
         return ProofOutcome.SUSPECT_STATEMENT
 
+    # THE AGENT CRASHED, so this run is evidence about nothing. MEASURED on
+    # eval/results/putnam-run3.json: two goals recorded "agent failed: " and
+    # were scored NOT_PROVED, which put them in the proof-rate denominator as
+    # proving failures. One of them was `putnam_1962_b1`, which run2 had
+    # PROVED and run4 proved again -- so a transient crash manufactured a
+    # failure for a goal this agent can do.
+    #
+    # ERROR is excluded from `counted` and therefore from every rate, which is
+    # the whole point: a run that died tells you nothing about proving, and
+    # counting it against the prover is the same error the EXHAUSTED branch
+    # below already exists to prevent. Over a hundred goals, any transient API
+    # fault would otherwise depress the headline number silently.
+    #
+    # AFTER the outcomes above, deliberately. A crash that happened after the
+    # compiler accepted a proof still proved it (`run.proved` wins), and a
+    # statement the record shows did not elaborate is a formalisation failure
+    # whatever happened next.
+    if any(entry.startswith("agent failed") for entry in run.trace):
+        return ProofOutcome.ERROR
+
     # Ran out of clock or compilations. Read from the budget, not from prose.
     if any(entry.startswith("stopped early") for entry in run.trace):
         return ProofOutcome.EXHAUSTED
