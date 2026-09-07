@@ -1,0 +1,468 @@
+[
+  {
+    "id": "num-infinitude-of-primes",
+    "area": "number theory",
+    "goal": "For every natural number n there exists a prime p with n <= p",
+    "tier": "in-mathlib",
+    "mathlib": "Nat.exists_infinite_primes",
+    "note": "Mathlib states this with <=. Verified present via Loogle. Direct citation should close it."
+  },
+  {
+    "id": "num-primes-strictly-above",
+    "area": "number theory",
+    "goal": "For every natural number n there exists a prime p with n < p",
+    "tier": "near-mathlib",
+    "note": "Mathlib gives n <= p. Needs exists_infinite_primes (n+1) plus arithmetic, so citation alone is not enough."
+  },
+  {
+    "id": "grp-prime-order-cyclic",
+    "area": "group theory",
+    "goal": "A finite group whose order is prime is cyclic",
+    "tier": "in-mathlib",
+    "mathlib": "isCyclic_of_prime_card",
+    "note": "Verified present via Loogle. Needs Fact (Nat.Prime p) instance handling."
+  },
+  {
+    "id": "num-two-plus-two",
+    "area": "arithmetic",
+    "goal": "2 + 2 = 4",
+    "tier": "in-mathlib",
+    "mathlib": "by norm_num",
+    "note": "Floor. A model failing this cannot write Lean at all."
+  },
+  {
+    "id": "num-add-zero",
+    "area": "arithmetic",
+    "goal": "For every natural number n, n + 0 = n",
+    "tier": "in-mathlib",
+    "mathlib": "Nat.add_zero",
+    "note": "Floor, with a bound variable."
+  },
+  {
+    "id": "num-seven-prime",
+    "area": "number theory",
+    "goal": "7 is a prime number",
+    "tier": "in-mathlib",
+    "mathlib": "by norm_num",
+    "note": "Tests whether the model reaches for norm_num rather than a manual argument."
+  },
+  {
+    "id": "alg-square-nonneg",
+    "area": "algebra",
+    "goal": "For every real number x, x squared is non-negative",
+    "tier": "in-mathlib",
+    "mathlib": "sq_nonneg",
+    "note": "Also decidable by SymPy, so it doubles as a routing check."
+  },
+  {
+    "id": "grp-subgroup-of-cyclic",
+    "area": "group theory",
+    "goal": "Every subgroup of a cyclic group is cyclic",
+    "tier": "near-mathlib",
+    "note": "Mathlib has Subgroup.isCyclic; the work is stating it correctly."
+  },
+  {
+    "id": "ana-continuous-compact-max",
+    "area": "analysis",
+    "goal": "A continuous real-valued function on a compact set attains its maximum",
+    "tier": "near-mathlib",
+    "note": "Extreme value theorem. In Mathlib, but the statement needs topology instances."
+  },
+  {
+    "id": "set-reals-uncountable",
+    "area": "set theory",
+    "goal": "The real numbers are uncountable",
+    "tier": "near-mathlib",
+    "note": "In Mathlib as a cardinality result; formalising it faithfully is the hard part."
+  },
+  {
+    "id": "lin-vector-space-basis",
+    "area": "linear algebra",
+    "goal": "Every vector space has a basis",
+    "tier": "near-mathlib",
+    "note": "Requires the axiom of choice. In Mathlib, but heavily typeclass-laden."
+  },
+  {
+    "id": "top-compact-image",
+    "area": "topology",
+    "goal": "The continuous image of a compact set is compact",
+    "tier": "near-mathlib",
+    "note": "Standard result; tests whether retrieval finds topology lemmas at all."
+  },
+  {
+    "id": "num-sqrt-two-irrational",
+    "area": "number theory",
+    "goal": "The square root of 2 is irrational",
+    "tier": "near-mathlib",
+    "note": "Nat.Prime.irrational_sqrt exists; connecting it to the statement is the work."
+  },
+  {
+    "id": "novel-goldbach-small",
+    "area": "number theory",
+    "goal": "Every even integer greater than 2 and less than 100 is the sum of two primes",
+    "tier": "novel",
+    "note": "Bounded, so decidable in principle, but no lemma exists. Tests decomposition."
+  },
+  {
+    "id": "novel-sum-of-two-squares",
+    "area": "number theory",
+    "goal": "If a prime p satisfies p mod 4 = 1 then p is a sum of two squares",
+    "tier": "novel",
+    "note": "Fermat's theorem on sums of two squares. Hard even with Mathlib."
+  },
+  {
+    "id": "hard-amgm-sqrt",
+    "area": "analysis",
+    "goal": "For non-negative reals a and b, the square root of (a times b) is at most (a+b)/2",
+    "tier": "hard",
+    "note": "No one-shot lemma verified via Loogle. Mathlib has the squared form two_mul_le_add_sq, not the square-root form; nlinarith only closes it given the hint sq_nonneg (sqrt a - sqrt b), which appears nowhere in the goal."
+  },
+  {
+    "id": "hard-sophie-germain",
+    "area": "number theory",
+    "goal": "For every natural number n greater than 1, n^4 + 4 is not prime",
+    "tier": "hard",
+    "note": "No lemma about n^4+4 exists in Mathlib. The proof turns on the factorisation n^4+4 = (n^2-2n+2)(n^2+2n+2), which retrieval cannot surface; natural-number subtraction makes the factors treacherous to state directly."
+  },
+  {
+    "id": "hard-sum-odd-squares",
+    "area": "combinatorics",
+    "goal": "The sum of the first n odd numbers equals n squared",
+    "tier": "hard",
+    "note": "Mathlib has Gauss's Finset.sum_range_id, not this sum. Provable by induction or by routing through sum_range_id, but either way the agent must construct the argument rather than cite one. Control goal: should be solvable."
+  },
+  {
+    "id": "hard-irrational-sqrt-sum",
+    "area": "number theory",
+    "goal": "The sum of the square root of 2 and the square root of 3 is irrational",
+    "tier": "hard",
+    "note": "Irrationality is not closed under addition, so no lemma covers this directly. Needs squaring to 5 + 2*sqrt(6) and citing irrationality of sqrt(6): at least two linked Mathlib results, neither of which mentions the goal."
+  },
+  {
+    "id": "hard-det-vanishes",
+    "area": "linear algebra",
+    "goal": "The determinant of the 3x3 matrix with rows (1,2,3), (4,5,6), (7,8,9) is zero",
+    "tier": "hard",
+    "note": "Only Matrix.det_fin_three (an expansion, not an answer) is relevant via Loogle. Expected failure mode is notation/plumbing (!![...] entries), not mathematics -- a bridge probe, not strong evidence about reasoning either way."
+  },
+  {
+    "id": "deep-fta",
+    "area": "complex analysis",
+    "goal": "Every non-constant polynomial with complex coefficients has a root in the complex numbers.",
+    "tier": "deep",
+    "mathlib": "Complex.exists_root",
+    "note": "Complex.exists_root {f : ℂ[X]} (hf : 0 < degree f) : ∃ z, IsRoot f z, confirmed in Mathlib/Analysis/Complex/Polynomial/Basic.lean, whose own docstring says it proves this using Liouville's theorem. No purely algebraic or real-analytic proof exists -- every known route needs complex analysis, a topological winding-number argument, or Galois theory. See docs/deep-tier-candidates.md."
+  },
+  {
+    "id": "deep-liouville",
+    "area": "complex analysis",
+    "goal": "A function from the complex numbers to the complex numbers that is complex differentiable everywhere and whose values are bounded must be constant.",
+    "tier": "deep",
+    "mathlib": "Differentiable.exists_eq_const_of_bounded",
+    "note": "Differentiable.exists_eq_const_of_bounded {f : E → F} (hf : Differentiable ℂ f) (hb : IsBounded (Set.range f)) : ∃ c, f = Function.const E c, confirmed in Mathlib/Analysis/Complex/Liouville.lean. Inherently complex-analytic -- bounds all derivatives from one bound on f via Cauchy's integral formula -- and the real-variable analogue is FALSE (sin x is real differentiable everywhere and bounded, not constant), so no elementary substitute can exist. See docs/deep-tier-candidates.md."
+  },
+  {
+    "id": "deep-nielsen-schreier",
+    "area": "group theory",
+    "goal": "Every subgroup of a free group is itself a free group.",
+    "tier": "deep",
+    "mathlib": "subgroupIsFreeOfIsFree",
+    "note": "subgroupIsFreeOfIsFree {G} [Group G] [IsFreeGroup G] (H : Subgroup G) : IsFreeGroup H, confirmed in Mathlib/GroupTheory/FreeGroup/NielsenSchreier.lean, docstring \"The Nielsen-Schreier theorem\". Classical proofs need covering-space topology or the combinatorial Reidemeister-Schreier method; no proof from the group axioms alone is known. Honest caveat: this is an `instance`, not a plain theorem, sitting on unfamiliar IsFreeGroupoid/Groupoid infrastructure -- expect this to test Lean-idiom translation as much as recognition. See docs/deep-tier-candidates.md."
+  },
+  {
+    "id": "deep-sylow",
+    "area": "group theory",
+    "goal": "If p is a prime number and p to the power n divides the order of a finite group G, then G has a subgroup of order p to the power n.",
+    "tier": "deep",
+    "mathlib": "Sylow.exists_subgroup_card_pow_prime",
+    "note": "Sylow.exists_subgroup_card_pow_prime [Finite G] (p : ℕ) {n} [Fact p.Prime] (hdvd : p^n ∣ Nat.card G) : ∃ K, Nat.card K = p^n, confirmed in Mathlib/GroupTheory/Sylow.lean. Borderline pick, flagged deliberately: needs a genuine group-action/orbit-counting idea, not reducible to induction on order alone, but the idea is textbook-clever rather than machinery from an outside field -- cut first if the tier needs trimming toward stricter cases. See docs/deep-tier-candidates.md."
+  },
+  {
+    "id": "deep-dirichlet-ap",
+    "area": "number theory",
+    "goal": "If a and n are coprime natural numbers, there are infinitely many prime numbers congruent to a modulo n.",
+    "tier": "deep",
+    "mathlib": "Nat.forall_exists_prime_gt_and_modEq",
+    "note": "Nat.forall_exists_prime_gt_and_modEq (m : ℕ) {q a} (hq : q ≠ 0) (h : a.Coprime q) : ∃ p > m, p.Prime ∧ p ≡ a [MOD q], confirmed in Mathlib/NumberTheory/LSeries/PrimesInAP.lean, docstring \"Dirichlet's Theorem\". The general theorem's only known proofs use Dirichlet L-functions (L(1,χ) ≠ 0 for every nontrivial character); no elementary proof of the general coprime case exists. Deepest citation target in the set -- buried behind hundreds of lines of L-function machinery, itself a real test of retrieval. See docs/deep-tier-candidates.md."
+  },
+  {
+    "id": "exercise_1_18a",
+    "area": "proofnet 1",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_18a\n  (n : ℕ)\n  (h : n > 1)\n  (x : EuclideanSpace ℝ (Fin n)) -- R^n\n  : ∃ (y : EuclideanSpace ℝ (Fin n)), y ≠ 0 ∧ (inner x y) = (0 : ℝ):= sorry\n\nIt formalises the following claim: If $k \\geq 2$ and $\\mathbf{x} \\in R^{k}$, prove that there exists $\\mathbf{y} \\in R^{k}$ such that $\\mathbf{y} \\neq 0$ but $\\mathbf{x} \\cdot \\mathbf{y}=0$",
+    "tier": "proofnet",
+    "note": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_18a\n  (n : ℕ)\n  (h : n > 1)\n  (x : EuclideanSpace ℝ (Fin n)) -- R^n\n  : ∃ (y : EuclideanSpace ℝ (Fin n)), y ≠ 0 ∧ (inner x y) = (0 : ℝ):= sorry"
+  },
+  {
+    "id": "exercise_5_15",
+    "area": "proofnet 5",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_5_15 {f : ℝ → ℝ} (a M0 M1 M2 : ℝ)\n  (hf' : DifferentiableOn ℝ f (Set.Ici a))\n  (hf'' : DifferentiableOn ℝ (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x ∈ (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x ∈ (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x ∈ (Set.Ici a)}) :\n  (M1 ^ 2) ≤ 4 * M0 * M2:= sorry\n\nIt formalises the following claim: Suppose $a \\in R^{1}, f$ is a twice-differentiable real function on $(a, \\infty)$, and $M_{0}, M_{1}, M_{2}$ are the least upper bounds of $|f(x)|,\\left|f^{\\prime}(x)\\right|,\\left|f^{\\prime \\prime}(x)\\right|$, respectively, on $(a, \\infty)$. Prove that $M_{1}^{2} \\leq 4 M_{0} M_{2} .$",
+    "tier": "proofnet",
+    "note": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_5_15 {f : ℝ → ℝ} (a M0 M1 M2 : ℝ)\n  (hf' : DifferentiableOn ℝ f (Set.Ici a))\n  (hf'' : DifferentiableOn ℝ (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x ∈ (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x ∈ (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x ∈ (Set.Ici a)}) :\n  (M1 ^ 2) ≤ 4 * M0 * M2:= sorry"
+  },
+  {
+    "id": "exercise_1_19",
+    "area": "proofnet 1",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_19\n  (n : ℕ)\n  (a b c x : EuclideanSpace ℝ (Fin n))\n  (r : ℝ)\n  (h₁ : r > 0)\n  (h₂ : 3 • c = 4 • b - a)\n  (h₃ : 3 * r = 2 * ‖x - b‖)\n  : ‖x - a‖ = 2 * ‖x - b‖ ↔ ‖x - c‖ = r:= sorry\n\nIt formalises the following claim: Suppose $a, b \\in R^k$. Find $c \\in R^k$ and $r > 0$ such that $|x-a|=2|x-b|$ if and only if $| x - c | = r$. Prove that $3c = 4b - a$ and $3r = 2 |b - a|$.",
+    "tier": "proofnet",
+    "note": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_19\n  (n : ℕ)\n  (a b c x : EuclideanSpace ℝ (Fin n))\n  (r : ℝ)\n  (h₁ : r > 0)\n  (h₂ : 3 • c = 4 • b - a)\n  (h₃ : 3 * r = 2 * ‖x - b‖)\n  : ‖x - a‖ = 2 * ‖x - b‖ ↔ ‖x - c‖ = r:= sorry"
+  },
+  {
+    "id": "exercise_1_5",
+    "area": "proofnet 1",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_5 (A minus_A : Set ℝ) (hA : A.Nonempty)\n  (hA_bdd_below : BddBelow A) (hminus_A : minus_A = {x | -x ∈ A}) :\n  Inf A = Sup minus_A:= sorry\n\nIt formalises the following claim: Let $A$ be a nonempty set of real numbers which is bounded below. Let $-A$ be the set of all numbers $-x$, where $x \\in A$. Prove that $\\inf A=-\\sup (-A)$.",
+    "tier": "proofnet",
+    "note": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_5 (A minus_A : Set ℝ) (hA : A.Nonempty)\n  (hA_bdd_below : BddBelow A) (hminus_A : minus_A = {x | -x ∈ A}) :\n  Inf A = Sup minus_A:= sorry"
+  },
+  {
+    "id": "exercise_3_22",
+    "area": "proofnet 3",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_3_22 (X : Type*) [MetricSpace X] [CompleteSpace X]\n  (G : ℕ → Set X) (hG : ∀ n, IsOpen (G n) ∧ Dense (G n)) :\n  ∃ x, ∀ n, x ∈ G n:= sorry\n\nIt formalises the following claim: Suppose $X$ is a nonempty complete metric space, and $\\left\\{G_{n}\\right\\}$ is a sequence of dense open sets of $X$. Prove Baire's theorem, namely, that $\\bigcap_{1}^{\\infty} G_{n}$ is not empty.",
+    "tier": "proofnet",
+    "note": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_3_22 (X : Type*) [MetricSpace X] [CompleteSpace X]\n  (G : ℕ → Set X) (hG : ∀ n, IsOpen (G n) ∧ Dense (G n)) :\n  ∃ x, ∀ n, x ∈ G n:= sorry"
+  },
+  {
+    "id": "exercise_4_6",
+    "area": "proofnet 4",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_4_6\n  (f : ℝ → ℝ)\n  (E : Set ℝ)\n  (G : Set (ℝ × ℝ))\n  (h₁ : IsCompact E)\n  (h₂ : G = {(x, f x) | x ∈ E})\n  : ContinuousOn f E ↔ IsCompact G:= sorry\n\nIt formalises the following claim: If $f$ is defined on $E$, the graph of $f$ is the set of points $(x, f(x))$, for $x \\in E$. In particular, if $E$ is a set of real numbers, and $f$ is real-valued, the graph of $f$ is a subset of the plane. Suppose $E$ is compact, and prove that $f$ is continuous on $E$ if and only if its graph is compact.",
+    "tier": "proofnet",
+    "note": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_4_6\n  (f : ℝ → ℝ)\n  (E : Set ℝ)\n  (G : Set (ℝ × ℝ))\n  (h₁ : IsCompact E)\n  (h₂ : G = {(x, f x) | x ∈ E})\n  : ContinuousOn f E ↔ IsCompact G:= sorry"
+  },
+  {
+    "id": "exercise_2_5_30",
+    "area": "proofnet 2",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Set Real Ideal Polynomial\nopen scoped BigOperators\n\ntheorem exercise_2_5_30 {G : Type*} [Group G] [Fintype G]\n  {p m : ℕ} (hp : Nat.Prime p) (hp1 : ¬ p ∣ m) (hG : card G = p*m)\n  {H : Subgroup G} [Fintype H] [H.Normal] (hH : card H = p):\n  Subgroup.Characteristic H:= sorry\n\nIt formalises the following claim: Suppose that $|G| = pm$, where $p \\nmid m$ and $p$ is a prime. If $H$ is a normal subgroup of order $p$ in $G$, prove that $H$ is characteristic.",
+    "tier": "proofnet",
+    "note": "open Fintype Set Real Ideal Polynomial\nopen scoped BigOperators\n\ntheorem exercise_2_5_30 {G : Type*} [Group G] [Fintype G]\n  {p m : ℕ} (hp : Nat.Prime p) (hp1 : ¬ p ∣ m) (hG : card G = p*m)\n  {H : Subgroup G} [Fintype H] [H.Normal] (hH : card H = p):\n  Subgroup.Characteristic H:= sorry"
+  },
+  {
+    "id": "exercise_1_6_4",
+    "area": "proofnet 1",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_6_4 :\n  IsEmpty (Multiplicative ℝ ≃* Multiplicative ℂ):= sorry\n\nIt formalises the following claim: Prove that the multiplicative groups $\\mathbb{R}-\\{0\\}$ and $\\mathbb{C}-\\{0\\}$ are not isomorphic.",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_6_4 :\n  IsEmpty (Multiplicative ℝ ≃* Multiplicative ℂ):= sorry"
+  },
+  {
+    "id": "exercise_2_11_22",
+    "area": "proofnet 2",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Set Real Ideal Polynomial\nopen scoped BigOperators\n\ntheorem exercise_2_11_22 {p : ℕ} {n : ℕ} {G : Type*} [Fintype G]\n  [Group G] (hp : Nat.Prime p) (hG : card G = p ^ n) {K : Subgroup G}\n  [Fintype K] (hK : card K = p ^ (n-1)) :\n  K.Normal:= sorry\n\nIt formalises the following claim: Show that any subgroup of order $p^{n-1}$ in a group $G$ of order $p^n$ is normal in $G$.",
+    "tier": "proofnet",
+    "note": "open Fintype Set Real Ideal Polynomial\nopen scoped BigOperators\n\ntheorem exercise_2_11_22 {p : ℕ} {n : ℕ} {G : Type*} [Fintype G]\n  [Group G] (hp : Nat.Prime p) (hG : card G = p ^ n) {K : Subgroup G}\n  [Fintype K] (hK : card K = p ^ (n-1)) :\n  K.Normal:= sorry"
+  },
+  {
+    "id": "exercise_4_5_22",
+    "area": "proofnet 4",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : card G = 132) : ¬ IsSimpleGroup G:= sorry\n\nIt formalises the following claim: Prove that if $|G|=132$ then $G$ is not simple.",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : card G = 132) : ¬ IsSimpleGroup G:= sorry"
+  },
+  {
+    "id": "exercise_1_1_22a",
+    "area": "proofnet 1",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_1_22a {G : Type*} [Group G] (x g : G) :\n  orderOf x = orderOf (g⁻¹ * x * g):= sorry\n\nIt formalises the following claim: If $x$ and $g$ are elements of the group $G$, prove that $|x|=\\left|g^{-1} x g\\right|$.",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_1_22a {G : Type*} [Group G] (x g : G) :\n  orderOf x = orderOf (g⁻¹ * x * g):= sorry"
+  },
+  {
+    "id": "exercise_1_1_16",
+    "area": "proofnet 1",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_1_16 {G : Type*} [Group G]\n  (x : G) (hx : x ^ 2 = 1) :\n  orderOf x = 1 ∨ orderOf x = 2:= sorry\n\nIt formalises the following claim: Let $x$ be an element of $G$. Prove that $x^2=1$ if and only if $|x|$ is either $1$ or $2$.",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_1_16 {G : Type*} [Group G]\n  (x : G) (hx : x ^ 2 = 1) :\n  orderOf x = 1 ∨ orderOf x = 2:= sorry"
+  },
+  {
+    "id": "exercise_13_5a",
+    "area": "proofnet 13",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ ∈ T ∧\n  (∀ s t, s ∈ T → t ∈ T → s ∩ t ∈ T) ∧\n  (∀s, (∀t ∈ s, t ∈ T) → sUnion s ∈ T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T ∧ A ⊆ T}):= sorry\n\nIt formalises the following claim: Show that if $\\mathcal{A}$ is a basis for a topology on $X$, then the topology generated by $\\mathcal{A}$ equals the intersection of all topologies on $X$ that contain $\\mathcal{A}$.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ ∈ T ∧\n  (∀ s t, s ∈ T → t ∈ T → s ∩ t ∈ T) ∧\n  (∀s, (∀t ∈ s, t ∈ T) → sUnion s ∈ T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T ∧ A ⊆ T}):= sorry"
+  },
+  {
+    "id": "exercise_4_5",
+    "area": "proofnet 4",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Real\nopen scoped BigOperators\n\ntheorem exercise_4_5 {p t : ℕ} (hp0 : p.Prime) (hp1 : p = 4*t + 3)\n  (a : ZMod p) :\n  IsPrimitiveRoot a p ↔ ((-a) ^ ((p-1)/2) = 1 ∧ ∀ (k : ℕ), k < (p-1)/2 → (-a)^k ≠ 1):= sorry\n\nIt formalises the following claim: Consider a prime $p$ of the form $4 t+3$. Show that $a$ is a primitive root modulo $p$ iff $-a$ has order $(p-1) / 2$.",
+    "tier": "proofnet",
+    "note": "open Real\nopen scoped BigOperators\n\ntheorem exercise_4_5 {p t : ℕ} (hp0 : p.Prime) (hp1 : p = 4*t + 3)\n  (a : ZMod p) :\n  IsPrimitiveRoot a p ↔ ((-a) ^ ((p-1)/2) = 1 ∧ ∀ (k : ℕ), k < (p-1)/2 → (-a)^k ≠ 1):= sorry"
+  },
+  {
+    "id": "exercise_5_37",
+    "area": "proofnet 5",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Real\nopen scoped BigOperators\n\ntheorem exercise_5_37 {p q : ℕ} [Fact (p.Prime)] [Fact (q.Prime)] {a : ℤ}\n  (ha : a < 0) (h0 : p ≡ q [ZMOD 4*a]) (h1 : ¬ ((p : ℤ) ∣ a)) :\n  legendreSym p a = legendreSym q a:= sorry\n\nIt formalises the following claim: Show that if $a$ is negative then $p \\equiv q(4 a) together with p\\not | a$ imply $(a / p)=(a / q)$.",
+    "tier": "proofnet",
+    "note": "open Real\nopen scoped BigOperators\n\ntheorem exercise_5_37 {p q : ℕ} [Fact (p.Prime)] [Fact (q.Prime)] {a : ℤ}\n  (ha : a < 0) (h0 : p ≡ q [ZMOD 4*a]) (h1 : ¬ ((p : ℤ) ∣ a)) :\n  legendreSym p a = legendreSym q a:= sorry"
+  },
+  {
+    "id": "exercise_3_1",
+    "area": "proofnet 3",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Real\nopen scoped BigOperators\n\ntheorem exercise_3_1 : Infinite {p : Nat.Primes // p ≡ -1 [ZMOD 6]}:= sorry\n\nIt formalises the following claim: Show that there are infinitely many primes congruent to $-1$ modulo 6 .",
+    "tier": "proofnet",
+    "note": "open Real\nopen scoped BigOperators\n\ntheorem exercise_3_1 : Infinite {p : Nat.Primes // p ≡ -1 [ZMOD 6]}:= sorry"
+  },
+  {
+    "id": "exercise_1_31",
+    "area": "proofnet 1",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Real\nopen scoped BigOperators\n\ntheorem exercise_1_31  : (⟨1, 1⟩ : GaussianInt) ^ 2 ∣ 2:= sorry\n\nIt formalises the following claim: Show that 2 is divisible by $(1+i)^{2}$ in $\\mathbb{Z}[i]$.",
+    "tier": "proofnet",
+    "note": "open Real\nopen scoped BigOperators\n\ntheorem exercise_1_31  : (⟨1, 1⟩ : GaussianInt) ^ 2 ∣ 2:= sorry"
+  },
+  {
+    "id": "exercise_4_8",
+    "area": "proofnet 4",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Real\nopen scoped BigOperators\n\ntheorem exercise_4_8 {p a : ℕ} (hp : Odd p) :\n  IsPrimitiveRoot a p ↔ (∀ q : ℕ, q ∣ (p-1) → q.Prime → ¬ a^(p-1) ≡ 1 [MOD p]):= sorry\n\nIt formalises the following claim: Let $p$ be an odd prime. Show that $a$ is a primitive root modulo $p$ iff $a^{(p-1) / q} \\not \\equiv 1(p)$ for all prime divisors $q$ of $p-1$.",
+    "tier": "proofnet",
+    "note": "open Real\nopen scoped BigOperators\n\ntheorem exercise_4_8 {p a : ℕ} (hp : Odd p) :\n  IsPrimitiveRoot a p ↔ (∀ q : ℕ, q ∣ (p-1) → q.Prime → ¬ a^(p-1) ≡ 1 [MOD p]):= sorry"
+  },
+  {
+    "id": "exercise_2_21",
+    "area": "proofnet 2",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Real\nopen scoped BigOperators\n\ntheorem exercise_2_21 {l : ℕ → ℝ}\n  (hl : ∀ p n : ℕ, p.Prime → l (p^n) = log p )\n  (hl1 : ∀ m : ℕ, ¬ IsPrimePow m → l m = 0) :\n  l = λ n => ∑ d : Nat.divisors n, ArithmeticFunction.moebius (n/d) * log d:= sorry\n\nIt formalises the following claim: Define $\\wedge(n)=\\log p$ if $n$ is a power of $p$ and zero otherwise. Prove that $\\sum_{A \\mid n} \\mu(n / d) \\log d$ $=\\wedge(n)$.",
+    "tier": "proofnet",
+    "note": "open Real\nopen scoped BigOperators\n\ntheorem exercise_2_21 {l : ℕ → ℝ}\n  (hl : ∀ p n : ℕ, p.Prime → l (p^n) = log p )\n  (hl1 : ∀ m : ℕ, ¬ IsPrimePow m → l m = 0) :\n  l = λ n => ∑ d : Nat.divisors n, ArithmeticFunction.moebius (n/d) * log d:= sorry"
+  },
+  {
+    "id": "exercise_2018_b2",
+    "area": "proofnet 2018",
+    "goal": "Prove this Lean 4 theorem.\n\nopen scoped BigOperators\n\ntheorem exercise_2018_b2 (n : ℕ) (hn : n > 0) (f : ℕ → ℂ → ℂ)\n  (hf : ∀ n : ℕ, f n = λ (z : ℂ) => (∑ i : Fin n, (n-i)* z^(i : ℕ))) :\n  ¬ (∃ z : ℂ, ‖z‖ ≤ 1 ∧ f n z = 0):= sorry\n\nIt formalises the following claim: Let $n$ be a positive integer, and let $f_{n}(z)=n+(n-1) z+$ $(n-2) z^{2}+\\cdots+z^{n-1}$. Prove that $f_{n}$ has no roots in the closed unit disk $\\{z \\in \\mathbb{C}:|z| \\leq 1\\}$.",
+    "tier": "proofnet",
+    "note": "open scoped BigOperators\n\ntheorem exercise_2018_b2 (n : ℕ) (hn : n > 0) (f : ℕ → ℂ → ℂ)\n  (hf : ∀ n : ℕ, f n = λ (z : ℂ) => (∑ i : Fin n, (n-i)* z^(i : ℕ))) :\n  ¬ (∃ z : ℂ, ‖z‖ ≤ 1 ∧ f n z = 0):= sorry"
+  },
+  {
+    "id": "putnam_1962_b3",
+    "area": "putnam 1962",
+    "goal": "Prove this Lean 4 theorem.\n\nopen MeasureTheory\n\ntheorem putnam_1962_b3\n(S : Set (EuclideanSpace ℝ (Fin 2)))\n(hS : Convex ℝ S ∧ 0 ∈ S)\n(htopo : (0 ∈ interior S) ∨ IsClosed S)\n(hray : ∀ P : EuclideanSpace ℝ (Fin 2), P ≠ 0 → ∃ Q : EuclideanSpace ℝ (Fin 2), SameRay ℝ P Q ∧ Q ∉ S)\n: Bornology.IsBounded S\n\nIt formalises the following claim: Let $S$ be a convex region in the Euclidean plane, containing the origin, for which every ray from the origin has at least one point outside $S$. Assuming that either the origin is an interior point of $S$ or $S$ is topologically closed, prove that $S$ is bounded.",
+    "tier": "putnam",
+    "note": "open MeasureTheory\n\ntheorem putnam_1962_b3\n(S : Set (EuclideanSpace ℝ (Fin 2)))\n(hS : Convex ℝ S ∧ 0 ∈ S)\n(htopo : (0 ∈ interior S) ∨ IsClosed S)\n(hray : ∀ P : EuclideanSpace ℝ (Fin 2), P ≠ 0 → ∃ Q : EuclideanSpace ℝ (Fin 2), SameRay ℝ P Q ∧ Q ∉ S)\n: Bornology.IsBounded S"
+  },
+  {
+    "id": "putnam_1962_a6",
+    "area": "putnam 1962",
+    "goal": "Prove this Lean 4 theorem.\n\ntheorem putnam_1962_a6\n(S : Set ℚ)\n(hSadd : ∀ a ∈ S, ∀ b ∈ S, a + b ∈ S)\n(hSprod : ∀ a ∈ S, ∀ b ∈ S, a * b ∈ S)\n(hScond : ∀ r : ℚ, (r ∈ S ∨ -r ∈ S ∨ r = 0) ∧ ¬(r ∈ S ∧ -r ∈ S) ∧ ¬(r ∈ S ∧ r = 0) ∧ ¬(-r ∈ S ∧ r = 0))\n: S = { r : ℚ | r > 0 }\n\nIt formalises the following claim: Let $S$ be a set of rational numbers such that whenever $a$ and $b$ are members of $S$, so are $a+b$ and $ab$, and having the property that for every rational number $r$ exactly one of the following three statements is true: \\[ r \\in S, -r \\in S, r = 0. \\] Prove that $S$ is the set of all positive rational numbers.",
+    "tier": "putnam",
+    "note": "theorem putnam_1962_a6\n(S : Set ℚ)\n(hSadd : ∀ a ∈ S, ∀ b ∈ S, a + b ∈ S)\n(hSprod : ∀ a ∈ S, ∀ b ∈ S, a * b ∈ S)\n(hScond : ∀ r : ℚ, (r ∈ S ∨ -r ∈ S ∨ r = 0) ∧ ¬(r ∈ S ∧ -r ∈ S) ∧ ¬(r ∈ S ∧ r = 0) ∧ ¬(-r ∈ S ∧ r = 0))\n: S = { r : ℚ | r > 0 }"
+  },
+  {
+    "id": "putnam_1963_a6",
+    "area": "putnam 1963",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Topology Filter\n\ntheorem putnam_1963_a6\n(F1 F2 U V A B C D P Q : EuclideanSpace ℝ (Fin 2))\n(r : ℝ)\n(E : Set (EuclideanSpace ℝ (Fin 2)))\n(hE : E = {H : EuclideanSpace ℝ (Fin 2) | dist F1 H + dist F2 H = r})\n(M : EuclideanSpace ℝ (Fin 2))\n(hMuv : M = midpoint ℝ U V)\n(hr : r > dist F1 F2)\n(hUV : U ∈ E ∧ V ∈ E ∧ U ≠ V)\n(hAB : A ∈ E ∧ B ∈ E ∧ A ≠ B)\n(hCD : C ∈ E ∧ D ∈ E ∧ C ≠ D)\n(hAC : A ≠ C)\n(hBD : B ≠ D)\n(hdistinct : segment ℝ A B ≠ segment ℝ U V ∧ segment ℝ C D ≠ segment ℝ U V ∧ segment ℝ A B ≠ segment ℝ C D)\n(hM : M ∈ segment ℝ A B ∧ M ∈ segment ℝ C D)\n(hP : Collinear ℝ {P, A, C} ∧ Collinear ℝ {P, U, V})\n(hQ : Collinear ℝ {Q, B, D} ∧ Collinear ℝ {Q, U, V})\n: M = midpoint ℝ P Q\n\nIt formalises the following claim: Let $U$ and $V$ be distinct points on an ellipse, with $M$ the midpoint of chord $\\overline{UV}$, and let $\\overline{AB}$ and $\\overline{CD}$ be any two other chords through $M$. If line $UV$ intersects line $AC$ at $P$ and line $BD$ at $Q$, prove that $M$ is the midpoint of segment $\\overline{PQ}$.",
+    "tier": "putnam",
+    "note": "open Topology Filter\n\ntheorem putnam_1963_a6\n(F1 F2 U V A B C D P Q : EuclideanSpace ℝ (Fin 2))\n(r : ℝ)\n(E : Set (EuclideanSpace ℝ (Fin 2)))\n(hE : E = {H : EuclideanSpace ℝ (Fin 2) | dist F1 H + dist F2 H = r})\n(M : EuclideanSpace ℝ (Fin 2))\n(hMuv : M = midpoint ℝ U V)\n(hr : r > dist F1 F2)\n(hUV : U ∈ E ∧ V ∈ E ∧ U ≠ V)\n(hAB : A ∈ E ∧ B ∈ E ∧ A ≠ B)\n(hCD : C ∈ E ∧ D ∈ E ∧ C ≠ D)\n(hAC : A ≠ C)\n(hBD : B ≠ D)\n(hdistinct : segment ℝ A B ≠ segment ℝ U V ∧ segment ℝ C D ≠ segment ℝ U V ∧ segment ℝ A B ≠ segment ℝ C D)\n(hM : M ∈ segment ℝ A B ∧ M ∈ segment ℝ C D)\n(hP : Collinear ℝ {P, A, C} ∧ Collinear ℝ {P, U, V})\n(hQ : Collinear ℝ {Q, B, D} ∧ Collinear ℝ {Q, U, V})\n: M = midpoint ℝ P Q"
+  },
+  {
+    "id": "putnam_1963_b6",
+    "area": "putnam 1963",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Topology Filter Polynomial\n\ntheorem putnam_1963_b6\n(d : ℕ)\n(S : Set (Fin d → ℝ) → Set (Fin d → ℝ))\n(hS : S = fun A : Set (Fin d → ℝ) => ⋃ p ∈ A, ⋃ q ∈ A, segment ℝ p q)\n(A : ℕ → Set (Fin d → ℝ))\n(ddim : 1 ≤ d ∧ d ≤ 3)\n(hA0 : Nonempty (A 0))\n(hAn : ∀ n ≥ 1, A n = S (A (n - 1)))\n: ∀ n ≥ 2, A n = A (n + 1)\n\nIt formalises the following claim: Let $E$ be a Euclidean space of at most three dimensions. If $A$ is a nonempty subset of $E$, define $S(A)$ to be the set of all points that lie on closed segments joining pairs of points of $A$. For a given nonempty set $A_0$, define $A_n=S(A_{n-1})$ for $n=1,2,\\dots$. Prove that $A_2=A_3=\\cdots$. (A one-point set should be considered to be a special case of a closed segment.)",
+    "tier": "putnam",
+    "note": "open Topology Filter Polynomial\n\ntheorem putnam_1963_b6\n(d : ℕ)\n(S : Set (Fin d → ℝ) → Set (Fin d → ℝ))\n(hS : S = fun A : Set (Fin d → ℝ) => ⋃ p ∈ A, ⋃ q ∈ A, segment ℝ p q)\n(A : ℕ → Set (Fin d → ℝ))\n(ddim : 1 ≤ d ∧ d ≤ 3)\n(hA0 : Nonempty (A 0))\n(hAn : ∀ n ≥ 1, A n = S (A (n - 1)))\n: ∀ n ≥ 2, A n = A (n + 1)"
+  },
+  {
+    "id": "putnam_1964_a5",
+    "area": "putnam 1964",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Set Function Filter Topology\n\ntheorem putnam_1964_a5\n    (pa : (ℕ → ℝ) → Prop)\n    (hpa : ∀ a, pa a ↔ (∀ n : ℕ, a n > 0) ∧ ∃ L : ℝ, Tendsto (fun N ↦ ∑ n ∈ Finset.range N, 1 / a n) atTop (𝓝 L)) :\n    ∃ k : ℝ, ∀ a : ℕ → ℝ, pa a →\n      ∑' n : ℕ, (n + 1) / (∑ i ∈ Finset.range (n + 1), a i) ≤ k * ∑' n : ℕ, 1 / a n\n\nIt formalises the following claim: Prove that there exists a constant $k$ such that for any sequence $a_i$ of positive numbers,\n\\[\n\\sum_{n=1}^{\\infty} \\frac{n}{a_1 + a_2 + \\dots + a_n} \\leq k \\sum_{n=1}^{\\infty}\\frac{1}{a_n}.\n\\]",
+    "tier": "putnam",
+    "note": "open Set Function Filter Topology\n\ntheorem putnam_1964_a5\n    (pa : (ℕ → ℝ) → Prop)\n    (hpa : ∀ a, pa a ↔ (∀ n : ℕ, a n > 0) ∧ ∃ L : ℝ, Tendsto (fun N ↦ ∑ n ∈ Finset.range N, 1 / a n) atTop (𝓝 L)) :\n    ∃ k : ℝ, ∀ a : ℕ → ℝ, pa a →\n      ∑' n : ℕ, (n + 1) / (∑ i ∈ Finset.range (n + 1), a i) ≤ k * ∑' n : ℕ, 1 / a n"
+  },
+  {
+    "id": "putnam_1964_a3",
+    "area": "putnam 1964",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Set Function\n\ntheorem putnam_1964_a3\n(x a b : ℕ → ℝ)\n(hxdense : range x ⊆ Ioo 0 1 ∧ closure (range x) ⊇ Ioo 0 1)\n(hxinj : Injective x)\n(ha : a = fun n ↦ x n - sSup ({0} ∪ {p : ℝ | p < x n ∧ ∃ i < n, p = x i}))\n(hb : b = fun n ↦ sInf ({1} ∪ {p : ℝ | p > x n ∧ ∃ i < n, p = x i}) - x n)\n: (∑' n : ℕ, a n * b n * (a n + b n) = 1 / 3)\n\nIt formalises the following claim: The distinct points $x_n$ are dense in the interval $(0, 1)$. For all $n \\geq 1$, $x_1, x_2, \\dots , x_{n-1}$ divide $(0, 1)$ into $n$ sub-intervals, one of which must contain $x_n$. This part is divided by $x_n$ into two sub-intervals, lengths $a_n$ and $b_n$. Prove that $\\sum_{n=1}^{\\infty} a_nb_n(a_n + b_n) = \\frac{1}{3}$.",
+    "tier": "putnam",
+    "note": "open Set Function\n\ntheorem putnam_1964_a3\n(x a b : ℕ → ℝ)\n(hxdense : range x ⊆ Ioo 0 1 ∧ closure (range x) ⊇ Ioo 0 1)\n(hxinj : Injective x)\n(ha : a = fun n ↦ x n - sSup ({0} ∪ {p : ℝ | p < x n ∧ ∃ i < n, p = x i}))\n(hb : b = fun n ↦ sInf ({1} ∪ {p : ℝ | p > x n ∧ ∃ i < n, p = x i}) - x n)\n: (∑' n : ℕ, a n * b n * (a n + b n) = 1 / 3)"
+  },
+  {
+    "id": "putnam_1965_a3",
+    "area": "putnam 1965",
+    "goal": "Prove this Lean 4 theorem.\n\nopen EuclideanGeometry Topology Filter Complex\n\ntheorem putnam_1965_a3\n(a : ℕ → ℝ)\n(α : ℂ)\n: Tendsto (fun n : ℕ => (∑ k ∈ Finset.Icc 1 n, exp (I * a k))/n) atTop (𝓝 α) ↔\nTendsto (fun n : ℕ => (∑ k ∈ Finset.Icc 1 (n^2), exp (I * a k))/n^2) atTop (𝓝 α)\n\nIt formalises the following claim: Prove that, for any sequence of real numbers $a_1, a_2, \\dots$, $$\\lim_{n \\to \\infty} \\frac{\\sum_{k = 1}^{n} e^{ia_k}}{n} = \\alpha$$ if and only if $$\\lim_{n \\to \\infty} \\frac{\\sum_{k = 1}^{n} e^{ia_{k^2}}}{n^2} = \\alpha.$$",
+    "tier": "putnam",
+    "note": "open EuclideanGeometry Topology Filter Complex\n\ntheorem putnam_1965_a3\n(a : ℕ → ℝ)\n(α : ℂ)\n: Tendsto (fun n : ℕ => (∑ k ∈ Finset.Icc 1 n, exp (I * a k))/n) atTop (𝓝 α) ↔\nTendsto (fun n : ℕ => (∑ k ∈ Finset.Icc 1 (n^2), exp (I * a k))/n^2) atTop (𝓝 α)"
+  },
+  {
+    "id": "putnam_1965_a6",
+    "area": "putnam 1965",
+    "goal": "Prove this Lean 4 theorem.\n\nopen EuclideanGeometry Topology Filter Complex\n\ntheorem putnam_1965_a6\n    (u v m : ℝ)\n    (hu : 0 < u)\n    (hv : 0 < v)\n    (hm : 1 < m) :\n    (∃ᵉ (x > 0) (y > 0),\n      u * x + v * y = 1 ∧\n      x ^ m + y ^ m = 1 ∧\n      u = x ^ (m - 1) ∧\n      v = y ^ (m - 1)) ↔\n    ∃ n, u ^ n + v ^ n = 1 ∧ m⁻¹ + n⁻¹ = 1\n\nIt formalises the following claim: Prove that the line $ux + vy = 1$ (where $u \\ge 0$ and $v \\ge 0$) will lie tangent to the curve $x^m + y^m = 1$ (where $m > 1$) if and only if $u^n + v^n = 1$ for some $n$ such that $m^{-1} + n^{-1} = 1$.",
+    "tier": "putnam",
+    "note": "open EuclideanGeometry Topology Filter Complex\n\ntheorem putnam_1965_a6\n    (u v m : ℝ)\n    (hu : 0 < u)\n    (hv : 0 < v)\n    (hm : 1 < m) :\n    (∃ᵉ (x > 0) (y > 0),\n      u * x + v * y = 1 ∧\n      x ^ m + y ^ m = 1 ∧\n      u = x ^ (m - 1) ∧\n      v = y ^ (m - 1)) ↔\n    ∃ n, u ^ n + v ^ n = 1 ∧ m⁻¹ + n⁻¹ = 1"
+  },
+  {
+    "id": "putnam_1966_b5",
+    "area": "putnam 1966",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Topology Filter\n\ntheorem putnam_1966_b5\n(S : Finset (EuclideanSpace ℝ (Fin 2)))\n(hcard : S.card ≥ 3)\n(hS : ∀ s ⊆ S, s.card = 3 → ¬Collinear ℝ s.toSet)\n: ∃ L : ZMod S.card → (EuclideanSpace ℝ (Fin 2)), (∀ p ∈ S, ∃! i : ZMod S.card, p = L i) ∧\n∀ i j : ZMod S.card, i ≠ j → (∀ I : EuclideanSpace ℝ (Fin 2),\n(I ∈ segment ℝ (L i) (L (i + 1)) ∧ I ∈ segment ℝ (L j) (L (j + 1))) →\nI = L i ∨ I = L (i + 1) ∨ I = L j ∨ I = L (j + 1))\n\nIt formalises the following claim: Prove that any set of $n \\ge 3$ distinct points in the Euclidean plane, no three of which are collinear, forms the vertex set of some simple (non-self-intersecting) closed polygon.",
+    "tier": "putnam",
+    "note": "open Topology Filter\n\ntheorem putnam_1966_b5\n(S : Finset (EuclideanSpace ℝ (Fin 2)))\n(hcard : S.card ≥ 3)\n(hS : ∀ s ⊆ S, s.card = 3 → ¬Collinear ℝ s.toSet)\n: ∃ L : ZMod S.card → (EuclideanSpace ℝ (Fin 2)), (∀ p ∈ S, ∃! i : ZMod S.card, p = L i) ∧\n∀ i j : ZMod S.card, i ≠ j → (∀ I : EuclideanSpace ℝ (Fin 2),\n(I ∈ segment ℝ (L i) (L (i + 1)) ∧ I ∈ segment ℝ (L j) (L (j + 1))) →\nI = L i ∨ I = L (i + 1) ∨ I = L j ∨ I = L (j + 1))"
+  },
+  {
+    "id": "putnam_1966_b6",
+    "area": "putnam 1966",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Topology Filter\n\ntheorem putnam_1966_b6\n(y : ℝ → ℝ)\n(hy : Differentiable ℝ y ∧ Differentiable ℝ (deriv y))\n(diffeq : deriv (deriv y) + Real.exp * y = 0)\n: ∃ r s N : ℝ, ∀ x > N, r ≤ y x ∧ y x ≤ s\n\nIt formalises the following claim: Prove that any solution $y(x)$ to the differential equation $y'' + e^{x}y = 0$ remains bounded as $x$ goes to $+\\infty$.",
+    "tier": "putnam",
+    "note": "open Topology Filter\n\ntheorem putnam_1966_b6\n(y : ℝ → ℝ)\n(hy : Differentiable ℝ y ∧ Differentiable ℝ (deriv y))\n(diffeq : deriv (deriv y) + Real.exp * y = 0)\n: ∃ r s N : ℝ, ∀ x > N, r ≤ y x ∧ y x ≤ s"
+  },
+  {
+    "id": "putnam_1967_a2",
+    "area": "putnam 1967",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Nat Topology Filter\n\ntheorem putnam_1967_a2\n    (S : ℕ → ℤ)\n    (hS0 : S 0 = 1)\n    (hSn : ∀ n ≥ 1, S n = {A : Matrix (Fin n) (Fin n) ℕ | (∀ i j, A i j = A j i) ∧ (∀ j, (∑ i, A i j) = 1)}.ncard) :\n    (∀ n ≥ 1, S (n + 1) = S n + n * S (n - 1)) ∧\n    (∀ x : ℝ, (∑' n : ℕ, S n * (x ^ n / (n)!)) = Real.exp (x + x ^ 2 / 2))\n\nIt formalises the following claim: Define $S_0$ to be $1$. For $n \\geq 1$, let $S_n$ be the number of $n \\times n$ matrices whose elements are nonnegative integers with the property that $a_{ij}=a_{ji}$, ($i,j=1,2,\\dots,n$) and where $\\sum_{i=1}^n a_{ij}=1$, ($j=1,2,\\dots,n$). Prove\n\\begin{enumerate}\n\\item[(a)] $S_{n+1}=S_n+nS_{n-1}$\n\\item[(b)] $\\sum_{n=0}^\\infty S_n\\frac{x^n}{n!} = \\exp(x+x^2/2)$, where $\\exp(x)=e^x$.\n\\end{enumerate}",
+    "tier": "putnam",
+    "note": "open Nat Topology Filter\n\ntheorem putnam_1967_a2\n    (S : ℕ → ℤ)\n    (hS0 : S 0 = 1)\n    (hSn : ∀ n ≥ 1, S n = {A : Matrix (Fin n) (Fin n) ℕ | (∀ i j, A i j = A j i) ∧ (∀ j, (∑ i, A i j) = 1)}.ncard) :\n    (∀ n ≥ 1, S (n + 1) = S n + n * S (n - 1)) ∧\n    (∀ x : ℝ, (∑' n : ℕ, S n * (x ^ n / (n)!)) = Real.exp (x + x ^ 2 / 2))"
+  },
+  {
+    "id": "putnam_1967_b1",
+    "area": "putnam 1967",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Nat Topology Filter\n\ntheorem putnam_1967_b1\n(r : ℝ)\n(L : ZMod 6 → (EuclideanSpace ℝ (Fin 2)))\n(P Q R: EuclideanSpace ℝ (Fin 2))\n(hP : P = midpoint ℝ (L 1) (L 2))\n(hQ : Q = midpoint ℝ (L 3) (L 4))\n(hR : R = midpoint ℝ (L 5) (L 0))\n(hr : r > 0)\n(hcyclic : ∃ (O : EuclideanSpace ℝ (Fin 2)), ∀ i : ZMod 6, dist O (L i) = r)\n(horder : ∀ i j : ZMod 6, i ≠ j → i + 1 = j ∨ i = j + 1 ∨ segment ℝ (L i) (L j) ∩ interior (convexHull ℝ {L k | k : ZMod 6}) ≠ ∅)\n(hlens : dist (L 0) (L 1) = r ∧ dist (L 2) (L 3) = r ∧ dist (L 4) (L 5) = r)\n(hdist : L 1 ≠ L 2 ∧ L 3 ≠ L 4 ∧ L 5 ≠ L 0)\n: dist P Q = dist R P ∧ dist Q R = dist P Q\n\nIt formalises the following claim: Let $\\hexagon ABCDEF$ be a hexagon inscribed in a circle of radius $r$. If $AB = CD = EF = r$, prove that the midpoints of $\\overline{BC}$, $\\overline{DE}$, and $\\overline{FA}$ form the vertices of an equilateral triangle.",
+    "tier": "putnam",
+    "note": "open Nat Topology Filter\n\ntheorem putnam_1967_b1\n(r : ℝ)\n(L : ZMod 6 → (EuclideanSpace ℝ (Fin 2)))\n(P Q R: EuclideanSpace ℝ (Fin 2))\n(hP : P = midpoint ℝ (L 1) (L 2))\n(hQ : Q = midpoint ℝ (L 3) (L 4))\n(hR : R = midpoint ℝ (L 5) (L 0))\n(hr : r > 0)\n(hcyclic : ∃ (O : EuclideanSpace ℝ (Fin 2)), ∀ i : ZMod 6, dist O (L i) = r)\n(horder : ∀ i j : ZMod 6, i ≠ j → i + 1 = j ∨ i = j + 1 ∨ segment ℝ (L i) (L j) ∩ interior (convexHull ℝ {L k | k : ZMod 6}) ≠ ∅)\n(hlens : dist (L 0) (L 1) = r ∧ dist (L 2) (L 3) = r ∧ dist (L 4) (L 5) = r)\n(hdist : L 1 ≠ L 2 ∧ L 3 ≠ L 4 ∧ L 5 ≠ L 0)\n: dist P Q = dist R P ∧ dist Q R = dist P Q"
+  },
+  {
+    "id": "putnam_1968_a2",
+    "area": "putnam 1968",
+    "goal": "Prove this Lean 4 theorem.\n\ntheorem putnam_1968_a2\n(a b c d e f : ℤ)\n(ε : ℝ)\n(hne : a * d ≠ b * c)\n(hε : ε > 0)\n: ∃ r s : ℚ, (|r * a + s * b - e| : ℝ) ∈ Set.Ioo 0 ε ∧ (|r * c + s * d - f| : ℝ) ∈ Set.Ioo 0 ε\n\nIt formalises the following claim: For all integers $a$, $b$, $c$, $d$, $e$, and $f$ such that $ad \\neq bc$ and any real number $\\epsilon > 0$, prove that there exist rational numbers $r$ and $s$ such that $$0 < |ra + sb - e| < \\varepsilon$$ and $$0 < |rc + sd - f| < \\varepsilon.$$",
+    "tier": "putnam",
+    "note": "theorem putnam_1968_a2\n(a b c d e f : ℤ)\n(ε : ℝ)\n(hne : a * d ≠ b * c)\n(hε : ε > 0)\n: ∃ r s : ℚ, (|r * a + s * b - e| : ℝ) ∈ Set.Ioo 0 ε ∧ (|r * c + s * d - f| : ℝ) ∈ Set.Ioo 0 ε"
+  },
+  {
+    "id": "putnam_1968_a1",
+    "area": "putnam 1968",
+    "goal": "Prove this Lean 4 theorem.\n\ntheorem putnam_1968_a1\n: 22/7 - Real.pi = ∫ x in (0)..1, x^4 * (1 - x)^4 / (1 + x^2)\n\nIt formalises the following claim: Prove that $$\\frac{22}{7} - \\pi = \\int_{0}^{1} \\frac{x^4(1 - x)^4}{1 + x^2} dx$$.",
+    "tier": "putnam",
+    "note": "theorem putnam_1968_a1\n: 22/7 - Real.pi = ∫ x in (0)..1, x^4 * (1 - x)^4 / (1 + x^2)"
+  },
+  {
+    "id": "putnam_1969_a5",
+    "area": "putnam 1969",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Matrix Filter Topology Set Nat\n\ntheorem putnam_1969_a5\n    (x0 y0 t : ℝ)\n    (ht : 0 < t) :\n    x0 = y0 ↔ ∃ x y u : ℝ → ℝ,\n      Differentiable ℝ x ∧\n      Differentiable ℝ y ∧\n      Continuous u ∧\n      deriv x = - 2 • y + u ∧\n      deriv y = - 2 • x + u ∧\n      x 0 = x0 ∧\n      y 0 = y0 ∧\n      x t = 0 ∧\n      y t = 0\n\nIt formalises the following claim: Consider the system of differential equations $$\\frac{dx}{dt} = -2y + u(t), \\frac{dy}{dt} = -2x + u(t)$$ for some continuous function $u(t)$. Prove that, if $x(0) \\ne y(0)$, the solution will never pass through $(0, 0)$ regardless of the choice of $u(t)$, and if $x(0) = y(0)$, a suitable $u(t)$ can be chosen for any $T > 0$ so that $(x(T), y(T)) = (0, 0)$.",
+    "tier": "putnam",
+    "note": "open Matrix Filter Topology Set Nat\n\ntheorem putnam_1969_a5\n    (x0 y0 t : ℝ)\n    (ht : 0 < t) :\n    x0 = y0 ↔ ∃ x y u : ℝ → ℝ,\n      Differentiable ℝ x ∧\n      Differentiable ℝ y ∧\n      Continuous u ∧\n      deriv x = - 2 • y + u ∧\n      deriv y = - 2 • x + u ∧\n      x 0 = x0 ∧\n      y 0 = y0 ∧\n      x t = 0 ∧\n      y t = 0"
+  },
+  {
+    "id": "putnam_1969_b5",
+    "area": "putnam 1969",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Matrix Filter Topology Set Nat\n\ntheorem putnam_1969_b5\n(a : ℕ → ℝ)\n(ha : StrictMono a ∧ (∀ x : ℕ, a x > 0))\n(hinvasum : ∃ C : ℝ, Tendsto (fun n => ∑ i : Fin n, 1/(a i)) atTop (𝓝 C))\n(k : ℝ → ℕ)\n(hk : k = fun x => {n | a n ≤ x}.ncard)\n: Tendsto (fun t => (k t)/t) atTop (𝓝 0)\n\nIt formalises the following claim: Let $a_1 < a_2 < a_3 < \\dots$ be an increasing sequence of positive integers. Assume that the sequences $\\sum_{i = 1}^{\\infty} 1/(a n)$ is convergent. For any number $x$, let $k(x)$ be the number of $a_n$'s which do not exceed $x$. Show that $\\lim_{x \\to \\infty} k(x)/x = 0$.",
+    "tier": "putnam",
+    "note": "open Matrix Filter Topology Set Nat\n\ntheorem putnam_1969_b5\n(a : ℕ → ℝ)\n(ha : StrictMono a ∧ (∀ x : ℕ, a x > 0))\n(hinvasum : ∃ C : ℝ, Tendsto (fun n => ∑ i : Fin n, 1/(a i)) atTop (𝓝 C))\n(k : ℝ → ℕ)\n(hk : k = fun x => {n | a n ≤ x}.ncard)\n: Tendsto (fun t => (k t)/t) atTop (𝓝 0)"
+  },
+  {
+    "id": "putnam_1970_b3",
+    "area": "putnam 1970",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Metric Set EuclideanGeometry Filter Topology\n\ntheorem putnam_1970_b3\n(S : Set (ℝ × ℝ))\n(a b : ℝ)\n(hab : a < b)\n(hS : ∀ s ∈ S, s.1 ∈ Ioo a b)\n(hSclosed : IsClosed S)\n: IsClosed {y | ∃ x : ℝ, ⟨x,y⟩ ∈ S}\n\nIt formalises the following claim: A closed subset $S$ of $\\mathbb{R}^2$ lies in $a < x < b$. Show that its projection on the y-axis is closed.",
+    "tier": "putnam",
+    "note": "open Metric Set EuclideanGeometry Filter Topology\n\ntheorem putnam_1970_b3\n(S : Set (ℝ × ℝ))\n(a b : ℝ)\n(hab : a < b)\n(hS : ∀ s ∈ S, s.1 ∈ Ioo a b)\n(hSclosed : IsClosed S)\n: IsClosed {y | ∃ x : ℝ, ⟨x,y⟩ ∈ S}"
+  },
+  {
+    "id": "putnam_1970_a1",
+    "area": "putnam 1970",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Metric Set EuclideanGeometry\n\ntheorem putnam_1970_a1\n(a b : ℝ)\n(ha : a > 0)\n(hb : b > 0)\n(f : ℝ → ℝ)\n(f_def : f = fun x : ℝ => Real.exp (a*x) * Real.cos (b*x))\n(p : ℕ → ℝ)\n(hp : ∃ c : ℝ, c > 0 ∧ ∀ x ∈ ball 0 c, ∑' n : ℕ, (p n)*x^n = f x)\n(S : Set ℕ)\n(S_def : S = {n : ℕ | p n = 0})\n: S = ∅ ∨ ¬Finite S\n\nIt formalises the following claim: Prove that, for all $a > 0$ and $b > 0$, the power series of $e^{ax} \\cos (bx)$ with respect to $x$ has either zero or infinitely many zero coefficients.",
+    "tier": "putnam",
+    "note": "open Metric Set EuclideanGeometry\n\ntheorem putnam_1970_a1\n(a b : ℝ)\n(ha : a > 0)\n(hb : b > 0)\n(f : ℝ → ℝ)\n(f_def : f = fun x : ℝ => Real.exp (a*x) * Real.cos (b*x))\n(p : ℕ → ℝ)\n(hp : ∃ c : ℝ, c > 0 ∧ ∀ x ∈ ball 0 c, ∑' n : ℕ, (p n)*x^n = f x)\n(S : Set ℕ)\n(S_def : S = {n : ℕ | p n = 0})\n: S = ∅ ∨ ¬Finite S"
+  },
+  {
+    "id": "putnam_1971_a4",
+    "area": "putnam 1971",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Set MvPolynomial\n\ntheorem putnam_1971_a4\n(ε : ℝ)\n(hε : 0 < ε ∧ ε < 1)\n(P : ℕ → ℝ → MvPolynomial (Fin 2) ℝ)\n(hP : P = fun (n : ℕ) (δ : ℝ) => (MvPolynomial.X 0 + MvPolynomial.X 1)^n * ((MvPolynomial.X 0)^2 - (MvPolynomial.C (2 - δ))*(MvPolynomial.X 0)*(MvPolynomial.X 1) + (MvPolynomial.X 1)^2))\n: ∃ N : ℕ, ∀ n ≥ N, ∀ i : Fin 2 →₀ ℕ, MvPolynomial.coeff i (P n ε) ≥ 0\n\nIt formalises the following claim: Show that for $\\epsilon \\in (0,1)$, the expression $(x + y)^n (x^2 - 2-\\epsilon)xy + y^2)$ is a polynomial with positive coefficients for $n$ sufficiently large, where $n$ is an integer. ",
+    "tier": "putnam",
+    "note": "open Set MvPolynomial\n\ntheorem putnam_1971_a4\n(ε : ℝ)\n(hε : 0 < ε ∧ ε < 1)\n(P : ℕ → ℝ → MvPolynomial (Fin 2) ℝ)\n(hP : P = fun (n : ℕ) (δ : ℝ) => (MvPolynomial.X 0 + MvPolynomial.X 1)^n * ((MvPolynomial.X 0)^2 - (MvPolynomial.C (2 - δ))*(MvPolynomial.X 0)*(MvPolynomial.X 1) + (MvPolynomial.X 1)^2))\n: ∃ N : ℕ, ∀ n ≥ N, ∀ i : Fin 2 →₀ ℕ, MvPolynomial.coeff i (P n ε) ≥ 0"
+  },
+  {
+    "id": "putnam_1971_b3",
+    "area": "putnam 1971",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Set MvPolynomial\n\ntheorem putnam_1971_b3\n(T : ℝ)\n(hT : T > 0)\n: MeasureTheory.volume {t : ℝ | t ≥ T ∧ Nat.floor t = 2 * (Nat.floor (t - T))} = 1\n\nIt formalises the following claim: If two cars travel around a track at constant speeds of one lap per hour, starting from the same point but at different times, prove that the total amount of time for which the first car has completed exactly twice as many laps as the second is exactly $1$ hour.",
+    "tier": "putnam",
+    "note": "open Set MvPolynomial\n\ntheorem putnam_1971_b3\n(T : ℝ)\n(hT : T > 0)\n: MeasureTheory.volume {t : ℝ | t ≥ T ∧ Nat.floor t = 2 * (Nat.floor (t - T))} = 1"
+  }
+]
