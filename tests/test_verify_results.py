@@ -361,3 +361,45 @@ def test_nothing_verified_is_not_reported_as_the_rest_recompiled(
 
     assert "NOTHING was verified" in out.getvalue()
     assert "The rest recompiled" not in out.getvalue()
+
+
+def test_the_repl_budgets_are_raised_before_the_module_is_imported():
+    """ORDERING IS LOAD-BEARING. `_repl`'s timeouts are module-level
+    `os.getenv` reads, fixed at its first import, so a value set afterwards
+    does nothing -- the same trap that made `--budget-profile hard-reasoning`
+    print its own banner while every goal ran on the old defaults.
+
+    Both defaults are wrong for THIS job while being right for the agent's:
+    600s to start against a ~480s measured cold import (the same 25% margin
+    that already produced one false timeout), and 180s per command, sized for
+    interactive attempts rather than for finished proofs."""
+    # Read from the FILE, not through `verify_results.compiler`. The autouse
+    # fixture above monkeypatches that attribute to a lambda, so
+    # `inspect.getsource` returned the LAMBDA and this test failed with
+    # "substring not found" -- my own fixture defeating my own test. Text on
+    # disk cannot be monkeypatched, which is also why
+    # `test_mathv2_package.py` reads `agent.py` this way.
+    source = (Path(__file__).resolve().parent.parent
+              / "scripts" / "verify_results.py").read_text(encoding="utf-8")
+    body = source[source.index("def compiler("):source.index("\ndef source_for")]
+    set_at = body.index("MRA_LEAN_REPL_START_TIMEOUT")
+    import_at = body.index("from math_v2.tools import")
+    source = body
+
+    assert set_at < import_at, (
+        "the timeouts are set after the import that freezes them"
+    )
+    assert "setdefault" in source, "an exported value must still win"
+
+
+@pytest.mark.parametrize("outcome,expected", [
+    (LeanOutcome.UNAVAILABLE, "Lean did not run at all"),
+    (LeanOutcome.TIMEOUT, "ran out of time"),
+])
+def test_the_advice_matches_why_it_could_not_check(outcome, expected):
+    """Telling someone whose Lean is not installed to raise a timeout sends
+    them to the wrong place. A diagnosis nobody can act on is the same as
+    none -- which is the lesson the Lean-gate work already paid for twice."""
+    _, note = verify_results.check(claim(), lean(outcome))
+
+    assert expected in note, note

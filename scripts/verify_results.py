@@ -51,6 +51,7 @@ from __future__ import annotations
 
 import argparse
 import glob
+import os
 import json
 import sys
 from pathlib import Path
@@ -102,6 +103,25 @@ def compiler():
     Falls back to the cold subprocess path when the REPL is not selected, so
     the tool still works, slowly, wherever it did before.
     """
+    # SET BEFORE THE IMPORT, and that ordering is load-bearing. `_repl`'s
+    # timeouts are module-level `os.getenv` reads, fixed at ITS first import,
+    # so a value set afterwards has no effect -- the same trap that once made
+    # `--budget-profile hard-reasoning` print its own banner while every goal
+    # ran on the old defaults. The import below is deliberately lazy so this
+    # runs first.
+    #
+    # MEASURED, and both defaults are too small for THIS job even though they
+    # are right for the agent's: the REPL's start budget is 600s while a cold
+    # `import Mathlib` was timed at ~480s on real hardware, which is the same
+    # 25%-margin mistake `LEAN_COLD_TIMEOUT` already made; and its per-command
+    # budget is 180s, sized for an agent's interactive attempts, where the
+    # proofs verified here are the finished article (a6's is 2552 characters
+    # over four lemmas).
+    #
+    # `setdefault`, so anything the operator exported still wins.
+    os.environ.setdefault("MRA_LEAN_REPL_START_TIMEOUT", "1800")
+    os.environ.setdefault("MRA_LEAN_REPL_TIMEOUT", "900")
+
     try:
         from math_v2.tools import _repl, _util
     except Exception:  # noqa: BLE001 - verification must not need math_v2
@@ -179,10 +199,18 @@ def check(claim: dict, runner=None) -> tuple:
     # A false alarm in a soundness checker is worse than no checker: it
     # teaches the reader to ignore the real ones.
     if result.outcome in (LeanOutcome.TIMEOUT, LeanOutcome.UNAVAILABLE):
+        # The advice has to match the outcome. Telling someone whose Lean is
+        # not installed to raise a timeout sends them to the wrong place, and
+        # a diagnosis nobody can act on is the same as none.
+        cure = (
+            "Lean did not run at all — check MRA_LEAN and MRA_LEAN_PROJECT."
+            if result.outcome is LeanOutcome.UNAVAILABLE else
+            "The compile ran out of time. Raise MRA_LEAN_COLD_TIMEOUT (cold "
+            "subprocess path) or MRA_LEAN_REPL_TIMEOUT (REPL path)."
+        )
         return UNCHECKED, (
             f"COULD NOT CHECK ({result.outcome.value}) — this says nothing "
-            "about the proof. A cold `import Mathlib` is slow; raise "
-            "MRA_LEAN_COLD_TIMEOUT, or run scripts/diagnose_lean.py."
+            f"about the proof. {cure} Run scripts/diagnose_lean.py."
         )
     return False, f"REJECTED — {(result.output or '').strip()[:400]}"
 
