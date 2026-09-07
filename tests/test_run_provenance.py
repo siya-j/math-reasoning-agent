@@ -136,3 +136,54 @@ def test_the_saved_file_carries_the_run_block(tmp_path):
     assert written["run"]["model"] == "m"
     assert written["run"]["commit"] == "abc"
     assert "environment" in written and "summary" in written
+
+
+# =====================================================================
+# The sampler must report what it removed, not what it was configured with
+# =====================================================================
+def test_the_sampler_reports_nothing_dropped_when_nothing_matched(
+        tmp_path, capsys):
+    """MEASURED while preparing the hundred-goal sample: on a PutnamBench
+    goals file the sampler printed "excluded 4 id(s) already tuned against"
+    while excluding NONE. The exclusion set holds four ProofNet ids
+    (`exercise_1_13a`, ...) which cannot match a `putnam_*` id, and the
+    message reported the size of the LIST rather than what it removed.
+
+    A reader of a run's provenance would believe four goals were dropped from
+    the sample behind a headline number. In tooling that feeds a benchmark the
+    message has to say what happened, not what was configured.
+    """
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+    import sample_by_area
+
+    goals = [{"id": f"putnam_1962_a{n}", "area": "putnam 1962",
+              "goal": "g", "tier": "putnam"} for n in range(1, 5)]
+    path = tmp_path / "goals.json"
+    path.write_text(json.dumps(goals), encoding="utf-8")
+
+    sample_by_area.main([str(path), "--per-area", "2",
+                         "--out", str(tmp_path / "s.json")])
+    printed = capsys.readouterr().out
+
+    assert "matched nothing in this file" in printed
+    assert "excluded 4" not in printed, "it still claims a removal it did not make"
+
+
+def test_the_sampler_names_the_goals_it_actually_drops(tmp_path, capsys):
+    """The positive case: when the exclusion really applies, say which."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+    import sample_by_area
+
+    goals = [{"id": "exercise_1_13a", "area": "proofnet 1", "goal": "g",
+              "tier": "proofnet"},
+             {"id": "exercise_9_9_9", "area": "proofnet 9", "goal": "g",
+              "tier": "proofnet"}]
+    path = tmp_path / "goals.json"
+    path.write_text(json.dumps(goals), encoding="utf-8")
+
+    sample_by_area.main([str(path), "--per-area", "2",
+                         "--out", str(tmp_path / "s.json")])
+    printed = capsys.readouterr().out
+
+    assert "excluded 1 goal(s)" in printed
+    assert "exercise_1_13a" in printed

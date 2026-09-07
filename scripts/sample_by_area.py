@@ -169,9 +169,22 @@ def main(argv=None) -> int:
     sizes = ", ".join(f"{a.split()[-1] if args.stratify_by == 'chapter' else a}:{len(v)}"
                       for a, v in sorted(buckets.items()))
     print(f"{len(buckets)} {noun} found in {args.goals_file} ({sizes})")
-    if exclude:
-        print(f"excluded {len(exclude)} id(s) already tuned against "
-              f"({KNOWN_TUNED_AGAINST.name}); pass --include-known to keep them")
+    # HOW MANY WERE ACTUALLY REMOVED, not how many are on the list. These
+    # printed the same number, and on a PutnamBench file that is a false
+    # statement: the exclusion set holds four ProofNet ids
+    # (`exercise_1_13a`, ...) which cannot match a `putnam_*` id, so it said
+    # "excluded 4" while excluding none. A reader of a run's provenance would
+    # believe four goals were dropped from the sample behind a headline
+    # number. In tooling that feeds a benchmark, the message has to say what
+    # happened rather than what was configured.
+    removed = sorted(exclude & {g.get("id", "") for g in goals})
+    if removed:
+        print(f"excluded {len(removed)} goal(s) already tuned against "
+              f"({KNOWN_TUNED_AGAINST.name}): {', '.join(removed)}; "
+              "pass --include-known to keep them")
+    elif exclude:
+        print(f"exclusion list ({KNOWN_TUNED_AGAINST.name}) matched nothing "
+              "in this file; nothing was dropped")
     print(f"sampled {len(picked)} goals (up to {args.per_area} per {args.stratify_by}, "
           f"seed={args.seed}) -> {out}")
     if len(buckets) == 1:
