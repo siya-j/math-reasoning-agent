@@ -66,6 +66,62 @@ PROVED = "proved"
 UNCHECKED = "unchecked"
 
 
+def compiler():
+    """The fastest correct way to recompile, and why it is still independent.
+
+    MEASURED, and the reason this is not simply `run_lean`: `run_lean` spawns
+    a fresh subprocess per proof, so each one re-imports Mathlib from scratch
+    -- about eight minutes on real hardware before it even reaches the proof.
+    Verifying the two claims in eval/results/putnam-run4.json that way did not
+    finish inside 1800s and reported COULD NOT CHECK for both, which is the
+    tool failing at the one job it exists for.
+
+    The REPL pays the import ONCE and then compiles each proof against the
+    base environment it produced:
+
+        {"cmd": "import Mathlib"}              ->  {"env": 0}   paid once
+        {"cmd": "theorem a ...", "env": 0}     ->  {"env": 1, ...}
+        {"cmd": "theorem b ...", "env": 0}     ->  {"env": 2, ...}
+
+    EVERY PROOF COMPILES AGAINST env 0, never against the environment another
+    proof left behind, so nothing one claim declares can help the next one
+    typecheck. That is what makes this correct and not merely fast, and it is
+    strictly better than the obvious alternative of concatenating all the
+    proofs into one file, where exactly that cross-contamination would be
+    possible and invisible.
+
+    WHAT INDEPENDENCE NOW MEANS, stated precisely because it changed. This
+    file previously claimed nothing in `math_v2` sat between the artefact and
+    Lean, and that is no longer true: math_v2's REPL wrapper is the transport.
+    What still holds, and is the part that matters -- no model is called, no
+    agent loop runs, the artefact comes from the results file rather than from
+    any surviving workspace, and the verdict is the compiler's, reached
+    through the same anti-cheat that refuses `sorry`, `axiom` and
+    `native_decide`.
+
+    Falls back to the cold subprocess path when the REPL is not selected, so
+    the tool still works, slowly, wherever it did before.
+    """
+    try:
+        from math_v2.tools import _repl, _util
+    except Exception:  # noqa: BLE001 - verification must not need math_v2
+        return None, "subprocess (math_v2 unavailable)"
+
+    if not _repl.enabled():
+        return None, "subprocess (REPL not selected)"
+
+    import asyncio
+    import tempfile
+
+    workdir = tempfile.mkdtemp(prefix="verify_")
+    run = _util.lean_runner(workdir)
+
+    def compile_once(source):
+        return asyncio.run(run(source))
+
+    return compile_once, "REPL (Mathlib imported once)"
+
+
 def source_for(claim: dict) -> str:
     """Rebuild exactly the file the agent had Lean compile.
 
@@ -96,8 +152,10 @@ def check(claim: dict, runner=None) -> tuple:
     `pipeline/proving.py` documents for `kwargs.setdefault`, and it made the
     exit-code test compile against real Lean instead of the injected fake.
     """
-    runner = runner or (
-        lambda source: run_lean(source, timeout=config.LEAN_COLD_TIMEOUT))
+    if runner is None:
+        fast, _ = compiler()
+        runner = fast or (
+            lambda source: run_lean(source, timeout=config.LEAN_COLD_TIMEOUT))
     if not (claim.get("proof") or "").strip():
         return False, (
             "NO PROOF RETAINED — this result predates the change that stores "
@@ -161,11 +219,16 @@ def main(argv=None) -> int:
         print("no results files matched")
         return 2
 
+    fast, how = compiler()
+    print(f"compiling via: {how}")
+    runner = fast or (
+        lambda source: run_lean(source, timeout=config.LEAN_COLD_TIMEOUT))
+
     checked = 0
     failures = []
     unchecked = []
     for path in paths:
-        count, failed, skipped = verify(path)
+        count, failed, skipped = verify(path, runner)
         checked += count
         failures.extend(failed)
         unchecked.extend(skipped)
@@ -185,8 +248,11 @@ def main(argv=None) -> int:
         # NOT exit 0. Those claims were never actually tested, and reporting
         # that as a pass is exactly how an unverified run gets quoted as a
         # verified one.
+        rest = checked - len(unchecked)
         print(f"{len(unchecked)} of {checked} claimed proofs COULD NOT BE "
-              "CHECKED (see above). The rest recompiled.")
+              "CHECKED (see above)."
+              + (f" The other {rest} recompiled." if rest else
+                 " NOTHING was verified."))
         return 2
     print(f"all {checked} claimed proof(s) recompiled independently")
     return 0

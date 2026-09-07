@@ -45,7 +45,11 @@ PROOF = "by simp"
 def lean(outcome, output=""):
     seen = []
 
-    def runner(source):
+    # `**_` because the real `run_lean` takes `timeout=`, and the fallback path
+    # passes `LEAN_COLD_TIMEOUT` to it. A double that cannot accept the real
+    # call's arguments hides signature changes -- which is exactly what
+    # happened here when the REPL backend was added.
+    def runner(source, **_):
         seen.append(source)
         return LeanResult(outcome, output)
 
@@ -127,6 +131,20 @@ def test_an_unretained_proof_is_a_failure_not_a_pass():
 
 
 # ----------------------------------------------------- over a whole file
+@pytest.fixture(autouse=True)
+def _no_real_compiler(monkeypatch):
+    """`main` now asks `compiler()` which backend to use, and on a machine
+    where the REPL is selected that returns a LIVE one -- which would ignore
+    every injected compiler below and try to spawn Lean. Pinning it to the
+    fallback keeps these tests about the POLICY, which is what they test.
+
+    The seam moved when the REPL path was added; five tests failed for exactly
+    this reason, correctly.
+    """
+    monkeypatch.setattr(verify_results, "compiler",
+                        lambda: (None, "subprocess (test)"))
+
+
 def _write(tmp_path, results):
     path = tmp_path / "results.json"
     path.write_text(json.dumps({"results": results}), encoding="utf-8")
@@ -267,7 +285,7 @@ def test_a_real_failure_still_outranks_an_unchecked_one(tmp_path, monkeypatch):
     be downgraded to "incomplete" by an unrelated timeout elsewhere."""
     calls = {"n": 0}
 
-    def alternating(source):
+    def alternating(source, **_):
         calls["n"] += 1
         outcome = (LeanOutcome.INCOMPLETE if calls["n"] == 1
                    else LeanOutcome.TIMEOUT)
@@ -310,3 +328,36 @@ def test_the_cold_timeout_has_real_margin_over_a_measured_compile():
     assert config.LEAN_COLD_TIMEOUT > config.LEAN_TIMEOUT, (
         "the cold budget must exceed the warm one it exists to replace"
     )
+
+
+# ------------------------------------------- which backend does the work
+def test_the_repl_is_preferred_when_it_is_the_selected_backend(monkeypatch):
+    """MEASURED: recompiling run4's two proofs through the cold subprocess
+    path did not finish inside 1800s and reported COULD NOT CHECK for both --
+    the tool failing at its only job. The REPL pays `import Mathlib` once."""
+    monkeypatch.setattr(verify_results, "compiler",
+                        lambda: (lambda source: None, "REPL (Mathlib imported once)"))
+
+    fast, how = verify_results.compiler()
+
+    assert fast is not None
+    assert "REPL" in how
+
+
+def test_nothing_verified_is_not_reported_as_the_rest_recompiled(
+        tmp_path, monkeypatch):
+    """A wording bug worth a test: with every claim unchecked, the summary
+    said "The rest recompiled" about a set that was empty. A validation tool
+    must not imply work it did not do."""
+    monkeypatch.setattr(verify_results, "run_lean", lean(LeanOutcome.TIMEOUT))
+    path = _write(tmp_path, [claim()])
+
+    import io
+    import contextlib
+
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        verify_results.main([str(path)])
+
+    assert "NOTHING was verified" in out.getvalue()
+    assert "The rest recompiled" not in out.getvalue()
