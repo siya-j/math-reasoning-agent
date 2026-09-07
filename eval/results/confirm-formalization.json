@@ -1,0 +1,69 @@
+{
+  "environment": {
+    "lean_backend": "subprocess",
+    "execution_mode": "local",
+    "lean_project": "C:\\Users\\SiyaJethliya\\Projects\\lean-workspace",
+    "lean_toolchain": "4.33.0",
+    "repl_binary": "",
+    "repl_version": "",
+    "repl_max_commands": null
+  },
+  "summary": {
+    "total": 1,
+    "errors": 0,
+    "attempted": 1,
+    "formalization_rate": 0.0,
+    "proof_rate": 0.0,
+    "proof_rate_of_formalized": null,
+    "proof_rate_of_tested": null,
+    "not_formalized": 1,
+    "exhausted": 0,
+    "refuted": 0,
+    "suspect_unverified": 0,
+    "suspect_statements": 0,
+    "genuinely_tested": 0,
+    "valid_proof_targets": 0,
+    "lemma_yield": null,
+    "mean_attempts": 0.0,
+    "proof_rate_in-mathlib": null,
+    "proof_rate_near-mathlib": null,
+    "proof_rate_novel": null,
+    "proof_rate_hard": null,
+    "proof_rate_proofnet": 0.0,
+    "proof_rate_by_area": {
+      "proofnet 1": {
+        "rate": 0.0,
+        "n": 1
+      }
+    }
+  },
+  "results": [
+    {
+      "goal_id": "exercise_1_18a",
+      "area": "proofnet 1",
+      "tier": "proofnet",
+      "outcome": "not_formalized",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 \u27eax, y\u27eb = (0 : \u211d)",
+      "attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean could not make sense of the formal statement, so the claim was never put to the prover. The agent reported: ,ok:true,outputs:{detail:Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_1aqgj255\\math/lean\\claim_c8e5293b.lean:7:51: error: e",
+      "model_calls": 7,
+      "lean_calls": 2,
+      "retrieval_calls": 4,
+      "symbolic_calls": 0,
+      "seconds": 479.2,
+      "trace": [
+        "statement check: does NOT elaborate \u2014 Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_1aqgj255\\math/lean\\claim_b020d935.lean:7:53: error: Application type mismatch:",
+        "statement check: does NOT elaborate \u2014 Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_1aqgj255\\math/lean\\claim_c8e5293b.lean:7:51: error: expected token",
+        "search: '\"inner\"' -> LieDerivation.inner, LieDerivation.inner_apply_apply, MeasureTheory.Measure.InnerRegular, MeasureTheory.Measure.InnerRegularCompactLTTop, MeasureTheory.Measure.InnerRegularWRT",
+        "search: '\"InnerProductSpace\"' -> ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb, InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb, RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb, InnerProductSpace.toInner, PUnit.instInnerProductSpace, InnerProductSpace.toNormedSpace, PreInnerProductSpace.toCore, InnerProductSpace.Core.normSq",
+        "search: '\"Inner\"' -> LieDerivation.inner, LieDerivation.inner_apply_apply, MeasureTheory.Measure.InnerRegular, MeasureTheory.Measure.InnerRegularCompactLTTop, MeasureTheory.Measure.InnerRegularWRT",
+        "execution mode: local",
+        "lean backend: subprocess"
+      ],
+      "stages": []
+    }
+  ]
+}

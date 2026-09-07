@@ -1,0 +1,95 @@
+{
+  "environment": {
+    "lean_backend": "subprocess",
+    "execution_mode": "local",
+    "lean_project": "C:\\Users\\SiyaJethliya\\Projects\\lean-workspace",
+    "lean_toolchain": "4.33.0",
+    "repl_binary": "",
+    "repl_version": "",
+    "repl_max_commands": null
+  },
+  "summary": {
+    "total": 1,
+    "errors": 0,
+    "attempted": 1,
+    "formalization_rate": 1.0,
+    "proof_rate": 1.0,
+    "proof_rate_of_formalized": 1.0,
+    "proof_rate_of_tested": 1.0,
+    "not_formalized": 0,
+    "exhausted": 0,
+    "refuted": 0,
+    "suspect_unverified": 0,
+    "suspect_statements": 0,
+    "genuinely_tested": 1,
+    "valid_proof_targets": 1,
+    "lemma_yield": null,
+    "mean_attempts": 4.0,
+    "proof_rate_in-mathlib": null,
+    "proof_rate_near-mathlib": null,
+    "proof_rate_novel": null,
+    "proof_rate_hard": 1.0,
+    "proof_rate_proofnet": null,
+    "proof_rate_by_area": {
+      "analysis": {
+        "rate": 1.0,
+        "n": 1
+      }
+    }
+  },
+  "results": [
+    {
+      "goal_id": "hard-amgm-sqrt",
+      "area": "analysis",
+      "tier": "hard",
+      "outcome": "proved",
+      "statement": "theorem am_gm_two (a b : NNReal) : NNReal.sqrt (a * b) \u2264 (a + b) / 2",
+      "attempts": 4,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem am_gm_two (a b : NNReal) : NNReal.sqrt (a * b) \u2264 (a + b) / 2",
+      "model_calls": 15,
+      "lean_calls": 6,
+      "retrieval_calls": 6,
+      "symbolic_calls": 0,
+      "seconds": 205.0,
+      "trace": [
+        "statement check: elaborates",
+        "statement check: elaborates",
+        "search: '\"geom_mean_le_arith_mean\"' -> NNReal.geom_mean_le_arith_mean_weighted, NNReal.geom_mean_le_arith_mean2_weighted, Real.geom_mean_le_arith_mean_weighted, Real.geom_mean_le_arith_mean2_weighted, Real.geom_mean_le_arith_mean, NNReal.geom_mean_le_arith_mean3_weighted, Real.geom_mean_le_arith_mean3_weighted, NNReal.geom_mean_le_arith_mean4_weighted",
+        "search: '\"sqrt\"' -> Nat.sqrt_le_self, Nat.sqrt_succ_le_succ_sqrt",
+        "search: '|- Real.sqrt _ \u2264 _' -> Real.sqrt_le_sqrt, Real.real_sqrt_le_nat_sqrt_succ, Real.sqrt_one_add_le, sqrt_one_add_norm_sq_le, Stirling.sqrt_pi_le_stirlingSeq",
+        "seeded from goal shape -> Real.sqrt, Real.sqrt_monotone, Real.sqrt_nonneg, Real.tendsto_sqrt_atTop, Real.sqrt_inv, Real.nat_sqrt_le_real_sqrt, Real.sqrt_le_sqrt, Real.comap_sqrt_atTop",
+        "search: '\"Real.sqrt_sq\"' -> Real.sqrt_sq_eq_abs, Real.sqrt_sq, NNReal.sqrt_sq",
+        "search: '\"sq_nonneg\"' -> sq_nonneg, one_add_mul_le_pow_of_sq_nonneg, Commute.pow_add_mul_le_add_pow_of_sq_nonneg, pow_add_mul_le_add_pow_of_sq_nonneg, IsSelfAdjoint.sq_nonneg, Quaternion.normSq_nonneg, Complex.normSq_nonneg, Complex.sq_nonneg_iff",
+        "search: '\"NNReal.sqrt\"' -> NNReal.sqrtHom, NNReal.sqrt, NNReal.sqrt_one, NNReal.sqrt_zero, NNReal.sqrt_mul_self, NNReal.sqrt_eq_one, NNReal.sqrt_eq_zero, NNReal.sqrt_sq",
+        "seeded from goal shape -> NNReal.sqrt_mul_le_half_add, NNReal, instReprNNReal, NNReal.instAddCancelCommMonoid, NNReal.instBot, NNReal.instCommMonoidWithZero, NNReal.instCommSemiring, NNReal.instConditionallyCompleteLinearOrderBot",
+        "execution mode: local",
+        "lean backend: subprocess"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact NNReal.geom_mean_le_arith_mean_weighted\n    | exact NNReal.geom_mean_le_arith_mean_weighted _\n    | apply NNReal.geom_mean_le_arith_mean_weighted\n    | simpa using NNReal.geom_mean_le_arith_mean_weighted\n    | exact \u27e8_, NNReal.geom_mean_le_arith_mean_weighted\u27e9\n    | exact NNReal.geom_mean_le_arith_mean_weighted (by assumption)\n    | exact NNReal.geom_mean_le_arith_mean_weighted \u2039_\u203a\n    | apply NNReal.geom_mean_l",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_9p5_eeq7\\math/lean\\claim_b359652b.lean:3:90: error: unsolved goals\na b : \u211d\nha : 0 \u2264 a\nhb : 0 \u2264 b\n\u22a2 \u221a(a * b) \u2264 (a + b) / 2\n\nStill to prove:\n\u22a2 \u221a(a * b) \u2264 (a + b) / 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "have h1 : 0 \u2264 ((a - b) / 2) ^ 2 := sq_nonneg _\nhave h2 : ((a + b) / 2) ^ 2 - a * b = ((a - b) / 2) ^ 2 := by ring\nhave h3 : a * b \u2264 ((a + b) / 2) ^ 2 := by linarith\nhave h4 : Real.sqrt (a * b) \u2264 Real.sqrt (((a + b) / 2) ^ 2) := Real.sqrt_le_sqrt h3\nhave h5 : 0 \u2264 (a + b) / 2 := by linarith\nrw [Real.sqrt_sq h5] at h4\nexact h4",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_9p5_eeq7\\math/lean\\claim_c39f8086.lean:3:90: error: unsolved goals\na b : \u211d\nha : 0 \u2264 a\nhb : 0 \u2264 b\nh1 : 0 \u2264 ((a - b) / 2) ^ 2\n\u22a2 \u221a(a * b) \u2264 (a + b) / 2\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_9p5_eeq7\\math/lean\\claim_c39f8086.lean:5:0: error: unexpected token 'have'; expected command\n\nStill to prove:\n\u22a2 \u221a(a * b) \u2264 (a + b) / 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  have h1 : 0 \u2264 ((a - b) / 2) ^ 2 := sq_nonneg _\n  have h2 : ((a + b) / 2) ^ 2 - a * b = ((a - b) / 2) ^ 2 := by ring\n  have h3 : a * b \u2264 ((a + b) / 2) ^ 2 := by linarith\n  have h4 : Real.sqrt (a * b) \u2264 Real.sqrt (((a + b) / 2) ^ 2) := Real.sqrt_le_sqrt h3\n  have h5 : 0 \u2264 (a + b) / 2 := by linarith\n  rw [Real.sqrt_sq h5] at h4\n  exact h4",
+          "errors": "Lean accepted a complete proof of: theorem am_gm_two (a b : \u211d) (ha : 0 \u2264 a) (hb : 0 \u2264 b) : Real.sqrt (a * b) \u2264 (a + b) / 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "by exact NNReal.sqrt_mul_le_half_add a b",
+          "errors": "Lean accepted a complete proof of: theorem am_gm_two (a b : NNReal) : NNReal.sqrt (a * b) \u2264 (a + b) / 2"
+        }
+      ]
+    }
+  ]
+}

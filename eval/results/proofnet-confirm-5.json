@@ -1,0 +1,98 @@
+{
+  "environment": {
+    "lean_backend": "subprocess",
+    "execution_mode": "local",
+    "lean_project": "C:\\Users\\SiyaJethliya\\Projects\\lean-workspace",
+    "lean_toolchain": "4.33.0",
+    "repl_binary": "",
+    "repl_version": "",
+    "repl_max_commands": null
+  },
+  "summary": {
+    "total": 2,
+    "errors": 0,
+    "attempted": 2,
+    "formalization_rate": 1.0,
+    "proof_rate": 0.0,
+    "proof_rate_of_formalized": 0.0,
+    "proof_rate_of_tested": null,
+    "not_formalized": 0,
+    "exhausted": 2,
+    "refuted": 0,
+    "suspect_unverified": 0,
+    "suspect_statements": 0,
+    "genuinely_tested": 0,
+    "valid_proof_targets": 0,
+    "lemma_yield": null,
+    "mean_attempts": 0.0,
+    "proof_rate_in-mathlib": null,
+    "proof_rate_near-mathlib": null,
+    "proof_rate_novel": null,
+    "proof_rate_hard": null,
+    "proof_rate_proofnet": 0.0,
+    "proof_rate_by_area": {
+      "proofnet 1": {
+        "rate": 0.0,
+        "n": 2
+      }
+    }
+  },
+  "results": [
+    {
+      "goal_id": "exercise_1_19",
+      "area": "proofnet 1",
+      "tier": "proofnet",
+      "outcome": "exhausted",
+      "statement": "theorem exercise_1_19\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016b - a\u2016)\n  : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "No accepted compilation of the goal in 0 attempt(s). Failure to find a proof is not evidence that the claim is false. The agent reported: The mathematical claim has been verified, but due to the time budget being exhausted, a formal proof in Lean 4 could not be completed.\n\n### Mathematical Verification\n\nWe want to find $c \\in \\mathbb{R}",
+      "model_calls": 5,
+      "lean_calls": 1,
+      "retrieval_calls": 0,
+      "symbolic_calls": 0,
+      "seconds": 314.2,
+      "trace": [
+        "statement check: elaborates",
+        "seeded from goal shape -> EuclideanSpace, EuclideanSpace.infinite, EuclideanSpace.single, EuclideanSpace.norm_single, EuclideanSpace.basisFun, OrthonormalBasis.instInhabited, EuclideanSpace.dist_single_same, EuclideanSpace.nndist_single_same",
+        "budget: 300s of the 300s budget used \u2014 under 75s left, too little to finish a compilation (slowest seen here: 100s)",
+        "execution mode: local",
+        "lean backend: subprocess",
+        "stopped early: 300s of the 300s budget used \u2014 under 75s left, too little to finish a compilation (slowest seen here: 100s)"
+      ],
+      "stages": []
+    },
+    {
+      "goal_id": "exercise_1_5",
+      "area": "proofnet 1",
+      "tier": "proofnet",
+      "outcome": "exhausted",
+      "statement": "local notation \"Inf\" => sInf\nlocal notation \"Sup\" => sSup\n\ntheorem exercise_1_5 (A minus_A : Set \u211d) (hA : A.Nonempty)\n  (hA_bdd_below : BddBelow A) (hminus_A : minus_A = {x | -x \u2208 A}) :\n  Inf A = Sup minus_A",
+      "attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "No accepted compilation of the goal in 0 attempt(s). Failure to find a proof is not evidence that the claim is false. The agent reported: The formal statement of the theorem is mathematically false as written because it is missing a minus sign (it claims `Inf A = Sup minus_A` instead of `Inf A = - Sup minus_A`). \n\nFor example, if $A = \\",
+      "model_calls": 11,
+      "lean_calls": 2,
+      "retrieval_calls": 5,
+      "symbolic_calls": 0,
+      "seconds": 276.4,
+      "trace": [
+        "statement check: does NOT elaborate \u2014 Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_d4x06j4i\\math/lean\\claim_11b8202e.lean:5:2: error: Function expected at\n  Inf\n",
+        "statement check: elaborates",
+        "search: '\"sInf\"' -> List.isInfixOf_internal, List.instDecidableIsInfixOfDecidableEq, List.IsInfix.sublist, List.IsPrefix.isInfix, List.IsSuffix.isInfix, List.IsInfix.subset, List.IsInfix.reverse, List.IsInfix.length_le",
+        "search: '\"sSup\"' -> ne_of_ssuperset, not_subset_of_ssuperset, LE.le.not_ssuperset, eq_of_superset_of_not_ssuperset, HasSubset.Subset.eq_of_not_ssuperset, LE.le.eq_of_not_ssuperset, SupSet.sSup, Set.sSup_eq_sUnion",
+        "search: '\"Real.sSup\"' -> Real.sSup_univ, Real.sSup_empty, Real.sSup_of_not_bddAbove, Real.sSup_neg, Real.sSup_nonneg, Real.sSup_nonpos, Real.sSup_le, Real.sSup_nonneg'",
+        "seeded from goal shape -> bddBelow_Ici, bddBelow_Ioi, bddBelow_Icc, bddBelow_Ico, bddBelow_Ioc, bddBelow_Ioo, bddBelow_empty, bddBelow_singleton",
+        "budget: 262s of the 300s budget used \u2014 under 75s left, too little to finish a compilation (slowest seen here: 111s)",
+        "execution mode: local",
+        "lean backend: subprocess",
+        "stopped early: 262s of the 300s budget used \u2014 under 75s left, too little to finish a compilation (slowest seen here: 111s)"
+      ],
+      "stages": []
+    }
+  ]
+}

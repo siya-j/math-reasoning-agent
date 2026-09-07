@@ -1,0 +1,965 @@
+{
+  "environment": {
+    "lean_backend": "repl",
+    "execution_mode": "local",
+    "lean_project": "C:\\Users\\SiyaJethliya\\Projects\\lean-workspace",
+    "lean_toolchain": "4.33.0",
+    "repl_binary": "C:\\Users\\SiyaJethliya\\Projects\\repl\\.lake\\build\\bin\\repl.exe",
+    "repl_version": "",
+    "repl_max_commands": 2000
+  },
+  "summary": {
+    "total": 20,
+    "errors": 0,
+    "attempted": 20,
+    "formalization_rate": 1.0,
+    "proof_rate": 0.75,
+    "proof_rate_of_formalized": 0.75,
+    "proof_rate_of_tested": 1.0,
+    "not_formalized": 0,
+    "exhausted": 5,
+    "refuted": 0,
+    "suspect_unverified": 0,
+    "suspect_statements": 0,
+    "genuinely_tested": 15,
+    "valid_proof_targets": 15,
+    "lemma_yield": 0.0,
+    "mean_attempts": 3.2,
+    "proof_rate_in-mathlib": 1.0,
+    "proof_rate_near-mathlib": 1.0,
+    "proof_rate_novel": 0.5,
+    "proof_rate_hard": 0.2,
+    "proof_rate_proofnet": null,
+    "proof_rate_by_area": {
+      "algebra": {
+        "rate": 1.0,
+        "n": 1
+      },
+      "analysis": {
+        "rate": 1.0,
+        "n": 2
+      },
+      "arithmetic": {
+        "rate": 1.0,
+        "n": 2
+      },
+      "combinatorics": {
+        "rate": 0.0,
+        "n": 1
+      },
+      "group theory": {
+        "rate": 1.0,
+        "n": 2
+      },
+      "linear algebra": {
+        "rate": 0.5,
+        "n": 2
+      },
+      "number theory": {
+        "rate": 0.625,
+        "n": 8
+      },
+      "set theory": {
+        "rate": 1.0,
+        "n": 1
+      },
+      "topology": {
+        "rate": 1.0,
+        "n": 1
+      }
+    }
+  },
+  "results": [
+    {
+      "goal_id": "num-infinitude-of-primes",
+      "area": "number theory",
+      "tier": "in-mathlib",
+      "outcome": "proved",
+      "statement": "theorem exists_prime_ge (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n \u2264 p",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem exists_prime_ge (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n \u2264 p",
+      "model_calls": 6,
+      "lean_calls": 2,
+      "retrieval_calls": 2,
+      "symbolic_calls": 0,
+      "seconds": 41.5,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"exists_prime\"' -> Ring.not_isField_iff_exists_prime, UniqueFactorizationMonoid.exists_prime_iff, UniqueFactorizationMonoid.exists_prime_factors, Nat.exists_prime_and_dvd, Nat.eq_one_iff_not_exists_prime_dvd, Nat.ne_one_iff_exists_prime_dvd, UniqueFactorizationMonoid.of_exists_prime_factors, WfDvdMonoid.of_exists_prime_factors",
+        "search: '\"exists_infinite_primes\"' -> Nat.exists_infinite_primes",
+        "seeded from goal shape -> Nat.exists_prime_and_dvd, exists_prime_addEquiv_ZMod, IsPrimePow.exists_ordCompl_eq_one, FiniteField.card, Nat.bertrand, Nat.exists_prime_lt_and_le_two_mul, Nat.exists_prime_lt_and_le_two_mul_eventually, Nat.exists_prime_lt_and_le_two_mul_succ",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  rcases Nat.exists_infinite_primes n with \u27e8p, h1, h2\u27e9\n  exact \u27e8p, h2, h1\u27e9",
+          "errors": "Lean accepted a complete proof of: theorem exists_prime_ge (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n \u2264 p"
+        }
+      ]
+    },
+    {
+      "goal_id": "num-primes-strictly-above",
+      "area": "number theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "attempts": 2,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "model_calls": 6,
+      "lean_calls": 3,
+      "retrieval_calls": 1,
+      "symbolic_calls": 0,
+      "seconds": 19.7,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"exists_infinite_primes\"' -> Nat.exists_infinite_primes",
+        "seeded from goal shape -> Nat.exists_prime_and_dvd, exists_prime_addEquiv_ZMod, IsPrimePow.exists_ordCompl_eq_one, FiniteField.card, Nat.bertrand, Nat.exists_prime_lt_and_le_two_mul, Nat.exists_prime_lt_and_le_two_mul_eventually, Nat.exists_prime_lt_and_le_two_mul_succ",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.exists_infinite_primes\n    | exact Nat.exists_infinite_primes _\n    | apply Nat.exists_infinite_primes\n    | simpa using Nat.exists_infinite_primes\n    | exact \u27e8_, Nat.exists_infinite_primes\u27e9\n    | exact Nat.exists_infinite_primes (by assumption)\n    | exact Nat.exists_infinite_primes \u2039_\u203a\n    | apply Nat.exists_infinite_primes <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.exists_infinite_",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:55: error: unsolved goals\n\nStill to prove:\n\u22a2 \u2203 p, Nat.Prime p \u2227 n < p"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  rcases Nat.exists_infinite_primes (n + 1) with \u27e8p, hp1, hp2\u27e9\n  use p\n  refine \u27e8hp2, ?_\u27e9\n  omega",
+          "errors": "Lean accepted a complete proof of: theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p"
+        }
+      ]
+    },
+    {
+      "goal_id": "grp-prime-order-cyclic",
+      "area": "group theory",
+      "tier": "in-mathlib",
+      "outcome": "proved",
+      "statement": "theorem finite_group_prime_order_cyclic (G : Type*) [Group G] (p : \u2115) [hp : Fact (Nat.Prime p)] (h : Nat.card G = p) : IsCyclic G",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem finite_group_prime_order_cyclic (G : Type*) [Group G] (p : \u2115) [hp : Fact (Nat.Prime p)] (h : Nat.card G = p) : IsCyclic G",
+      "model_calls": 7,
+      "lean_calls": 2,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 20.5,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"is_cyclic\"' -> nothing",
+        "search: '\"Cyclic\"' -> IsAddCyclic.exists_zsmul_surjective, IsAddCyclic.mk, IsCyclic.exists_zpow_surjective, IsCyclic.mk, not_isAddCyclic_of_denselyOrdered, not_isCyclic_of_denselyOrdered, List.cyclicPermutations, List.cyclicPermutations_injective",
+        "search: '|- IsCyclic _' -> IsCyclic.mk, FreeGroup.instIsCyclicOfUnique, isCyclic_of_subsingleton, isCyclic_of_prime_card, isCyclic_of_card_dvd_prime, isCyclic_multiplicative, isCyclic_of_orderOf_eq_card, isCyclic_of_card_le_orderOf",
+        "seeded from goal shape -> isCyclic_of_prime_card, MulDistribMulAction.toMonoidHomZModOfIsCyclic, IsCyclic.ext, MulDistribMulAction.toMonoidHomZModOfIsCyclic_apply, IsCyclic.card_mulAut, not_isCyclic_iff_exponent_eq_prime, mulEquivOfCyclicCardEq, IsCyclic.card_powMonoidHom_ker",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact isCyclic_of_prime_card h",
+          "errors": "Lean accepted a complete proof of: theorem finite_group_prime_order_cyclic (G : Type*) [Group G] (p : \u2115) [hp : Fact (Nat.Prime p)] (h : Nat.card G = p) : IsCyclic G"
+        }
+      ]
+    },
+    {
+      "goal_id": "num-two-plus-two",
+      "area": "arithmetic",
+      "tier": "in-mathlib",
+      "outcome": "proved",
+      "statement": "theorem two_plus_two : 2 + 2 = 4",
+      "attempts": 2,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem two_plus_two : 2 + 2 = 4",
+      "model_calls": 7,
+      "lean_calls": 3,
+      "retrieval_calls": 0,
+      "symbolic_calls": 1,
+      "seconds": 18.0,
+      "trace": [
+        "statement check: elaborates",
+        "seeded from goal shape -> two_add_two_eq_four",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact two_add_two_eq_four\n    | exact two_add_two_eq_four _\n    | apply two_add_two_eq_four\n    | simpa using two_add_two_eq_four\n    | exact \u27e8_, two_add_two_eq_four\u27e9\n    | exact two_add_two_eq_four (by assumption)\n    | exact two_add_two_eq_four \u2039_\u203a\n    | apply two_add_two_eq_four <;> assumption\n    | (haveI := Fact.mk (by assumption); exact two_add_two_eq_four (by assumption))",
+          "errors": "Lean accepted a complete proof of: theorem two_plus_two : 2 + 2 = 4"
+        },
+        {
+          "stage": "direct",
+          "proof": "by rfl",
+          "errors": "Lean accepted a complete proof of: theorem two_plus_two : 2 + 2 = 4"
+        }
+      ]
+    },
+    {
+      "goal_id": "num-add-zero",
+      "area": "arithmetic",
+      "tier": "in-mathlib",
+      "outcome": "proved",
+      "statement": "theorem nat_add_zero (n : Nat) : n + 0 = n",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem nat_add_zero (n : Nat) : n + 0 = n",
+      "model_calls": 5,
+      "lean_calls": 2,
+      "retrieval_calls": 0,
+      "symbolic_calls": 0,
+      "seconds": 26.5,
+      "trace": [
+        "statement check: elaborates",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop",
+          "errors": "Lean accepted a complete proof of: theorem nat_add_zero (n : Nat) : n + 0 = n"
+        }
+      ]
+    },
+    {
+      "goal_id": "num-seven-prime",
+      "area": "number theory",
+      "tier": "in-mathlib",
+      "outcome": "proved",
+      "statement": "theorem prime_seven : Nat.Prime 7",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem prime_seven : Nat.Prime 7",
+      "model_calls": 6,
+      "lean_calls": 2,
+      "retrieval_calls": 0,
+      "symbolic_calls": 1,
+      "seconds": 12.4,
+      "trace": [
+        "statement check: elaborates",
+        "seeded from goal shape -> Nat.prime_seven, Nat.prime_eleven, Nat.prime_five, Nat.prime_three, Nat.prime_two, Prime.nat_prime, Nat.minFac_prime, Nat.prime_of_coprime",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact Nat.prime_seven",
+          "errors": "Lean accepted a complete proof of: theorem prime_seven : Nat.Prime 7"
+        }
+      ]
+    },
+    {
+      "goal_id": "alg-square-nonneg",
+      "area": "algebra",
+      "tier": "in-mathlib",
+      "outcome": "proved",
+      "statement": "import Mathlib.Data.Real.Basic\n\ntheorem real_sq_nonneg (x : \u211d) : 0 \u2264 x * x",
+      "attempts": 4,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: import Mathlib.Data.Real.Basic\n\ntheorem real_sq_nonneg (x : \u211d) : 0 \u2264 x * x",
+      "model_calls": 14,
+      "lean_calls": 6,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 235.1,
+      "trace": [
+        "statement check: elaborates",
+        "statement check: elaborates",
+        "search: '\"sq_nonneg\"' -> sq_nonneg, one_add_mul_le_pow_of_sq_nonneg, Commute.pow_add_mul_le_add_pow_of_sq_nonneg, pow_add_mul_le_add_pow_of_sq_nonneg, IsSelfAdjoint.sq_nonneg, Quaternion.normSq_nonneg, Complex.normSq_nonneg, Complex.sq_nonneg_iff",
+        "seeded from goal shape -> pow_two_nonneg, sq_nonneg, IsSelfAdjoint.sq_nonneg, zpow_two_nonneg",
+        "search: '\"Nonneg\"' -> Int.NonNeg, Int.NonNeg.mk, Int.decNonneg, Int.nonneg_or_nonneg_neg, Int.natCast_nonneg, Int.negSucc_not_nonneg, Int.ofNat_nonneg, Int.one_nonneg",
+        "seeded from goal shape -> Int.mul_nonneg_of_nonneg_or_nonpos, mul_nonneg, Left.mul_nonneg, Right.mul_nonneg, mul_self_nonneg, mul_nonneg_of_nonpos_of_nonpos, mul_star_self_nonneg, star_mul_self_nonneg",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact sq_nonneg\n    | exact sq_nonneg _\n    | apply sq_nonneg\n    | simpa using sq_nonneg\n    | exact \u27e8_, sq_nonneg\u27e9\n    | exact sq_nonneg (by assumption)\n    | exact sq_nonneg \u2039_\u203a\n    | apply sq_nonneg <;> assumption\n    | (haveI := Fact.mk (by assumption); exact sq_nonneg (by assumption))\n    | exact one_add_mul_le_pow_of_sq_nonneg\n    | exact one_add_mul_le_pow_of_sq_nonneg _\n    | apply one_add_mul_le_pow_of_sq_no",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_5099ga69\\math/lean\\claim_49a4a358.lean:5:40: error: unsolved goals\nx : \u211d\n\u22a2 0 \u2264 x ^ 2\n\nStill to prove:\n\u22a2 0 \u2264 x ^ 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "by exact sq_nonneg x",
+          "errors": "Lean accepted a complete proof of: import Mathlib.Data.Real.Basic\n\ntheorem real_sq_nonneg (x : \u211d) : 0 \u2264 x ^ 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "by exact mul_self_nonneg x",
+          "errors": "Lean accepted a complete proof of: import Mathlib.Data.Real.Basic\n\ntheorem real_sq_nonneg (x : \u211d) : 0 \u2264 x * x"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  rw [sub_self]\n  exact mul_self_nonneg x",
+          "errors": "Lean accepted a complete proof of: import Mathlib.Data.Real.Basic\n\ntheorem real_sq_nonneg (x : \u211d) : x - x \u2264 x * x"
+        }
+      ]
+    },
+    {
+      "goal_id": "grp-subgroup-of-cyclic",
+      "area": "group theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem subgroup_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem subgroup_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H",
+      "model_calls": 8,
+      "lean_calls": 2,
+      "retrieval_calls": 4,
+      "symbolic_calls": 0,
+      "seconds": 102.6,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"IsCyclic\"' -> IsCyclic.exists_zpow_surjective, IsCyclic.mk, not_isCyclic_of_denselyOrdered, FreeGroup.instIsCyclicOfUnique, isCyclic_of_subsingleton, IsCyclic.commGroup, Nontrivial.of_not_isCyclic, isCyclic_of_prime_card",
+        "search: '\"subgroup\" \"IsCyclic\"' -> nothing",
+        "search: '\"isCyclic\"' -> IsCyclic.exists_zpow_surjective, IsCyclic.mk, not_isCyclic_of_denselyOrdered, FreeGroup.instIsCyclicOfUnique, isCyclic_of_subsingleton, IsCyclic.commGroup, Nontrivial.of_not_isCyclic, isCyclic_of_prime_card",
+        "seeded from goal shape -> isCyclic_iff_exists_zpowers_eq_top, Subgroup.isCyclic_zpowers, IsCyclic.exists_generator, Bot.isCyclic, Subgroup.isCyclic, Subgroup.isCyclic_iff_exists_zpowers_eq_top, Subgroup.isCyclic_of_le, commGroupOfCyclicCenterQuotient",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact Subgroup.isCyclic H",
+          "errors": "Lean accepted a complete proof of: theorem subgroup_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H"
+        }
+      ]
+    },
+    {
+      "goal_id": "ana-continuous-compact-max",
+      "area": "analysis",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X} (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) : \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+      "attempts": 2,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X} (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) : \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+      "model_calls": 8,
+      "lean_calls": 3,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 26.7,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"exists_forall_ge\"' -> exists_forall_ge_and, Filter.Tendsto.exists_forall_ge, Continuous.exists_forall_ge_of_hasCompactMulSupport, Continuous.exists_forall_ge_of_hasCompactSupport, Continuous.exists_forall_ge, Continuous.exists_forall_ge', Continuous.exists_forall_ge_of_isBounded",
+        "search: '\"IsCompact.exists\"' -> IsCompact.exists_clusterPt_of_frequently, IsCompact.exists_clusterPt, IsCompact.exists_mapClusterPt_of_frequently, IsCompact.exists_mapClusterPt, IsCompact.exists_isOpen_closure_subset, IsCompact.exists_isGreatest, IsCompact.exists_isLeast, IsCompact.exists_isGLB",
+        "seeded from goal shape -> TopologicalSpace.mk, TopologicalSpace.ofClosed, WithTopology.instTopologicalSpace, TopologicalSpace.coinduced, TopologicalSpace.induced, instTopologicalSpaceSubtype, instTopologicalSpaceBool, instTopologicalSpaceEmpty",
+        "search: '\"IsMaxOn\"' -> isMaxOn_const, IsMaxOn.isExtr, isMaxOn_univ_iff, IsMaxOn.bddAbove, IsMaxOn.inter, IsMaxOn.on_subset, isMaxOn_iff, IsMaxOn.on_preimage",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact exists_forall_ge_and\n    | exact exists_forall_ge_and _\n    | apply exists_forall_ge_and\n    | simpa using exists_forall_ge_and\n    | exact \u27e8_, exists_forall_ge_and\u27e9\n    | exact exists_forall_ge_and (by assumption)\n    | exact exists_forall_ge_and \u2039_\u203a\n    | apply exists_forall_ge_and <;> assumption\n    | (haveI := Fact.mk (by assumption); exact exists_forall_ge_and (by assumption))\n    | exact Filter.Tendsto.exi",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:169: error: unsolved goals\n\nStill to prove:\n\u22a2 \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  obtain \u27e8x, hx, hmax\u27e9 := hs.exists_isMaxOn hne hf\n  use x, hx\n  exact isMaxOn_iff.mp hmax",
+          "errors": "Lean accepted a complete proof of: theorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X} (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) : \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x"
+        }
+      ]
+    },
+    {
+      "goal_id": "set-reals-uncountable",
+      "area": "set theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem real_uncountable : Uncountable \u211d",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem real_uncountable : Uncountable \u211d",
+      "model_calls": 7,
+      "lean_calls": 2,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 16.2,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"uncountable\"' -> instInfiniteOfUncountable, instUncountablePLift, instUncountableULift, not_uncountable, Uncountable.mk, Uncountable.not_countable, not_uncountable_iff, uncountable_iff_not_countable",
+        "search: '\"Real\"' -> IO.RealWorld.nonemptyType, IO.RealWorld.instNonempty, IO.FS.realPath, IO.instMonadLiftSTRealWorldBaseIO, Batteries.BinomialHeap.Imp.Heap.realSize, Batteries.BinomialHeap.Imp.HeapNode.realSize, Batteries.BinomialHeap.Imp.HeapNode.realSize_toHeap, Batteries.BinomialHeap.Imp.Heap.realSize_tail",
+        "search: '|- Uncountable \u211d' -> Cardinal.instUncountableReal",
+        "seeded from goal shape -> Cardinal.instUncountableReal, instUncountablePLift, instUncountableULift, Uncountable.mk, Uncountable.of_equiv, Function.Injective.uncountable, Function.Surjective.uncountable, Uncountable.of_not_small",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact Cardinal.instUncountableReal",
+          "errors": "Lean accepted a complete proof of: theorem real_uncountable : Uncountable \u211d"
+        }
+      ]
+    },
+    {
+      "goal_id": "lin-vector-space-basis",
+      "area": "linear algebra",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem every_vector_space_has_basis (K : Type*) (V : Type*) [DivisionRing K] [AddCommGroup V] [Module K V] :\n  \u2203 s : Set V, Nonempty (Module.Basis s K V)",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem every_vector_space_has_basis (K : Type*) (V : Type*) [DivisionRing K] [AddCommGroup V] [Module K V] :\n  \u2203 s : Set V, Nonempty (Module.Basis s K V)",
+      "model_calls": 6,
+      "lean_calls": 2,
+      "retrieval_calls": 2,
+      "symbolic_calls": 0,
+      "seconds": 18.5,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"exists_basis\"' -> finrank_eq_zero_of_not_exists_basis, finrank_eq_zero_of_not_exists_basis_finite, finrank_eq_zero_of_not_exists_basis_finset, Module.Basis.exists_basis, exists_basis_of_pairing_eq_zero, exists_basis_of_pairing_ne_zero, Algebra.norm_eq_one_of_not_exists_basis, LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap",
+        "search: 'Module.Basis.exists_basis' -> Module.Basis.exists_basis",
+        "seeded from goal shape -> Field.toDivisionRing, DivisionRing.mk, Lex.instDivisionRing, OrderDual.instDivisionRing, DivisionRing.ofIsUnitOrEqZero, Function.Injective.divisionRing, Rat.instDivisionRing, Ideal.Quotient.divisionRing",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact Module.Basis.exists_basis K V",
+          "errors": "Lean accepted a complete proof of: theorem every_vector_space_has_basis (K : Type*) (V : Type*) [DivisionRing K] [AddCommGroup V] [Module K V] :\n  \u2203 s : Set V, Nonempty (Module.Basis s K V)"
+        }
+      ]
+    },
+    {
+      "goal_id": "top-compact-image",
+      "area": "topology",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)",
+      "model_calls": 5,
+      "lean_calls": 2,
+      "retrieval_calls": 1,
+      "symbolic_calls": 0,
+      "seconds": 15.5,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"IsCompact.image\"' -> IsCompact.image, IsCompact.image_of_continuousOn",
+        "seeded from goal shape -> IsCompact.image, IsCompact.image_of_continuousOn, Polynomial.isCompact_image_comap_of_monic, ContinuousLinearMap.isCompact_image_coe_closedBall, ContinuousLinearMap.isCompact_image_coe_of_bounded_of_closed_image, ContinuousLinearMap.isCompact_image_coe_of_bounded_of_weak_closed, SmoothBumpFunction.isCompact_symm_image_closedBall, TopologicalSpace.mk",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact IsCompact.image hs hf",
+          "errors": "Lean accepted a complete proof of: theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)"
+        }
+      ]
+    },
+    {
+      "goal_id": "num-sqrt-two-irrational",
+      "area": "number theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem sqrt_two_irrational : Irrational (Real.sqrt 2)",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem sqrt_two_irrational : Irrational (Real.sqrt 2)",
+      "model_calls": 5,
+      "lean_calls": 2,
+      "retrieval_calls": 1,
+      "symbolic_calls": 0,
+      "seconds": 16.0,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"irrational_sqrt\"' -> Nat.Prime.irrational_sqrt, irrational_sqrt_natCast_iff, irrational_sqrt_two, irrational_sqrt_intCast_iff_of_nonneg, irrational_sqrt_ratCast_iff_of_nonneg, irrational_sqrt_intCast_iff, irrational_sqrt_ratCast_iff, irrational_sqrt_ofNat_iff",
+        "seeded from goal shape -> irrational_sqrt_two, Irrational.inv, Irrational.neg, Irrational.of_inv, Irrational.of_neg, Nat.Prime.irrational_sqrt, Irrational.of_mul_self, Irrational.add_intCast",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact irrational_sqrt_two",
+          "errors": "Lean accepted a complete proof of: theorem sqrt_two_irrational : Irrational (Real.sqrt 2)"
+        }
+      ]
+    },
+    {
+      "goal_id": "novel-goldbach-small",
+      "area": "number theory",
+      "tier": "novel",
+      "outcome": "proved",
+      "statement": "theorem goldbach_98 : \u2200 n : Fin 100, 2 < n.val \u2192 Even n.val \u2192 \u2203 p < n.val, \u2203 q < n.val, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = n.val",
+      "attempts": 10,
+      "lemmas_total": 1,
+      "lemmas_proved": 1,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem goldbach_98 : \u2200 n : Fin 100, 2 < n.val \u2192 Even n.val \u2192 \u2203 p < n.val, \u2203 q < n.val, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = n.val",
+      "model_calls": 24,
+      "lean_calls": 12,
+      "retrieval_calls": 4,
+      "symbolic_calls": 0,
+      "seconds": 162.6,
+      "trace": [
+        "statement check: elaborates",
+        "statement check: elaborates",
+        "seeded from goal shape -> Even.add_self, Even.zero, Even.two_nsmul, Even.nsmul_left, Even.nsmul_right, Even.zsmul_left, Even.add, Even.neg",
+        "search: '\"Decidable\" \"exists\"' -> nothing",
+        "search: '\"decidable\"' -> instDecidableEqBool, instDecidableEqChar, instDecidableEqNat, instDecidableEqRaw, instDecidableEqString, instDecidableEqUInt16, instDecidableEqUInt32, instDecidableEqUInt64",
+        "search: '\"decidable\" \"range\"' -> nothing",
+        "seeded from goal shape -> Even.add_self, Even.zero, Even.two_nsmul, Even.nsmul_left, Even.nsmul_right, Even.zsmul_left, Even.add, Even.neg",
+        "budget: compilation budget spent (12 compiles)",
+        "execution mode: local",
+        "lean backend: repl",
+        "stopped early: compilation budget spent (12 compiles)"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by decide",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:117: error: failed to synthesize"
+        },
+        {
+          "stage": "direct",
+          "proof": "by decide",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:133: error: maximum recursion depth has been reached"
+        },
+        {
+          "stage": "direct",
+          "proof": "by set_option maxRecDepth 200000 in decide",
+          "errors": "Lean accepted a complete proof of: theorem goldbach_98 : \u2200 n : Fin 100, 2 < n.val \u2192 Even n.val \u2192 \u2203 p < n.val, \u2203 q < n.val, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = n.val"
+        },
+        {
+          "stage": "direct",
+          "proof": "by set_option maxRecDepth 200000 in decide",
+          "errors": "Lean accepted a complete proof of: lemma goldbach_98 : \u2200 n : Fin 100, 2 < n.val \u2192 Even n.val \u2192 \u2203 p < n.val, \u2203 q < n.val, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = n.val"
+        },
+        {
+          "stage": "direct",
+          "proof": "fun n h2 h100 heven => goldbach_98 \u27e8n, h100\u27e9 h2 heven",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:114: error: unsolved goals\n\nStill to prove:\n\u22a2 \u2200 (n : \u2115), 2 < n \u2192 n < 100 \u2192 Even n \u2192 \u2203 p < n, \u2203 q < n, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = n"
+        },
+        {
+          "stage": "direct",
+          "proof": "intro n h2 h100 heven\nexact goldbach_98 \u27e8n, h100\u27e9 h2 heven",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:18: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce\n\nStill to prove:\n\u22a2 \u2203 p < \u2191n, \u2203 q < \u2191n, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = \u2191n"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Even.add_self\n    | exact Even.add_self _\n    | apply Even.add_self\n    | simpa using Even.add_self\n    | exact \u27e8_, Even.add_self\u27e9\n    | exact Even.add_self (by assumption)\n    | exact Even.add_self \u2039_\u203a\n    | apply Even.add_self <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Even.add_self (by assumption))\n    | exact Even.zero\n    | exact Even.zero _\n    | apply Even.zero\n    | simpa using Even.ze",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n6:6: error: maximum recursion depth has been reached"
+        },
+        {
+          "stage": "direct",
+          "proof": "exact goldbach_98 \u27e8n, a_1\u27e9 a a_2",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:21: error: Unknown identifier `n`"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  intro n h2 h100 heven\n  exact goldbach_98 \u27e8n, h100\u27e9 h2 heven",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:18: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce\n\nStill to prove:\n\u22a2 \u2203 p < \u2191n, \u2203 q < \u2191n, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = \u2191n"
+        },
+        {
+          "stage": "direct",
+          "proof": "by set_option maxRecDepth 200000 in decide",
+          "errors": "Lean accepted a complete proof of: theorem goldbach_98 : \u2200 n : Fin 100, 2 < n.val \u2192 Even n.val \u2192 \u2203 p < n.val, \u2203 q < n.val, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = n.val"
+        }
+      ]
+    },
+    {
+      "goal_id": "novel-sum-of-two-squares",
+      "area": "number theory",
+      "tier": "novel",
+      "outcome": "exhausted",
+      "statement": "theorem prime_mod_four_eq_one_impl_sum_squares (p : \u2115) [Fact (Nat.Prime p)] (hp : p % 4 = 1) : \u2203 a b : \u2115, a^2 + b^2 = p",
+      "attempts": 1,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "No accepted compilation of the goal in 1 attempt(s). Failure to find a proof is not evidence that the claim is false. Stopped early: wall clock spent (480s).",
+      "model_calls": 0,
+      "lean_calls": 2,
+      "retrieval_calls": 7,
+      "symbolic_calls": 0,
+      "seconds": 2419.0,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"sum_two_squares\"' -> nothing",
+        "search: '\"sq_add_sq\"' -> IsCoprime.sq_add_sq_ne_zero, Complex.norm_eq_sqrt_sq_add_sq, sq_add_sq_mul_sq_add_sq, Nat.sq_add_sq_modEq, Nat.sq_add_sq_zmodEq, CharP.sq_add_sq, ZMod.sq_add_sq, integral_div_sq_add_sq",
+        "search: '\"Fermat\"' -> fermatLastTheoremFor_zero, not_fermatLastTheoremFor_one, not_fermatLastTheoremFor_two, fermatLastTheoremFor_iff_int, fermatLastTheoremFor_iff_nat, fermatLastTheoremFor_iff_rat, fermatLastTheoremWith'_of_semifield, FermatLastTheoremFor.mono",
+        "seeded from goal shape -> Fact.mk, ZeroLEOneClass.factZeroLeOne, ZeroLEOneClass.factZeroLtOne, Cardinal.fact_isRegular_aleph0, Nat.fact_prime_three, Nat.fact_prime_two, Nat.Prime.one_lt', CharP.char_is_prime_of_pos",
+        "search: '\"GaussianInt\"' -> GaussianInt.instCommRing, GaussianInt.instDiv, GaussianInt.instEuclideanDomain, GaussianInt.instMod, GaussianInt.instNontrivial, GaussianInt.instRepr, GaussianInt.instCoeComplex, GaussianInt.toComplex",
+        "search: '\"GaussianInt\" \"Irreducible\"' -> nothing",
+        "stopped: wall clock spent (480s) \u2014 the agent loop was abandoned",
+        "execution mode: local",
+        "lean backend: repl",
+        "stopped early: wall clock spent (480s)"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact IsCoprime.sq_add_sq_ne_zero\n    | exact IsCoprime.sq_add_sq_ne_zero _\n    | apply IsCoprime.sq_add_sq_ne_zero\n    | simpa using IsCoprime.sq_add_sq_ne_zero\n    | exact \u27e8_, IsCoprime.sq_add_sq_ne_zero\u27e9\n    | exact IsCoprime.sq_add_sq_ne_zero (by assumption)\n    | exact IsCoprime.sq_add_sq_ne_zero \u2039_\u203a\n    | apply IsCoprime.sq_add_sq_ne_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsCoprime.sq",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:93: error: unsolved goals\n\nStill to prove:\n\u22a2 \u2203 a b, a ^ 2 + b ^ 2 = p"
+        }
+      ]
+    },
+    {
+      "goal_id": "hard-amgm-sqrt",
+      "area": "analysis",
+      "tier": "hard",
+      "outcome": "proved",
+      "statement": "theorem am_gm_two (a b : NNReal) : NNReal.sqrt (a * b) \u2264 (a + b) / 2",
+      "attempts": 3,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem am_gm_two (a b : NNReal) : NNReal.sqrt (a * b) \u2264 (a + b) / 2",
+      "model_calls": 10,
+      "lean_calls": 5,
+      "retrieval_calls": 2,
+      "symbolic_calls": 0,
+      "seconds": 34.1,
+      "trace": [
+        "statement check: elaborates",
+        "statement check: elaborates",
+        "seeded from goal shape -> Real.sqrt, Real.sqrt_monotone, Real.sqrt_nonneg, Real.tendsto_sqrt_atTop, Real.sqrt_inv, Real.nat_sqrt_le_real_sqrt, Real.sqrt_le_sqrt, Real.comap_sqrt_atTop",
+        "search: '\"sqrt_mul\"' -> Nat.sqrt_mul_sqrt_lt_succ, Nat.sqrt_mul_sqrt_lt_succ', Real.sqrt_mul_self_eq_abs, Real.sqrt_mul_self, Real.sqrt_mul, Real.sqrt_mul', NNReal.sqrt_mul_self, NNReal.sqrt_mul_le_max",
+        "search: '\"Real.sqrt_le\"' -> Real.sqrt_le_sqrt, Real.sqrt_le_one, Real.sqrt_le_sqrt_iff, Real.sqrt_le_sqrt_iff', Real.sqrt_le_self_iff, Real.sqrt_le_left, Real.sqrt_le_iff, NNReal.sqrt_le_one",
+        "seeded from goal shape -> NNReal.sqrt_mul_le_half_add, NNReal, instReprNNReal, NNReal.instAddCancelCommMonoid, NNReal.instBot, NNReal.instCommMonoidWithZero, NNReal.instCommSemiring, NNReal.instConditionallyCompleteLinearOrderBot",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Real.sqrt\n    | exact Real.sqrt _\n    | apply Real.sqrt\n    | simpa using Real.sqrt\n    | exact \u27e8_, Real.sqrt\u27e9\n    | exact Real.sqrt (by assumption)\n    | exact Real.sqrt \u2039_\u203a\n    | apply Real.sqrt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.sqrt (by assumption))\n    | exact Real.sqrt_monotone\n    | exact Real.sqrt_monotone _\n    | apply Real.sqrt_monotone\n    | simpa using Real.sqrt_monoto",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:90: error: unsolved goals\n\nStill to prove:\n\u22a2 \u221a(a * b) \u2264 (a + b) / 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "rw [Real.sqrt_le_iff]\nconstructor\n\u00b7 linarith\n\u00b7 have h1 : ((a + b) / 2) ^ 2 - a * b = ((a - b) / 2) ^ 2 := by ring\n  have h2 : 0 \u2264 ((a - b) / 2) ^ 2 := sq_nonneg _\n  linarith\n",
+          "errors": "Lean accepted a complete proof of: theorem am_gm_two (a b : \u211d) (ha : 0 \u2264 a) (hb : 0 \u2264 b) : Real.sqrt (a * b) \u2264 (a + b) / 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "exact NNReal.sqrt_mul_le_half_add a b",
+          "errors": "Lean accepted a complete proof of: theorem am_gm_two (a b : NNReal) : NNReal.sqrt (a * b) \u2264 (a + b) / 2"
+        }
+      ]
+    },
+    {
+      "goal_id": "hard-sophie-germain",
+      "area": "number theory",
+      "tier": "hard",
+      "outcome": "exhausted",
+      "statement": "theorem not_prime_n_pow_four_add_four (n : \u2115) (h : n > 1) : \u00ac Nat.Prime (n^4 + 4)",
+      "attempts": 11,
+      "lemmas_total": 4,
+      "lemmas_proved": 4,
+      "via_synthesis": false,
+      "detail": "No accepted compilation of the goal in 1 attempt(s); 4 helper lemma(s) were proved. Failure to find a proof is not evidence that the claim is false. The agent reported: The claim states that for every natural number $n > 1$, $n^4 + 4$ is not prime.\n\n### Mathematical Explanation\nThis is a classic application of the Sophie Germain identity:\n$$n^4 + 4 = (n^2 + 2)^2 - 4n",
+      "model_calls": 16,
+      "lean_calls": 12,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 54.6,
+      "trace": [
+        "statement check: elaborates",
+        "seeded from goal shape -> Nat.prime_eleven, Nat.prime_five, Nat.prime_seven, Nat.prime_three, Nat.prime_two, Prime.nat_prime, Nat.minFac_prime, Nat.prime_of_coprime",
+        "search: '\"not_prime\"' -> not_prime_zero, not_prime_one, IsSquare.not_prime, not_prime_pow, Nat.not_prime_one, Nat.not_prime_zero, Nat.not_prime_iff_minFac_lt, Nat.not_prime_of_dvd_of_ne",
+        "search: 'Nat.not_prime_mul' -> Nat.not_prime_mul",
+        "search: '\"mul_le_mul\"' -> Nat.mul_le_mul_left, Nat.mul_le_mul_right, Nat.mul_le_mul, Nat.le_of_mul_le_mul_left, Nat.le_of_mul_le_mul_right, Nat.mul_le_mul_left_iff, Nat.mul_le_mul_right_iff, Int.mul_le_mul_of_nonneg_left",
+        "budget: compilation budget spent (12 compiles)",
+        "execution mode: local",
+        "lean backend: repl",
+        "stopped early: compilation budget spent (12 compiles)"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.prime_eleven\n    | exact Nat.prime_eleven _\n    | apply Nat.prime_eleven\n    | simpa using Nat.prime_eleven\n    | exact \u27e8_, Nat.prime_eleven\u27e9\n    | exact Nat.prime_eleven (by assumption)\n    | exact Nat.prime_eleven \u2039_\u203a\n    | apply Nat.prime_eleven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_eleven (by assumption))\n    | exact Nat.prime_five\n    | exact Nat.prime_five _\n    | appl",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:64: error: unsolved goals\n\nStill to prove:\n\u22a2 \u00acNat.Prime (n ^ 4 + 4)"
+        },
+        {
+          "stage": "skeleton",
+          "proof": "have hn2 : 2 \u2264 n := h\nhave h_eq : n^4 + 4 = (n^2 - 2 * n + 2) * (n^2 + 2 * n + 2) := by sorry\nhave ha1 : n^2 - 2 * n + 2 \u2260 1 := by sorry\nhave hb1 : n^2 + 2 * n + 2 \u2260 1 := by sorry\nrw [h_eq]\nexact Nat.not_prime_mul ha1 hb1",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.prime_eleven\n    | exact Nat.prime_eleven _\n    | apply Nat.prime_eleven\n    | simpa using Nat.prime_eleven\n    | exact \u27e8_, Nat.prime_eleven\u27e9\n    | exact Nat.prime_eleven (by assumption)\n    | exact Nat.prime_eleven \u2039_\u203a\n    | apply Nat.prime_eleven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_eleven (by assumption))\n    | exact Nat.prime_five\n    | exact Nat.prime_five _\n    | appl",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:90: error: unsolved goals\n\nStill to prove:\n\u22a2 n ^ 4 + 4 = (n ^ 2 - 2 * n + 2) * (n ^ 2 + 2 * n + 2)"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.prime_eleven\n    | exact Nat.prime_eleven _\n    | apply Nat.prime_eleven\n    | simpa using Nat.prime_eleven\n    | exact \u27e8_, Nat.prime_eleven\u27e9\n    | exact Nat.prime_eleven (by assumption)\n    | exact Nat.prime_eleven \u2039_\u203a\n    | apply Nat.prime_eleven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_eleven (by assumption))\n    | exact Nat.prime_five\n    | exact Nat.prime_five _\n    | appl",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:62: error: unsolved goals\n\nStill to prove:\n\u22a2 \u00acn ^ 2 - 2 * n + 2 = 1"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.prime_eleven\n    | exact Nat.prime_eleven _\n    | apply Nat.prime_eleven\n    | simpa using Nat.prime_eleven\n    | exact \u27e8_, Nat.prime_eleven\u27e9\n    | exact Nat.prime_eleven (by assumption)\n    | exact Nat.prime_eleven \u2039_\u203a\n    | apply Nat.prime_eleven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_eleven (by assumption))\n    | exact Nat.prime_five\n    | exact Nat.prime_five _\n    | appl",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:62: error: unsolved goals\n\nStill to prove:\n\u22a2 \u00acn ^ 2 + 2 * n + 2 = 1"
+        },
+        {
+          "stage": "direct",
+          "proof": "by omega",
+          "errors": "Lean accepted a complete proof of: lemma lemma3 (n : \u2115) : n^2 + 2 * n + 2 \u2260 1"
+        },
+        {
+          "stage": "direct",
+          "proof": "by omega",
+          "errors": "Lean accepted a complete proof of: lemma lemma2 (n : \u2115) (h : n > 1) : n^2 - 2 * n + 2 \u2260 1"
+        },
+        {
+          "stage": "direct",
+          "proof": "by omega",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:22: warning: Variable name `h` is not explicitly referenced."
+        },
+        {
+          "stage": "direct",
+          "proof": "have h1 : 2 \u2264 n := h\nhave h2 : 2 * n \u2264 n * n := Nat.mul_le_mul_right n h1\nhave h3 : n * n = n^2 := by ring\nomega",
+          "errors": "Lean accepted a complete proof of: lemma lemma_ineq (n : \u2115) (h : n > 1) : 2 * n \u2264 n^2 + 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "have h_ineq := lemma_ineq n h\nzify\nring",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:22: warning: Variable name `h` is not explicitly referenced.\n\nStill to prove:\n\u22a2 4 + \u2191n ^ 4 = 4 + \u2191n * 4 + \u2191n * \u2191(n ^ 2 - n * 2) * 2 + \u2191n ^ 2 * 2 + \u2191n ^ 2 * \u2191(n ^ 2 - n * 2) + \u2191(n ^ 2 - n * 2) * 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "have h1 : 2 \u2264 n := h\nhave h2 : 2 * n \u2264 n * n := Nat.mul_le_mul_right n h1\nhave h3 : n * n = n^2 := by ring\nomega",
+          "errors": "Lean accepted a complete proof of: lemma lemma_ineq2 (n : \u2115) (h : n > 1) : 2 * n \u2264 n^2"
+        }
+      ]
+    },
+    {
+      "goal_id": "hard-sum-odd-squares",
+      "area": "combinatorics",
+      "tier": "hard",
+      "outcome": "exhausted",
+      "statement": "open Finset BigOperators\n\ntheorem sum_odd (n : \u2115) : \u2211 i \u2208 filter Odd (range (n + n)), i = n * n",
+      "attempts": 8,
+      "lemmas_total": 1,
+      "lemmas_proved": 1,
+      "via_synthesis": false,
+      "detail": "No accepted compilation of the goal in 2 attempt(s); 1 helper lemma(s) were proved. Failure to find a proof is not evidence that the claim is false. The agent reported: The claim \"The sum of the first $n$ odd numbers equals $n^2$\" is a well-known mathematical identity:\n$$\\sum_{i=0}^{n-1} (2i+1) = n^2$$\n\n### Mathematical Proof\nWe can prove this by induction on $n$:\n1.",
+      "model_calls": 24,
+      "lean_calls": 12,
+      "retrieval_calls": 9,
+      "symbolic_calls": 0,
+      "seconds": 95.3,
+      "trace": [
+        "statement check: elaborates",
+        "statement check: elaborates",
+        "search: '\"sum_range_odd\"' -> nothing",
+        "search: '\"sum_range\"' -> List.sum_range_succ, List.sum_range_succ', List.sum_range_sub', List.sum_range_sub, Finset.sum_range_zero, Finset.sum_range_one, Finset.sum_range_succ, Finset.sum_range_succ_comm",
+        "seeded from goal shape -> Finset.mk, Finset.attach, List.toFinset, Multiset.toFinset, Finset.empty, Finset.cons, Finset.disjUnion, Finset.erase",
+        "search: '\"Odd\"' -> Equiv.sumProdDistrib, Equiv.sigmaProdDistrib, Equiv.sumProdDistrib_apply_left",
+        "search: '\"Nat.Odd\"' -> Nat.Odd.of_mul_left, Nat.Odd.of_mul_right, Nat.Odd.sub_odd, Nat.odd_add_one, Nat.odd_add, Nat.odd_add', Nat.odd_mul, Nat.odd_iff",
+        "seeded from goal shape -> Finset.mk, Finset.attach, List.toFinset, Multiset.toFinset, Finset.empty, Finset.cons, Finset.disjUnion, Finset.erase",
+        "search: '\"filter Odd\"' -> nothing",
+        "search: '\"sum_filter\"' -> List.sum_filter_bne_zero, Multiset.sum_filter_add_sum_filter_not, Finset.sum_filter_count_eq_countP, Finset.sum_subtype_eq_sum_filter, Finset.sum_filter, Finset.sum_filter_ne_zero, Finset.sum_filter_of_ne, Finset.sum_filter_add_sum_filter_not",
+        "search: '\"sum_bij\"' -> Fintype.sum_bijective, Finset.sum_bijective, Finset.sum_bij, Finset.sum_bij', Finset.sum_bij_ne_zero, ComplexShape.Embedding.AreComplementary.fromSum_bijective",
+        "budget: tool budget spent (20 calls)",
+        "execution mode: local",
+        "lean backend: repl",
+        "stopped early: tool budget spent (20 calls)"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact List.sum_range_succ\n    | exact List.sum_range_succ _\n    | apply List.sum_range_succ\n    | simpa using List.sum_range_succ\n    | exact \u27e8_, List.sum_range_succ\u27e9\n    | exact List.sum_range_succ (by assumption)\n    | exact List.sum_range_succ \u2039_\u203a\n    | apply List.sum_range_succ <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.sum_range_succ (by assumption))\n    | exact List.sum_range_succ'\n    | ",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:65: error: unsolved goals\n\nStill to prove:\n\u22a2 \u2211 i \u2208 range n, (2 * i + 1) = n ^ 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "induction n with\n| zero => simp\n| succ n ih =>\n  rw [sum_range_succ, ih]\n  ring",
+          "errors": "Lean accepted a complete proof of: open Finset BigOperators\n\ntheorem sum_odd (n : \u2115) : \u2211 i \u2208 range n, (2 * i + 1) = n ^ 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact List.sum_range_succ\n    | exact List.sum_range_succ _\n    | apply List.sum_range_succ\n    | simpa using List.sum_range_succ\n    | exact \u27e8_, List.sum_range_succ\u27e9\n    | exact List.sum_range_succ (by assumption)\n    | exact List.sum_range_succ \u2039_\u203a\n    | apply List.sum_range_succ <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.sum_range_succ (by assumption))\n    | exact List.sum_range_succ'\n    | ",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:74: error: unsolved goals\n\nStill to prove:\n\u22a2 \u2211 i \u2208 range (n + n) with Odd i, i = n * n"
+        },
+        {
+          "stage": "skeleton",
+          "proof": "induction n with\n| zero => simp\n| succ n ih => sorry",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "skeleton",
+          "proof": "induction n with\n| zero => simp\n| succ n ih =>\n  have h1 : n + n + 2 = (n + 1) + (n + 1) := by omega\n  sorry",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact List.sum_range_succ\n    | exact List.sum_range_succ _\n    | apply List.sum_range_succ\n    | simpa using List.sum_range_succ\n    | exact \u27e8_, List.sum_range_succ\u27e9\n    | exact List.sum_range_succ (by assumption)\n    | exact List.sum_range_succ \u2039_\u203a\n    | apply List.sum_range_succ <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.sum_range_succ (by assumption))\n    | exact List.sum_range_succ'\n    | ",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:60: error: unsolved goals\n\nStill to prove:\n\u22a2 n + n + 2 = n + 1 + (n + 1)"
+        },
+        {
+          "stage": "direct",
+          "proof": "by omega",
+          "errors": "Lean accepted a complete proof of: lemma add_succ_add_succ (n : \u2115) : n + n + 2 = (n + 1) + (n + 1)"
+        },
+        {
+          "stage": "direct",
+          "proof": "induction n with\n| zero => simp\n| succ n ih =>\n  rw [\u2190 add_succ_add_succ]\n  rw [range_succ, range_succ]\n  rw [filter_insert, filter_insert]\n  have h_odd : Odd (n + n + 1) := by\n    use n\n    omega\n  have h_not_odd : \u00ac Odd (n + n) := by\n    intro h\n    rcases h with \u27e8k, hk\u27e9\n    omega\n  rw [if_pos h_odd, if_neg h_not_odd]\n  have h_mem : n + n + 1 \u2209 filter Odd (range (n + n)) := by\n    simp only [mem_filter, mem_range]\n    omega\n  rw [sum_insert h_mem]\n  rw [ih]\n  ring",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n10:8: error: Unknown identifier `range_succ`"
+        }
+      ]
+    },
+    {
+      "goal_id": "hard-irrational-sqrt-sum",
+      "area": "number theory",
+      "tier": "hard",
+      "outcome": "exhausted",
+      "statement": "theorem irrational_sqrt_two_add_sqrt_three : Irrational (Real.sqrt 2 + Real.sqrt 3)",
+      "attempts": 10,
+      "lemmas_total": 3,
+      "lemmas_proved": 3,
+      "via_synthesis": false,
+      "detail": "No accepted compilation of the goal in 2 attempt(s); 3 helper lemma(s) were proved. Failure to find a proof is not evidence that the claim is false. The agent reported: The claim is that the sum of the square root of 2 and the square root of 3 is irrational:\n$$\\sqrt{2} + \\sqrt{3} \\notin \\mathbb{Q}$$\n\n### Mathematical Proof\nWe can prove this by contradiction:\n1. Suppo",
+      "model_calls": 23,
+      "lean_calls": 12,
+      "retrieval_calls": 9,
+      "symbolic_calls": 0,
+      "seconds": 66.1,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"irrational\"' -> Int.not_irrational, Nat.not_irrational, Rat.not_irrational, instDecidableIrrationalSqrtCastReal, instDecidableIrrationalSqrtCastReal_1, instDecidableIrrationalSqrtCastReal_2, not_irrational_one, not_irrational_zero",
+        "search: '\"irrational_sqrt\"' -> Nat.Prime.irrational_sqrt, irrational_sqrt_natCast_iff, irrational_sqrt_two, irrational_sqrt_intCast_iff_of_nonneg, irrational_sqrt_ratCast_iff_of_nonneg, irrational_sqrt_intCast_iff, irrational_sqrt_ratCast_iff, irrational_sqrt_ofNat_iff",
+        "search: '\"irrational_sqrt_three\"' -> nothing",
+        "seeded from goal shape -> Irrational.inv, Irrational.neg, Irrational.of_inv, Irrational.of_neg, Nat.Prime.irrational_sqrt, Irrational.of_mul_self, Irrational.add_intCast, Irrational.add_natCast",
+        "search: '\"Irrational\"' -> Int.not_irrational, Nat.not_irrational, Rat.not_irrational, instDecidableIrrationalSqrtCastReal, instDecidableIrrationalSqrtCastReal_1, instDecidableIrrationalSqrtCastReal_2, not_irrational_one, not_irrational_zero",
+        "search: '\"Irrational.add\"' -> Irrational.add_cases, Irrational.add_intCast, Irrational.add_natCast, Irrational.add_ratCast",
+        "search: '\"Irrational.ratCast\"' -> Irrational.ratCast_add, Irrational.ratCast_sub, Irrational.ratCast_mul, Irrational.ratCast_div",
+        "budget: compilation budget spent (12 compiles)",
+        "execution mode: local",
+        "lean backend: repl",
+        "stopped early: compilation budget spent (12 compiles)"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Int.not_irrational\n    | exact Int.not_irrational _\n    | apply Int.not_irrational\n    | simpa using Int.not_irrational\n    | exact \u27e8_, Int.not_irrational\u27e9\n    | exact Int.not_irrational (by assumption)\n    | exact Int.not_irrational \u2039_\u203a\n    | apply Int.not_irrational <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Int.not_irrational (by assumption))\n    | exact Nat.not_irrational\n    | exact Nat.n",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:61: error: unsolved goals\n\nStill to prove:\n\u22a2 Irrational (\u221a2 + \u221a3)"
+        },
+        {
+          "stage": "skeleton",
+          "proof": "by\n  intro h\n  sorry",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "skeleton",
+          "proof": "by\n  intro h\n  rcases h with \u27e8q, hq\u27e9\n  sorry",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "skeleton",
+          "proof": "by\n  have h1 : 0 < Real.sqrt 2 := by norm_num\n  sorry",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Int.not_irrational\n    | exact Int.not_irrational _\n    | apply Int.not_irrational\n    | simpa using Int.not_irrational\n    | exact \u27e8_, Int.not_irrational\u27e9\n    | exact Int.not_irrational (by assumption)\n    | exact Int.not_irrational \u2039_\u203a\n    | apply Int.not_irrational <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Int.not_irrational (by assumption))\n    | exact Nat.not_irrational\n    | exact Nat.n",
+          "errors": "Lean accepted a complete proof of: theorem mra_lemma_1 : 0 < Real.sqrt 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  have h1 : 0 < Real.sqrt 2 := by norm_num\n  (first | exact mra_lemma_1 | apply mra_lemma_1 <;> assumption | exact mra_lemma_1 (by assumption))",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n7:6: warning: this tactic is never executed"
+        },
+        {
+          "stage": "skeleton",
+          "proof": "by\n  have h1 : 0 < Real.sqrt 2 + Real.sqrt 3 := by norm_num\n  sorry",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n7:6: warning: this tactic is never executed\n\nStill to prove:\n\u22a2 0 < \u221a2 + \u221a3"
+        },
+        {
+          "stage": "skeleton",
+          "proof": "by\n  have h1 : 0 < Real.sqrt 2 + Real.sqrt 3 := by positivity\n  sorry",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "direct",
+          "proof": "by norm_num",
+          "errors": "Lean accepted a complete proof of: lemma sqrt_three_pos : 0 < Real.sqrt 3"
+        },
+        {
+          "stage": "direct",
+          "proof": "by norm_num",
+          "errors": "Lean accepted a complete proof of: lemma sqrt_two_pos : 0 < Real.sqrt 2"
+        }
+      ]
+    },
+    {
+      "goal_id": "hard-det-vanishes",
+      "area": "linear algebra",
+      "tier": "hard",
+      "outcome": "exhausted",
+      "statement": "import Mathlib.Data.Matrix.Basic\nimport Mathlib.LinearAlgebra.Determinant\n\nopen Matrix\n\ndef M : Matrix (Fin 3) (Fin 3) \u2124 :=\n  !![1, 2, 3;\n     4, 5, 6;\n     7, 8, 9]\n\ntheorem matrix_det_zero : M.det = Zero.zero",
+      "attempts": 2,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "No accepted compilation of the goal in 0 attempt(s). Failure to find a proof is not evidence that the claim is false. The agent reported: We verified via symbolic computation that the determinant of the 3x3 matrix with rows (1,2,3), (4,5,6), (7,8,9) is indeed 0:\n\n$$\\det \\begin{pmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\\\ 7 & 8 & 9 \\end{pmatrix} =",
+      "model_calls": 15,
+      "lean_calls": 4,
+      "retrieval_calls": 4,
+      "symbolic_calls": 1,
+      "seconds": 260.1,
+      "trace": [
+        "statement check: elaborates",
+        "statement check: elaborates",
+        "search: '\"det\"' -> Nondet.nil, Nondet.instAlternativeMonad, Nondet.instInhabited, Nondet.instMonadLift, Nondet.singleton, Nondet.head, Nondet.ofList, Nondet.ofOption",
+        "search: '\"Matrix.det\"' -> Matrix.detp, Matrix.detp_transpose, Matrix.detp_one_of_isEmpty, Matrix.detp_one_diagonal, Matrix.detp_zero, Matrix.detp_neg_one_of_isEmpty, Matrix.detp_eq_of_col_eq_zero, Matrix.detp_eq_of_row_eq_zero",
+        "search: '\"Matrix.det\"' -> Matrix.detp, Matrix.detp_transpose, Matrix.detp_one_of_isEmpty, Matrix.detp_one_diagonal, Matrix.detp_zero, Matrix.detp_neg_one_of_isEmpty, Matrix.detp_eq_of_col_eq_zero, Matrix.detp_eq_of_row_eq_zero",
+        "seeded from goal shape -> Matrix, Matrix.add, Matrix.addCommGroup, Matrix.addCommMonoid, Matrix.addCommSemigroup, Matrix.addGroup, Matrix.addMonoid, Matrix.addSemigroup",
+        "seeded from goal shape -> Matrix, Matrix.add, Matrix.addCommGroup, Matrix.addCommMonoid, Matrix.addCommSemigroup, Matrix.addGroup, Matrix.addMonoid, Matrix.addSemigroup",
+        "budget: 252s of the 300s budget used \u2014 under 75s left, too little to finish a compilation (slowest seen here: 83s)",
+        "execution mode: local",
+        "lean backend: repl",
+        "stopped early: 252s of the 300s budget used \u2014 under 75s left, too little to finish a compilation (slowest seen here: 83s)"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nondet.nil\n    | exact Nondet.nil _\n    | apply Nondet.nil\n    | simpa using Nondet.nil\n    | exact \u27e8_, Nondet.nil\u27e9\n    | exact Nondet.nil (by assumption)\n    | exact Nondet.nil \u2039_\u203a\n    | apply Nondet.nil <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nondet.nil (by assumption))\n    | exact Nondet.instAlternativeMonad\n    | exact Nondet.instAlternativeMonad _\n    | apply Nondet.instAlternativeMona",
+          "errors": "Lean accepted a complete proof of: import Mathlib.Data.Matrix.Basic\nimport Mathlib.LinearAlgebra.Determinant\n\nopen Matrix\n\ndef M : Matrix (Fin 3) (Fin 3) \u2124 :=\n  !![1, 2, 3;\n     4, 5, 6;\n     7, 8, 9]\n\ntheorem matrix_det_zero : M.det = 0"
+        },
+        {
+          "stage": "direct",
+          "proof": "by decide",
+          "errors": "Lean accepted a complete proof of: import Mathlib.Data.Matrix.Basic\nimport Mathlib.LinearAlgebra.Determinant\n\nopen Matrix\n\ndef M : Matrix (Fin 3) (Fin 3) \u2124 :=\n  !![1, 2, 3;\n     4, 5, 6;\n     7, 8, 9]\n\ntheorem matrix_det_zero : M.det = 0"
+        }
+      ]
+    }
+  ]
+}
