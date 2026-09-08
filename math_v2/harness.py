@@ -255,7 +255,15 @@ def prove(
         prose = _final_text(result)
         model_calls = _count_model_calls(result)
         tokens = _count_tokens(result)
-        telemetry_complete = True
+        # A RETRIED RUN UNDER-REPORTS ITS COST. The crashed pass's usage died
+        # with its transcript, so what came back covers only the pass that
+        # succeeded. Reporting that as measured would be exactly the "zero
+        # cost for work that certainly cost something" failure
+        # `Telemetry.complete` was added to prevent.
+        telemetry_complete = not any(
+            entry.startswith("retried after transient failure")
+            for entry in log.read(workdir).get("trace") or []
+        )
     except (asyncio.TimeoutError, TimeoutError):
         # THE OUTER WALL CLOCK. `budget.spend` samples the clock and is only
         # called from inside a tool, so time spent between tool calls — a model
@@ -343,6 +351,63 @@ def _takes_context(call):
 # instructions is not going to try after ten, and every pass re-sends the
 # transcript.
 MAX_CONTINUATIONS = int(os.getenv("MRA_MAX_CONTINUATIONS", "2"))
+
+# HOW MANY TIMES A TRANSPORT FAILURE IS RETRIED before the goal is given up on.
+#
+# MEASURED: `exercise_2_11_22` has died with `agent failed: ReadError` in three
+# consecutive runs -- eval/results/mixed-1-rebuilt.json,
+# failures-after-decompose.json and proofnet-20-after-soundness.json. In the
+# last of those it had already spent 289 seconds and three compilations before
+# the read failed. `eval.proof_metrics.classify` returns ERROR for it, which is
+# right -- a run that died is evidence about nothing -- and the consequence is
+# that the denominator has silently been 19 instead of 20 in every ProofNet
+# number this project has quoted.
+#
+# A RETRY IS SOUND HERE FOR A SPECIFIC REASON, not by general optimism:
+# everything the agent did is already on disk, and `proof_state` re-derives the
+# whole picture from `math/proof_log.json` in one uncharged call. So a second
+# pass resumes with the record intact even though the transcript is gone --
+# which is the same property that makes context trimming safe in this path.
+MAX_TRANSIENT_RETRIES = int(os.getenv("MRA_MAX_TRANSIENT_RETRIES", "2"))
+
+# Seconds before retrying. Short, because the wall clock is a real budget and
+# `_invoke` wraps the whole loop -- a retry spends the goal's remaining time,
+# it does not extend it.
+TRANSIENT_BACKOFF_SECONDS = float(os.getenv("MRA_TRANSIENT_BACKOFF", "5"))
+
+# TRANSPORT AND SERVER FAULTS, BY TYPE NAME, and named rather than imported on
+# purpose. The provider stack differs per model -- httpx under google_genai,
+# something else under another provider -- and importing any of them here
+# would tie this module to one. A name-based set is also honest about what it
+# is: a list of things observed or documented to be transient, not a claim to
+# have enumerated them.
+#
+# Deliberately NOT retried: anything else. A TypeError or an AttributeError is
+# a wiring fault, and retrying it three times would turn a clear stack trace
+# into a slow one.
+_TRANSIENT = frozenset({
+    "ReadError", "WriteError", "ConnectError", "ConnectTimeout",
+    "ReadTimeout", "WriteTimeout", "PoolTimeout", "RemoteProtocolError",
+    "ProtocolError", "IncompleteRead", "ServiceUnavailable",
+    "InternalServerError", "DeadlineExceeded", "ResourceExhausted",
+    "TooManyRequests", "Overloaded", "APIConnectionError", "APITimeoutError",
+})
+
+
+def _is_transient(exc):
+    """Is this a transport or server fault rather than a bug?
+
+    Walks `__cause__`/`__context__` because provider SDKs wrap: the ReadError
+    that killed `exercise_2_11_22` arrives inside whatever the client raises,
+    and matching only the outermost type would miss it.
+    """
+    seen = set()
+    while exc is not None and id(exc) not in seen:
+        seen.add(id(exc))
+        if type(exc).__name__ in _TRANSIENT:
+            return True
+        exc = exc.__cause__ or exc.__context__
+    return False
 
 # Below this many compiles left, a continuation cannot accomplish anything: a
 # rejected attempt costs one and the repair it suggests costs another.
@@ -468,6 +533,36 @@ async def _one_pass(agent, payload, context):
     return call(payload)
 
 
+async def _with_retries(agent, payload, context, workdir):
+    """One pass, retried on a transport fault. Anything else propagates.
+
+    MEASURED: `exercise_2_11_22` died of `ReadError` in three consecutive runs
+    and was excluded from every rate, so the ProofNet denominator has silently
+    been 19 rather than 20. See `MAX_TRANSIENT_RETRIES`.
+
+    THE RECORD SURVIVES A CRASH, which is what makes this a resume rather than
+    a restart: the proof log is on disk, and the retried pass can call
+    `proof_state` to recover everything the lost transcript contained.
+
+    Each retry is NOTED, and the note is what marks the cost incomplete. The
+    crashed pass's own token usage died with its transcript, so a run that
+    retried under-reports what it spent -- and reporting that as a measured
+    total would be the "zero cost for work that certainly cost something"
+    failure `Telemetry.complete` exists to prevent.
+    """
+    for attempt in range(MAX_TRANSIENT_RETRIES + 1):
+        try:
+            return await _one_pass(agent, payload, context)
+        except Exception as exc:  # noqa: BLE001 - re-raised below unless transient
+            last = attempt >= MAX_TRANSIENT_RETRIES
+            if not _is_transient(exc) or last:
+                raise
+            log.note(workdir,
+                     f"retried after transient failure: {type(exc).__name__}"
+                     f" (attempt {attempt + 1} of {MAX_TRANSIENT_RETRIES})")
+            await asyncio.sleep(TRANSIENT_BACKOFF_SECONDS)
+
+
 async def _ainvoke(agent, goal, workdir):
     """Drive the agent, and refuse a stop that never tried the goal.
 
@@ -482,7 +577,7 @@ async def _ainvoke(agent, goal, workdir):
     """
     payload = {"messages": [{"role": "user", "content": TASK.format(goal=goal)}]}
     context = MathContext(workdir=workdir)
-    result = await _one_pass(agent, payload, context)
+    result = await _with_retries(agent, payload, context, workdir)
 
     for _ in range(MAX_CONTINUATIONS):
         left = _stopped_short(workdir)
@@ -507,7 +602,7 @@ async def _ainvoke(agent, goal, workdir):
                 searches=spent.get("searches", 0)),
         }]}
         try:
-            result = await _one_pass(agent, payload, context)
+            result = await _with_retries(agent, payload, context, workdir)
         except Exception as exc:
             # A CONTINUATION MUST NOT COST THE RUN ITS RESULT. This pass is
             # extra work the harness chose to do, on top of a goal that had

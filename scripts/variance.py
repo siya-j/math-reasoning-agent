@@ -1,89 +1,106 @@
-"""Measure run-to-run stability.
+"""How much does the same goal move between runs? Measured, not assumed.
 
-Temperature is 0, so the same question should give the same verdict every
-time. Agent loops can still diverge — tool choice, retry paths, tie-breaks.
-If they do, every accuracy number we quote needs an error bar, so this is
-worth knowing before trusting any comparison between runs.
+WHY IT MATTERS MORE THAN ANY SINGLE RATE
 
-    python scripts/variance.py --repeats 3 --limit 8
+Every figure this project quotes is one sample. That is fine while the numbers
+are being used to find bugs, and not fine the moment they are used to claim a
+capability -- a 15-goal result carries a 95% interval of roughly 38-88% around
+10/15, which cannot distinguish 67% from 85%.
+
+MEASURED, and this is what prompted the script: `exercise_3_22` compiled a
+refutation of Baire's theorem on one run and reported only unverified
+suspicion on the next two. Same goal, three runs, two different answers -- and
+that refutation is the strongest single result the project has produced.
+
+WHAT THIS DOES. Reads every results file, finds goals decided more than once,
+and reports how often the outcome agreed. It needs no runs of its own: the
+repeats already exist because goals get re-run as code changes. That makes the
+measurement CONFOUNDED -- the code differed between those runs, so what is
+reported is run-to-run variation, not sampling noise at a fixed commit. It is
+a floor on the noise, not an estimate of it, and the script says so.
+
+For an unconfounded number, run the same goals repeatedly at one commit:
+
+    for i in 1 2 3; do
+      python scripts/evaluate_proofs.py --goals eval/proofnet-182.json \\
+        --tier proofnet --limit 20 --shuffle --seed $i \\
+        --out eval/results/variance-$i.json
+    done
+    python scripts/variance.py eval/results/variance-*.json
 """
 
+from __future__ import annotations
+
 import argparse
-import sys
+import glob
+import json
 from collections import Counter, defaultdict
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+# Outcomes that mean the same thing for a stability count. `refuted` and
+# `suspect_statement` are NOT collapsed: one is a compiler fact and the other
+# an unverified report, and the gap between them is exactly the instability
+# that prompted this script.
+DECIDED = ("proved", "not_proved", "refuted", "suspect_statement",
+           "not_formalized", "exhausted")
 
-from eval import load_cases, run_case  # noqa: E402
 
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    parser.add_argument("files", nargs="*",
+                        default=sorted(glob.glob("eval/results/*.json")))
+    args = parser.parse_args(argv)
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--repeats", type=int, default=3)
-    parser.add_argument("--limit", type=int, default=8)
-    parser.add_argument("--area", default="")
-    args = parser.parse_args()
-
-    cases = load_cases()
-    if args.area:
-        cases = [c for c in cases if c.area == args.area]
-    cases = cases[: args.limit]
-
-    verdicts = defaultdict(list)
-    for run_number in range(1, args.repeats + 1):
-        print(f"\n--- run {run_number}/{args.repeats} ---")
-        for case in cases:
-            result = run_case(case)
-            verdicts[case.id].append(result.actual)
-            print(f"  {case.id:<28} {result.actual}")
-
-    print("\n" + "=" * 60)
-    unstable = 0
-    comparable = 0
-    incomplete = 0
-
-    for case_id, seen in verdicts.items():
-        # An error is a failure to answer, not a different answer. Counting
-        # it as verdict instability makes a rate-limited run look
-        # non-deterministic when it is nothing of the sort.
-        decided = [v for v in seen if v != "error"]
-        errors = len(seen) - len(decided)
-
-        if len(decided) < 2:
-            incomplete += 1
-            print(f"  NO DATA   {case_id:<28} {errors} error(s), too few runs")
+    seen = defaultdict(list)
+    for name in args.files:
+        try:
+            data = json.loads(Path(name).read_text(encoding="utf-8"))
+        except (ValueError, OSError):
             continue
+        commit = (data.get("run") or {}).get("commit", "")[:8] or "?"
+        for row in data.get("results", []):
+            if row.get("outcome") in DECIDED:
+                seen[row["goal_id"]].append(
+                    (Path(name).stem, commit, row["outcome"]))
 
-        comparable += 1
-        counts = Counter(decided)
-        if len(counts) > 1:
-            unstable += 1
-            spread = ", ".join(f"{v}x{n}" for v, n in counts.items())
-            print(f"  UNSTABLE  {case_id:<28} {spread}")
-        elif errors:
-            print(f"  stable    {case_id:<28} ({errors} error(s) ignored)")
+    repeated = {g: rs for g, rs in seen.items() if len(rs) > 1}
+    print(f"goals decided at least once: {len(seen)}")
+    print(f"goals decided more than once: {len(repeated)}")
+    if not repeated:
+        print("\nNo goal has been decided twice, so nothing can be said about "
+              "stability yet.")
+        return 1
 
-    print("-" * 60)
-    print(f"  cases                {len(verdicts)}")
-    print(f"  repeats              {args.repeats}")
-    print(f"  comparable           {comparable}   (>=2 non-error runs)")
-    print(f"  excluded (errors)    {incomplete}")
-    print(f"  unstable             {unstable}")
-    if comparable:
-        print(f"  stability            {(comparable - unstable) / comparable:.0%}")
-    else:
-        print("  stability            n/a (every case errored)")
-    print("=" * 60)
+    stable = [g for g, rs in repeated.items()
+              if len({o for _, _, o in rs}) == 1]
+    unstable = {g: rs for g, rs in repeated.items()
+                if len({o for _, _, o in rs}) > 1}
+
+    print(f"  same outcome every time: {len(stable)}")
+    print(f"  changed outcome at least once: {len(unstable)}")
+    print(f"  -> agreement {len(stable) / len(repeated) * 100:.0f}%")
 
     if unstable:
-        print("\nVerdicts vary between identical runs. Treat single-run")
-        print("accuracy figures as estimates, not measurements.")
-    elif comparable:
-        print("\nEvery comparable case gave the same verdict every time.")
-        if incomplete:
-            print("Some cases had too few successful runs to judge -- rerun")
-            print("those on a model without a quota (e.g. ollama).")
+        print()
+        print("GOALS THAT MOVED")
+        print("-" * 70)
+        for goal_id, runs in sorted(unstable.items()):
+            print(f"  {goal_id}")
+            for name, commit, outcome in runs:
+                print(f"      {outcome:18} {commit}  {name}")
+
+    print()
+    print("HOW MANY REPEATS EACH GOAL HAS")
+    print("-" * 70)
+    for count, n in sorted(Counter(len(rs) for rs in repeated.values()).items()):
+        print(f"  {count} runs: {n} goal(s)")
+
+    print()
+    print("CONFOUNDED, DELIBERATELY REPORTED AS SUCH. These repeats come from")
+    print("re-running goals as the code changed, so the commit differs between")
+    print("them and this mixes sampling noise with real behaviour change. It is")
+    print("a FLOOR on the noise, not an estimate. For a clean number, run the")
+    print("same goals several times at ONE commit -- see this file's docstring.")
     return 0
 
 
