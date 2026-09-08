@@ -91,7 +91,28 @@ class LeanResult:
 # Lean 4 emits this warning when a proof leans on the `sorry` placeholder.
 # The file still compiles and the exit code is still 0, so the exit code
 # alone is not evidence that anything was proved.
-_SORRY_MARKERS = ("declaration uses 'sorry'", "uses 'sorry'")
+#
+# A REGEX, AND TOLERANT OF THE QUOTING, because a fixed string here was a LIVE
+# SOUNDNESS HOLE. This was two literals -- "declaration uses 'sorry'" and
+# "uses 'sorry'" -- with STRAIGHT quotes. Lean 4.33.0 emits BACKTICKS:
+#
+#     1:8: warning: declaration uses `sorry`
+#
+# so neither literal ever matched, and this whole layer silently did nothing.
+#
+# MEASURED, and it was exploitable. `by exact sorryAx _ false` proves ANY
+# theorem. It evades the source regex below (see `_PLACEHOLDER`: `\b` fails
+# between "sorry" and "Ax"), so it fell through to this marker check, which
+# could not match -- and the result was LeanOutcome.COMPILED and
+# VerificationStatus.TRUE. A proof of anything, accepted.
+#
+# Found by `tests/test_lean_real.py::test_sorryAx_is_caught_by_the_compiler_
+# though_not_by_the_regex`, the first time that file was run in full against a
+# real toolchain. The test asserted INCOMPLETE and got ERRORS, because its own
+# snippet (`sorryAx _`, one argument) does not typecheck -- `sorryAx` takes
+# `(α) (synthetic : Bool := false)`. Fixing the snippet is what exposed the
+# hole underneath: with a well-formed call, the system said TRUE.
+_SORRY_WARNING = re.compile(r"uses\s+[`'\u2018\u2019\"]?sorry", re.IGNORECASE)
 
 # Ways a file can compile while proving nothing. All four are listed in
 # AxProverBase (arXiv 2602.24273) as loopholes their review system closes
@@ -131,7 +152,13 @@ _SORRY_MARKERS = ("declaration uses 'sorry'", "uses 'sorry'")
 # error" was being followed against a surface that was all there was.
 _DIAGNOSTIC = re.compile(r"^(?:\S*?:)?\d+:\d+:\s*(error|warning):")
 
-_PLACEHOLDER = re.compile(r"\b(sorry|admit)\b")
+# `sorryAx` FIRST, and named explicitly. `\b(sorry|admit)\b` cannot match
+# "sorryAx" -- the word boundary fails between "sorry" and "Ax" -- and
+# `sorryAx` is not an obscure corner: it is the term `sorry` elaborates to,
+# it is directly writable, and `by exact sorryAx _ false` proves any theorem.
+# Listed rather than matched with `sorry\w*`, which would also flag an honest
+# lemma whose name merely begins with "sorry".
+_PLACEHOLDER = re.compile(r"\b(sorryAx|sorry|admit)\b")
 _AXIOM = re.compile(r"^\s*axiom\s+\S", re.MULTILINE)
 _SUGGESTION = re.compile(r"\b(apply|exact|rw|simp|aesop|norm_num|hint)\?")
 # `native_decide` evaluates the proposition with the COMPILER rather than the
@@ -249,7 +276,7 @@ def mathlib_is_available() -> bool:
 
 def _uses_placeholder(source: str, output: str) -> bool:
     """`sorry` or `admit` — the proof compiles and establishes nothing."""
-    if any(marker in output for marker in _SORRY_MARKERS):
+    if _SORRY_WARNING.search(output or ""):
         return True
     # Belt and braces: catch it in the source too, in case a future Lean
     # version stops warning. A false positive here costs a refusal; a false

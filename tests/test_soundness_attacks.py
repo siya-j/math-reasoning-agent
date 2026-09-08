@@ -201,24 +201,46 @@ def test_a_cheated_compile_is_not_a_proof(workdir):
 # ===================================================================
 # ATTACKS THAT HELD — defence in depth, confirmed rather than assumed
 # ===================================================================
-def test_sorryAx_slips_the_text_guard_but_the_compiler_catches_it(workdir):
-    """An honest record of a guard that is weaker than it looks, and of the
-    layer that saves it.
+def test_sorryAx_is_refused_by_the_text_guard_and_by_the_compiler(workdir):
+    """THIS TEST USED TO ASSERT THE OPPOSITE, and the opposite was a live
+    soundness hole.
 
-    `_PLACEHOLDER` is `\\b(sorry|admit)\\b`, and `\\b` fails between "sorry"
-    and "Ax", so `has_placeholder("exact sorryAx _")` is False -- the text
-    guard does NOT catch it. What catches it is that real Lean emits
-    "declaration uses 'sorry'" for it, which `_uses_placeholder` reads off the
-    OUTPUT rather than the source. Two independent checks, and only the second
-    one holds here. Recorded so nobody later "simplifies" away the
-    output-based check believing the regex covers it."""
-    assert has_placeholder("exact sorryAx _") is False
+    It recorded, as an honest limitation, that `has_placeholder("exact
+    sorryAx _")` is False -- true, because `\\b(sorry|admit)\\b` cannot match
+    across "sorry" and "Ax" -- and claimed the output check caught it
+    instead: real Lean emits "declaration uses 'sorry'", which
+    `_uses_placeholder` reads off the OUTPUT. Two independent layers, only the
+    second holding.
+
+    MEASURED against real Lean 4.33.0, the first time `tests/test_lean_real.py`
+    ran in full: THE SECOND LAYER DID NOT HOLD EITHER. The marker was a fixed
+    string with STRAIGHT quotes and Lean writes BACKTICKS -- "declaration uses
+    `sorry`" -- so it matched nothing. With a well-formed call,
+    `by exact sorryAx _ false`, the system returned LeanOutcome.COMPILED and
+    VerificationStatus.TRUE. A proof of any theorem, accepted.
+
+    Note also that this test's own snippet, `exact sorryAx _`, does not
+    typecheck: `sorryAx` takes `(α) (synthetic : Bool := false)`, so one
+    argument leaves it partially applied. The test was passing on an
+    expression Lean would have rejected outright, which is why the hole
+    underneath went unnoticed.
+
+    Both layers are fixed, and this now asserts the property rather than
+    which layer delivers it -- depending on exactly one layer is what made
+    this possible.
+    """
+    assert has_placeholder("exact sorryAx _ false") is True, (
+        "the text guard no longer names sorryAx; `by exact sorryAx _ false` "
+        "proves any theorem"
+    )
 
     statement = "theorem g : (2:Nat) + 2 = 5"
     declare(workdir, statement)
-    run(proving.try_proof(workdir, statement, "exact sorryAx _",
-                          lean(LeanOutcome.INCOMPLETE, ELABORATES)))
+    run(proving.try_proof(workdir, statement, "exact sorryAx _ false",
+                          lean(LeanOutcome.COMPILED, ELABORATES)))
 
+    # COMPILED is passed in deliberately: even if the compiler reported a
+    # clean success, this must not be accepted.
     assert outcome_of(workdir) != verdict.PROVED
 
 
@@ -356,3 +378,74 @@ def test_a_genuine_compiler_rejection_still_counts(workdir):
         proving_tools.lean_runner = monkey
 
     assert budget.read(workdir)["statement_checks"] == 1
+
+
+# ===================================================================
+# `sorryAx` proves anything, and evaded BOTH layers of the defence
+# ===================================================================
+def test_sorryAx_is_named_by_the_source_guard():
+    """MEASURED as a live hole against real Lean 4.33.0.
+    `by exact sorryAx _ false` returned LeanOutcome.COMPILED and
+    VerificationStatus.TRUE -- a proof of ANY theorem, accepted.
+
+    `sorryAx` is what `sorry` elaborates to; it is directly writable, and
+    `\\b(sorry|admit)\\b` cannot match it because the word boundary fails
+    between "sorry" and "Ax". Named explicitly now rather than matched with
+    `sorry\\w*`, which would also flag an honest lemma whose name happens to
+    begin with "sorry".
+    """
+    from verifiers.lean_runner import has_placeholder
+
+    assert has_placeholder("by exact sorryAx _ false")
+    assert has_placeholder("exact sorryAx (2 + 2 = 4) false")
+    # ...and the honest cases stay honest.
+    assert not has_placeholder("by exact Nat.add_zero n")
+    assert not has_placeholder("lemma sorryless_proof : True := trivial")
+
+
+def test_the_sorry_warning_is_matched_whatever_lean_quotes_it_with():
+    """THE offline test that would have caught it. The marker was two fixed
+    strings using STRAIGHT quotes -- "declaration uses 'sorry'" -- and Lean
+    4.33.0 emits BACKTICKS. Neither literal ever matched, so the entire
+    second layer of the defence silently did nothing for an unknown length of
+    time.
+
+    A claim about someone else's output format must not be a fixed string.
+    """
+    from verifiers.lean_runner import _SORRY_WARNING
+
+    for wording in (
+        "1:8: warning: declaration uses `sorry`",       # Lean 4.33.0
+        "1:8: warning: declaration uses 'sorry'",       # older wording
+        "warning: declaration uses ‘sorry’",  # typographic quotes
+        "declaration uses sorry",                       # unquoted
+    ):
+        assert _SORRY_WARNING.search(wording), wording
+
+    assert not _SORRY_WARNING.search("1:1: error: unknown identifier 'foo'")
+
+
+def test_a_backticked_warning_alone_marks_the_proof_incomplete():
+    """The decision point, fed exactly what real Lean emits: a zero-exit
+    compile whose ONLY output is the backticked warning, and whose source the
+    regex cannot help with because the placeholder is spelled `sorryAx`.
+
+    `_uses_placeholder` is what `run_lean` and `math_v2.tools._util` both call
+    to turn that into INCOMPLETE. Before the fix it returned False on this
+    input, so the outcome was COMPILED and the verdict TRUE.
+    """
+    from domain.verdict import VerificationStatus
+    from verifiers.lean_runner import (LeanOutcome, LeanResult,
+                                       _uses_placeholder)
+    from verifiers.lean_verifier import interpret
+
+    output = "1:8: warning: declaration uses `sorry`\n"
+
+    assert _uses_placeholder("theorem t : 2 + 2 = 4 := by trivial", output), (
+        "a compile whose only output is Lean's sorry warning was read as a "
+        "complete proof"
+    )
+
+    verdict = interpret(LeanResult(LeanOutcome.INCOMPLETE, output),
+                        "theorem t : 2 + 2 = 4")
+    assert verdict.status is not VerificationStatus.TRUE, verdict

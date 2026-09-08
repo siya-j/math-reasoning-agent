@@ -135,27 +135,66 @@ def test_admit_is_never_a_proof():
         result.output)
 
 
-def test_sorryAx_is_caught_by_the_compiler_though_not_by_the_regex():
-    """THE defence-in-depth claim, measured rather than asserted.
+def test_sorryAx_is_caught_now_that_the_regex_names_it():
+    """THE test that found a live soundness hole, the first time this file ran
+    in full against a real toolchain.
 
-    `has_placeholder` does NOT catch this -- `\\b(sorry|admit)\\b` fails
-    between "sorry" and "Ax" -- so the text guard is blind to it and the only
-    thing standing in the way is Lean emitting "declaration uses 'sorry'".
-    This test is the evidence for that sentence. If it ever fails, a proof
-    that establishes nothing is passing as one, and the fix is to widen the
-    regex rather than to relax this."""
-    assert has_placeholder("exact sorryAx _") is False, (
-        "the text guard now catches this; the comment in lean_runner.py and "
-        "in test_soundness_attacks.py must be updated"
+    It used to assert two things, and BOTH were wrong.
+
+    First, its snippet was `exact sorryAx _`, which does not typecheck at all:
+    `sorryAx` takes `(α : Sort u) (synthetic : Bool := false)`, so one
+    argument leaves it partially applied with type `Bool -> ?m`. Real Lean
+    answered ERRORS (a type mismatch), the test expected INCOMPLETE, and it
+    failed. It had therefore never exercised the claim it was named for.
+
+    Second, and much worse, the claim itself was false. With a WELL-FORMED
+    call, `by exact sorryAx _ false`, the system returned
+    LeanOutcome.COMPILED and VerificationStatus.TRUE -- a proof of ANY
+    theorem, accepted. Both layers of the defence were broken:
+
+      * the source regex was `\b(sorry|admit)\b`, and the word boundary
+        fails between "sorry" and "Ax";
+      * the output marker was the fixed string "declaration uses 'sorry'"
+        with STRAIGHT quotes, and Lean 4.33.0 emits BACKTICKS --
+        "declaration uses `sorry`" -- so it never matched anything.
+
+    Both are fixed: `_PLACEHOLDER` names `sorryAx` explicitly and
+    `_SORRY_WARNING` is a regex tolerant of the quoting. This test now asserts
+    the property that actually matters -- a `sorryAx` proof is not accepted --
+    and no longer asserts which layer stops it, because relying on exactly one
+    layer is what made this possible.
+    """
+    assert has_placeholder("exact sorryAx _ false") is True, (
+        "the source guard no longer names sorryAx; `by exact sorryAx _ false` "
+        "proves any theorem"
     )
 
-    result = judged(build_source(TRUE_CLAIM, "exact sorryAx _"))
+    result = judged(build_source(TRUE_CLAIM, "exact sorryAx _ false"))
 
-    # INCOMPLETE specifically, not merely "not COMPILED": the claim being
-    # measured is that LEAN WARNS about it, which is the only reason this is
-    # caught at all. ERRORS here would mean it was caught for some other
-    # reason and the defence-in-depth story is wrong.
-    assert result.outcome is LeanOutcome.INCOMPLETE, result.output
+    assert result.outcome is not LeanOutcome.COMPILED, (
+        f"a sorryAx proof was accepted as a complete compilation: "
+        f"{result.output}"
+    )
+
+
+def test_lean_still_warns_about_sorry_in_the_words_this_repo_looks_for():
+    """The second layer, on its own, against the real compiler.
+
+    `_SORRY_WARNING` exists so that a placeholder the source regex misses is
+    still caught by what Lean SAYS. That only works while this repo's pattern
+    matches this Lean version's wording, and it did not: the pattern wanted
+    straight quotes and Lean 4.33.0 writes backticks. A fixed string was the
+    wrong shape for a claim about someone else's output format.
+    """
+    from verifiers.lean_runner import _SORRY_WARNING
+
+    result = judged(build_source(TRUE_CLAIM, "exact sorryAx _ false"))
+
+    assert _SORRY_WARNING.search(result.output or ""), (
+        "Lean's sorry warning no longer matches `_SORRY_WARNING`. Its actual "
+        f"wording is:\n{result.output}\nWiden the pattern; do not delete "
+        "this test."
+    )
 
 
 # ----------------------------------------------------- compiling ≠ proving
