@@ -1,0 +1,255 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 (inner x y) = (0 : \u211d)",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:53: error: Application type mismatch: The argument\n  x\nhas type\n  EuclideanSpace \u211d (Fin n)\nof sort `Type` but is expected to have type\n  Type ?u.19\nof sort `Type (?u.19 + 1)` in the application\n  @inner x",
+      "at": 1788850773.1197906,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 \u27eax, y\u27eb = (0 : \u211d)",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:51: error: expected token",
+      "at": 1788850789.6698985,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner x y = (0 : \u211d)",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact LieDerivation.inner\n    | exact LieDerivation.inner _\n    | apply LieDerivation.inner\n    | simpa using LieDerivation.inner\n    | exact \u27e8_, LieDerivation.inner\u27e9\n    | exact LieDerivation.inner (by assumption)\n    | exact LieDerivation.inner \u2039_\u203a\n    | apply LieDerivation.inner <;> assumption\n    | (haveI := Fact.mk (by assumption); exact LieDerivation.inner (by assumption))\n    | exact LieDerivation.inner_apply_apply\n    | exact LieDerivation.inner_apply_apply _\n    | apply LieDerivation.inner_apply_apply\n    | simpa using LieDerivation.inner_apply_apply\n    | exact \u27e8_, LieDerivation.inner_apply_apply\u27e9\n    | exact LieDerivation.inner_apply_apply (by assumption)\n    | exact LieDerivation.inner_apply_apply \u2039_\u203a\n    | apply LieDerivation.inner_apply_apply <;> assumption\n    | (haveI := Fact.mk (by assumption); exact LieDerivation.inner_apply_apply (by assumption))\n    | exact ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\n    | exact ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb _\n    | apply ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\n    | simpa using ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\n    | exact \u27e8_, ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\u27e9\n    | exact ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb (by assumption)\n    | exact ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb \u2039_\u203a\n    | apply ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb (by assumption))\n    | exact InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb\n    | exact InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb _\n    | apply InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb\n    | simpa using InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb\n    | exact \u27e8_, InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb\u27e9\n    | exact InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb (by assumption)\n    | exact InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb \u2039_\u203a\n    | apply InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb <;> assumption\n    | (haveI := Fact.mk (by assumption); exact InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb (by assumption))\n    | exact RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\n    | exact RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb _\n    | apply RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\n    | simpa using RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\n    | exact \u27e8_, RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\u27e9\n    | exact RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb (by assumption)\n    | exact RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb \u2039_\u203a\n    | apply RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb <;> assumption\n    | (haveI := Fact.mk (by assumption); exact RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb (by assumption))\n    | exact InnerProductSpace.toInner\n    | exact InnerProductSpace.toInner _\n    | apply InnerProductSpace.toInner\n    | simpa using InnerProductSpace.toInner\n    | exact \u27e8_, InnerProductSpace.toInner\u27e9\n    | exact InnerProductSpace.toInner (by assumption)\n    | exact InnerProductSpace.toInner \u2039_\u203a\n    | apply InnerProductSpace.toInner <;> assumption\n    | (haveI := Fact.mk (by assumption); exact InnerProductSpace.toInner (by assumption))\n    | exact PUnit.instInnerProductSpace\n    | exact PUnit.instInnerProductSpace _\n    | apply PUnit.instInnerProductSpace\n    | simpa using PUnit.instInnerProductSpace\n    | exact \u27e8_, PUnit.instInnerProductSpace\u27e9\n    | exact PUnit.instInnerProductSpace (by assumption)\n    | exact PUnit.instInnerProductSpace \u2039_\u203a\n    | apply PUnit.instInnerProductSpace <;> assumption\n    | (haveI := Fact.mk (by assumption); exact PUnit.instInnerProductSpace (by assumption))\n    | exact InnerProductSpace.toNormedSpace\n    | exact InnerProductSpace.toNormedSpace _\n    | apply InnerProductSpace.toNormedSpace\n    | simpa using InnerProductSpace.toNormedSpace\n    | exact \u27e8_, InnerProductSpace.toNormedSpace\u27e9\n    | exact InnerProductSpace.toNormedSpace (by assumption)\n    | exact InnerProductSpace.toNormedSpace \u2039_\u203a\n    | apply InnerProductSpace.toNormedSpace <;> assumption\n    | (haveI := Fact.mk (by assumption); exact InnerProductSpace.toNormedSpace (by assumption))\n    | exact PreInnerProductSpace.toCore\n    | exact PreInnerProductSpace.toCore _\n    | apply PreInnerProductSpace.toCore\n    | simpa using PreInnerProductSpace.toCore\n    | exact \u27e8_, PreInnerProductSpace.toCore\u27e9\n    | exact PreInnerProductSpace.toCore (by assumption)\n    | exact PreInnerProductSpace.toCore \u2039_\u203a\n    | apply PreInnerProductSpace.toCore <;> assumption\n    | (haveI := Fact.mk (by assumption); exact PreInnerProductSpace.toCore (by assumption))\n    | exact InnerProductSpace.Core.normSq\n    | exact InnerProductSpace.Core.normSq _\n    | apply InnerProductSpace.Core.normSq\n    | simpa using InnerProductSpace.Core.normSq\n    | exact \u27e8_, InnerProductSpace.Core.normSq\u27e9\n    | exact InnerProductSpace.Core.normSq (by assumption)\n    | exact InnerProductSpace.Core.normSq \u2039_\u203a\n    | apply InnerProductSpace.Core.normSq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact InnerProductSpace.Core.normSq (by assumption))\n    | exact InnerProductSpace.Core.toNorm\n    | exact InnerProductSpace.Core.toNorm _\n    | apply InnerProductSpace.Core.toNorm\n    | simpa using InnerProductSpace.Core.toNorm\n    | exact \u27e8_, InnerProductSpace.Core.toNorm\u27e9\n    | exact InnerProductSpace.Core.toNorm (by assumption)\n    | exact InnerProductSpace.Core.toNorm \u2039_\u203a\n    | apply InnerProductSpace.Core.toNorm <;> assumption\n    | (haveI := Fact.mk (by assumption); exact InnerProductSpace.Core.toNorm (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:58: error: Application type mismatch: The argument\n  x\nhas type\n  EuclideanSpace \u211d (Fin n)\nof sort `Type` but is expected to have type\n  Type ?u.19\nof sort `Type (?u.19 + 1)` in the application\n  @inner x\n5:75: error: unsolved goals\nn : \u2115\nh : n > 1\nx : EuclideanSpace \u211d (Fin n)\n\u22a2 (\u2203 x, \u00acx = 0) \u2227 sorry () = 0\n\nStill to prove:\n\u22a2 (\u2203 x, \u00acx = 0) \u2227 sorry () = 0",
+      "at": 1788850795.3289795,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "LieDerivation.inner",
+      "type": " (R : Type u_1) (L : Type u_2) (M : Type u_3) [CommRing R] [LieRing L] [LieAlgebra R L] [AddCommGroup M] [Module R M] [LieRingModule L M] [LieModule R L M] : M \u2192\u2097[R] LieDerivation R L M",
+      "module": "Mathlib.Algebra.Lie.Derivation.Basic",
+      "doc": "The natural map from a Lie module to the derivations taking values in it. "
+    },
+    {
+      "name": "LieDerivation.inner_apply_apply",
+      "type": " (R : Type u_1) (L : Type u_2) (M : Type u_3) [CommRing R] [LieRing L] [LieAlgebra R L] [AddCommGroup M] [Module R M] [LieRingModule L M] [LieModule R L M] (m : M) (m\u271d : L) : ((LieDerivation.inner R L M) m) m\u271d = \u2045m\u271d, m\u2046",
+      "module": "Mathlib.Algebra.Lie.Derivation.Basic",
+      "doc": ""
+    },
+    {
+      "name": "MeasureTheory.Measure.InnerRegular",
+      "type": " {\u03b1 : Type u_1} [MeasurableSpace \u03b1] [TopologicalSpace \u03b1] (\u03bc : MeasureTheory.Measure \u03b1) : Prop",
+      "module": "Mathlib.MeasureTheory.Measure.Regular",
+      "doc": "A measure `\u03bc` is inner regular if, for any measurable set `s`, then\n`\u03bc(s) = sup {\u03bc(K) | K \u2286 s compact}`. "
+    },
+    {
+      "name": "MeasureTheory.Measure.InnerRegularCompactLTTop",
+      "type": " {\u03b1 : Type u_1} [MeasurableSpace \u03b1] [TopologicalSpace \u03b1] (\u03bc : MeasureTheory.Measure \u03b1) : Prop",
+      "module": "Mathlib.MeasureTheory.Measure.Regular",
+      "doc": "A measure `\u03bc` is inner regular for finite measure sets with respect to compact sets:\nfor any measurable set `s` with finite measure, then `\u03bc(s) = sup {\u03bc(K) | K \u2286 s compact}`.\nThe main interest of this class is that it is satisfied for both natural Haar measures (the\nregular one and the inner regular one). "
+    },
+    {
+      "name": "MeasureTheory.Measure.InnerRegularWRT",
+      "type": " {\u03b1 : Type u_1} {x\u271d : MeasurableSpace \u03b1} (\u03bc : MeasureTheory.Measure \u03b1) (p q : Set \u03b1 \u2192 Prop) : Prop",
+      "module": "Mathlib.MeasureTheory.Measure.Regular",
+      "doc": "We say that a measure `\u03bc` is *inner regular* with respect to predicates `p q : Set \u03b1 \u2192 Prop`,\nif for every `U` such that `q U` and `r < \u03bc U`, there exists a subset `K \u2286 U` satisfying `p K`\nof measure greater than `r`.\n\nThis definition is used to prove some facts about regular and weakly regular measures without\nrepeating the proofs. "
+    },
+    {
+      "name": "ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb",
+      "type": " : Lean.ParserDescr",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The inner product with values in `\u2102`. "
+    },
+    {
+      "name": "InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb",
+      "type": " : Lean.ParserDescr",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The inner product with values in `\ud835\udd5c`. "
+    },
+    {
+      "name": "RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb",
+      "type": " : Lean.ParserDescr",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The inner product with values in `\u211d`. "
+    },
+    {
+      "name": "InnerProductSpace.toInner",
+      "type": " {\ud835\udd5c : Type u_4} {E : Type u_5} {inst\u271d : RCLike \ud835\udd5c} {inst\u271d\u00b9 : SeminormedAddCommGroup E} [self : InnerProductSpace \ud835\udd5c E] : Inner \ud835\udd5c E",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "PUnit.instInnerProductSpace",
+      "type": " {\ud835\udd5c : Type u_1} [RCLike \ud835\udd5c] : InnerProductSpace \ud835\udd5c PUnit.{u_4 + 1}",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.toNormedSpace",
+      "type": " {\ud835\udd5c : Type u_4} {E : Type u_5} {inst\u271d : RCLike \ud835\udd5c} {inst\u271d\u00b9 : SeminormedAddCommGroup E} [self : InnerProductSpace \ud835\udd5c E] : NormedSpace \ud835\udd5c E",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "PreInnerProductSpace.toCore",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [c : InnerProductSpace \ud835\udd5c E] : PreInnerProductSpace.Core \ud835\udd5c E",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "Define `PreInnerProductSpace.Core` from `InnerProductSpace`. Defined to reuse lemmas about\n`PreInnerProductSpace.Core` for `PreInnerProductSpace`s. Note that the `Seminorm` instance provided\nby `PreInnerProductSpace.Core.norm` is propositionally but not definitionally equal to the original\nnorm. "
+    },
+    {
+      "name": "InnerProductSpace.Core.normSq",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x : F) : \u211d",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The norm squared function for `PreInnerProductSpace.Core` structure. "
+    },
+    {
+      "name": "InnerProductSpace.Core.toNorm",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] : Norm F",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "(Semi)norm constructed from a `PreInnerProductSpace.Core` structure, defined to be the square\nroot of the scalar product. "
+    },
+    {
+      "name": "InnerProductSpace",
+      "type": " (\ud835\udd5c : Type u_4) (E : Type u_5) [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] : Type (max u_4 u_5)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "A (pre) inner product space is a vector space with an additional operation called inner product.\nThe (semi)norm could be derived from the inner product, instead we require the existence of a\nseminorm and the fact that `\u2016x\u2016^2 = re \u27eax, x\u27eb` to be able to put instances on `\ud835\udd42` or product spaces.\n\nNote that `NormedSpace` does not assume that `\u2016x\u2016=0` implies `x=0` (it is rather a seminorm).\n\nTo construct a seminorm from an inner product, see `PreInnerProductSpace.ofCore`.\n"
+    },
+    {
+      "name": "InnerProductSpace.Core",
+      "type": " (\ud835\udd5c : Type u_4) (F : Type u_5) [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] : Type (max u_4 u_5)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "A structure requiring that a scalar product is positive definite. Some theorems that\nrequire these assumptions are put under section `InnerProductSpace.Core`. "
+    },
+    {
+      "name": "PreInnerProductSpace.Core",
+      "type": " (\ud835\udd5c : Type u_4) (F : Type u_5) [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] : Type (max u_4 u_5)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "A structure requiring that a scalar product is positive semidefinite and symmetric. "
+    },
+    {
+      "name": "AlgebraicGeometry.\u00abterm_|_\u2097_\u27ea_\u27eb\u00bb",
+      "type": " : Lean.TrailingParserDescr",
+      "module": "Mathlib.Topology.Sheaves.Presheaf",
+      "doc": "restriction of a section along a subset relation "
+    },
+    {
+      "name": "RCLike.\u00abterm\u27ea_,_\u27eb_[_,_]\u00bb",
+      "type": " : Lean.ParserDescr",
+      "module": "Mathlib.Analysis.RCLike.Inner",
+      "doc": "Weighted inner product giving rise to the L2 norm, denoted as `\u27eag, f\u27eb_[\ud835\udd5c, w]`. "
+    },
+    {
+      "name": "RCLike.\u00abterm\u27ea_,_\u27eb_[_]\u00bb",
+      "type": " : Lean.ParserDescr",
+      "module": "Mathlib.Analysis.RCLike.Inner",
+      "doc": "Discrete inner product giving rise to the discrete L2 norm. "
+    },
+    {
+      "name": "RCLike.\u00abterm\u27ea_,_\u27eb\u2099_[_]\u00bb",
+      "type": " : Lean.ParserDescr",
+      "module": "Mathlib.Analysis.RCLike.Inner",
+      "doc": "Compact inner product giving rise to the compact L2 norm. "
+    },
+    {
+      "name": "EuclideanSpace.infinite",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [Nonempty \u03b9] : Infinite (EuclideanSpace \ud835\udd5c \u03b9)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] (i : \u03b9) (a : \ud835\udd5c) : EuclideanSpace \ud835\udd5c \u03b9",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The vector given in Euclidean space by being `a : \ud835\udd5c` at coordinate `i : \u03b9` and `0 : \ud835\udd5c` at\nall other coordinates. "
+    },
+    {
+      "name": "EuclideanSpace.norm_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a : \ud835\udd5c) : \u2016EuclideanSpace.single i a\u2016 = \u2016a\u2016",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.basisFun",
+      "type": " (\u03b9 : Type u_1) (\ud835\udd5c : Type u_3) [RCLike \ud835\udd5c] [Fintype \u03b9] : OrthonormalBasis \u03b9 \ud835\udd5c (EuclideanSpace \ud835\udd5c \u03b9)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The basis `Pi.basisFun`, bundled as an orthonormal basis of `EuclideanSpace \ud835\udd5c \u03b9`. "
+    },
+    {
+      "name": "OrthonormalBasis.instInhabited",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [Fintype \u03b9] : Inhabited (OrthonormalBasis \u03b9 \ud835\udd5c (EuclideanSpace \ud835\udd5c \u03b9))",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.dist_single_same",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a b : \ud835\udd5c) : dist (EuclideanSpace.single i a) (EuclideanSpace.single i b) = dist a b",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.nndist_single_same",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a b : \ud835\udd5c) : nndist (EuclideanSpace.single i a) (EuclideanSpace.single i b) = nndist a b",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.nnnorm_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a : \ud835\udd5c) : \u2016EuclideanSpace.single i a\u2016\u208a = \u2016a\u2016\u208a",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.real_norm_sq_eq",
+      "type": " {n : Type u_7} [Fintype n] (x : EuclideanSpace \u211d n) : \u2016x\u2016 ^ 2 = \u2211 i, x.ofLp i ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.norm_eq",
+      "type": " {\ud835\udd5c : Type u_7} [RCLike \ud835\udd5c] {n : Type u_8} [Fintype n] (x : EuclideanSpace \ud835\udd5c n) : \u2016x\u2016 = \u221a(\u2211 i, \u2016x.ofLp i\u2016 ^ 2)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.orthonormal_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] : Orthonormal \ud835\udd5c fun i => EuclideanSpace.single i 1",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "`EuclideanSpace.single` forms an orthonormal family. "
+    },
+    {
+      "name": "EuclideanSpace",
+      "type": " (\ud835\udd5c : Type u_7) (n : Type u_8) : Type (max u_7 u_8)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The standard real/complex Euclidean space, functions on a finite type. For an `n`-dimensional\nspace use `EuclideanSpace \ud835\udd5c (Fin n)`.\n\nFor the case when `n = Fin _`, there is `!\u2082[x, y, ...]` notation for building elements of this type,\nanalogous to `![x, y, ...]` notation. "
+    }
+  ],
+  "trace": [
+    "search: '\"inner\"' -> LieDerivation.inner, LieDerivation.inner_apply_apply, MeasureTheory.Measure.InnerRegular, MeasureTheory.Measure.InnerRegularCompactLTTop, MeasureTheory.Measure.InnerRegularWRT",
+    "search: '\"InnerProductSpace\"' -> ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb, InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb, RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb, InnerProductSpace.toInner, PUnit.instInnerProductSpace, InnerProductSpace.toNormedSpace, PreInnerProductSpace.toCore, InnerProductSpace.Core.normSq",
+    "search: '\"Inner\"' -> LieDerivation.inner, LieDerivation.inner_apply_apply, MeasureTheory.Measure.InnerRegular, MeasureTheory.Measure.InnerRegularCompactLTTop, MeasureTheory.Measure.InnerRegularWRT",
+    "search: '\"Inner\"' -> LieDerivation.inner, LieDerivation.inner_apply_apply, MeasureTheory.Measure.InnerRegular, MeasureTheory.Measure.InnerRegularCompactLTTop, MeasureTheory.Measure.InnerRegularWRT",
+    "search: '\"\u27ea\"' -> AlgebraicGeometry.\u00abterm_|_\u2097_\u27ea_\u27eb\u00bb, ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb, InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb, RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb, RCLike.\u00abterm\u27ea_,_\u27eb_[_,_]\u00bb, RCLike.\u00abterm\u27ea_,_\u27eb_[_]\u00bb, RCLike.\u00abterm\u27ea_,_\u27eb\u2099_[_]\u00bb",
+    "search: '\"\u27ea_, _\u27eb\"' -> nothing",
+    "search: '\"\u27ea_, _\u27eb\"' -> nothing; goal shape -> EuclideanSpace.infinite, EuclideanSpace.single, EuclideanSpace.norm_single, EuclideanSpace.basisFun, OrthonormalBasis.instInhabited, EuclideanSpace.dist_single_same, EuclideanSpace.nndist_single_same, EuclideanSpace.nnnorm_single"
+  ],
+  "budget": {
+    "tool_calls": 11,
+    "lean_calls": 3,
+    "searches": 7,
+    "symbolic_calls": 0,
+    "searches_since_compile": 3,
+    "grace": 3,
+    "started": 1788850771.391683,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 2
+  },
+  "goal": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner x y = (0 : \u211d)"
+}

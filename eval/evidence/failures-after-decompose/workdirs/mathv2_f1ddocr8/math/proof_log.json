@@ -1,0 +1,835 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_19\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016)\n  : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788851176.9121475,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_19\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016)\n  : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Filter.principal\n    | exact Filter.principal _\n    | apply Filter.principal\n    | simpa using Filter.principal\n    | exact \u27e8_, Filter.principal\u27e9\n    | exact Filter.principal (by assumption)\n    | exact Filter.principal \u2039_\u203a\n    | apply Filter.principal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.principal (by assumption))\n    | exact Filter.join\n    | exact Filter.join _\n    | apply Filter.join\n    | simpa using Filter.join\n    | exact \u27e8_, Filter.join\u27e9\n    | exact Filter.join (by assumption)\n    | exact Filter.join \u2039_\u203a\n    | apply Filter.join <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.join (by assumption))\n    | exact Filter.sInf\n    | exact Filter.sInf _\n    | apply Filter.sInf\n    | simpa using Filter.sInf\n    | exact \u27e8_, Filter.sInf\u27e9\n    | exact Filter.sInf (by assumption)\n    | exact Filter.sInf \u2039_\u203a\n    | apply Filter.sInf <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.sInf (by assumption))\n    | exact Filter.comap\n    | exact Filter.comap _\n    | apply Filter.comap\n    | simpa using Filter.comap\n    | exact \u27e8_, Filter.comap\u27e9\n    | exact Filter.comap (by assumption)\n    | exact Filter.comap \u2039_\u203a\n    | apply Filter.comap <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.comap (by assumption))\n    | exact Filter.map\n    | exact Filter.map _\n    | apply Filter.map\n    | simpa using Filter.map\n    | exact \u27e8_, Filter.map\u27e9\n    | exact Filter.map (by assumption)\n    | exact Filter.map \u2039_\u203a\n    | apply Filter.map <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.map (by assumption))\n    | exact Filter.bind\n    | exact Filter.bind _\n    | apply Filter.bind\n    | simpa using Filter.bind\n    | exact \u27e8_, Filter.bind\u27e9\n    | exact Filter.bind (by assumption)\n    | exact Filter.bind \u2039_\u203a\n    | apply Filter.bind <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.bind (by assumption))\n    | exact Filter.seq\n    | exact Filter.seq _\n    | apply Filter.seq\n    | simpa using Filter.seq\n    | exact \u27e8_, Filter.seq\u27e9\n    | exact Filter.seq (by assumption)\n    | exact Filter.seq \u2039_\u203a\n    | apply Filter.seq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.seq (by assumption))\n    | exact Filter.coprod\n    | exact Filter.coprod _\n    | apply Filter.coprod\n    | simpa using Filter.coprod\n    | exact \u27e8_, Filter.coprod\u27e9\n    | exact Filter.coprod (by assumption)\n    | exact Filter.coprod \u2039_\u203a\n    | apply Filter.coprod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.coprod (by assumption))\n    | exact Filter.curry\n    | exact Filter.curry _\n    | apply Filter.curry\n    | simpa using Filter.curry\n    | exact \u27e8_, Filter.curry\u27e9\n    | exact Filter.curry (by assumption)\n    | exact Filter.curry \u2039_\u203a\n    | apply Filter.curry <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.curry (by assumption))\n    | exact Filter.lift\n    | exact Filter.lift _\n    | apply Filter.lift\n    | simpa using Filter.lift\n    | exact \u27e8_, Filter.lift\u27e9\n    | exact Filter.lift (by assumption)\n    | exact Filter.lift \u2039_\u203a\n    | apply Filter.lift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift (by assumption))\n    | exact Filter.lift'\n    | exact Filter.lift' _\n    | apply Filter.lift'\n    | simpa using Filter.lift'\n    | exact \u27e8_, Filter.lift'\u27e9\n    | exact Filter.lift' (by assumption)\n    | exact Filter.lift' \u2039_\u203a\n    | apply Filter.lift' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift' (by assumption))\n    | exact Filter.pi\n    | exact Filter.pi _\n    | apply Filter.pi\n    | simpa using Filter.pi\n    | exact \u27e8_, Filter.pi\u27e9\n    | exact Filter.pi (by assumption)\n    | exact Filter.pi \u2039_\u203a\n    | apply Filter.pi <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.pi (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n11:43: error: unsolved goals\nn : \u2115\na b c x : EuclideanSpace \u211d (Fin n)\nr : \u211d\nh\u2081 : r > 0\nh\u2082 : 3 \u2022 c = 4 \u2022 b - a\nh\u2083 : 3 * r = 2 * \u2016x - b\u2016\n\u22a2 \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r\n\nStill to prove:\n\u22a2 \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "at": 1788851222.3443441,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_19\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016b - a\u2016)\n  : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788851228.5792892,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_19\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016b - a\u2016)\n  : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "proof": "by trivial",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n8:46: error: Tactic `assumption` failed\n\nn : \u2115\na b c x : EuclideanSpace \u211d (Fin n)\nr : \u211d\nh\u2081 : r > 0\nh\u2082 : 3 \u2022 c = 4 \u2022 b - a\nh\u2083 : 3 * r = 2 * \u2016b - a\u2016\n\u22a2 \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r\n\nStill to prove:\n\u22a2 \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "at": 1788851263.53914,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_19\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016b - a\u2016)\n  : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "proof": "by trivial",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n11:46: error: Tactic `assumption` failed\n\nn : \u2115\na b c x : EuclideanSpace \u211d (Fin n)\nr : \u211d\nh\u2081 : r > 0\nh\u2082 : 3 \u2022 c = 4 \u2022 b - a\nh\u2083 : 3 * r = 2 * \u2016b - a\u2016\n\u22a2 \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r\n\nStill to prove:\n\u22a2 \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "at": 1788851266.8546376,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma norm_eq_iff_sq_eq {n : \u2115} (a b x : EuclideanSpace \u211d (Fin n)) : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - a\u2016 ^ 2 = (2 * \u2016x - b\u2016) ^ 2",
+      "proof": "by\n  have h_nonneg1 : 0 \u2264 \u2016x - a\u2016 := norm_nonneg _\n  have h_nonneg2 : 0 \u2264 2 * \u2016x - b\u2016 := mul_nonneg (by linarith) (norm_nonneg _)\n  exact (sq_eq_sq\u2080 h_nonneg1 h_nonneg2).symm",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma norm_eq_iff_sq_eq {n : \u2115} (a b x : EuclideanSpace \u211d (Fin n)) : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - a\u2016 ^ 2 = (2 * \u2016x - b\u2016) ^ 2",
+      "at": 1788851282.9886708,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma norm_eq_r_iff_sq_eq {n : \u2115} (c x : EuclideanSpace \u211d (Fin n)) (r : \u211d) (hr : r > 0) : \u2016x - c\u2016 = r \u2194 \u2016x - c\u2016 ^ 2 = r ^ 2",
+      "proof": "by\n  have h_nonneg1 : 0 \u2264 \u2016x - c\u2016 := norm_nonneg _\n  have h_nonneg2 : 0 \u2264 r := le_of_lt hr\n  exact (sq_eq_sq\u2080 h_nonneg1 h_nonneg2).symm",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma norm_eq_r_iff_sq_eq {n : \u2115} (c x : EuclideanSpace \u211d (Fin n)) (r : \u211d) (hr : r > 0) : \u2016x - c\u2016 = r \u2194 \u2016x - c\u2016 ^ 2 = r ^ 2",
+      "at": 1788851285.520346,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma norm_sub_sq_eq_inner {n : \u2115} (u v : EuclideanSpace \u211d (Fin n)) : \u2016u - v\u2016 ^ 2 = inner \u211d u u - 2 * inner \u211d u v + inner \u211d v v",
+      "proof": "by\n  rw [\u2190 real_inner_self_eq_norm_sq]\n  rw [inner_sub_left, inner_sub_right, inner_sub_right]\n  have h_comm : inner \u211d v u = inner \u211d u v := inner_comm u v\n  linarith",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n14:45: error: Unknown identifier `inner_comm`",
+      "at": 1788851303.7186847,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma norm_sub_sq_eq_inner {n : \u2115} (u v : EuclideanSpace \u211d (Fin n)) : \u2016u - v\u2016 ^ 2 = inner \u211d u u - 2 * inner \u211d u v + inner \u211d v v",
+      "proof": "by\n  rw [\u2190 real_inner_self_eq_norm_sq]\n  rw [inner_sub_left, inner_sub_right, inner_sub_right]\n  have h_comm : inner \u211d v u = inner \u211d u v := real_inner_comm v u\n  linarith",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n14:45: error: Type mismatch\n  real_inner_comm v u\nhas type\n  inner \u211d u v = inner \u211d v u\nbut is expected to have type\n  inner \u211d v u = inner \u211d u v",
+      "at": 1788851313.6413097,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma norm_sub_sq_eq_inner {n : \u2115} (u v : EuclideanSpace \u211d (Fin n)) : \u2016u - v\u2016 ^ 2 = inner \u211d u u - 2 * inner \u211d u v + inner \u211d v v",
+      "proof": "by\n  rw [\u2190 real_inner_self_eq_norm_sq]\n  rw [inner_sub_left, inner_sub_right, inner_sub_right]\n  have h_comm : inner \u211d v u = inner \u211d u v := real_inner_comm u v\n  linarith",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma norm_sub_sq_eq_inner {n : \u2115} (u v : EuclideanSpace \u211d (Fin n)) : \u2016u - v\u2016 ^ 2 = inner \u211d u u - 2 * inner \u211d u v + inner \u211d v v",
+      "at": 1788851315.852586,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma inner_c_relation {n : \u2115} (a b c x : EuclideanSpace \u211d (Fin n)) (h\u2082 : 3 \u2022 c = 4 \u2022 b - a) : 3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a",
+      "proof": "by\n  have h_eq : inner \u211d x (3 \u2022 c) = inner \u211d x (4 \u2022 b - a) := by rw [h\u2082]\n  rw [real_inner_smul_right] at h_eq\n  rw [inner_sub_right, real_inner_smul_right] at h_eq\n  exact h_eq",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n19:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  inner \u211d ?x (?r \u2022 ?y)\nin the target expression\n  inner \u211d x (3 \u2022 c) = inner \u211d x (4 \u2022 b - a)\n\nn : \u2115\na b c x : EuclideanSpace \u211d (Fin n)\nh\u2082 : 3 \u2022 c = 4 \u2022 b - a\nh_eq : inner \u211d x (3 \u2022 c) = inner \u211d x (4 \u2022 b - a)\n\u22a2 3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a\n\nStill to prove:\n\u22a2 3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a",
+      "at": 1788851323.0703297,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "lemma inner_c_relation {n : \u2115} (a b c x : EuclideanSpace \u211d (Fin n)) (h\u2082 : 3 \u2022 c = 4 \u2022 b - a) : 3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Filter.principal\n    | exact Filter.principal _\n    | apply Filter.principal\n    | simpa using Filter.principal\n    | exact \u27e8_, Filter.principal\u27e9\n    | exact Filter.principal (by assumption)\n    | exact Filter.principal \u2039_\u203a\n    | apply Filter.principal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.principal (by assumption))\n    | exact Filter.join\n    | exact Filter.join _\n    | apply Filter.join\n    | simpa using Filter.join\n    | exact \u27e8_, Filter.join\u27e9\n    | exact Filter.join (by assumption)\n    | exact Filter.join \u2039_\u203a\n    | apply Filter.join <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.join (by assumption))\n    | exact Filter.sInf\n    | exact Filter.sInf _\n    | apply Filter.sInf\n    | simpa using Filter.sInf\n    | exact \u27e8_, Filter.sInf\u27e9\n    | exact Filter.sInf (by assumption)\n    | exact Filter.sInf \u2039_\u203a\n    | apply Filter.sInf <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.sInf (by assumption))\n    | exact Filter.comap\n    | exact Filter.comap _\n    | apply Filter.comap\n    | simpa using Filter.comap\n    | exact \u27e8_, Filter.comap\u27e9\n    | exact Filter.comap (by assumption)\n    | exact Filter.comap \u2039_\u203a\n    | apply Filter.comap <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.comap (by assumption))\n    | exact Filter.map\n    | exact Filter.map _\n    | apply Filter.map\n    | simpa using Filter.map\n    | exact \u27e8_, Filter.map\u27e9\n    | exact Filter.map (by assumption)\n    | exact Filter.map \u2039_\u203a\n    | apply Filter.map <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.map (by assumption))\n    | exact Filter.bind\n    | exact Filter.bind _\n    | apply Filter.bind\n    | simpa using Filter.bind\n    | exact \u27e8_, Filter.bind\u27e9\n    | exact Filter.bind (by assumption)\n    | exact Filter.bind \u2039_\u203a\n    | apply Filter.bind <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.bind (by assumption))\n    | exact Filter.seq\n    | exact Filter.seq _\n    | apply Filter.seq\n    | simpa using Filter.seq\n    | exact \u27e8_, Filter.seq\u27e9\n    | exact Filter.seq (by assumption)\n    | exact Filter.seq \u2039_\u203a\n    | apply Filter.seq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.seq (by assumption))\n    | exact Filter.coprod\n    | exact Filter.coprod _\n    | apply Filter.coprod\n    | simpa using Filter.coprod\n    | exact \u27e8_, Filter.coprod\u27e9\n    | exact Filter.coprod (by assumption)\n    | exact Filter.coprod \u2039_\u203a\n    | apply Filter.coprod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.coprod (by assumption))\n    | exact Filter.curry\n    | exact Filter.curry _\n    | apply Filter.curry\n    | simpa using Filter.curry\n    | exact \u27e8_, Filter.curry\u27e9\n    | exact Filter.curry (by assumption)\n    | exact Filter.curry \u2039_\u203a\n    | apply Filter.curry <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.curry (by assumption))\n    | exact Filter.lift\n    | exact Filter.lift _\n    | apply Filter.lift\n    | simpa using Filter.lift\n    | exact \u27e8_, Filter.lift\u27e9\n    | exact Filter.lift (by assumption)\n    | exact Filter.lift \u2039_\u203a\n    | apply Filter.lift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift (by assumption))\n    | exact Filter.lift'\n    | exact Filter.lift' _\n    | apply Filter.lift'\n    | simpa using Filter.lift'\n    | exact \u27e8_, Filter.lift'\u27e9\n    | exact Filter.lift' (by assumption)\n    | exact Filter.lift' \u2039_\u203a\n    | apply Filter.lift' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift' (by assumption))\n    | exact Filter.pi\n    | exact Filter.pi _\n    | apply Filter.pi\n    | simpa using Filter.pi\n    | exact \u27e8_, Filter.pi\u27e9\n    | exact Filter.pi (by assumption)\n    | exact Filter.pi \u2039_\u203a\n    | apply Filter.pi <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.pi (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n17:138: error: unsolved goals\nn : \u2115\na b c x : EuclideanSpace \u211d (Fin n)\nh\u2082 : 3 \u2022 c = 4 \u2022 b - a\n\u22a2 3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a\n\nStill to prove:\n\u22a2 3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a",
+      "at": 1788851333.3343894,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma inner_smul_three {n : \u2115} (x c : EuclideanSpace \u211d (Fin n)) : inner \u211d x ((3 : \u211d) \u2022 c) = 3 * inner \u211d x c",
+      "proof": "by\n  rw [real_inner_smul_right]",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma inner_smul_three {n : \u2115} (x c : EuclideanSpace \u211d (Fin n)) : inner \u211d x ((3 : \u211d) \u2022 c) = 3 * inner \u211d x c",
+      "at": 1788851353.1260986,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma inner_c_relation {n : \u2115} (a b c x : EuclideanSpace \u211d (Fin n)) (h\u2082 : 3 \u2022 c = 4 \u2022 b - a) : 3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a",
+      "proof": "by\n  have h_eq : inner \u211d x (3 \u2022 c) = inner \u211d x (4 \u2022 b - a) := by rw [h\u2082]\n  rw [inner_sub_right] at h_eq\n  rw [real_inner_smul_right x c 3] at h_eq\n  rw [real_inner_smul_right x b 4] at h_eq\n  exact h_eq",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n23:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  inner \u211d x (3 \u2022 c)\nin the target expression\n  inner \u211d x (3 \u2022 c) = inner \u211d x (4 \u2022 b) - inner \u211d x a\n\nn : \u2115\na b c x : EuclideanSpace \u211d (Fin n)\nh\u2082 : 3 \u2022 c = 4 \u2022 b - a\nh_eq : inner \u211d x (3 \u2022 c) = inner \u211d x (4 \u2022 b) - inner \u211d x a\n\u22a2 3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a\n\nStill to prove:\n\u22a2 3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a",
+      "at": 1788851359.1682591,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma inner_c_relation {n : \u2115} (a b c x : EuclideanSpace \u211d (Fin n)) (h\u2082 : 3 \u2022 c = 4 \u2022 b - a) : 3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a",
+      "proof": "by\n  have h_eq : inner \u211d x (3 \u2022 c) = inner \u211d x (4 \u2022 b - a) := by rw [h\u2082]\n  rw [inner_sub_right] at h_eq\n  simp only [real_inner_smul_right] at h_eq\n  exact h_eq",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n23:2: error: `simp` made no progress",
+      "at": 1788851369.9948413,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma norm_eq_iff_sq_eq {n : \u2115} (a b x : EuclideanSpace \u211d (Fin n)) : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - a\u2016 ^ 2 = (2 * \u2016x - b\u2016) ^ 2 := by\n  have h_nonneg1 : 0 \u2264 \u2016x - a\u2016 := norm_nonneg _\n  have h_nonneg2 : 0 \u2264 2 * \u2016x - b\u2016 := mul_nonneg (by linarith) (norm_nonneg _)\n  exact (sq_eq_sq\u2080 h_nonneg1 h_nonneg2).symm",
+    "lemma norm_eq_r_iff_sq_eq {n : \u2115} (c x : EuclideanSpace \u211d (Fin n)) (r : \u211d) (hr : r > 0) : \u2016x - c\u2016 = r \u2194 \u2016x - c\u2016 ^ 2 = r ^ 2 := by\n  have h_nonneg1 : 0 \u2264 \u2016x - c\u2016 := norm_nonneg _\n  have h_nonneg2 : 0 \u2264 r := le_of_lt hr\n  exact (sq_eq_sq\u2080 h_nonneg1 h_nonneg2).symm",
+    "lemma norm_sub_sq_eq_inner {n : \u2115} (u v : EuclideanSpace \u211d (Fin n)) : \u2016u - v\u2016 ^ 2 = inner \u211d u u - 2 * inner \u211d u v + inner \u211d v v := by\n  rw [\u2190 real_inner_self_eq_norm_sq]\n  rw [inner_sub_left, inner_sub_right, inner_sub_right]\n  have h_comm : inner \u211d v u = inner \u211d u v := real_inner_comm u v\n  linarith",
+    "lemma inner_smul_three {n : \u2115} (x c : EuclideanSpace \u211d (Fin n)) : inner \u211d x ((3 : \u211d) \u2022 c) = 3 * inner \u211d x c := by\n  rw [real_inner_smul_right]"
+  ],
+  "premises": [
+    {
+      "name": "Filter.principal",
+      "type": " {\u03b1 : Type u_1} (s : Set \u03b1) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The principal filter of `s` is the collection of all supersets of `s`. "
+    },
+    {
+      "name": "Filter.join",
+      "type": " {\u03b1 : Type u_1} (f : Filter (Filter \u03b1)) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The join of a filter of filters is defined by the relation `s \u2208 join f \u2194 {t | s \u2208 t} \u2208 f`. "
+    },
+    {
+      "name": "Filter.sInf",
+      "type": " {\u03b1 : Type u_1} (s : Set (Filter \u03b1)) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "Infimum of a set of filters.\nThis definition is marked as irreducible\nso that Lean doesn't try to unfold it when unifying expressions. "
+    },
+    {
+      "name": "Filter.comap",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (m : \u03b1 \u2192 \u03b2) (f : Filter \u03b2) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The inverse map of a filter. A set `s` belongs to `Filter.comap m f` if either of the following\nequivalent conditions hold.\n\n1. There exists a set `t \u2208 f` such that `m \u207b\u00b9' t \u2286 s`. This is used as a definition.\n2. The set `kernImage m s = {y | \u2200 x, m x = y \u2192 x \u2208 s}` belongs to `f`, see `Filter.mem_comap'`.\n3. The set `(m '' s\u1d9c)\u1d9c` belongs to `f`, see `Filter.mem_comap_iff_compl` and\n   `Filter.compl_mem_comap`.\n"
+    },
+    {
+      "name": "Filter.map",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (m : \u03b1 \u2192 \u03b2) (f : Filter \u03b1) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The forward map of a filter "
+    },
+    {
+      "name": "Filter.bind",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (m : \u03b1 \u2192 Filter \u03b2) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The monadic bind operation on filter is defined the usual way in terms of `map` and `join`.\n\nUnfortunately, this `bind` does not result in the expected applicative. See `Filter.seq` for the\napplicative instance. "
+    },
+    {
+      "name": "Filter.seq",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter (\u03b1 \u2192 \u03b2)) (g : Filter \u03b1) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The applicative sequentiation operation. This is not induced by the bind operation. "
+    },
+    {
+      "name": "Filter.coprod",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (g : Filter \u03b2) : Filter (\u03b1 \u00d7 \u03b2)",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "Coproduct of filters. "
+    },
+    {
+      "name": "Filter.curry",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (g : Filter \u03b2) : Filter (\u03b1 \u00d7 \u03b2)",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "This filter is characterized by `Filter.eventually_curry_iff`:\n`(\u2200\u1da0 (x : \u03b1 \u00d7 \u03b2) in f.curry g, p x) \u2194 \u2200\u1da0 (x : \u03b1) in f, \u2200\u1da0 (y : \u03b2) in g, p (x, y)`. Useful\nin adding quantifiers to the middle of `Tendsto`s. See\n`hasFDerivAt_of_tendstoUniformlyOnFilter`. "
+    },
+    {
+      "name": "Filter.lift",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (g : Set \u03b1 \u2192 Filter \u03b2) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "A variant on `bind` using a function `g` taking a set instead of a member of `\u03b1`.\nThis is essentially a push-forward along a function mapping each set to a filter. "
+    },
+    {
+      "name": "Filter.lift'",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (h : Set \u03b1 \u2192 Set \u03b2) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "Specialize `lift` to functions `Set \u03b1 \u2192 Set \u03b2`. This can be viewed as a generalization of `map`.\nThis is essentially a push-forward along a function mapping each set to a set. "
+    },
+    {
+      "name": "Filter.pi",
+      "type": " {\u03b9 : Type u_3} {\u03b1 : \u03b9 \u2192 Type u_4} (f : (i : \u03b9) \u2192 Filter (\u03b1 i)) : Filter ((i : \u03b9) \u2192 \u03b1 i)",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The product of an indexed family of filters. "
+    },
+    {
+      "name": "TopologicalSpace.mk",
+      "type": " {X : Type u} (IsOpen : Set X \u2192 Prop) (isOpen_univ : IsOpen Set.univ) (isOpen_inter : \u2200 (s t : Set X), IsOpen s \u2192 IsOpen t \u2192 IsOpen (s \u2229 t)) (isOpen_sUnion : \u2200 (s : Set (Set X)), (\u2200 t \u2208 s, IsOpen t) \u2192 IsOpen (\u22c3\u2080 s)) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.ofClosed",
+      "type": " {X : Type u} (T : Set (Set X)) (empty_mem : \u2205 \u2208 T) (sInter_mem : \u2200 A \u2286 T, \u22c2\u2080 A \u2208 T) (union_mem : \u2200 A \u2208 T, \u2200 B \u2208 T, A \u222a B \u2208 T) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Basic",
+      "doc": "A constructor for topologies by specifying the closed sets,\nand showing that they satisfy the appropriate conditions. "
+    },
+    {
+      "name": "WithTopology.instTopologicalSpace",
+      "type": " (X : Type u_1) (t : TopologicalSpace X) : TopologicalSpace (WithTopology X t)",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.coinduced",
+      "type": " {X : Type u_1} {Y : Type u_2} (f : X \u2192 Y) (t : TopologicalSpace X) : TopologicalSpace Y",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "Given `f : X \u2192 Y` and a topology on `X`,\nthe coinduced topology on `Y` is defined such that\n`s : Set Y` is open if the preimage of `s` is open.\nThis is the finest topology that makes `f` continuous. "
+    },
+    {
+      "name": "TopologicalSpace.induced",
+      "type": " {X : Type u_1} {Y : Type u_2} (f : X \u2192 Y) (t : TopologicalSpace Y) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "Given `f : X \u2192 Y` and a topology on `Y`,\nthe induced topology on `X` is the collection of sets\nthat are preimages of some open set in `Y`.\nThis is the coarsest topology that makes `f` continuous. "
+    },
+    {
+      "name": "instTopologicalSpaceSubtype",
+      "type": " {X : Type u_1} {p : X \u2192 Prop} [t : TopologicalSpace X] : TopologicalSpace (Subtype p)",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceBool",
+      "type": " : TopologicalSpace Bool",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceEmpty",
+      "type": " : TopologicalSpace Empty",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceInt",
+      "type": " : TopologicalSpace \u2124",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceNat",
+      "type": " : TopologicalSpace \u2115",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpacePEmpty",
+      "type": " : TopologicalSpace PEmpty.{u_1 + 1}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpacePUnit",
+      "type": " : TopologicalSpace PUnit.{u_1 + 1}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "zero_lt_one_add_norm_sq",
+      "type": " {E : Type u_4} [SeminormedAddGroup E] (x : E) : 0 < 1 + \u2016x\u2016 ^ 2",
+      "module": "Mathlib.Analysis.Normed.Group.Basic",
+      "doc": ""
+    },
+    {
+      "name": "zero_lt_one_add_norm_sq'",
+      "type": " {E : Type u_4} [SeminormedGroup E] (x : E) : 0 < 1 + \u2016x\u2016 ^ 2",
+      "module": "Mathlib.Analysis.Normed.Group.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Complex.normSq_eq_norm_sq",
+      "type": " (z : \u2102) : Complex.normSq z = \u2016z\u2016 ^ 2",
+      "module": "Mathlib.Analysis.Complex.Norm",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.norm_sq_re_add_conj",
+      "type": " {K : Type u_1} [RCLike K] (x : K) : \u2016x + (starRingEnd K) x\u2016 ^ 2 = RCLike.re (x + (starRingEnd K) x) ^ 2",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.norm_sq_re_conj_add",
+      "type": " {K : Type u_1} [RCLike K] (x : K) : \u2016(starRingEnd K) x + x\u2016 ^ 2 = RCLike.re ((starRingEnd K) x + x) ^ 2",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.norm_sq_eq_def",
+      "type": " {K : Type u_1} [RCLike K] {z : K} : \u2016z\u2016 ^ 2 = RCLike.re z * RCLike.re z + RCLike.im z * RCLike.im z",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.norm_sq_eq_def_ax",
+      "type": " {K : semiOutParam (Type u_1)} [self : RCLike K] (z : K) : \u2016z\u2016 ^ 2 = RCLike.re z * RCLike.re z + RCLike.im z * RCLike.im z",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.norm_sq_eq_re_inner",
+      "type": " {\ud835\udd5c : Type u_4} {E : Type u_5} {inst\u271d : RCLike \ud835\udd5c} {inst\u271d\u00b9 : SeminormedAddCommGroup E} [self : InnerProductSpace \ud835\udd5c E] (x : E) : \u2016x\u2016 ^ 2 = RCLike.re (inner \ud835\udd5c x x)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The inner product induces the norm. "
+    },
+    {
+      "name": "real_inner_self_eq_norm_sq",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] (x : F) : inner \u211d x x = \u2016x\u2016 ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "inner_self_eq_norm_sq_to_K",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] (x : E) : inner \ud835\udd5c x x = \u2191\u2016x\u2016 ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "inner_eq_norm_sq_left_iff",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] {v w : F} : inner \u211d v w = \u2016v\u2016 ^ 2 \u2194 inner \u211d v (v - w) = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "inner_eq_norm_sq_right_iff",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] {v w : F} : inner \u211d v w = \u2016w\u2016 ^ 2 \u2194 inner \u211d (v - w) w = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "FreeAddGroup.norm_eq_zero",
+      "type": " {\u03b1 : Type u_1} [DecidableEq \u03b1] {x : FreeAddGroup \u03b1} : x.norm = 0 \u2194 x = 0",
+      "module": "Mathlib.GroupTheory.FreeGroup.Reduce",
+      "doc": ""
+    },
+    {
+      "name": "eq_or_eq_neg_of_sq_eq_sq",
+      "type": " {R : Type u} [CommRing R] [NoZeroDivisors R] (a b : R) : a ^ 2 = b ^ 2 \u2192 a = b \u2228 a = -b",
+      "module": "Mathlib.Algebra.Ring.Commute",
+      "doc": ""
+    },
+    {
+      "name": "sq_eq_sq_iff_eq_or_eq_neg",
+      "type": " {R : Type u} [CommRing R] [NoZeroDivisors R] {a b : R} : a ^ 2 = b ^ 2 \u2194 a = b \u2228 a = -b",
+      "module": "Mathlib.Algebra.Ring.Commute",
+      "doc": ""
+    },
+    {
+      "name": "Commute.sq_eq_sq_iff_eq_or_eq_neg",
+      "type": " {R : Type u} [Ring R] {a b : R} [NoZeroDivisors R] (h : Commute a b) : a ^ 2 = b ^ 2 \u2194 a = b \u2228 a = -b",
+      "module": "Mathlib.Algebra.Ring.Commute",
+      "doc": ""
+    },
+    {
+      "name": "Units.eq_or_eq_neg_of_sq_eq_sq",
+      "type": " {R : Type u} [CommRing R] [NoZeroDivisors R] (a b : R\u02e3) (h : a ^ 2 = b ^ 2) : a = b \u2228 a = -b",
+      "module": "Mathlib.Algebra.Ring.Commute",
+      "doc": ""
+    },
+    {
+      "name": "Units.sq_eq_sq_iff_eq_or_eq_neg",
+      "type": " {R : Type u} [CommRing R] [NoZeroDivisors R] {a b : R\u02e3} : a ^ 2 = b ^ 2 \u2194 a = b \u2228 a = -b",
+      "module": "Mathlib.Algebra.Ring.Commute",
+      "doc": ""
+    },
+    {
+      "name": "sq_eq_sq\u2080",
+      "type": " {M\u2080 : Type u_2} [MonoidWithZero M\u2080] [LinearOrder M\u2080] [PosMulStrictMono M\u2080] {a b : M\u2080} [MulPosMono M\u2080] (ha : 0 \u2264 a) (hb : 0 \u2264 b) : a ^ 2 = b ^ 2 \u2194 a = b",
+      "module": "Mathlib.Algebra.Order.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "sq_eq_sq_iff_abs_eq_abs",
+      "type": " {\u03b1 : Type u_1} [Ring \u03b1] [LinearOrder \u03b1] [IsStrictOrderedRing \u03b1] (a b : \u03b1) : a ^ 2 = b ^ 2 \u2194 |a| = |b|",
+      "module": "Mathlib.Algebra.Order.Ring.Abs",
+      "doc": ""
+    },
+    {
+      "name": "CFC.sq_eq_sq_iff",
+      "type": " {A : Type u_1} [PartialOrder A] [Ring A] [StarRing A] [TopologicalSpace A] [StarOrderedRing A] [Algebra \u211d A] [ContinuousFunctionalCalculus \u211d A IsSelfAdjoint] [NonnegSpectrumClass \u211d A] [IsSemitopologicalRing A] [T2Space A] (a b : A) (ha : 0 \u2264 a := by cfc_tac) (hb : 0 \u2264 b := by cfc_tac) : a ^ 2 = b ^ 2 \u2194 a = b",
+      "module": "Mathlib.Analysis.SpecialFunctions.ContinuousFunctionalCalculus.Rpow.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.mulExpNegMulSq_eq_sqrt_mul_mulExpNegMulSq_one",
+      "type": " {\u03b5 : \u211d} (h\u03b5 : 0 < \u03b5) (x : \u211d) : \u03b5.mulExpNegMulSq x = (\u221a\u03b5)\u207b\u00b9 * Real.mulExpNegMulSq 1 (\u221a\u03b5 * x)",
+      "module": "Mathlib.Analysis.SpecialFunctions.MulExpNegMulSq",
+      "doc": ""
+    },
+    {
+      "name": "Affine.Simplex.dist_circumcenter_sq_eq_sq_sub_circumradius",
+      "type": " {V : Type u_1} {P : Type u_2} [NormedAddCommGroup V] [InnerProductSpace \u211d V] [MetricSpace P] [NormedAddTorsor V P] {n : \u2115} {r : \u211d} (s : Affine.Simplex \u211d P n) {p\u2081 : P} (h\u2081 : \u2200 (i : Fin (n + 1)), dist (s.points i) p\u2081 = r) (h\u2081' : \u2191(s.orthogonalProjectionSpan p\u2081) = s.circumcenter) : dist p\u2081 s.circumcenter * dist p\u2081 s.circumcenter = r * r - s.circumradius * s.circumradius",
+      "module": "Mathlib.Geometry.Euclidean.Circumcenter",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.infinite",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [Nonempty \u03b9] : Infinite (EuclideanSpace \ud835\udd5c \u03b9)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] (i : \u03b9) (a : \ud835\udd5c) : EuclideanSpace \ud835\udd5c \u03b9",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The vector given in Euclidean space by being `a : \ud835\udd5c` at coordinate `i : \u03b9` and `0 : \ud835\udd5c` at\nall other coordinates. "
+    },
+    {
+      "name": "EuclideanSpace.norm_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a : \ud835\udd5c) : \u2016EuclideanSpace.single i a\u2016 = \u2016a\u2016",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.basisFun",
+      "type": " (\u03b9 : Type u_1) (\ud835\udd5c : Type u_3) [RCLike \ud835\udd5c] [Fintype \u03b9] : OrthonormalBasis \u03b9 \ud835\udd5c (EuclideanSpace \ud835\udd5c \u03b9)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The basis `Pi.basisFun`, bundled as an orthonormal basis of `EuclideanSpace \ud835\udd5c \u03b9`. "
+    },
+    {
+      "name": "OrthonormalBasis.instInhabited",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [Fintype \u03b9] : Inhabited (OrthonormalBasis \u03b9 \ud835\udd5c (EuclideanSpace \ud835\udd5c \u03b9))",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.dist_single_same",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a b : \ud835\udd5c) : dist (EuclideanSpace.single i a) (EuclideanSpace.single i b) = dist a b",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.nndist_single_same",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a b : \ud835\udd5c) : nndist (EuclideanSpace.single i a) (EuclideanSpace.single i b) = nndist a b",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.nnnorm_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a : \ud835\udd5c) : \u2016EuclideanSpace.single i a\u2016\u208a = \u2016a\u2016\u208a",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.real_norm_sq_eq",
+      "type": " {n : Type u_7} [Fintype n] (x : EuclideanSpace \u211d n) : \u2016x\u2016 ^ 2 = \u2211 i, x.ofLp i ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.norm_eq",
+      "type": " {\ud835\udd5c : Type u_7} [RCLike \ud835\udd5c] {n : Type u_8} [Fintype n] (x : EuclideanSpace \ud835\udd5c n) : \u2016x\u2016 = \u221a(\u2211 i, \u2016x.ofLp i\u2016 ^ 2)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.orthonormal_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] : Orthonormal \ud835\udd5c fun i => EuclideanSpace.single i 1",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "`EuclideanSpace.single` forms an orthonormal family. "
+    },
+    {
+      "name": "EuclideanSpace",
+      "type": " (\ud835\udd5c : Type u_7) (n : Type u_8) : Type (max u_7 u_8)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The standard real/complex Euclidean space, functions on a finite type. For an `n`-dimensional\nspace use `EuclideanSpace \ud835\udd5c (Fin n)`.\n\nFor the case when `n = Fin _`, there is `!\u2082[x, y, ...]` notation for building elements of this type,\nanalogous to `![x, y, ...]` notation. "
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_sub_left",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x y z : F) : inner \ud835\udd5c (x - y) z = inner \ud835\udd5c x z - inner \ud835\udd5c y z",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "inner_sub_left",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] (x y z : E) : inner \ud835\udd5c (x - y) z = inner \ud835\udd5c x z - inner \ud835\udd5c y z",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CStarModule.inner_sub_left",
+      "type": " {A : Type u_1} {E : Type u_2} [NonUnitalRing A] [StarRing A] [AddCommGroup E] [Module \u2102 A] [Module \u2102 E] [PartialOrder A] [SMul A E] [Norm A] [Norm E] [CStarModule A E] [StarModule \u2102 A] {x y z : E} : inner A (x - y) z = inner A x z - inner A y z",
+      "module": "Mathlib.Analysis.CStarAlgebra.Module.Defs",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.wInner_sub_left",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} {E : \u03b9 \u2192 Type u_4} [Fintype \u03b9] [RCLike \ud835\udd5c] [(i : \u03b9) \u2192 SeminormedAddCommGroup (E i)] [(i : \u03b9) \u2192 InnerProductSpace \ud835\udd5c (E i)] (w : \u03b9 \u2192 \u211d) (f\u2081 f\u2082 g : (i : \u03b9) \u2192 E i) : \u27eaf\u2081 - f\u2082, g\u27eb_[\ud835\udd5c, w] = \u27eaf\u2081, g\u27eb_[\ud835\udd5c, w] - \u27eaf\u2082, g\u27eb_[\ud835\udd5c, w]",
+      "module": "Mathlib.Analysis.RCLike.Inner",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_smul_left",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x y : F) {r : \ud835\udd5c} : inner \ud835\udd5c (r \u2022 x) y = (starRingEnd \ud835\udd5c) r * inner \ud835\udd5c x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "real_inner_smul_left",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] (x y : F) (r : \u211d) : inner \u211d (r \u2022 x) y = r * inner \u211d x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "inner_smul_left",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] (x y : E) (r : \ud835\udd5c) : inner \ud835\udd5c (r \u2022 x) y = (starRingEnd \ud835\udd5c) r * inner \ud835\udd5c x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "See `inner_smul_left_eq_star_smul` for the case of a general algebra action. "
+    },
+    {
+      "name": "inner_eq_zero_iff_forall_re_inner_smul_left",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] {x y : E} : inner \ud835\udd5c x y = 0 \u2194 \u2200 (c : \ud835\udd5c), RCLike.re (inner \ud835\udd5c (c \u2022 x) y) = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "`\u27eax, y\u27eb = 0` if and only if `re \u27eac \u2022 x, y\u27eb = 0` for every `c : \ud835\udd5c` "
+    },
+    {
+      "name": "inner_smul_left_eq_smul",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] {\ud835\udd5d : Type u_4} [CommSemiring \ud835\udd5d] [StarRing \ud835\udd5d] [Algebra \ud835\udd5d \ud835\udd5c] [Module \ud835\udd5d E] [IsScalarTower \ud835\udd5d \ud835\udd5c E] [StarModule \ud835\udd5d \ud835\udd5c] [TrivialStar \ud835\udd5d] (x y : E) (r : \ud835\udd5d) : inner \ud835\udd5c (r \u2022 x) y = r \u2022 inner \ud835\udd5c x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "Special case of `inner_smul_left_eq_star_smul` when the acting ring has a trivial star\n(e.g. `\u2115`, `\u2124`, `\u211a\u22650`, `\u211a`, `\u211d`). "
+    },
+    {
+      "name": "inner_smul_left_eq_star_smul",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] {\ud835\udd5d : Type u_4} [CommSemiring \ud835\udd5d] [StarRing \ud835\udd5d] [Algebra \ud835\udd5d \ud835\udd5c] [Module \ud835\udd5d E] [IsScalarTower \ud835\udd5d \ud835\udd5c E] [StarModule \ud835\udd5d \ud835\udd5c] (x y : E) (r : \ud835\udd5d) : inner \ud835\udd5c (r \u2022 x) y = (starRingEnd \ud835\udd5d) r \u2022 inner \ud835\udd5c x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "See `inner_smul_left` for the common special when `\ud835\udd5c = \ud835\udd5d`. "
+    },
+    {
+      "name": "CStarModule.inner_smul_left_real",
+      "type": " {A : Type u_1} {E : Type u_2} [NonUnitalRing A] [StarRing A] [AddCommGroup E] [Module \u2102 A] [Module \u2102 E] [PartialOrder A] [SMul A E] [Norm A] [Norm E] [CStarModule A E] [StarModule \u2102 A] {z : \u211d} {x y : E} : inner A (z \u2022 x) y = z \u2022 inner A x y",
+      "module": "Mathlib.Analysis.CStarAlgebra.Module.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CStarModule.inner_smul_left_complex",
+      "type": " {A : Type u_1} {E : Type u_2} [NonUnitalRing A] [StarRing A] [AddCommGroup E] [Module \u2102 A] [Module \u2102 E] [PartialOrder A] [SMul A E] [Norm A] [Norm E] [CStarModule A E] [StarModule \u2102 A] {z : \u2102} {x y : E} : inner A (z \u2022 x) y = star z \u2022 inner A x y",
+      "module": "Mathlib.Analysis.CStarAlgebra.Module.Defs",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.wInner_smul_left",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} {E : \u03b9 \u2192 Type u_4} [Fintype \u03b9] [RCLike \ud835\udd5c] [(i : \u03b9) \u2192 SeminormedAddCommGroup (E i)] [(i : \u03b9) \u2192 InnerProductSpace \ud835\udd5c (E i)] {\ud835\udd5d : Type u_5} [CommSemiring \ud835\udd5d] [StarRing \ud835\udd5d] [Algebra \ud835\udd5d \ud835\udd5c] [StarModule \ud835\udd5d \ud835\udd5c] [SMulCommClass \u211d \ud835\udd5d \ud835\udd5c] [(i : \u03b9) \u2192 Module \ud835\udd5d (E i)] [\u2200 (i : \u03b9), IsScalarTower \ud835\udd5d \ud835\udd5c (E i)] (c : \ud835\udd5d) (w : \u03b9 \u2192 \u211d) (f g : (i : \u03b9) \u2192 E i) : \u27eac \u2022 f, g\u27eb_[\ud835\udd5c, w] = star c \u2022 \u27eaf, g\u27eb_[\ud835\udd5c, w]",
+      "module": "Mathlib.Analysis.RCLike.Inner",
+      "doc": ""
+    },
+    {
+      "name": "real_inner_smul_right",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] (x y : F) (r : \u211d) : inner \u211d x (r \u2022 y) = r * inner \u211d x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.norm_inner_symm",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x y : F) : \u2016inner \ud835\udd5c x y\u2016 = \u2016inner \ud835\udd5c y x\u2016",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.conj_inner_symm",
+      "type": " {\ud835\udd5c : Type u_4} {E : Type u_5} {inst\u271d : RCLike \ud835\udd5c} {inst\u271d\u00b9 : SeminormedAddCommGroup E} [self : InnerProductSpace \ud835\udd5c E] (x y : E) : (starRingEnd \ud835\udd5c) (inner \ud835\udd5c y x) = inner \ud835\udd5c x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The inner product is *Hermitian*, taking the `conj` swaps the arguments. "
+    },
+    {
+      "name": "PreInnerProductSpace.Core.conj_inner_symm",
+      "type": " {\ud835\udd5c : Type u_4} {F : Type u_5} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] (self : PreInnerProductSpace.Core \ud835\udd5c F) (x y : F) : (starRingEnd \ud835\udd5c) (inner \ud835\udd5c y x) = inner \ud835\udd5c x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The inner product is *Hermitian*, taking the `conj` swaps the arguments. "
+    },
+    {
+      "name": "norm_inner_symm",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] (x y : E) : \u2016inner \ud835\udd5c x y\u2016 = \u2016inner \ud835\udd5c y x\u2016",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.conj_wInner_symm",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} {E : \u03b9 \u2192 Type u_4} [Fintype \u03b9] [RCLike \ud835\udd5c] [(i : \u03b9) \u2192 SeminormedAddCommGroup (E i)] [(i : \u03b9) \u2192 InnerProductSpace \ud835\udd5c (E i)] (w : \u03b9 \u2192 \u211d) (f g : (i : \u03b9) \u2192 E i) : (starRingEnd \ud835\udd5c) \u27eaf, g\u27eb_[\ud835\udd5c, w] = \u27eag, f\u27eb_[\ud835\udd5c, w]",
+      "module": "Mathlib.Analysis.RCLike.Inner",
+      "doc": ""
+    },
+    {
+      "name": "real_inner_comm",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] (x y : F) : inner \u211d y x = inner \u211d x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_smul_right",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x y : F) {r : \ud835\udd5c} : inner \ud835\udd5c x (r \u2022 y) = r * inner \ud835\udd5c x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "inner_smul_right",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] (x y : E) (r : \ud835\udd5c) : inner \ud835\udd5c x (r \u2022 y) = r * inner \ud835\udd5c x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "See `inner_smul_right_eq_smul` for the case of a general algebra action. "
+    },
+    {
+      "name": "inner_smul_right_eq_smul",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] {\ud835\udd5d : Type u_4} [CommSemiring \ud835\udd5d] [StarRing \ud835\udd5d] [Algebra \ud835\udd5d \ud835\udd5c] [Module \ud835\udd5d E] [IsScalarTower \ud835\udd5d \ud835\udd5c E] [StarModule \ud835\udd5d \ud835\udd5c] (x y : E) (r : \ud835\udd5d) : inner \ud835\udd5c x (r \u2022 y) = r \u2022 inner \ud835\udd5c x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "See `inner_smul_right` for the common special when `\ud835\udd5c = \ud835\udd5d`. "
+    },
+    {
+      "name": "CStarModule.inner_smul_right_complex",
+      "type": " {A : Type u_1} {E : Type u_2} {inst\u271d : NonUnitalSemiring A} {inst\u271d\u00b9 : StarRing A} {inst\u271d\u00b2 : Module \u2102 A} {inst\u271d\u00b3 : AddCommGroup E} {inst\u271d\u2074 : Module \u2102 E} {inst\u271d\u2075 : PartialOrder A} {inst\u271d\u2076 : SMul A E} {inst\u271d\u2077 : Norm A} {inst\u271d\u2078 : Norm E} [self : CStarModule A E] {z : \u2102} {x y : E} : inner A x (z \u2022 y) = z \u2022 inner A x y",
+      "module": "Mathlib.Analysis.CStarAlgebra.Module.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CStarModule.inner_smul_right_real",
+      "type": " {A : Type u_1} {E : Type u_2} [NonUnitalRing A] [StarRing A] [AddCommGroup E] [Module \u2102 A] [Module \u2102 E] [PartialOrder A] [SMul A E] [Norm A] [Norm E] [CStarModule A E] [StarModule \u2102 A] {z : \u211d} {x y : E} : inner A x (z \u2022 y) = z \u2022 inner A x y",
+      "module": "Mathlib.Analysis.CStarAlgebra.Module.Defs",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.wInner_smul_right",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} {E : \u03b9 \u2192 Type u_4} [Fintype \u03b9] [RCLike \ud835\udd5c] [(i : \u03b9) \u2192 SeminormedAddCommGroup (E i)] [(i : \u03b9) \u2192 InnerProductSpace \ud835\udd5c (E i)] {\ud835\udd5d : Type u_5} [CommSemiring \ud835\udd5d] [StarRing \ud835\udd5d] [Algebra \ud835\udd5d \ud835\udd5c] [StarModule \ud835\udd5d \ud835\udd5c] [(i : \u03b9) \u2192 Module \ud835\udd5d (E i)] [\u2200 (i : \u03b9), IsScalarTower \ud835\udd5d \ud835\udd5c (E i)] (c : \ud835\udd5d) (w : \u03b9 \u2192 \u211d) (f g : (i : \u03b9) \u2192 E i) : \u27eaf, c \u2022 g\u27eb_[\ud835\udd5c, w] = c \u2022 \u27eaf, g\u27eb_[\ud835\udd5c, w]",
+      "module": "Mathlib.Analysis.RCLike.Inner",
+      "doc": ""
+    },
+    {
+      "name": "nsmul_eq_smul",
+      "type": " {M : Type u_2} [AddMonoid M] (n : \u2115) (x : M) : NSMul.nsmul n x = n \u2022 x",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": ""
+    },
+    {
+      "name": "AddMonoid.toNSMul",
+      "type": " {M : Type u_2} [self : AddMonoid M] : NSMul M",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": ""
+    },
+    {
+      "name": "NSMul.mk",
+      "type": " {M : Type u_2} (nsmul : \u2115 \u2192 M \u2192 M) : NSMul M",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": ""
+    },
+    {
+      "name": "NSMul.nsmul",
+      "type": " {M : Type u_2} [self : NSMul M] : \u2115 \u2192 M \u2192 M",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": "Multiplication by a natural number.\nSet this to `nsmulRec` unless `Module` diamonds are possible. "
+    },
+    {
+      "name": "NSMul.ofSMul",
+      "type": " {M : Type u_2} [SMul \u2115 M] : NSMul M",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": ""
+    },
+    {
+      "name": "NSMul.toSMul",
+      "type": " {M : Type u_2} [NSMul M] : SMul \u2115 M",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": ""
+    },
+    {
+      "name": "nsmulBinRec.go",
+      "type": " {M : Type u_2} [Add M] (k : \u2115) : M \u2192 M \u2192 M",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": "Auxiliary tail-recursive implementation for `nsmulBinRec`. "
+    },
+    {
+      "name": "nsmulBinRec",
+      "type": " {M : Type u_2} [Zero M] [Add M] (k : \u2115) : M \u2192 M",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": "Scalar multiplication by repeated self-addition,\nthe additive version of exponentiation by repeated squaring. "
+    },
+    {
+      "name": "nsmulBinRecAuto",
+      "type": " {M : Type u_2} [AddSemigroup M] [Zero M] (k : \u2115) (m : M) : M",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": "An abbreviation for `nsmulBinRec` with an additional typeclass assumption on associativity\nso that we can use it in `@[csimp]` for more performant code generation\nas an automatic parameter. "
+    },
+    {
+      "name": "nsmulRec'",
+      "type": " {M : Type u_2} [Zero M] [Add M] : \u2115 \u2192 M \u2192 M",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": "A variant of `nsmulRec` which is a semigroup homomorphism from `\u2115\u208a` to `M`.\n"
+    },
+    {
+      "name": "NSMul",
+      "type": " (M : Type u_2) : Type u_2",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": "`NSMul` is an implementation detail of `AddMonoid`. It is needed because it is\nimpossible to extend `SMul \u2115 M` and `SMul \u2124 M` at the same time. "
+    },
+    {
+      "name": "AddConstMap.coe_smul",
+      "type": " {G : Type u_1} {H : Type u_2} {K : Type u_3} [Add G] [AddZeroClass H] {a : G} {b : H} [DistribSMul K H] (c : K) (f : AddConstMap G H a b) : \u21d1(AddConstMap.smul c f) = c \u2022 \u21d1f",
+      "module": "Mathlib.Algebra.AddConstMap.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.coe_smulConst_symm",
+      "type": " {G : Type u_1} {P : Type u_2} [Group G] [Torsor G P] (p : P) : \u21d1(Equiv.smulConst p).symm = fun p' => p' /\u209b p",
+      "module": "Mathlib.Algebra.Torsor.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.coe_smulConst",
+      "type": " {G : Type u_1} {P : Type u_2} [Group G] [Torsor G P] (p : P) : \u21d1(Equiv.smulConst p) = fun v => v \u2022 p",
+      "module": "Mathlib.Algebra.Torsor.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Units.coe_smul",
+      "type": " {M : Type u_6} {N : Type u_7} [Monoid M] [Monoid N] [MulDistribMulAction M N] (m : M) (u : N\u02e3) : \u2191(m \u2022 u) = m \u2022 \u2191u",
+      "module": "Mathlib.Algebra.Group.Action.Units",
+      "doc": ""
+    },
+    {
+      "name": "MulAction.orbitRel.Quotient.orbit.coe_smul",
+      "type": " {G : Type u_1} {\u03b1 : Type u_2} [Group G] [MulAction G \u03b1] {g : G} {x : MulAction.orbitRel.Quotient G \u03b1} {a : \u2191x.orbit} : \u2191(g \u2022 a) = g \u2022 \u2191a",
+      "module": "Mathlib.GroupTheory.GroupAction.Defs",
+      "doc": ""
+    },
+    {
+      "name": "MulAction.orbit.coe_smul",
+      "type": " {M : Type u_1} {\u03b1 : Type u_3} [Monoid M] [MulAction M \u03b1] {a : \u03b1} {m : M} {a' : \u2191(MulAction.orbit M a)} : \u2191(m \u2022 a') = m \u2022 \u2191a'",
+      "module": "Mathlib.GroupTheory.GroupAction.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ConjAct.coe_smul",
+      "type": " {G : Type u_4} [Group G] {H : Subgroup G} (g h : \u21a5H) : \u2191(ConjAct.toConjAct g \u2022 h) = ConjAct.toConjAct \u2191g \u2022 \u2191h",
+      "module": "Mathlib.GroupTheory.GroupAction.ConjAct",
+      "doc": ""
+    },
+    {
+      "name": "MulActionHom.coe_smul",
+      "type": " {R : Type u_1} {M : Type u_2} {N : Type u_3} {X : Type u_4} {Y : Type u_5} {\u03c3 : M \u2192 N} [SMul M X] [SMul N Y] [SMul R Y] [SMulCommClass N R Y] (f : X \u2192\u2091[\u03c3] Y) (r : R) : \u21d1(r \u2022 f) = r \u2022 \u21d1f",
+      "module": "Mathlib.GroupTheory.GroupAction.Hom",
+      "doc": ""
+    },
+    {
+      "name": "LinearMap.coe_smul",
+      "type": " {R : Type u_1} {R\u2082 : Type u_3} {S : Type u_5} {M : Type u_8} {M\u2082 : Type u_10} [Semiring R] [Semiring R\u2082] [AddCommMonoid M] [AddCommMonoid M\u2082] [Module R M] [Module R\u2082 M\u2082] {\u03c3\u2081\u2082 : R \u2192+* R\u2082} [DistribSMul S M\u2082] [SMulCommClass R\u2082 S M\u2082] (a : S) (f : M \u2192\u209b\u2097[\u03c3\u2081\u2082] M\u2082) : \u21d1(a \u2022 f) = a \u2022 \u21d1f",
+      "module": "Mathlib.Algebra.Module.LinearMap.Defs",
+      "doc": ""
+    },
+    {
+      "name": "algebraMap.coe_smul",
+      "type": " {A : Type u_1} {B : Type u_2} (a : A) (b : B) (C : Type u_3) [SMul A B] [CommSemiring B] [Semiring C] [Algebra B C] [SMul A C] [IsScalarTower A B C] : \u2191(a \u2022 b) = a \u2022 \u2191b",
+      "module": "Mathlib.Algebra.Algebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "algebraMap.coe_smul'",
+      "type": " {A : Type u_1} {B : Type u_2} (a : A) (b : B) (C : Type u_3) [SMul A B] [CommSemiring B] [Semiring C] [Algebra B C] [Monoid A] [MulDistribMulAction A C] [SMulDistribClass A B C] : \u2191(a \u2022 b) = a \u2022 \u2191b",
+      "module": "Mathlib.Algebra.Algebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ZeroHom.coe_smul",
+      "type": " {M : Type u_1} {A : Type u_3} {B : Type u_4} [Zero A] [Zero B] [SMulZeroClass M B] (m : M) (f : ZeroHom A B) : \u21d1(m \u2022 f) = m \u2022 \u21d1f",
+      "module": "Mathlib.Algebra.GroupWithZero.Action.Hom",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Filter.principal, Filter.join, Filter.sInf, Filter.comap, Filter.map, Filter.bind, Filter.seq, Filter.coprod",
+    "search: '\"exercise_1_19\"' -> nothing",
+    "search: '\"exercise_1_19\"' -> nothing; goal shape -> Filter.principal, Filter.join, Filter.sInf, Filter.comap, Filter.map, Filter.bind, Filter.seq, Filter.coprod",
+    "seeded from goal shape -> Filter.principal, Filter.join, Filter.sInf, Filter.comap, Filter.map, Filter.bind, Filter.seq, Filter.coprod",
+    "search: '\"norm_sq\"' -> zero_lt_one_add_norm_sq, zero_lt_one_add_norm_sq', Complex.normSq_eq_norm_sq, RCLike.norm_sq_re_add_conj, RCLike.norm_sq_re_conj_add, RCLike.norm_sq_eq_def, RCLike.norm_sq_eq_def_ax, InnerProductSpace.norm_sq_eq_re_inner",
+    "search: '\"norm_eq\"' -> FreeAddGroup.norm_eq_zero",
+    "search: '\"|- \u2016_\u2016 = \u2016_\u2016\"' -> nothing",
+    "search: '\"|- \u2016_\u2016 = \u2016_\u2016\"' -> nothing; goal shape -> Filter.principal, Filter.join, Filter.sInf, Filter.comap, Filter.map, Filter.bind, Filter.seq, Filter.coprod",
+    "search: '\"sq_eq_sq\"' -> eq_or_eq_neg_of_sq_eq_sq, sq_eq_sq_iff_eq_or_eq_neg, Commute.sq_eq_sq_iff_eq_or_eq_neg, Units.eq_or_eq_neg_of_sq_eq_sq, Units.sq_eq_sq_iff_eq_or_eq_neg, sq_eq_sq\u2080, sq_eq_sq_iff_abs_eq_abs, CFC.sq_eq_sq_iff",
+    "search: '\"|- _ ^ 2 = _ ^ 2 \u2194 _ = _\"' -> nothing",
+    "search: '\"|- _ ^ 2 = _ ^ 2 \u2194 _ = _\"' -> nothing; goal shape -> EuclideanSpace.infinite, EuclideanSpace.single, EuclideanSpace.norm_single, EuclideanSpace.basisFun, OrthonormalBasis.instInhabited, EuclideanSpace.dist_single_same, EuclideanSpace.nndist_single_same, EuclideanSpace.nnnorm_single",
+    "search: '\"inner_sub_left\"' -> InnerProductSpace.Core.inner_sub_left, inner_sub_left, CStarModule.inner_sub_left, RCLike.wInner_sub_left",
+    "search: '\"inner_smul_left\"' -> InnerProductSpace.Core.inner_smul_left, real_inner_smul_left, inner_smul_left, inner_eq_zero_iff_forall_re_inner_smul_left, inner_smul_left_eq_smul, inner_smul_left_eq_star_smul, CStarModule.inner_smul_left_real, CStarModule.inner_smul_left_complex",
+    "search: '\"real_inner_smul_right\"' -> real_inner_smul_right",
+    "search: '\"inner_symm\"' -> InnerProductSpace.Core.norm_inner_symm, InnerProductSpace.conj_inner_symm, PreInnerProductSpace.Core.conj_inner_symm, norm_inner_symm, RCLike.conj_wInner_symm",
+    "search: '\"real_inner_comm\"' -> real_inner_comm",
+    "search: '\"inner_smul_right\"' -> InnerProductSpace.Core.inner_smul_right, real_inner_smul_right, inner_smul_right, inner_smul_right_eq_smul, CStarModule.inner_smul_right_complex, CStarModule.inner_smul_right_real, RCLike.wInner_smul_right",
+    "search: '\"nsmul_eq_smul\"' -> nsmul_eq_smul",
+    "search: '\"nsmul_eq_smul_cast\"' -> nothing",
+    "search: '\"nsmul_eq_smul_cast\"' -> nothing; goal shape -> EuclideanSpace.infinite, EuclideanSpace.single, EuclideanSpace.norm_single, EuclideanSpace.basisFun, OrthonormalBasis.instInhabited, EuclideanSpace.dist_single_same, EuclideanSpace.nndist_single_same, EuclideanSpace.nnnorm_single",
+    "search: '\"inner_nsmul\"' -> nothing",
+    "search: '\"inner_nsmul\"' -> nothing; goal shape -> EuclideanSpace.infinite, EuclideanSpace.single, EuclideanSpace.norm_single, EuclideanSpace.basisFun, OrthonormalBasis.instInhabited, EuclideanSpace.dist_single_same, EuclideanSpace.nndist_single_same, EuclideanSpace.nnnorm_single",
+    "search: '\"nsmul\"' -> AddMonoid.toNSMul, NSMul.mk, NSMul.nsmul, NSMul.ofSMul, NSMul.toSMul, nsmulBinRec.go, nsmulBinRec, nsmulBinRecAuto",
+    "search: '\"coe_smul\"' -> AddConstMap.coe_smul, Equiv.coe_smulConst_symm, Equiv.coe_smulConst, Units.coe_smul, MulAction.orbitRel.Quotient.orbit.coe_smul, MulAction.orbit.coe_smul, ConjAct.coe_smul, MulActionHom.coe_smul"
+  ],
+  "budget": {
+    "tool_calls": 36,
+    "lean_calls": 15,
+    "searches": 19,
+    "symbolic_calls": 0,
+    "searches_since_compile": 2,
+    "grace": 3,
+    "started": 1788851173.2846177,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.6,
+    "statement_checks": 2
+  },
+  "goal": "lemma inner_c_relation {n : \u2115} (a b c x : EuclideanSpace \u211d (Fin n)) (h\u2082 : 3 \u2022 c = 4 \u2022 b - a) : 3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a"
+}

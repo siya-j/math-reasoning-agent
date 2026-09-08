@@ -1,0 +1,341 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem vector_space_has_basis (K : Type u) (V : Type v) [DivisionRing K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type v), Nonempty (Module.Basis \u03b9 K V)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788850611.1308413,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem vector_space_has_basis (K : Type u) (V : Type v) [DivisionRing K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type v), Nonempty (Module.Basis \u03b9 K V)",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact finrank_eq_zero_of_not_exists_basis\n    | exact finrank_eq_zero_of_not_exists_basis _\n    | apply finrank_eq_zero_of_not_exists_basis\n    | simpa using finrank_eq_zero_of_not_exists_basis\n    | exact \u27e8_, finrank_eq_zero_of_not_exists_basis\u27e9\n    | exact finrank_eq_zero_of_not_exists_basis (by assumption)\n    | exact finrank_eq_zero_of_not_exists_basis \u2039_\u203a\n    | apply finrank_eq_zero_of_not_exists_basis <;> assumption\n    | (haveI := Fact.mk (by assumption); exact finrank_eq_zero_of_not_exists_basis (by assumption))\n    | exact finrank_eq_zero_of_not_exists_basis_finite\n    | exact finrank_eq_zero_of_not_exists_basis_finite _\n    | apply finrank_eq_zero_of_not_exists_basis_finite\n    | simpa using finrank_eq_zero_of_not_exists_basis_finite\n    | exact \u27e8_, finrank_eq_zero_of_not_exists_basis_finite\u27e9\n    | exact finrank_eq_zero_of_not_exists_basis_finite (by assumption)\n    | exact finrank_eq_zero_of_not_exists_basis_finite \u2039_\u203a\n    | apply finrank_eq_zero_of_not_exists_basis_finite <;> assumption\n    | (haveI := Fact.mk (by assumption); exact finrank_eq_zero_of_not_exists_basis_finite (by assumption))\n    | exact finrank_eq_zero_of_not_exists_basis_finset\n    | exact finrank_eq_zero_of_not_exists_basis_finset _\n    | apply finrank_eq_zero_of_not_exists_basis_finset\n    | simpa using finrank_eq_zero_of_not_exists_basis_finset\n    | exact \u27e8_, finrank_eq_zero_of_not_exists_basis_finset\u27e9\n    | exact finrank_eq_zero_of_not_exists_basis_finset (by assumption)\n    | exact finrank_eq_zero_of_not_exists_basis_finset \u2039_\u203a\n    | apply finrank_eq_zero_of_not_exists_basis_finset <;> assumption\n    | (haveI := Fact.mk (by assumption); exact finrank_eq_zero_of_not_exists_basis_finset (by assumption))\n    | exact Module.Basis.exists_basis\n    | exact Module.Basis.exists_basis _\n    | apply Module.Basis.exists_basis\n    | simpa using Module.Basis.exists_basis\n    | exact \u27e8_, Module.Basis.exists_basis\u27e9\n    | exact Module.Basis.exists_basis (by assumption)\n    | exact Module.Basis.exists_basis \u2039_\u203a\n    | apply Module.Basis.exists_basis <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Module.Basis.exists_basis (by assumption))\n    | exact exists_basis_of_pairing_eq_zero\n    | exact exists_basis_of_pairing_eq_zero _\n    | apply exists_basis_of_pairing_eq_zero\n    | simpa using exists_basis_of_pairing_eq_zero\n    | exact \u27e8_, exists_basis_of_pairing_eq_zero\u27e9\n    | exact exists_basis_of_pairing_eq_zero (by assumption)\n    | exact exists_basis_of_pairing_eq_zero \u2039_\u203a\n    | apply exists_basis_of_pairing_eq_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact exists_basis_of_pairing_eq_zero (by assumption))\n    | exact exists_basis_of_pairing_ne_zero\n    | exact exists_basis_of_pairing_ne_zero _\n    | apply exists_basis_of_pairing_ne_zero\n    | simpa using exists_basis_of_pairing_ne_zero\n    | exact \u27e8_, exists_basis_of_pairing_ne_zero\u27e9\n    | exact exists_basis_of_pairing_ne_zero (by assumption)\n    | exact exists_basis_of_pairing_ne_zero \u2039_\u203a\n    | apply exists_basis_of_pairing_ne_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact exists_basis_of_pairing_ne_zero (by assumption))\n    | exact Algebra.norm_eq_one_of_not_exists_basis\n    | exact Algebra.norm_eq_one_of_not_exists_basis _\n    | apply Algebra.norm_eq_one_of_not_exists_basis\n    | simpa using Algebra.norm_eq_one_of_not_exists_basis\n    | exact \u27e8_, Algebra.norm_eq_one_of_not_exists_basis\u27e9\n    | exact Algebra.norm_eq_one_of_not_exists_basis (by assumption)\n    | exact Algebra.norm_eq_one_of_not_exists_basis \u2039_\u203a\n    | apply Algebra.norm_eq_one_of_not_exists_basis <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Algebra.norm_eq_one_of_not_exists_basis (by assumption))\n    | exact LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap\n    | exact LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap _\n    | apply LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap\n    | simpa using LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap\n    | exact \u27e8_, LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap\u27e9\n    | exact LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap (by assumption)\n    | exact LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap \u2039_\u203a\n    | apply LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap <;> assumption\n    | (haveI := Fact.mk (by assumption); exact LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap (by assumption))\n    | exact LieAlgebra.exists_basis_of_base\n    | exact LieAlgebra.exists_basis_of_base _\n    | apply LieAlgebra.exists_basis_of_base\n    | simpa using LieAlgebra.exists_basis_of_base\n    | exact \u27e8_, LieAlgebra.exists_basis_of_base\u27e9\n    | exact LieAlgebra.exists_basis_of_base (by assumption)\n    | exact LieAlgebra.exists_basis_of_base \u2039_\u203a\n    | apply LieAlgebra.exists_basis_of_base <;> assumption\n    | (haveI := Fact.mk (by assumption); exact LieAlgebra.exists_basis_of_base (by assumption))\n    | exact Module.exists_basis_of_span_of_flat\n    | exact Module.exists_basis_of_span_of_flat _\n    | apply Module.exists_basis_of_span_of_flat\n    | simpa using Module.exists_basis_of_span_of_flat\n    | exact \u27e8_, Module.exists_basis_of_span_of_flat\u27e9\n    | exact Module.exists_basis_of_span_of_flat (by assumption)\n    | exact Module.exists_basis_of_span_of_flat \u2039_\u203a\n    | apply Module.exists_basis_of_span_of_flat <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Module.exists_basis_of_span_of_flat (by assumption))\n    | exact Module.exists_basis_of_span_of_maximalIdeal_rTensor_injective\n    | exact Module.exists_basis_of_span_of_maximalIdeal_rTensor_injective _\n    | apply Module.exists_basis_of_span_of_maximalIdeal_rTensor_injective\n    | simpa using Module.exists_basis_of_span_of_maximalIdeal_rTensor_injective\n    | exact \u27e8_, Module.exists_basis_of_span_of_maximalIdeal_rTensor_injective\u27e9\n    | exact Module.exists_basis_of_span_of_maximalIdeal_rTensor_injective (by assumption)\n    | exact Module.exists_basis_of_span_of_maximalIdeal_rTensor_injective \u2039_\u203a\n    | apply Module.exists_basis_of_span_of_maximalIdeal_rTensor_injective <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Module.exists_basis_of_span_of_maximalIdeal_rTensor_injective (by assumption))\n    | exact Module.Basis.instFunLike\n    | exact Module.Basis.instFunLike _\n    | apply Module.Basis.instFunLike\n    | simpa using Module.Basis.instFunLike\n    | exact \u27e8_, Module.Basis.instFunLike\u27e9\n    | exact Module.Basis.instFunLike (by assumption)\n    | exact Module.Basis.instFunLike \u2039_\u203a\n    | apply Module.Basis.instFunLike <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Module.Basis.instFunLike (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:141: error: unsolved goals\nK : Type u\nV : Type v\ninst\u271d\u00b2 : DivisionRing K\ninst\u271d\u00b9 : AddCommGroup V\ninst\u271d : Module K V\n\u22a2 \u2203 \u03b9, Nonempty (Module.Basis \u03b9 K V)\n\nStill to prove:\n\u22a2 \u2203 \u03b9, Nonempty (Module.Basis \u03b9 K V)",
+      "at": 1788850617.877357,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem vector_space_has_basis (K : Type u) (V : Type v) [DivisionRing K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type v), Nonempty (Module.Basis \u03b9 K V)",
+      "proof": "by\n  obtain \u27e8s, hs\u27e9 := Module.Basis.exists_basis K V\n  exact \u27e8s, hs\u27e9",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem vector_space_has_basis (K : Type u) (V : Type v) [DivisionRing K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type v), Nonempty (Module.Basis \u03b9 K V)",
+      "at": 1788850620.633776,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "finrank_eq_zero_of_not_exists_basis",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] [Module.Free R M] (h : \u00ac\u2203 s, Nonempty (Module.Basis (\u2191\u2191s) R M)) : Module.finrank R M = 0",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finite",
+      "doc": ""
+    },
+    {
+      "name": "finrank_eq_zero_of_not_exists_basis_finite",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] [Module.Free R M] (h : \u00ac\u2203 s x, s.Finite) : Module.finrank R M = 0",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finite",
+      "doc": ""
+    },
+    {
+      "name": "finrank_eq_zero_of_not_exists_basis_finset",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] [Module.Free R M] (h : \u00ac\u2203 s, Nonempty (Module.Basis (\u21a5s) R M)) : Module.finrank R M = 0",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finite",
+      "doc": ""
+    },
+    {
+      "name": "Module.Basis.exists_basis",
+      "type": " (K : Type u_3) (V : Type u_4) [DivisionRing K] [AddCommGroup V] [Module K V] : \u2203 s, Nonempty (Module.Basis (\u2191s) K V)",
+      "module": "Mathlib.LinearAlgebra.Basis.VectorSpace",
+      "doc": ""
+    },
+    {
+      "name": "exists_basis_of_pairing_eq_zero",
+      "type": " {K : Type u_6} {V : Type u_7} [Field K] [AddCommGroup V] [Module K V] {f : V \u2192\u2097[K] K} {v : V} (hfv : f v = 0) (hf : f \u2260 0) (hv : v \u2260 0) : \u2203 n b i j, i \u2260 j \u2227 v = b i \u2227 f = b.coord j",
+      "module": "Mathlib.LinearAlgebra.Basis.VectorSpace",
+      "doc": "In a vector space, given a nonzero linear form `f`,\na nonzero vector `v` such that `f v = 0`,\nthere exists a basis `b` with two distinct indices `i`, `j`\nsuch that `v = b i` and `f = b.coord j`. "
+    },
+    {
+      "name": "exists_basis_of_pairing_ne_zero",
+      "type": " {K : Type u_6} {V : Type u_7} [Field K] [AddCommGroup V] [Module K V] {f : V \u2192\u2097[K] K} {v : V} (hfv : f v \u2260 0) : \u2203 n b i, v = b i \u2227 f = f v \u2022 b.coord i",
+      "module": "Mathlib.LinearAlgebra.Basis.VectorSpace",
+      "doc": "In a vector space, given a nonzero linear form `f`,\na nonzero vector `v` such that `f v \u2260 0`,\nthere exists a basis `b` with an index `i`\nsuch that `v = b i` and `f = (f v) \u2022 b.coord i`. "
+    },
+    {
+      "name": "Algebra.norm_eq_one_of_not_exists_basis",
+      "type": " (R : Type u_1) {S : Type u_2} [CommRing R] [Ring S] [Algebra R S] (h : \u00ac\u2203 s, Nonempty (Module.Basis (\u21a5s) R S)) (x : S) : (Algebra.norm R) x = 1",
+      "module": "Mathlib.RingTheory.Norm.Defs",
+      "doc": ""
+    },
+    {
+      "name": "LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap",
+      "type": " {K : Type u_1} {L : Type u_2} {M : Type u_3} {N : Type u_4} [Field K] [Field L] [Algebra K L] [AddCommGroup M] [AddCommGroup N] [Module L M] [Module L N] [Module K M] [Module K N] [IsScalarTower K L M] (p : M \u2192\u2097[L] N \u2192\u2097[L] L) [p.IsPerfPair] (M' : Submodule K M) (N' : Submodule K N) (hM : Submodule.span L \u2191M' = \u22a4) (hN : Submodule.span L \u2191N' = \u22a4) (hp : \u2200 x \u2208 M', \u2200 y \u2208 N', (p x) y \u2208 (algebraMap K L).range) : \u2203 n b b', \u2200 (i : Fin n), b i = \u2191(b' i)",
+      "module": "Mathlib.LinearAlgebra.PerfectPairing.Restrict",
+      "doc": "If a perfect pairing over a field `L` takes values in a subfield `K` along two `K`-subspaces\nwhose `L` span is full, then these subspaces induce a `K`-structure in the sense of\n[*Algebra I*, Bourbaki : Chapter II, \u00a78.1 Definition 1][bourbaki1989]. "
+    },
+    {
+      "name": "LieAlgebra.exists_basis_of_base",
+      "type": " {K : Type u_1} {L : Type u_2} [Field K] [CharZero K] [LieRing L] [LieAlgebra K L] [FiniteDimensional K L] {H : LieSubalgebra K L} [H.IsCartanSubalgebra] [LieModule.IsTriangularizable K (\u21a5H) L] [LieAlgebra.IsKilling K L] (b : (LieAlgebra.IsKilling.rootSystem H).Base) : \u2203 B, B.A = b.cartanMatrix \u2227 \u2200 (i : \u21a5b.support), B.h i = \u2191((LieAlgebra.IsKilling.rootSystem H).coroot \u2191i)",
+      "module": "Mathlib.Algebra.Lie.Basis.Base",
+      "doc": ""
+    },
+    {
+      "name": "Module.exists_basis_of_span_of_flat",
+      "type": " {R : Type u_1} {M : Type u_2} [CommRing R] [AddCommGroup M] [Module R M] [IsLocalRing R] [Module.FinitePresentation R M] [Module.Flat R M] {\u03b9 : Type u} (v : \u03b9 \u2192 M) (hv : Submodule.span R (Set.range v) = \u22a4) : \u2203 \u03ba a b, \u2200 (i : \u03ba), b i = v (a i)",
+      "module": "Mathlib.RingTheory.LocalRing.Module",
+      "doc": ""
+    },
+    {
+      "name": "Module.exists_basis_of_span_of_maximalIdeal_rTensor_injective",
+      "type": " {R : Type u_1} {M : Type u_2} [CommRing R] [AddCommGroup M] [Module R M] [IsLocalRing R] [Module.FinitePresentation R M] (H : Function.Injective \u21d1(LinearMap.rTensor M (Submodule.subtype (IsLocalRing.maximalIdeal R)))) {\u03b9 : Type u} (v : \u03b9 \u2192 M) (hv : Submodule.span R (Set.range v) = \u22a4) : \u2203 \u03ba a b, \u2200 (i : \u03ba), b i = v (a i)",
+      "module": "Mathlib.RingTheory.LocalRing.Module",
+      "doc": "If `M` is a finitely presented module over a local ring `(R, \ud835\udd2a)` such that `m \u2297 M \u2192 M` is\ninjective, then every generating family contains a basis.\n"
+    },
+    {
+      "name": "Module.Free.exists_basis",
+      "type": " (R : Type u) (M : Type v) {inst\u271d : Semiring R} {inst\u271d\u00b9 : AddCommMonoid M} {inst\u271d\u00b2 : Module R M} [self : Module.Free R M] : Nonempty ((I : Type v) \u00d7 Module.Basis I R M)",
+      "module": "Mathlib.LinearAlgebra.FreeModule.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Module.Basis.instFunLike",
+      "type": " {\u03b9 : Type u_1} {R : Type u_3} {M : Type u_4} [Semiring R] [AddCommMonoid M] [Module R M] : FunLike (Module.Basis \u03b9 R M) \u03b9 M",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "`b i` is the `i`th basis vector. "
+    },
+    {
+      "name": "Module.Basis.reindex",
+      "type": " {\u03b9 : Type u_1} {\u03b9' : Type u_2} {R : Type u_3} {M : Type u_4} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) (e : \u03b9 \u2243 \u03b9') : Module.Basis \u03b9' R M",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "`b.reindex (e : \u03b9 \u2243 \u03b9')` is a basis indexed by `\u03b9'` "
+    },
+    {
+      "name": "Module.Basis.instInhabitedFinsupp",
+      "type": " {\u03b9 : Type u_1} {R : Type u_3} [Semiring R] : Inhabited (Module.Basis \u03b9 R (\u03b9 \u2192\u2080 R))",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Module.Basis.reindex_refl",
+      "type": " {\u03b9 : Type u_1} {R : Type u_3} {M : Type u_4} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) : b.reindex (Equiv.refl \u03b9) = b",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Module.Basis.sumCoords",
+      "type": " {\u03b9 : Type u_7} {R : Type u_8} {M : Type u_9} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) : M \u2192\u2097[R] R",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "The sum of the coordinates of an element `m : M` with respect to a basis. "
+    },
+    {
+      "name": "Module.Basis.coord",
+      "type": " {\u03b9 : Type u_7} {R : Type u_8} {M : Type u_9} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) (i : \u03b9) : M \u2192\u2097[R] R",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "`b.coord i` is the linear function giving the `i`-th coordinate of a vector\nwith respect to the basis `b`.\n\n`b.coord i` is an element of the dual space. In particular, for\nfinite-dimensional spaces it is the `\u03b9`th basis vector of the dual space.\n"
+    },
+    {
+      "name": "Module.Basis.injective",
+      "type": " {\u03b9 : Type u_1} {R : Type u_3} {M : Type u_4} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) [Nontrivial R] : Function.Injective \u21d1b",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Module.Basis.ofEquivFun_equivFun",
+      "type": " {\u03b9 : Type u_1} {R : Type u_3} {M : Type u_4} [Semiring R] [AddCommMonoid M] [Module R M] [Finite \u03b9] (v : Module.Basis \u03b9 R M) : Module.Basis.ofEquivFun v.equivFun = v",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Module.Basis.reindexRange",
+      "type": " {\u03b9 : Type u_7} {R : Type u_8} {M : Type u_9} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) : Module.Basis (\u2191(Set.range \u21d1b)) R M",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "`b.reindexRange` is a basis indexed by `range b`, the basis vectors themselves. "
+    },
+    {
+      "name": "Module.Basis.map",
+      "type": " {\u03b9 : Type u_1} {R : Type u_3} {M : Type u_4} {M' : Type u_5} [Semiring R] [AddCommMonoid M] [Module R M] [AddCommMonoid M'] [Module R M'] (b : Module.Basis \u03b9 R M) (f : M \u2243\u2097[R] M') : Module.Basis \u03b9 R M'",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "Apply the linear equivalence `f` to the basis vectors. "
+    },
+    {
+      "name": "Module.Basis.equiv",
+      "type": " {\u03b9' : Type u_2} {M' : Type u_5} [AddCommMonoid M'] {\u03b9 : Type u_7} {R : Type u_8} {M : Type u_9} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) [Module R M'] (b' : Module.Basis \u03b9' R M') (e : \u03b9 \u2243 \u03b9') : M \u2243\u2097[R] M'",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "If `b` is a basis for `M` and `b'` a basis for `M'`, and the index types are equivalent,\n`b.equiv b' e` is a linear equivalence `M \u2243\u2097[R] M'`, mapping `b i` to `b' (e i)`. "
+    },
+    {
+      "name": "Module.Basis",
+      "type": " (\u03b9 : Type u_1) (R : Type u_3) (M : Type u_4) [Semiring R] [AddCommMonoid M] [Module R M] : Type (max (max u_1 u_3) u_4)",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "A `Basis \u03b9 R M` for a module `M` is the type of `\u03b9`-indexed `R`-bases of `M`.\n\nThe basis vectors are available as `DFunLike.coe (b : Basis \u03b9 R M) : \u03b9 \u2192 M`.\nTo turn a linear independent family of vectors spanning `M` into a basis, use `Basis.mk`.\nThey are internally represented as linear equivs `M \u2243\u2097[R] (\u03b9 \u2192\u2080 R)`,\navailable as `Basis.repr`.\n"
+    },
+    {
+      "name": "Field.toDivisionRing",
+      "type": " {K : Type u} [self : Field K] : DivisionRing K",
+      "module": "Mathlib.Algebra.Field.Defs",
+      "doc": ""
+    },
+    {
+      "name": "DivisionRing.mk",
+      "type": " {K : Type u_2} [toRing : Ring K] [toInv : Inv K] [toDiv : Div K] [toZPow : ZPow K] (div_eq_mul_inv : \u2200 (a b : K), a / b = a * b\u207b\u00b9 := by intros; rfl) (zpow_zero' : \u2200 (a : K), a ^ 0 = 1 := by intros; rfl) (zpow_succ' : \u2200 (n : \u2115) (a : K), a ^ \u2191n.succ = a ^ \u2191n * a := by intros; rfl) (zpow_neg' : \u2200 (n : \u2115) (a : K), a ^ Int.negSucc n = (a ^ \u2191n.succ)\u207b\u00b9 := by intros; rfl) [toNontrivial : Nontrivial K] [toNNRatCast : NNRatCast K] [toRatCast : RatCast K] (mul_inv_cancel : \u2200 (a : K), a \u2260 0 \u2192 a * a\u207b\u00b9 = 1) (inv_zero : 0\u207b\u00b9 = 0) (nnratCast_def : \u2200 (q : \u211a\u22650), \u2191q = \u2191q.num / \u2191q.den := by intros; rfl) (nnqsmul : \u211a\u22650 \u2192 K \u2192 K) (nnqsmul_def : \u2200 (q : \u211a\u22650) (a : K), nnqsmul q a = \u2191q * a := by intros; rfl) (ratCast_def : \u2200 (q : \u211a), \u2191q = \u2191q.num / \u2191q.den := by intros; rfl) (qsmul : \u211a \u2192 K \u2192 K) (qsmul_def : \u2200 (a : \u211a) (x : K), qsmul a x = \u2191a * x := by intros; rfl) : DivisionRing K",
+      "module": "Mathlib.Algebra.Field.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Lex.instDivisionRing",
+      "type": " {K : Type u_1} [DivisionRing K] : DivisionRing (Lex K)",
+      "module": "Mathlib.Algebra.Field.Basic",
+      "doc": ""
+    },
+    {
+      "name": "OrderDual.instDivisionRing",
+      "type": " {K : Type u_1} [DivisionRing K] : DivisionRing K\u1d52\u1d48",
+      "module": "Mathlib.Algebra.Field.Basic",
+      "doc": ""
+    },
+    {
+      "name": "DivisionRing.ofIsUnitOrEqZero",
+      "type": " {R : Type u_3} [Nontrivial R] [Ring R] (h : \u2200 (a : R), IsUnit a \u2228 a = 0) : DivisionRing R",
+      "module": "Mathlib.Algebra.Field.Basic",
+      "doc": "Constructs a `DivisionRing` structure on a `Ring` consisting only of units and 0. "
+    },
+    {
+      "name": "Function.Injective.divisionRing",
+      "type": " {K : Type u_1} {L : Type u_2} [Zero K] [Add K] [Neg K] [Sub K] [One K] [Mul K] [Inv K] [Div K] [SMul \u2115 K] [SMul \u2124 K] [SMul \u211a\u22650 K] [SMul \u211a K] [Pow K \u2115] [Pow K \u2124] [NatCast K] [IntCast K] [NNRatCast K] [RatCast K] (f : K \u2192 L) (hf : Function.Injective f) [DivisionRing L] (zero : f 0 = 0) (one : f 1 = 1) (add : \u2200 (x y : K), f (x + y) = f x + f y) (mul : \u2200 (x y : K), f (x * y) = f x * f y) (neg : \u2200 (x : K), f (-x) = -f x) (sub : \u2200 (x y : K), f (x - y) = f x - f y) (inv : \u2200 (x : K), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : K), f (x / y) = f x / f y) (nsmul : \u2200 (n : \u2115) (x : K), f (n \u2022 x) = n \u2022 f x) (zsmul : \u2200 (n : \u2124) (x : K), f (n \u2022 x) = n \u2022 f x) (nnqsmul : \u2200 (q : \u211a\u22650) (x : K), f (q \u2022 x) = q \u2022 f x) (qsmul : \u2200 (q : \u211a) (x : K), f (q \u2022 x) = q \u2022 f x) (npow : \u2200 (x : K) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : K) (n : \u2124), f (x ^ n) = f x ^ n) (natCast : \u2200 (n : \u2115), f \u2191n = \u2191n) (intCast : \u2200 (n : \u2124), f \u2191n = \u2191n) (nnratCast : \u2200 (q : \u211a\u22650), f \u2191q = \u2191q) (ratCast : \u2200 (q : \u211a), f \u2191q = \u2191q) : DivisionRing K",
+      "module": "Mathlib.Algebra.Field.Basic",
+      "doc": "Pullback a `DivisionSemiring` along an injective function. "
+    },
+    {
+      "name": "Rat.instDivisionRing",
+      "type": " : DivisionRing \u211a",
+      "module": "Mathlib.Algebra.Field.Rat",
+      "doc": ""
+    },
+    {
+      "name": "Ideal.Quotient.divisionRing",
+      "type": " {R : Type u_3} [Ring R] (I : Ideal R) [I.IsTwoSided] [I.IsMaximal] : DivisionRing (R \u29f8 I)",
+      "module": "Mathlib.RingTheory.Ideal.Quotient.Basic",
+      "doc": "The quotient by a two-sided ideal that is maximal as a left ideal is a division ring.\nThis is a `def` rather than `instance`, since users\nwill have computable inverses (and `qsmul`, `ratCast`) in some applications.\n\nSee note [reducible non-instances]. "
+    },
+    {
+      "name": "AddOpposite.instDivisionRing",
+      "type": " {\u03b1 : Type u_1} [DivisionRing \u03b1] : DivisionRing \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Field.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instDivisionRing",
+      "type": " {\u03b1 : Type u_1} [DivisionRing \u03b1] : DivisionRing \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Field.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "Subfield.toDivisionRing",
+      "type": " {K : Type u} [DivisionRing K] (s : Subfield K) : DivisionRing \u21a5s",
+      "module": "Mathlib.Algebra.Field.Subfield.Defs",
+      "doc": ""
+    },
+    {
+      "name": "SubfieldClass.toDivisionRing",
+      "type": " {K : Type u} [DivisionRing K] {S : Type u_1} [SetLike S K] [h : SubfieldClass S K] (s : S) : DivisionRing \u21a5s",
+      "module": "Mathlib.Algebra.Field.Subfield.Defs",
+      "doc": "A subfield inherits a division ring structure "
+    },
+    {
+      "name": "AddCommGroup.mk",
+      "type": " {G : Type u_2} [toAddGroup : AddGroup G] (add_comm : \u2200 (a b : G), a + b = b + a) : AddCommGroup G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Pi.addCommGroup",
+      "type": " {I : Type u} {f : I \u2192 Type v\u2081} [(i : I) \u2192 AddCommGroup (f i)] : AddCommGroup ((i : I) \u2192 f i)",
+      "module": "Mathlib.Algebra.Group.Pi.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Additive.addCommGroup",
+      "type": " {\u03b1 : Type u} [CommGroup \u03b1] : AddCommGroup (Additive \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.addCommGroup",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Add M\u2081] [Zero M\u2081] [SMul \u2115 M\u2081] [Neg M\u2081] [Sub M\u2081] [SMul \u2124 M\u2081] [AddCommGroup M\u2082] (f : M\u2081 \u2192 M\u2082) (hf : Function.Injective f) (zero : f 0 = 0) (add : \u2200 (x y : M\u2081), f (x + y) = f x + f y) (neg : \u2200 (x : M\u2081), f (-x) = -f x) (sub : \u2200 (x y : M\u2081), f (x - y) = f x - f y) (nsmul : \u2200 (x : M\u2081) (n : \u2115), f (n \u2022 x) = n \u2022 f x) (zsmul : \u2200 (x : M\u2081) (n : \u2124), f (n \u2022 x) = n \u2022 f x) : AddCommGroup M\u2081",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `0` and `+` is an additive commutative group, if it\nadmits an injective map that preserves `0` and `+` to an additive commutative group. "
+    },
+    {
+      "name": "Function.Surjective.addCommGroup",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Add M\u2082] [Zero M\u2082] [SMul \u2115 M\u2082] [Neg M\u2082] [Sub M\u2082] [SMul \u2124 M\u2082] [AddCommGroup M\u2081] (f : M\u2081 \u2192 M\u2082) (hf : Function.Surjective f) (zero : f 0 = 0) (add : \u2200 (x y : M\u2081), f (x + y) = f x + f y) (neg : \u2200 (x : M\u2081), f (-x) = -f x) (sub : \u2200 (x y : M\u2081), f (x - y) = f x - f y) (nsmul : \u2200 (x : M\u2081) (n : \u2115), f (n \u2022 x) = n \u2022 f x) (zsmul : \u2200 (x : M\u2081) (n : \u2124), f (n \u2022 x) = n \u2022 f x) : AddCommGroup M\u2082",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `0` and `+` is an additive commutative group, if it\nadmits a surjective map that preserves `0` and `+` to an additive commutative group. "
+    },
+    {
+      "name": "AddOpposite.instAddCommGroup",
+      "type": " {\u03b1 : Type u_1} [AddCommGroup \u03b1] : AddCommGroup \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instAddCommGroup",
+      "type": " {\u03b1 : Type u_1} [AddCommGroup \u03b1] : AddCommGroup \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "AddUnits.instAddCommGroupAddUnits",
+      "type": " {\u03b1 : Type u_1} [AddCommMonoid \u03b1] : AddCommGroup (AddUnits \u03b1)",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Additive units of an additive commutative monoid form\nan additive commutative group. "
+    },
+    {
+      "name": "Prod.instAddCommGroup",
+      "type": " {G : Type u_1} {H : Type u_2} [AddCommGroup G] [AddCommGroup H] : AddCommGroup (G \u00d7 H)",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "IsAddCommutative.instAddCommGroup",
+      "type": " {G : Type u_2} [AddGroup G] [IsAddCommutative G] : AddCommGroup G",
+      "module": "Mathlib.Algebra.Group.IsCommutative",
+      "doc": "An `AddGroup` which `IsMulCommutative` is a `AddCommGroup`.\n\nThis is primarily used to deduce the bundled version from the unbundled one for commutative\nsubobjects in a noncommutative ambient type. As such this is only available inside the\n`IsMulCommutative` scope so as to avoid deleterious effects to type class synthesis for bundled\ncommutativity.\n\nSee note [commutative subobjects]. "
+    },
+    {
+      "name": "AddCommGroupWithOne.toAddCommGroup",
+      "type": " {R : Type u} [self : AddCommGroupWithOne R] : AddCommGroup R",
+      "module": "Mathlib.Data.Int.Cast.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalNonAssocRing.toAddCommGroup",
+      "type": " {\u03b1 : Type u} [self : NonUnitalNonAssocRing \u03b1] : AddCommGroup \u03b1",
+      "module": "Mathlib.Algebra.Ring.Defs",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"exists_basis\"' -> finrank_eq_zero_of_not_exists_basis, finrank_eq_zero_of_not_exists_basis_finite, finrank_eq_zero_of_not_exists_basis_finset, Module.Basis.exists_basis, exists_basis_of_pairing_eq_zero, exists_basis_of_pairing_ne_zero, Algebra.norm_eq_one_of_not_exists_basis, LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap",
+    "search: '\"Basis\"' -> Module.Basis.instFunLike, Module.Basis.reindex, Module.Basis.instInhabitedFinsupp, Module.Basis.reindex_refl, Module.Basis.sumCoords, Module.Basis.coord, Module.Basis.injective, Module.Basis.ofEquivFun_equivFun",
+    "seeded from goal shape -> Field.toDivisionRing, DivisionRing.mk, Lex.instDivisionRing, OrderDual.instDivisionRing, DivisionRing.ofIsUnitOrEqZero, Function.Injective.divisionRing, Rat.instDivisionRing, Ideal.Quotient.divisionRing"
+  ],
+  "budget": {
+    "tool_calls": 5,
+    "lean_calls": 3,
+    "searches": 2,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788850510.7428758,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 1
+  },
+  "goal": "theorem vector_space_has_basis (K : Type u) (V : Type v) [DivisionRing K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type v), Nonempty (Module.Basis \u03b9 K V)"
+}

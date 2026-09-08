@@ -1,0 +1,483 @@
+{
+  "records": [
+    {
+      "kind": "proof",
+      "statement": "theorem dummy : True := by trivial",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact FreeGroup.instMonad\n    | exact FreeGroup.instMonad _\n    | apply FreeGroup.instMonad\n    | simpa using FreeGroup.instMonad\n    | exact \u27e8_, FreeGroup.instMonad\u27e9\n    | exact FreeGroup.instMonad (by assumption)\n    | exact FreeGroup.instMonad \u2039_\u203a\n    | apply FreeGroup.instMonad <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instMonad (by assumption))\n    | exact FreeGroup.instLawfulMonad\n    | exact FreeGroup.instLawfulMonad _\n    | apply FreeGroup.instLawfulMonad\n    | simpa using FreeGroup.instLawfulMonad\n    | exact \u27e8_, FreeGroup.instLawfulMonad\u27e9\n    | exact FreeGroup.instLawfulMonad (by assumption)\n    | exact FreeGroup.instLawfulMonad \u2039_\u203a\n    | apply FreeGroup.instLawfulMonad <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instLawfulMonad (by assumption))\n    | exact FreeGroup.freeGroupUnitEquivInt\n    | exact FreeGroup.freeGroupUnitEquivInt _\n    | apply FreeGroup.freeGroupUnitEquivInt\n    | simpa using FreeGroup.freeGroupUnitEquivInt\n    | exact \u27e8_, FreeGroup.freeGroupUnitEquivInt\u27e9\n    | exact FreeGroup.freeGroupUnitEquivInt (by assumption)\n    | exact FreeGroup.freeGroupUnitEquivInt \u2039_\u203a\n    | apply FreeGroup.freeGroupUnitEquivInt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.freeGroupUnitEquivInt (by assumption))\n    | exact FreeGroup.instGroup\n    | exact FreeGroup.instGroup _\n    | apply FreeGroup.instGroup\n    | simpa using FreeGroup.instGroup\n    | exact \u27e8_, FreeGroup.instGroup\u27e9\n    | exact FreeGroup.instGroup (by assumption)\n    | exact FreeGroup.instGroup \u2039_\u203a\n    | apply FreeGroup.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instGroup (by assumption))\n    | exact FreeGroup.instInhabited\n    | exact FreeGroup.instInhabited _\n    | apply FreeGroup.instInhabited\n    | simpa using FreeGroup.instInhabited\n    | exact \u27e8_, FreeGroup.instInhabited\u27e9\n    | exact FreeGroup.instInhabited (by assumption)\n    | exact FreeGroup.instInhabited \u2039_\u203a\n    | apply FreeGroup.instInhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instInhabited (by assumption))\n    | exact FreeGroup.instInv\n    | exact FreeGroup.instInv _\n    | apply FreeGroup.instInv\n    | simpa using FreeGroup.instInv\n    | exact \u27e8_, FreeGroup.instInv\u27e9\n    | exact FreeGroup.instInv (by assumption)\n    | exact FreeGroup.instInv \u2039_\u203a\n    | apply FreeGroup.instInv <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instInv (by assumption))\n    | exact FreeGroup.instMul\n    | exact FreeGroup.instMul _\n    | apply FreeGroup.instMul\n    | simpa using FreeGroup.instMul\n    | exact \u27e8_, FreeGroup.instMul\u27e9\n    | exact FreeGroup.instMul (by assumption)\n    | exact FreeGroup.instMul \u2039_\u203a\n    | apply FreeGroup.instMul <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instMul (by assumption))\n    | exact FreeGroup.instOne\n    | exact FreeGroup.instOne _\n    | apply FreeGroup.instOne\n    | simpa using FreeGroup.instOne\n    | exact \u27e8_, FreeGroup.instOne\u27e9\n    | exact FreeGroup.instOne (by assumption)\n    | exact FreeGroup.instOne \u2039_\u203a\n    | apply FreeGroup.instOne <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instOne (by assumption))\n    | exact FreeGroup.of\n    | exact FreeGroup.of _\n    | apply FreeGroup.of\n    | simpa using FreeGroup.of\n    | exact \u27e8_, FreeGroup.of\u27e9\n    | exact FreeGroup.of (by assumption)\n    | exact FreeGroup.of \u2039_\u203a\n    | apply FreeGroup.of <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.of (by assumption))\n    | exact FreeGroup.instUniqueOfIsEmpty\n    | exact FreeGroup.instUniqueOfIsEmpty _\n    | apply FreeGroup.instUniqueOfIsEmpty\n    | simpa using FreeGroup.instUniqueOfIsEmpty\n    | exact \u27e8_, FreeGroup.instUniqueOfIsEmpty\u27e9\n    | exact FreeGroup.instUniqueOfIsEmpty (by assumption)\n    | exact FreeGroup.instUniqueOfIsEmpty \u2039_\u203a\n    | apply FreeGroup.instUniqueOfIsEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instUniqueOfIsEmpty (by assumption))\n    | exact AddSubgroup.instPartialOrder\n    | exact AddSubgroup.instPartialOrder _\n    | apply AddSubgroup.instPartialOrder\n    | simpa using AddSubgroup.instPartialOrder\n    | exact \u27e8_, AddSubgroup.instPartialOrder\u27e9\n    | exact AddSubgroup.instPartialOrder (by assumption)\n    | exact AddSubgroup.instPartialOrder \u2039_\u203a\n    | apply AddSubgroup.instPartialOrder <;> assumption\n    | (haveI := Fact.mk (by assumption); exact AddSubgroup.instPartialOrder (by assumption))\n    | exact Subgroup.instPartialOrder\n    | exact Subgroup.instPartialOrder _\n    | apply Subgroup.instPartialOrder\n    | simpa using Subgroup.instPartialOrder\n    | exact \u27e8_, Subgroup.instPartialOrder\u27e9\n    | exact Subgroup.instPartialOrder (by assumption)\n    | exact Subgroup.instPartialOrder \u2039_\u203a\n    | apply Subgroup.instPartialOrder <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Subgroup.instPartialOrder (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:38: error: unexpected token ':='; expected command",
+      "at": 1788850729.8034754,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem dummy : True",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact FreeGroup.instMonad\n    | exact FreeGroup.instMonad _\n    | apply FreeGroup.instMonad\n    | simpa using FreeGroup.instMonad\n    | exact \u27e8_, FreeGroup.instMonad\u27e9\n    | exact FreeGroup.instMonad (by assumption)\n    | exact FreeGroup.instMonad \u2039_\u203a\n    | apply FreeGroup.instMonad <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instMonad (by assumption))\n    | exact FreeGroup.instLawfulMonad\n    | exact FreeGroup.instLawfulMonad _\n    | apply FreeGroup.instLawfulMonad\n    | simpa using FreeGroup.instLawfulMonad\n    | exact \u27e8_, FreeGroup.instLawfulMonad\u27e9\n    | exact FreeGroup.instLawfulMonad (by assumption)\n    | exact FreeGroup.instLawfulMonad \u2039_\u203a\n    | apply FreeGroup.instLawfulMonad <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instLawfulMonad (by assumption))\n    | exact FreeGroup.freeGroupUnitEquivInt\n    | exact FreeGroup.freeGroupUnitEquivInt _\n    | apply FreeGroup.freeGroupUnitEquivInt\n    | simpa using FreeGroup.freeGroupUnitEquivInt\n    | exact \u27e8_, FreeGroup.freeGroupUnitEquivInt\u27e9\n    | exact FreeGroup.freeGroupUnitEquivInt (by assumption)\n    | exact FreeGroup.freeGroupUnitEquivInt \u2039_\u203a\n    | apply FreeGroup.freeGroupUnitEquivInt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.freeGroupUnitEquivInt (by assumption))\n    | exact FreeGroup.instGroup\n    | exact FreeGroup.instGroup _\n    | apply FreeGroup.instGroup\n    | simpa using FreeGroup.instGroup\n    | exact \u27e8_, FreeGroup.instGroup\u27e9\n    | exact FreeGroup.instGroup (by assumption)\n    | exact FreeGroup.instGroup \u2039_\u203a\n    | apply FreeGroup.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instGroup (by assumption))\n    | exact FreeGroup.instInhabited\n    | exact FreeGroup.instInhabited _\n    | apply FreeGroup.instInhabited\n    | simpa using FreeGroup.instInhabited\n    | exact \u27e8_, FreeGroup.instInhabited\u27e9\n    | exact FreeGroup.instInhabited (by assumption)\n    | exact FreeGroup.instInhabited \u2039_\u203a\n    | apply FreeGroup.instInhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instInhabited (by assumption))\n    | exact FreeGroup.instInv\n    | exact FreeGroup.instInv _\n    | apply FreeGroup.instInv\n    | simpa using FreeGroup.instInv\n    | exact \u27e8_, FreeGroup.instInv\u27e9\n    | exact FreeGroup.instInv (by assumption)\n    | exact FreeGroup.instInv \u2039_\u203a\n    | apply FreeGroup.instInv <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instInv (by assumption))\n    | exact FreeGroup.instMul\n    | exact FreeGroup.instMul _\n    | apply FreeGroup.instMul\n    | simpa using FreeGroup.instMul\n    | exact \u27e8_, FreeGroup.instMul\u27e9\n    | exact FreeGroup.instMul (by assumption)\n    | exact FreeGroup.instMul \u2039_\u203a\n    | apply FreeGroup.instMul <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instMul (by assumption))\n    | exact FreeGroup.instOne\n    | exact FreeGroup.instOne _\n    | apply FreeGroup.instOne\n    | simpa using FreeGroup.instOne\n    | exact \u27e8_, FreeGroup.instOne\u27e9\n    | exact FreeGroup.instOne (by assumption)\n    | exact FreeGroup.instOne \u2039_\u203a\n    | apply FreeGroup.instOne <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instOne (by assumption))\n    | exact FreeGroup.of\n    | exact FreeGroup.of _\n    | apply FreeGroup.of\n    | simpa using FreeGroup.of\n    | exact \u27e8_, FreeGroup.of\u27e9\n    | exact FreeGroup.of (by assumption)\n    | exact FreeGroup.of \u2039_\u203a\n    | apply FreeGroup.of <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.of (by assumption))\n    | exact FreeGroup.instUniqueOfIsEmpty\n    | exact FreeGroup.instUniqueOfIsEmpty _\n    | apply FreeGroup.instUniqueOfIsEmpty\n    | simpa using FreeGroup.instUniqueOfIsEmpty\n    | exact \u27e8_, FreeGroup.instUniqueOfIsEmpty\u27e9\n    | exact FreeGroup.instUniqueOfIsEmpty (by assumption)\n    | exact FreeGroup.instUniqueOfIsEmpty \u2039_\u203a\n    | apply FreeGroup.instUniqueOfIsEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instUniqueOfIsEmpty (by assumption))\n    | exact AddSubgroup.instPartialOrder\n    | exact AddSubgroup.instPartialOrder _\n    | apply AddSubgroup.instPartialOrder\n    | simpa using AddSubgroup.instPartialOrder\n    | exact \u27e8_, AddSubgroup.instPartialOrder\u27e9\n    | exact AddSubgroup.instPartialOrder (by assumption)\n    | exact AddSubgroup.instPartialOrder \u2039_\u203a\n    | apply AddSubgroup.instPartialOrder <;> assumption\n    | (haveI := Fact.mk (by assumption); exact AddSubgroup.instPartialOrder (by assumption))\n    | exact Subgroup.instPartialOrder\n    | exact Subgroup.instPartialOrder _\n    | apply Subgroup.instPartialOrder\n    | simpa using Subgroup.instPartialOrder\n    | exact \u27e8_, Subgroup.instPartialOrder\u27e9\n    | exact Subgroup.instPartialOrder (by assumption)\n    | exact Subgroup.instPartialOrder \u2039_\u203a\n    | apply Subgroup.instPartialOrder <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Subgroup.instPartialOrder (by assumption))",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem dummy : True",
+      "at": 1788850731.7042503,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem dummy2 : True",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact FreeGroup.instMonad\n    | exact FreeGroup.instMonad _\n    | apply FreeGroup.instMonad\n    | simpa using FreeGroup.instMonad\n    | exact \u27e8_, FreeGroup.instMonad\u27e9\n    | exact FreeGroup.instMonad (by assumption)\n    | exact FreeGroup.instMonad \u2039_\u203a\n    | apply FreeGroup.instMonad <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instMonad (by assumption))\n    | exact FreeGroup.instLawfulMonad\n    | exact FreeGroup.instLawfulMonad _\n    | apply FreeGroup.instLawfulMonad\n    | simpa using FreeGroup.instLawfulMonad\n    | exact \u27e8_, FreeGroup.instLawfulMonad\u27e9\n    | exact FreeGroup.instLawfulMonad (by assumption)\n    | exact FreeGroup.instLawfulMonad \u2039_\u203a\n    | apply FreeGroup.instLawfulMonad <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instLawfulMonad (by assumption))\n    | exact FreeGroup.freeGroupUnitEquivInt\n    | exact FreeGroup.freeGroupUnitEquivInt _\n    | apply FreeGroup.freeGroupUnitEquivInt\n    | simpa using FreeGroup.freeGroupUnitEquivInt\n    | exact \u27e8_, FreeGroup.freeGroupUnitEquivInt\u27e9\n    | exact FreeGroup.freeGroupUnitEquivInt (by assumption)\n    | exact FreeGroup.freeGroupUnitEquivInt \u2039_\u203a\n    | apply FreeGroup.freeGroupUnitEquivInt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.freeGroupUnitEquivInt (by assumption))\n    | exact FreeGroup.instGroup\n    | exact FreeGroup.instGroup _\n    | apply FreeGroup.instGroup\n    | simpa using FreeGroup.instGroup\n    | exact \u27e8_, FreeGroup.instGroup\u27e9\n    | exact FreeGroup.instGroup (by assumption)\n    | exact FreeGroup.instGroup \u2039_\u203a\n    | apply FreeGroup.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instGroup (by assumption))\n    | exact FreeGroup.instInhabited\n    | exact FreeGroup.instInhabited _\n    | apply FreeGroup.instInhabited\n    | simpa using FreeGroup.instInhabited\n    | exact \u27e8_, FreeGroup.instInhabited\u27e9\n    | exact FreeGroup.instInhabited (by assumption)\n    | exact FreeGroup.instInhabited \u2039_\u203a\n    | apply FreeGroup.instInhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instInhabited (by assumption))\n    | exact FreeGroup.instInv\n    | exact FreeGroup.instInv _\n    | apply FreeGroup.instInv\n    | simpa using FreeGroup.instInv\n    | exact \u27e8_, FreeGroup.instInv\u27e9\n    | exact FreeGroup.instInv (by assumption)\n    | exact FreeGroup.instInv \u2039_\u203a\n    | apply FreeGroup.instInv <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instInv (by assumption))\n    | exact FreeGroup.instMul\n    | exact FreeGroup.instMul _\n    | apply FreeGroup.instMul\n    | simpa using FreeGroup.instMul\n    | exact \u27e8_, FreeGroup.instMul\u27e9\n    | exact FreeGroup.instMul (by assumption)\n    | exact FreeGroup.instMul \u2039_\u203a\n    | apply FreeGroup.instMul <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instMul (by assumption))\n    | exact FreeGroup.instOne\n    | exact FreeGroup.instOne _\n    | apply FreeGroup.instOne\n    | simpa using FreeGroup.instOne\n    | exact \u27e8_, FreeGroup.instOne\u27e9\n    | exact FreeGroup.instOne (by assumption)\n    | exact FreeGroup.instOne \u2039_\u203a\n    | apply FreeGroup.instOne <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instOne (by assumption))\n    | exact FreeGroup.of\n    | exact FreeGroup.of _\n    | apply FreeGroup.of\n    | simpa using FreeGroup.of\n    | exact \u27e8_, FreeGroup.of\u27e9\n    | exact FreeGroup.of (by assumption)\n    | exact FreeGroup.of \u2039_\u203a\n    | apply FreeGroup.of <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.of (by assumption))\n    | exact FreeGroup.instUniqueOfIsEmpty\n    | exact FreeGroup.instUniqueOfIsEmpty _\n    | apply FreeGroup.instUniqueOfIsEmpty\n    | simpa using FreeGroup.instUniqueOfIsEmpty\n    | exact \u27e8_, FreeGroup.instUniqueOfIsEmpty\u27e9\n    | exact FreeGroup.instUniqueOfIsEmpty (by assumption)\n    | exact FreeGroup.instUniqueOfIsEmpty \u2039_\u203a\n    | apply FreeGroup.instUniqueOfIsEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instUniqueOfIsEmpty (by assumption))\n    | exact AddSubgroup.instPartialOrder\n    | exact AddSubgroup.instPartialOrder _\n    | apply AddSubgroup.instPartialOrder\n    | simpa using AddSubgroup.instPartialOrder\n    | exact \u27e8_, AddSubgroup.instPartialOrder\u27e9\n    | exact AddSubgroup.instPartialOrder (by assumption)\n    | exact AddSubgroup.instPartialOrder \u2039_\u203a\n    | apply AddSubgroup.instPartialOrder <;> assumption\n    | (haveI := Fact.mk (by assumption); exact AddSubgroup.instPartialOrder (by assumption))\n    | exact Subgroup.instPartialOrder\n    | exact Subgroup.instPartialOrder _\n    | apply Subgroup.instPartialOrder\n    | simpa using Subgroup.instPartialOrder\n    | exact \u27e8_, Subgroup.instPartialOrder\u27e9\n    | exact Subgroup.instPartialOrder (by assumption)\n    | exact Subgroup.instPartialOrder \u2039_\u203a\n    | apply Subgroup.instPartialOrder <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Subgroup.instPartialOrder (by assumption))",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem dummy2 : True",
+      "at": 1788850746.5109162,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem dummy3 : True",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact FreeGroup.instMonad\n    | exact FreeGroup.instMonad _\n    | apply FreeGroup.instMonad\n    | simpa using FreeGroup.instMonad\n    | exact \u27e8_, FreeGroup.instMonad\u27e9\n    | exact FreeGroup.instMonad (by assumption)\n    | exact FreeGroup.instMonad \u2039_\u203a\n    | apply FreeGroup.instMonad <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instMonad (by assumption))\n    | exact FreeGroup.instLawfulMonad\n    | exact FreeGroup.instLawfulMonad _\n    | apply FreeGroup.instLawfulMonad\n    | simpa using FreeGroup.instLawfulMonad\n    | exact \u27e8_, FreeGroup.instLawfulMonad\u27e9\n    | exact FreeGroup.instLawfulMonad (by assumption)\n    | exact FreeGroup.instLawfulMonad \u2039_\u203a\n    | apply FreeGroup.instLawfulMonad <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instLawfulMonad (by assumption))\n    | exact FreeGroup.freeGroupUnitEquivInt\n    | exact FreeGroup.freeGroupUnitEquivInt _\n    | apply FreeGroup.freeGroupUnitEquivInt\n    | simpa using FreeGroup.freeGroupUnitEquivInt\n    | exact \u27e8_, FreeGroup.freeGroupUnitEquivInt\u27e9\n    | exact FreeGroup.freeGroupUnitEquivInt (by assumption)\n    | exact FreeGroup.freeGroupUnitEquivInt \u2039_\u203a\n    | apply FreeGroup.freeGroupUnitEquivInt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.freeGroupUnitEquivInt (by assumption))\n    | exact FreeGroup.instGroup\n    | exact FreeGroup.instGroup _\n    | apply FreeGroup.instGroup\n    | simpa using FreeGroup.instGroup\n    | exact \u27e8_, FreeGroup.instGroup\u27e9\n    | exact FreeGroup.instGroup (by assumption)\n    | exact FreeGroup.instGroup \u2039_\u203a\n    | apply FreeGroup.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instGroup (by assumption))\n    | exact FreeGroup.instInhabited\n    | exact FreeGroup.instInhabited _\n    | apply FreeGroup.instInhabited\n    | simpa using FreeGroup.instInhabited\n    | exact \u27e8_, FreeGroup.instInhabited\u27e9\n    | exact FreeGroup.instInhabited (by assumption)\n    | exact FreeGroup.instInhabited \u2039_\u203a\n    | apply FreeGroup.instInhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instInhabited (by assumption))\n    | exact FreeGroup.instInv\n    | exact FreeGroup.instInv _\n    | apply FreeGroup.instInv\n    | simpa using FreeGroup.instInv\n    | exact \u27e8_, FreeGroup.instInv\u27e9\n    | exact FreeGroup.instInv (by assumption)\n    | exact FreeGroup.instInv \u2039_\u203a\n    | apply FreeGroup.instInv <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instInv (by assumption))\n    | exact FreeGroup.instMul\n    | exact FreeGroup.instMul _\n    | apply FreeGroup.instMul\n    | simpa using FreeGroup.instMul\n    | exact \u27e8_, FreeGroup.instMul\u27e9\n    | exact FreeGroup.instMul (by assumption)\n    | exact FreeGroup.instMul \u2039_\u203a\n    | apply FreeGroup.instMul <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instMul (by assumption))\n    | exact FreeGroup.instOne\n    | exact FreeGroup.instOne _\n    | apply FreeGroup.instOne\n    | simpa using FreeGroup.instOne\n    | exact \u27e8_, FreeGroup.instOne\u27e9\n    | exact FreeGroup.instOne (by assumption)\n    | exact FreeGroup.instOne \u2039_\u203a\n    | apply FreeGroup.instOne <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instOne (by assumption))\n    | exact FreeGroup.of\n    | exact FreeGroup.of _\n    | apply FreeGroup.of\n    | simpa using FreeGroup.of\n    | exact \u27e8_, FreeGroup.of\u27e9\n    | exact FreeGroup.of (by assumption)\n    | exact FreeGroup.of \u2039_\u203a\n    | apply FreeGroup.of <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.of (by assumption))\n    | exact FreeGroup.instUniqueOfIsEmpty\n    | exact FreeGroup.instUniqueOfIsEmpty _\n    | apply FreeGroup.instUniqueOfIsEmpty\n    | simpa using FreeGroup.instUniqueOfIsEmpty\n    | exact \u27e8_, FreeGroup.instUniqueOfIsEmpty\u27e9\n    | exact FreeGroup.instUniqueOfIsEmpty (by assumption)\n    | exact FreeGroup.instUniqueOfIsEmpty \u2039_\u203a\n    | apply FreeGroup.instUniqueOfIsEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeGroup.instUniqueOfIsEmpty (by assumption))\n    | exact AddSubgroup.instPartialOrder\n    | exact AddSubgroup.instPartialOrder _\n    | apply AddSubgroup.instPartialOrder\n    | simpa using AddSubgroup.instPartialOrder\n    | exact \u27e8_, AddSubgroup.instPartialOrder\u27e9\n    | exact AddSubgroup.instPartialOrder (by assumption)\n    | exact AddSubgroup.instPartialOrder \u2039_\u203a\n    | apply AddSubgroup.instPartialOrder <;> assumption\n    | (haveI := Fact.mk (by assumption); exact AddSubgroup.instPartialOrder (by assumption))\n    | exact Subgroup.instPartialOrder\n    | exact Subgroup.instPartialOrder _\n    | apply Subgroup.instPartialOrder\n    | simpa using Subgroup.instPartialOrder\n    | exact \u27e8_, Subgroup.instPartialOrder\u27e9\n    | exact Subgroup.instPartialOrder (by assumption)\n    | exact Subgroup.instPartialOrder \u2039_\u203a\n    | apply Subgroup.instPartialOrder <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Subgroup.instPartialOrder (by assumption))",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem dummy3 : True",
+      "at": 1788850751.9423208,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem subgroup_of_free_group_is_free {G : Type u} [Group G] [IsFreeGroup G] (H : Subgroup G) : IsFreeGroup H",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788850762.174255,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem subgroup_of_free_group_is_free {G : Type u} [Group G] [IsFreeGroup G] (H : Subgroup G) : IsFreeGroup H",
+      "proof": "exact subgroupIsFreeOfIsFree H",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem subgroup_of_free_group_is_free {G : Type u} [Group G] [IsFreeGroup G] (H : Subgroup G) : IsFreeGroup H",
+      "at": 1788850767.8021739,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "FreeGroup.instMonad",
+      "type": " : Monad FreeGroup",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "FreeGroup.instLawfulMonad",
+      "type": " : LawfulMonad FreeGroup",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "FreeGroup.freeGroupUnitEquivInt",
+      "type": " : FreeGroup Unit \u2243 \u2124",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": "The bijection between the free group on a singleton, and the integers. "
+    },
+    {
+      "name": "FreeGroup.instGroup",
+      "type": " {\u03b1 : Type u} : Group (FreeGroup \u03b1)",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "FreeGroup.instInhabited",
+      "type": " {\u03b1 : Type u} : Inhabited (FreeGroup \u03b1)",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "FreeGroup.instInv",
+      "type": " {\u03b1 : Type u} : Inv (FreeGroup \u03b1)",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "FreeGroup.instMul",
+      "type": " {\u03b1 : Type u} : Mul (FreeGroup \u03b1)",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "FreeGroup.instOne",
+      "type": " {\u03b1 : Type u} : One (FreeGroup \u03b1)",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "FreeGroup.of",
+      "type": " {\u03b1 : Type u} (x : \u03b1) : FreeGroup \u03b1",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": "`of` is the canonical injection from the type to the free group over that type by sending each\nelement to the equivalence class of the letter that is the element. "
+    },
+    {
+      "name": "FreeGroup.instUniqueOfIsEmpty",
+      "type": " {\u03b1 : Type u} [IsEmpty \u03b1] : Unique (FreeGroup \u03b1)",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "FreeGroup",
+      "type": " (\u03b1 : Type u) : Type u",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": "If `\u03b1` is a type, then `FreeGroup \u03b1` is the free group generated by `\u03b1`.\nThis is a group equipped with a function `FreeGroup.of : \u03b1 \u2192 FreeGroup \u03b1` which has\nthe following universal property: if `G` is any group, and `f : \u03b1 \u2192 G` is any function,\nthen this function is the composite of `FreeGroup.of` and a unique group homomorphism\n`FreeGroup.lift f : FreeGroup \u03b1 \u2192* G`.\n\nA typical element of `FreeGroup \u03b1` is a formal product of\nelements of `\u03b1` and their formal inverses, quotient by reduction.\nFor example if `x` and `y` are terms of type `\u03b1` then `x\u207b\u00b9 * y * y * x * y\u207b\u00b9` is a\n\"typical\" element of `FreeGroup \u03b1`. In particular if `\u03b1` is empty\nthen `FreeGroup \u03b1` is isomorphic to the trivial group, and if `\u03b1` has one term\nthen `FreeGroup \u03b1` is isomorphic to `Multiplicative \u2124`.\nIf `\u03b1` has two or more terms then `FreeGroup \u03b1` is not commutative.\n\n\n[Wikidata Q431078](https://www.wikidata.org/wiki/Q431078)"
+    },
+    {
+      "name": "FreeGroup.IsReduced",
+      "type": " {\u03b1 : Type u} (L : List (\u03b1 \u00d7 Bool)) : Prop",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": "Predicate asserting that the word `L` admits no reduction steps, i.e., no two neighboring\nelements of the word cancel. "
+    },
+    {
+      "name": "AddSubgroup.instPartialOrder",
+      "type": " {G : Type u_1} [AddGroup G] : PartialOrder (AddSubgroup G)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.instPartialOrder",
+      "type": " {G : Type u_1} [Group G] : PartialOrder (Subgroup G)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.instSetLike",
+      "type": " {G : Type u_1} [AddGroup G] : SetLike (AddSubgroup G) G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.normalizer",
+      "type": " {G : Type u_1} [AddGroup G] (S : Set G) : AddSubgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "The `normalizer` of `S` is the subgroup of `G` whose elements satisfy `g + S - g = S`.\nWhen `S` is a subgroup, this is the largest subgroup of `G` inside which `S` is normal. "
+    },
+    {
+      "name": "AddSubgroup.setNormalizer",
+      "type": " {G : Type u_1} [AddGroup G] (S : Set G) : AddSubgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "**Alias** of `AddSubgroup.normalizer`.\n\n---\n\nThe `normalizer` of `S` is the subgroup of `G` whose elements satisfy `g + S - g = S`.\nWhen `S` is a subgroup, this is the largest subgroup of `G` inside which `S` is normal. "
+    },
+    {
+      "name": "Subgroup.instSetLike",
+      "type": " {G : Type u_1} [Group G] : SetLike (Subgroup G) G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normalizer",
+      "type": " {G : Type u_1} [Group G] (S : Set G) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "The `normalizer` of `S` is the subgroup of `G` whose elements satisfy `g * S * g\u207b\u00b9 = S`.\nWhen `S` is a subgroup, this is the largest subgroup of `G` inside which `S` is normal. "
+    },
+    {
+      "name": "Subgroup.setNormalizer",
+      "type": " {G : Type u_1} [Group G] (S : Set G) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "**Alias** of `Subgroup.normalizer`.\n\n---\n\nThe `normalizer` of `S` is the subgroup of `G` whose elements satisfy `g * S * g\u207b\u00b9 = S`.\nWhen `S` is a subgroup, this is the largest subgroup of `G` inside which `S` is normal. "
+    },
+    {
+      "name": "AddSubgroup",
+      "type": " (G : Type u_3) [AddGroup G] : Type u_3",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "An additive subgroup of an additive group `G` is a subset containing 0, closed\nunder addition and additive inverse. \n\n[Wikidata Q466109](https://www.wikidata.org/wiki/Q466109)"
+    },
+    {
+      "name": "Subgroup",
+      "type": " (G : Type u_3) [Group G] : Type u_3",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "A subgroup of a group `G` is a subset containing 1, closed under multiplication\nand closed under multiplicative inverse. \n\n[Wikidata Q466109](https://www.wikidata.org/wiki/Q466109)"
+    },
+    {
+      "name": "AddSubgroup.Normal",
+      "type": " {A : Type u_2} [AddGroup A] (H : AddSubgroup A) : Prop",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "An AddSubgroup `H` is normal if whenever `n \u2208 H`, then `g + n - g \u2208 H` for every `g : A` \n\n[Wikidata Q743179](https://www.wikidata.org/wiki/Q743179)"
+    },
+    {
+      "name": "Subgroup.Normal",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) : Prop",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "A subgroup `H` is normal if whenever `n \u2208 H`, then `g * n * g\u207b\u00b9 \u2208 H` for every `g : G` \n\n[Wikidata Q743179](https://www.wikidata.org/wiki/Q743179)"
+    },
+    {
+      "name": "Quiver.SchreierGraph.evalWord",
+      "type": " {M : Type u_1} [Group M] {S : Type u_2} (\u03b9 : S \u2192 M) (w : List (S \u00d7 Bool)) : M",
+      "module": "Mathlib.Combinatorics.Quiver.Schreier",
+      "doc": "Evaluate a word `List (S \u00d7 Bool)` as an element of the group `M`. A pair `(s, true)`\ncontributes `\u03b9 s`; a pair `(s, false)` contributes `(\u03b9 s)\u207b\u00b9`. "
+    },
+    {
+      "name": "Quiver.SchreierGraph.ofVertex",
+      "type": " {V : Type u_1} {M : Type u_2} [SMul M V] {S : Type u_3} {_\u03b9 : S \u2192 M} (toVertex : V) : Quiver.SchreierGraph V _\u03b9",
+      "module": "Mathlib.Combinatorics.Quiver.Schreier",
+      "doc": "Wraps a vertex of the acted-upon type into the Schreier graph. "
+    },
+    {
+      "name": "Quiver.SchreierGraph.schreierGraphQuiver",
+      "type": " (V : Type u_1) {M : Type u_2} [SMul M V] {S : Type u_3} (\u03b9 : S \u2192 M) : Quiver (Quiver.SchreierGraph V \u03b9)",
+      "module": "Mathlib.Combinatorics.Quiver.Schreier",
+      "doc": "The quiver structure on a Schreier graph. An arrow from `x` to `y` exists when\nthere is an `s : S` such that `(\u03b9 s) \u2022 x = y`. "
+    },
+    {
+      "name": "Quiver.SchreierGraph.toVertex",
+      "type": " {V : Type u_1} {M : Type u_2} [SMul M V] {S : Type u_3} {_\u03b9 : S \u2192 M} (self : Quiver.SchreierGraph V _\u03b9) : V",
+      "module": "Mathlib.Combinatorics.Quiver.Schreier",
+      "doc": "The underlying vertex. "
+    },
+    {
+      "name": "Quiver.SchreierGraph.equiv",
+      "type": " (V : Type u_1) {M : Type u_2} [SMul M V] {S : Type u_3} (\u03b9 : S \u2192 M) : V \u2243 Quiver.SchreierGraph V \u03b9",
+      "module": "Mathlib.Combinatorics.Quiver.Schreier",
+      "doc": "Equivalence between the original vertex type and the Schreier graph type. "
+    },
+    {
+      "name": "Quiver.SchreierGraph.schreierGraphSMul",
+      "type": " (V : Type u_1) {M : Type u_2} [SMul M V] {S : Type u_3} (\u03b9 : S \u2192 M) : SMul M (Quiver.SchreierGraph V \u03b9)",
+      "module": "Mathlib.Combinatorics.Quiver.Schreier",
+      "doc": "Transport the scalar multiplication to the Schreier graph vertices. "
+    },
+    {
+      "name": "Quiver.SchreierGraph.labelling",
+      "type": " (V : Type u_1) {M : Type u_2} [SMul M V] {S : Type u_3} (\u03b9 : S \u2192 M) : Quiver.SchreierGraph V \u03b9 \u2964q Quiver.SingleObj S",
+      "module": "Mathlib.Combinatorics.Quiver.Schreier",
+      "doc": "The labelling of arrows in a Schreier graph by elements of `S`.\nThis is encoded as a prefunctor to `SingleObj S`. "
+    },
+    {
+      "name": "Quiver.SchreierGraph.instMulAction",
+      "type": " (V : Type u_1) {M : Type u_2} [Monoid M] [MulAction M V] {S : Type u_3} (\u03b9 : S \u2192 M) : MulAction M (Quiver.SchreierGraph V \u03b9)",
+      "module": "Mathlib.Combinatorics.Quiver.Schreier",
+      "doc": "The monoid acts on the vertices of the Schreier graph. "
+    },
+    {
+      "name": "Quiver.SchreierGraph.evalWord_nil",
+      "type": " {M : Type u_1} [Group M] {S : Type u_2} (\u03b9 : S \u2192 M) : Quiver.SchreierGraph.evalWord \u03b9 [] = 1",
+      "module": "Mathlib.Combinatorics.Quiver.Schreier",
+      "doc": ""
+    },
+    {
+      "name": "Quiver.SchreierGraph.evalWord_mem_closure",
+      "type": " {M : Type u_1} [Group M] {S : Type u_2} (\u03b9 : S \u2192 M) (w : List (S \u00d7 Bool)) : Quiver.SchreierGraph.evalWord \u03b9 w \u2208 Subgroup.closure (Set.range \u03b9)",
+      "module": "Mathlib.Combinatorics.Quiver.Schreier",
+      "doc": "The evaluation of any word lies in the subgroup generated by the image of `\u03b9`. "
+    },
+    {
+      "name": "Quiver.SchreierGraph.labelling_obj",
+      "type": " (V : Type u_1) {M : Type u_2} [SMul M V] {S : Type u_3} (\u03b9 : S \u2192 M) (x\u271d : Quiver.SchreierGraph V \u03b9) : (Quiver.SchreierGraph.labelling V \u03b9).obj x\u271d = Quiver.SingleObj.star S",
+      "module": "Mathlib.Combinatorics.Quiver.Schreier",
+      "doc": ""
+    },
+    {
+      "name": "Quiver.SchreierGraph",
+      "type": " (V : Type u_1) {M : Type u_2} [SMul M V] {S : Type u_3} (_\u03b9 : S \u2192 M) : Type u_1",
+      "module": "Mathlib.Combinatorics.Quiver.Schreier",
+      "doc": "A Schreier graph for a monoid `M` acting on `V` with generators `\u03b9 : S \u2192 M`.\nVertices are elements of `V`, and there is an edge from `x` to `y` for each `s : S`\nsuch that `\u03b9 s \u2022 x = y`. "
+    },
+    {
+      "name": "FreeGroupBasis.instIsFreeGroupFreeGroup",
+      "type": " (X : Type u_5) : IsFreeGroup (FreeGroup X)",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": ""
+    },
+    {
+      "name": "FreeGroupBasis.isFreeGroup",
+      "type": " {\u03b9 : Type u_1} {G : Type u_3} [Group G] (b : FreeGroupBasis \u03b9 G) : IsFreeGroup G",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": "A group admitting a free group basis is a free group. "
+    },
+    {
+      "name": "IsFreeGroup.of",
+      "type": " {G : Type u_1} [Group G] [IsFreeGroup G] : IsFreeGroup.Generators G \u2192 G",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": "The canonical injection of G's generators into G "
+    },
+    {
+      "name": "IsFreeGroup.basis",
+      "type": " (G : Type u_1) [Group G] [IsFreeGroup G] : FreeGroupBasis (IsFreeGroup.Generators G) G",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": "A free group basis of a free group `G`, over the set `Generators G`. "
+    },
+    {
+      "name": "IsFreeGroup.mk",
+      "type": " {G : Type u} [Group G] (nonempty_basis : \u2203 \u03b9, Nonempty (FreeGroupBasis \u03b9 G)) : IsFreeGroup G",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": ""
+    },
+    {
+      "name": "IsFreeGroup.nonempty_basis",
+      "type": " {G : Type u} {inst\u271d : Group G} [self : IsFreeGroup G] : \u2203 \u03b9, Nonempty (FreeGroupBasis \u03b9 G)",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": ""
+    },
+    {
+      "name": "IsFreeGroup.mulEquiv",
+      "type": " (G : Type u_2) [Group G] [IsFreeGroup G] : FreeGroup (IsFreeGroup.Generators G) \u2243* G",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": "Any free group is isomorphic to \"the\" free group. "
+    },
+    {
+      "name": "IsFreeGroup.toFreeGroup",
+      "type": " (G : Type u_1) [Group G] [IsFreeGroup G] : G \u2243* FreeGroup (IsFreeGroup.Generators G)",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": "Any free group is isomorphic to \"the\" free group. "
+    },
+    {
+      "name": "IsFreeGroup.lift",
+      "type": " {G : Type u_1} [Group G] [IsFreeGroup G] {H : Type u_2} [Group H] : (IsFreeGroup.Generators G \u2192 H) \u2243 (G \u2192* H)",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": "The equivalence between functions on the generators and group homomorphisms from a free group\ngiven by those generators. "
+    },
+    {
+      "name": "IsFreeGroup.ofMulEquiv",
+      "type": " {G : Type u_1} [Group G] [IsFreeGroup G] {H : Type u_2} [Group H] (e : G \u2243* H) : IsFreeGroup H",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": ""
+    },
+    {
+      "name": "IsFreeGroup",
+      "type": " (G : Type u) [Group G] : Prop",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": "A group is free if it admits a free group basis. In the definition, we require the basis to\nbe in the same universe as `G`, although this property follows from the existence of a basis in\nany universe, see `FreeGroupBasis.isFreeGroup`. "
+    },
+    {
+      "name": "IsFreeGroup.Generators",
+      "type": " (G : Type u_1) [Group G] [IsFreeGroup G] : Type u_1",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": "A set of generators of a free group, chosen arbitrarily "
+    },
+    {
+      "name": "IsFreeGroup.ofUniqueLift",
+      "type": " {G : Type u} [Group G] (X : Type u) (of : X \u2192 G) (h : \u2200 {H : Type u} [inst : Group H] (f : X \u2192 H), \u2203! F, \u2200 (a : X), F (of a) = f a) : IsFreeGroup G",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": "If a group satisfies the universal property of a free group with respect to a given type, then\nit is free. Here the universal property is expressed as in `IsFreeGroup.unique_lift`. "
+    },
+    {
+      "name": "IsFreeGroup.ofLift",
+      "type": " {G : Type u} [Group G] (X : Type u) (of : X \u2192 G) (lift : {H : Type u} \u2192 [inst : Group H] \u2192 (X \u2192 H) \u2243 (G \u2192* H)) (lift_of : \u2200 {H : Type u} [inst : Group H] (f : X \u2192 H) (a : X), (lift f) (of a) = f a) : IsFreeGroup G",
+      "module": "Mathlib.GroupTheory.FreeGroup.IsFreeGroup",
+      "doc": "If a group satisfies the universal property of a free group with respect to a given type, then\nit is free. Here, the universal property is expressed as in `IsFreeGroup.lift` and its\nproperties. "
+    },
+    {
+      "name": "Monoid.CoprodI.instIsFreeGroup",
+      "type": " {\u03b9 : Type u_4} (G : \u03b9 \u2192 Type u_5) [(i : \u03b9) \u2192 Group (G i)] [\u2200 (i : \u03b9), IsFreeGroup (G i)] : IsFreeGroup (Monoid.CoprodI G)",
+      "module": "Mathlib.GroupTheory.CoprodI",
+      "doc": "The free product of free groups is itself a free group. "
+    },
+    {
+      "name": "IsFreeGroupoid.endIsFreeOfConnectedFree",
+      "type": " {G : Type u} [CategoryTheory.Groupoid G] [CategoryTheory.IsConnected G] [IsFreeGroupoid G] (r : G) : IsFreeGroup (CategoryTheory.End r)",
+      "module": "Mathlib.GroupTheory.FreeGroup.NielsenSchreier",
+      "doc": "A vertex group in a free connected groupoid is free. With some work one could drop the\nconnectedness assumption, by looking at connected components. "
+    },
+    {
+      "name": "subgroupIsFreeOfIsFree",
+      "type": " {G : Type u} [Group G] [IsFreeGroup G] (H : Subgroup G) : IsFreeGroup \u21a5H",
+      "module": "Mathlib.GroupTheory.FreeGroup.NielsenSchreier",
+      "doc": "The Nielsen-Schreier theorem: a subgroup of a free group is free. "
+    },
+    {
+      "name": "IsFreeGroupoid.SpanningTree.endIsFree",
+      "type": " {G : Type u} [CategoryTheory.Groupoid G] [IsFreeGroupoid G] (T : WideSubquiver (Quiver.Symmetrify (IsFreeGroupoid.Generators G))) [Quiver.Arborescence (WideSubquiver.toType (Quiver.Symmetrify (IsFreeGroupoid.Generators G)) T)] : IsFreeGroup (CategoryTheory.End (IsFreeGroupoid.SpanningTree.root'\u271d T))",
+      "module": "Mathlib.GroupTheory.FreeGroup.NielsenSchreier",
+      "doc": "Given a free groupoid and an arborescence of its generating quiver, the vertex\ngroup at the root is freely generated by loops coming from generating arrows\nin the complement of the tree. "
+    },
+    {
+      "name": "CommGroup.toGroup",
+      "type": " {G : Type u_2} [self : CommGroup G] : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.mk",
+      "type": " {G : Type u_2} [toDivInvMonoid : DivInvMonoid G] (inv_mul_cancel : \u2200 (a : G), a\u207b\u00b9 * a = 1) : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Pi.group",
+      "type": " {I : Type u} {f : I \u2192 Type v\u2081} [(i : I) \u2192 Group (f i)] : Group ((i : I) \u2192 f i)",
+      "module": "Mathlib.Algebra.Group.Pi.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative.group",
+      "type": " {\u03b1 : Type u} [AddGroup \u03b1] : Group (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2081] [One M\u2081] [Pow M\u2081 \u2115] [Inv M\u2081] [Div M\u2081] [Pow M\u2081 \u2124] [Group M\u2082] (f : M\u2081 \u2192 M\u2082) (hf : Function.Injective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2081",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits an injective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "Function.Surjective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2082] [One M\u2082] [Pow M\u2082 \u2115] [Inv M\u2082] [Div M\u2082] [Pow M\u2082 \u2124] [Group M\u2081] (f : M\u2081 \u2192 M\u2082) (hf : Function.Surjective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2082",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits a surjective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "AddOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "Units.instGroup",
+      "type": " {\u03b1 : Type u} [Monoid \u03b1] : Group \u03b1\u02e3",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Units of a monoid form a group. "
+    },
+    {
+      "name": "groupOfIsUnit",
+      "type": " {M : Type u_1} [hM : Monoid M] (h : \u2200 (a : M), IsUnit a) : Group M",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Constructs a `Group` structure on a `Monoid` consisting only of units. "
+    },
+    {
+      "name": "Prod.instGroup",
+      "type": " {G : Type u_1} {H : Type u_2} [Group G] [Group H] : Group (G \u00d7 H)",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.Perm.permGroup",
+      "type": " {\u03b1 : Type u_4} : Group (Equiv.Perm \u03b1)",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"Nielsen\"' -> nothing",
+    "search: '\"FreeGroup\"' -> FreeGroup.instMonad, FreeGroup.instLawfulMonad, FreeGroup.freeGroupUnitEquivInt, FreeGroup.instGroup, FreeGroup.instInhabited, FreeGroup.instInv, FreeGroup.instMul, FreeGroup.instOne",
+    "search: '\"subgroup\"' -> AddSubgroup.instPartialOrder, Subgroup.instPartialOrder, AddSubgroup.instSetLike, AddSubgroup.normalizer, AddSubgroup.setNormalizer, Subgroup.instSetLike, Subgroup.normalizer, Subgroup.setNormalizer",
+    "search: '\"subgroup\" \"free\"' -> nothing",
+    "search: '\"subgroup\" \"FreeGroup\"' -> nothing",
+    "search: '\"schreier\"' -> Quiver.SchreierGraph.evalWord, Quiver.SchreierGraph.ofVertex, Quiver.SchreierGraph.schreierGraphQuiver, Quiver.SchreierGraph.toVertex, Quiver.SchreierGraph.equiv, Quiver.SchreierGraph.schreierGraphSMul, Quiver.SchreierGraph.labelling, Quiver.SchreierGraph.instMulAction",
+    "search: '\"IsFreeGroup\"' -> FreeGroupBasis.instIsFreeGroupFreeGroup, FreeGroupBasis.isFreeGroup, IsFreeGroup.of, IsFreeGroup.basis, IsFreeGroup.mk, IsFreeGroup.nonempty_basis, IsFreeGroup.mulEquiv, IsFreeGroup.toFreeGroup",
+    "search: '\"IsFreeGroup\" \"subgroup\"' -> nothing",
+    "search: '|- IsFreeGroup _' -> FreeGroupBasis.instIsFreeGroupFreeGroup, FreeGroupBasis.isFreeGroup, IsFreeGroup.mk, IsFreeGroup.ofMulEquiv, IsFreeGroup.ofUniqueLift, IsFreeGroup.ofLift, Monoid.CoprodI.instIsFreeGroup, IsFreeGroupoid.endIsFreeOfConnectedFree",
+    "seeded from goal shape -> subgroupIsFreeOfIsFree, FreeGroupBasis.instIsFreeGroupFreeGroup, FreeGroupBasis.isFreeGroup, IsFreeGroup.mk, IsFreeGroup.ofMulEquiv, IsFreeGroup.ofUniqueLift, IsFreeGroup.ofLift, Monoid.CoprodI.instIsFreeGroup"
+  ],
+  "budget": {
+    "tool_calls": 16,
+    "lean_calls": 6,
+    "searches": 10,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788850717.274614,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 1
+  },
+  "goal": "theorem subgroup_of_free_group_is_free {G : Type u} [Group G] [IsFreeGroup G] (H : Subgroup G) : IsFreeGroup H"
+}

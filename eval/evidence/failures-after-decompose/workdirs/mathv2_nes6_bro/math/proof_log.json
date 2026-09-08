@@ -1,0 +1,711 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_6_4 :\n  IsEmpty (Multiplicative \u211d \u2243* Multiplicative \u2102)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788853398.154749,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_6_4 :\n  IsEmpty (Multiplicative \u211d \u2243* Multiplicative \u2102)",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Bool.fintype\n    | exact Bool.fintype _\n    | apply Bool.fintype\n    | simpa using Bool.fintype\n    | exact \u27e8_, Bool.fintype\u27e9\n    | exact Bool.fintype (by assumption)\n    | exact Bool.fintype \u2039_\u203a\n    | apply Bool.fintype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Bool.fintype (by assumption))\n    | exact Ordering.fintype\n    | exact Ordering.fintype _\n    | apply Ordering.fintype\n    | simpa using Ordering.fintype\n    | exact \u27e8_, Ordering.fintype\u27e9\n    | exact Ordering.fintype (by assumption)\n    | exact Ordering.fintype \u2039_\u203a\n    | apply Ordering.fintype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordering.fintype (by assumption))\n    | exact Lex.fintype\n    | exact Lex.fintype _\n    | apply Lex.fintype\n    | simpa using Lex.fintype\n    | exact \u27e8_, Lex.fintype\u27e9\n    | exact Lex.fintype (by assumption)\n    | exact Lex.fintype \u2039_\u203a\n    | apply Lex.fintype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Lex.fintype (by assumption))\n    | exact OrderDual.fintype\n    | exact OrderDual.fintype _\n    | apply OrderDual.fintype\n    | simpa using OrderDual.fintype\n    | exact \u27e8_, OrderDual.fintype\u27e9\n    | exact OrderDual.fintype (by assumption)\n    | exact OrderDual.fintype \u2039_\u203a\n    | apply OrderDual.fintype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact OrderDual.fintype (by assumption))\n    | exact Fintype.mk\n    | exact Fintype.mk _\n    | apply Fintype.mk\n    | simpa using Fintype.mk\n    | exact \u27e8_, Fintype.mk\u27e9\n    | exact Fintype.mk (by assumption)\n    | exact Fintype.mk \u2039_\u203a\n    | apply Fintype.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.mk (by assumption))\n    | exact Fintype.subtype\n    | exact Fintype.subtype _\n    | apply Fintype.subtype\n    | simpa using Fintype.subtype\n    | exact \u27e8_, Fintype.subtype\u27e9\n    | exact Fintype.subtype (by assumption)\n    | exact Fintype.subtype \u2039_\u203a\n    | apply Fintype.subtype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.subtype (by assumption))\n    | exact Fintype.ofFinset\n    | exact Fintype.ofFinset _\n    | apply Fintype.ofFinset\n    | simpa using Fintype.ofFinset\n    | exact \u27e8_, Fintype.ofFinset\u27e9\n    | exact Fintype.ofFinset (by assumption)\n    | exact Fintype.ofFinset \u2039_\u203a\n    | apply Fintype.ofFinset <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.ofFinset (by assumption))\n    | exact Fintype.instEmpty\n    | exact Fintype.instEmpty _\n    | apply Fintype.instEmpty\n    | simpa using Fintype.instEmpty\n    | exact \u27e8_, Fintype.instEmpty\u27e9\n    | exact Fintype.instEmpty (by assumption)\n    | exact Fintype.instEmpty \u2039_\u203a\n    | apply Fintype.instEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.instEmpty (by assumption))\n    | exact Fintype.instPEmpty\n    | exact Fintype.instPEmpty _\n    | apply Fintype.instPEmpty\n    | simpa using Fintype.instPEmpty\n    | exact \u27e8_, Fintype.instPEmpty\u27e9\n    | exact Fintype.instPEmpty (by assumption)\n    | exact Fintype.instPEmpty \u2039_\u203a\n    | apply Fintype.instPEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.instPEmpty (by assumption))\n    | exact Fintype.ofIsEmpty\n    | exact Fintype.ofIsEmpty _\n    | apply Fintype.ofIsEmpty\n    | simpa using Fintype.ofIsEmpty\n    | exact \u27e8_, Fintype.ofIsEmpty\u27e9\n    | exact Fintype.ofIsEmpty (by assumption)\n    | exact Fintype.ofIsEmpty \u2039_\u203a\n    | apply Fintype.ofIsEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.ofIsEmpty (by assumption))\n    | exact Fintype.ofSubsingleton\n    | exact Fintype.ofSubsingleton _\n    | apply Fintype.ofSubsingleton\n    | simpa using Fintype.ofSubsingleton\n    | exact \u27e8_, Fintype.ofSubsingleton\u27e9\n    | exact Fintype.ofSubsingleton (by assumption)\n    | exact Fintype.ofSubsingleton \u2039_\u203a\n    | apply Fintype.ofSubsingleton <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.ofSubsingleton (by assumption))\n    | exact Fintype.ofEquiv\n    | exact Fintype.ofEquiv _\n    | apply Fintype.ofEquiv\n    | simpa using Fintype.ofEquiv\n    | exact \u27e8_, Fintype.ofEquiv\u27e9\n    | exact Fintype.ofEquiv (by assumption)\n    | exact Fintype.ofEquiv \u2039_\u203a\n    | apply Fintype.ofEquiv <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.ofEquiv (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:52: error: unsolved goals\n\u22a2 IsEmpty (Multiplicative \u211d \u2243* Multiplicative \u2102)\n\nStill to prove:\n\u22a2 IsEmpty (Multiplicative \u211d \u2243* Multiplicative \u2102)",
+      "at": 1788853413.6571393,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_6_4 :\n  IsEmpty (Multiplicative \u211d \u2243* Multiplicative \u2102)",
+      "proof": "by\n  intro h\n  -- let's see what we can do with h\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n6:8: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce\n\n\u22a2 IsEmpty (Multiplicative \u211d \u2243* Multiplicative \u2102)\n\nStill to prove:\n\u22a2 IsEmpty (Multiplicative \u211d \u2243* Multiplicative \u2102)",
+      "at": 1788853448.335863,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_6_4 :\n  IsEmpty (Multiplicative \u211d \u2243* Multiplicative \u2102)",
+      "proof": "by\n  constructor\n  intro h\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:52: error: unsolved goals\nh : Multiplicative \u211d \u2243* Multiplicative \u2102\n\u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788853452.9101567,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_complex_I : \u2102 := by sorry",
+      "proof": "by\n  exact Complex.I\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:0: error: type of theorem `mra_goal` is not a proposition\n  \u2102\n1:31: error: unexpected token ':='; expected command",
+      "at": 1788853486.5960693,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_complex_I : Complex.I * Complex.I = -1",
+      "proof": "by\n  simp\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma test_complex_I : Complex.I * Complex.I = -1",
+      "at": 1788853489.8115213,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma exercise_1_6_4_correct : IsEmpty (\u211d\u02e3 \u2243* \u2102\u02e3)",
+      "proof": "by\n  constructor\n  intro h\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:39: error: unsolved goals\nh : \u211d\u02e3 \u2243* \u2102\u02e3\n\u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788853495.766607,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma real_sq_ne_neg_one (x : \u211d) : x * x \u2260 -1",
+      "proof": "by\n  intro h\n  have h1 : 0 \u2264 x * x := mul_self_nonneg x\n  rw [h] at h1\n  norm_num at h1\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma real_sq_ne_neg_one (x : \u211d) : x * x \u2260 -1",
+      "at": 1788853518.0277069,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma real_unit_sq_one (y : \u211d\u02e3) (h : y * y = 1) : (y : \u211d) = 1 \u2228 (y : \u211d) = -1",
+      "proof": "by\n  have h1 : (y : \u211d) * (y : \u211d) = 1 := by\n    have h_mul : ((y * y : \u211d) : \u211d) = (y : \u211d) * (y : \u211d) := rfl\n    -- wait, let's see if we can just use `congr_arg` or `exact`\n    exact_mod_cast h\n  -- now we have (y : \u211d) * (y : \u211d) = 1\n  -- we can use `mul_self_eq_one_iff` or similar, or just `sq_eq_one_iff`\n  -- or we can do it manually: (y - 1) * (y + 1) = 0\n  have h2 : ((y : \u211d) - 1) * ((y : \u211d) + 1) = 0 := by linarith [h1]\n  cases mul_eq_zero.mp h2 with\n  | inl h3 => left; linarith\n  | inr h4 => right; linarith\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n14:4: error: mod_cast has type\n  y * y = 1\nbut is expected to have type\n  \u2191(y * y) = 1",
+      "at": 1788853522.6385815,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma real_unit_sq_one (y : \u211d\u02e3) (h : y * y = 1) : (y : \u211d) = 1 \u2228 (y : \u211d) = -1",
+      "proof": "by\n  have h1 : ((y * y : \u211d\u02e3) : \u211d) = 1 := congr_arg (fun (u : \u211d\u02e3) => (u : \u211d)) h\n  -- wait, is `((y * y : \u211d\u02e3) : \u211d) = (y : \u211d) * (y : \u211d)`?\n  -- yes, by definition or by `Units.val_mul`\n  rw [Units.val_mul] at h1\n  have h2 : ((y : \u211d) - 1) * ((y : \u211d) + 1) = 0 := by linarith [h1]\n  cases mul_eq_zero.mp h2 with\n  | inl h3 => left; linarith\n  | inr h4 => right; linarith\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma real_unit_sq_one (y : \u211d\u02e3) (h : y * y = 1) : (y : \u211d) = 1 \u2228 (y : \u211d) = -1",
+      "at": 1788853525.6012945,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma i_sq : (Units.mk0 Complex.I Complex.I_ne_zero) * (Units.mk0 Complex.I Complex.I_ne_zero) = -1",
+      "proof": "by\n  ext\n  simp\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma i_sq : (Units.mk0 Complex.I Complex.I_ne_zero) * (Units.mk0 Complex.I Complex.I_ne_zero) = -1",
+      "at": 1788853529.0691428,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma neg_one_sq : (-1 : \u2102\u02e3) * (-1 : \u2102\u02e3) = 1",
+      "proof": "by\n  ext\n  simp\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma neg_one_sq : (-1 : \u2102\u02e3) * (-1 : \u2102\u02e3) = 1",
+      "at": 1788853531.6131608,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma neg_one_ne_one : (-1 : \u2102\u02e3) \u2260 1",
+      "proof": "by\n  intro h\n  have h1 : ((-1 : \u2102\u02e3) : \u2102) = (1 : \u2102\u02e3) := congr_arg (fun (u : \u2102\u02e3) => (u : \u2102)) h\n  simp at h1\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n24:6: error: `neg_one_sq` has already been declared\n28:34: error: unsolved goals\nh : -1 = 1\nh1 : -1 = 1\n\u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788853534.2573237,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma neg_one_ne_one : (-1 : \u2102\u02e3) \u2260 1",
+      "proof": "by\n  intro h\n  have h1 : ((-1 : \u2102\u02e3) : \u2102) = (1 : \u2102\u02e3) := congr_arg (fun (u : \u2102\u02e3) => (u : \u2102)) h\n  simp at h1\n  norm_num at h1\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n24:6: error: `neg_one_sq` has already been declared",
+      "at": 1788853537.80129,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma exercise_1_6_4_correct : IsEmpty (\u211d\u02e3 \u2243* \u2102\u02e3)",
+      "proof": "by\n  constructor\n  intro f\n  let i : \u2102\u02e3 := Units.mk0 Complex.I Complex.I_ne_zero\n  have h_i_sq : i * i = -1 := i_sq\n  have h_f_i_sq : f i * f i = f (-1) := by\n    rw [\u2190 f.map_mul, h_i_sq]\n  have h_neg_one_sq : (-1 : \u2102\u02e3) * (-1 : \u2102\u02e3) = 1 := neg_one_sq\n  have h_f_neg_one_sq : f (-1) * f (-1) = 1 := by\n    rw [\u2190 f.map_mul, h_neg_one_sq, f.map_one]\n  have h_f_neg_one : (f (-1) : \u211d) = 1 \u2228 (f (-1) : \u211d) = -1 := real_unit_sq_one (f (-1)) h_f_neg_one_sq\n  cases h_f_neg_one with\n  | inl h1 =>\n    have h_f_one : (f 1 : \u211d) = 1 := by simp\n    have h_eq : (f (-1) : \u211d) = (f 1 : \u211d) := by rw [h1, h_f_one]\n    have h_eq_units : f (-1) = f 1 := Units.ext h_eq\n    have h_neg_one_eq_one : (-1 : \u2102\u02e3) = 1 := f.injective h_eq_units\n    have h_neg_one_eq_one_val : (-1 : \u2102) = 1 := congr_arg Units.val h_neg_one_eq_one\n    norm_num at h_neg_one_eq_one_val\n  | inr h2 =>\n    have h_f_i_sq_val : (f i * f i : \u211d) = (f (-1) : \u211d) := congr_arg Units.val h_f_i_sq\n    rw [Units.val_mul] at h_f_i_sq_val\n    rw [h2] at h_f_i_sq_val\n    exact real_sq_ne_neg_one (f i) h_f_i_sq_val\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n24:6: error: `neg_one_sq` has already been declared\n33:20: error: Application type mismatch: The argument\n  i\nhas type\n  \u2102\u02e3\nbut is expected to have type\n  \u211d\u02e3\nin the application\n  f i\n33:26: error: Application type mismatch: The argument\n  i\nhas type\n  \u2102\u02e3\nbut is expected to have type\n  \u211d\u02e3\nin the application\n  f i\n35:51: error: Type mismatch\n  neg_one_sq\nhas type\n  (-1) ^ 2 = 1\nbut is expected to have type\n  -1 * -1 = 1",
+      "at": 1788853551.3973048,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_1_6_4_refutation : \u00ac (IsEmpty (Multiplicative \u211d \u2243* Multiplicative \u2102))",
+      "proof": "by\n  intro h\n  have h_iso : Multiplicative \u211d \u2243* Multiplicative \u2102 := by\n    decide\n  exact h.false h_iso\n",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n24:6: error: `neg_one_sq` has already been declared\n31:4: error: Application type mismatch: The argument\n  Multiplicative \u211d \u2243* Multiplicative \u2102\nhas type\n  Type\nof sort `Type 1` but is expected to have type\n  Prop\nof sort `Type` in the application\n  @decide (Multiplicative \u211d \u2243* Multiplicative \u2102)",
+      "at": 1788853568.4022274,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma test_complex_I : Complex.I * Complex.I = -1 := by\n  simp",
+    "lemma real_sq_ne_neg_one (x : \u211d) : x * x \u2260 -1 := by\n  intro h\n  have h1 : 0 \u2264 x * x := mul_self_nonneg x\n  rw [h] at h1\n  norm_num at h1",
+    "lemma real_unit_sq_one (y : \u211d\u02e3) (h : y * y = 1) : (y : \u211d) = 1 \u2228 (y : \u211d) = -1 := by\n  have h1 : ((y * y : \u211d\u02e3) : \u211d) = 1 := congr_arg (fun (u : \u211d\u02e3) => (u : \u211d)) h\n  -- wait, is `((y * y : \u211d\u02e3) : \u211d) = (y : \u211d) * (y : \u211d)`?\n  -- yes, by definition or by `Units.val_mul`\n  rw [Units.val_mul] at h1\n  have h2 : ((y : \u211d) - 1) * ((y : \u211d) + 1) = 0 := by linarith [h1]\n  cases mul_eq_zero.mp h2 with\n  | inl h3 => left; linarith\n  | inr h4 => right; linarith",
+    "lemma i_sq : (Units.mk0 Complex.I Complex.I_ne_zero) * (Units.mk0 Complex.I Complex.I_ne_zero) = -1 := by\n  ext\n  simp",
+    "lemma neg_one_sq : (-1 : \u2102\u02e3) * (-1 : \u2102\u02e3) = 1 := by\n  ext\n  simp"
+  ],
+  "premises": [
+    {
+      "name": "Bool.fintype",
+      "type": " : Fintype Bool",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Ordering.fintype",
+      "type": " : Fintype Ordering",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Lex.fintype",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype (Lex \u03b1)",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "OrderDual.fintype",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype \u03b1\u1d52\u1d48",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.mk",
+      "type": " {\u03b1 : Type u_3} (elems : Finset \u03b1) (complete : \u2200 (x : \u03b1), x \u2208 elems) : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.subtype",
+      "type": " {\u03b1 : Type u_1} {p : \u03b1 \u2192 Prop} (s : Finset \u03b1) (H : \u2200 (x : \u03b1), x \u2208 s \u2194 p x) : Fintype { x // p x }",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": "Given a predicate that can be represented by a finset, the subtype\nassociated to the predicate is a fintype. "
+    },
+    {
+      "name": "Fintype.ofFinset",
+      "type": " {\u03b1 : Type u_1} {p : Set \u03b1} (s : Finset \u03b1) (H : \u2200 (x : \u03b1), x \u2208 s \u2194 x \u2208 p) : Fintype \u2191p",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": "Construct a fintype from a finset with the same elements. "
+    },
+    {
+      "name": "Fintype.instEmpty",
+      "type": " : Fintype Empty",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.instPEmpty",
+      "type": " : Fintype PEmpty.{u_3 + 1}",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.ofIsEmpty",
+      "type": " {\u03b1 : Type u_1} [IsEmpty \u03b1] : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "An empty type is a fintype. Not registered as an instance, to make sure that there aren't two\nconflicting `Fintype \u03b9` instances around when casing over whether a fintype `\u03b9` is empty or not. "
+    },
+    {
+      "name": "Fintype.ofSubsingleton",
+      "type": " {\u03b1 : Type u_1} (a : \u03b1) [Subsingleton \u03b1] : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "Any subsingleton type with a witness is a fintype (with one term). "
+    },
+    {
+      "name": "Fintype.ofEquiv",
+      "type": " {\u03b2 : Type u_2} (\u03b1 : Type u_3) [Fintype \u03b1] (f : \u03b1 \u2243 \u03b2) : Fintype \u03b2",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "If `f : \u03b1 \u2243 \u03b2` and `\u03b1` is a fintype, then `\u03b2` is also a fintype. "
+    },
+    {
+      "name": "Subgroup.normalizer",
+      "type": " {G : Type u_1} [Group G] (S : Set G) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "The `normalizer` of `S` is the subgroup of `G` whose elements satisfy `g * S * g\u207b\u00b9 = S`.\nWhen `S` is a subgroup, this is the largest subgroup of `G` inside which `S` is normal. "
+    },
+    {
+      "name": "Subgroup.setNormalizer",
+      "type": " {G : Type u_1} [Group G] (S : Set G) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "**Alias** of `Subgroup.normalizer`.\n\n---\n\nThe `normalizer` of `S` is the subgroup of `G` whose elements satisfy `g * S * g\u207b\u00b9 = S`.\nWhen `S` is a subgroup, this is the largest subgroup of `G` inside which `S` is normal. "
+    },
+    {
+      "name": "Subgroup.ofClass",
+      "type": " {S : Type u_3} {G : Type u_4} [Group G] [SetLike S G] [SubgroupClass S G] (s : S) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "The actual `Subgroup` obtained from an element of a `SubgroupClass` "
+    },
+    {
+      "name": "Subgroup.copy",
+      "type": " {G : Type u_1} [Group G] (K : Subgroup G) (s : Set G) (hs : s = \u2191K) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "Copy of a subgroup with a new `carrier` equal to the old one. Useful to fix definitional\nequalities. "
+    },
+    {
+      "name": "Subgroup.ofDiv",
+      "type": " {G : Type u_1} [Group G] (s : Set G) (hsn : s.Nonempty) (hs : \u2200 x \u2208 s, \u2200 y \u2208 s, x * y\u207b\u00b9 \u2208 s) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "Construct a subgroup from a nonempty set that is closed under division. "
+    },
+    {
+      "name": "Subgroup.mk",
+      "type": " {G : Type u_3} [Group G] (toSubmonoid : Submonoid G) (inv_mem' : \u2200 {x : G}, x \u2208 toSubmonoid.carrier \u2192 x\u207b\u00b9 \u2208 toSubmonoid.carrier) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.closure",
+      "type": " {G : Type u_1} [Group G] (k : Set G) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Lattice",
+      "doc": "The `Subgroup` generated by a set. "
+    },
+    {
+      "name": "Subgroup.subgroupOf",
+      "type": " {G : Type u_1} [Group G] (H K : Subgroup G) : Subgroup \u21a5K",
+      "module": "Mathlib.Algebra.Group.Subgroup.Map",
+      "doc": "For any subgroups `H` and `K`, view `H \u2293 K` as a subgroup of `K`. "
+    },
+    {
+      "name": "Subgroup.comap",
+      "type": " {G : Type u_1} [Group G] {N : Type u_6} [Group N] (f : G \u2192* N) (H : Subgroup N) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Map",
+      "doc": "The preimage of a subgroup along a monoid homomorphism is a subgroup. "
+    },
+    {
+      "name": "Subgroup.map",
+      "type": " {G : Type u_1} [Group G] {N : Type u_4} [Group N] (f : G \u2192* N) (H : Subgroup G) : Subgroup N",
+      "module": "Mathlib.Algebra.Group.Subgroup.Map",
+      "doc": "The image of a subgroup along a monoid homomorphism is a subgroup. "
+    },
+    {
+      "name": "MonoidHom.ker",
+      "type": " {G : Type u_1} [Group G] {M : Type u_6} [MulOneClass M] (f : G \u2192* M) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Ker",
+      "doc": "The multiplicative kernel of a monoid homomorphism is the subgroup of elements `x : G` such that\n`f x = 1` "
+    },
+    {
+      "name": "MonoidHom.range",
+      "type": " {G : Type u_1} [Group G] {N : Type u_4} [Group N] (f : G \u2192* N) : Subgroup N",
+      "module": "Mathlib.Algebra.Group.Subgroup.Ker",
+      "doc": "The range of a monoid homomorphism from a group is a subgroup. "
+    },
+    {
+      "name": "multiplicative_of_total",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [Monoid \u03b2] (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [Std.Total r] (f : \u03b1 \u2192 \u03b1 \u2192 \u03b2) (p : \u03b1 \u2192 Prop) (hswap : \u2200 {a b : \u03b1}, p a \u2192 p b \u2192 f a b * f b a = 1) (hmul : \u2200 {a b c : \u03b1}, r a b \u2192 r b c \u2192 p a \u2192 p b \u2192 p c \u2192 f a c = f a b * f b c) {a b c : \u03b1} (pa : p a) (pb : p b) (pc : p c) : f a c = f a b * f b c",
+      "module": "Mathlib.Algebra.Group.Basic",
+      "doc": "If a binary function from a type equipped with a total relation `r` to a monoid is\nanti-symmetric (i.e. satisfies `f a b * f b a = 1`), in order to show it is multiplicative\n(i.e. satisfies `f a c = f a b * f b c`), we may assume `r a b` and `r b c` are satisfied.\nWe allow restricting to a subset specified by a predicate `p`. "
+    },
+    {
+      "name": "multiplicative_of_symm_of_total",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [Monoid \u03b2] (p r : \u03b1 \u2192 \u03b1 \u2192 Prop) [Std.Total r] (f : \u03b1 \u2192 \u03b1 \u2192 \u03b2) [Std.Symm p] (hf_swap : \u2200 {a b : \u03b1}, p a b \u2192 f a b * f b a = 1) (hmul : \u2200 {a b c : \u03b1}, r a b \u2192 r b c \u2192 p a b \u2192 p b c \u2192 p a c \u2192 f a c = f a b * f b c) {a b c : \u03b1} (pab : p a b) (pbc : p b c) (pac : p a c) : f a c = f a b * f b c",
+      "module": "Mathlib.Algebra.Group.Basic",
+      "doc": ""
+    },
+    {
+      "name": "multiplicative_of_symmetric_of_total",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [Monoid \u03b2] (p r : \u03b1 \u2192 \u03b1 \u2192 Prop) [Std.Total r] (f : \u03b1 \u2192 \u03b1 \u2192 \u03b2) [Std.Symm p] (hf_swap : \u2200 {a b : \u03b1}, p a b \u2192 f a b * f b a = 1) (hmul : \u2200 {a b c : \u03b1}, r a b \u2192 r b c \u2192 p a b \u2192 p b c \u2192 p a c \u2192 f a c = f a b * f b c) {a b c : \u03b1} (pab : p a b) (pbc : p b c) (pac : p a c) : f a c = f a b * f b c",
+      "module": "Mathlib.Algebra.Group.Basic",
+      "doc": "**Alias** of `multiplicative_of_symm_of_total`."
+    },
+    {
+      "name": "Multiplicative.ofAdd",
+      "type": " {\u03b1 : Type u} : \u03b1 \u2243 Multiplicative \u03b1",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": "Reinterpret `x : \u03b1` as an element of `Multiplicative \u03b1`. "
+    },
+    {
+      "name": "Multiplicative.toAdd",
+      "type": " {\u03b1 : Type u} : Multiplicative \u03b1 \u2243 \u03b1",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": "Reinterpret `x : Multiplicative \u03b1` as an element of `\u03b1`. "
+    },
+    {
+      "name": "instDecidableEqMultiplicative",
+      "type": " {\u03b1 : Type u} [h : DecidableEq \u03b1] : DecidableEq (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "instInhabitedMultiplicative",
+      "type": " {\u03b1 : Type u} [Inhabited \u03b1] : Inhabited (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "instOneMultiplicativeOfZero",
+      "type": " {\u03b1 : Type u} [Zero \u03b1] : One (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "instSubsingletonMultiplicative",
+      "type": " {\u03b1 : Type u} [Subsingleton \u03b1] : Subsingleton (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "instUniqueMultiplicative",
+      "type": " {\u03b1 : Type u} [Unique \u03b1] : Unique (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative.commGroup",
+      "type": " {\u03b1 : Type u} [AddCommGroup \u03b1] : CommGroup (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative",
+      "type": " (\u03b1 : Type u_1) : Type u_1",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": "If `\u03b1` carries some additive structure, then `Multiplicative \u03b1` carries the corresponding\nmultiplicative structure. "
+    },
+    {
+      "name": "\u00abterm_\u2243+_\u00bb",
+      "type": " : Lean.TrailingParserDescr",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": "Notation for an `AddEquiv`. "
+    },
+    {
+      "name": "AddConstMap.\u00abterm_\u2243+c[_,_]_\u00bb",
+      "type": " : Lean.TrailingParserDescr",
+      "module": "Mathlib.Algebra.AddConstMap.Equiv",
+      "doc": "An equivalence between `G` and `H` conjugating `(\u00b7 + a)` to `(\u00b7 + b)`,\ndenoted as `G \u2243+c[a, b] H`. "
+    },
+    {
+      "name": "\u00abterm_\u2243+o_\u00bb",
+      "type": " : Lean.TrailingParserDescr",
+      "module": "Mathlib.Algebra.Order.Hom.Monoid",
+      "doc": "Infix notation for `OrderAddMonoidIso`. "
+    },
+    {
+      "name": "\u00abterm_\u2243+*_\u00bb",
+      "type": " : Lean.TrailingParserDescr",
+      "module": "Mathlib.Algebra.Ring.Equiv",
+      "doc": "Notation for `RingEquiv`. "
+    },
+    {
+      "name": "\u00abterm_\u2243+*o_\u00bb",
+      "type": " : Lean.TrailingParserDescr",
+      "module": "Mathlib.Algebra.Order.Hom.Ring",
+      "doc": "`OrderRingIso \u03b1 \u03b2`, denoted as `\u03b1 \u2243+*o \u03b2`,\nis the type of order-preserving semiring isomorphisms between `\u03b1` and `\u03b2`.\n\nWhen possible, instead of parametrizing results over `(f : OrderRingIso \u03b1 \u03b2)`,\nyou should parametrize over `(F : Type*) [OrderRingIsoClass F \u03b1 \u03b2] (f : F)`.\n\nWhen you extend this structure, make sure to extend `OrderRingIsoClass`. "
+    },
+    {
+      "name": "AddEquiv.refl",
+      "type": " (M : Type u_9) [Add M] : M \u2243+ M",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": "The identity map is an additive isomorphism. "
+    },
+    {
+      "name": "AddEquiv.instInhabited",
+      "type": " {M : Type u_4} [Add M] : Inhabited (M \u2243+ M)",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddEquiv.Simps.symm_apply",
+      "type": " {M : Type u_4} {N : Type u_5} [Add M] [Add N] (e : M \u2243+ N) : N \u2192 M",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": "See Note [custom simps projection] "
+    },
+    {
+      "name": "AddEquiv.instEquivLike",
+      "type": " {M : Type u_4} {N : Type u_5} [Add M] [Add N] : EquivLike (M \u2243+ N) M N",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddEquiv.toEquiv",
+      "type": " {A : Type u_9} {B : Type u_10} [Add A] [Add B] (self : A \u2243+ B) : A \u2243 B",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": "The `Equiv` underlying an `AddEquiv`. "
+    },
+    {
+      "name": "AddEquiv.symm",
+      "type": " {M : Type u_9} {N : Type u_10} [Add M] [Add N] (h : M \u2243+ N) : N \u2243+ M",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": "The inverse of an isomorphism is an isomorphism. "
+    },
+    {
+      "name": "AddEquiv.toAddHom",
+      "type": " {A : Type u_9} {B : Type u_10} [Add A] [Add B] (self : A \u2243+ B) : A \u2192\u2099+ B",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": "The `AddHom` underlying an `AddEquiv`. "
+    },
+    {
+      "name": "AddEquiv.symmEquiv",
+      "type": " (P : Type u_9) (Q : Type u_10) [Add P] [Add Q] : P \u2243+ Q \u2243 (Q \u2243+ P)",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": "`AddEquiv.symm` defines an equivalence between `\u03b1 \u2243+ \u03b2` and `\u03b2 \u2243+ \u03b1` "
+    },
+    {
+      "name": "AddEquiv.instCoeFunForall",
+      "type": " {M : Type u_4} {N : Type u_5} [Add M] [Add N] : CoeFun (M \u2243+ N) fun x => M \u2192 N",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddEquiv.refl_symm",
+      "type": " {M : Type u_4} [Add M] : (AddEquiv.refl M).symm = AddEquiv.refl M",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddEquiv",
+      "type": " (A : Type u_9) (B : Type u_10) [Add A] [Add B] : Type (max u_10 u_9)",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": "`AddEquiv \u03b1 \u03b2` is the type of an equiv `\u03b1 \u2243 \u03b2` which preserves addition. "
+    },
+    {
+      "name": "AddEquivClass",
+      "type": " (F : Type u_9) (A : outParam (Type u_10)) (B : outParam (Type u_11)) [Add A] [Add B] [EquivLike F A B] : Prop",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": "`AddEquivClass F A B` states that `F` is a type of addition-preserving morphisms.\nYou should extend this class when you extend `AddEquiv`. "
+    },
+    {
+      "name": "IsEmpty.false",
+      "type": " {\u03b1 : Sort u} [self : IsEmpty \u03b1] : \u2200 (a : \u03b1), False",
+      "module": "Mathlib.Basic.IsEmpty.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.boolEquivPUnitSumPUnit",
+      "type": " : Bool \u2243 PUnit.{u + 1} \u2295 PUnit.{v + 1}",
+      "module": "Mathlib.Logic.Equiv.Sum",
+      "doc": "`Bool` is equivalent the sum of two `PUnit`s. "
+    },
+    {
+      "name": "AddUnits.instAdd",
+      "type": " {\u03b1 : Type u} [AddMonoid \u03b1] : Add (AddUnits \u03b1)",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Additive units of an additive monoid have an induced addition. "
+    },
+    {
+      "name": "AddUnits.instAddGroup",
+      "type": " {\u03b1 : Type u} [AddMonoid \u03b1] : AddGroup (AddUnits \u03b1)",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Additive units of an additive monoid form an additive group. "
+    },
+    {
+      "name": "AddUnits.instAddMonoid",
+      "type": " {\u03b1 : Type u} [AddMonoid \u03b1] : AddMonoid (AddUnits \u03b1)",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddUnits.instAddZeroClass",
+      "type": " {\u03b1 : Type u} [AddMonoid \u03b1] : AddZeroClass (AddUnits \u03b1)",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Additive units of an additive monoid have an addition and an additive identity. "
+    },
+    {
+      "name": "AddUnits.instInhabited",
+      "type": " {\u03b1 : Type u} [AddMonoid \u03b1] : Inhabited (AddUnits \u03b1)",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Additive units of an additive monoid are inhabited because `0` is an additive unit. "
+    },
+    {
+      "name": "AddUnits.instNeg",
+      "type": " {\u03b1 : Type u} [AddMonoid \u03b1] : Neg (AddUnits \u03b1)",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "The additive inverse of an additive unit in an `AddMonoid`. "
+    },
+    {
+      "name": "AddUnits.instSub",
+      "type": " {\u03b1 : Type u} [AddMonoid \u03b1] : Sub (AddUnits \u03b1)",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Additive units of an additive monoid have subtraction. "
+    },
+    {
+      "name": "AddUnits.instSubNegAddMonoid",
+      "type": " {\u03b1 : Type u} [AddMonoid \u03b1] : SubNegMonoid (AddUnits \u03b1)",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Additive units of an additive monoid form a `SubNegMonoid`. "
+    },
+    {
+      "name": "AddUnits.instZero",
+      "type": " {\u03b1 : Type u} [AddMonoid \u03b1] : Zero (AddUnits \u03b1)",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Additive units of an additive monoid have a zero. "
+    },
+    {
+      "name": "AddUnits",
+      "type": " (\u03b1 : Type u) [AddMonoid \u03b1] : Type u",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Units of an `AddMonoid`, bundled version.\n\nAn element of an `AddMonoid` is a unit if it has a two-sided additive inverse.\nThis version bundles the inverse element so that it can be computed.\nFor a predicate see `isAddUnit`. "
+    },
+    {
+      "name": "Units",
+      "type": " (\u03b1 : Type u) [Monoid \u03b1] : Type u",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Units of a `Monoid`, bundled version. Notation: `\u03b1\u02e3`.\n\nAn element of a `Monoid` is a unit if it has a two-sided inverse.\nThis version bundles the inverse element so that it can be computed.\nFor a predicate see `IsUnit`. "
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.instCategory",
+      "type": " {C : Type u_1} [CategoryTheory.Category.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroMorphisms C] : CategoryTheory.Category.{v_1, max u_1 v_1} (CategoryTheory.ShortComplex C)",
+      "module": "Mathlib.Algebra.Homology.ShortComplex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.instHasZeroMorphisms",
+      "type": " {C : Type u_1} [CategoryTheory.Category.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroMorphisms C] : CategoryTheory.Limits.HasZeroMorphisms (CategoryTheory.ShortComplex C)",
+      "module": "Mathlib.Algebra.Homology.ShortComplex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.instZeroHom",
+      "type": " {C : Type u_1} [CategoryTheory.Category.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroMorphisms C] {S\u2081 S\u2082 : CategoryTheory.ShortComplex C} : Zero (S\u2081 \u27f6 S\u2082)",
+      "module": "Mathlib.Algebra.Homology.ShortComplex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.id_\u03c4\u2081",
+      "type": " {C : Type u_1} [CategoryTheory.Category.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroMorphisms C] (S : CategoryTheory.ShortComplex C) : (CategoryTheory.CategoryStruct.id S).\u03c4\u2081 = CategoryTheory.CategoryStruct.id S.X\u2081",
+      "module": "Mathlib.Algebra.Homology.ShortComplex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.id_\u03c4\u2082",
+      "type": " {C : Type u_1} [CategoryTheory.Category.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroMorphisms C] (S : CategoryTheory.ShortComplex C) : (CategoryTheory.CategoryStruct.id S).\u03c4\u2082 = CategoryTheory.CategoryStruct.id S.X\u2082",
+      "module": "Mathlib.Algebra.Homology.ShortComplex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.id_\u03c4\u2083",
+      "type": " {C : Type u_1} [CategoryTheory.Category.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroMorphisms C] (S : CategoryTheory.ShortComplex C) : (CategoryTheory.CategoryStruct.id S).\u03c4\u2083 = CategoryTheory.CategoryStruct.id S.X\u2083",
+      "module": "Mathlib.Algebra.Homology.ShortComplex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.instIsIso\u03c4\u2081",
+      "type": " {C : Type u_1} [CategoryTheory.Category.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroMorphisms C] {S\u2081 S\u2082 : CategoryTheory.ShortComplex C} (f : S\u2081 \u27f6 S\u2082) [CategoryTheory.IsIso f] : CategoryTheory.IsIso f.\u03c4\u2081",
+      "module": "Mathlib.Algebra.Homology.ShortComplex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.instIsIso\u03c4\u2082",
+      "type": " {C : Type u_1} [CategoryTheory.Category.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroMorphisms C] {S\u2081 S\u2082 : CategoryTheory.ShortComplex C} (f : S\u2081 \u27f6 S\u2082) [CategoryTheory.IsIso f] : CategoryTheory.IsIso f.\u03c4\u2082",
+      "module": "Mathlib.Algebra.Homology.ShortComplex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.instIsIso\u03c4\u2083",
+      "type": " {C : Type u_1} [CategoryTheory.Category.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroMorphisms C] {S\u2081 S\u2082 : CategoryTheory.ShortComplex C} (f : S\u2081 \u27f6 S\u2082) [CategoryTheory.IsIso f] : CategoryTheory.IsIso f.\u03c4\u2083",
+      "module": "Mathlib.Algebra.Homology.ShortComplex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.isIso_of_isIso",
+      "type": " {C : Type u_1} [CategoryTheory.Category.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroMorphisms C] {S\u2081 S\u2082 : CategoryTheory.ShortComplex C} (f : S\u2081 \u27f6 S\u2082) [CategoryTheory.IsIso f.\u03c4\u2081] [CategoryTheory.IsIso f.\u03c4\u2082] [CategoryTheory.IsIso f.\u03c4\u2083] : CategoryTheory.IsIso f",
+      "module": "Mathlib.Algebra.Homology.ShortComplex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.isIso_iff",
+      "type": " {C : Type u_1} [CategoryTheory.Category.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroMorphisms C] {S\u2081 S\u2082 : CategoryTheory.ShortComplex C} (f : S\u2081 \u27f6 S\u2082) : CategoryTheory.IsIso f \u2194 CategoryTheory.IsIso f.\u03c4\u2081 \u2227 CategoryTheory.IsIso f.\u03c4\u2082 \u2227 CategoryTheory.IsIso f.\u03c4\u2083",
+      "module": "Mathlib.Algebra.Homology.ShortComplex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.ShortComplex.isoMk",
+      "type": " {C : Type u_1} [CategoryTheory.Category.{v_1, u_1} C] [CategoryTheory.Limits.HasZeroMorphisms C] {S\u2081 S\u2082 : CategoryTheory.ShortComplex C} (e\u2081 : S\u2081.X\u2081 \u2245 S\u2082.X\u2081) (e\u2082 : S\u2081.X\u2082 \u2245 S\u2082.X\u2082) (e\u2083 : S\u2081.X\u2083 \u2245 S\u2082.X\u2083) (comm\u2081\u2082 : CategoryTheory.CategoryStruct.comp e\u2081.hom S\u2082.f = CategoryTheory.CategoryStruct.comp S\u2081.f e\u2082.hom := by cat_disch) (comm\u2082\u2083 : CategoryTheory.CategoryStruct.comp e\u2082.hom S\u2082.g = CategoryTheory.CategoryStruct.comp S\u2081.g e\u2083.hom := by cat_disch) : S\u2081 \u2245 S\u2082",
+      "module": "Mathlib.Algebra.Homology.ShortComplex.Basic",
+      "doc": "A constructor for isomorphisms in the category `ShortComplex C` "
+    },
+    {
+      "name": "Relation.ReflGen.instIsPreorderOfIsTrans",
+      "type": " {\u03b1 : Type u_1} {r : \u03b1 \u2192 \u03b1 \u2192 Prop} [IsTrans \u03b1 r] : IsPreorder \u03b1 (Relation.ReflGen r)",
+      "module": "Mathlib.Logic.Relation",
+      "doc": ""
+    },
+    {
+      "name": "Relation.TransGen.instIsPreorderOfRefl",
+      "type": " {\u03b1 : Type u_1} {r : \u03b1 \u2192 \u03b1 \u2192 Prop} [Std.Refl r] : IsPreorder \u03b1 (Relation.TransGen r)",
+      "module": "Mathlib.Logic.Relation",
+      "doc": ""
+    },
+    {
+      "name": "instNoBotOrderOfNoMinOrder",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] [NoMinOrder \u03b1] : NoBotOrder \u03b1",
+      "module": "Mathlib.Order.Max",
+      "doc": ""
+    },
+    {
+      "name": "instNoTopOrderOfNoMaxOrder",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] [NoMaxOrder \u03b1] : NoTopOrder \u03b1",
+      "module": "Mathlib.Order.Max",
+      "doc": ""
+    },
+    {
+      "name": "linearOrderOfCompares",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] (cmp : \u03b1 \u2192 \u03b1 \u2192 Ordering) (h : \u2200 (a b : \u03b1), (cmp a b).Compares a b) : LinearOrder \u03b1",
+      "module": "Mathlib.Order.Compare",
+      "doc": "Generate a linear order structure from a preorder and `cmp` function. "
+    },
+    {
+      "name": "instIsWellOrderOfIsEmpty",
+      "type": " {\u03b1 : Type u} [IsEmpty \u03b1] (r : \u03b1 \u2192 \u03b1 \u2192 Prop) : IsWellOrder \u03b1 r",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": ""
+    },
+    {
+      "name": "partialOrderOfSO",
+      "type": " {\u03b1 : Type u} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [IsStrictOrder \u03b1 r] : PartialOrder \u03b1",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Construct a partial order from an `isStrictOrder` relation.\n\nSee note [reducible non-instances]. "
+    },
+    {
+      "name": "instIsStrictTotalOrderOfIsWellOrder",
+      "type": " {\u03b1 : Type u_1} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [IsWellOrder \u03b1 r] : IsStrictTotalOrder \u03b1 r",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": ""
+    },
+    {
+      "name": "linearOrderOfSTO",
+      "type": " {\u03b1 : Type u} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [IsStrictTotalOrder \u03b1 r] [DecidableRel r] : LinearOrder \u03b1",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Construct a linear order from an `IsStrictTotalOrder` relation.\n\nSee note [reducible non-instances]. "
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"Multiplicative\"' -> multiplicative_of_total, multiplicative_of_symm_of_total, multiplicative_of_symmetric_of_total, Multiplicative.ofAdd, Multiplicative.toAdd, instDecidableEqMultiplicative, instInhabitedMultiplicative, instOneMultiplicativeOfZero",
+    "search: '\"exercise_1_6_4\"' -> nothing",
+    "search: '\"exercise_1_6_4\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"\u2243+\"' -> \u00abterm_\u2243+_\u00bb, AddConstMap.\u00abterm_\u2243+c[_,_]_\u00bb, \u00abterm_\u2243+o_\u00bb, \u00abterm_\u2243+*_\u00bb, \u00abterm_\u2243+*o_\u00bb",
+    "search: '\"AddEquiv\"' -> AddEquiv.refl, AddEquiv.instInhabited, AddEquiv.Simps.symm_apply, AddEquiv.instEquivLike, AddEquiv.toEquiv, AddEquiv.symm, AddEquiv.toAddHom, AddEquiv.symmEquiv",
+    "search (from error): '|- False' -> IsEmpty.false",
+    "search: '\"Multiplicative \u211d\"' -> nothing",
+    "search: '\"Multiplicative \u211d\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"Units\"' -> Equiv.boolEquivPUnitSumPUnit, AddUnits.instAdd, AddUnits.instAddGroup, AddUnits.instAddMonoid, AddUnits.instAddZeroClass, AddUnits.instInhabited, AddUnits.instNeg, AddUnits.instSub",
+    "search: '\"Complex.I\"' -> CategoryTheory.ShortComplex.instCategory, CategoryTheory.ShortComplex.instHasZeroMorphisms, CategoryTheory.ShortComplex.instZeroHom, CategoryTheory.ShortComplex.id_\u03c4\u2081, CategoryTheory.ShortComplex.id_\u03c4\u2082, CategoryTheory.ShortComplex.id_\u03c4\u2083, CategoryTheory.ShortComplex.instIsIso\u03c4\u2081, CategoryTheory.ShortComplex.instIsIso\u03c4\u2082",
+    "search: '\"orderOf\"' -> Relation.ReflGen.instIsPreorderOfIsTrans, Relation.TransGen.instIsPreorderOfRefl, instNoBotOrderOfNoMinOrder, instNoTopOrderOfNoMaxOrder, linearOrderOfCompares, instIsWellOrderOfIsEmpty, partialOrderOfSO, instIsStrictTotalOrderOfIsWellOrder",
+    "search: '\"orderOf\"' -> Relation.ReflGen.instIsPreorderOfIsTrans, Relation.TransGen.instIsPreorderOfRefl, instNoBotOrderOfNoMinOrder, instNoTopOrderOfNoMaxOrder, linearOrderOfCompares, instIsWellOrderOfIsEmpty, partialOrderOfSO, instIsStrictTotalOrderOfIsWellOrder",
+    "search: '\"|- orderOf _ _ = _\"' -> nothing",
+    "search: '\"|- orderOf _ _ = _\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "suspect statement: The theorem as formalized in Lean 4 is false, because `Multiplicative \u211d` and `Multiplicative \u2102` represent the additive groups of $\\mathbb{R}$ and $\\mathbb{C}$ viewed multiplicatively. Since $(\\mathbb{R}, +)$ and $(\\mathbb{C}, +)$ are both $\\mathbb{Q}$-vector spaces of the same dimension ($2^{\\aleph_"
+  ],
+  "budget": {
+    "tool_calls": 32,
+    "lean_calls": 16,
+    "searches": 13,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788853395.0027127,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.7,
+    "statement_checks": 1
+  },
+  "goal": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_6_4 :\n  IsEmpty (Multiplicative \u211d \u2243* Multiplicative \u2102)"
+}

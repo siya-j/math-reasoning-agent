@@ -1,0 +1,539 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem sum_first_n_odd (n : \u2115) : (Finset.sum (Finset.range n) (fun i => 2 * i + 1)) = n ^ 2",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788850627.7401907,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem sum_first_n_odd (n : \u2115) : (Finset.sum (Finset.range n) (fun i => 2 * i + 1)) = n ^ 2",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Finset.sum\n    | exact Finset.sum _\n    | apply Finset.sum\n    | simpa using Finset.sum\n    | exact \u27e8_, Finset.sum\u27e9\n    | exact Finset.sum (by assumption)\n    | exact Finset.sum \u2039_\u203a\n    | apply Finset.sum <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum (by assumption))\n    | exact Finset.sum_val\n    | exact Finset.sum_val _\n    | apply Finset.sum_val\n    | simpa using Finset.sum_val\n    | exact \u27e8_, Finset.sum_val\u27e9\n    | exact Finset.sum_val (by assumption)\n    | exact Finset.sum_val \u2039_\u203a\n    | apply Finset.sum_val <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_val (by assumption))\n    | exact Finset.sum_multiset_singleton\n    | exact Finset.sum_multiset_singleton _\n    | apply Finset.sum_multiset_singleton\n    | simpa using Finset.sum_multiset_singleton\n    | exact \u27e8_, Finset.sum_multiset_singleton\u27e9\n    | exact Finset.sum_multiset_singleton (by assumption)\n    | exact Finset.sum_multiset_singleton \u2039_\u203a\n    | apply Finset.sum_multiset_singleton <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_multiset_singleton (by assumption))\n    | exact Finset.sum_eq_multiset_sum\n    | exact Finset.sum_eq_multiset_sum _\n    | apply Finset.sum_eq_multiset_sum\n    | simpa using Finset.sum_eq_multiset_sum\n    | exact \u27e8_, Finset.sum_eq_multiset_sum\u27e9\n    | exact Finset.sum_eq_multiset_sum (by assumption)\n    | exact Finset.sum_eq_multiset_sum \u2039_\u203a\n    | apply Finset.sum_eq_multiset_sum <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_eq_multiset_sum (by assumption))\n    | exact Finset.sum_map_val\n    | exact Finset.sum_map_val _\n    | apply Finset.sum_map_val\n    | simpa using Finset.sum_map_val\n    | exact \u27e8_, Finset.sum_map_val\u27e9\n    | exact Finset.sum_map_val (by assumption)\n    | exact Finset.sum_map_val \u2039_\u203a\n    | apply Finset.sum_map_val <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_map_val (by assumption))\n    | exact Finset.sum_mk\n    | exact Finset.sum_mk _\n    | apply Finset.sum_mk\n    | simpa using Finset.sum_mk\n    | exact \u27e8_, Finset.sum_mk\u27e9\n    | exact Finset.sum_mk (by assumption)\n    | exact Finset.sum_mk \u2039_\u203a\n    | apply Finset.sum_mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_mk (by assumption))\n    | exact Finset.sum_empty'\n    | exact Finset.sum_empty' _\n    | apply Finset.sum_empty'\n    | simpa using Finset.sum_empty'\n    | exact \u27e8_, Finset.sum_empty'\u27e9\n    | exact Finset.sum_empty' (by assumption)\n    | exact Finset.sum_empty' \u2039_\u203a\n    | apply Finset.sum_empty' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_empty' (by assumption))\n    | exact Finset.op_sum\n    | exact Finset.op_sum _\n    | apply Finset.op_sum\n    | simpa using Finset.op_sum\n    | exact \u27e8_, Finset.op_sum\u27e9\n    | exact Finset.op_sum (by assumption)\n    | exact Finset.op_sum \u2039_\u203a\n    | apply Finset.op_sum <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.op_sum (by assumption))\n    | exact Finset.sum_empty\n    | exact Finset.sum_empty _\n    | apply Finset.sum_empty\n    | simpa using Finset.sum_empty\n    | exact \u27e8_, Finset.sum_empty\u27e9\n    | exact Finset.sum_empty (by assumption)\n    | exact Finset.sum_empty \u2039_\u203a\n    | apply Finset.sum_empty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_empty (by assumption))\n    | exact Finset.sum_of_isEmpty\n    | exact Finset.sum_of_isEmpty _\n    | apply Finset.sum_of_isEmpty\n    | simpa using Finset.sum_of_isEmpty\n    | exact \u27e8_, Finset.sum_of_isEmpty\u27e9\n    | exact Finset.sum_of_isEmpty (by assumption)\n    | exact Finset.sum_of_isEmpty \u2039_\u203a\n    | apply Finset.sum_of_isEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_of_isEmpty (by assumption))\n    | exact Finset.sum_range_zero\n    | exact Finset.sum_range_zero _\n    | apply Finset.sum_range_zero\n    | simpa using Finset.sum_range_zero\n    | exact \u27e8_, Finset.sum_range_zero\u27e9\n    | exact Finset.sum_range_zero (by assumption)\n    | exact Finset.sum_range_zero \u2039_\u203a\n    | apply Finset.sum_range_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_range_zero (by assumption))\n    | exact Finset.unop_sum\n    | exact Finset.unop_sum _\n    | apply Finset.unop_sum\n    | simpa using Finset.unop_sum\n    | exact \u27e8_, Finset.unop_sum\u27e9\n    | exact Finset.unop_sum (by assumption)\n    | exact Finset.unop_sum \u2039_\u203a\n    | apply Finset.unop_sum <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.unop_sum (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:89: error: unsolved goals\nn : \u2115\n\u22a2 \u2211 i \u2208 Finset.range n, (2 * i + 1) = n ^ 2\n\nStill to prove:\n\u22a2 \u2211 i \u2208 Finset.range n, (2 * i + 1) = n ^ 2",
+      "at": 1788850636.1164365,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem sum_first_n_odd (n : \u2115) : (Finset.sum (Finset.range n) (fun i => 2 * i + 1)) = n ^ 2",
+      "proof": "induction n with\n| zero => simp\n| succ n ih =>\n  rw [Finset.sum_range_succ, ih]\n  ring",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem sum_first_n_odd (n : \u2115) : (Finset.sum (Finset.range n) (fun i => 2 * i + 1)) = n ^ 2",
+      "at": 1788850640.5593836,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem sum_first_n_odd (n : \u2115) : (Finset.sum (Finset.filter Odd (Finset.range (n + n))) id) = n * n",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788850664.345402,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem sum_first_n_odd (n : \u2115) : (Finset.sum (Finset.filter Odd (Finset.range (n + n))) id) = n * n",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Finset.sum\n    | exact Finset.sum _\n    | apply Finset.sum\n    | simpa using Finset.sum\n    | exact \u27e8_, Finset.sum\u27e9\n    | exact Finset.sum (by assumption)\n    | exact Finset.sum \u2039_\u203a\n    | apply Finset.sum <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum (by assumption))\n    | exact Finset.sum_val\n    | exact Finset.sum_val _\n    | apply Finset.sum_val\n    | simpa using Finset.sum_val\n    | exact \u27e8_, Finset.sum_val\u27e9\n    | exact Finset.sum_val (by assumption)\n    | exact Finset.sum_val \u2039_\u203a\n    | apply Finset.sum_val <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_val (by assumption))\n    | exact Finset.sum_multiset_singleton\n    | exact Finset.sum_multiset_singleton _\n    | apply Finset.sum_multiset_singleton\n    | simpa using Finset.sum_multiset_singleton\n    | exact \u27e8_, Finset.sum_multiset_singleton\u27e9\n    | exact Finset.sum_multiset_singleton (by assumption)\n    | exact Finset.sum_multiset_singleton \u2039_\u203a\n    | apply Finset.sum_multiset_singleton <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_multiset_singleton (by assumption))\n    | exact Finset.sum_eq_multiset_sum\n    | exact Finset.sum_eq_multiset_sum _\n    | apply Finset.sum_eq_multiset_sum\n    | simpa using Finset.sum_eq_multiset_sum\n    | exact \u27e8_, Finset.sum_eq_multiset_sum\u27e9\n    | exact Finset.sum_eq_multiset_sum (by assumption)\n    | exact Finset.sum_eq_multiset_sum \u2039_\u203a\n    | apply Finset.sum_eq_multiset_sum <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_eq_multiset_sum (by assumption))\n    | exact Finset.sum_map_val\n    | exact Finset.sum_map_val _\n    | apply Finset.sum_map_val\n    | simpa using Finset.sum_map_val\n    | exact \u27e8_, Finset.sum_map_val\u27e9\n    | exact Finset.sum_map_val (by assumption)\n    | exact Finset.sum_map_val \u2039_\u203a\n    | apply Finset.sum_map_val <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_map_val (by assumption))\n    | exact Finset.sum_mk\n    | exact Finset.sum_mk _\n    | apply Finset.sum_mk\n    | simpa using Finset.sum_mk\n    | exact \u27e8_, Finset.sum_mk\u27e9\n    | exact Finset.sum_mk (by assumption)\n    | exact Finset.sum_mk \u2039_\u203a\n    | apply Finset.sum_mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_mk (by assumption))\n    | exact Finset.sum_empty'\n    | exact Finset.sum_empty' _\n    | apply Finset.sum_empty'\n    | simpa using Finset.sum_empty'\n    | exact \u27e8_, Finset.sum_empty'\u27e9\n    | exact Finset.sum_empty' (by assumption)\n    | exact Finset.sum_empty' \u2039_\u203a\n    | apply Finset.sum_empty' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_empty' (by assumption))\n    | exact Finset.op_sum\n    | exact Finset.op_sum _\n    | apply Finset.op_sum\n    | simpa using Finset.op_sum\n    | exact \u27e8_, Finset.op_sum\u27e9\n    | exact Finset.op_sum (by assumption)\n    | exact Finset.op_sum \u2039_\u203a\n    | apply Finset.op_sum <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.op_sum (by assumption))\n    | exact Finset.sum_empty\n    | exact Finset.sum_empty _\n    | apply Finset.sum_empty\n    | simpa using Finset.sum_empty\n    | exact \u27e8_, Finset.sum_empty\u27e9\n    | exact Finset.sum_empty (by assumption)\n    | exact Finset.sum_empty \u2039_\u203a\n    | apply Finset.sum_empty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_empty (by assumption))\n    | exact Finset.sum_of_isEmpty\n    | exact Finset.sum_of_isEmpty _\n    | apply Finset.sum_of_isEmpty\n    | simpa using Finset.sum_of_isEmpty\n    | exact \u27e8_, Finset.sum_of_isEmpty\u27e9\n    | exact Finset.sum_of_isEmpty (by assumption)\n    | exact Finset.sum_of_isEmpty \u2039_\u203a\n    | apply Finset.sum_of_isEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_of_isEmpty (by assumption))\n    | exact Finset.sum_range_zero\n    | exact Finset.sum_range_zero _\n    | apply Finset.sum_range_zero\n    | simpa using Finset.sum_range_zero\n    | exact \u27e8_, Finset.sum_range_zero\u27e9\n    | exact Finset.sum_range_zero (by assumption)\n    | exact Finset.sum_range_zero \u2039_\u203a\n    | apply Finset.sum_range_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.sum_range_zero (by assumption))\n    | exact Finset.unop_sum\n    | exact Finset.unop_sum _\n    | apply Finset.unop_sum\n    | simpa using Finset.unop_sum\n    | exact \u27e8_, Finset.unop_sum\u27e9\n    | exact Finset.unop_sum (by assumption)\n    | exact Finset.unop_sum \u2039_\u203a\n    | apply Finset.unop_sum <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Finset.unop_sum (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:97: error: unsolved goals\nn : \u2115\n\u22a2 \u2211 x \u2208 Finset.range (n + n) with Odd x, x = n * n\n\nStill to prove:\n\u22a2 \u2211 x \u2208 Finset.range (n + n) with Odd x, x = n * n",
+      "at": 1788850670.8906045,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma odd_double_plus_one (n : \u2115) : Odd (n + n + 1)",
+      "proof": "by omega",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:47: error: omega could not prove the goal:\nNo usable constraints found. You may need to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.",
+      "at": 1788850696.6935997,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma odd_double_plus_one (n : \u2115) : Odd (n + n + 1)",
+      "proof": "use n\nomega",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma odd_double_plus_one (n : \u2115) : Odd (n + n + 1)",
+      "at": 1788850699.0314791,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma not_odd_double (n : \u2115) : \u00ac Odd (n + n)",
+      "proof": "intro h\nrcases h with \u27e8k, hk\u27e9\nomega",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma not_odd_double (n : \u2115) : \u00ac Odd (n + n)",
+      "at": 1788850701.687936,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem sum_first_n_odd (n : \u2115) : (Finset.sum (Finset.filter Odd (Finset.range (n + n))) id) = n * n",
+      "proof": "induction n with\n| zero => simp\n| succ n ih =>\n  have h_eq : n + 1 + (n + 1) = n + n + 2 := by omega\n  rw [h_eq]\n  rw [Finset.sum_filter]\n  rw [Finset.sum_range_succ, Finset.sum_range_succ]\n  rw [\u2190 Finset.sum_filter]\n  rw [ih]\n  have h1 : \u00ac Odd (n + n) := not_odd_double n\n  have h2 : Odd (n + n + 1) := odd_double_plus_one n\n  simp [h1, h2]\n  ring",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem sum_first_n_odd (n : \u2115) : (Finset.sum (Finset.filter Odd (Finset.range (n + n))) id) = n * n",
+      "at": 1788850709.6953216,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma odd_double_plus_one (n : \u2115) : Odd (n + n + 1) := by\n  use n\n  omega",
+    "lemma not_odd_double (n : \u2115) : \u00ac Odd (n + n) := by\n  intro h\n  rcases h with \u27e8k, hk\u27e9\n  omega"
+  ],
+  "premises": [
+    {
+      "name": "Finset.sum",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} [AddCommMonoid M] (s : Finset \u03b9) (f : \u03b9 \u2192 M) : M",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": "`\u2211 x \u2208 s, f x` is the sum of `f x` as `x` ranges over the elements\nof the finite set `s`.\n\nWhen the index type is a `Fintype`, the notation `\u2211 x, f x`, is a shorthand for\n`\u2211 x \u2208 Finset.univ, f x`. "
+    },
+    {
+      "name": "Finset.sum_val",
+      "type": " {M : Type u_3} [AddCommMonoid M] (s : Finset M) : s.val.sum = s.sum id",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_multiset_singleton",
+      "type": " {\u03b9 : Type u_1} (s : Finset \u03b9) : \u2211 a \u2208 s, {a} = s.val",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_eq_multiset_sum",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} [AddCommMonoid M] (s : Finset \u03b9) (f : \u03b9 \u2192 M) : \u2211 x \u2208 s, f x = (Multiset.map f s.val).sum",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_map_val",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} [AddCommMonoid M] (s : Finset \u03b9) (f : \u03b9 \u2192 M) : (Multiset.map f s.val).sum = \u2211 a \u2208 s, f a",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_mk",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} [AddCommMonoid M] (s : Multiset \u03b9) (hs : s.Nodup) (f : \u03b9 \u2192 M) : { val := s, nodup := hs }.sum f = (Multiset.map f s).sum",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_empty'",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} [AddCommMonoid M] : \u2205.sum = fun x => 0",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.op_sum",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} [AddCommMonoid M] (s : Finset \u03b9) (f : \u03b9 \u2192 M) : MulOpposite.op (\u2211 x \u2208 s, f x) = \u2211 x \u2208 s, MulOpposite.op (f x)",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": "Moving to the opposite additive commutative monoid commutes with summing. "
+    },
+    {
+      "name": "Finset.sum_empty",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} {f : \u03b9 \u2192 M} [AddCommMonoid M] : \u2211 x \u2208 \u2205, f x = 0",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_of_isEmpty",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} {f : \u03b9 \u2192 M} [AddCommMonoid M] [IsEmpty \u03b9] (s : Finset \u03b9) : \u2211 i \u2208 s, f i = 0",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_range_zero",
+      "type": " {M : Type u_3} [AddCommMonoid M] (f : \u2115 \u2192 M) : \u2211 k \u2208 Finset.range 0, f k = 0",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.unop_sum",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} [AddCommMonoid M] (s : Finset \u03b9) (f : \u03b9 \u2192 M\u1d50\u1d52\u1d56) : MulOpposite.unop (\u2211 x \u2208 s, f x) = \u2211 x \u2208 s, MulOpposite.unop (f x)",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.range",
+      "type": " (n : \u2115) : Finset \u2115",
+      "module": "Mathlib.Data.Finset.Range",
+      "doc": "`range n` is the set of natural numbers less than `n`. "
+    },
+    {
+      "name": "Finset.range_val",
+      "type": " (n : \u2115) : (Finset.range n).val = Multiset.range n",
+      "module": "Mathlib.Data.Finset.Range",
+      "doc": ""
+    },
+    {
+      "name": "Finset.range_mono",
+      "type": " : Monotone Finset.range",
+      "module": "Mathlib.Data.Finset.Range",
+      "doc": ""
+    },
+    {
+      "name": "Finset.strictMono_range",
+      "type": " : StrictMono Finset.range",
+      "module": "Mathlib.Data.Finset.Range",
+      "doc": ""
+    },
+    {
+      "name": "Multiset.toFinset_range",
+      "type": " (n : \u2115) : (Multiset.range n).toFinset = Finset.range n",
+      "module": "Mathlib.Data.Finset.Range",
+      "doc": ""
+    },
+    {
+      "name": "Finset.nonempty_range_iff",
+      "type": " {n : \u2115} : (Finset.range n).Nonempty \u2194 n \u2260 0",
+      "module": "Mathlib.Data.Finset.Range",
+      "doc": ""
+    },
+    {
+      "name": "Finset.range_nontrivial",
+      "type": " {n : \u2115} (hn : 1 < n) : (Finset.range n).Nontrivial",
+      "module": "Mathlib.Data.Finset.Range",
+      "doc": ""
+    },
+    {
+      "name": "Finset.range_zero",
+      "type": " : Finset.range 0 = \u2205",
+      "module": "Mathlib.Data.Finset.Range",
+      "doc": ""
+    },
+    {
+      "name": "Finset.notMem_range_self",
+      "type": " {n : \u2115} : n \u2209 Finset.range n",
+      "module": "Mathlib.Data.Finset.Range",
+      "doc": ""
+    },
+    {
+      "name": "Finset.coe_range",
+      "type": " (n : \u2115) : \u2191(Finset.range n) = Set.Iio n",
+      "module": "Mathlib.Data.Finset.Range",
+      "doc": ""
+    },
+    {
+      "name": "Finset.nonempty_range_add_one",
+      "type": " {n : \u2115} : (Finset.range (n + 1)).Nonempty",
+      "module": "Mathlib.Data.Finset.Range",
+      "doc": ""
+    },
+    {
+      "name": "List.sum_range_succ",
+      "type": " {M : Type u_4} [AddMonoid M] (f : \u2115 \u2192 M) (n : \u2115) : (List.map f (List.range n.succ)).sum = (List.map f (List.range n)).sum + f n",
+      "module": "Mathlib.Algebra.BigOperators.Group.List.Basic",
+      "doc": ""
+    },
+    {
+      "name": "List.sum_range_succ'",
+      "type": " {M : Type u_4} [AddMonoid M] (f : \u2115 \u2192 M) (n : \u2115) : (List.map f (List.range n.succ)).sum = f 0 + (List.map (fun i => f i.succ) (List.range n)).sum",
+      "module": "Mathlib.Algebra.BigOperators.Group.List.Basic",
+      "doc": "A variant of `sum_range_succ` which pulls off the first term in the sum rather\nthan the last. "
+    },
+    {
+      "name": "List.sum_range_sub'",
+      "type": " {G : Type u_7} [AddGroup G] (n : \u2115) (f : \u2115 \u2192 G) : (List.map (fun k => f k - f (k + 1)) (List.range n)).sum = f 0 - f n",
+      "module": "Mathlib.Algebra.BigOperators.Group.List.Basic",
+      "doc": "Cancellation of a telescoping sum. "
+    },
+    {
+      "name": "List.sum_range_sub",
+      "type": " {G : Type u_7} [AddCommGroup G] (n : \u2115) (f : \u2115 \u2192 G) : (List.map (fun k => f (k + 1) - f k) (List.range n)).sum = f n - f 0",
+      "module": "Mathlib.Algebra.BigOperators.Group.List.Basic",
+      "doc": "Cancellation of a telescoping sum. "
+    },
+    {
+      "name": "Finset.sum_range_one",
+      "type": " {M : Type u_4} [AddCommMonoid M] (f : \u2115 \u2192 M) : \u2211 k \u2208 Finset.range 1, f k = f 0",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_range_succ",
+      "type": " {M : Type u_4} [AddCommMonoid M] (f : \u2115 \u2192 M) (n : \u2115) : \u2211 x \u2208 Finset.range (n + 1), f x = \u2211 x \u2208 Finset.range n, f x + f n",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_range_succ_comm",
+      "type": " {M : Type u_4} [AddCommMonoid M] (f : \u2115 \u2192 M) (n : \u2115) : \u2211 x \u2208 Finset.range (n + 1), f x = f n + \u2211 x \u2208 Finset.range n, f x",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_range_add",
+      "type": " {M : Type u_4} [AddCommMonoid M] (f : \u2115 \u2192 M) (n m : \u2115) : \u2211 x \u2208 Finset.range (n + m), f x = \u2211 x \u2208 Finset.range n, f x + \u2211 x \u2208 Finset.range m, f (n + x)",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_range_sub",
+      "type": " {G : Type u_3} [AddCommGroup G] (f : \u2115 \u2192 G) (n : \u2115) : \u2211 i \u2208 Finset.range n, (f (i + 1) - f i) = f n - f 0",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": "A telescoping sum along `{0, ..., n - 1}` of a function valued in a commutative\nadditive group reduces to the difference of the last and first terms. "
+    },
+    {
+      "name": "Finset.sum_range_sub'",
+      "type": " {G : Type u_3} [AddCommGroup G] (f : \u2115 \u2192 G) (n : \u2115) : \u2211 i \u2208 Finset.range n, (f i - f (i + 1)) = f 0 - f n",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": "A reversed telescoping sum along `{0, ..., n - 1}` of a function valued in a\ncommutative additive group reduces to the difference of the first and last terms. "
+    },
+    {
+      "name": "Equiv.sumProdDistrib",
+      "type": " (\u03b1 : Type u_9) (\u03b2 : Type u_10) (\u03b3 : Type u_11) : (\u03b1 \u2295 \u03b2) \u00d7 \u03b3 \u2243 \u03b1 \u00d7 \u03b3 \u2295 \u03b2 \u00d7 \u03b3",
+      "module": "Mathlib.Logic.Equiv.Prod",
+      "doc": "Type product is right distributive with respect to type sum up to an equivalence. "
+    },
+    {
+      "name": "Equiv.sigmaProdDistrib",
+      "type": " {\u03b9 : Type u_9} (\u03b1 : \u03b9 \u2192 Type u_10) (\u03b2 : Type u_11) : ((i : \u03b9) \u00d7 \u03b1 i) \u00d7 \u03b2 \u2243 (i : \u03b9) \u00d7 \u03b1 i \u00d7 \u03b2",
+      "module": "Mathlib.Logic.Equiv.Prod",
+      "doc": "The product of an indexed sum of types (formally, a `Sigma`-type `\u03a3 i, \u03b1 i`) by a type `\u03b2` is\nequivalent to the sum of products `\u03a3 i, (\u03b1 i \u00d7 \u03b2)`. "
+    },
+    {
+      "name": "Equiv.sumProdDistrib_apply_left",
+      "type": " {\u03b1 : Type u_9} {\u03b2 : Type u_10} {\u03b3 : Type u_11} (a : \u03b1) (c : \u03b3) : (Equiv.sumProdDistrib \u03b1 \u03b2 \u03b3) (Sum.inl a, c) = Sum.inl (a, c)",
+      "module": "Mathlib.Logic.Equiv.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Nat.instDecidablePredOdd",
+      "type": " : DecidablePred Odd",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_odd_zero",
+      "type": " : \u00acOdd 0",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.even_or_odd",
+      "type": " (n : \u2115) : Even n \u2228 Odd n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.even_xor_odd",
+      "type": " (n : \u2115) : Xor (Even n) (Odd n)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_even_iff_odd",
+      "type": " {n : \u2115} : \u00acEven n \u2194 Odd n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_odd_iff_even",
+      "type": " {n : \u2115} : \u00acOdd n \u2194 Even n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.not_two_dvd_nat",
+      "type": " {n : \u2115} (h : Odd n) : \u00ac2 \u2223 n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ne_of_odd_add",
+      "type": " {m n : \u2115} (h : Odd (m + n)) : m \u2260 n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Odd.of_mul_left",
+      "type": " {m n : \u2115} (h : Odd (m * n)) : Odd m",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Odd.of_mul_right",
+      "type": " {m n : \u2115} (h : Odd (m * n)) : Odd n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Function.Involutive.iterate_odd",
+      "type": " {\u03b1 : Type u_4} {f : \u03b1 \u2192 \u03b1} {n : \u2115} (hf : Function.Involutive f) (hn : Odd n) : f^[n] = f",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] (a : \u03b1) : Prop",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": "An element `a` of a semiring is odd if there exists `k` such `a = 2*k + 1`. "
+    },
+    {
+      "name": "odd_one",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] : Odd 1",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.natCast",
+      "type": " {R : Type u_4} [Semiring R] {n : \u2115} (hn : Odd n) : Odd \u2191n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Even.sub_odd",
+      "type": " {m n : \u2115} (h : n \u2264 m) (hm : Even m) (hn : Odd n) : Odd (m - n)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Odd.sub_even",
+      "type": " {m n : \u2115} (h : n \u2264 m) (hm : Odd m) (hn : Even n) : Odd (m - n)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.pow",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a : \u03b1} {n : \u2115} (ha : Odd a) : Odd (a ^ n)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.mul",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a b : \u03b1} : Odd a \u2192 Odd b \u2192 Odd (a * b)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.neg",
+      "type": " {\u03b1 : Type u_2} [Ring \u03b1] {a : \u03b1} (hp : Odd a) : Odd (-a)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Even.add_odd",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a b : \u03b1} : Even a \u2192 Odd b \u2192 Odd (a + b)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Even.odd_add",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a b : \u03b1} (ha : Even a) (hb : Odd b) : Odd (b + a)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.add_even",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a b : \u03b1} (ha : Odd a) (hb : Even b) : Odd (a + b)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "List.sum_filter_bne_zero",
+      "type": " {M : Type u_4} [AddMonoid M] [BEq M] [LawfulBEq M] (l : List M) : (List.filter (fun x => x != 0) l).sum = l.sum",
+      "module": "Mathlib.Algebra.BigOperators.Group.List.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiset.sum_filter_add_sum_filter_not",
+      "type": " {M : Type u_5} [AddCommMonoid M] {s : Multiset M} (p : M \u2192 Prop) [DecidablePred p] : (Multiset.filter p s).sum + (Multiset.filter (fun a => \u00acp a) s).sum = s.sum",
+      "module": "Mathlib.Algebra.BigOperators.Group.Multiset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_filter_count_eq_countP",
+      "type": " {\u03b9 : Type u_1} [DecidableEq \u03b9] (p : \u03b9 \u2192 Prop) [DecidablePred p] (l : List \u03b9) : \u2211 x \u2208 l.toFinset with p x, List.count x l = List.countP (fun b => decide (p b)) l",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_subtype_eq_sum_filter",
+      "type": " {\u03b9 : Type u_1} {M : Type u_4} {s : Finset \u03b9} [AddCommMonoid M] (f : \u03b9 \u2192 M) {p : \u03b9 \u2192 Prop} [DecidablePred p] : \u2211 x \u2208 Finset.subtype p s, f \u2191x = \u2211 x \u2208 s with p x, f x",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": "A sum over `s.subtype p` equals one over `{x \u2208 s | p x}`. "
+    },
+    {
+      "name": "Finset.sum_filter",
+      "type": " {\u03b9 : Type u_1} {M : Type u_4} {s : Finset \u03b9} [AddCommMonoid M] (p : \u03b9 \u2192 Prop) [DecidablePred p] (f : \u03b9 \u2192 M) : \u2211 a \u2208 s with p a, f a = \u2211 a \u2208 s, if p a then f a else 0",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_filter_ne_zero",
+      "type": " {\u03b9 : Type u_1} {M : Type u_4} [AddCommMonoid M] {f : \u03b9 \u2192 M} (s : Finset \u03b9) [(x : \u03b9) \u2192 Decidable (f x \u2260 0)] : \u2211 x \u2208 s with f x \u2260 0, f x = \u2211 x \u2208 s, f x",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_filter_of_ne",
+      "type": " {\u03b9 : Type u_1} {M : Type u_4} {s : Finset \u03b9} [AddCommMonoid M] {f : \u03b9 \u2192 M} {p : \u03b9 \u2192 Prop} [DecidablePred p] (hp : \u2200 x \u2208 s, f x \u2260 0 \u2192 p x) : \u2211 x \u2208 s with p x, f x = \u2211 x \u2208 s, f x",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_filter_add_sum_filter_not",
+      "type": " {\u03b9 : Type u_1} {M : Type u_4} [AddCommMonoid M] (s : Finset \u03b9) (p : \u03b9 \u2192 Prop) [DecidablePred p] [(x : \u03b9) \u2192 Decidable \u00acp x] (f : \u03b9 \u2192 M) : \u2211 x \u2208 s with p x, f x + \u2211 x \u2208 s with \u00acp x, f x = \u2211 x \u2208 s, f x",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_filter_not_add_sum_filter",
+      "type": " {\u03b9 : Type u_1} {M : Type u_4} [AddCommMonoid M] (s : Finset \u03b9) (p : \u03b9 \u2192 Prop) [DecidablePred p] [(x : \u03b9) \u2192 Decidable \u00acp x] (f : \u03b9 \u2192 M) : \u2211 x \u2208 s with \u00acp x, f x + \u2211 x \u2208 s with p x, f x = \u2211 x \u2208 s, f x",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_fiberwise_eq_sum_filter",
+      "type": " {\u03b9 : Type u_1} {\u03ba : Type u_2} {M : Type u_4} [AddCommMonoid M] [DecidableEq \u03ba] (s : Finset \u03b9) (t : Finset \u03ba) (g : \u03b9 \u2192 \u03ba) (f : \u03b9 \u2192 M) : \u2211 j \u2208 t, \u2211 i \u2208 s with g i = j, f i = \u2211 i \u2208 s with g i \u2208 t, f i",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_fiberwise_eq_sum_filter'",
+      "type": " {\u03b9 : Type u_1} {\u03ba : Type u_2} {M : Type u_4} [AddCommMonoid M] [DecidableEq \u03ba] (s : Finset \u03b9) (t : Finset \u03ba) (g : \u03b9 \u2192 \u03ba) (f : \u03ba \u2192 M) : \u2211 j \u2208 t, \u2211 i \u2208 s with g i = j, f j = \u2211 i \u2208 s with g i \u2208 t, f (g i)",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_filter_of_pairwise_eq_zero",
+      "type": " {\u03b9 : Type u_1} {\u03ba : Type u_2} {M : Type u_4} [AddCommMonoid M] [DecidableEq \u03b9] {f : \u03ba \u2192 \u03b9} {g : \u03b9 \u2192 M} {n : \u03ba} {I : Finset \u03ba} (hn : n \u2208 I) (hf : (\u2191I).Pairwise fun i j => f i = f j \u2192 g (f i) = 0) : \u2211 j \u2208 I with f j = f n, g (f j) = g (f n)",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Finset.sum, Finset.sum_val, Finset.sum_multiset_singleton, Finset.sum_eq_multiset_sum, Finset.sum_map_val, Finset.sum_mk, Finset.sum_empty', Finset.op_sum",
+    "search: '\"sum_range\"' -> List.sum_range_succ, List.sum_range_succ', List.sum_range_sub', List.sum_range_sub, Finset.sum_range_zero, Finset.sum_range_one, Finset.sum_range_succ, Finset.sum_range_succ_comm",
+    "search: '\"Odd\"' -> Equiv.sumProdDistrib, Equiv.sigmaProdDistrib, Equiv.sumProdDistrib_apply_left",
+    "search: '\"Odd \"' -> nothing",
+    "search: '\"Odd \"' -> nothing; goal shape -> Finset.sum, Finset.sum_val, Finset.sum_multiset_singleton, Finset.sum_eq_multiset_sum, Finset.sum_map_val, Finset.sum_mk, Finset.sum_empty', Finset.op_sum",
+    "search: 'Odd' -> Nat.instDecidablePredOdd, Nat.not_odd_zero, Nat.even_or_odd, Nat.even_xor_odd, Nat.not_even_iff_odd, Nat.not_odd_iff_even, Odd.not_two_dvd_nat, Nat.ne_of_odd_add",
+    "seeded from goal shape -> Nat.Odd.of_mul_left, Nat.Odd.of_mul_right, odd_one, Odd.natCast, Nat.Even.sub_odd, Nat.Odd.sub_even, Odd.pow, Odd.mul",
+    "search: '\"sum\" \"Odd\"' -> nothing",
+    "search: '\"sum\" \"Odd\"' -> nothing; goal shape -> Nat.Odd.of_mul_left, Nat.Odd.of_mul_right, odd_one, Odd.natCast, Nat.Even.sub_odd, Nat.Odd.sub_even, Odd.pow, Odd.mul",
+    "search: '\"sum\" \"filter\"' -> nothing",
+    "search: '\"sum\" \"filter\"' -> nothing; goal shape -> Nat.Odd.of_mul_left, Nat.Odd.of_mul_right, odd_one, Odd.natCast, Nat.Even.sub_odd, Nat.Odd.sub_even, Odd.pow, Odd.mul",
+    "search: '\"sum_filter\"' -> List.sum_filter_bne_zero, Multiset.sum_filter_add_sum_filter_not, Finset.sum_filter_count_eq_countP, Finset.sum_subtype_eq_sum_filter, Finset.sum_filter, Finset.sum_filter_ne_zero, Finset.sum_filter_of_ne, Finset.sum_filter_add_sum_filter_not"
+  ],
+  "budget": {
+    "tool_calls": 17,
+    "lean_calls": 9,
+    "searches": 8,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788850625.7400472,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.2,
+    "statement_checks": 2
+  },
+  "goal": "theorem sum_first_n_odd (n : \u2115) : (Finset.sum (Finset.filter Odd (Finset.range (n + n))) id) = n * n"
+}
