@@ -15,12 +15,6 @@ from math_v2.core import budget, log, progress, proving
 from math_v2.tools._util import lean_runner
 
 
-# Statement-check refusals decided from the TEXT, before Lean is invoked. Both
-# are cheap guards, and neither is the compiler judging a signature -- so
-# neither should consume one of the two formalisation attempts.
-_REFUSED_BEFORE_COMPILING = frozenset({"trivial_conclusion", "assumes_conclusion"})
-
-
 def _goal(runtime, statement):
     """The statement to work on: the one given, else the declared goal.
 
@@ -71,13 +65,26 @@ def _with_headroom(runtime, result):
     pacing against a real number rather than a guess is the whole point of
     `prompt.system_prompt()` rendering the same limits into the prompt.
 
-    A refusal or a budget stop is returned untouched: it either carries its own
-    more specific message about the budget, or it is a refusal whose whole
-    point is that nothing was spent.
+    A refusal or a budget stop keeps its own message, which is either more
+    specific about the budget or is a refusal whose whole point is that
+    nothing was spent -- AND THE COMPILE IT NEVER USED IS REFUNDED HERE, which
+    is what finally makes that second claim true. `_charge` bills the compile
+    before dispatching, so until now every guard refusal cost one. Measured
+    through the real path: three attempts, the third refused by
+    `generic_exhausted` without compiling, `lean_calls` at 2 of 12.
+
+    Keyed on the PRESENCE of an `error`, not on a list of refusal codes,
+    because no `error` in `core/proving.py` is ever set after `run_lean` has
+    run -- see `budget.refund_lean` and the source-scanning invariant in
+    `tests/test_refusals_are_free.py`. Every tool routed through here charges
+    `lean=True`, so there is always a charge to give back.
     """
-    if not isinstance(result, dict) or result.get("error"):
+    if not isinstance(result, dict):
         return result
     workdir = runtime.context.workdir
+    if result.get("error"):
+        budget.refund_lean(workdir)
+        return result
     result.setdefault("outputs", {})["budget_left"] = budget.headroom(workdir)
     message = result.get("message") or ""
     line = budget.headroom_line(workdir)
@@ -137,7 +144,7 @@ async def check_statement(statement: str, runtime: ToolRuntime[MathContext]) -> 
         return stop
     workdir, goal = _goal(runtime, statement)
     if not goal:
-        return _no_goal()
+        return _with_headroom(runtime, _no_goal())
     # No separate "declare the goal" write happens here. `proving.check_statement`
     # below always appends a STATEMENT_CHECK record carrying this exact `goal`,
     # and `log.declared_goal` reads the last one of those — so this is the ONLY
@@ -167,7 +174,13 @@ async def check_statement(statement: str, runtime: ToolRuntime[MathContext]) -> 
     # not be spent. See `budget.refund_statement_check` for the measured
     # incident -- an agent that found the right Mathlib name after burning
     # both checks, one of them on a probe the guard had already refused.
-    elif result.get("error") in _REFUSED_BEFORE_COMPILING:
+    elif result.get("error"):
+        # ANY refusal, by the same invariant `_with_headroom` relies on: no
+        # `error` in `core/proving.py` is set after `run_lean`, so the
+        # compiler judged no signature here. This replaced a hand-kept set of
+        # two codes, which would have gone stale the moment a third guard
+        # could refuse a statement -- and the compile itself is refunded
+        # downstream in `_with_headroom`.
         budget.refund_statement_check(workdir)
     return _with_headroom(runtime, result)
 
@@ -193,7 +206,7 @@ async def try_proof(proof: str, runtime: ToolRuntime[MathContext],
         return stop
     workdir, goal = _goal(runtime, statement)
     if not goal:
-        return _no_goal()
+        return _with_headroom(runtime, _no_goal())
     from math_v2.tools.retrieval import get_search
 
     result = await proving.try_proof(workdir, goal, proof, lean_runner(workdir),
@@ -227,7 +240,7 @@ async def try_refutation(proof: str, runtime: ToolRuntime[MathContext],
         return stop
     workdir = runtime.context.workdir
     if not statement.strip() and not log.current_goal(workdir):
-        return _no_goal()
+        return _with_headroom(runtime, _no_goal())
     return _with_headroom(runtime, await proving.try_refutation(
         workdir, statement.strip(), proof, lean_runner(workdir)
     ))
@@ -252,7 +265,7 @@ async def try_standard_tactics(runtime: ToolRuntime[MathContext],
         return stop
     workdir, goal = _goal(runtime, statement)
     if not goal:
-        return _no_goal()
+        return _with_headroom(runtime, _no_goal())
     return _with_headroom(
         runtime,
         await proving.try_standard_tactics(workdir, goal, lean_runner(workdir)))
@@ -267,6 +280,22 @@ async def try_lemma(statement: str, proof: str,
     it were part of Mathlib, and later lemmas may build on earlier ones. Use
     this when the whole proof is too large to write at once: prove the pieces,
     then assemble them.
+
+    A HELPER NEED NOT BE A STEP OF THE FINAL PROOF. Any of these is worth
+    proving, and the last two are the ones most often overlooked:
+
+      - a step you would write as `have` inside the proof;
+      - an algebraic identity or rearrangement you are relying on;
+      - a SPECIAL CASE of the goal (n = 0, n = 1, the empty set, the
+        degenerate case) -- proving one often shows which lemma the general
+        case needs, and often IS the base case of the induction;
+      - a FACT DERIVED FROM THE HYPOTHESES that the goal never mentions. From
+        `hn : n > 1` you can get `n - 2 + 2 = n`; from a bound you can get
+        non-negativity. These unlock the rewrite you are missing.
+
+    Prove the smallest thing you are confident of. A small kept lemma is worth
+    more than a large attempt that fails, because it stays available and
+    narrows what is left.
 
     Proving a lemma is real progress and is NOT proving the goal — the goal
     still needs `try_proof`.
@@ -309,7 +338,7 @@ async def try_skeleton(proof: str, runtime: ToolRuntime[MathContext],
         return stop
     workdir, goal = _goal(runtime, statement)
     if not goal:
-        return _no_goal()
+        return _with_headroom(runtime, _no_goal())
     # The skeleton call itself is already charged above. What is left, minus a
     # margin so the model still has compiles for the assembled proof, is what
     # automatic hole-filling may spend.

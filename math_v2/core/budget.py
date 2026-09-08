@@ -475,6 +475,37 @@ def charge_lean(workdir, count):
     _save(workdir, data, state)
 
 
+def refund_lean(workdir):
+    """Undo one compilation charge -- the compiler was never invoked.
+
+    The tool layer charges a compile BEFORE dispatching, so that no work
+    happens once a limit is hit. That ordering is right, but it means every
+    guard refusal was billed a compilation it never used.
+
+    MEASURED through the real tool path: three attempts at a goal, the third
+    refused by `generic_exhausted` without compiling, and `lean_calls` read 2
+    of a budget of 12. `tools/proving._with_headroom` even documented the
+    opposite -- "a refusal whose whole point is that nothing was spent" --
+    which was not true of the compile counter.
+
+    WHY THIS IS SAFE TO KEY ON THE PRESENCE OF AN `error` KEY, rather than on
+    a list of refusal codes: in `core/proving.py` no `error` is ever set after
+    `run_lean` has been called. Every one of the eight is decided from the
+    text or the record first. `tests/test_refusals_are_free.py` enforces that
+    invariant by scanning the source, so a future guard that refuses AFTER
+    compiling fails a test rather than silently getting a refund it has not
+    earned. A hand-maintained allow-list would instead have drifted the moment
+    a ninth guard was added -- the same failure that cost this project a
+    results file.
+
+    Clamped at zero, because a refund without a matching charge is a caller
+    bug and must not manufacture budget.
+    """
+    data, state = _state(workdir)
+    state["lean_calls"] = max(0, state["lean_calls"] - 1)
+    _save(workdir, data, state)
+
+
 def refund_statement_check(workdir):
     """Undo one `statement_check` charge — the compile never judged the syntax.
 
