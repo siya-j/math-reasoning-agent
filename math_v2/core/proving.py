@@ -395,6 +395,33 @@ def _drifted_from_the_goal(workdir, statement):
     }
 
 
+# OFFERED BY EVERY NUDGE THAT SAYS "GO AT THE GOAL", because on an external
+# corpus that instruction is sometimes wrong. MEASURED on
+# eval/results/proofnet-20-after-soundness.json: FOUR of twenty ProofNet
+# statements are broken or suspect -- one refutation compiled, three reported
+# -- so 15% of the corpus failed before proving began. Telling an agent to
+# prove a false theorem, repeatedly, is telling it to waste the budget.
+#
+# `exercise_5_15` is the specific loss. It compiled a refutation on an earlier
+# run and this time reported only suspicion, having done half the work, with
+# `assemble_first` among the guards that fired. The nudge it read said to
+# prove the goal and mentioned no alternative.
+#
+# POINTS AT `try_refutation`, NEVER AT REPORTING SUSPICION, and the difference
+# is an incentive rather than a nicety. `eval.proof_metrics` excludes
+# `suspect_statement` rows from `valid_proof_targets`, so merely CLAIMING a
+# statement is false raises the reported rate. A refutation has to compile.
+# One of those is evidence and one is a way out, so the nudges offer the
+# evidence.
+_OR_REFUTE = (
+    " If the statement looks FALSE rather than hard — a missing hypothesis, a "
+    "degenerate case it does not exclude — then prove it false with "
+    "`try_refutation`. That is a real result and it is worth as much as a "
+    "proof. Saying so without compiling the negation is not: it is recorded "
+    "as your report, not as a fact."
+)
+
+
 def _lemmas_without_assembly(workdir):
     """Enough helpers, and none of them tried against the goal. None to proceed.
 
@@ -446,6 +473,7 @@ def _lemmas_without_assembly(workdir):
             "the rejection tells you which of them is not pulling its weight, "
             "and that is worth more than an eighth lemma. If the assembled "
             "proof needs one more step, the compiler will say which."
+            + _OR_REFUTE
         ),
     }
 
@@ -566,7 +594,7 @@ def _attempts_exhausted(workdir, statement, kind=log.PROOF):
             "from the HYPOTHESES that the goal never mentions -- from "
             "`hn : n > 1`, that `n - 2 + 2 = n` -- is often the rewrite you "
             "are missing. Prove the smallest thing you are confident of. "
-            + have + " If you cannot state a smaller claim, "
+            + have + _OR_REFUTE + " If you cannot state a smaller claim, "
             "call `proof_state` and read what Lean last said; the outstanding "
             "goal there is the claim to prove."
         ),
@@ -1017,7 +1045,7 @@ async def try_lemma(workdir, statement, proof, run_lean, limit=None):
             "message": (
                 f"REFUSED, and not compiled: the lemma budget is spent "
                 f"({limit} kept). Use the ones you have and prove the goal — "
-                "cite them by name."
+                "cite them by name." + _OR_REFUTE
             ),
         }
 

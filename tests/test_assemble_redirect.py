@@ -176,3 +176,92 @@ def test_a_lemma_is_still_allowed_when_the_goal_is_refused(workdir):
     assert _keep(workdir, 0).get("error") is None, (
         "the goal was refused and so was the lemma; the agent had no move"
     )
+
+
+# ==================================================================
+# Every "go at the goal" nudge must offer refutation as the alternative
+# ==================================================================
+# MEASURED on eval/results/proofnet-20-after-soundness.json: FOUR of twenty
+# ProofNet statements are broken or suspect, so 15% of the corpus failed
+# before proving began. On such a corpus, "prove the goal" is sometimes the
+# wrong instruction, and repeating it wastes the budget.
+#
+# `exercise_5_15` is the specific loss: it compiled a refutation on an earlier
+# run and this time reported only suspicion, with `assemble_first` among the
+# guards that fired. The nudge it read offered no alternative.
+
+def _all_nudges(workdir):
+    """The three refusals that end with "now go at the goal".
+
+    Every attempt and every lemma below is DISTINCT. An earlier draft reused
+    one proof and one lemma name, so the second call of each was refused as a
+    duplicate WITHOUT being recorded -- which meant the assembly guard never
+    lifted, the loop never made progress, and the test hung instead of
+    failing. A refusal is not an attempt, and a helper that relies on
+    repeating itself cannot advance a record-based guard.
+    """
+    messages = {}
+
+    # 1. assemble_first: enough kept lemmas, no goal attempt since.
+    for index in range(proving.ASSEMBLE_AFTER):
+        _keep(workdir, index)
+    messages["assemble_first"] = _keep(workdir, 90)["message"]
+
+    # 2. decompose_first: DECOMPOSE_AFTER distinct rejected goal attempts,
+    #    with no lemma work since the last of them.
+    drafts = ["by exact Nat.add_zero n",
+              "by exact (Nat.add_zero n).symm ▸ rfl",
+              "by simpa [Nat.add_zero] using rfl",
+              "by exact congrArg (· + 0) rfl",
+              "by exact Nat.zero_add n ▸ rfl"]
+    for proof in drafts[:proving.DECOMPOSE_AFTER]:
+        _attempt(workdir, proof)
+    messages["decompose_first"] = _attempt(
+        workdir, drafts[proving.DECOMPOSE_AFTER])["message"]
+
+    # 3. lemma_budget_spent: fill the cap, alternating a distinct goal attempt
+    #    after each lemma so the assembly guard stays lifted. Bounded, so a
+    #    guard that stops making progress fails here rather than hanging.
+    filler = 300
+    for _ in range(proving.MAX_KEPT_LEMMAS * 3):
+        if len(log.kept_lemmas(workdir)) >= proving.MAX_KEPT_LEMMAS:
+            break
+        _attempt(workdir, f"by exact (Nat.add_zero n).symm ▸ rfl -- {filler}")
+        _keep(workdir, filler)
+        filler += 1
+    assert len(log.kept_lemmas(workdir)) == proving.MAX_KEPT_LEMMAS, (
+        f"only reached {len(log.kept_lemmas(workdir))} kept lemmas"
+    )
+    _attempt(workdir, f"by exact Nat.add_zero n -- {filler}")
+    messages["lemma_budget_spent"] = _keep(workdir, 999)["message"]
+    return messages
+
+
+def test_every_nudge_offers_refutation(workdir):
+    nudges = _all_nudges(workdir)
+    assert set(nudges) == {"assemble_first", "decompose_first",
+                           "lemma_budget_spent"}, sorted(nudges)
+    for name, message in nudges.items():
+        assert "try_refutation" in message, (
+            f"{name} tells the agent to go at the goal and offers no way out "
+            f"if the goal is false:\n{message}"
+        )
+
+
+def test_no_nudge_offers_the_cheap_escape(workdir):
+    """THE incentive, and why the wording matters more than its presence.
+
+    `eval.proof_metrics` excludes `suspect_statement` rows from
+    `valid_proof_targets`, so merely CLAIMING a statement is false raises the
+    reported proof rate. A refutation has to compile. If a nudge ever
+    suggested reporting suspicion instead, it would be handing the agent a way
+    to improve the headline number without evidence.
+    """
+    for name, message in _all_nudges(workdir).items():
+        assert "statement_suspect" not in message, name
+        assert "not_formalized" not in message, name
+        # ...and it must say plainly that an unproved claim is only a report.
+        assert "not as a fact" in message, (
+            f"{name} offers refutation without saying that asserting falsity "
+            f"is not the same as proving it:\n{message}"
+        )
