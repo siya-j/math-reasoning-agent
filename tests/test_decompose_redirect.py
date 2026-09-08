@@ -189,3 +189,151 @@ def test_an_accepted_attempt_is_not_counted_against_the_goal(workdir):
 
     result = _attempt(workdir, DRAFTS[3])
     assert result.get("error") != "decompose_first"
+
+
+# =====================================================================
+# RECURSION: a lemma that will not go through is itself a target
+# =====================================================================
+# Mirrors HILBERT (arXiv 2509.22819), whose PutnamBench result -- 70% with
+# Gemini 2.5 Pro, roughly 20 points above prior work -- comes from this step:
+# when a subgoal fails both the prover and the retrieval-augmented reasoner,
+# it decomposes THAT SUBGOAL rather than returning to the top.
+#
+# There is no stack and no depth counter. `_attempts_exhausted` takes the
+# record kind, so `log.PROOF` asks for a lemma and `log.LEMMA` asks for
+# something smaller than that lemma, one level down and the level below that.
+
+LEMMA = "lemma helper (n : Nat) : n + 0 = n"
+LEMMA_DRAFTS = [
+    "by exact Nat.add_zero n",
+    "by exact (Nat.add_zero n).symm ▸ rfl",
+    "by simpa [Nat.add_zero] using rfl",
+    "by exact congrArg (· + 0) rfl",
+]
+
+
+def _lemma(workdir, statement, proof, runner=rejects):
+    return run(proving.try_lemma(workdir, statement, proof, runner))
+
+
+def test_a_stuck_lemma_is_itself_redirected(workdir):
+    """THE recursive step. Three rejected attempts at a helper, and the
+    fourth is refused in favour of something smaller than the helper."""
+    for draft in LEMMA_DRAFTS[:3]:
+        result = _lemma(workdir, LEMMA, draft)
+        assert result.get("error") != "decompose_first"
+
+    result = _lemma(workdir, LEMMA, LEMMA_DRAFTS[3])
+
+    assert result["error"] == "decompose_first", result.get("message", "")
+    assert "THIS LEMMA" in result["message"], result["message"]
+    assert "crux" in result["message"]
+
+
+def test_a_retry_of_the_stuck_lemma_cannot_lift_its_own_refusal(workdir):
+    """Guaranteed by arithmetic, not by a special case -- which is worth
+    pinning because an earlier draft of this guard carried an explicit "on a
+    different claim" condition for it, and two successive mutation runs showed
+    no test could distinguish that condition's presence from its absence.
+
+    The reason it is unnecessary: a retry of the stuck lemma is itself a
+    rejected record for the same target, so it increments the count and moves
+    the threshold past itself. Nothing appears "after the last rejection"
+    because the retry becomes the last rejection.
+    """
+    for draft in LEMMA_DRAFTS[:3]:
+        _lemma(workdir, LEMMA, draft)
+    assert proving._attempts_exhausted(workdir, LEMMA, log.LEMMA) is not None
+
+    log.append(workdir, log.Record(
+        kind=log.LEMMA, statement=LEMMA, proof="by another_try",
+        status=log.UNKNOWN, detail="rejected again"))
+
+    assert proving._attempts_exhausted(workdir, LEMMA, log.LEMMA) is not None, (
+        "a retry of the stuck lemma lifted its own refusal"
+    )
+
+
+def test_a_smaller_lemma_lifts_it(workdir):
+    """Complying works: a different, smaller claim re-opens the stuck one."""
+    for draft in LEMMA_DRAFTS[:3]:
+        _lemma(workdir, LEMMA, draft)
+    assert _lemma(workdir, LEMMA, LEMMA_DRAFTS[3])["error"] == "decompose_first"
+
+    _lemma(workdir, "lemma smaller : (0 : Nat) + 0 = 0", "by rfl", accepts)
+
+    result = _lemma(workdir, LEMMA, LEMMA_DRAFTS[3])
+    assert result.get("error") != "decompose_first", (
+        "a genuinely smaller lemma did not re-open the stuck one"
+    )
+
+
+def test_the_goal_and_a_lemma_are_tracked_separately(workdir):
+    """Failures are counted per target. Three failed lemma attempts must not
+    redirect the goal, and vice versa -- otherwise recursion would collapse
+    into one shared counter."""
+    for draft in LEMMA_DRAFTS[:3]:
+        _lemma(workdir, LEMMA, draft)
+
+    result = _attempt(workdir, DRAFTS[0])
+    assert result.get("error") != "decompose_first", (
+        "lemma failures were counted against the goal"
+    )
+
+
+# ---------------------------------------------------- the deadlock
+def test_the_goal_is_not_refused_when_no_lemma_can_be_kept(workdir):
+    """MEASURED as a live deadlock in the first version of this guard.
+
+    With the kept-lemma cap spent, `try_lemma` short-circuits WITHOUT writing
+    a record, so the lift condition can never be met: `try_proof` answered
+    `decompose_first` and `try_lemma` answered "lemma budget spent" until the
+    tool-call ceiling killed the goal. It would have fired on exactly the
+    goals that decompose most -- the four in the mixed run that reached the
+    old cap of four.
+
+    A guard must never refuse what the agent cannot comply with.
+    """
+    for index in range(proving.MAX_KEPT_LEMMAS):
+        _lemma(workdir, f"lemma filler_{index} : ({index} : Nat) = {index}",
+               "by rfl", accepts)
+    assert len(log.kept_lemmas(workdir)) == proving.MAX_KEPT_LEMMAS
+
+    for draft in DRAFTS[:3]:
+        _attempt(workdir, draft)
+
+    result = _attempt(workdir, DRAFTS[3])
+    assert result.get("error") != "decompose_first", (
+        "refused to let the agent attempt the goal while giving it no way "
+        "to comply"
+    )
+
+
+def test_the_lemma_cap_refusal_says_it_did_not_compile(workdir):
+    """It returns an `error` now, which is what gets the charged compilation
+    refunded -- it used to report `ok: True` and bill one for a message."""
+    for index in range(proving.MAX_KEPT_LEMMAS):
+        _lemma(workdir, f"lemma filler_{index} : ({index} : Nat) = {index}",
+               "by rfl", accepts)
+
+    result = _lemma(workdir, "lemma one_more : (1 : Nat) = 1", "by rfl", accepts)
+    assert result["error"] == "lemma_budget_spent"
+    assert "not compiled" in result["message"]
+
+
+def test_the_kept_lemma_cap_resolves_at_call_time(workdir):
+    """`limit` was a default argument bound at definition time, so patching
+    the module constant -- which is how a test varies it -- left `try_lemma`
+    using the value captured at import."""
+    import math_v2.core.proving as module
+
+    original = module.MAX_KEPT_LEMMAS
+    try:
+        module.MAX_KEPT_LEMMAS = 1
+        _lemma(workdir, "lemma a : (1 : Nat) = 1", "by rfl", accepts)
+        result = _lemma(workdir, "lemma b : (2 : Nat) = 2", "by rfl", accepts)
+        assert result.get("error") == "lemma_budget_spent", (
+            "the patched cap was ignored, so the default bound at import"
+        )
+    finally:
+        module.MAX_KEPT_LEMMAS = original

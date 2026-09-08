@@ -29,6 +29,7 @@ the compiler's answer means. `cheap_attempt` builds the tactic ladder.
 """
 
 import asyncio
+import os
 import re
 
 from pipeline.skeleton import fill_hole, hole_claims
@@ -44,7 +45,25 @@ from math_v2.core import binders, diagnosis, log
 # Kept lemmas grow the file that every later attempt must recompile, so this is
 # a resource limit, not a limit on the agent's looping — that is the budget
 # middleware's job.
-MAX_KEPT_LEMMAS = 4
+#
+# RAISED FROM 4, because 4 was binding while the resource it stands in for was
+# not. MEASURED on eval/results/mixed-1-rebuilt.json: six goals decomposed at
+# all, and FOUR of them ended at exactly four kept lemmas -- `hard-sophie-germain`,
+# `hard-irrational-sqrt-sum`, `exercise_5_15` and `exercise_4_6` -- while
+# spending only 10, 12, 18 and 20 of forty compilations. The constant stopped
+# them; the budget had 50-75% left.
+#
+# It also has to be larger than four for recursion to mean anything. Refusing
+# a stuck lemma and asking for a smaller one (see `_attempts_exhausted`)
+# consumes a slot per level, so at four the second level of decomposition has
+# nowhere to go.
+#
+# Not raised further than eight, deliberately: the cost is real. Every kept
+# lemma is prepended to every later compile, so the file grows with the count,
+# and a run has forty compilations to fund both the lemmas and the goal. Eight
+# sits above what the measured runs reached and below what the compile budget
+# could pay for.
+MAX_KEPT_LEMMAS = int(os.getenv("MRA_MAX_KEPT_LEMMAS", "8"))
 
 # AFTER THIS MANY REJECTED ATTEMPTS AT THE SAME GOAL, a further direct attempt
 # is refused and a helper lemma is required first.
@@ -276,8 +295,21 @@ def _declared_name(declaration):
     return ""
 
 
-def _direct_attempts_exhausted(workdir, statement):
-    """Has the direct route stopped converting on this goal? None to proceed.
+def _attempts_exhausted(workdir, statement, kind=log.PROOF):
+    """Has the direct route stopped converting on this TARGET? None to proceed.
+
+    `kind` is what makes this recursive. With `log.PROOF` the target is the
+    goal and the answer is "prove a lemma first". With `log.LEMMA` the target
+    is a helper that will not go through, and the answer is "prove something
+    smaller than THAT helper" -- which is the same move one level down, and
+    the level below that, without a stack or a depth counter. The record
+    already carries the depth implicitly.
+
+    This mirrors HILBERT (arXiv 2509.22819), whose result on PutnamBench --
+    70% with Gemini 2.5 Pro, roughly 20 points above prior work -- comes from
+    exactly this step: when a subgoal fails both the prover and the
+    retrieval-augmented reasoner, it decomposes THAT SUBGOAL rather than
+    returning to the top.
 
     Counted from the RECORD -- rejected `log.PROOF` entries for this exact
     statement -- so a refusal, which logs nothing, is not an attempt, and
@@ -302,7 +334,7 @@ def _direct_attempts_exhausted(workdir, statement):
     failed = 0
     last = -1
     for index, record in enumerate(records):
-        if (record.get("kind") == log.PROOF
+        if (record.get("kind") == kind
                 and record.get("status") != log.TRUE
                 and (record.get("statement") or "").strip() == target):
             failed += 1
@@ -310,32 +342,70 @@ def _direct_attempts_exhausted(workdir, statement):
     if failed < DECOMPOSE_AFTER:
         return None
 
+    kept = log.kept_lemmas(workdir)
+
+    # NEVER REFUSE WHAT THE AGENT CANNOT COMPLY WITH. Once the kept-lemma cap
+    # is spent, `try_lemma` short-circuits without recording anything, so the
+    # lift condition below can never be met and the goal is refused forever.
+    #
+    # MEASURED as a live deadlock in the first version of this guard: four
+    # kept lemmas and three rejected attempts left `try_proof` answering
+    # `decompose_first` and `try_lemma` answering "lemma budget spent", with
+    # no record written by either, until the tool-call ceiling killed the
+    # goal. It would have fired on precisely the goals that decompose most --
+    # the four that reached the old cap of four.
+    if len(kept) >= MAX_KEPT_LEMMAS:
+        return None
+
+    # Lifted by the model's own lemma work since the most recent rejection,
+    # accepted or rejected. No "on a different claim" condition is needed, and
+    # an earlier draft of this guard carried one that could not be tested: a
+    # retry of the stuck lemma is itself a rejected record for `target`, so it
+    # increments the count and moves `last` PAST ITSELF. A retry can never
+    # lift its own refusal, by arithmetic rather than by a special case.
+    #
+    # `auto` records are excluded because automatic hole filling writes LEMMA
+    # records too, and counting those would let the system satisfy the
+    # condition on the model's behalf.
     for later in records[last + 1:]:
         if later.get("kind") == log.LEMMA and not later.get("auto"):
             return None
 
-    kept = log.kept_lemmas(workdir)
     have = ("You already have: " + "; ".join(
         _declared_name(entry) or "a kept lemma" for entry in kept)
         + ". Cite them by name, or prove another."
     ) if kept else (
-        "You have not kept a single helper lemma on this goal yet."
+        "You have not kept a single helper lemma here yet."
     )
 
-    return {
-        "ok": False,
-        "error": "decompose_first",
-        "outputs": {"accepted": False},
-        "message": (
+    if kind == log.LEMMA:
+        what = (
+            f"REFUSED, and not compiled: {failed} attempts at THIS LEMMA have "
+            "been rejected, and this would be another one of the same kind.\n\n"
+            "That makes this claim the crux, not a step on the way to it. Do "
+            "not return to the goal and do not restate this lemma -- go "
+            "SMALLER than it. Prove a piece of this claim with `try_lemma`, "
+            "under a different name, and then this one becomes a rewrite away."
+        )
+    else:
+        what = (
             f"REFUSED, and not compiled: {failed} attempts at this goal have "
             "been rejected, and this would be another one of the same kind.\n\n"
             "This is arithmetic, not a judgement about the mathematics. Of the "
             "proofs this system has landed, half landed on the FIRST attempt "
             "and 83% within three. Past that the direct route is not what "
             "closes a goal -- decomposition is, and it has closed goals here "
-            "that no number of direct attempts did.\n\n"
-            "Prove ONE smaller claim with `try_lemma`, then attempt the goal "
-            "again citing it. It does NOT have to be a step of the final "
+            "that no number of direct attempts did."
+        )
+
+    return {
+        "ok": False,
+        "error": "decompose_first",
+        "outputs": {"accepted": False},
+        "message": (
+            what + "\n\n"
+            "Prove ONE smaller claim with `try_lemma`, then come back and "
+            "cite it. It does NOT have to be a step of the final "
             "proof: a special case (n = 0, n = 1, the degenerate case) often "
             "shows which lemma the general case needs, and a fact derived "
             "from the HYPOTHESES that the goal never mentions -- from "
@@ -634,7 +704,7 @@ async def try_proof(workdir, statement, proof, run_lean, search=None,
     # has already been logged, so without the exemption the repair would be
     # refused by the count it just created.
     if repair:
-        redirect = _direct_attempts_exhausted(workdir, statement)
+        redirect = _attempts_exhausted(workdir, statement, log.PROOF)
         if redirect:
             return redirect
 
@@ -721,13 +791,19 @@ async def try_standard_tactics(workdir, statement, run_lean):
     }
 
 
-async def try_lemma(workdir, statement, proof, run_lean, limit=MAX_KEPT_LEMMAS):
+async def try_lemma(workdir, statement, proof, run_lean, limit=None):
     """Prove a helper result and keep it if the compiler accepts.
 
     A kept lemma is cited by name in everything written afterwards. It is
     recorded as `kind=LEMMA`, which is what stops the guard reading a helper's
     success as the goal's.
+
+    `limit` resolves from `MAX_KEPT_LEMMAS` at CALL time. As a default
+    argument it bound at definition time, so monkeypatching the module
+    constant -- which is how a test varies it -- left this function using the
+    value captured at import.
     """
+    limit = MAX_KEPT_LEMMAS if limit is None else limit
     if has_placeholder(proof):
         return _placeholder_refusal()
 
@@ -751,14 +827,26 @@ async def try_lemma(workdir, statement, proof, run_lean, limit=MAX_KEPT_LEMMAS):
             ),
         }
 
+    # THE RECURSIVE STEP. A lemma that will not go through after
+    # `DECOMPOSE_AFTER` tries is the crux, and the answer is the same one
+    # level down: something smaller than it. See `_attempts_exhausted`.
+    redirect = _attempts_exhausted(workdir, statement, log.LEMMA)
+    if redirect:
+        return redirect
+
     kept = log.kept_lemmas(workdir)
     if len(kept) >= limit:
+        # AN `error`, so the compile charged before dispatch is refunded --
+        # nothing was compiled here. It used to return `ok: True` with no
+        # error, which billed a compilation for a message.
         return {
-            "ok": True,
+            "ok": False,
+            "error": "lemma_budget_spent",
             "outputs": {"accepted": False, "kept": len(kept)},
             "message": (
-                f"Lemma budget spent ({limit} kept). Use the ones you have "
-                "and prove the goal."
+                f"REFUSED, and not compiled: the lemma budget is spent "
+                f"({limit} kept). Use the ones you have and prove the goal — "
+                "cite them by name."
             ),
         }
 
