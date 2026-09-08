@@ -62,7 +62,25 @@ GRACE = int(os.getenv("MRA_AGENT_GRACE", "3"))
 # exercise_1_13c: three of them, 135s, 45% of a 300s budget spent before the
 # agent attempted any mathematics. Two is enough to fix a name and retry;
 # a third has never found something the second did not.
-MAX_STATEMENT_CHECKS = int(os.getenv("MRA_MAX_STATEMENT_CHECKS", "2"))
+# RAISED FROM 2. Re-formalising is the correct response to a bad
+# formalisation, and two attempts at it was the tightest constraint in the
+# system by a wide margin -- two, against a compile budget of forty.
+#
+# MEASURED: three of eight failures in eval/results/mixed-1-rebuilt.json were
+# formalisation problems, not proving problems. `lin-vector-space-basis` spent
+# check 1 on a name Mathlib had renamed and check 2 on a probe the guard
+# refused, then found the right name with nothing left to use it.
+# `hard-sum-odd-squares` needed THREE formalisations and drifted to an
+# unchecked third, which is why it proved the theorem twice and scored
+# nothing.
+#
+# Now load-bearing in a way it was not before: `_drifted_from_the_goal`
+# refuses an attempt at any statement that is not the declared goal, so this
+# IS the re-formalisation budget rather than a limit on idle curiosity. Four
+# of forty compilations is proportionate, and `spend`'s ENOUGH CHECKING
+# redirect still fires at the cap. Refusals are refunded, so a probe the guard
+# rejects no longer eats one.
+MAX_STATEMENT_CHECKS = int(os.getenv("MRA_MAX_STATEMENT_CHECKS", "4"))
 
 # The wall clock is enforced twice, and this is the OUTER one.
 #

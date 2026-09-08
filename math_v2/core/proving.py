@@ -295,6 +295,79 @@ def _declared_name(declaration):
     return ""
 
 
+def _same_statement(left, right):
+    """Whitespace-insensitive comparison of two Lean signatures.
+
+    Re-indenting or re-wrapping a signature is not drift, and refusing it as
+    drift would be a false alarm on the most ordinary thing a model does.
+    """
+    return " ".join((left or "").split()) == " ".join((right or "").split())
+
+
+def _drifted_from_the_goal(workdir, statement):
+    """Is this an attempt at something OTHER than the scored goal? None if not.
+
+    MEASURED, and it cost a solved goal. `hard-sum-odd-squares` asks
+    informally for "the sum of the first n odd numbers equals n squared" and
+    leaves the formalisation to the agent. It produced three, all correct:
+
+        1  sum i in range n, (2 * i + 1) = n ^ 2         checked, PROVED
+        2  sum i in filter Odd (range (n+n)), i = n ^ 2  checked
+        3  sum i in range n, (i + i).succ = n * n        never checked, PROVED
+
+    `log.declared_goal` is the LAST statement check, so #2 was scored and
+    neither accepted proof matched it. The run recorded `not_proved` for a
+    theorem it had proved twice, and spent twelve compilations doing it
+    without ever being told the work could not count.
+
+    Across the thirty-five rescued workspaces, NINE show an accepted proof
+    whose statement is not the declared goal. Seven recovered by later proving
+    the declared one; two did not.
+
+    WHY THIS IS REFUSED RATHER THAN CREDITED. `alg-square-nonneg` submitted
+    `x * x >= x - x` against a declared `0 <= x * x` -- trivially true, and a
+    weakening of the theorem rather than a reformulation of it. Telling that
+    apart from #3 above needs a judgement about mathematical equivalence,
+    which deterministic code cannot make and which `core/verdict.py` exists to
+    refuse to take from model prose. So the honest move is not to credit the
+    proof, but to stop the agent spending compilations on work that cannot
+    score without knowing it.
+
+    WHY REFUSED RATHER THAN WARNED. This project has measured prose rules
+    being declined -- the skeleton instruction was ignored twenty consecutive
+    times. A warning leaves the losing path open.
+
+    A NO-OP WHEN NOTHING IS DECLARED, which is what keeps this safe: with no
+    statement check on record `declared_goal` is empty, nothing can score
+    against it anyway, and a run configured not to check statements is
+    unaffected rather than unable to attempt anything.
+    """
+    declared = log.declared_goal(workdir)
+    if not declared or _same_statement(statement, declared):
+        return None
+
+    return {
+        "ok": False,
+        "error": "not_the_goal",
+        "outputs": {"accepted": False},
+        "message": (
+            "REFUSED, and not compiled: this is not the statement being "
+            "scored, so proving it cannot settle this goal.\n\n"
+            f"The goal on record is:\n  {declared[:400]}\n\n"
+            "You submitted a different one. Two ways forward, and both are "
+            "cheap:\n"
+            "  - If your statement is a BETTER formalisation of the question, "
+            "call `check_statement` on it. That makes it the goal, and then "
+            "proving it counts.\n"
+            "  - If it is a step or a special case, call `try_lemma` instead. "
+            "A kept lemma is cited by name in the real proof, which a "
+            "one-off compilation never is.\n\n"
+            "A proof of a statement nobody declared is not evidence about the "
+            "question that was asked."
+        ),
+    }
+
+
 def _attempts_exhausted(workdir, statement, kind=log.PROOF):
     """Has the direct route stopped converting on this TARGET? None to proceed.
 
@@ -668,6 +741,13 @@ async def try_proof(workdir, statement, proof, run_lean, search=None,
     # statement that assumes itself.
     if assumes_its_own_conclusion(statement):
         return _assumes_conclusion_refusal(statement)
+
+    # BEFORE every record-based guard. Whether the agent is even working on
+    # the scored goal outranks how it is going about it -- there is no point
+    # diagnosing a repeat of something that could never have counted.
+    drifted = _drifted_from_the_goal(workdir, statement)
+    if drifted:
+        return drifted
 
     repeat = already_tried(workdir, proof, statement)
     if repeat:

@@ -199,7 +199,12 @@ async def try_proof(proof: str, runtime: ToolRuntime[MathContext],
         proof: the proof body only — what follows `:=`. Do not restate the
             theorem; the declaration is assembled for you. Never use `sorry` or
             `admit`: they compile and prove nothing, and are rejected.
-        statement: only if proving something other than the current statement.
+        statement: the goal you are proving, if you need to restate it.
+            NOT for proving something else -- an attempt at any statement
+            other than the one `check_statement` declared is refused, because
+            it cannot settle this goal. A better formalisation goes through
+            `check_statement`; a step or special case goes through
+            `try_lemma`.
     """
     stop = _charge(runtime, lean=True, goal_state=True)
     if stop:
