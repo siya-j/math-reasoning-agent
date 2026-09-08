@@ -971,8 +971,21 @@ def _scripted_capturing_last(script):
         by_name = {t.name: t for t in tools}
 
         class Agent:
+            # SINGLE-SHOT, for the same reason as `scripted()`. The harness
+            # re-drives an agent that never attempted the goal, and a replay
+            # here overwrote `captured` with the result of a SECOND
+            # `check_statement` -- which is refused as over-budget, so the
+            # test read "ENOUGH CHECKING" where it was asserting on the
+            # diagnostic hint of the first, genuine check.
+            done = False
+
             async def ainvoke(self, payload, context=None):
                 from langchain.tools import ToolRuntime
+
+                finished = {"messages": [type("M", (), {"text": "finished"})()]}
+                if self.done:
+                    return finished
+                self.done = True
 
                 runtime = ToolRuntime(
                     state=None, context=context, config={},
@@ -982,7 +995,7 @@ def _scripted_capturing_last(script):
                 for name, kwargs in script:
                     captured["result"] = await by_name[name].ainvoke(
                         {**kwargs, "runtime": runtime})
-                return {"messages": [type("M", (), {"text": "finished"})()]}
+                return finished
 
         return Agent()
 

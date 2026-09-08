@@ -46,6 +46,15 @@ therefore recoverable by asking, unlike an agent whose only memory is its
 transcript. `keep` also protects the most recent results, which is where the
 goal state the model is actually working from lives.
 
+THE AGENT MAY BE DRIVEN MORE THAN ONCE PER GOAL, and a model-call or token
+count from here covers every pass. `_ainvoke` refuses a stop that the record
+shows never tried the goal (see `MAX_CONTINUATIONS`), re-sending the
+transcript with one deterministic instruction. It does NOT re-prod an agent
+that tried and failed: whether stopping early with budget left is good
+judgement or timidity is an open question in this repo, and a nudge that
+assumes the answer would burn forty compiles on goals the agent read
+correctly. The condition is the narrow one that was measured -- zero attempts.
+
 FRESH WORKSPACE PER GOAL
 ------------------------
 The proof log and the budget both live in the workspace. Reusing one directory
@@ -313,17 +322,70 @@ def _takes_context(call):
     return any(p.kind is inspect.Parameter.VAR_KEYWORD for p in parameters.values())
 
 
-async def _ainvoke(agent, goal, workdir):
-    """Drive the agent, preferring the async path its tools require.
+# HOW MANY TIMES THE HARNESS WILL REFUSE TO ACCEPT THE AGENT'S DECISION TO
+# STOP, when the record shows it never once tried the goal.
+#
+# MEASURED on `exercise_1_19` in eval/results/mixed-1.json. The agent wrote
+# one skeleton, proved a helper lemma, then searched Mathlib for a name that
+# does not exist (`nsmul_eq_smul_cast`) twice, got nothing both times, and
+# ended its turn with the sentence "Wait, let's search for `nsmul_eq_smul_cast`
+# in Mathlib." repeated fifteen times and no tool call at all. The graph ends
+# when the model returns no tool calls, so the run was recorded `not_proved`
+# with SEVEN of forty compiles spent, ZERO attempts at the goal, and 71,316
+# output tokens of that repetition billed.
+#
+# It also never called `finish`, which `TASK` instructs it to call "once you
+# are done, whatever happened". So this is not the agent judging the goal too
+# hard -- there is no such judgement in the record. It is the loop falling out
+# from under a degenerate turn, and the harness accepting silence as an answer.
+#
+# Bounded, and small. A model that will not try after two deterministic
+# instructions is not going to try after ten, and every pass re-sends the
+# transcript.
+MAX_CONTINUATIONS = int(os.getenv("MRA_MAX_CONTINUATIONS", "2"))
+
+# Below this many compiles left, a continuation cannot accomplish anything: a
+# rejected attempt costs one and the repair it suggests costs another.
+CONTINUATION_LEAN_FLOOR = 2
+
+CONTINUE = """STOP.
+
+You ended your turn without submitting a single attempt at the goal, and without calling `finish`. The record shows {left} of {total} compilations unused and {searches} searches already spent.
+
+This is not a request to search more. Searching is not proving. Call `try_proof` on THE GOAL now, with the best proof you can write from what you already have. An attempt the compiler rejects costs one compilation and tells you exactly where the difficulty is; zero attempts tell you nothing and score nothing. If it then turns out you genuinely cannot proceed, call `finish` and say so."""
+
+
+def _never_tried_the_goal(workdir):
+    """Compiles left if the agent stopped without one attempt at the goal.
+
+    Read from the RECORD -- `log.PROOF` entries and the budget file -- and
+    never from the final message, for the reason the final message is
+    untrustworthy in exactly this case: on `exercise_1_19` it was fifteen
+    repetitions of one sentence. Prose cannot be asked whether prose is
+    degenerate.
+
+    SKELETON deliberately does not count as trying. A skeleton compiles the
+    goal with `sorry` holes; it establishes that a plan is well formed and
+    proves nothing, which is the same rule `eval.proof_metrics._AT_THE_GOAL`
+    already applies to the same records. `exercise_1_19` had written one.
+
+    Returns 0 when a continuation is not warranted, so the caller reads it as
+    "how much room is there", not as two separate questions.
+    """
+    if log.records(workdir, log.PROOF):
+        return 0
+    left = budget.headroom(workdir)["lean_calls_left"]
+    return left if left >= CONTINUATION_LEAN_FLOOR else 0
+
+
+async def _one_pass(agent, payload, context):
+    """One trip through the agent graph, on whichever entry point it exposes.
 
     Every math_v2 tool is `async def`, so the compiled graph has no working
     sync path once a tool is called. A scripted test agent may still be
     synchronous, and is supported — but the real one always goes through
     `ainvoke`.
     """
-    payload = {"messages": [{"role": "user", "content": TASK.format(goal=goal)}]}
-    context = MathContext(workdir=workdir)
-
     call = getattr(agent, "ainvoke", None)
     if call is not None:
         if _takes_context(call):
@@ -334,6 +396,63 @@ async def _ainvoke(agent, goal, workdir):
     if _takes_context(call):
         return call(payload, context=context)
     return call(payload)
+
+
+async def _ainvoke(agent, goal, workdir):
+    """Drive the agent, and refuse a stop that never tried the goal.
+
+    The continuation re-sends the transcript with one deterministic
+    instruction appended. The instruction is written HERE, by the harness,
+    from the record -- the model is told what it spent, not asked what it
+    thinks it spent.
+
+    Wall clock: this whole loop runs inside the `asyncio.wait_for` that
+    `_invoke` wraps around it, so continuations cannot extend the deadline.
+    They spend the remaining budget rather than adding to it.
+    """
+    payload = {"messages": [{"role": "user", "content": TASK.format(goal=goal)}]}
+    context = MathContext(workdir=workdir)
+    result = await _one_pass(agent, payload, context)
+
+    for _ in range(MAX_CONTINUATIONS):
+        left = _never_tried_the_goal(workdir)
+        if not left:
+            break
+        messages = list((result or {}).get("messages") or []) \
+            if isinstance(result, dict) else []
+        if not messages:
+            # Nothing to continue FROM. A scripted agent that returns no
+            # transcript gets its result back untouched rather than a second
+            # cold call it never asked for.
+            break
+        spent = budget.read(workdir)
+        log.note(workdir, "refused the stop: no attempt at the goal, "
+                          f"{left} compiles left")
+        payload = {"messages": messages + [{
+            "role": "user",
+            "content": CONTINUE.format(left=left,
+                                       total=budget.MAX_LEAN_CALLS,
+                                       searches=spent.get("searches", 0)),
+        }]}
+        try:
+            result = await _one_pass(agent, payload, context)
+        except Exception as exc:
+            # A CONTINUATION MUST NOT COST THE RUN ITS RESULT. This pass is
+            # extra work the harness chose to do, on top of a goal that had
+            # already finished cleanly; if it throws, the honest outcome is
+            # still the one the first pass earned. Without this, `prove`
+            # records "agent failed" and `classify` returns ERROR, so a
+            # legitimate `not_proved` is thrown away by the machinery meant
+            # to improve it -- and every goal in the run carries that risk.
+            #
+            # `except Exception` deliberately, not BaseException: a wall-clock
+            # expiry reaches this frame as `CancelledError`, which must
+            # propagate so `_invoke`'s `wait_for` still bounds the run.
+            log.note(workdir, f"continuation failed: {type(exc).__name__}: "
+                              f"{exc}".rstrip(": "))
+            break
+
+    return result
 
 
 def _invoke(agent, goal, workdir, deadline=None):

@@ -40,11 +40,27 @@ def scripted(script):
         factory.tools = list(by_name)
 
         class Agent:
+            # THE SCRIPT HAPPENS ONCE, however many times the harness drives
+            # this agent. `harness._ainvoke` refuses a stop that never tried
+            # the goal and re-drives the agent, and most scripts here are a
+            # single tool call -- so a fake that replayed on every pass
+            # charged that call two or three times and broke five budget
+            # assertions in `test_live_path.py` that were correct about the
+            # tools and correct about the budget. Running once models an agent
+            # with nothing further to give, which is the case where a
+            # continuation is supposed to change nothing.
+            done = False
+
             # ASYNC, like the real graph. The tools are `async def`, so a
             # synchronous fake that nests `asyncio.run` models an interface
             # the agent does not have — and hid the sync-invocation bug.
             async def ainvoke(self, payload, context=None):
                 from langchain.tools import ToolRuntime
+
+                finished = {"messages": [type("M", (), {"text": "finished"})()]}
+                if self.done:
+                    return finished
+                self.done = True
 
                 runtime = ToolRuntime(
                     state=None, context=context, config={},
@@ -53,7 +69,7 @@ def scripted(script):
                 )
                 for name, kwargs in script:
                     await by_name[name].ainvoke({**kwargs, "runtime": runtime})
-                return {"messages": [type("M", (), {"text": "finished"})()]}
+                return finished
 
         return Agent()
 
