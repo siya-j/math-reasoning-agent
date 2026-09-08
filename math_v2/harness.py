@@ -645,6 +645,16 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
         lean_budget=budget.MAX_LEAN_CALLS,
     )
 
+    # RETAINED WHETHER OR NOT THE OUTCOME IS `refuted`, because the record is
+    # the authority on that and this is only transcribing it. `classify`
+    # decides REFUTED from the trace note; this puts the artefact next to it so
+    # the claim can be rechecked. Empty dict when there is no accepted
+    # refutation, which is the ordinary case.
+    refutation = verdicts.verified_refutation(workdir)
+    if refutation:
+        run.refutation = refutation.get("proof", "")
+        run.refutation_statement = refutation.get("statement", "")
+
     if decision["outcome"] == verdicts.PROVED:
         run.proof = decision["evidence"].get("proof", "")
         run.verdict = Verdict(VerificationStatus.TRUE, "lean",

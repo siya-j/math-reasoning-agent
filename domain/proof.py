@@ -154,6 +154,24 @@ class ProofRun:
     attempts: list[ProofAttempt] = field(default_factory=list)
     lemmas: list[Lemma] = field(default_factory=list)
     proof: str = ""                             # the accepted proof, if any
+    # THE EVIDENCE FOR A `refuted`, kept for the same reason `proof` is kept
+    # and previously not kept at all. A refutation is a COMPILER FACT of
+    # exactly the same standing as a proof -- Lean accepted a complete proof
+    # of the goal's negation -- and it is often the more publishable result,
+    # because it says a benchmark statement is wrong.
+    #
+    # MEASURED: `exercise_3_22` and `exercise_5_15` were both refuted, and
+    # neither refutation survived into the results file. `proof` was empty,
+    # `stages` carried no refutation entry, and the only copies were in
+    # `tempfile.mkdtemp` workspaces that Windows clears on its own schedule.
+    # ProofNet's exercise_3_22 states Baire's theorem without `[Nonempty X]`;
+    # that finding rested on a temp directory.
+    #
+    # Both fields, because a refutation is a proof OF A DIFFERENT STATEMENT --
+    # the negation, which `try_refutation` builds -- so the goal's own
+    # `statement` cannot be used to recompile it.
+    refutation: str = ""                        # proof body of the negation
+    refutation_statement: str = ""              # the negation it proves
     verdict: Verdict | None = None
     trace: list[str] = field(default_factory=list)
     review: object | None = None                # llm.reviewer.Review, if run

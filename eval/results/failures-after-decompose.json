@@ -462,7 +462,9 @@
         "lemma M0_eq_zero : sSup {x | \u2203 y \u2208 Set.Ici (0 : \u211d), |(fun x : \u211d => x) y| = x} = 0 := by\n  exact Real.sSup_of_not_bddAbove S0_not_bddAbove",
         "lemma S1_eq_singleton : {x | \u2203 y \u2208 Set.Ici (0 : \u211d), |deriv (fun x : \u211d => x) y| = x} = {1} := by\n  ext x\n  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]\n  rw [deriv_id'']\n  simp only [abs_one]\n  constructor\n  \u00b7 rintro \u27e8y, hy, rfl\u27e9\n    rfl\n  \u00b7 intro h\n    subst h\n    use 0\n    constructor\n    \u00b7 simp\n    \u00b7 rfl",
         "lemma M1_eq_one : sSup {x | \u2203 y \u2208 Set.Ici (0 : \u211d), |deriv (fun x : \u211d => x) y| = x} = 1 := by\n  rw [S1_eq_singleton]\n  exact csSup_singleton 1"
-      ]
+      ],
+      "refutation": "by\n  intro h\n  have h_spec := @h (fun x : \u211d => x) 0 0 1 (sSup {(|deriv (deriv (fun x : \u211d => x)) x|) | x \u2208 (Set.Ici 0)}) id_diff deriv_id_diff M0_eq_zero.symm M1_eq_one.symm rfl\n  norm_num at h_spec",
+      "refutation_statement": "theorem exercise_5_15_refutation : \u00ac (\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}), (M1 ^ 2) \u2264 4 * M0 * M2)"
     },
     {
       "goal_id": "exercise_1_19",
@@ -656,7 +658,9 @@
         }
       ],
       "proof": "",
-      "lemmas": []
+      "lemmas": [],
+      "refutation": "by\n  intro h\n  have h_empty := h (ULift Empty) (fun _ => \u2205)\n  have hG : \u2200 (n : \u2115), IsOpen (\u2205 : Set (ULift Empty)) \u2227 Dense (\u2205 : Set (ULift Empty)) := by\n    intro n\n    refine \u27e8isOpen_empty, ?_\u27e9\n    -- Let's see if simp can prove Dense \u2205\n    simp [Dense]\n  have h_exists := h_empty hG\n  rcases h_exists with \u27e8x, hx\u27e9\n  exact x.down.elim\n",
+      "refutation_statement": "theorem exercise_3_22_refutation : \u00ac (\u2200 (X : Type*) [MetricSpace X] [CompleteSpace X]\n  (G : \u2115 \u2192 Set X) (hG : \u2200 n, IsOpen (G n) \u2227 Dense (G n)), \u2203 x, \u2200 n, x \u2208 G n)"
     },
     {
       "goal_id": "exercise_2_5_30",
@@ -865,5 +869,13 @@
         "lemma neg_one_sq : (-1 : \u2102\u02e3) * (-1 : \u2102\u02e3) = 1 := by\n  ext\n  simp"
       ]
     }
-  ]
+  ],
+  "backfill": {
+    "what": "refutation and refutation_statement, for rows whose outcome is refuted",
+    "why": "the run predates the fields; the source was recovered from eval/evidence/failures-after-decompose/workdirs/",
+    "goals": [
+      "exercise_5_15",
+      "exercise_3_22"
+    ]
+  }
 }

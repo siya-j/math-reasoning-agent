@@ -138,6 +138,15 @@ class ProofResult:
     # no surviving workspace.
     proof: str = ""
     lemmas: tuple[str, ...] = ()
+    # THE EVIDENCE FOR A `refuted`, which this file retained not at all until
+    # now. A refutation is a compiler fact of the same standing as a proof and
+    # is often the more publishable one -- `exercise_3_22` refuted ProofNet's
+    # own statement of Baire's theorem, which omits `[Nonempty X]`. That
+    # finding lived only in a `mkdtemp` workspace. Both fields, because the
+    # refutation proves the NEGATION, so the goal's `statement` cannot
+    # recompile it.
+    refutation: str = ""
+    refutation_statement: str = ""
 
     @property
     def counted(self) -> bool:
@@ -332,6 +341,8 @@ def result_from(goal: Goal, run: ProofRun) -> ProofResult:
         lean_budget=run.telemetry.lean_budget,
         proof=run.proof,
         lemmas=tuple(lemma.proof for lemma in run.lemmas),
+        refutation=run.refutation,
+        refutation_statement=run.refutation_statement,
         trace=tuple(run.trace),
         stages=tuple(
             {

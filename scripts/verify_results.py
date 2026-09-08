@@ -63,6 +63,9 @@ from verifiers.lean_runner import LeanOutcome, run_lean  # noqa: E402
 from verifiers.lean_verifier import build_source  # noqa: E402
 
 PROVED = "proved"
+# Plain strings, matching PROVED above: this script deliberately imports
+# nothing from `eval` so it can audit a results file without the evaluator.
+REFUTED = "refuted"
 # A third answer, distinct from pass and fail. See `check`.
 UNCHECKED = "unchecked"
 
@@ -159,8 +162,34 @@ def source_for(claim: dict) -> str:
 
 
 def claims_in(path: Path) -> list:
+    """Every compiler claim in the file, PROVED and REFUTED alike.
+
+    A refutation is normalised into the shape a proof already has -- statement
+    plus proof body plus the kept lemmas -- so `source_for` and `check` need
+    no knowledge of it. The statement swapped in is the NEGATION, because that
+    is what `try_refutation` compiled; the goal's own statement would not
+    recompile it and would silently check the wrong thing.
+
+    REFUTATIONS WERE NOT CHECKED AT ALL BEFORE, because they were not
+    retained. `exercise_3_22` refuted ProofNet's statement of Baire's theorem
+    -- it omits `[Nonempty X]`, and on the empty space the empty set is both
+    open and dense -- and that claim was recheckable only from a
+    `tempfile.mkdtemp` workspace. A refutation is a compiler fact of the same
+    standing as a proof, and often the more consequential one, since it says a
+    published benchmark is wrong. It gets audited the same way.
+    """
     data = json.loads(path.read_text(encoding="utf-8"))
-    return [r for r in data.get("results", []) if r.get("outcome") == PROVED]
+    claims = []
+    for row in data.get("results", []):
+        if row.get("outcome") == PROVED:
+            claims.append(row | {"kind": "proof"})
+        elif row.get("outcome") == REFUTED and (row.get("refutation") or "").strip():
+            claims.append(row | {
+                "kind": "refutation",
+                "statement": row.get("refutation_statement", ""),
+                "proof": row.get("refutation", ""),
+            })
+    return claims
 
 
 def check(claim: dict, runner=None) -> tuple:
@@ -229,7 +258,8 @@ def verify(path: Path, runner=None) -> tuple:
     for claim in claims:
         ok, note = check(claim, runner)
         mark = {True: "  ok  ", UNCHECKED: "  ??  "}.get(ok, "  FAIL")
-        print(f"{mark}  {claim.get('goal_id', '?')}  {note}")
+        kind = "" if claim.get("kind") == "proof" else "  [refutation]"
+        print(f"{mark}  {claim.get('goal_id', '?')}{kind}  {note}")
         if ok is UNCHECKED:
             unchecked.append((claim.get("goal_id", "?"), note))
         elif not ok:
