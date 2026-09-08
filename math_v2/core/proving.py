@@ -89,6 +89,33 @@ MAX_KEPT_LEMMAS = int(os.getenv("MRA_MAX_KEPT_LEMMAS", "8"))
 # landed on its third attempt.
 DECOMPOSE_AFTER = 3
 
+# AFTER THIS MANY KEPT LEMMAS WITH NO ATTEMPT AT THE GOAL SINCE, a further
+# lemma is refused and the goal must be attempted. The exact counterpart of
+# `DECOMPOSE_AFTER`, and it exists because shipping only the other direction
+# built a one-way ratchet.
+#
+# MEASURED on eval/results/headroom-flash35.json, `exercise_1_19`:
+#
+#     goal attempts     1
+#     lemma attempts   17     kept 7
+#     skeletons         4
+#     compiles         25/40   -> 88% on helpers, ONE on the goal
+#     via_synthesis  False
+#
+# It decomposed enthusiastically and never assembled. THE CAUSE WAS RAISING
+# MAX_KEPT_LEMMAS FROM 4 TO 8 earlier the same day. At four, the
+# `lemma_budget_spent` refusal fired at the cap and said "Use the ones you
+# have and prove the goal" -- that WAS the pushback, and widening the cap
+# removed it. The same goal, one commit earlier, hit 4/4 kept and made FOUR
+# goal attempts.
+#
+# So this decouples the two things the cap was conflating: how many lemmas may
+# be kept, and when assembling must be tried. Three, not four, because
+# `hard-sophie-germain` and `exercise_4_6` both proved VIA SYNTHESIS with four
+# kept lemmas -- at three the nudge costs one compile and a real
+# four-lemma decomposition still finishes.
+ASSEMBLE_AFTER = int(os.getenv("MRA_ASSEMBLE_AFTER", "3"))
+
 
 def _status(verdict):
     return {
@@ -364,6 +391,61 @@ def _drifted_from_the_goal(workdir, statement):
             "one-off compilation never is.\n\n"
             "A proof of a statement nobody declared is not evidence about the "
             "question that was asked."
+        ),
+    }
+
+
+def _lemmas_without_assembly(workdir):
+    """Enough helpers, and none of them tried against the goal. None to proceed.
+
+    The mirror of `_attempts_exhausted`: that one refuses another attempt at
+    the goal and asks for a smaller claim, this one refuses another smaller
+    claim and asks for an attempt at the goal. Shipping only the first built a
+    one-way ratchet -- see `ASSEMBLE_AFTER` for the goal it cost.
+
+    THE TWO CANNOT BOTH FIRE, by construction rather than by luck, which is
+    what keeps this from deadlocking. `_attempts_exhausted` requires no lemma
+    work since the last goal failure; this requires no goal attempt since the
+    last kept lemma. Whichever of those two events happened last lifts the
+    other guard, so at most one is armed at any moment.
+    `test_the_two_redirects_can_never_deadlock` holds that.
+
+    Counted on KEPT lemmas, not attempts: a rejected lemma is not an asset the
+    goal could have cited, so it is not evidence of over-decomposition.
+    """
+    kept = log.kept_lemmas(workdir)
+    if len(kept) < ASSEMBLE_AFTER:
+        return None
+
+    goal = log.declared_goal(workdir)
+    if not goal:
+        return None
+
+    records = log.records(workdir)
+    last_kept = -1
+    for index, record in enumerate(records):
+        if (record.get("kind") == log.LEMMA
+                and record.get("status") == log.TRUE):
+            last_kept = index
+
+    for later in records[last_kept + 1:]:
+        if later.get("kind") == log.PROOF:
+            return None
+
+    names = ", ".join(_declared_name(entry) or "?" for entry in kept)
+    return {
+        "ok": False,
+        "error": "assemble_first",
+        "outputs": {"accepted": False},
+        "message": (
+            f"REFUSED, and not compiled: you have {len(kept)} proved lemmas "
+            "and have not once tried them against the goal.\n\n"
+            f"Available to cite by name: {names}.\n\n"
+            "A lemma is not progress until something uses it. Call `try_proof` "
+            "on the goal now, citing these — even if you expect it to fail, "
+            "the rejection tells you which of them is not pulling its weight, "
+            "and that is worth more than an eighth lemma. If the assembled "
+            "proof needs one more step, the compiler will say which."
         ),
     }
 
@@ -910,6 +992,15 @@ async def try_lemma(workdir, statement, proof, run_lean, limit=None):
     # THE RECURSIVE STEP. A lemma that will not go through after
     # `DECOMPOSE_AFTER` tries is the crux, and the answer is the same one
     # level down: something smaller than it. See `_attempts_exhausted`.
+    # ASSEMBLY FIRST, before the recursion redirect. With helpers in hand and
+    # a stuck lemma, assembling what exists is likelier to pay than going
+    # deeper -- and over-decomposition is the failure that was actually
+    # measured. Both stay reachable: one goal attempt lifts this, and the
+    # recursion redirect can then fire on the next lemma.
+    assemble = _lemmas_without_assembly(workdir)
+    if assemble:
+        return assemble
+
     redirect = _attempts_exhausted(workdir, statement, log.LEMMA)
     if redirect:
         return redirect
