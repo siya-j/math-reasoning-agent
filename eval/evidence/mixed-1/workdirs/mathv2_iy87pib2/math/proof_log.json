@@ -1,0 +1,601 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem Fermat_two_squares (p : \u2115) [hp : Fact (Nat.Prime p)] (hp4 : p % 4 = 1) : \u2203 a b : \u2115, a^2 + b^2 = p",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788775642.1020722,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem Fermat_two_squares (p : \u2115) [hp : Fact (Nat.Prime p)] (hp4 : p % 4 = 1) : \u2203 a b : \u2115, a^2 + b^2 = p",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact sq_add_sq_eq_zero\n    | exact sq_add_sq_eq_zero _\n    | apply sq_add_sq_eq_zero\n    | simpa using sq_add_sq_eq_zero\n    | exact \u27e8_, sq_add_sq_eq_zero\u27e9\n    | exact sq_add_sq_eq_zero (by assumption)\n    | exact sq_add_sq_eq_zero \u2039_\u203a\n    | apply sq_add_sq_eq_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact sq_add_sq_eq_zero (by assumption))\n    | exact IsCoprime.sq_add_sq_ne_zero\n    | exact IsCoprime.sq_add_sq_ne_zero _\n    | apply IsCoprime.sq_add_sq_ne_zero\n    | simpa using IsCoprime.sq_add_sq_ne_zero\n    | exact \u27e8_, IsCoprime.sq_add_sq_ne_zero\u27e9\n    | exact IsCoprime.sq_add_sq_ne_zero (by assumption)\n    | exact IsCoprime.sq_add_sq_ne_zero \u2039_\u203a\n    | apply IsCoprime.sq_add_sq_ne_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsCoprime.sq_add_sq_ne_zero (by assumption))\n    | exact Complex.norm_eq_sqrt_sq_add_sq\n    | exact Complex.norm_eq_sqrt_sq_add_sq _\n    | apply Complex.norm_eq_sqrt_sq_add_sq\n    | simpa using Complex.norm_eq_sqrt_sq_add_sq\n    | exact \u27e8_, Complex.norm_eq_sqrt_sq_add_sq\u27e9\n    | exact Complex.norm_eq_sqrt_sq_add_sq (by assumption)\n    | exact Complex.norm_eq_sqrt_sq_add_sq \u2039_\u203a\n    | apply Complex.norm_eq_sqrt_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Complex.norm_eq_sqrt_sq_add_sq (by assumption))\n    | exact sq_add_sq_mul_sq_add_sq\n    | exact sq_add_sq_mul_sq_add_sq _\n    | apply sq_add_sq_mul_sq_add_sq\n    | simpa using sq_add_sq_mul_sq_add_sq\n    | exact \u27e8_, sq_add_sq_mul_sq_add_sq\u27e9\n    | exact sq_add_sq_mul_sq_add_sq (by assumption)\n    | exact sq_add_sq_mul_sq_add_sq \u2039_\u203a\n    | apply sq_add_sq_mul_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact sq_add_sq_mul_sq_add_sq (by assumption))\n    | exact Nat.sq_add_sq_modEq\n    | exact Nat.sq_add_sq_modEq _\n    | apply Nat.sq_add_sq_modEq\n    | simpa using Nat.sq_add_sq_modEq\n    | exact \u27e8_, Nat.sq_add_sq_modEq\u27e9\n    | exact Nat.sq_add_sq_modEq (by assumption)\n    | exact Nat.sq_add_sq_modEq \u2039_\u203a\n    | apply Nat.sq_add_sq_modEq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.sq_add_sq_modEq (by assumption))\n    | exact Nat.sq_add_sq_zmodEq\n    | exact Nat.sq_add_sq_zmodEq _\n    | apply Nat.sq_add_sq_zmodEq\n    | simpa using Nat.sq_add_sq_zmodEq\n    | exact \u27e8_, Nat.sq_add_sq_zmodEq\u27e9\n    | exact Nat.sq_add_sq_zmodEq (by assumption)\n    | exact Nat.sq_add_sq_zmodEq \u2039_\u203a\n    | apply Nat.sq_add_sq_zmodEq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.sq_add_sq_zmodEq (by assumption))\n    | exact CharP.sq_add_sq\n    | exact CharP.sq_add_sq _\n    | apply CharP.sq_add_sq\n    | simpa using CharP.sq_add_sq\n    | exact \u27e8_, CharP.sq_add_sq\u27e9\n    | exact CharP.sq_add_sq (by assumption)\n    | exact CharP.sq_add_sq \u2039_\u203a\n    | apply CharP.sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CharP.sq_add_sq (by assumption))\n    | exact ZMod.sq_add_sq\n    | exact ZMod.sq_add_sq _\n    | apply ZMod.sq_add_sq\n    | simpa using ZMod.sq_add_sq\n    | exact \u27e8_, ZMod.sq_add_sq\u27e9\n    | exact ZMod.sq_add_sq (by assumption)\n    | exact ZMod.sq_add_sq \u2039_\u203a\n    | apply ZMod.sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.sq_add_sq (by assumption))\n    | exact integral_div_sq_add_sq\n    | exact integral_div_sq_add_sq _\n    | apply integral_div_sq_add_sq\n    | simpa using integral_div_sq_add_sq\n    | exact \u27e8_, integral_div_sq_add_sq\u27e9\n    | exact integral_div_sq_add_sq (by assumption)\n    | exact integral_div_sq_add_sq \u2039_\u203a\n    | apply integral_div_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact integral_div_sq_add_sq (by assumption))\n    | exact integral_inv_sq_add_sq\n    | exact integral_inv_sq_add_sq _\n    | apply integral_inv_sq_add_sq\n    | simpa using integral_inv_sq_add_sq\n    | exact \u27e8_, integral_inv_sq_add_sq\u27e9\n    | exact integral_inv_sq_add_sq (by assumption)\n    | exact integral_inv_sq_add_sq \u2039_\u203a\n    | apply integral_inv_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact integral_inv_sq_add_sq (by assumption))\n    | exact Int.exists_sq_add_sq_add_one_eq_mul\n    | exact Int.exists_sq_add_sq_add_one_eq_mul _\n    | apply Int.exists_sq_add_sq_add_one_eq_mul\n    | simpa using Int.exists_sq_add_sq_add_one_eq_mul\n    | exact \u27e8_, Int.exists_sq_add_sq_add_one_eq_mul\u27e9\n    | exact Int.exists_sq_add_sq_add_one_eq_mul (by assumption)\n    | exact Int.exists_sq_add_sq_add_one_eq_mul \u2039_\u203a\n    | apply Int.exists_sq_add_sq_add_one_eq_mul <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Int.exists_sq_add_sq_add_one_eq_mul (by assumption))\n    | exact Int.sq_add_sq_of_two_mul_sq_add_sq\n    | exact Int.sq_add_sq_of_two_mul_sq_add_sq _\n    | apply Int.sq_add_sq_of_two_mul_sq_add_sq\n    | simpa using Int.sq_add_sq_of_two_mul_sq_add_sq\n    | exact \u27e8_, Int.sq_add_sq_of_two_mul_sq_add_sq\u27e9\n    | exact Int.sq_add_sq_of_two_mul_sq_add_sq (by assumption)\n    | exact Int.sq_add_sq_of_two_mul_sq_add_sq \u2039_\u203a\n    | apply Int.sq_add_sq_of_two_mul_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Int.sq_add_sq_of_two_mul_sq_add_sq (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:99: error: unsolved goals\np : \u2115\nhp : Fact (Nat.Prime p)\nhp4 : p % 4 = 1\n\u22a2 \u2203 a b, a ^ 2 + b ^ 2 = p\n\nStill to prove:\n\u22a2 \u2203 a b, a ^ 2 + b ^ 2 = p",
+      "at": 1788775648.5017211,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem Fermat_two_squares (p : \u2115) [hp : Fact (Nat.Prime p)] (hp4 : p % 4 = 1) : \u2203 a b : \u2115, a^2 + b^2 = p",
+      "proof": "have h : True := by sorry",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:99: error: unsolved goals\np : \u2115\nhp : Fact (Nat.Prime p)\nhp4 : p % 4 = 1\nh : True\n\u22a2 \u2203 a b, a ^ 2 + b ^ 2 = p\n\nStill to prove:\n\u22a2 \u2203 a b, a ^ 2 + b ^ 2 = p",
+      "at": 1788775843.3474321,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem Fermat_two_squares (p : \u2115) [hp : Fact (Nat.Prime p)] (hp4 : p % 4 = 1) : \u2203 a b : \u2115, a^2 + b^2 = p",
+      "proof": "have h : 1 + 1 = 2 := by rfl\nsorry",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776102.3732352,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_1 : 1 + 1 = 2",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact sq_add_sq_eq_zero\n    | exact sq_add_sq_eq_zero _\n    | apply sq_add_sq_eq_zero\n    | simpa using sq_add_sq_eq_zero\n    | exact \u27e8_, sq_add_sq_eq_zero\u27e9\n    | exact sq_add_sq_eq_zero (by assumption)\n    | exact sq_add_sq_eq_zero \u2039_\u203a\n    | apply sq_add_sq_eq_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact sq_add_sq_eq_zero (by assumption))\n    | exact IsCoprime.sq_add_sq_ne_zero\n    | exact IsCoprime.sq_add_sq_ne_zero _\n    | apply IsCoprime.sq_add_sq_ne_zero\n    | simpa using IsCoprime.sq_add_sq_ne_zero\n    | exact \u27e8_, IsCoprime.sq_add_sq_ne_zero\u27e9\n    | exact IsCoprime.sq_add_sq_ne_zero (by assumption)\n    | exact IsCoprime.sq_add_sq_ne_zero \u2039_\u203a\n    | apply IsCoprime.sq_add_sq_ne_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsCoprime.sq_add_sq_ne_zero (by assumption))\n    | exact Complex.norm_eq_sqrt_sq_add_sq\n    | exact Complex.norm_eq_sqrt_sq_add_sq _\n    | apply Complex.norm_eq_sqrt_sq_add_sq\n    | simpa using Complex.norm_eq_sqrt_sq_add_sq\n    | exact \u27e8_, Complex.norm_eq_sqrt_sq_add_sq\u27e9\n    | exact Complex.norm_eq_sqrt_sq_add_sq (by assumption)\n    | exact Complex.norm_eq_sqrt_sq_add_sq \u2039_\u203a\n    | apply Complex.norm_eq_sqrt_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Complex.norm_eq_sqrt_sq_add_sq (by assumption))\n    | exact sq_add_sq_mul_sq_add_sq\n    | exact sq_add_sq_mul_sq_add_sq _\n    | apply sq_add_sq_mul_sq_add_sq\n    | simpa using sq_add_sq_mul_sq_add_sq\n    | exact \u27e8_, sq_add_sq_mul_sq_add_sq\u27e9\n    | exact sq_add_sq_mul_sq_add_sq (by assumption)\n    | exact sq_add_sq_mul_sq_add_sq \u2039_\u203a\n    | apply sq_add_sq_mul_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact sq_add_sq_mul_sq_add_sq (by assumption))\n    | exact Nat.sq_add_sq_modEq\n    | exact Nat.sq_add_sq_modEq _\n    | apply Nat.sq_add_sq_modEq\n    | simpa using Nat.sq_add_sq_modEq\n    | exact \u27e8_, Nat.sq_add_sq_modEq\u27e9\n    | exact Nat.sq_add_sq_modEq (by assumption)\n    | exact Nat.sq_add_sq_modEq \u2039_\u203a\n    | apply Nat.sq_add_sq_modEq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.sq_add_sq_modEq (by assumption))\n    | exact Nat.sq_add_sq_zmodEq\n    | exact Nat.sq_add_sq_zmodEq _\n    | apply Nat.sq_add_sq_zmodEq\n    | simpa using Nat.sq_add_sq_zmodEq\n    | exact \u27e8_, Nat.sq_add_sq_zmodEq\u27e9\n    | exact Nat.sq_add_sq_zmodEq (by assumption)\n    | exact Nat.sq_add_sq_zmodEq \u2039_\u203a\n    | apply Nat.sq_add_sq_zmodEq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.sq_add_sq_zmodEq (by assumption))\n    | exact CharP.sq_add_sq\n    | exact CharP.sq_add_sq _\n    | apply CharP.sq_add_sq\n    | simpa using CharP.sq_add_sq\n    | exact \u27e8_, CharP.sq_add_sq\u27e9\n    | exact CharP.sq_add_sq (by assumption)\n    | exact CharP.sq_add_sq \u2039_\u203a\n    | apply CharP.sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CharP.sq_add_sq (by assumption))\n    | exact ZMod.sq_add_sq\n    | exact ZMod.sq_add_sq _\n    | apply ZMod.sq_add_sq\n    | simpa using ZMod.sq_add_sq\n    | exact \u27e8_, ZMod.sq_add_sq\u27e9\n    | exact ZMod.sq_add_sq (by assumption)\n    | exact ZMod.sq_add_sq \u2039_\u203a\n    | apply ZMod.sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.sq_add_sq (by assumption))\n    | exact integral_div_sq_add_sq\n    | exact integral_div_sq_add_sq _\n    | apply integral_div_sq_add_sq\n    | simpa using integral_div_sq_add_sq\n    | exact \u27e8_, integral_div_sq_add_sq\u27e9\n    | exact integral_div_sq_add_sq (by assumption)\n    | exact integral_div_sq_add_sq \u2039_\u203a\n    | apply integral_div_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact integral_div_sq_add_sq (by assumption))\n    | exact integral_inv_sq_add_sq\n    | exact integral_inv_sq_add_sq _\n    | apply integral_inv_sq_add_sq\n    | simpa using integral_inv_sq_add_sq\n    | exact \u27e8_, integral_inv_sq_add_sq\u27e9\n    | exact integral_inv_sq_add_sq (by assumption)\n    | exact integral_inv_sq_add_sq \u2039_\u203a\n    | apply integral_inv_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact integral_inv_sq_add_sq (by assumption))\n    | exact Int.exists_sq_add_sq_add_one_eq_mul\n    | exact Int.exists_sq_add_sq_add_one_eq_mul _\n    | apply Int.exists_sq_add_sq_add_one_eq_mul\n    | simpa using Int.exists_sq_add_sq_add_one_eq_mul\n    | exact \u27e8_, Int.exists_sq_add_sq_add_one_eq_mul\u27e9\n    | exact Int.exists_sq_add_sq_add_one_eq_mul (by assumption)\n    | exact Int.exists_sq_add_sq_add_one_eq_mul \u2039_\u203a\n    | apply Int.exists_sq_add_sq_add_one_eq_mul <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Int.exists_sq_add_sq_add_one_eq_mul (by assumption))\n    | exact Int.sq_add_sq_of_two_mul_sq_add_sq\n    | exact Int.sq_add_sq_of_two_mul_sq_add_sq _\n    | apply Int.sq_add_sq_of_two_mul_sq_add_sq\n    | simpa using Int.sq_add_sq_of_two_mul_sq_add_sq\n    | exact \u27e8_, Int.sq_add_sq_of_two_mul_sq_add_sq\u27e9\n    | exact Int.sq_add_sq_of_two_mul_sq_add_sq (by assumption)\n    | exact Int.sq_add_sq_of_two_mul_sq_add_sq \u2039_\u203a\n    | apply Int.sq_add_sq_of_two_mul_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Int.sq_add_sq_of_two_mul_sq_add_sq (by assumption))",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem mra_lemma_1 : 1 + 1 = 2",
+      "at": 1788776102.464289,
+      "auto": true
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem Fermat_two_squares (p : \u2115) [hp : Fact (Nat.Prime p)] (hp4 : p % 4 = 1) : \u2203 a b : \u2115, a^2 + b^2 = p",
+      "proof": "have h : 1 + 1 = 2 := by rfl\n(first | exact mra_lemma_1 | apply mra_lemma_1 <;> assumption | exact mra_lemma_1 (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n126:72: error: Function expected at\n  mra_lemma_1\nbut this term has type\n  1 + 1 = 2\n\nNote: Expected a function because this term is being applied to the argument\n  (by assumption)",
+      "at": 1788776102.5883744,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem Fermat_two_squares (p : \u2115) [hp : Fact (Nat.Prime p)] (hp4 : p % 4 = 1) : \u2203 a b : \u2115, a^2 + b^2 = p",
+      "proof": "apply Nat.Prime.sq_add_sq\nomega",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem Fermat_two_squares (p : \u2115) [hp : Fact (Nat.Prime p)] (hp4 : p % 4 = 1) : \u2203 a b : \u2115, a^2 + b^2 = p",
+      "at": 1788776147.2844381,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem Fermat_two_squares (p : \u2115) [hp : Fact (Nat.Prime p)] (hp4 : p % 4 = 1) : \u2203 a b : \u2115, a * a + b * b = p",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776157.9067943,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem Fermat_two_squares (p : \u2115) [hp : Fact (Nat.Prime p)] (hp4 : p % 4 = 1) : \u2203 a b : \u2115, a * a + b * b = p",
+      "proof": "obtain \u27e8a, b, hab\u27e9 := Nat.Prime.sq_add_sq (p := p) (by omega)\nuse a, b\nring_nf at hab \u22a2\nexact hab",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem Fermat_two_squares (p : \u2115) [hp : Fact (Nat.Prime p)] (hp4 : p % 4 = 1) : \u2203 a b : \u2115, a * a + b * b = p",
+      "at": 1788776167.142893,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "theorem mra_lemma_1 : 1 + 1 = 2 := by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact sq_add_sq_eq_zero\n    | exact sq_add_sq_eq_zero _\n    | apply sq_add_sq_eq_zero\n    | simpa using sq_add_sq_eq_zero\n    | exact \u27e8_, sq_add_sq_eq_zero\u27e9\n    | exact sq_add_sq_eq_zero (by assumption)\n    | exact sq_add_sq_eq_zero \u2039_\u203a\n    | apply sq_add_sq_eq_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact sq_add_sq_eq_zero (by assumption))\n    | exact IsCoprime.sq_add_sq_ne_zero\n    | exact IsCoprime.sq_add_sq_ne_zero _\n    | apply IsCoprime.sq_add_sq_ne_zero\n    | simpa using IsCoprime.sq_add_sq_ne_zero\n    | exact \u27e8_, IsCoprime.sq_add_sq_ne_zero\u27e9\n    | exact IsCoprime.sq_add_sq_ne_zero (by assumption)\n    | exact IsCoprime.sq_add_sq_ne_zero \u2039_\u203a\n    | apply IsCoprime.sq_add_sq_ne_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsCoprime.sq_add_sq_ne_zero (by assumption))\n    | exact Complex.norm_eq_sqrt_sq_add_sq\n    | exact Complex.norm_eq_sqrt_sq_add_sq _\n    | apply Complex.norm_eq_sqrt_sq_add_sq\n    | simpa using Complex.norm_eq_sqrt_sq_add_sq\n    | exact \u27e8_, Complex.norm_eq_sqrt_sq_add_sq\u27e9\n    | exact Complex.norm_eq_sqrt_sq_add_sq (by assumption)\n    | exact Complex.norm_eq_sqrt_sq_add_sq \u2039_\u203a\n    | apply Complex.norm_eq_sqrt_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Complex.norm_eq_sqrt_sq_add_sq (by assumption))\n    | exact sq_add_sq_mul_sq_add_sq\n    | exact sq_add_sq_mul_sq_add_sq _\n    | apply sq_add_sq_mul_sq_add_sq\n    | simpa using sq_add_sq_mul_sq_add_sq\n    | exact \u27e8_, sq_add_sq_mul_sq_add_sq\u27e9\n    | exact sq_add_sq_mul_sq_add_sq (by assumption)\n    | exact sq_add_sq_mul_sq_add_sq \u2039_\u203a\n    | apply sq_add_sq_mul_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact sq_add_sq_mul_sq_add_sq (by assumption))\n    | exact Nat.sq_add_sq_modEq\n    | exact Nat.sq_add_sq_modEq _\n    | apply Nat.sq_add_sq_modEq\n    | simpa using Nat.sq_add_sq_modEq\n    | exact \u27e8_, Nat.sq_add_sq_modEq\u27e9\n    | exact Nat.sq_add_sq_modEq (by assumption)\n    | exact Nat.sq_add_sq_modEq \u2039_\u203a\n    | apply Nat.sq_add_sq_modEq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.sq_add_sq_modEq (by assumption))\n    | exact Nat.sq_add_sq_zmodEq\n    | exact Nat.sq_add_sq_zmodEq _\n    | apply Nat.sq_add_sq_zmodEq\n    | simpa using Nat.sq_add_sq_zmodEq\n    | exact \u27e8_, Nat.sq_add_sq_zmodEq\u27e9\n    | exact Nat.sq_add_sq_zmodEq (by assumption)\n    | exact Nat.sq_add_sq_zmodEq \u2039_\u203a\n    | apply Nat.sq_add_sq_zmodEq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.sq_add_sq_zmodEq (by assumption))\n    | exact CharP.sq_add_sq\n    | exact CharP.sq_add_sq _\n    | apply CharP.sq_add_sq\n    | simpa using CharP.sq_add_sq\n    | exact \u27e8_, CharP.sq_add_sq\u27e9\n    | exact CharP.sq_add_sq (by assumption)\n    | exact CharP.sq_add_sq \u2039_\u203a\n    | apply CharP.sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CharP.sq_add_sq (by assumption))\n    | exact ZMod.sq_add_sq\n    | exact ZMod.sq_add_sq _\n    | apply ZMod.sq_add_sq\n    | simpa using ZMod.sq_add_sq\n    | exact \u27e8_, ZMod.sq_add_sq\u27e9\n    | exact ZMod.sq_add_sq (by assumption)\n    | exact ZMod.sq_add_sq \u2039_\u203a\n    | apply ZMod.sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.sq_add_sq (by assumption))\n    | exact integral_div_sq_add_sq\n    | exact integral_div_sq_add_sq _\n    | apply integral_div_sq_add_sq\n    | simpa using integral_div_sq_add_sq\n    | exact \u27e8_, integral_div_sq_add_sq\u27e9\n    | exact integral_div_sq_add_sq (by assumption)\n    | exact integral_div_sq_add_sq \u2039_\u203a\n    | apply integral_div_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact integral_div_sq_add_sq (by assumption))\n    | exact integral_inv_sq_add_sq\n    | exact integral_inv_sq_add_sq _\n    | apply integral_inv_sq_add_sq\n    | simpa using integral_inv_sq_add_sq\n    | exact \u27e8_, integral_inv_sq_add_sq\u27e9\n    | exact integral_inv_sq_add_sq (by assumption)\n    | exact integral_inv_sq_add_sq \u2039_\u203a\n    | apply integral_inv_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact integral_inv_sq_add_sq (by assumption))\n    | exact Int.exists_sq_add_sq_add_one_eq_mul\n    | exact Int.exists_sq_add_sq_add_one_eq_mul _\n    | apply Int.exists_sq_add_sq_add_one_eq_mul\n    | simpa using Int.exists_sq_add_sq_add_one_eq_mul\n    | exact \u27e8_, Int.exists_sq_add_sq_add_one_eq_mul\u27e9\n    | exact Int.exists_sq_add_sq_add_one_eq_mul (by assumption)\n    | exact Int.exists_sq_add_sq_add_one_eq_mul \u2039_\u203a\n    | apply Int.exists_sq_add_sq_add_one_eq_mul <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Int.exists_sq_add_sq_add_one_eq_mul (by assumption))\n    | exact Int.sq_add_sq_of_two_mul_sq_add_sq\n    | exact Int.sq_add_sq_of_two_mul_sq_add_sq _\n    | apply Int.sq_add_sq_of_two_mul_sq_add_sq\n    | simpa using Int.sq_add_sq_of_two_mul_sq_add_sq\n    | exact \u27e8_, Int.sq_add_sq_of_two_mul_sq_add_sq\u27e9\n    | exact Int.sq_add_sq_of_two_mul_sq_add_sq (by assumption)\n    | exact Int.sq_add_sq_of_two_mul_sq_add_sq \u2039_\u203a\n    | apply Int.sq_add_sq_of_two_mul_sq_add_sq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Int.sq_add_sq_of_two_mul_sq_add_sq (by assumption))"
+  ],
+  "premises": [
+    {
+      "name": "sq_add_sq_eq_zero",
+      "type": " {R : Type u} [Semiring R] [LinearOrder R] {a b : R} [NoZeroDivisors R] [ExistsAddOfLE R] [PosMulMono R] [AddLeftMono R] : a ^ 2 + b ^ 2 = 0 \u2194 a = 0 \u2227 b = 0",
+      "module": "Mathlib.Algebra.Order.Ring.Unbundled.Basic",
+      "doc": "The sum of two squares is zero iff both elements are zero "
+    },
+    {
+      "name": "IsCoprime.sq_add_sq_ne_zero",
+      "type": " {R : Type u_1} [CommRing R] [LinearOrder R] [IsStrictOrderedRing R] {a b : R} (h : IsCoprime a b) : a ^ 2 + b ^ 2 \u2260 0",
+      "module": "Mathlib.RingTheory.Coprime.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Complex.norm_eq_sqrt_sq_add_sq",
+      "type": " (z : \u2102) : \u2016z\u2016 = \u221a(z.re ^ 2 + z.im ^ 2)",
+      "module": "Mathlib.Analysis.Complex.Norm",
+      "doc": ""
+    },
+    {
+      "name": "sq_add_sq_mul_sq_add_sq",
+      "type": " {R : Type u_1} [CommRing R] {x\u2081 x\u2082 y\u2081 y\u2082 : R} : (x\u2081 ^ 2 + x\u2082 ^ 2) * (y\u2081 ^ 2 + y\u2082 ^ 2) = (x\u2081 * y\u2081 - x\u2082 * y\u2082) ^ 2 + (x\u2081 * y\u2082 + x\u2082 * y\u2081) ^ 2",
+      "module": "Mathlib.Algebra.Ring.Identities",
+      "doc": "Brahmagupta-Fibonacci identity or Diophantus identity, see\n<https://en.wikipedia.org/wiki/Brahmagupta%E2%80%93Fibonacci_identity>.\n\nThis sign choice here corresponds to the signs obtained by multiplying two complex numbers.\n"
+    },
+    {
+      "name": "Nat.sq_add_sq_modEq",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] (x : \u2115) : \u2203 a b, a \u2264 p / 2 \u2227 b \u2264 p / 2 \u2227 a ^ 2 + b ^ 2 \u2261 x [MOD p]",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": "If `p` is a prime natural number and `x` is a natural number, then there exist natural numbers\n`a \u2264 p / 2` and `b \u2264 p / 2` such that `a ^ 2 + b ^ 2 \u2261 x [MOD p]`. This is a version of\n`ZMod.sq_add_sq` with estimates on `a` and `b`. "
+    },
+    {
+      "name": "Nat.sq_add_sq_zmodEq",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] (x : \u2124) : \u2203 a b, a \u2264 p / 2 \u2227 b \u2264 p / 2 \u2227 \u2191a ^ 2 + \u2191b ^ 2 \u2261 x [ZMOD \u2191p]",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": "If `p` is a prime natural number and `x` is an integer number, then there exist natural numbers\n`a \u2264 p / 2` and `b \u2264 p / 2` such that `a ^ 2 + b ^ 2 \u2261 x [ZMOD p]`. This is a version of\n`ZMod.sq_add_sq` with estimates on `a` and `b`. "
+    },
+    {
+      "name": "CharP.sq_add_sq",
+      "type": " (R : Type u_3) [Ring R] [IsDomain R] (p : \u2115) [NeZero p] [CharP R p] (x : \u2124) : \u2203 a b, \u2191a ^ 2 + \u2191b ^ 2 = \u2191x",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.sq_add_sq",
+      "type": " (p : \u2115) [hp : Fact (Nat.Prime p)] (x : ZMod p) : \u2203 a b, a ^ 2 + b ^ 2 = x",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": ""
+    },
+    {
+      "name": "integral_div_sq_add_sq",
+      "type": " {a b c : \u211d} : \u222b (x : \u211d) in a..b, c / (c ^ 2 + x ^ 2) = Real.arctan (b / c) - Real.arctan (a / c)",
+      "module": "Mathlib.Analysis.SpecialFunctions.Integrals.Basic",
+      "doc": ""
+    },
+    {
+      "name": "integral_inv_sq_add_sq",
+      "type": " {a b c : \u211d} (hc : c \u2260 0) : \u222b (x : \u211d) in a..b, (c ^ 2 + x ^ 2)\u207b\u00b9 = c\u207b\u00b9 * (Real.arctan (b / c) - Real.arctan (a / c))",
+      "module": "Mathlib.Analysis.SpecialFunctions.Integrals.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Int.exists_sq_add_sq_add_one_eq_mul",
+      "type": " (p : \u2115) [hp : Fact (Nat.Prime p)] : \u2203 a b k, 0 < k \u2227 k < p \u2227 a ^ 2 + b ^ 2 + 1 = k * p",
+      "module": "Mathlib.NumberTheory.SumFourSquares",
+      "doc": ""
+    },
+    {
+      "name": "Int.sq_add_sq_of_two_mul_sq_add_sq",
+      "type": " {m x y : \u2124} (h : 2 * m = x ^ 2 + y ^ 2) : m = ((x - y) / 2) ^ 2 + ((x + y) / 2) ^ 2",
+      "module": "Mathlib.NumberTheory.SumFourSquares",
+      "doc": ""
+    },
+    {
+      "name": "Nat.coprime_of_fermatPsp",
+      "type": " {n b : \u2115} (h : n.FermatPsp b) (h\u2081 : 1 \u2264 b) : n.Coprime b",
+      "module": "Mathlib.NumberTheory.FermatPsp",
+      "doc": "If `n` is a Fermat pseudoprime to base `b`, then `n` is coprime with `b`, assuming that `b` is\npositive.\n\nThis lemma is a small wrapper based on `coprime_of_probablePrime`\n"
+    },
+    {
+      "name": "Nat.frequently_atTop_fermatPsp",
+      "type": " {b : \u2115} (h : 1 \u2264 b) : \u2203\u1da0 (n : \u2115) in Filter.atTop, n.FermatPsp b",
+      "module": "Mathlib.NumberTheory.FermatPsp",
+      "doc": ""
+    },
+    {
+      "name": "Nat.fermatPsp_base_one",
+      "type": " {n : \u2115} (h\u2081 : 1 < n) (h\u2082 : \u00acNat.Prime n) : n.FermatPsp 1",
+      "module": "Mathlib.NumberTheory.FermatPsp",
+      "doc": "All composite numbers are Fermat pseudoprimes to base 1.\n"
+    },
+    {
+      "name": "fermatLastTheoremFor_zero",
+      "type": " : FermatLastTheoremFor 0",
+      "module": "Mathlib.NumberTheory.FLT.Basic",
+      "doc": ""
+    },
+    {
+      "name": "not_fermatLastTheoremFor_one",
+      "type": " : \u00acFermatLastTheoremFor 1",
+      "module": "Mathlib.NumberTheory.FLT.Basic",
+      "doc": ""
+    },
+    {
+      "name": "not_fermatLastTheoremFor_two",
+      "type": " : \u00acFermatLastTheoremFor 2",
+      "module": "Mathlib.NumberTheory.FLT.Basic",
+      "doc": ""
+    },
+    {
+      "name": "fermatLastTheoremFor_iff_int",
+      "type": " {n : \u2115} : FermatLastTheoremFor n \u2194 FermatLastTheoremWith \u2124 n",
+      "module": "Mathlib.NumberTheory.FLT.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Nat.FermatPsp",
+      "type": " (n b : \u2115) : Prop",
+      "module": "Mathlib.NumberTheory.FermatPsp",
+      "doc": "`n` is a Fermat pseudoprime to base `b` if `n` is a probable prime to base `b` and is composite. By\nthis definition, all composite natural numbers are pseudoprimes to base 0 and 1. This definition\nalso permits `n` to be less than `b`, so that 4 is a pseudoprime to base 5, for example.\n"
+    },
+    {
+      "name": "FermatLastTheorem",
+      "type": " : Prop",
+      "module": "Mathlib.NumberTheory.FLT.Basic",
+      "doc": "Statement of Fermat's Last Theorem: `a ^ n + b ^ n = c ^ n` has no nontrivial natural solution\nwhen `n \u2265 3`.\n\nThis is now a theorem of Wiles and Taylor--Wiles; see\nhttps://github.com/ImperialCollegeLondon/FLT for an ongoing Lean formalisation of\na proof. "
+    },
+    {
+      "name": "FermatLastTheoremFor",
+      "type": " (n : \u2115) : Prop",
+      "module": "Mathlib.NumberTheory.FLT.Basic",
+      "doc": "Statement of Fermat's Last Theorem over the naturals for a given exponent. "
+    },
+    {
+      "name": "FermatLastTheoremWith",
+      "type": " (R : Type u_1) [Semiring R] (n : \u2115) : Prop",
+      "module": "Mathlib.NumberTheory.FLT.Basic",
+      "doc": "Statement of Fermat's Last Theorem over a given semiring with a specific exponent. "
+    },
+    {
+      "name": "FermatLastTheoremWith'",
+      "type": " (R : Type u_2) [CommSemiring R] (n : \u2115) : Prop",
+      "module": "Mathlib.NumberTheory.FLT.Basic",
+      "doc": "A relaxed variant of Fermat's Last Theorem over a given commutative semiring with a specific\nexponent, allowing nonzero solutions of units and their common multiples.\n\n1. The variant `FermatLastTheoremWith' R` is weaker than `FermatLastTheoremWith R` in general.\n   In particular, it holds trivially for `[Field R]`.\n2. This variant is equivalent to the original `FermatLastTheoremWith R` for `R = \u2115` or `\u2124`.\n   In general, they are equivalent if there is no solutions of units to the Fermat equation.\n3. For a polynomial ring `R = k[X]`, the original `FermatLastTheoremWith R` is false but the weaker\n   variant `FermatLastTheoremWith' R` is true. This polynomial variant of Fermat's Last Theorem\n   can be shown elementarily using Mason--Stothers theorem.\n"
+    },
+    {
+      "name": "Fact.mk",
+      "type": " {p : Prop} (out : p) : Fact p",
+      "module": "Mathlib.Basic.Logic.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZeroLEOneClass.factZeroLeOne",
+      "type": " {\u03b1 : Type u_1} [Zero \u03b1] [One \u03b1] [LE \u03b1] [ZeroLEOneClass \u03b1] : Fact (0 \u2264 1)",
+      "module": "Mathlib.Algebra.Order.ZeroLEOne",
+      "doc": ""
+    },
+    {
+      "name": "ZeroLEOneClass.factZeroLtOne",
+      "type": " {\u03b1 : Type u_1} [Zero \u03b1] [One \u03b1] [PartialOrder \u03b1] [ZeroLEOneClass \u03b1] [NeZero 1] : Fact (0 < 1)",
+      "module": "Mathlib.Algebra.Order.ZeroLEOne",
+      "doc": ""
+    },
+    {
+      "name": "Cardinal.fact_isRegular_aleph0",
+      "type": " : Fact Cardinal.aleph0.IsRegular",
+      "module": "Mathlib.SetTheory.Cardinal.Regular",
+      "doc": ""
+    },
+    {
+      "name": "Nat.fact_prime_three",
+      "type": " : Fact (Nat.Prime 3)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.fact_prime_two",
+      "type": " : Fact (Nat.Prime 2)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime.one_lt'",
+      "type": " (p : \u2115) [hp : Fact (Nat.Prime p)] : Fact (1 < p)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_is_prime_of_pos",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] [Nontrivial R] (p : \u2115) [NeZero p] [CharP R p] : Fact (Nat.Prime p)",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_fin_two",
+      "type": " : Fact (Even (Fintype.card (Fin 2)))",
+      "module": "Mathlib.Data.Fintype.Parity",
+      "doc": "The cardinality of `Fin 2` is even, `Fact` version.\nThis `Fact` is needed as an instance by `Matrix.SpecialLinearGroup.instNeg`. "
+    },
+    {
+      "name": "Polynomial.fact_irreducible_factor",
+      "type": " {K : Type v} [Field K] (f : Polynomial K) : Fact (Irreducible f.factor)",
+      "module": "Mathlib.FieldTheory.SplittingField.Construction",
+      "doc": "See note [fact non-instances]. "
+    },
+    {
+      "name": "fact_one_le_top_ennreal",
+      "type": " : Fact (1 \u2264 \u22a4)",
+      "module": "Mathlib.Basic.ENNReal.Basic",
+      "doc": "`(1 : \u211d\u22650\u221e) \u2264 \u221e`, recorded as a `Fact` for use with `Lp` spaces. "
+    },
+    {
+      "name": "fact_one_le_one_ennreal",
+      "type": " : Fact (1 \u2264 1)",
+      "module": "Mathlib.Basic.ENNReal.Basic",
+      "doc": "`(1 : \u211d\u22650\u221e) \u2264 1`, recorded as a `Fact` for use with `Lp` spaces. "
+    },
+    {
+      "name": "Nat.prime_eleven",
+      "type": " : Nat.Prime 11",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_five",
+      "type": " : Nat.Prime 5",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_seven",
+      "type": " : Nat.Prime 7",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_three",
+      "type": " : Nat.Prime 3",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_two",
+      "type": " : Nat.Prime 2",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Prime.nat_prime",
+      "type": " {p : \u2115} : Prime p \u2192 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "**Alias** of the reverse direction of `Nat.prime_iff`."
+    },
+    {
+      "name": "Nat.minFac_prime",
+      "type": " {n : \u2115} (n1 : n \u2260 1) : Nat.Prime n.minFac",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_of_coprime",
+      "type": " (n : \u2115) (h1 : 1 < n) (h : \u2200 m < n, m \u2260 0 \u2192 n.Coprime m) : Nat.Prime n",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_is_prime_of_two_le",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] (p : \u2115) [CharP R p] (hp : 2 \u2264 p) : Nat.Prime p",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_prime_of_ne_zero",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] [Nontrivial R] {p : \u2115} [CharP R p] (hp : p \u2260 0) : Nat.Prime p",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": "The characteristic is prime if it is non-zero. "
+    },
+    {
+      "name": "Nat.prime_of_mem_primeFactorsList",
+      "type": " {n p : \u2115} : p \u2208 n.primeFactorsList \u2192 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Factors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_of_mem_primeFactors",
+      "type": " {n p : \u2115} (hp : p \u2208 n.primeFactors) : Nat.Prime p",
+      "module": "Mathlib.Data.Nat.PrimeFin",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Primes.inhabitedPrimes",
+      "type": " : Inhabited Nat.Primes",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Primes.instRepr",
+      "type": " : Repr Nat.Primes",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Primes.coeNat",
+      "type": " : Coe Nat.Primes \u2115",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_one_false",
+      "type": " : Nat.Prime 1 \u2192 False",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "A copy of `not_prime_one` stated in a way that works for `aesop`.\n\nSee https://github.com/leanprover-community/aesop/issues/197 for an explanation. "
+    },
+    {
+      "name": "Nat.prime_zero_false",
+      "type": " : Nat.Prime 0 \u2192 False",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "A copy of `not_prime_zero` stated in a way that works for `aesop`.\n\nSee https://github.com/leanprover-community/aesop/issues/197 for an explanation. "
+    },
+    {
+      "name": "Nat.Primes",
+      "type": " : Type",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "The type of prime numbers "
+    },
+    {
+      "name": "Nat.Prime",
+      "type": " (p : \u2115) : Prop",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "`Nat.Prime p` means that `p` is a prime number, that is, a natural number\nat least 2 whose only divisors are `p` and `1`.\nThe theorem `Nat.prime_def` witnesses this description of a prime number. "
+    },
+    {
+      "name": "Finset.sum_sq_eq_zero_iff",
+      "type": " {\u03b9 : Type u_1} {R : Type u_2} [Semiring R] [LinearOrder R] [IsStrictOrderedRing R] [ExistsAddOfLE R] (s : Finset \u03b9) (f : \u03b9 \u2192 R) : \u2211 i \u2208 s, f i ^ 2 = 0 \u2194 \u2200 i \u2208 s, f i = 0",
+      "module": "Mathlib.Algebra.Order.BigOperators.Ring.Finset",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_sq_le_sq_sum_of_nonneg",
+      "type": " {\u03b9 : Type u_1} {R : Type u_2} [Semiring R] [PartialOrder R] [IsOrderedRing R] {f : \u03b9 \u2192 R} {s : Finset \u03b9} (hf : \u2200 i \u2208 s, 0 \u2264 f i) : \u2211 i \u2208 s, f i ^ 2 \u2264 (\u2211 i \u2208 s, f i) ^ 2",
+      "module": "Mathlib.Algebra.Order.BigOperators.Ring.Finset",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sq_sum_div_le_sum_sq_div",
+      "type": " {\u03b9 : Type u_1} {R : Type u_2} [Semifield R] [LinearOrder R] [IsStrictOrderedRing R] [ExistsAddOfLE R] (s : Finset \u03b9) (f : \u03b9 \u2192 R) {g : \u03b9 \u2192 R} (hg : \u2200 i \u2208 s, 0 < g i) : (\u2211 i \u2208 s, f i) ^ 2 / \u2211 i \u2208 s, g i \u2264 \u2211 i \u2208 s, f i ^ 2 / g i",
+      "module": "Mathlib.Algebra.Order.BigOperators.Ring.Finset",
+      "doc": "**Sedrakyan's lemma**, aka **Titu's lemma** or **Engel's form**.\n\nThis is a specialization of the Cauchy-Schwarz inequality with the sequences `f n / \u221a(g n)` and\n`\u221a(g n)`, though here it is proven without relying on square roots. "
+    },
+    {
+      "name": "Finset.sum_sq_le_sum_mul_sum_of_sq_eq_mul",
+      "type": " {\u03b9 : Type u_1} {R : Type u_2} [CommSemiring R] [LinearOrder R] [IsStrictOrderedRing R] [ExistsAddOfLE R] (s : Finset \u03b9) {r f g : \u03b9 \u2192 R} (hf : \u2200 i \u2208 s, 0 \u2264 f i) (hg : \u2200 i \u2208 s, 0 \u2264 g i) (ht : \u2200 i \u2208 s, r i ^ 2 = f i * g i) : (\u2211 i \u2208 s, r i) ^ 2 \u2264 (\u2211 i \u2208 s, f i) * \u2211 i \u2208 s, g i",
+      "module": "Mathlib.Algebra.Order.BigOperators.Ring.Finset",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_sq_le_sum_mul_sum_of_sq_le_mul",
+      "type": " {\u03b9 : Type u_1} {R : Type u_2} [CommSemiring R] [LinearOrder R] [IsStrictOrderedRing R] [ExistsAddOfLE R] (s : Finset \u03b9) {r f g : \u03b9 \u2192 R} (hf : \u2200 i \u2208 s, 0 \u2264 f i) (hg : \u2200 i \u2208 s, 0 \u2264 g i) (ht : \u2200 i \u2208 s, r i ^ 2 \u2264 f i * g i) : (\u2211 i \u2208 s, r i) ^ 2 \u2264 (\u2211 i \u2208 s, f i) * \u2211 i \u2208 s, g i",
+      "module": "Mathlib.Algebra.Order.BigOperators.Ring.Finset",
+      "doc": "**Cauchy-Schwarz inequality** for finsets.\n\nThis is written in terms of sequences `f`, `g`, and `r`, where `r` is usually a stand-in for\n`\u221a(f i * g i)`. See `sum_mul_sq_le_sq_mul_sq` for the more usual form in terms of squared\nsequences. "
+    },
+    {
+      "name": "CharTwo.multiset_sum_sq",
+      "type": " {R : Type u_1} [CommSemiring R] [CharP R 2] (l : Multiset R) : l.sum ^ 2 = (Multiset.map (fun x => x ^ 2) l).sum",
+      "module": "Mathlib.Algebra.CharP.Two",
+      "doc": ""
+    },
+    {
+      "name": "CharTwo.sum_sq",
+      "type": " {R : Type u_1} {\u03b9 : Type u_2} [CommSemiring R] [CharP R 2] (s : Finset \u03b9) (f : \u03b9 \u2192 R) : (\u2211 i \u2208 s, f i) ^ 2 = \u2211 i \u2208 s, f i ^ 2",
+      "module": "Mathlib.Algebra.CharP.Two",
+      "doc": ""
+    },
+    {
+      "name": "CharTwo.list_sum_sq",
+      "type": " {R : Type u_1} [CommSemiring R] [CharP R 2] (l : List R) : l.sum ^ 2 = (List.map (fun x => x ^ 2) l).sum",
+      "module": "Mathlib.Algebra.CharP.Two",
+      "doc": ""
+    },
+    {
+      "name": "IsSumSq.sum_sq",
+      "type": " {R : Type u_1} [CommSemiring R] {\u03b9 : Type u_2} (I : Finset \u03b9) (a : \u03b9 \u2192 R) : IsSumSq (\u2211 i \u2208 I, a i ^ 2)",
+      "module": "Mathlib.Algebra.Ring.SumsOfSquares",
+      "doc": ""
+    },
+    {
+      "name": "Real.sum_sqrt_mul_sqrt_le",
+      "type": " {\u03b9 : Type u_2} {f g : \u03b9 \u2192 \u211d} (s : Finset \u03b9) (hf : \u2200 (i : \u03b9), 0 \u2264 f i) (hg : \u2200 (i : \u03b9), 0 \u2264 g i) : \u2211 i \u2208 s, \u221a(f i) * \u221a(g i) \u2264 \u221a(\u2211 i \u2208 s, f i) * \u221a(\u2211 i \u2208 s, g i)",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "**Cauchy-Schwarz inequality** for finsets using square roots in `\u211d`. "
+    },
+    {
+      "name": "NNReal.sum_sqrt_mul_sqrt_le",
+      "type": " {\u03b9 : Type u_2} (s : Finset \u03b9) (f g : \u03b9 \u2192 NNReal) : \u2211 i \u2208 s, NNReal.sqrt (f i) * NNReal.sqrt (g i) \u2264 NNReal.sqrt (\u2211 i \u2208 s, f i) * NNReal.sqrt (\u2211 i \u2208 s, g i)",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "**Cauchy-Schwarz inequality** for finsets using square roots in `\u211d\u22650`. "
+    },
+    {
+      "name": "hasSum_sq_mul_geometric_of_norm_lt_one'",
+      "type": " {R : Type u_4} [NormedRing R] [HasSummableGeomSeries R] {r : R} (h : \u2016r\u2016 < 1) : HasSum (fun n => \u2191n ^ 2 * r ^ n) (r * (1 + r) * Ring.inverse (1 - r) ^ 3)",
+      "module": "Mathlib.Analysis.SpecificLimits.Normed",
+      "doc": "If `\u2016r\u2016 < 1`, then `\u2211' n : \u2115, n ^ 2 * r ^ n = r * (1 + r) / (1 - r) ^ 3`.\n\n`HasSum` version in a general ring with summable geometric series. For a version in a field, using\ndivision instead of `Ring.inverse`, see `hasSum_sq_mul_geometric_of_norm_lt_one`. "
+    },
+    {
+      "name": "IsSumSq",
+      "type": " {R : Type u_1} [Mul R] [Add R] [Zero R] : R \u2192 Prop",
+      "module": "Mathlib.Algebra.Ring.SumsOfSquares",
+      "doc": "The property of being a sum of squares is defined inductively by:\n`0 : R` is a sum of squares and if `s : R` is a sum of squares,\nthen for all `a : R`, `a * a + s` is a sum of squares in `R`.\n"
+    },
+    {
+      "name": "Nat.isSumSq",
+      "type": " (n : \u2115) : IsSumSq n",
+      "module": "Mathlib.Algebra.Ring.SumsOfSquares",
+      "doc": ""
+    },
+    {
+      "name": "IsSumSq.zero",
+      "type": " {R : Type u_1} [Mul R] [Add R] [Zero R] : IsSumSq 0",
+      "module": "Mathlib.Algebra.Ring.SumsOfSquares",
+      "doc": ""
+    },
+    {
+      "name": "IsSquare.isSumSq",
+      "type": " {R : Type u_1} [AddZeroClass R] [Mul R] {x : R} (hx : IsSquare x) : IsSumSq x",
+      "module": "Mathlib.Algebra.Ring.SumsOfSquares",
+      "doc": "In an additive unital magma with multiplication, squares are sums of squares\n(see Mathlib.Algebra.Group.Even).\n"
+    },
+    {
+      "name": "IsSumSq.mul_self",
+      "type": " {R : Type u_1} [AddZeroClass R] [Mul R] (a : R) : IsSumSq (a * a)",
+      "module": "Mathlib.Algebra.Ring.SumsOfSquares",
+      "doc": "In an additive unital magma with multiplication, `x * x` is a sum of squares for all `x`. "
+    },
+    {
+      "name": "IsSumSq.one",
+      "type": " {R : Type u_1} [AddZeroClass R] [MulOneClass R] : IsSumSq 1",
+      "module": "Mathlib.Algebra.Ring.SumsOfSquares",
+      "doc": ""
+    },
+    {
+      "name": "IsSumSq.natCast",
+      "type": " {R : Type u_2} [NonAssocSemiring R] (n : \u2115) : IsSumSq \u2191n",
+      "module": "Mathlib.Algebra.Ring.SumsOfSquares",
+      "doc": ""
+    },
+    {
+      "name": "IsSumSq.sq_add",
+      "type": " {R : Type u_1} [Mul R] [Add R] [Zero R] (a : R) {s : R} (hs : IsSumSq s) : IsSumSq (a * a + s)",
+      "module": "Mathlib.Algebra.Ring.SumsOfSquares",
+      "doc": ""
+    },
+    {
+      "name": "IsSumSq.sum_mul_self",
+      "type": " {R : Type u_1} [AddCommMonoid R] [Mul R] {\u03b9 : Type u_2} (I : Finset \u03b9) (a : \u03b9 \u2192 R) : IsSumSq (\u2211 i \u2208 I, a i * a i)",
+      "module": "Mathlib.Algebra.Ring.SumsOfSquares",
+      "doc": "In an additive commutative monoid with multiplication,\n`\u2211 i \u2208 I, a i * a i` is a sum of squares.\n"
+    },
+    {
+      "name": "IsSumSq.sum_isSquare",
+      "type": " {R : Type u_1} [AddCommMonoid R] [Mul R] {\u03b9 : Type u_2} (I : Finset \u03b9) {x : \u03b9 \u2192 R} (hx : \u2200 i \u2208 I, IsSquare (x i)) : IsSumSq (\u2211 i \u2208 I, x i)",
+      "module": "Mathlib.Algebra.Ring.SumsOfSquares",
+      "doc": "In an additive commutative monoid with multiplication,\n`\u2211 i \u2208 I, x i`, where each `x i` is a square, is a sum of squares.\n"
+    },
+    {
+      "name": "isSumSq_iff",
+      "type": " {R : Type u_1} [Mul R] [Add R] [Zero R] (a\u271d : R) : IsSumSq a\u271d \u2194 a\u271d = 0 \u2228 \u2203 a s, IsSumSq s \u2227 a\u271d = a * a + s",
+      "module": "Mathlib.Algebra.Ring.SumsOfSquares",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sq_add_sq_mul",
+      "type": " {a b x y u v : \u2115} (ha : a = x ^ 2 + y ^ 2) (hb : b = u ^ 2 + v ^ 2) : \u2203 r s, a * b = r ^ 2 + s ^ 2",
+      "module": "Mathlib.NumberTheory.SumTwoSquares",
+      "doc": "The set of natural numbers that are sums of two squares is closed under multiplication. "
+    },
+    {
+      "name": "Nat.Prime.sq_add_sq",
+      "type": " {p : \u2115} [Fact (Nat.Prime p)] (hp : p % 4 \u2260 3) : \u2203 a b, a ^ 2 + b ^ 2 = p",
+      "module": "Mathlib.NumberTheory.SumTwoSquares",
+      "doc": "**Fermat's theorem on the sum of two squares**. Every prime not congruent to 3 mod 4 is the sum\nof two squares. Also known as **Fermat's Christmas theorem**. "
+    }
+  ],
+  "trace": [
+    "search: '\"sum_two_squares\"' -> nothing",
+    "search: '\"sq_add_sq\"' -> sq_add_sq_eq_zero, IsCoprime.sq_add_sq_ne_zero, Complex.norm_eq_sqrt_sq_add_sq, sq_add_sq_mul_sq_add_sq, Nat.sq_add_sq_modEq, Nat.sq_add_sq_zmodEq, CharP.sq_add_sq, ZMod.sq_add_sq",
+    "search: '\"Fermat\"' -> Nat.coprime_of_fermatPsp, Nat.frequently_atTop_fermatPsp, Nat.fermatPsp_base_one, fermatLastTheoremFor_zero, not_fermatLastTheoremFor_one, not_fermatLastTheoremFor_two, fermatLastTheoremFor_iff_int, Nat.FermatPsp",
+    "seeded from goal shape -> Fact.mk, ZeroLEOneClass.factZeroLeOne, ZeroLEOneClass.factZeroLtOne, Cardinal.fact_isRegular_aleph0, Nat.fact_prime_three, Nat.fact_prime_two, Nat.Prime.one_lt', CharP.char_is_prime_of_pos",
+    "search: '\"two_squares\"' -> nothing",
+    "search: '\"two_squares\"' -> nothing; goal shape -> Fact.mk, ZeroLEOneClass.factZeroLeOne, ZeroLEOneClass.factZeroLtOne, Cardinal.fact_isRegular_aleph0, Nat.fact_prime_three, Nat.fact_prime_two, Nat.Prime.one_lt', CharP.char_is_prime_of_pos",
+    "search: '\"Nat.Prime\"' -> Nat.Primes.inhabitedPrimes, Nat.Primes.instRepr, Nat.Primes.coeNat, Nat.prime_eleven, Nat.prime_five, Nat.prime_seven, Nat.prime_three, Nat.prime_two",
+    "search: '\"exists_sq_add_sq\"' -> Int.exists_sq_add_sq_add_one_eq_mul",
+    "search: '\"sum_sq\"' -> Finset.sum_sq_eq_zero_iff, Finset.sum_sq_le_sq_sum_of_nonneg, Finset.sq_sum_div_le_sum_sq_div, Finset.sum_sq_le_sum_mul_sum_of_sq_eq_mul, Finset.sum_sq_le_sum_mul_sum_of_sq_le_mul, CharTwo.multiset_sum_sq, CharTwo.sum_sq, CharTwo.list_sum_sq",
+    "search: '\"IsSumSq\"' -> IsSumSq, Nat.isSumSq, IsSumSq.zero, IsSquare.isSumSq, IsSumSq.mul_self, IsSumSq.one, IsSumSq.natCast, IsSumSq.sq_add",
+    "search: '\"SumTwoSquares\"' -> nothing",
+    "search: '\"SumTwoSquares\"' -> nothing; goal shape -> Fact.mk, ZeroLEOneClass.factZeroLeOne, ZeroLEOneClass.factZeroLtOne, Cardinal.fact_isRegular_aleph0, Nat.fact_prime_three, Nat.fact_prime_two, Nat.Prime.one_lt', CharP.char_is_prime_of_pos",
+    "search: '\"Nat.sq_add_sq\"' -> Nat.sq_add_sq_modEq, Nat.sq_add_sq_zmodEq, Nat.sq_add_sq_mul",
+    "search: '\"Prime.sq_add_sq\"' -> IsCoprime.sq_add_sq_ne_zero, Nat.Prime.sq_add_sq",
+    "seeded from goal shape -> Fact.mk, ZeroLEOneClass.factZeroLeOne, ZeroLEOneClass.factZeroLtOne, Cardinal.fact_isRegular_aleph0, Nat.fact_prime_three, Nat.fact_prime_two, Nat.Prime.one_lt', CharP.char_is_prime_of_pos"
+  ],
+  "budget": {
+    "tool_calls": 23,
+    "lean_calls": 10,
+    "searches": 15,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788775629.4350572,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.3,
+    "statement_checks": 2
+  },
+  "goal": "theorem Fermat_two_squares (p : \u2115) [hp : Fact (Nat.Prime p)] (hp4 : p % 4 = 1) : \u2203 a b : \u2115, a * a + b * b = p"
+}

@@ -1,0 +1,411 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_5 (A minus_A : Set \u211d) (hA : A.Nonempty)\n  (hA_bdd_below : BddBelow A) (hminus_A : minus_A = {x | -x \u2208 A}) :\n  Inf A = Sup minus_A",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:2: error: Function expected at\n  Inf\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  A\n\nHint: The identifier `Inf` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n3:10: error: Function expected at\n  Sup\nbut this term has type\n  ?m.2\n\nNote: Expected a function because this term is being applied to the argument\n  minus_A\n\nHint: The identifier `Sup` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.",
+      "at": 1788777645.0581489,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_5 (A minus_A : Set \u211d) (hA : A.Nonempty)\n  (hA_bdd_below : BddBelow A) (hminus_A : minus_A = {x | -x \u2208 A}) :\n  sInf A = - sSup minus_A",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788777660.4813573,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_5 (A minus_A : Set \u211d) (hA : A.Nonempty)\n  (hA_bdd_below : BddBelow A) (hminus_A : minus_A = {x | -x \u2208 A}) :\n  sInf A = - sSup minus_A",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact List.isInfixOf_internal\n    | exact List.isInfixOf_internal _\n    | apply List.isInfixOf_internal\n    | simpa using List.isInfixOf_internal\n    | exact \u27e8_, List.isInfixOf_internal\u27e9\n    | exact List.isInfixOf_internal (by assumption)\n    | exact List.isInfixOf_internal \u2039_\u203a\n    | apply List.isInfixOf_internal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.isInfixOf_internal (by assumption))\n    | exact List.instDecidableIsInfixOfDecidableEq\n    | exact List.instDecidableIsInfixOfDecidableEq _\n    | apply List.instDecidableIsInfixOfDecidableEq\n    | simpa using List.instDecidableIsInfixOfDecidableEq\n    | exact \u27e8_, List.instDecidableIsInfixOfDecidableEq\u27e9\n    | exact List.instDecidableIsInfixOfDecidableEq (by assumption)\n    | exact List.instDecidableIsInfixOfDecidableEq \u2039_\u203a\n    | apply List.instDecidableIsInfixOfDecidableEq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.instDecidableIsInfixOfDecidableEq (by assumption))\n    | exact List.IsInfix.sublist\n    | exact List.IsInfix.sublist _\n    | apply List.IsInfix.sublist\n    | simpa using List.IsInfix.sublist\n    | exact \u27e8_, List.IsInfix.sublist\u27e9\n    | exact List.IsInfix.sublist (by assumption)\n    | exact List.IsInfix.sublist \u2039_\u203a\n    | apply List.IsInfix.sublist <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.IsInfix.sublist (by assumption))\n    | exact List.IsPrefix.isInfix\n    | exact List.IsPrefix.isInfix _\n    | apply List.IsPrefix.isInfix\n    | simpa using List.IsPrefix.isInfix\n    | exact \u27e8_, List.IsPrefix.isInfix\u27e9\n    | exact List.IsPrefix.isInfix (by assumption)\n    | exact List.IsPrefix.isInfix \u2039_\u203a\n    | apply List.IsPrefix.isInfix <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.IsPrefix.isInfix (by assumption))\n    | exact List.IsSuffix.isInfix\n    | exact List.IsSuffix.isInfix _\n    | apply List.IsSuffix.isInfix\n    | simpa using List.IsSuffix.isInfix\n    | exact \u27e8_, List.IsSuffix.isInfix\u27e9\n    | exact List.IsSuffix.isInfix (by assumption)\n    | exact List.IsSuffix.isInfix \u2039_\u203a\n    | apply List.IsSuffix.isInfix <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.IsSuffix.isInfix (by assumption))\n    | exact List.IsInfix.subset\n    | exact List.IsInfix.subset _\n    | apply List.IsInfix.subset\n    | simpa using List.IsInfix.subset\n    | exact \u27e8_, List.IsInfix.subset\u27e9\n    | exact List.IsInfix.subset (by assumption)\n    | exact List.IsInfix.subset \u2039_\u203a\n    | apply List.IsInfix.subset <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.IsInfix.subset (by assumption))\n    | exact List.IsInfix.reverse\n    | exact List.IsInfix.reverse _\n    | apply List.IsInfix.reverse\n    | simpa using List.IsInfix.reverse\n    | exact \u27e8_, List.IsInfix.reverse\u27e9\n    | exact List.IsInfix.reverse (by assumption)\n    | exact List.IsInfix.reverse \u2039_\u203a\n    | apply List.IsInfix.reverse <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.IsInfix.reverse (by assumption))\n    | exact List.IsInfix.length_le\n    | exact List.IsInfix.length_le _\n    | apply List.IsInfix.length_le\n    | simpa using List.IsInfix.length_le\n    | exact \u27e8_, List.IsInfix.length_le\u27e9\n    | exact List.IsInfix.length_le (by assumption)\n    | exact List.IsInfix.length_le \u2039_\u203a\n    | apply List.IsInfix.length_le <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.IsInfix.length_le (by assumption))\n    | exact List.IsInfix.trans\n    | exact List.IsInfix.trans _\n    | apply List.IsInfix.trans\n    | simpa using List.IsInfix.trans\n    | exact \u27e8_, List.IsInfix.trans\u27e9\n    | exact List.IsInfix.trans (by assumption)\n    | exact List.IsInfix.trans \u2039_\u203a\n    | apply List.IsInfix.trans <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.IsInfix.trans (by assumption))\n    | exact List.IsInfix.filter\n    | exact List.IsInfix.filter _\n    | apply List.IsInfix.filter\n    | simpa using List.IsInfix.filter\n    | exact \u27e8_, List.IsInfix.filter\u27e9\n    | exact List.IsInfix.filter (by assumption)\n    | exact List.IsInfix.filter \u2039_\u203a\n    | apply List.IsInfix.filter <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.IsInfix.filter (by assumption))\n    | exact List.IsInfix.ne_nil\n    | exact List.IsInfix.ne_nil _\n    | apply List.IsInfix.ne_nil\n    | simpa using List.IsInfix.ne_nil\n    | exact \u27e8_, List.IsInfix.ne_nil\u27e9\n    | exact List.IsInfix.ne_nil (by assumption)\n    | exact List.IsInfix.ne_nil \u2039_\u203a\n    | apply List.IsInfix.ne_nil <;> assumption\n    | (haveI := Fact.mk (by assumption); exact List.IsInfix.ne_nil (by assumption))\n    | exact ne_of_ssuperset\n    | exact ne_of_ssuperset _\n    | apply ne_of_ssuperset\n    | simpa using ne_of_ssuperset\n    | exact \u27e8_, ne_of_ssuperset\u27e9\n    | exact ne_of_ssuperset (by assumption)\n    | exact ne_of_ssuperset \u2039_\u203a\n    | apply ne_of_ssuperset <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ne_of_ssuperset (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:29: error: unsolved goals\nA minus_A : Set \u211d\nhA : A.Nonempty\nhA_bdd_below : BddBelow A\nhminus_A : minus_A = {x | -x \u2208 A}\n\u22a2 sInf A = -sSup minus_A\n\nStill to prove:\n\u22a2 sInf A = -sSup minus_A",
+      "at": 1788777668.5008724,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_5 (A minus_A : Set \u211d) (hA : A.Nonempty)\n  (hA_bdd_below : BddBelow A) (hminus_A : minus_A = {x | -x \u2208 A}) :\n  sInf A = - sSup minus_A",
+      "proof": "by\n  have h_eq : minus_A = -A := by\n    ext x\n    rw [hminus_A]\n    simp [Set.mem_neg]\n  rw [h_eq]\n  rw [Real.sSup_neg]\n  simp",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_1_5 (A minus_A : Set \u211d) (hA : A.Nonempty)\n  (hA_bdd_below : BddBelow A) (hminus_A : minus_A = {x | -x \u2208 A}) :\n  sInf A = - sSup minus_A",
+      "at": 1788777681.25466,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem inf_eq_neg_sup (A minus_A : Set \u211d) (hA : A.Nonempty)\n  (hA_bdd_below : BddBelow A) (hminus_A : minus_A = {x | -x \u2208 A}) :\n  sInf A = - sSup minus_A",
+      "proof": "by\n  have h_eq : minus_A = -A := by\n    ext x\n    rw [hminus_A]\n    simp [Set.mem_neg]\n  rw [h_eq]\n  rw [Real.sSup_neg]\n  simp",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem inf_eq_neg_sup (A minus_A : Set \u211d) (hA : A.Nonempty)\n  (hA_bdd_below : BddBelow A) (hminus_A : minus_A = {x | -x \u2208 A}) :\n  sInf A = - sSup minus_A",
+      "at": 1788777690.739394,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "List.isInfixOf_internal",
+      "type": " {\u03b1 : Type u} [BEq \u03b1] (l\u2081 l\u2082 : List \u03b1) : Bool",
+      "module": "Init.Data.List.Basic",
+      "doc": "Checks whether the first list is a contiguous sub-list of the second.\n\nThe relation `List.IsInfixOf` expresses this property with respect to logical equality.\n\nExamples:\n* `[2, 3].isInfixOf_internal [1, 2, 3, 4] = true`\n* `[2, 3].isInfixOf_internal [1, 3, 2, 4] = false`\n* `[2, 3].isInfixOf_internal [2, 3] = true`\n* `[2, 3].isInfixOf_internal [1] = false`\n\n Used internally by the `cbv` tactic.\n"
+    },
+    {
+      "name": "List.instDecidableIsInfixOfDecidableEq",
+      "type": " {\u03b1 : Type u_1} [DecidableEq \u03b1] (l\u2081 l\u2082 : List \u03b1) : Decidable (l\u2081 <:+: l\u2082)",
+      "module": "Init.Data.List.Sublist",
+      "doc": ""
+    },
+    {
+      "name": "List.IsInfix.sublist",
+      "type": " {\u03b1\u271d : Type u_1} {l\u2081 l\u2082 : List \u03b1\u271d} : l\u2081 <:+: l\u2082 \u2192 l\u2081.Sublist l\u2082",
+      "module": "Init.Data.List.Sublist",
+      "doc": ""
+    },
+    {
+      "name": "List.IsPrefix.isInfix",
+      "type": " {\u03b1\u271d : Type u_1} {l\u2081 l\u2082 : List \u03b1\u271d} : l\u2081 <+: l\u2082 \u2192 l\u2081 <:+: l\u2082",
+      "module": "Init.Data.List.Sublist",
+      "doc": ""
+    },
+    {
+      "name": "List.IsSuffix.isInfix",
+      "type": " {\u03b1\u271d : Type u_1} {l\u2081 l\u2082 : List \u03b1\u271d} : l\u2081 <:+ l\u2082 \u2192 l\u2081 <:+: l\u2082",
+      "module": "Init.Data.List.Sublist",
+      "doc": ""
+    },
+    {
+      "name": "List.IsInfix.subset",
+      "type": " {\u03b1\u271d : Type u_1} {l\u2081 l\u2082 : List \u03b1\u271d} (hl : l\u2081 <:+: l\u2082) : l\u2081 \u2286 l\u2082",
+      "module": "Init.Data.List.Sublist",
+      "doc": ""
+    },
+    {
+      "name": "List.IsInfix.reverse",
+      "type": " {\u03b1\u271d : Type u_1} {l\u2081 l\u2082 : List \u03b1\u271d} : l\u2081 <:+: l\u2082 \u2192 l\u2081.reverse <:+: l\u2082.reverse",
+      "module": "Init.Data.List.Sublist",
+      "doc": ""
+    },
+    {
+      "name": "List.IsInfix.length_le",
+      "type": " {\u03b1\u271d : Type u_1} {l\u2081 l\u2082 : List \u03b1\u271d} (h : l\u2081 <:+: l\u2082) : l\u2081.length \u2264 l\u2082.length",
+      "module": "Init.Data.List.Sublist",
+      "doc": ""
+    },
+    {
+      "name": "List.IsInfix.trans",
+      "type": " {\u03b1 : Type u_1} {l\u2081 l\u2082 l\u2083 : List \u03b1} : l\u2081 <:+: l\u2082 \u2192 l\u2082 <:+: l\u2083 \u2192 l\u2081 <:+: l\u2083",
+      "module": "Init.Data.List.Sublist",
+      "doc": ""
+    },
+    {
+      "name": "List.IsInfix.filter",
+      "type": " {\u03b1 : Type u_1} (p : \u03b1 \u2192 Bool) \u2983l\u2081 l\u2082 : List \u03b1\u2984 (h : l\u2081 <:+: l\u2082) : List.filter p l\u2081 <:+: List.filter p l\u2082",
+      "module": "Init.Data.List.Sublist",
+      "doc": ""
+    },
+    {
+      "name": "List.IsInfix.ne_nil",
+      "type": " {\u03b1 : Type u_1} {xs ys : List \u03b1} (h : xs <:+: ys) (hx : xs \u2260 []) : ys \u2260 []",
+      "module": "Init.Data.List.Sublist",
+      "doc": ""
+    },
+    {
+      "name": "List.IsInfix",
+      "type": " {\u03b1 : Type u} (l\u2081 l\u2082 : List \u03b1) : Prop",
+      "module": "Init.Data.List.Basic",
+      "doc": "The first list is a contiguous sub-list of the second list. Typically written with the `<:+:`\noperator.\n\nIn other words, `l\u2081 <:+: l\u2082` means that there exist lists `s : List \u03b1` and `t : List \u03b1` such that\n`l\u2082` has the form `s ++ l\u2081 ++ t`.\n\n\nConventions for notations in identifiers:\n\n * The recommended spelling of `<:+:` in identifiers is `infix` (not `isInfix`)."
+    },
+    {
+      "name": "ne_of_ssuperset",
+      "type": " {\u03b1 : Type u_1} [UsesSetNotationForOrder \u03b1] [Preorder \u03b1] {a b : \u03b1} (h : b \u2282 a) : a \u2260 b",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Set notation form of `ne_of_gt`"
+    },
+    {
+      "name": "not_subset_of_ssuperset",
+      "type": " {\u03b1 : Type u_1} [UsesSetNotationForOrder \u03b1] [Preorder \u03b1] {a b : \u03b1} (hab : a \u2282 b) : \u00acb \u2286 a",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Set notation form of `not_le_of_gt`"
+    },
+    {
+      "name": "LE.le.not_ssuperset",
+      "type": " {\u03b1 : Type u_1} [UsesSetNotationForOrder \u03b1] [Preorder \u03b1] {a b : \u03b1} (hab : a \u2286 b) : \u00acb \u2282 a",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Set notation form of `LE.le.not_gt`"
+    },
+    {
+      "name": "eq_of_superset_of_not_ssuperset",
+      "type": " {\u03b1 : Type u_2} [UsesSetNotationForOrder \u03b1] [PartialOrder \u03b1] {a b : \u03b1} (h\u2081 : b \u2286 a) (h\u2082 : \u00acb \u2282 a) : a = b",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "**Alias** of `eq_of_subset_of_not_ssubset'`.\n\n---\n\nSet notation form of `eq_of_le_of_not_lt'`"
+    },
+    {
+      "name": "HasSubset.Subset.eq_of_not_ssuperset",
+      "type": " {\u03b1 : Type u_2} [UsesSetNotationForOrder \u03b1] [PartialOrder \u03b1] {a b : \u03b1} (h\u2081 : b \u2286 a) (h\u2082 : \u00acb \u2282 a) : a = b",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "**Alias** of `LE.le.eq_of_not_ssuperset`.\n\n---\n\n**Alias** of `LE.le.eq_of_not_ssubset'`.\n\n---\n\nSet notation form of `LE.le.eq_of_not_lt'`"
+    },
+    {
+      "name": "LE.le.eq_of_not_ssuperset",
+      "type": " {\u03b1 : Type u_2} [UsesSetNotationForOrder \u03b1] [PartialOrder \u03b1] {a b : \u03b1} (h\u2081 : b \u2286 a) (h\u2082 : \u00acb \u2282 a) : a = b",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "**Alias** of `LE.le.eq_of_not_ssubset'`.\n\n---\n\nSet notation form of `LE.le.eq_of_not_lt'`"
+    },
+    {
+      "name": "SupSet.sSup",
+      "type": " {\u03b1 : Type u_1} [self : SupSet \u03b1] : Set \u03b1 \u2192 \u03b1",
+      "module": "Mathlib.Order.SetNotation",
+      "doc": "Supremum of a set "
+    },
+    {
+      "name": "Set.sSup_eq_sUnion",
+      "type": " {\u03b1 : Type u} (S : Set (Set \u03b1)) : sSup S = \u22c3\u2080 S",
+      "module": "Mathlib.Order.SetNotation",
+      "doc": ""
+    },
+    {
+      "name": "isLUB_sSup",
+      "type": " {\u03b1 : Type u_1} [CompleteSemilatticeSup \u03b1] (s : Set \u03b1) : IsLUB s (sSup s)",
+      "module": "Mathlib.Order.CompleteLattice.Defs",
+      "doc": ""
+    },
+    {
+      "name": "bddBelow_Ici",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {a : \u03b1} : BddBelow (Set.Ici a)",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "bddBelow_Ioi",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {a : \u03b1} : BddBelow (Set.Ioi a)",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "bddBelow_Icc",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {a b : \u03b1} : BddBelow (Set.Icc b a)",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "bddBelow_Ico",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {a b : \u03b1} : BddBelow (Set.Ico a b)",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "bddBelow_Ioc",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {a b : \u03b1} : BddBelow (Set.Ioc b a)",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "bddBelow_Ioo",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {a b : \u03b1} : BddBelow (Set.Ioo b a)",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "bddBelow_empty",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] [Nonempty \u03b1] : BddBelow \u2205",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "bddBelow_singleton",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {a : \u03b1} : BddBelow {a}",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "OrderBot.bddBelow",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] [OrderBot \u03b1] (s : Set \u03b1) : BddBelow s",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": "When there is a global minimum, every set is bounded below. "
+    },
+    {
+      "name": "IsGLB.bddBelow",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {s : Set \u03b1} {a : \u03b1} (h : IsGLB s a) : BddBelow s",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": "If `s` has a greatest lower bound, then it is bounded below. "
+    },
+    {
+      "name": "IsLeast.bddBelow",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {s : Set \u03b1} {a : \u03b1} (h : IsLeast s a) : BddBelow s",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": "If `s` has a least element, then it is bounded below. "
+    },
+    {
+      "name": "Set.Nonempty.bddBelow_upperBounds",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {s : Set \u03b1} (hs : s.Nonempty) : BddBelow (upperBounds s)",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "HomotopicalAlgebra.nonempty_attachCells_iff",
+      "type": " {C : Type u} [CategoryTheory.Category.{v, u} C] {\u03b1 : Type t} {A B : \u03b1 \u2192 C} (g : (a : \u03b1) \u2192 A a \u27f6 B a) {X\u2081 X\u2082 : C} (f : X\u2081 \u27f6 X\u2082) : Nonempty (HomotopicalAlgebra.AttachCells g f) \u2194 (CategoryTheory.MorphismProperty.coproducts.{w, v, u} (CategoryTheory.MorphismProperty.ofHoms g)).pushouts f",
+      "module": "Mathlib.AlgebraicTopology.RelativeCellComplex.AttachCells",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.Pseudofunctor.DescentData.nonempty_fullyFaithful_toDescentData_iff_of_sieve_eq",
+      "type": " {C : Type u} [CategoryTheory.Category.{v, u} C] (F : CategoryTheory.Pseudofunctor (CategoryTheory.LocallyDiscrete C\u1d52\u1d56) CategoryTheory.Cat) {\u03b9 : Type t} {S : C} {X : \u03b9 \u2192 C} (f : (i : \u03b9) \u2192 X i \u27f6 S) {\u03b9' : Type t'} {X' : \u03b9' \u2192 C} (f' : (i' : \u03b9') \u2192 X' i' \u27f6 S) (h : CategoryTheory.Sieve.ofArrows X f = CategoryTheory.Sieve.ofArrows X' f') : Nonempty (F.toDescentData f).FullyFaithful \u2194 Nonempty (F.toDescentData f').FullyFaithful",
+      "module": "Mathlib.CategoryTheory.Sites.Descent.DescentData",
+      "doc": ""
+    },
+    {
+      "name": "BddBelow",
+      "type": " {\u03b1 : Type u_1} [LE \u03b1] (s : Set \u03b1) : Prop",
+      "module": "Mathlib.Order.Bounds.Defs",
+      "doc": "A set is bounded below if there exists a lower bound. "
+    },
+    {
+      "name": "not_bddBelow_univ",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] [NoBotOrder \u03b1] : \u00acBddBelow Set.univ",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "nonempty_of_not_bddBelow",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {s : Set \u03b1} [ha : Nonempty \u03b1] (h : \u00acBddBelow s) : s.Nonempty",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "sInf_neg",
+      "type": " {M : Type u_1} [CompleteLattice M] [AddGroup M] [AddLeftMono M] [AddRightMono M] (s : Set M) : sInf (-s) = -sSup s",
+      "module": "Mathlib.Algebra.Order.Group.Pointwise.CompleteLattice",
+      "doc": ""
+    },
+    {
+      "name": "csInf_neg",
+      "type": " {M : Type u_1} [ConditionallyCompleteLattice M] [AddGroup M] [AddLeftMono M] [AddRightMono M] {s : Set M} (hs\u2080 : s.Nonempty) (hs\u2081 : BddAbove s) : sInf (-s) = -sSup s",
+      "module": "Mathlib.Algebra.Order.Group.Pointwise.CompleteLattice",
+      "doc": ""
+    },
+    {
+      "name": "Real.sInf_neg",
+      "type": " (s : Set \u211d) : sInf (-s) = -sSup s",
+      "module": "Mathlib.Algebra.Order.Archimedean.Real.Basic",
+      "doc": ""
+    },
+    {
+      "name": "sSup_neg",
+      "type": " {M : Type u_1} [CompleteLattice M] [AddGroup M] [AddLeftMono M] [AddRightMono M] (s : Set M) : sSup (-s) = -sInf s",
+      "module": "Mathlib.Algebra.Order.Group.Pointwise.CompleteLattice",
+      "doc": ""
+    },
+    {
+      "name": "csSup_neg",
+      "type": " {M : Type u_1} [ConditionallyCompleteLattice M] [AddGroup M] [AddLeftMono M] [AddRightMono M] {s : Set M} (hs\u2080 : s.Nonempty) (hs\u2081 : BddBelow s) : sSup (-s) = -sInf s",
+      "module": "Mathlib.Algebra.Order.Group.Pointwise.CompleteLattice",
+      "doc": ""
+    },
+    {
+      "name": "Real.sSup_neg",
+      "type": " (s : Set \u211d) : sSup (-s) = -sInf s",
+      "module": "Mathlib.Algebra.Order.Archimedean.Real.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Set.mem_neg",
+      "type": " {\u03b1 : Type u_2} [Neg \u03b1] {s : Set \u03b1} {a : \u03b1} : a \u2208 -s \u2194 -a \u2208 s",
+      "module": "Mathlib.Algebra.Group.Pointwise.Set.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Set.neg_mem_neg",
+      "type": " {\u03b1 : Type u_2} [InvolutiveNeg \u03b1] {s : Set \u03b1} {a : \u03b1} : -a \u2208 -s \u2194 a \u2208 s",
+      "module": "Mathlib.Algebra.Group.Pointwise.Set.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Set.zero_mem_neg_add_iff",
+      "type": " {\u03b1 : Type u_2} [AddGroup \u03b1] {s t : Set \u03b1} : 0 \u2208 -t + s \u2194 \u00acDisjoint s t",
+      "module": "Mathlib.Algebra.Group.Pointwise.Set.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Set.zero_notMem_neg_add_iff",
+      "type": " {\u03b1 : Type u_2} [AddGroup \u03b1] {s t : Set \u03b1} : 0 \u2209 -t + s \u2194 Disjoint s t",
+      "module": "Mathlib.Algebra.Group.Pointwise.Set.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Set.mem_neg_vadd_set_iff",
+      "type": " {\u03b1 : Type u_2} {\u03b2 : Type u_3} [AddGroup \u03b1] [AddAction \u03b1 \u03b2] {A : Set \u03b2} {a : \u03b1} {x : \u03b2} : x \u2208 -a +\u1d65 A \u2194 a +\u1d65 x \u2208 A",
+      "module": "Mathlib.Algebra.Group.Action.Pointwise.Set.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubmonoid.mem_neg",
+      "type": " {G : Type u_2} [AddGroup G] {g : G} {S : AddSubmonoid G} : g \u2208 -S \u2194 -g \u2208 S",
+      "module": "Mathlib.Algebra.Group.Submonoid.Pointwise",
+      "doc": ""
+    },
+    {
+      "name": "Part.neg_mem_neg",
+      "type": " {\u03b1 : Type u_1} [Neg \u03b1] (a : Part \u03b1) (ma : \u03b1) (ha : ma \u2208 a) : -ma \u2208 -a",
+      "module": "Mathlib.Data.Part",
+      "doc": ""
+    },
+    {
+      "name": "Submodule.mem_neg",
+      "type": " {R : Type u_2} {M : Type u_3} [Semiring R] [AddCommGroup M] [Module R M] {g : M} {S : Submodule R M} : g \u2208 -S \u2194 -g \u2208 S",
+      "module": "Mathlib.Algebra.Module.Submodule.Pointwise",
+      "doc": ""
+    },
+    {
+      "name": "finsum_mem_neg_distrib",
+      "type": " {\u03b1 : Type u_1} {G : Type u_4} {s : Set \u03b1} [SubtractionCommMonoid G] (f : \u03b1 \u2192 G) (hs : s.Finite) : \u2211\u1da0 (x : \u03b1) (_ : x \u2208 s), -f x = -\u2211\u1da0 (x : \u03b1) (_ : x \u2208 s), f x",
+      "module": "Mathlib.Algebra.BigOperators.Finprod",
+      "doc": ""
+    },
+    {
+      "name": "Finset.neg_mem_neg",
+      "type": " {\u03b1 : Type u_2} [DecidableEq \u03b1] [Neg \u03b1] {s : Finset \u03b1} {a : \u03b1} (ha : a \u2208 s) : -a \u2208 -s",
+      "module": "Mathlib.Algebra.Group.Pointwise.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.mem_neg'",
+      "type": " {\u03b1 : Type u_2} [DecidableEq \u03b1] [InvolutiveNeg \u03b1] {s : Finset \u03b1} {a : \u03b1} : a \u2208 -s \u2194 -a \u2208 s",
+      "module": "Mathlib.Algebra.Group.Pointwise.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.mem_neg",
+      "type": " {\u03b1 : Type u_2} [DecidableEq \u03b1] [Neg \u03b1] {s : Finset \u03b1} {x : \u03b1} : x \u2208 -s \u2194 \u2203 y \u2208 s, -y = x",
+      "module": "Mathlib.Algebra.Group.Pointwise.Finset.Basic",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"sInf\"' -> List.isInfixOf_internal, List.instDecidableIsInfixOfDecidableEq, List.IsInfix.sublist, List.IsPrefix.isInfix, List.IsSuffix.isInfix, List.IsInfix.subset, List.IsInfix.reverse, List.IsInfix.length_le",
+    "search: '\"sSup\"' -> ne_of_ssuperset, not_subset_of_ssuperset, LE.le.not_ssuperset, eq_of_superset_of_not_ssuperset, HasSubset.Subset.eq_of_not_ssuperset, LE.le.eq_of_not_ssuperset, SupSet.sSup, Set.sSup_eq_sUnion",
+    "search: '\"sInf\"' -> List.isInfixOf_internal, List.instDecidableIsInfixOfDecidableEq, List.IsInfix.sublist, List.IsPrefix.isInfix, List.IsSuffix.isInfix, List.IsInfix.subset, List.IsInfix.reverse, List.IsInfix.length_le",
+    "seeded from goal shape -> bddBelow_Ici, bddBelow_Ioi, bddBelow_Icc, bddBelow_Ico, bddBelow_Ioc, bddBelow_Ioo, bddBelow_empty, bddBelow_singleton",
+    "search: '\"sInf_neg\"' -> sInf_neg, csInf_neg, Real.sInf_neg",
+    "search: '\"sSup_neg\"' -> sSup_neg, csSup_neg, Real.sSup_neg",
+    "search: '\"mem_neg\"' -> Set.mem_neg, Set.neg_mem_neg, Set.zero_mem_neg_add_iff, Set.zero_notMem_neg_add_iff, Set.mem_neg_vadd_set_iff, AddSubmonoid.mem_neg, Part.neg_mem_neg, Submodule.mem_neg"
+  ],
+  "budget": {
+    "tool_calls": 15,
+    "lean_calls": 6,
+    "searches": 8,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788777641.0709,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 2
+  },
+  "goal": "theorem inf_eq_neg_sup (A minus_A : Set \u211d) (hA : A.Nonempty)\n  (hA_bdd_below : BddBelow A) (hminus_A : minus_A = {x | -x \u2208 A}) :\n  sInf A = - sSup minus_A"
+}

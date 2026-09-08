@@ -1,0 +1,526 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_19\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016b - a\u2016)\n  : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788777402.2103367,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_1_19\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016b - a\u2016)\n  : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "proof": "by\n  have h : \u2016x - a\u2016 ^ 2 = \u2016x\u2016 ^ 2 - 2 * inner \u211d x a + \u2016a\u2016 ^ 2 := norm_sub_sq_real x a\n  sorry",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788777419.9431381,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_1 (n : \u2115) (a b c x : EuclideanSpace \u211d (Fin n)) (h\u2082 : 3 \u2022 c = 4 \u2022 b - a) : \u2016x - a\u2016 ^ 2 = \u2016x\u2016 ^ 2 - 2 * inner \u211d x a + \u2016a\u2016 ^ 2",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact EuclideanSpace.infinite\n    | exact EuclideanSpace.infinite _\n    | apply EuclideanSpace.infinite\n    | simpa using EuclideanSpace.infinite\n    | exact \u27e8_, EuclideanSpace.infinite\u27e9\n    | exact EuclideanSpace.infinite (by assumption)\n    | exact EuclideanSpace.infinite \u2039_\u203a\n    | apply EuclideanSpace.infinite <;> assumption\n    | (haveI := Fact.mk (by assumption); exact EuclideanSpace.infinite (by assumption))\n    | exact EuclideanSpace.single\n    | exact EuclideanSpace.single _\n    | apply EuclideanSpace.single\n    | simpa using EuclideanSpace.single\n    | exact \u27e8_, EuclideanSpace.single\u27e9\n    | exact EuclideanSpace.single (by assumption)\n    | exact EuclideanSpace.single \u2039_\u203a\n    | apply EuclideanSpace.single <;> assumption\n    | (haveI := Fact.mk (by assumption); exact EuclideanSpace.single (by assumption))\n    | exact EuclideanSpace.norm_single\n    | exact EuclideanSpace.norm_single _\n    | apply EuclideanSpace.norm_single\n    | simpa using EuclideanSpace.norm_single\n    | exact \u27e8_, EuclideanSpace.norm_single\u27e9\n    | exact EuclideanSpace.norm_single (by assumption)\n    | exact EuclideanSpace.norm_single \u2039_\u203a\n    | apply EuclideanSpace.norm_single <;> assumption\n    | (haveI := Fact.mk (by assumption); exact EuclideanSpace.norm_single (by assumption))\n    | exact EuclideanSpace.basisFun\n    | exact EuclideanSpace.basisFun _\n    | apply EuclideanSpace.basisFun\n    | simpa using EuclideanSpace.basisFun\n    | exact \u27e8_, EuclideanSpace.basisFun\u27e9\n    | exact EuclideanSpace.basisFun (by assumption)\n    | exact EuclideanSpace.basisFun \u2039_\u203a\n    | apply EuclideanSpace.basisFun <;> assumption\n    | (haveI := Fact.mk (by assumption); exact EuclideanSpace.basisFun (by assumption))\n    | exact OrthonormalBasis.instInhabited\n    | exact OrthonormalBasis.instInhabited _\n    | apply OrthonormalBasis.instInhabited\n    | simpa using OrthonormalBasis.instInhabited\n    | exact \u27e8_, OrthonormalBasis.instInhabited\u27e9\n    | exact OrthonormalBasis.instInhabited (by assumption)\n    | exact OrthonormalBasis.instInhabited \u2039_\u203a\n    | apply OrthonormalBasis.instInhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact OrthonormalBasis.instInhabited (by assumption))\n    | exact EuclideanSpace.dist_single_same\n    | exact EuclideanSpace.dist_single_same _\n    | apply EuclideanSpace.dist_single_same\n    | simpa using EuclideanSpace.dist_single_same\n    | exact \u27e8_, EuclideanSpace.dist_single_same\u27e9\n    | exact EuclideanSpace.dist_single_same (by assumption)\n    | exact EuclideanSpace.dist_single_same \u2039_\u203a\n    | apply EuclideanSpace.dist_single_same <;> assumption\n    | (haveI := Fact.mk (by assumption); exact EuclideanSpace.dist_single_same (by assumption))\n    | exact EuclideanSpace.nndist_single_same\n    | exact EuclideanSpace.nndist_single_same _\n    | apply EuclideanSpace.nndist_single_same\n    | simpa using EuclideanSpace.nndist_single_same\n    | exact \u27e8_, EuclideanSpace.nndist_single_same\u27e9\n    | exact EuclideanSpace.nndist_single_same (by assumption)\n    | exact EuclideanSpace.nndist_single_same \u2039_\u203a\n    | apply EuclideanSpace.nndist_single_same <;> assumption\n    | (haveI := Fact.mk (by assumption); exact EuclideanSpace.nndist_single_same (by assumption))\n    | exact EuclideanSpace.nnnorm_single\n    | exact EuclideanSpace.nnnorm_single _\n    | apply EuclideanSpace.nnnorm_single\n    | simpa using EuclideanSpace.nnnorm_single\n    | exact \u27e8_, EuclideanSpace.nnnorm_single\u27e9\n    | exact EuclideanSpace.nnnorm_single (by assumption)\n    | exact EuclideanSpace.nnnorm_single \u2039_\u203a\n    | apply EuclideanSpace.nnnorm_single <;> assumption\n    | (haveI := Fact.mk (by assumption); exact EuclideanSpace.nnnorm_single (by assumption))\n    | exact EuclideanSpace.real_norm_sq_eq\n    | exact EuclideanSpace.real_norm_sq_eq _\n    | apply EuclideanSpace.real_norm_sq_eq\n    | simpa using EuclideanSpace.real_norm_sq_eq\n    | exact \u27e8_, EuclideanSpace.real_norm_sq_eq\u27e9\n    | exact EuclideanSpace.real_norm_sq_eq (by assumption)\n    | exact EuclideanSpace.real_norm_sq_eq \u2039_\u203a\n    | apply EuclideanSpace.real_norm_sq_eq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact EuclideanSpace.real_norm_sq_eq (by assumption))\n    | exact EuclideanSpace.norm_eq\n    | exact EuclideanSpace.norm_eq _\n    | apply EuclideanSpace.norm_eq\n    | simpa using EuclideanSpace.norm_eq\n    | exact \u27e8_, EuclideanSpace.norm_eq\u27e9\n    | exact EuclideanSpace.norm_eq (by assumption)\n    | exact EuclideanSpace.norm_eq \u2039_\u203a\n    | apply EuclideanSpace.norm_eq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact EuclideanSpace.norm_eq (by assumption))\n    | exact EuclideanSpace.orthonormal_single\n    | exact EuclideanSpace.orthonormal_single _\n    | apply EuclideanSpace.orthonormal_single\n    | simpa using EuclideanSpace.orthonormal_single\n    | exact \u27e8_, EuclideanSpace.orthonormal_single\u27e9\n    | exact EuclideanSpace.orthonormal_single (by assumption)\n    | exact EuclideanSpace.orthonormal_single \u2039_\u203a\n    | apply EuclideanSpace.orthonormal_single <;> assumption\n    | (haveI := Fact.mk (by assumption); exact EuclideanSpace.orthonormal_single (by assumption))\n    | exact ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left\n    | exact ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left _\n    | apply ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left\n    | simpa using ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left\n    | exact \u27e8_, ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left\u27e9\n    | exact ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left (by assumption)\n    | exact ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left \u2039_\u203a\n    | apply ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:142: error: unsolved goals\nn : \u2115\na b c x : EuclideanSpace \u211d (Fin n)\nh\u2082 : 3 \u2022 c = 4 \u2022 b - a\n\u22a2 \u2016x - a\u2016 ^ 2 = \u2016x\u2016 ^ 2 - 2 * inner \u211d x a + \u2016a\u2016 ^ 2\n\nStill to prove:\n\u22a2 \u2016x - a\u2016 ^ 2 = \u2016x\u2016 ^ 2 - 2 * inner \u211d x a + \u2016a\u2016 ^ 2",
+      "at": 1788777420.057747,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lemma1 (n : \u2115) (a x : EuclideanSpace \u211d (Fin n)) : \u2016x - a\u2016 ^ 2 = \u2016x\u2016 ^ 2 - 2 * inner \u211d x a + \u2016a\u2016 ^ 2",
+      "proof": "by exact norm_sub_sq_real x a",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma lemma1 (n : \u2115) (a x : EuclideanSpace \u211d (Fin n)) : \u2016x - a\u2016 ^ 2 = \u2016x\u2016 ^ 2 - 2 * inner \u211d x a + \u2016a\u2016 ^ 2",
+      "at": 1788777432.023221,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lemma_inner (n : \u2115) (a b c x : EuclideanSpace \u211d (Fin n)) (h\u2082 : 3 \u2022 c = 4 \u2022 b - a) : 3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a",
+      "proof": "by\n  have h_congr := congrArg (fun v => inner \u211d x v) h\u2082\n  simp only [inner_smul_right, inner_sub_right] at h_congr\n  exact h_congr",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n6:2: error: Type mismatch\n  h_congr\nhas type\n  inner \u211d x (3 \u2022 c) = inner \u211d x (4 \u2022 b) - inner \u211d x a\nbut is expected to have type\n  3 * inner \u211d x c = 4 * inner \u211d x b - inner \u211d x a",
+      "at": 1788777439.9282327,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma lemma1 (n : \u2115) (a x : EuclideanSpace \u211d (Fin n)) : \u2016x - a\u2016 ^ 2 = \u2016x\u2016 ^ 2 - 2 * inner \u211d x a + \u2016a\u2016 ^ 2 := by exact norm_sub_sq_real x a"
+  ],
+  "premises": [
+    {
+      "name": "EuclideanSpace",
+      "type": " (\ud835\udd5c : Type u_7) (n : Type u_8) : Type (max u_7 u_8)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The standard real/complex Euclidean space, functions on a finite type. For an `n`-dimensional\nspace use `EuclideanSpace \ud835\udd5c (Fin n)`.\n\nFor the case when `n = Fin _`, there is `!\u2082[x, y, ...]` notation for building elements of this type,\nanalogous to `![x, y, ...]` notation. "
+    },
+    {
+      "name": "EuclideanSpace.infinite",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [Nonempty \u03b9] : Infinite (EuclideanSpace \ud835\udd5c \u03b9)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] (i : \u03b9) (a : \ud835\udd5c) : EuclideanSpace \ud835\udd5c \u03b9",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The vector given in Euclidean space by being `a : \ud835\udd5c` at coordinate `i : \u03b9` and `0 : \ud835\udd5c` at\nall other coordinates. "
+    },
+    {
+      "name": "EuclideanSpace.norm_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a : \ud835\udd5c) : \u2016EuclideanSpace.single i a\u2016 = \u2016a\u2016",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.basisFun",
+      "type": " (\u03b9 : Type u_1) (\ud835\udd5c : Type u_3) [RCLike \ud835\udd5c] [Fintype \u03b9] : OrthonormalBasis \u03b9 \ud835\udd5c (EuclideanSpace \ud835\udd5c \u03b9)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The basis `Pi.basisFun`, bundled as an orthonormal basis of `EuclideanSpace \ud835\udd5c \u03b9`. "
+    },
+    {
+      "name": "OrthonormalBasis.instInhabited",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [Fintype \u03b9] : Inhabited (OrthonormalBasis \u03b9 \ud835\udd5c (EuclideanSpace \ud835\udd5c \u03b9))",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.dist_single_same",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a b : \ud835\udd5c) : dist (EuclideanSpace.single i a) (EuclideanSpace.single i b) = dist a b",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.nndist_single_same",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a b : \ud835\udd5c) : nndist (EuclideanSpace.single i a) (EuclideanSpace.single i b) = nndist a b",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.nnnorm_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a : \ud835\udd5c) : \u2016EuclideanSpace.single i a\u2016\u208a = \u2016a\u2016\u208a",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.real_norm_sq_eq",
+      "type": " {n : Type u_7} [Fintype n] (x : EuclideanSpace \u211d n) : \u2016x\u2016 ^ 2 = \u2211 i, x.ofLp i ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.norm_eq",
+      "type": " {\ud835\udd5c : Type u_7} [RCLike \ud835\udd5c] {n : Type u_8} [Fintype n] (x : EuclideanSpace \ud835\udd5c n) : \u2016x\u2016 = \u221a(\u2211 i, \u2016x.ofLp i\u2016 ^ 2)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.orthonormal_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] : Orthonormal \ud835\udd5c fun i => EuclideanSpace.single i 1",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "`EuclideanSpace.single` forms an orthonormal family. "
+    },
+    {
+      "name": "ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {F : Type u_3} [RCLike \ud835\udd5c] [NormedAddCommGroup E] [NormedAddCommGroup F] [InnerProductSpace \ud835\udd5c E] [InnerProductSpace \ud835\udd5c F] [CompleteSpace E] [CompleteSpace F] (A : E \u2192L[\ud835\udd5c] F) (x : E) : \u2016A x\u2016 ^ 2 = RCLike.re (inner \ud835\udd5c ((ContinuousLinearMap.adjoint A \u2218SL A) x) x)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Adjoint",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_right",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {F : Type u_3} [RCLike \ud835\udd5c] [NormedAddCommGroup E] [NormedAddCommGroup F] [InnerProductSpace \ud835\udd5c E] [InnerProductSpace \ud835\udd5c F] [CompleteSpace E] [CompleteSpace F] (A : E \u2192L[\ud835\udd5c] F) (x : E) : \u2016A x\u2016 ^ 2 = RCLike.re (inner \ud835\udd5c x ((ContinuousLinearMap.adjoint A \u2218SL A) x))",
+      "module": "Mathlib.Analysis.InnerProductSpace.Adjoint",
+      "doc": ""
+    },
+    {
+      "name": "zero_lt_one_add_norm_sq",
+      "type": " {E : Type u_4} [SeminormedAddGroup E] (x : E) : 0 < 1 + \u2016x\u2016 ^ 2",
+      "module": "Mathlib.Analysis.Normed.Group.Basic",
+      "doc": ""
+    },
+    {
+      "name": "zero_lt_one_add_norm_sq'",
+      "type": " {E : Type u_4} [SeminormedGroup E] (x : E) : 0 < 1 + \u2016x\u2016 ^ 2",
+      "module": "Mathlib.Analysis.Normed.Group.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Complex.normSq_eq_norm_sq",
+      "type": " (z : \u2102) : Complex.normSq z = \u2016z\u2016 ^ 2",
+      "module": "Mathlib.Analysis.Complex.Norm",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.norm_sq_re_add_conj",
+      "type": " {K : Type u_1} [RCLike K] (x : K) : \u2016x + (starRingEnd K) x\u2016 ^ 2 = RCLike.re (x + (starRingEnd K) x) ^ 2",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.norm_sq_re_conj_add",
+      "type": " {K : Type u_1} [RCLike K] (x : K) : \u2016(starRingEnd K) x + x\u2016 ^ 2 = RCLike.re ((starRingEnd K) x + x) ^ 2",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.norm_sq_eq_def",
+      "type": " {K : Type u_1} [RCLike K] {z : K} : \u2016z\u2016 ^ 2 = RCLike.re z * RCLike.re z + RCLike.im z * RCLike.im z",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.norm_sq_eq_def_ax",
+      "type": " {K : semiOutParam (Type u_1)} [self : RCLike K] (z : K) : \u2016z\u2016 ^ 2 = RCLike.re z * RCLike.re z + RCLike.im z * RCLike.im z",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.norm_sq_eq_re_inner",
+      "type": " {\ud835\udd5c : Type u_4} {E : Type u_5} {inst\u271d : RCLike \ud835\udd5c} {inst\u271d\u00b9 : SeminormedAddCommGroup E} [self : InnerProductSpace \ud835\udd5c E] (x : E) : \u2016x\u2016 ^ 2 = RCLike.re (inner \ud835\udd5c x x)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The inner product induces the norm. "
+    },
+    {
+      "name": "real_inner_self_eq_norm_sq",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] (x : F) : inner \u211d x x = \u2016x\u2016 ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "inner_self_eq_norm_sq_to_K",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] (x : E) : inner \ud835\udd5c x x = \u2191\u2016x\u2016 ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "inner_eq_norm_sq_left_iff",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] {v w : F} : inner \u211d v w = \u2016v\u2016 ^ 2 \u2194 inner \u211d v (v - w) = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "inner_eq_norm_sq_right_iff",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] {v w : F} : inner \u211d v w = \u2016w\u2016 ^ 2 \u2194 inner \u211d (v - w) w = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Complex.sq_norm_sub_sq_im",
+      "type": " (z : \u2102) : \u2016z\u2016 ^ 2 - z.im ^ 2 = z.re ^ 2",
+      "module": "Mathlib.Analysis.Complex.Norm",
+      "doc": ""
+    },
+    {
+      "name": "Complex.sq_norm_sub_sq_re",
+      "type": " (z : \u2102) : \u2016z\u2016 ^ 2 - z.re ^ 2 = z.im ^ 2",
+      "module": "Mathlib.Analysis.Complex.Norm",
+      "doc": ""
+    },
+    {
+      "name": "norm_sub_sq_eq_norm_sq_add_norm_sq_real",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] {x y : F} (h : inner \u211d x y = 0) : \u2016x - y\u2016 * \u2016x - y\u2016 = \u2016x\u2016 * \u2016x\u2016 + \u2016y\u2016 * \u2016y\u2016",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "Pythagorean theorem, subtracting vectors, vector inner product\nform. "
+    },
+    {
+      "name": "norm_sub_sq_eq_norm_sq_add_norm_sq_iff_real_inner_eq_zero",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] (x y : F) : \u2016x - y\u2016 * \u2016x - y\u2016 = \u2016x\u2016 * \u2016x\u2016 + \u2016y\u2016 * \u2016y\u2016 \u2194 inner \u211d x y = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "Pythagorean theorem, subtracting vectors, if-and-only-if vector\ninner product form. "
+    },
+    {
+      "name": "norm_sub_sq_real",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] (x y : F) : \u2016x - y\u2016 ^ 2 = \u2016x\u2016 ^ 2 - 2 * inner \u211d x y + \u2016y\u2016 ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "Expand the square "
+    },
+    {
+      "name": "norm_sub_sq",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] (x y : E) : \u2016x - y\u2016 ^ 2 = \u2016x\u2016 ^ 2 - 2 * RCLike.re (inner \ud835\udd5c x y) + \u2016y\u2016 ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "Expand the square "
+    },
+    {
+      "name": "InnerProductGeometry.norm_sub_sq_eq_norm_sq_add_norm_sq'",
+      "type": " {V : Type u_1} [NormedAddCommGroup V] [InnerProductSpace \u211d V] (x y : V) (h : InnerProductGeometry.angle x y = Real.pi / 2) : \u2016x - y\u2016 * \u2016x - y\u2016 = \u2016x\u2016 * \u2016x\u2016 + \u2016y\u2016 * \u2016y\u2016",
+      "module": "Mathlib.Geometry.Euclidean.Angle.Unoriented.RightAngle",
+      "doc": "Pythagorean theorem, subtracting vectors, vector angle form. "
+    },
+    {
+      "name": "InnerProductGeometry.norm_sub_sq_eq_norm_sq_add_norm_sq_iff_angle_eq_pi_div_two",
+      "type": " {V : Type u_1} [NormedAddCommGroup V] [InnerProductSpace \u211d V] (x y : V) : \u2016x - y\u2016 * \u2016x - y\u2016 = \u2016x\u2016 * \u2016x\u2016 + \u2016y\u2016 * \u2016y\u2016 \u2194 InnerProductGeometry.angle x y = Real.pi / 2",
+      "module": "Mathlib.Geometry.Euclidean.Angle.Unoriented.RightAngle",
+      "doc": "Pythagorean theorem, subtracting vectors, if-and-only-if vector angle form. "
+    },
+    {
+      "name": "InnerProductGeometry.norm_sub_sq_eq_norm_sq_add_norm_sq_sub_two_mul_norm_mul_norm_mul_cos_angle",
+      "type": " {V : Type u_1} [NormedAddCommGroup V] [InnerProductSpace \u211d V] (x y : V) : \u2016x - y\u2016 * \u2016x - y\u2016 = \u2016x\u2016 * \u2016x\u2016 + \u2016y\u2016 * \u2016y\u2016 - 2 * \u2016x\u2016 * \u2016y\u2016 * Real.cos (InnerProductGeometry.angle x y)",
+      "module": "Mathlib.Geometry.Euclidean.Triangle",
+      "doc": "**Law of cosines** (cosine rule), vector angle form. "
+    },
+    {
+      "name": "InnerProductGeometry.norm_sq_add_norm_sub_add_sq_eq_norm_sub_sq_add_norm_sub_sq_iff_inner_eq_zero",
+      "type": " {V : Type u_1} [NormedAddCommGroup V] [InnerProductSpace \u211d V] (x u v : V) : \u2016x\u2016 ^ 2 + \u2016x - (u + v)\u2016 ^ 2 = \u2016x - u\u2016 ^ 2 + \u2016x - v\u2016 ^ 2 \u2194 inner \u211d u v = 0",
+      "module": "Mathlib.Geometry.Euclidean.BritishFlag",
+      "doc": "British flag theorem, if-and-only-if vector form. "
+    },
+    {
+      "name": "InnerProductGeometry.norm_sq_add_norm_sub_add_sq_eq_norm_sub_sq_add_norm_sub_sq_add_two_mul_inner",
+      "type": " {V : Type u_1} [NormedAddCommGroup V] [InnerProductSpace \u211d V] (x u v : V) : \u2016x\u2016 ^ 2 + \u2016x - (u + v)\u2016 ^ 2 = \u2016x - u\u2016 ^ 2 + \u2016x - v\u2016 ^ 2 + 2 * inner \u211d u v",
+      "module": "Mathlib.Geometry.Euclidean.BritishFlag",
+      "doc": "The identity underlying the British flag theorem, for the parallelogram with vertices `0`,\n`u`, `u + v` and `v` and any point `x`, vector form. "
+    },
+    {
+      "name": "EuclideanSpace.delabVecNotation",
+      "type": " : Lean.PrettyPrinter.Delaborator.Delab",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "Unexpander for the `!\u2082[x, y, ...]` notation. "
+    },
+    {
+      "name": "EuclideanSpace.ofLp_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] (i : \u03b9) (a : \ud835\udd5c) : (EuclideanSpace.single i a).ofLp = Pi.single i a",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.single_apply",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] (i : \u03b9) (a : \ud835\udd5c) (j : \u03b9) : (EuclideanSpace.single i a).ofLp j = if j = i then a else 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.toLp_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] (i : \u03b9) (a : \ud835\udd5c) : WithLp.toLp 2 (Pi.single i a) = EuclideanSpace.single i a",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "eq_or_eq_neg_of_sq_eq_sq",
+      "type": " {R : Type u} [CommRing R] [NoZeroDivisors R] (a b : R) : a ^ 2 = b ^ 2 \u2192 a = b \u2228 a = -b",
+      "module": "Mathlib.Algebra.Ring.Commute",
+      "doc": ""
+    },
+    {
+      "name": "sq_eq_sq_iff_eq_or_eq_neg",
+      "type": " {R : Type u} [CommRing R] [NoZeroDivisors R] {a b : R} : a ^ 2 = b ^ 2 \u2194 a = b \u2228 a = -b",
+      "module": "Mathlib.Algebra.Ring.Commute",
+      "doc": ""
+    },
+    {
+      "name": "Commute.sq_eq_sq_iff_eq_or_eq_neg",
+      "type": " {R : Type u} [Ring R] {a b : R} [NoZeroDivisors R] (h : Commute a b) : a ^ 2 = b ^ 2 \u2194 a = b \u2228 a = -b",
+      "module": "Mathlib.Algebra.Ring.Commute",
+      "doc": ""
+    },
+    {
+      "name": "Units.eq_or_eq_neg_of_sq_eq_sq",
+      "type": " {R : Type u} [CommRing R] [NoZeroDivisors R] (a b : R\u02e3) (h : a ^ 2 = b ^ 2) : a = b \u2228 a = -b",
+      "module": "Mathlib.Algebra.Ring.Commute",
+      "doc": ""
+    },
+    {
+      "name": "Units.sq_eq_sq_iff_eq_or_eq_neg",
+      "type": " {R : Type u} [CommRing R] [NoZeroDivisors R] {a b : R\u02e3} : a ^ 2 = b ^ 2 \u2194 a = b \u2228 a = -b",
+      "module": "Mathlib.Algebra.Ring.Commute",
+      "doc": ""
+    },
+    {
+      "name": "sq_eq_sq\u2080",
+      "type": " {M\u2080 : Type u_2} [MonoidWithZero M\u2080] [LinearOrder M\u2080] [PosMulStrictMono M\u2080] {a b : M\u2080} [MulPosMono M\u2080] (ha : 0 \u2264 a) (hb : 0 \u2264 b) : a ^ 2 = b ^ 2 \u2194 a = b",
+      "module": "Mathlib.Algebra.Order.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "sq_eq_sq_iff_abs_eq_abs",
+      "type": " {\u03b1 : Type u_1} [Ring \u03b1] [LinearOrder \u03b1] [IsStrictOrderedRing \u03b1] (a b : \u03b1) : a ^ 2 = b ^ 2 \u2194 |a| = |b|",
+      "module": "Mathlib.Algebra.Order.Ring.Abs",
+      "doc": ""
+    },
+    {
+      "name": "CFC.sq_eq_sq_iff",
+      "type": " {A : Type u_1} [PartialOrder A] [Ring A] [StarRing A] [TopologicalSpace A] [StarOrderedRing A] [Algebra \u211d A] [ContinuousFunctionalCalculus \u211d A IsSelfAdjoint] [NonnegSpectrumClass \u211d A] [IsSemitopologicalRing A] [T2Space A] (a b : A) (ha : 0 \u2264 a := by cfc_tac) (hb : 0 \u2264 b := by cfc_tac) : a ^ 2 = b ^ 2 \u2194 a = b",
+      "module": "Mathlib.Analysis.SpecialFunctions.ContinuousFunctionalCalculus.Rpow.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.mulExpNegMulSq_eq_sqrt_mul_mulExpNegMulSq_one",
+      "type": " {\u03b5 : \u211d} (h\u03b5 : 0 < \u03b5) (x : \u211d) : \u03b5.mulExpNegMulSq x = (\u221a\u03b5)\u207b\u00b9 * Real.mulExpNegMulSq 1 (\u221a\u03b5 * x)",
+      "module": "Mathlib.Analysis.SpecialFunctions.MulExpNegMulSq",
+      "doc": ""
+    },
+    {
+      "name": "Affine.Simplex.dist_circumcenter_sq_eq_sq_sub_circumradius",
+      "type": " {V : Type u_1} {P : Type u_2} [NormedAddCommGroup V] [InnerProductSpace \u211d V] [MetricSpace P] [NormedAddTorsor V P] {n : \u2115} {r : \u211d} (s : Affine.Simplex \u211d P n) {p\u2081 : P} (h\u2081 : \u2200 (i : Fin (n + 1)), dist (s.points i) p\u2081 = r) (h\u2081' : \u2191(s.orthogonalProjectionSpan p\u2081) = s.circumcenter) (h : s.points 0 \u2208 affineSpan \u211d (Set.range s.points)) : dist p\u2081 s.circumcenter * dist p\u2081 s.circumcenter = r * r - s.circumradius * s.circumradius",
+      "module": "Mathlib.Geometry.Euclidean.Circumcenter",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_smul_right",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x y : F) {r : \ud835\udd5c} : inner \ud835\udd5c x (r \u2022 y) = r * inner \ud835\udd5c x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "real_inner_smul_right",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] (x y : F) (r : \u211d) : inner \u211d x (r \u2022 y) = r * inner \u211d x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "inner_smul_right",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] (x y : E) (r : \ud835\udd5c) : inner \ud835\udd5c x (r \u2022 y) = r * inner \ud835\udd5c x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "See `inner_smul_right_eq_smul` for the case of a general algebra action. "
+    },
+    {
+      "name": "inner_smul_right_eq_smul",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] {\ud835\udd5d : Type u_4} [CommSemiring \ud835\udd5d] [StarRing \ud835\udd5d] [Algebra \ud835\udd5d \ud835\udd5c] [Module \ud835\udd5d E] [IsScalarTower \ud835\udd5d \ud835\udd5c E] [StarModule \ud835\udd5d \ud835\udd5c] (x y : E) (r : \ud835\udd5d) : inner \ud835\udd5c x (r \u2022 y) = r \u2022 inner \ud835\udd5c x y",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "See `inner_smul_right` for the common special when `\ud835\udd5c = \ud835\udd5d`. "
+    },
+    {
+      "name": "CStarModule.inner_smul_right_complex",
+      "type": " {A : Type u_1} {E : Type u_2} {inst\u271d : NonUnitalSemiring A} {inst\u271d\u00b9 : StarRing A} {inst\u271d\u00b2 : Module \u2102 A} {inst\u271d\u00b3 : AddCommGroup E} {inst\u271d\u2074 : Module \u2102 E} {inst\u271d\u2075 : PartialOrder A} {inst\u271d\u2076 : SMul A E} {inst\u271d\u2077 : Norm A} {inst\u271d\u2078 : Norm E} [self : CStarModule A E] {z : \u2102} {x y : E} : inner A x (z \u2022 y) = z \u2022 inner A x y",
+      "module": "Mathlib.Analysis.CStarAlgebra.Module.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CStarModule.inner_smul_right_real",
+      "type": " {A : Type u_1} {E : Type u_2} [NonUnitalRing A] [StarRing A] [AddCommGroup E] [Module \u2102 A] [Module \u2102 E] [PartialOrder A] [SMul A E] [Norm A] [Norm E] [CStarModule A E] [StarModule \u2102 A] {z : \u211d} {x y : E} : inner A x (z \u2022 y) = z \u2022 inner A x y",
+      "module": "Mathlib.Analysis.CStarAlgebra.Module.Defs",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.wInner_smul_right",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} {E : \u03b9 \u2192 Type u_4} [Fintype \u03b9] [RCLike \ud835\udd5c] [(i : \u03b9) \u2192 SeminormedAddCommGroup (E i)] [(i : \u03b9) \u2192 InnerProductSpace \ud835\udd5c (E i)] {\ud835\udd5d : Type u_5} [CommSemiring \ud835\udd5d] [StarRing \ud835\udd5d] [Algebra \ud835\udd5d \ud835\udd5c] [StarModule \ud835\udd5d \ud835\udd5c] [(i : \u03b9) \u2192 Module \ud835\udd5d (E i)] [\u2200 (i : \u03b9), IsScalarTower \ud835\udd5d \ud835\udd5c (E i)] (c : \ud835\udd5d) (w : \u03b9 \u2192 \u211d) (f g : (i : \u03b9) \u2192 E i) : \u27eaf, c \u2022 g\u27eb_[\ud835\udd5c, w] = c \u2022 \u27eaf, g\u27eb_[\ud835\udd5c, w]",
+      "module": "Mathlib.Analysis.RCLike.Inner",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_sub_right",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x y z : F) : inner \ud835\udd5c x (y - z) = inner \ud835\udd5c x y - inner \ud835\udd5c x z",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "inner_sub_right",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] (x y z : E) : inner \ud835\udd5c x (y - z) = inner \ud835\udd5c x y - inner \ud835\udd5c x z",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CStarModule.inner_sub_right",
+      "type": " {A : Type u_1} {E : Type u_2} [NonUnitalRing A] [StarRing A] [AddCommGroup E] [Module \u2102 A] [Module \u2102 E] [PartialOrder A] [SMul A E] [Norm A] [Norm E] [CStarModule A E] [StarModule \u2102 A] {x y z : E} : inner A x (y - z) = inner A x y - inner A x z",
+      "module": "Mathlib.Analysis.CStarAlgebra.Module.Defs",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.wInner_sub_right",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} {E : \u03b9 \u2192 Type u_4} [Fintype \u03b9] [RCLike \ud835\udd5c] [(i : \u03b9) \u2192 SeminormedAddCommGroup (E i)] [(i : \u03b9) \u2192 InnerProductSpace \ud835\udd5c (E i)] (w : \u03b9 \u2192 \u211d) (f g\u2081 g\u2082 : (i : \u03b9) \u2192 E i) : \u27eaf, g\u2081 - g\u2082\u27eb_[\ud835\udd5c, w] = \u27eaf, g\u2081\u27eb_[\ud835\udd5c, w] - \u27eaf, g\u2082\u27eb_[\ud835\udd5c, w]",
+      "module": "Mathlib.Analysis.RCLike.Inner",
+      "doc": ""
+    },
+    {
+      "name": "nsmul_eq_smul",
+      "type": " {M : Type u_2} [AddMonoid M] (n : \u2115) (x : M) : NSMul.nsmul n x = n \u2022 x",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": ""
+    },
+    {
+      "name": "nsmul_eq_mod_nsmul",
+      "type": " {M : Type u_4} [AddMonoid M] {a : M} {n : \u2115} (m : \u2115) (ha : n \u2022 a = 0) : m \u2022 a = (m % n) \u2022 a",
+      "module": "Mathlib.Algebra.Group.Basic",
+      "doc": "If `n \u2022 x = 0`, then `m \u2022 x` is the same as `(m % n) \u2022 x` "
+    },
+    {
+      "name": "natAbs_nsmul_eq_zero",
+      "type": " {G : Type u_3} [AddGroup G] {a : G} {n : \u2124} : n.natAbs \u2022 a = 0 \u2194 n \u2022 a = 0",
+      "module": "Mathlib.Algebra.Group.Basic",
+      "doc": ""
+    },
+    {
+      "name": "nsmul_add_nsmul_eq_zero",
+      "type": " {M : Type u_4} [AddMonoid M] {a b : M} (n : \u2115) : a + b = 0 \u2192 n \u2022 a + n \u2022 b = 0",
+      "module": "Mathlib.Algebra.Group.Basic",
+      "doc": ""
+    },
+    {
+      "name": "isSelfNeg_iff_two_nsmul_eq_zero",
+      "type": " {\u03b1 : Type u_1} [AddGroup \u03b1] {a : \u03b1} : IsSelfNeg a \u2194 2 \u2022 a = 0",
+      "module": "Mathlib.Algebra.Group.SelfInv",
+      "doc": ""
+    },
+    {
+      "name": "two_nsmul_eq_zero",
+      "type": " {M : Type u_1} [AddMonoid M] [IsAddTorsionFree M] {a : M} : 2 \u2022 a = 0 \u2194 a = 0",
+      "module": "Mathlib.Algebra.Group.Torsion",
+      "doc": ""
+    },
+    {
+      "name": "nsmul_eq_zero_iff_left",
+      "type": " {M : Type u_1} [AddMonoid M] [IsAddTorsionFree M] {n : \u2115} {a : M} (ha : a \u2260 0) : n \u2022 a = 0 \u2194 n = 0",
+      "module": "Mathlib.Algebra.Group.Torsion",
+      "doc": ""
+    },
+    {
+      "name": "nsmul_eq_zero_iff_right",
+      "type": " {M : Type u_1} [AddMonoid M] [IsAddTorsionFree M] {n : \u2115} {a : M} (hn : n \u2260 0) : n \u2022 a = 0 \u2194 a = 0",
+      "module": "Mathlib.Algebra.Group.Torsion",
+      "doc": ""
+    },
+    {
+      "name": "nsmul_eq_zero_iff",
+      "type": " {M : Type u_1} [AddMonoid M] [IsAddTorsionFree M] {n : \u2115} {a : M} : n \u2022 a = 0 \u2194 a = 0 \u2228 n = 0",
+      "module": "Mathlib.Algebra.Group.Torsion",
+      "doc": ""
+    },
+    {
+      "name": "AddUnits.val_nsmul_eq_nsmul_val",
+      "type": " {\u03b1 : Type u} [AddMonoid \u03b1] (a : AddUnits \u03b1) (n : \u2115) : \u2191(n \u2022 a) = n \u2022 \u2191a",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddUnits.neg_nsmul_eq_nsmul_neg",
+      "type": " {\u03b1 : Type u} [AddMonoid \u03b1] (a : AddUnits \u03b1) (n : \u2115) : \u2191(-(n \u2022 a)) = n \u2022 \u2191(-a)",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": ""
+    },
+    {
+      "name": "nsmul_eq_mul",
+      "type": " {\u03b1 : Type u} [NonAssocSemiring \u03b1] (n : \u2115) (a : \u03b1) : n \u2022 a = \u2191n * a",
+      "module": "Mathlib.Algebra.Ring.Defs",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> EuclideanSpace, EuclideanSpace.infinite, EuclideanSpace.single, EuclideanSpace.norm_single, EuclideanSpace.basisFun, OrthonormalBasis.instInhabited, EuclideanSpace.dist_single_same, EuclideanSpace.nndist_single_same",
+    "search: '\"norm_sq_eq_inner\"' -> ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left, ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_right",
+    "search: '\"norm_sq\"' -> zero_lt_one_add_norm_sq, zero_lt_one_add_norm_sq', Complex.normSq_eq_norm_sq, RCLike.norm_sq_re_add_conj, RCLike.norm_sq_re_conj_add, RCLike.norm_sq_eq_def, RCLike.norm_sq_eq_def_ax, InnerProductSpace.norm_sq_eq_re_inner",
+    "search: '\"norm_sub_sq\"' -> Complex.sq_norm_sub_sq_im, Complex.sq_norm_sub_sq_re, norm_sub_sq_eq_norm_sq_add_norm_sq_real, norm_sub_sq_eq_norm_sq_add_norm_sq_iff_real_inner_eq_zero, norm_sub_sq_real, norm_sub_sq, InnerProductGeometry.norm_sub_sq_eq_norm_sq_add_norm_sq', InnerProductGeometry.norm_sub_sq_eq_norm_sq_add_norm_sq_iff_angle_eq_pi_div_two",
+    "search: '\"EuclideanSpace\"' -> EuclideanSpace.delabVecNotation, EuclideanSpace.infinite, EuclideanSpace.single, EuclideanSpace.norm_single, EuclideanSpace.ofLp_single, EuclideanSpace.single_apply, EuclideanSpace.basisFun, EuclideanSpace.toLp_single",
+    "search: '\"sq_eq_sq\"' -> eq_or_eq_neg_of_sq_eq_sq, sq_eq_sq_iff_eq_or_eq_neg, Commute.sq_eq_sq_iff_eq_or_eq_neg, Units.eq_or_eq_neg_of_sq_eq_sq, Units.sq_eq_sq_iff_eq_or_eq_neg, sq_eq_sq\u2080, sq_eq_sq_iff_abs_eq_abs, CFC.sq_eq_sq_iff",
+    "search: '\"inner_smul_right\"' -> InnerProductSpace.Core.inner_smul_right, real_inner_smul_right, inner_smul_right, inner_smul_right_eq_smul, CStarModule.inner_smul_right_complex, CStarModule.inner_smul_right_real, RCLike.wInner_smul_right",
+    "search: '\"inner_sub_right\"' -> InnerProductSpace.Core.inner_sub_right, inner_sub_right, CStarModule.inner_sub_right, RCLike.wInner_sub_right",
+    "search: '\"nsmul_eq\"' -> nsmul_eq_smul, nsmul_eq_mod_nsmul, natAbs_nsmul_eq_zero, nsmul_add_nsmul_eq_zero, isSelfNeg_iff_two_nsmul_eq_zero, two_nsmul_eq_zero, nsmul_eq_zero_iff_left, nsmul_eq_zero_iff_right",
+    "search: '\"nsmul_eq_smul\"' -> nsmul_eq_smul",
+    "search: '\"nsmul_eq_smul_cast\"' -> nothing",
+    "search: '\"nsmul_eq_smul_cast\"' -> nothing; goal shape -> EuclideanSpace.infinite, EuclideanSpace.single, EuclideanSpace.norm_single, EuclideanSpace.basisFun, OrthonormalBasis.instInhabited, EuclideanSpace.dist_single_same, EuclideanSpace.nndist_single_same, EuclideanSpace.nnnorm_single"
+  ],
+  "budget": {
+    "tool_calls": 16,
+    "lean_calls": 7,
+    "searches": 10,
+    "symbolic_calls": 0,
+    "searches_since_compile": 3,
+    "grace": 3,
+    "started": 1788777399.0727854,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 1
+  },
+  "goal": "theorem exercise_1_19\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016b - a\u2016)\n  : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r"
+}

@@ -1,0 +1,20 @@
+{
+  "records": [],
+  "lemmas": [],
+  "premises": [],
+  "trace": [],
+  "budget": {
+    "tool_calls": 1,
+    "lean_calls": 1,
+    "searches": 0,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788780739.591531,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 90.4,
+    "statement_checks": 1
+  },
+  "goal": "theorem exercise_3_22 (X : Type*) [MetricSpace X] [CompleteSpace X]\n  (G : \u2115 \u2192 Set X) (hG : \u2200 n, IsOpen (G n) \u2227 Dense (G n)) :\n  \u2203 x, \u2200 n, x \u2208 G n"
+}

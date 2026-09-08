@@ -1,0 +1,1082 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788778701.9535131,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact CompactSpace.isCompact_univ\n    | exact CompactSpace.isCompact_univ _\n    | apply CompactSpace.isCompact_univ\n    | simpa using CompactSpace.isCompact_univ\n    | exact \u27e8_, CompactSpace.isCompact_univ\u27e9\n    | exact CompactSpace.isCompact_univ (by assumption)\n    | exact CompactSpace.isCompact_univ \u2039_\u203a\n    | apply CompactSpace.isCompact_univ <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CompactSpace.isCompact_univ (by assumption))\n    | exact isCompact_empty\n    | exact isCompact_empty _\n    | apply isCompact_empty\n    | simpa using isCompact_empty\n    | exact \u27e8_, isCompact_empty\u27e9\n    | exact isCompact_empty (by assumption)\n    | exact isCompact_empty \u2039_\u203a\n    | apply isCompact_empty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_empty (by assumption))\n    | exact isCompact_univ\n    | exact isCompact_univ _\n    | apply isCompact_univ\n    | simpa using isCompact_univ\n    | exact \u27e8_, isCompact_univ\u27e9\n    | exact isCompact_univ (by assumption)\n    | exact isCompact_univ \u2039_\u203a\n    | apply isCompact_univ <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_univ (by assumption))\n    | exact Set.Finite.isCompact\n    | exact Set.Finite.isCompact _\n    | apply Set.Finite.isCompact\n    | simpa using Set.Finite.isCompact\n    | exact \u27e8_, Set.Finite.isCompact\u27e9\n    | exact Set.Finite.isCompact (by assumption)\n    | exact Set.Finite.isCompact \u2039_\u203a\n    | apply Set.Finite.isCompact <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Set.Finite.isCompact (by assumption))\n    | exact Set.Subsingleton.isCompact\n    | exact Set.Subsingleton.isCompact _\n    | apply Set.Subsingleton.isCompact\n    | simpa using Set.Subsingleton.isCompact\n    | exact \u27e8_, Set.Subsingleton.isCompact\u27e9\n    | exact Set.Subsingleton.isCompact (by assumption)\n    | exact Set.Subsingleton.isCompact \u2039_\u203a\n    | apply Set.Subsingleton.isCompact <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Set.Subsingleton.isCompact (by assumption))\n    | exact isCompact_singleton\n    | exact isCompact_singleton _\n    | apply isCompact_singleton\n    | simpa using isCompact_singleton\n    | exact \u27e8_, isCompact_singleton\u27e9\n    | exact isCompact_singleton (by assumption)\n    | exact isCompact_singleton \u2039_\u203a\n    | apply isCompact_singleton <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_singleton (by assumption))\n    | exact IsClosed.isCompact\n    | exact IsClosed.isCompact _\n    | apply IsClosed.isCompact\n    | simpa using IsClosed.isCompact\n    | exact \u27e8_, IsClosed.isCompact\u27e9\n    | exact IsClosed.isCompact (by assumption)\n    | exact IsClosed.isCompact \u2039_\u203a\n    | apply IsClosed.isCompact <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsClosed.isCompact (by assumption))\n    | exact isCompact_diagonal\n    | exact isCompact_diagonal _\n    | apply isCompact_diagonal\n    | simpa using isCompact_diagonal\n    | exact \u27e8_, isCompact_diagonal\u27e9\n    | exact isCompact_diagonal (by assumption)\n    | exact isCompact_diagonal \u2039_\u203a\n    | apply isCompact_diagonal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_diagonal (by assumption))\n    | exact IsCompact.insert\n    | exact IsCompact.insert _\n    | apply IsCompact.insert\n    | simpa using IsCompact.insert\n    | exact \u27e8_, IsCompact.insert\u27e9\n    | exact IsCompact.insert (by assumption)\n    | exact IsCompact.insert \u2039_\u203a\n    | apply IsCompact.insert <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsCompact.insert (by assumption))\n    | exact isCompact_accumulate\n    | exact isCompact_accumulate _\n    | apply isCompact_accumulate\n    | simpa using isCompact_accumulate\n    | exact \u27e8_, isCompact_accumulate\u27e9\n    | exact isCompact_accumulate (by assumption)\n    | exact isCompact_accumulate \u2039_\u203a\n    | apply isCompact_accumulate <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_accumulate (by assumption))\n    | exact isCompact_iUnion\n    | exact isCompact_iUnion _\n    | apply isCompact_iUnion\n    | simpa using isCompact_iUnion\n    | exact \u27e8_, isCompact_iUnion\u27e9\n    | exact isCompact_iUnion (by assumption)\n    | exact isCompact_iUnion \u2039_\u203a\n    | apply isCompact_iUnion <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_iUnion (by assumption))\n    | exact isCompact_range\n    | exact isCompact_range _\n    | apply isCompact_range\n    | simpa using isCompact_range\n    | exact \u27e8_, isCompact_range\u27e9\n    | exact isCompact_range (by assumption)\n    | exact isCompact_range \u2039_\u203a\n    | apply isCompact_range <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_range (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n7:38: error: unsolved goals\nf : \u211d \u2192 \u211d\nE : Set \u211d\nG : Set (\u211d \u00d7 \u211d)\nh\u2081 : IsCompact E\nh\u2082 : G = {x | \u2203 x_1 \u2208 E, (x_1, f x_1) = x}\n\u22a2 ContinuousOn f E \u2194 IsCompact G\n\nStill to prove:\n\u22a2 ContinuousOn f E \u2194 IsCompact G",
+      "at": 1788778725.4011757,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G",
+      "proof": "have h_fwd : ContinuousOn f E \u2192 IsCompact G := by sorry\nhave h_bwd : IsCompact G \u2192 ContinuousOn f E := by sorry\nexact \u27e8h_fwd, h_bwd\u27e9",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788778742.9856489,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_1 (f : \u211d \u2192 \u211d) (E : Set \u211d) (G : Set (\u211d \u00d7 \u211d)) (h\u2081 : IsCompact E) (h\u2082 : G = {(x, f x) | x \u2208 E}) : ContinuousOn f E \u2192 IsCompact G",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact CompactSpace.isCompact_univ\n    | exact CompactSpace.isCompact_univ _\n    | apply CompactSpace.isCompact_univ\n    | simpa using CompactSpace.isCompact_univ\n    | exact \u27e8_, CompactSpace.isCompact_univ\u27e9\n    | exact CompactSpace.isCompact_univ (by assumption)\n    | exact CompactSpace.isCompact_univ \u2039_\u203a\n    | apply CompactSpace.isCompact_univ <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CompactSpace.isCompact_univ (by assumption))\n    | exact isCompact_empty\n    | exact isCompact_empty _\n    | apply isCompact_empty\n    | simpa using isCompact_empty\n    | exact \u27e8_, isCompact_empty\u27e9\n    | exact isCompact_empty (by assumption)\n    | exact isCompact_empty \u2039_\u203a\n    | apply isCompact_empty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_empty (by assumption))\n    | exact isCompact_univ\n    | exact isCompact_univ _\n    | apply isCompact_univ\n    | simpa using isCompact_univ\n    | exact \u27e8_, isCompact_univ\u27e9\n    | exact isCompact_univ (by assumption)\n    | exact isCompact_univ \u2039_\u203a\n    | apply isCompact_univ <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_univ (by assumption))\n    | exact Set.Finite.isCompact\n    | exact Set.Finite.isCompact _\n    | apply Set.Finite.isCompact\n    | simpa using Set.Finite.isCompact\n    | exact \u27e8_, Set.Finite.isCompact\u27e9\n    | exact Set.Finite.isCompact (by assumption)\n    | exact Set.Finite.isCompact \u2039_\u203a\n    | apply Set.Finite.isCompact <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Set.Finite.isCompact (by assumption))\n    | exact Set.Subsingleton.isCompact\n    | exact Set.Subsingleton.isCompact _\n    | apply Set.Subsingleton.isCompact\n    | simpa using Set.Subsingleton.isCompact\n    | exact \u27e8_, Set.Subsingleton.isCompact\u27e9\n    | exact Set.Subsingleton.isCompact (by assumption)\n    | exact Set.Subsingleton.isCompact \u2039_\u203a\n    | apply Set.Subsingleton.isCompact <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Set.Subsingleton.isCompact (by assumption))\n    | exact isCompact_singleton\n    | exact isCompact_singleton _\n    | apply isCompact_singleton\n    | simpa using isCompact_singleton\n    | exact \u27e8_, isCompact_singleton\u27e9\n    | exact isCompact_singleton (by assumption)\n    | exact isCompact_singleton \u2039_\u203a\n    | apply isCompact_singleton <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_singleton (by assumption))\n    | exact IsClosed.isCompact\n    | exact IsClosed.isCompact _\n    | apply IsClosed.isCompact\n    | simpa using IsClosed.isCompact\n    | exact \u27e8_, IsClosed.isCompact\u27e9\n    | exact IsClosed.isCompact (by assumption)\n    | exact IsClosed.isCompact \u2039_\u203a\n    | apply IsClosed.isCompact <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsClosed.isCompact (by assumption))\n    | exact isCompact_diagonal\n    | exact isCompact_diagonal _\n    | apply isCompact_diagonal\n    | simpa using isCompact_diagonal\n    | exact \u27e8_, isCompact_diagonal\u27e9\n    | exact isCompact_diagonal (by assumption)\n    | exact isCompact_diagonal \u2039_\u203a\n    | apply isCompact_diagonal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_diagonal (by assumption))\n    | exact IsCompact.insert\n    | exact IsCompact.insert _\n    | apply IsCompact.insert\n    | simpa using IsCompact.insert\n    | exact \u27e8_, IsCompact.insert\u27e9\n    | exact IsCompact.insert (by assumption)\n    | exact IsCompact.insert \u2039_\u203a\n    | apply IsCompact.insert <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsCompact.insert (by assumption))\n    | exact isCompact_accumulate\n    | exact isCompact_accumulate _\n    | apply isCompact_accumulate\n    | simpa using isCompact_accumulate\n    | exact \u27e8_, isCompact_accumulate\u27e9\n    | exact isCompact_accumulate (by assumption)\n    | exact isCompact_accumulate \u2039_\u203a\n    | apply isCompact_accumulate <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_accumulate (by assumption))\n    | exact isCompact_iUnion\n    | exact isCompact_iUnion _\n    | apply isCompact_iUnion\n    | simpa using isCompact_iUnion\n    | exact \u27e8_, isCompact_iUnion\u27e9\n    | exact isCompact_iUnion (by assumption)\n    | exact isCompact_iUnion \u2039_\u203a\n    | apply isCompact_iUnion <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_iUnion (by assumption))\n    | exact isCompact_range\n    | exact isCompact_range _\n    | apply isCompact_range\n    | simpa using isCompact_range\n    | exact \u27e8_, isCompact_range\u27e9\n    | exact isCompact_range (by assumption)\n    | exact isCompact_range \u2039_\u203a\n    | apply isCompact_range <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_range (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:144: error: unsolved goals\nf : \u211d \u2192 \u211d\nE : Set \u211d\nG : Set (\u211d \u00d7 \u211d)\nh\u2081 : IsCompact E\nh\u2082 : G = {x | \u2203 x_1 \u2208 E, (x_1, f x_1) = x}\n\u22a2 ContinuousOn f E \u2192 IsCompact G\n\nStill to prove:\n\u22a2 ContinuousOn f E \u2192 IsCompact G",
+      "at": 1788778743.0827444,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_2 (f : \u211d \u2192 \u211d) (E : Set \u211d) (G : Set (\u211d \u00d7 \u211d)) (h\u2081 : IsCompact E) (h\u2082 : G = {(x, f x) | x \u2208 E}) : IsCompact G \u2192 ContinuousOn f E",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact CompactSpace.isCompact_univ\n    | exact CompactSpace.isCompact_univ _\n    | apply CompactSpace.isCompact_univ\n    | simpa using CompactSpace.isCompact_univ\n    | exact \u27e8_, CompactSpace.isCompact_univ\u27e9\n    | exact CompactSpace.isCompact_univ (by assumption)\n    | exact CompactSpace.isCompact_univ \u2039_\u203a\n    | apply CompactSpace.isCompact_univ <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CompactSpace.isCompact_univ (by assumption))\n    | exact isCompact_empty\n    | exact isCompact_empty _\n    | apply isCompact_empty\n    | simpa using isCompact_empty\n    | exact \u27e8_, isCompact_empty\u27e9\n    | exact isCompact_empty (by assumption)\n    | exact isCompact_empty \u2039_\u203a\n    | apply isCompact_empty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_empty (by assumption))\n    | exact isCompact_univ\n    | exact isCompact_univ _\n    | apply isCompact_univ\n    | simpa using isCompact_univ\n    | exact \u27e8_, isCompact_univ\u27e9\n    | exact isCompact_univ (by assumption)\n    | exact isCompact_univ \u2039_\u203a\n    | apply isCompact_univ <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_univ (by assumption))\n    | exact Set.Finite.isCompact\n    | exact Set.Finite.isCompact _\n    | apply Set.Finite.isCompact\n    | simpa using Set.Finite.isCompact\n    | exact \u27e8_, Set.Finite.isCompact\u27e9\n    | exact Set.Finite.isCompact (by assumption)\n    | exact Set.Finite.isCompact \u2039_\u203a\n    | apply Set.Finite.isCompact <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Set.Finite.isCompact (by assumption))\n    | exact Set.Subsingleton.isCompact\n    | exact Set.Subsingleton.isCompact _\n    | apply Set.Subsingleton.isCompact\n    | simpa using Set.Subsingleton.isCompact\n    | exact \u27e8_, Set.Subsingleton.isCompact\u27e9\n    | exact Set.Subsingleton.isCompact (by assumption)\n    | exact Set.Subsingleton.isCompact \u2039_\u203a\n    | apply Set.Subsingleton.isCompact <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Set.Subsingleton.isCompact (by assumption))\n    | exact isCompact_singleton\n    | exact isCompact_singleton _\n    | apply isCompact_singleton\n    | simpa using isCompact_singleton\n    | exact \u27e8_, isCompact_singleton\u27e9\n    | exact isCompact_singleton (by assumption)\n    | exact isCompact_singleton \u2039_\u203a\n    | apply isCompact_singleton <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_singleton (by assumption))\n    | exact IsClosed.isCompact\n    | exact IsClosed.isCompact _\n    | apply IsClosed.isCompact\n    | simpa using IsClosed.isCompact\n    | exact \u27e8_, IsClosed.isCompact\u27e9\n    | exact IsClosed.isCompact (by assumption)\n    | exact IsClosed.isCompact \u2039_\u203a\n    | apply IsClosed.isCompact <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsClosed.isCompact (by assumption))\n    | exact isCompact_diagonal\n    | exact isCompact_diagonal _\n    | apply isCompact_diagonal\n    | simpa using isCompact_diagonal\n    | exact \u27e8_, isCompact_diagonal\u27e9\n    | exact isCompact_diagonal (by assumption)\n    | exact isCompact_diagonal \u2039_\u203a\n    | apply isCompact_diagonal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_diagonal (by assumption))\n    | exact IsCompact.insert\n    | exact IsCompact.insert _\n    | apply IsCompact.insert\n    | simpa using IsCompact.insert\n    | exact \u27e8_, IsCompact.insert\u27e9\n    | exact IsCompact.insert (by assumption)\n    | exact IsCompact.insert \u2039_\u203a\n    | apply IsCompact.insert <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsCompact.insert (by assumption))\n    | exact isCompact_accumulate\n    | exact isCompact_accumulate _\n    | apply isCompact_accumulate\n    | simpa using isCompact_accumulate\n    | exact \u27e8_, isCompact_accumulate\u27e9\n    | exact isCompact_accumulate (by assumption)\n    | exact isCompact_accumulate \u2039_\u203a\n    | apply isCompact_accumulate <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_accumulate (by assumption))\n    | exact isCompact_iUnion\n    | exact isCompact_iUnion _\n    | apply isCompact_iUnion\n    | simpa using isCompact_iUnion\n    | exact \u27e8_, isCompact_iUnion\u27e9\n    | exact isCompact_iUnion (by assumption)\n    | exact isCompact_iUnion \u2039_\u203a\n    | apply isCompact_iUnion <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_iUnion (by assumption))\n    | exact isCompact_range\n    | exact isCompact_range _\n    | apply isCompact_range\n    | simpa using isCompact_range\n    | exact \u27e8_, isCompact_range\u27e9\n    | exact isCompact_range (by assumption)\n    | exact isCompact_range \u2039_\u203a\n    | apply isCompact_range <;> assumption\n    | (haveI := Fact.mk (by assumption); exact isCompact_range (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:144: error: unsolved goals\nf : \u211d \u2192 \u211d\nE : Set \u211d\nG : Set (\u211d \u00d7 \u211d)\nh\u2081 : IsCompact E\nh\u2082 : G = {x | \u2203 x_1 \u2208 E, (x_1, f x_1) = x}\n\u22a2 IsCompact G \u2192 ContinuousOn f E\n\nStill to prove:\n\u22a2 IsCompact G \u2192 ContinuousOn f E",
+      "at": 1788778743.132582,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem exercise_4_6_fwd\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2192 IsCompact G",
+      "proof": "intro hf\nhave h_cont : ContinuousOn (fun x => (x, f x)) E := ContinuousOn.prodMk (continuousOn_id' E) hf\nhave h_img := IsCompact.image_of_continuousOn h\u2081 h_cont\nhave h_eq : G = (fun x => (x, f x)) '' E := by\n  rw [h\u2082]\n  ext x\n  simp only [Set.mem_image, Set.mem_setOf_eq]\nrw [h_eq]\nexact h_img",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_4_6_fwd\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2192 IsCompact G",
+      "at": 1788778757.9649,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma dummy : True := by trivial",
+      "proof": "trivial",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n18:36: error: unexpected token ':='; expected command",
+      "at": 1788778778.889221,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma dummy : True",
+      "proof": "trivial",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma dummy : True",
+      "at": 1788778780.4839697,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma dummy2 : True",
+      "proof": "trivial",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma dummy2 : True",
+      "at": 1788778798.2663534,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma dummy3 : True",
+      "proof": "trivial",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma dummy3 : True",
+      "at": 1788778816.0948753,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G",
+      "proof": "have h_fwd := exercise_4_6_fwd f E G h\u2081 h\u2082\nhave h_bwd : IsCompact G \u2192 ContinuousOn f E := by\n  intro hG\n  rw [continuousOn_iff_isClosed]\n  intro C hC\n  have h_snd_cl : IsClosed (Prod.snd \u207b\u00b9' C) := IsClosed.preimage continuous_snd hC\n  have h_inter_comp : IsCompact (G \u2229 Prod.snd \u207b\u00b9' C) := IsCompact.inter_right hG h_snd_cl\n  have h_fst_comp : IsCompact (Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C)) := IsCompact.image_of_continuousOn h_inter_comp continuous_fst.continuousOn\n  have h_cl : IsClosed (Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C)) := IsCompact.isClosed h_fst_comp\n  have h_eq : Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C) = f \u207b\u00b9' C \u2229 E := by\n    ext x\n    simp only [Set.mem_image, Set.mem_inter_iff, Set.mem_preimage, h\u2082]\n    constructor\n    \u00b7 rintro \u27e8\u27e8x_1, y\u27e9, \u27e8\u27e8x_2, hx_2, hp\u27e9, hp2\u27e9, rfl\u27e9\n      injection hp with hx hy\n      subst hx hy\n      exact \u27e8hp2, hx_2\u27e9\n    \u00b7 rintro \u27e8hx1, hx2\u27e9\n      refine \u27e8(x, f x), \u27e8\u27e8x, hx2, rfl\u27e9, hx1\u27e9, rfl\u27e9\n  rw [h_eq] at h_cl\n  exact \u27e8f \u207b\u00b9' C \u2229 E, h_cl, (Set.inter_subset_right _ _).antisymm (Set.subset_inter (Set.subset_univ _) (Set.Subset.refl _))\u27e9\nexact \u27e8h_fwd, h_bwd\u27e9",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n39:67: error: typeclass instance problem is stuck\n  TopologicalSpace ?m.57\n\nNote: Lean will not try to resolve this typeclass instance problem because the type argument to `TopologicalSpace` is a metavariable. This argument must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.",
+      "at": 1788778858.9282181,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G",
+      "proof": "have h_fwd := exercise_4_6_fwd f E G h\u2081 h\u2082\nhave h_bwd : IsCompact G \u2192 ContinuousOn f E := by\n  intro hG\n  rw [continuousOn_iff_isClosed]\n  intro C hC\n  have h_snd_cl : IsClosed (Prod.snd \u207b\u00b9' C) := IsClosed.preimage continuous_snd hC\n  have h_inter_comp : IsCompact (G \u2229 Prod.snd \u207b\u00b9' C) := IsCompact.inter_right hG h_snd_cl\n  have h_fst_comp : IsCompact (Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C)) := IsCompact.image_of_continuousOn h_inter_comp continuousOn_fst\n  have h_cl : IsClosed (Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C)) := IsCompact.isClosed h_fst_comp\n  have h_eq : Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C) = f \u207b\u00b9' C \u2229 E := by\n    ext x\n    simp only [Set.mem_image, Set.mem_inter_iff, Set.mem_preimage, h\u2082]\n    constructor\n    \u00b7 rintro \u27e8\u27e8x_1, y\u27e9, \u27e8\u27e8x_2, hx_2, hp\u27e9, hp2\u27e9, rfl\u27e9\n      injection hp with hx hy\n      subst hx hy\n      exact \u27e8hp2, hx_2\u27e9\n    \u00b7 rintro \u27e8hx1, hx2\u27e9\n      refine \u27e8(x, f x), \u27e8\u27e8x, hx2, rfl\u27e9, hx1\u27e9, rfl\u27e9\n  rw [h_eq] at h_cl\n  exact \u27e8f \u207b\u00b9' C \u2229 E, h_cl, (Set.inter_subset_right _ _).antisymm (Set.subset_inter (Set.subset_univ _) (Set.Subset.refl _))\u27e9\nexact \u27e8h_fwd, h_bwd\u27e9",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n39:67: error: typeclass instance problem is stuck\n  TopologicalSpace ?m.57\n\nNote: Lean will not try to resolve this typeclass instance problem because the type argument to `TopologicalSpace` is a metavariable. This argument must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.",
+      "at": 1788778866.025148,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G",
+      "proof": "have h_fwd := exercise_4_6_fwd f E G h\u2081 h\u2082\nhave h_bwd : IsCompact G \u2192 ContinuousOn f E := by\n  intro hG\n  rw [continuousOn_iff_isClosed]\n  intro C hC\n  have h_snd_cl : IsClosed (Prod.snd \u207b\u00b9' C) := IsClosed.preimage continuous_snd hC\n  have h_inter_comp : IsCompact (G \u2229 Prod.snd \u207b\u00b9' C) := IsCompact.inter_right hG h_snd_cl\n  have h_fst_comp : IsCompact (Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C)) := IsCompact.image_of_continuousOn h_inter_comp (continuousOn_fst : ContinuousOn Prod.fst (G \u2229 Prod.snd \u207b\u00b9' C))\n  have h_cl : IsClosed (Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C)) := IsCompact.isClosed h_fst_comp\n  have h_eq : Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C) = f \u207b\u00b9' C \u2229 E := by\n    ext x\n    simp only [Set.mem_image, Set.mem_inter_iff, Set.mem_preimage, h\u2082]\n    constructor\n    \u00b7 rintro \u27e8\u27e8x_1, y\u27e9, \u27e8\u27e8x_2, hx_2, hp\u27e9, hp2\u27e9, rfl\u27e9\n      injection hp with hx hy\n      subst hx hy\n      exact \u27e8hp2, hx_2\u27e9\n    \u00b7 rintro \u27e8hx1, hx2\u27e9\n      refine \u27e8(x, f x), \u27e8\u27e8x, hx2, rfl\u27e9, hx1\u27e9, rfl\u27e9\n  rw [h_eq] at h_cl\n  exact \u27e8f \u207b\u00b9' C \u2229 E, h_cl, (Set.inter_subset_right _ _).antisymm (Set.subset_inter (Set.subset_univ _) (Set.Subset.refl _))\u27e9\nexact \u27e8h_fwd, h_bwd\u27e9",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n39:67: error: typeclass instance problem is stuck\n  TopologicalSpace ?m.57\n\nNote: Lean will not try to resolve this typeclass instance problem because the type argument to `TopologicalSpace` is a metavariable. This argument must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.",
+      "at": 1788778870.939829,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G",
+      "proof": "have h_fwd := exercise_4_6_fwd f E G h\u2081 h\u2082\nhave h_bwd : IsCompact G \u2192 ContinuousOn f E := by\n  intro hG\n  rw [continuousOn_iff_isClosed]\n  intro C hC\n  have h_snd_cl : IsClosed (Prod.snd \u207b\u00b9' C) := IsClosed.preimage continuous_snd hC\n  have h_inter_comp : IsCompact (G \u2229 Prod.snd \u207b\u00b9' C) := IsCompact.inter_right hG h_snd_cl\n  have h_fst_comp : IsCompact (Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C)) := IsCompact.image_of_continuousOn h_inter_comp (continuousOn_fst : ContinuousOn (Prod.fst : \u211d \u00d7 \u211d \u2192 \u211d) (G \u2229 Prod.snd \u207b\u00b9' C))\n  have h_cl : IsClosed (Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C)) := IsCompact.isClosed h_fst_comp\n  have h_eq : Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C) = f \u207b\u00b9' C \u2229 E := by\n    ext x\n    simp only [Set.mem_image, Set.mem_inter_iff, Set.mem_preimage, h\u2082]\n    constructor\n    \u00b7 rintro \u27e8\u27e8x_1, y\u27e9, \u27e8\u27e8x_2, hx_2, hp\u27e9, hp2\u27e9, rfl\u27e9\n      injection hp with hx hy\n      subst hx hy\n      exact \u27e8hp2, hx_2\u27e9\n    \u00b7 rintro \u27e8hx1, hx2\u27e9\n      refine \u27e8(x, f x), \u27e8\u27e8x, hx2, rfl\u27e9, hx1\u27e9, rfl\u27e9\n  rw [h_eq] at h_cl\n  exact \u27e8f \u207b\u00b9' C \u2229 E, h_cl, (Set.inter_subset_right _ _).antisymm (Set.subset_inter (Set.subset_univ _) (Set.Subset.refl _))\u27e9\nexact \u27e8h_fwd, h_bwd\u27e9",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n39:67: error: typeclass instance problem is stuck\n  TopologicalSpace ?m.57\n\nNote: Lean will not try to resolve this typeclass instance problem because the type argument to `TopologicalSpace` is a metavariable. This argument must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.",
+      "at": 1788778875.6726663,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G",
+      "proof": "have h_fwd := exercise_4_6_fwd f E G h\u2081 h\u2082\nhave h_bwd : IsCompact G \u2192 ContinuousOn f E := by\n  intro hG\n  rw [continuousOn_iff_isClosed]\n  intro C hC\n  have h_snd_cl : IsClosed (Prod.snd \u207b\u00b9' C) := IsClosed.preimage continuous_snd hC\n  have h_inter_comp : IsCompact (G \u2229 Prod.snd \u207b\u00b9' C) := IsCompact.inter_right hG h_snd_cl\n  have h_fst_comp : IsCompact (Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C)) := @IsCompact.image_of_continuousOn (\u211d \u00d7 \u211d) \u211d _ _ (G \u2229 Prod.snd \u207b\u00b9' C) Prod.fst h_inter_comp continuousOn_fst\n  have h_cl : IsClosed (Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C)) := IsCompact.isClosed h_fst_comp\n  have h_eq : Prod.fst '' (G \u2229 Prod.snd \u207b\u00b9' C) = f \u207b\u00b9' C \u2229 E := by\n    ext x\n    simp only [Set.mem_image, Set.mem_inter_iff, Set.mem_preimage, h\u2082]\n    constructor\n    \u00b7 rintro \u27e8\u27e8x_1, y\u27e9, \u27e8\u27e8x_2, hx_2, hp\u27e9, hp2\u27e9, rfl\u27e9\n      injection hp with hx hy\n      subst hx hy\n      exact \u27e8hp2, hx_2\u27e9\n    \u00b7 rintro \u27e8hx1, hx2\u27e9\n      refine \u27e8(x, f x), \u27e8\u27e8x, hx2, rfl\u27e9, hx1\u27e9, rfl\u27e9\n  rw [h_eq] at h_cl\n  exact \u27e8f \u207b\u00b9' C \u2229 E, h_cl, (Set.inter_subset_right _ _).antisymm (Set.subset_inter (Set.subset_univ _) (Set.Subset.refl _))\u27e9\nexact \u27e8h_fwd, h_bwd\u27e9",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n39:67: error: typeclass instance problem is stuck\n  TopologicalSpace ?m.57\n\nNote: Lean will not try to resolve this typeclass instance problem because the type argument to `TopologicalSpace` is a metavariable. This argument must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.",
+      "at": 1788778880.4398425,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G",
+      "proof": "have h_fwd := exercise_4_6_fwd f E G h\u2081 h\u2082\nhave h_bwd : IsCompact G \u2192 ContinuousOn f E := by\n  intro hG\n  rw [continuousOn_iff_isClosed]\n  intro C hC\n  have h_snd_cl : IsClosed (Prod.snd \u207b\u00b9' C) := IsClosed.preimage continuous_snd hC\n  have h_inter_comp : IsCompact (G \u2229 Prod.snd \u207b\u00b9' C) := IsCompact.inter_right hG h_snd_cl\n  have h_fst_comp : IsCompact ((Prod.fst : \u211d \u00d7 \u211d \u2192 \u211d) '' (G \u2229 Prod.snd \u207b\u00b9' C)) := @IsCompact.image_of_continuousOn (\u211d \u00d7 \u211d) \u211d _ _ (G \u2229 Prod.snd \u207b\u00b9' C) Prod.fst h_inter_comp continuousOn_fst\n  have h_cl : IsClosed ((Prod.fst : \u211d \u00d7 \u211d \u2192 \u211d) '' (G \u2229 Prod.snd \u207b\u00b9' C)) := IsCompact.isClosed h_fst_comp\n  have h_eq : (Prod.fst : \u211d \u00d7 \u211d \u2192 \u211d) '' (G \u2229 Prod.snd \u207b\u00b9' C) = f \u207b\u00b9' C \u2229 E := by\n    ext x\n    simp only [Set.mem_image, Set.mem_inter_iff, Set.mem_preimage, h\u2082]\n    constructor\n    \u00b7 rintro \u27e8\u27e8x_1, y\u27e9, \u27e8\u27e8x_2, hx_2, hp\u27e9, hp2\u27e9, rfl\u27e9\n      injection hp with hx hy\n      subst hx hy\n      exact \u27e8hp2, hx_2\u27e9\n    \u00b7 rintro \u27e8hx1, hx2\u27e9\n      refine \u27e8(x, f x), \u27e8\u27e8x, hx2, rfl\u27e9, hx1\u27e9, rfl\u27e9\n  rw [h_eq] at h_cl\n  exact \u27e8f \u207b\u00b9' C \u2229 E, h_cl, (Set.inter_subset_right _ _).antisymm (Set.subset_inter (Set.subset_univ _) (Set.Subset.refl _))\u27e9\nexact \u27e8h_fwd, h_bwd\u27e9",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n39:67: error: typeclass instance problem is stuck\n  TopologicalSpace ?m.57\n\nNote: Lean will not try to resolve this typeclass instance problem because the type argument to `TopologicalSpace` is a metavariable. This argument must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.",
+      "at": 1788778886.1073554,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G",
+      "proof": "have h_fwd := exercise_4_6_fwd f E G h\u2081 h\u2082\nhave h_bwd : IsCompact G \u2192 ContinuousOn f E := by\n  intro hG\n  rw [continuousOn_iff_isClosed]\n  intro C hC\n  have h_snd_cl : IsClosed ((Prod.snd : \u211d \u00d7 \u211d \u2192 \u211d) \u207b\u00b9' C) := IsClosed.preimage continuous_snd hC\n  have h_inter_comp : IsCompact (G \u2229 (Prod.snd : \u211d \u00d7 \u211d \u2192 \u211d) \u207b\u00b9' C) := IsCompact.inter_right hG h_snd_cl\n  have h_fst_comp : IsCompact ((Prod.fst : \u211d \u00d7 \u211d \u2192 \u211d) '' (G \u2229 (Prod.snd : \u211d \u00d7 \u211d \u2192 \u211d) \u207b\u00b9' C)) := @IsCompact.image_of_continuousOn (\u211d \u00d7 \u211d) \u211d _ _ (G \u2229 (Prod.snd : \u211d \u00d7 \u211d \u2192 \u211d) \u207b\u00b9' C) Prod.fst h_inter_comp continuousOn_fst\n  have h_cl : IsClosed ((Prod.fst : \u211d \u00d7 \u211d \u2192 \u211d) '' (G \u2229 (Prod.snd : \u211d \u00d7 \u211d \u2192 \u211d) \u207b\u00b9' C)) := IsCompact.isClosed h_fst_comp\n  have h_eq : (Prod.fst : \u211d \u00d7 \u211d \u2192 \u211d) '' (G \u2229 (Prod.snd : \u211d \u00d7 \u211d \u2192 \u211d) \u207b\u00b9' C) = f \u207b\u00b9' C \u2229 E := by\n    ext x\n    simp only [Set.mem_image, Set.mem_inter_iff, Set.mem_preimage, h\u2082]\n    constructor\n    \u00b7 rintro \u27e8\u27e8x_1, y\u27e9, \u27e8\u27e8x_2, hx_2, hp\u27e9, hp2\u27e9, rfl\u27e9\n      injection hp with hx hy\n      subst hx hy\n      exact \u27e8hp2, hx_2\u27e9\n    \u00b7 rintro \u27e8hx1, hx2\u27e9\n      refine \u27e8(x, f x), \u27e8\u27e8x, hx2, rfl\u27e9, hx1\u27e9, rfl\u27e9\n  rw [h_eq] at h_cl\n  exact \u27e8f \u207b\u00b9' C \u2229 E, h_cl, (Set.inter_subset_right _ _).antisymm (Set.subset_inter (Set.subset_univ _) (Set.Subset.refl _))\u27e9\nexact \u27e8h_fwd, h_bwd\u27e9",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n54:31: error: Function expected at\n  Set.inter_subset_right ?m.283\nbut this term has type\n  ?m.282 \u2208 ?m.281\n\nNote: Expected a function because this term is being applied to the argument\n  _",
+      "at": 1788778953.4792368,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G",
+      "proof": "have h_fwd := exercise_4_6_fwd f E G h\u2081 h\u2082\nhave h_bwd : IsCompact G \u2192 ContinuousOn f E := by\n  intro hG\n  rw [continuousOn_iff_isClosed]\n  intro C hC\n  have h_snd_cl : IsClosed ((Prod.snd : \u211d \u00d7 \u211d \u2192 \u211d) \u207b\u00b9' C) := IsClosed.preimage continuous_snd hC\n  have h_inter_comp : IsCompact (G \u2229 (Prod.snd : \u211d \u00d7 \u211d \u2192 \u211d) \u207b\u00b9' C) := IsCompact.inter_right hG h_snd_cl\n  have h_fst_comp : IsCompact ((Prod.fst : \u211d \u00d7 \u211d \u2192 \u211d) '' (G \u2229 (Prod.snd : \u211d \u00d7 \u211d \u2192 \u211d) \u207b\u00b9' C)) := @IsCompact.image_of_continuousOn (\u211d \u00d7 \u211d) \u211d _ _ (G \u2229 (Prod.snd : \u211d \u00d7 \u211d \u2192 \u211d) \u207b\u00b9' C) Prod.fst h_inter_comp continuousOn_fst\n  have h_cl : IsClosed ((Prod.fst : \u211d \u00d7 \u211d \u2192 \u211d) '' (G \u2229 (Prod.snd : \u211d \u00d7 \u211d \u2192 \u211d) \u207b\u00b9' C)) := IsCompact.isClosed h_fst_comp\n  have h_eq : (Prod.fst : \u211d \u00d7 \u211d \u2192 \u211d) '' (G \u2229 (Prod.snd : \u211d \u00d7 \u211d \u2192 \u211d) \u207b\u00b9' C) = f \u207b\u00b9' C \u2229 E := by\n    ext x\n    simp only [Set.mem_image, Set.mem_inter_iff, Set.mem_preimage, h\u2082]\n    constructor\n    \u00b7 rintro \u27e8\u27e8x_1, y\u27e9, \u27e8\u27e8x_2, hx_2, hp\u27e9, hp2\u27e9, rfl\u27e9\n      injection hp with hx hy\n      subst hx hy\n      exact \u27e8hp2, hx_2\u27e9\n    \u00b7 rintro \u27e8hx1, hx2\u27e9\n      refine \u27e8(x, f x), \u27e8\u27e8x, hx2, rfl\u27e9, hx1\u27e9, rfl\u27e9\n  rw [h_eq] at h_cl\n  refine \u27e8f \u207b\u00b9' C \u2229 E, h_cl, ?_\u27e9\n  rw [Set.inter_assoc, Set.inter_self]\nexact \u27e8h_fwd, h_bwd\u27e9",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G",
+      "at": 1788778961.5143876,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "theorem exercise_4_6_fwd\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2192 IsCompact G := by\n  intro hf\n  have h_cont : ContinuousOn (fun x => (x, f x)) E := ContinuousOn.prodMk (continuousOn_id' E) hf\n  have h_img := IsCompact.image_of_continuousOn h\u2081 h_cont\n  have h_eq : G = (fun x => (x, f x)) '' E := by\n    rw [h\u2082]\n    ext x\n    simp only [Set.mem_image, Set.mem_setOf_eq]\n  rw [h_eq]\n  exact h_img",
+    "lemma dummy : True := by\n  trivial",
+    "lemma dummy2 : True := by\n  trivial",
+    "lemma dummy3 : True := by\n  trivial"
+  ],
+  "premises": [
+    {
+      "name": "CompactSpace.isCompact_univ",
+      "type": " {X : Type u_1} {inst\u271d : TopologicalSpace X} [self : CompactSpace X] : IsCompact Set.univ",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": "In a compact space, `Set.univ` is a compact set. "
+    },
+    {
+      "name": "isCompact_empty",
+      "type": " {X : Type u} [TopologicalSpace X] : IsCompact \u2205",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_univ",
+      "type": " {X : Type u} [TopologicalSpace X] [h : CompactSpace X] : IsCompact Set.univ",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "Set.Finite.isCompact",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} (hs : s.Finite) : IsCompact s",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "Set.Subsingleton.isCompact",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} (hs : s.Subsingleton) : IsCompact s",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_singleton",
+      "type": " {X : Type u} [TopologicalSpace X] {x : X} : IsCompact {x}",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsClosed.isCompact",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} [CompactSpace X] (h : IsClosed s) : IsCompact s",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_diagonal",
+      "type": " {X : Type u} [TopologicalSpace X] [CompactSpace X] : IsCompact (Set.diagonal X)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.insert",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} (hs : IsCompact s) (a : X) : IsCompact (insert a s)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_accumulate",
+      "type": " {X : Type u} [TopologicalSpace X] {K : \u2115 \u2192 Set X} (hK : \u2200 (n : \u2115), IsCompact (K n)) (n : \u2115) : IsCompact (Set.accumulate K n)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_iUnion",
+      "type": " {X : Type u} [TopologicalSpace X] {\u03b9 : Sort u_2} {f : \u03b9 \u2192 Set X} [Finite \u03b9] (h : \u2200 (i : \u03b9), IsCompact (f i)) : IsCompact (\u22c3 i, f i)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_range",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] [CompactSpace X] {f : X \u2192 Y} (hf : Continuous f) : IsCompact (Set.range f)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact",
+      "type": " {X : Type u_1} [TopologicalSpace X] (s : Set X) : Prop",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": "A set `s` is compact if for every nontrivial filter `f` that contains `s`,\nthere exists `a \u2208 s` such that every set of `f` meets every neighborhood of `a`. "
+    },
+    {
+      "name": "CompactSpace.mk",
+      "type": " {X : Type u_1} [TopologicalSpace X] (isCompact_univ : IsCompact Set.univ) : CompactSpace X",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": ""
+    },
+    {
+      "name": "NoncompactSpace.mk",
+      "type": " {X : Type u_1} [TopologicalSpace X] (noncompact_univ : \u00acIsCompact Set.univ) : NoncompactSpace X",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": ""
+    },
+    {
+      "name": "NoncompactSpace.noncompact_univ",
+      "type": " {X : Type u_1} {inst\u271d : TopologicalSpace X} [self : NoncompactSpace X] : \u00acIsCompact Set.univ",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": "In a noncompact space, `Set.univ` is not a compact set. "
+    },
+    {
+      "name": "WeaklyLocallyCompactSpace.exists_compact_mem_nhds",
+      "type": " {X : Type u_3} {inst\u271d : TopologicalSpace X} [self : WeaklyLocallyCompactSpace X] (x : X) : \u2203 s, IsCompact s \u2227 s \u2208 nhds x",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": "Every point of a weakly locally compact space admits a compact neighborhood. "
+    },
+    {
+      "name": "WeaklyLocallyCompactSpace.mk",
+      "type": " {X : Type u_3} [TopologicalSpace X] (exists_compact_mem_nhds : \u2200 (x : X), \u2203 s, IsCompact s \u2227 s \u2208 nhds x) : WeaklyLocallyCompactSpace X",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": ""
+    },
+    {
+      "name": "LocallyCompactSpace.local_compact_nhds",
+      "type": " {X : Type u_3} {inst\u271d : TopologicalSpace X} [self : LocallyCompactSpace X] (x : X) (n : Set X) : n \u2208 nhds x \u2192 \u2203 s \u2208 nhds x, s \u2286 n \u2227 IsCompact s",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": "In a locally compact space,\nevery neighbourhood of every point contains a compact neighbourhood of that same point. "
+    },
+    {
+      "name": "LocallyCompactSpace.mk",
+      "type": " {X : Type u_3} [TopologicalSpace X] (local_compact_nhds : \u2200 (x : X), \u2200 n \u2208 nhds x, \u2203 s \u2208 nhds x, s \u2286 n \u2227 IsCompact s) : LocallyCompactSpace X",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": ""
+    },
+    {
+      "name": "LocallyCompactPair.exists_mem_nhds_isCompact_mapsTo",
+      "type": " {X : Type u_3} {Y : Type u_4} {inst\u271d : TopologicalSpace X} {inst\u271d\u00b9 : TopologicalSpace Y} [self : LocallyCompactPair X Y] {f : X \u2192 Y} {x : X} {s : Set Y} : Continuous f \u2192 s \u2208 nhds (f x) \u2192 \u2203 K \u2208 nhds x, IsCompact K \u2227 Set.MapsTo f K s",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": "If `f : X \u2192 Y` is a continuous map in a locally compact pair of topological spaces\nand `s : Set Y` is a neighbourhood of `f x`, `x : X`,\nthen there exists a compact neighbourhood `K` of `x` such that `f` maps `K` to `s`. "
+    },
+    {
+      "name": "LocallyCompactPair.mk",
+      "type": " {X : Type u_3} {Y : Type u_4} [TopologicalSpace X] [TopologicalSpace Y] (exists_mem_nhds_isCompact_mapsTo : \u2200 {f : X \u2192 Y} {x : X} {s : Set Y}, Continuous f \u2192 s \u2208 nhds (f x) \u2192 \u2203 K \u2208 nhds x, IsCompact K \u2227 Set.MapsTo f K s) : LocallyCompactPair X Y",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousOn",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] (f : X \u2192 Y) (s : Set X) : Prop",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": "A function between topological spaces is continuous on a subset `s`\nwhen it's continuous at every point of `s` within `s`. "
+    },
+    {
+      "name": "continuousOn_id",
+      "type": " {\u03b1 : Type u_1} [TopologicalSpace \u03b1] {s : Set \u03b1} : ContinuousOn id s",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": ""
+    },
+    {
+      "name": "Set.graphOn",
+      "type": " {\u03b1 : Type u} {\u03b2 : Type v} (f : \u03b1 \u2192 \u03b2) (s : Set \u03b1) : Set (\u03b1 \u00d7 \u03b2)",
+      "module": "Mathlib.Data.Set.Operations",
+      "doc": "The graph of a function `f : \u03b1 \u2192 \u03b2` on a set `s`. "
+    },
+    {
+      "name": "Set.Nonempty.graphOn",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {s : Set \u03b1} {f : \u03b1 \u2192 \u03b2} : s.Nonempty \u2192 (Set.graphOn f s).Nonempty",
+      "module": "Mathlib.Data.Set.Prod",
+      "doc": "**Alias** of the reverse direction of `Set.graphOn_nonempty`."
+    },
+    {
+      "name": "Set.fst_injOn_graph",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {s : Set \u03b1} {f : \u03b1 \u2192 \u03b2} : Set.InjOn Prod.fst (Set.graphOn f s)",
+      "module": "Mathlib.Data.Set.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Set.graphOn_nonempty",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {s : Set \u03b1} {f : \u03b1 \u2192 \u03b2} : (Set.graphOn f s).Nonempty \u2194 s.Nonempty",
+      "module": "Mathlib.Data.Set.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Set.image_fst_graphOn",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : \u03b1 \u2192 \u03b2) (s : Set \u03b1) : Prod.fst '' Set.graphOn f s = s",
+      "module": "Mathlib.Data.Set.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Set.graphOn_empty",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : \u03b1 \u2192 \u03b2) : Set.graphOn f \u2205 = \u2205",
+      "module": "Mathlib.Data.Set.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Set.graphOn_univ_eq_range",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {f : \u03b1 \u2192 \u03b2} : Set.graphOn f Set.univ = Set.range fun x => (x, f x)",
+      "module": "Mathlib.Data.Set.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Set.image_snd_graphOn",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {s : Set \u03b1} (f : \u03b1 \u2192 \u03b2) : Prod.snd '' Set.graphOn f s = f '' s",
+      "module": "Mathlib.Data.Set.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Set.graphOn_inj",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {s : Set \u03b1} {f g : \u03b1 \u2192 \u03b2} : Set.graphOn f s = Set.graphOn g s \u2194 Set.EqOn f g s",
+      "module": "Mathlib.Data.Set.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Set.graphOn_eq_empty",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {s : Set \u03b1} {f : \u03b1 \u2192 \u03b2} : Set.graphOn f s = \u2205 \u2194 s = \u2205",
+      "module": "Mathlib.Data.Set.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Set.graphOn_singleton",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : \u03b1 \u2192 \u03b2) (x : \u03b1) : Set.graphOn f {x} = {(x, f x)}",
+      "module": "Mathlib.Data.Set.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Set.graphOn_union",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : \u03b1 \u2192 \u03b2) (s t : Set \u03b1) : Set.graphOn f (s \u222a t) = Set.graphOn f s \u222a Set.graphOn f t",
+      "module": "Mathlib.Data.Set.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Set.graphOn_insert",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : \u03b1 \u2192 \u03b2) (x : \u03b1) (s : Set \u03b1) : Set.graphOn f (insert x s) = insert (x, f x) (Set.graphOn f s)",
+      "module": "Mathlib.Data.Set.Prod",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.image",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.image_of_continuousOn",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : ContinuousOn f s) : IsCompact (f '' s)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.isCompact_image_comap_of_monic",
+      "type": " {R : Type u_1} [CommRing R] (f g : Polynomial R) (hg : g.Monic) : IsCompact (PrimeSpectrum.comap Polynomial.C '' (PrimeSpectrum.zeroLocus {g} \\ PrimeSpectrum.zeroLocus {f}))",
+      "module": "Mathlib.RingTheory.Spectrum.Prime.Polynomial",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousLinearMap.isCompact_image_coe_closedBall",
+      "type": " {\ud835\udd5c : Type u_1} {\ud835\udd5c\u2082 : Type u_2} {E : Type u_3} {F : Type u_4} [NormedAddCommGroup E] [NormedAddCommGroup F] [NontriviallyNormedField \ud835\udd5c] [NontriviallyNormedField \ud835\udd5c\u2082] [NormedSpace \ud835\udd5c E] [NormedSpace \ud835\udd5c\u2082 F] {\u03c3\u2081\u2082 : \ud835\udd5c \u2192+* \ud835\udd5c\u2082} [RingHomIsometric \u03c3\u2081\u2082] [ProperSpace F] (f\u2080 : E \u2192SL[\u03c3\u2081\u2082] F) (r : \u211d) : IsCompact (DFunLike.coe '' Metric.closedBall f\u2080 r)",
+      "module": "Mathlib.Analysis.Normed.Operator.Completeness",
+      "doc": "**Banach-Alaoglu** theorem. The set of functions `f : E \u2192 F` that represent continuous linear\nmaps `f : E \u2192SL[\u03c3\u2081\u2082] F` at distance `\u2264 r` from `f\u2080 : E \u2192SL[\u03c3\u2081\u2082] F` is compact in the topology of\npointwise convergence. Other versions of this theorem can be found in\n`Analysis.Normed.Module.WeakDual`. "
+    },
+    {
+      "name": "ContinuousLinearMap.isCompact_image_coe_of_bounded_of_closed_image",
+      "type": " {\ud835\udd5c : Type u_1} {\ud835\udd5c\u2082 : Type u_2} {F : Type u_4} [NormedAddCommGroup F] [NontriviallyNormedField \ud835\udd5c] [NontriviallyNormedField \ud835\udd5c\u2082] [NormedSpace \ud835\udd5c\u2082 F] {\u03c3\u2081\u2082 : \ud835\udd5c \u2192+* \ud835\udd5c\u2082} {E' : Type u_5} [SeminormedAddCommGroup E'] [NormedSpace \ud835\udd5c E'] [RingHomIsometric \u03c3\u2081\u2082] [ProperSpace F] {s : Set (E' \u2192SL[\u03c3\u2081\u2082] F)} (hb : Bornology.IsBounded s) (hc : IsClosed (DFunLike.coe '' s)) : IsCompact (DFunLike.coe '' s)",
+      "module": "Mathlib.Analysis.Normed.Operator.Completeness",
+      "doc": "Let `s` be a bounded set in the space of continuous (semi)linear maps `E \u2192SL[\u03c3] F` taking values\nin a proper space. If `s` interpreted as a set in the space of maps `E \u2192 F` with topology of\npointwise convergence is closed, then it is compact.\n\nTODO: reformulate this in terms of a type synonym with the right topology. "
+    },
+    {
+      "name": "ContinuousLinearMap.isCompact_image_coe_of_bounded_of_weak_closed",
+      "type": " {\ud835\udd5c : Type u_1} {\ud835\udd5c\u2082 : Type u_2} {F : Type u_4} [NormedAddCommGroup F] [NontriviallyNormedField \ud835\udd5c] [NontriviallyNormedField \ud835\udd5c\u2082] [NormedSpace \ud835\udd5c\u2082 F] {\u03c3\u2081\u2082 : \ud835\udd5c \u2192+* \ud835\udd5c\u2082} {E' : Type u_5} [SeminormedAddCommGroup E'] [NormedSpace \ud835\udd5c E'] [RingHomIsometric \u03c3\u2081\u2082] [ProperSpace F] {s : Set (E' \u2192SL[\u03c3\u2081\u2082] F)} (hb : Bornology.IsBounded s) (hc : \u2200 (f : E' \u2192SL[\u03c3\u2081\u2082] F), \u21d1f \u2208 closure (DFunLike.coe '' s) \u2192 f \u2208 s) : IsCompact (DFunLike.coe '' s)",
+      "module": "Mathlib.Analysis.Normed.Operator.Completeness",
+      "doc": "If a set `s` of semilinear functions is bounded and is closed in the weak-\\* topology, then its\nimage under coercion to functions `E \u2192 F` is a compact set. We don't have a name for `E \u2192SL[\u03c3] F`\nwith weak-\\* topology in `mathlib`, so we use an equivalent condition (see `isClosed_induced_iff'`).\n"
+    },
+    {
+      "name": "SmoothBumpFunction.isCompact_symm_image_closedBall",
+      "type": " {E : Type uE} [NormedAddCommGroup E] [NormedSpace \u211d E] {H : Type uH} [TopologicalSpace H] {I : ModelWithCorners \u211d E H} {M : Type uM} [TopologicalSpace M] [ChartedSpace H M] {c : M} (f : SmoothBumpFunction I c) [FiniteDimensional \u211d E] : IsCompact (\u2191(extChartAt I c).symm '' (Metric.closedBall (\u2191(extChartAt I c) c) f.rOut \u2229 Set.range \u2191I))",
+      "module": "Mathlib.Geometry.Manifold.BumpFunction",
+      "doc": ""
+    },
+    {
+      "name": "Finset.prod_mk",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} [CommMonoid M] (s : Multiset \u03b9) (hs : s.Nodup) (f : \u03b9 \u2192 M) : { val := s, nodup := hs }.prod f = (Multiset.map f s).prod",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "FreeGroup.prod_mk",
+      "type": " {\u03b1 : Type u} {L : List (\u03b1 \u00d7 Bool)} [Group \u03b1] : FreeGroup.prod (FreeGroup.mk L) = (List.map (fun x => bif x.2 then x.1 else x.1\u207b\u00b9) L).prod",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "prod_mk_prod",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} {N : Type u_4} [CommMonoid M] [CommMonoid N] (s : Finset \u03b9) (f : \u03b9 \u2192 M) (g : \u03b9 \u2192 N) : (\u220f x \u2208 s, f x, \u220f x \u2208 s, g x) = \u220f x \u2208 s, (f x, g x)",
+      "module": "Mathlib.Algebra.BigOperators.Pi",
+      "doc": ""
+    },
+    {
+      "name": "prod_mk_sum",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} {N : Type u_4} [AddCommMonoid M] [AddCommMonoid N] (s : Finset \u03b9) (f : \u03b9 \u2192 M) (g : \u03b9 \u2192 N) : (\u2211 x \u2208 s, f x, \u2211 x \u2208 s, g x) = \u2211 x \u2208 s, (f x, g x)",
+      "module": "Mathlib.Algebra.BigOperators.Pi",
+      "doc": ""
+    },
+    {
+      "name": "Unitization.toProd_mk",
+      "type": " {R : Type u_1} {A : Type u_2} (x : R \u00d7 A) : (Unitization.mk x).toProd = x",
+      "module": "Mathlib.Algebra.Algebra.Unitization",
+      "doc": ""
+    },
+    {
+      "name": "MvPolynomial.eval\u2082_rename_prod_mk",
+      "type": " {\u03c3 : Type u_1} {\u03c4 : Type u_2} {R : Type u_4} {S : Type u_5} [CommSemiring R] [CommSemiring S] (f : R \u2192+* S) (g : \u03c3 \u00d7 \u03c4 \u2192 S) (i : \u03c3) (p : MvPolynomial \u03c4 R) : MvPolynomial.eval\u2082 f g ((MvPolynomial.rename (Prod.mk i)) p) = MvPolynomial.eval\u2082 f (fun j => g (i, j)) p",
+      "module": "Mathlib.Algebra.MvPolynomial.Rename",
+      "doc": ""
+    },
+    {
+      "name": "MvPolynomial.eval_rename_prod_mk",
+      "type": " {\u03c3 : Type u_1} {\u03c4 : Type u_2} {R : Type u_4} [CommSemiring R] (g : \u03c3 \u00d7 \u03c4 \u2192 R) (i : \u03c3) (p : MvPolynomial \u03c4 R) : (MvPolynomial.eval g) ((MvPolynomial.rename (Prod.mk i)) p) = (MvPolynomial.eval fun j => g (i, j)) p",
+      "module": "Mathlib.Algebra.MvPolynomial.Rename",
+      "doc": ""
+    },
+    {
+      "name": "MvPolynomial.rename_prod_mk_eval\u2082",
+      "type": " {\u03c3 : Type u_1} {\u03c4 : Type u_2} {R : Type u_4} [CommSemiring R] (p : MvPolynomial \u03c3 R) (j : \u03c4) (g : \u03c3 \u2192 MvPolynomial \u03c3 R) : (MvPolynomial.rename (Prod.mk j)) (MvPolynomial.eval\u2082 MvPolynomial.C g p) = MvPolynomial.eval\u2082 MvPolynomial.C (fun x => (MvPolynomial.rename (Prod.mk j)) (g x)) p",
+      "module": "Mathlib.Algebra.MvPolynomial.Rename",
+      "doc": ""
+    },
+    {
+      "name": "IsOfFinAddOrder.prod_mk",
+      "type": " {\u03b1 : Type u_4} {\u03b2 : Type u_5} [AddMonoid \u03b1] [AddMonoid \u03b2] {a : \u03b1} {b : \u03b2} : IsOfFinAddOrder a \u2192 IsOfFinAddOrder b \u2192 IsOfFinAddOrder (a, b)",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "IsOfFinOrder.prod_mk",
+      "type": " {\u03b1 : Type u_4} {\u03b2 : Type u_5} [Monoid \u03b1] [Monoid \u03b2] {a : \u03b1} {b : \u03b2} : IsOfFinOrder a \u2192 IsOfFinOrder b \u2192 IsOfFinOrder (a, b)",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "ScottContinuousOn.prodMk",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b3 : Type u_3} [Preorder \u03b1] [Preorder \u03b2] [Preorder \u03b3] {D : Set (Set \u03b1)} {f : \u03b1 \u2192 \u03b2} {g : \u03b1 \u2192 \u03b3} (hD : \u2200 (a b : \u03b1), a \u2264 b \u2192 {a, b} \u2208 D) (hf : ScottContinuousOn D f) (hg : ScottContinuousOn D g) : ScottContinuousOn D fun x => (f x, g x)",
+      "module": "Mathlib.Order.ScottContinuity",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousOn.prodMk",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b3 : Type u_3} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] [TopologicalSpace \u03b3] {f : \u03b1 \u2192 \u03b2} {g : \u03b1 \u2192 \u03b3} {s : Set \u03b1} (hf : ContinuousOn f s) (hg : ContinuousOn g s) : ContinuousOn (fun x => (f x, g x)) s",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousOn.prodMap",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b3 : Type u_3} {\u03b4 : Type u_4} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] [TopologicalSpace \u03b3] [TopologicalSpace \u03b4] {f : \u03b1 \u2192 \u03b3} {g : \u03b2 \u2192 \u03b4} {s : Set \u03b1} {t : Set \u03b2} (hf : ContinuousOn f s) (hg : ContinuousOn g t) : ContinuousOn (Prod.map f g) (s \u00d7\u02e2 t)",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousOn.prod_mapL",
+      "type": " (\ud835\udd5c : Type u_1) [NontriviallyNormedField \ud835\udd5c] {M\u2081 : Type u_5} {M\u2082 : Type u_6} {M\u2083 : Type u_7} {M\u2084 : Type u_8} [SeminormedAddCommGroup M\u2081] [NormedSpace \ud835\udd5c M\u2081] [SeminormedAddCommGroup M\u2082] [NormedSpace \ud835\udd5c M\u2082] [SeminormedAddCommGroup M\u2083] [NormedSpace \ud835\udd5c M\u2083] [SeminormedAddCommGroup M\u2084] [NormedSpace \ud835\udd5c M\u2084] {X : Type u_9} [TopologicalSpace X] {f : X \u2192 M\u2081 \u2192L[\ud835\udd5c] M\u2082} {g : X \u2192 M\u2083 \u2192L[\ud835\udd5c] M\u2084} {s : Set X} (hf : ContinuousOn f s) (hg : ContinuousOn g s) : ContinuousOn (fun x => (f x).prodMap (g x)) s",
+      "module": "Mathlib.Analysis.Normed.Operator.Prod",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousOn.prod_map_equivL",
+      "type": " (\ud835\udd5c : Type u_1) [NontriviallyNormedField \ud835\udd5c] {M\u2081 : Type u_5} {M\u2082 : Type u_6} {M\u2083 : Type u_7} {M\u2084 : Type u_8} [SeminormedAddCommGroup M\u2081] [NormedSpace \ud835\udd5c M\u2081] [SeminormedAddCommGroup M\u2082] [NormedSpace \ud835\udd5c M\u2082] [SeminormedAddCommGroup M\u2083] [NormedSpace \ud835\udd5c M\u2083] [SeminormedAddCommGroup M\u2084] [NormedSpace \ud835\udd5c M\u2084] {X : Type u_9} [TopologicalSpace X] {f : X \u2192 M\u2081 \u2243L[\ud835\udd5c] M\u2082} {g : X \u2192 M\u2083 \u2243L[\ud835\udd5c] M\u2084} {s : Set X} (hf : ContinuousOn (fun x => \u2191(f x)) s) (hg : ContinuousOn (fun x => \u2191(g x)) s) : ContinuousOn (fun x => \u2191((f x).prodCongr (g x))) s",
+      "module": "Mathlib.Analysis.Normed.Operator.Prod",
+      "doc": ""
+    },
+    {
+      "name": "continuousOn_id'",
+      "type": " {\u03b1 : Type u_1} [TopologicalSpace \u03b1] (s : Set \u03b1) : ContinuousOn (fun x => x) s",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": ""
+    },
+    {
+      "name": "Homeomorph.refl",
+      "type": " (X : Type u_4) [TopologicalSpace X] : X \u2243\u209c X",
+      "module": "Mathlib.Topology.Homeomorph.Defs",
+      "doc": "Identity map as a homeomorphism. "
+    },
+    {
+      "name": "Homeomorph.instGroup",
+      "type": " {X : Type u_1} [TopologicalSpace X] : Group (X \u2243\u209c X)",
+      "module": "Mathlib.Topology.Homeomorph.Defs",
+      "doc": ""
+    },
+    {
+      "name": "IsHomeomorph.id",
+      "type": " {X : Type u_1} [TopologicalSpace X] : IsHomeomorph id",
+      "module": "Mathlib.Topology.Homeomorph.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Homeomorph.Simps.symm_apply",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] (h : X \u2243\u209c Y) : Y \u2192 X",
+      "module": "Mathlib.Topology.Homeomorph.Defs",
+      "doc": "See Note [custom simps projection] "
+    },
+    {
+      "name": "Homeomorph.instEquivLike",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] : EquivLike (X \u2243\u209c Y) X Y",
+      "module": "Mathlib.Topology.Homeomorph.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Homeomorph.toEquiv",
+      "type": " {X : Type u_4} {Y : Type u_5} [TopologicalSpace X] [TopologicalSpace Y] (self : X \u2243\u209c Y) : X \u2243 Y",
+      "module": "Mathlib.Topology.Homeomorph.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Homeomorph.empty",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] [IsEmpty X] [IsEmpty Y] : X \u2243\u209c Y",
+      "module": "Mathlib.Topology.Homeomorph.Defs",
+      "doc": "The unique homeomorphism between two empty types. "
+    },
+    {
+      "name": "Homeomorph.homeomorphOfUnique",
+      "type": " (X : Type u_1) (Y : Type u_2) [TopologicalSpace X] [TopologicalSpace Y] [Unique X] [Unique Y] : X \u2243\u209c Y",
+      "module": "Mathlib.Topology.Homeomorph.Defs",
+      "doc": "If both `X` and `Y` have a unique element, then `X \u2243\u209c Y`. "
+    },
+    {
+      "name": "Homeomorph.symm",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] (h : X \u2243\u209c Y) : Y \u2243\u209c X",
+      "module": "Mathlib.Topology.Homeomorph.Defs",
+      "doc": "Inverse of a homeomorphism. "
+    },
+    {
+      "name": "Homeomorph",
+      "type": " (X : Type u_4) (Y : Type u_5) [TopologicalSpace X] [TopologicalSpace Y] : Type (max u_4 u_5)",
+      "module": "Mathlib.Topology.Homeomorph.Defs",
+      "doc": "Homeomorphism between `X` and `Y`, also called topological isomorphism "
+    },
+    {
+      "name": "IsHomeomorph",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] (f : X \u2192 Y) : Prop",
+      "module": "Mathlib.Topology.Homeomorph.Defs",
+      "doc": "Predicate saying that `f` is a homeomorphism.\n\nThis should be used only when `f` is a concrete function whose continuous inverse is not easy to\nwrite down. Otherwise, `Homeomorph` should be preferred as it bundles the continuous inverse.\n\nHaving both `Homeomorph` and `IsHomeomorph` is justified by the fact that so many function\nproperties are unbundled in the topology part of the library, and by the fact that a homeomorphism\nis not merely a continuous bijection, that is `IsHomeomorph f` is not equivalent to\n`Continuous f \u2227 Bijective f` but to `Continuous f \u2227 Bijective f \u2227 IsOpenMap f`. "
+    },
+    {
+      "name": "HomeomorphClass",
+      "type": " (F : Type u_4) (A : outParam (Type u_5)) (B : outParam (Type u_6)) [TopologicalSpace A] [TopologicalSpace B] [h : EquivLike F A B] : Prop",
+      "module": "Mathlib.Topology.Homeomorph.Defs",
+      "doc": "`HomeomorphClass F A B` states that `F` is a type of homeomorphisms. "
+    },
+    {
+      "name": "IsClosedMap.id",
+      "type": " {X : Type u_1} [TopologicalSpace X] : IsClosedMap id",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsClosedEmbedding.isClosedMap",
+      "type": " {X : Type u_1} {Y : Type u_2} {f : X \u2192 Y} [TopologicalSpace X] [TopologicalSpace Y] (hf : Topology.IsClosedEmbedding f) : IsClosedMap f",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsClosedMap.isClosed_range",
+      "type": " {X : Type u_1} {Y : Type u_2} {f : X \u2192 Y} [TopologicalSpace X] [TopologicalSpace Y] (hf : IsClosedMap f) : IsClosed (Set.range f)",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsClosedEmbedding.of_isEmbedding_isClosedMap",
+      "type": " {X : Type u_1} {Y : Type u_2} {f : X \u2192 Y} [TopologicalSpace X] [TopologicalSpace Y] (h\u2081 : Topology.IsEmbedding f) (h\u2082 : IsClosedMap f) : Topology.IsClosedEmbedding f",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsInducing.isClosedMap",
+      "type": " {X : Type u_1} {Y : Type u_2} {f : X \u2192 Y} [TopologicalSpace X] [TopologicalSpace Y] (hf : Topology.IsInducing f) (h : IsClosed (Set.range f)) : IsClosedMap f",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "isClosedMap_iff_kernImage",
+      "type": " {X : Type u_1} {Y : Type u_2} {f : X \u2192 Y} [TopologicalSpace X] [TopologicalSpace Y] : IsClosedMap f \u2194 \u2200 {u : Set X}, IsOpen u \u2192 IsOpen (Set.kernImage f u)",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": "A map is closed if and only if the `Set.kernImage` of every *open* set is open.\n\nOne way to understand this result is that `f : X \u2192 Y` is closed if and only if its fibers vary in an\n**upper hemicontinuous** way: for any open subset `U \u2286 X`, the set of all `y \u2208 Y` such that\n`f \u207b\u00b9' {y} \u2286 U` is open in `Y`. See `isClosedMap_iff_upperHemicontinuous`. "
+    },
+    {
+      "name": "IsClosedMap.isQuotientMap",
+      "type": " {X : Type u_1} {Y : Type u_2} {f : X \u2192 Y} [TopologicalSpace X] [TopologicalSpace Y] (hcl : IsClosedMap f) (hcont : Continuous f) (hsurj : Function.Surjective f) : Topology.IsQuotientMap f",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsClosedEmbedding.of_continuous_injective_isClosedMap",
+      "type": " {X : Type u_1} {Y : Type u_2} {f : X \u2192 Y} [TopologicalSpace X] [TopologicalSpace Y] (h\u2081 : Continuous f) (h\u2082 : Function.Injective f) (h\u2083 : IsClosedMap f) : Topology.IsClosedEmbedding f",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsClosedMap.of_nonempty",
+      "type": " {X : Type u_1} {Y : Type u_2} {f : X \u2192 Y} [TopologicalSpace X] [TopologicalSpace Y] (h : \u2200 (s : Set X), IsClosed s \u2192 s.Nonempty \u2192 IsClosed (f '' s)) : IsClosedMap f",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsClosedMap.of_inverse",
+      "type": " {X : Type u_1} {Y : Type u_2} {f : X \u2192 Y} [TopologicalSpace X] [TopologicalSpace Y] {f' : Y \u2192 X} (h : Continuous f') (l_inv : Function.LeftInverse f f') (r_inv : Function.RightInverse f f') : IsClosedMap f",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsClosedEmbedding.isClosedEmbedding_iff_continuous_injective_isClosedMap",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] {f : X \u2192 Y} : Topology.IsClosedEmbedding f \u2194 Continuous f \u2227 Function.Injective f \u2227 IsClosedMap f",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsClosedMap",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] (f : X \u2192 Y) : Prop",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": "A map `f : X \u2192 Y` is said to be a *closed map*,\nif the image of any closed `U : Set X` is closed in `Y`. "
+    },
+    {
+      "name": "Continuous.isClosedMap",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] [CompactSpace X] [T2Space Y] {f : X \u2192 Y} (h : Continuous f) : IsClosedMap f",
+      "module": "Mathlib.Topology.Separation.Hausdorff",
+      "doc": "A continuous map from a compact space to a Hausdorff space is a closed map. "
+    },
+    {
+      "name": "EmbeddingLike.injective",
+      "type": " {F : Sort u_1} {\u03b1 : Sort u_2} {\u03b2 : Sort u_3} [FunLike F \u03b1 \u03b2] [i : EmbeddingLike F \u03b1 \u03b2] (f : F) : Function.Injective \u21d1f",
+      "module": "Mathlib.Data.FunLike.Embedding",
+      "doc": ""
+    },
+    {
+      "name": "EmbeddingLike.injective'",
+      "type": " {F : Sort u_1} {\u03b1 : outParam (Sort u_2)} {\u03b2 : outParam (Sort u_3)} {inst\u271d : FunLike F \u03b1 \u03b2} [self : EmbeddingLike F \u03b1 \u03b2] (f : F) : Function.Injective \u21d1f",
+      "module": "Mathlib.Data.FunLike.Embedding",
+      "doc": "The coercion to functions must produce injective functions. "
+    },
+    {
+      "name": "EmbeddingLike.mk",
+      "type": " {F : Sort u_1} {\u03b1 : outParam (Sort u_2)} {\u03b2 : outParam (Sort u_3)} [FunLike F \u03b1 \u03b2] (injective' : \u2200 (f : F), Function.Injective \u21d1f) : EmbeddingLike F \u03b1 \u03b2",
+      "module": "Mathlib.Data.FunLike.Embedding",
+      "doc": ""
+    },
+    {
+      "name": "EmbeddingLike.comp_injective",
+      "type": " {\u03b1 : Sort u_2} {\u03b2 : Sort u_3} {\u03b3 : Sort u_4} {F : Sort u_5} [FunLike F \u03b2 \u03b3] [EmbeddingLike F \u03b2 \u03b3] (f : \u03b1 \u2192 \u03b2) (e : F) : Function.Injective (\u21d1e \u2218 f) \u2194 Function.Injective f",
+      "module": "Mathlib.Data.FunLike.Embedding",
+      "doc": ""
+    },
+    {
+      "name": "EmbeddingLike.apply_eq_iff_eq",
+      "type": " {F : Sort u_1} {\u03b1 : Sort u_2} {\u03b2 : Sort u_3} [FunLike F \u03b1 \u03b2] [i : EmbeddingLike F \u03b1 \u03b2] (f : F) {x y : \u03b1} : f x = f y \u2194 x = y",
+      "module": "Mathlib.Data.FunLike.Embedding",
+      "doc": ""
+    },
+    {
+      "name": "EquivLike.toEmbeddingLike",
+      "type": " {E : Sort u_1} {\u03b1 : Sort u_3} {\u03b2 : Sort u_4} [EquivLike E \u03b1 \u03b2] : EmbeddingLike E \u03b1 \u03b2",
+      "module": "Mathlib.Data.FunLike.Equiv",
+      "doc": ""
+    },
+    {
+      "name": "EmbeddingLike.map_eq_one_iff",
+      "type": " {F : Type u_1} {M : Type u_4} {N : Type u_5} [One M] [One N] [FunLike F M N] [EmbeddingLike F M N] [OneHomClass F M N] {f : F} {x : M} : f x = 1 \u2194 x = 1",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": ""
+    },
+    {
+      "name": "EmbeddingLike.map_eq_zero_iff",
+      "type": " {F : Type u_1} {M : Type u_4} {N : Type u_5} [Zero M] [Zero N] [FunLike F M N] [EmbeddingLike F M N] [ZeroHomClass F M N] {f : F} {x : M} : f x = 0 \u2194 x = 0",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": ""
+    },
+    {
+      "name": "EmbeddingLike.map_ne_one_iff",
+      "type": " {F : Type u_1} {M : Type u_4} {N : Type u_5} [One M] [One N] [FunLike F M N] [EmbeddingLike F M N] [OneHomClass F M N] {f : F} {x : M} : f x \u2260 1 \u2194 x \u2260 1",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": ""
+    },
+    {
+      "name": "EmbeddingLike.map_ne_zero_iff",
+      "type": " {F : Type u_1} {M : Type u_4} {N : Type u_5} [Zero M] [Zero N] [FunLike F M N] [EmbeddingLike F M N] [ZeroHomClass F M N] {f : F} {x : M} : f x \u2260 0 \u2194 x \u2260 0",
+      "module": "Mathlib.Algebra.Group.Equiv.Defs",
+      "doc": ""
+    },
+    {
+      "name": "EmbeddingLike",
+      "type": " (F : Sort u_1) (\u03b1 : outParam (Sort u_2)) (\u03b2 : outParam (Sort u_3)) [FunLike F \u03b1 \u03b2] : Prop",
+      "module": "Mathlib.Data.FunLike.Embedding",
+      "doc": "The class `EmbeddingLike F \u03b1 \u03b2` expresses that terms of type `F` have an\ninjective coercion to injective functions `\u03b1 \u21aa \u03b2`.\n"
+    },
+    {
+      "name": "Function.Embedding",
+      "type": " (\u03b1 : Sort u_1) (\u03b2 : Sort u_2) : Sort (max (max 1 u_1) u_2)",
+      "module": "Mathlib.Logic.Embedding.Basic",
+      "doc": "`\u03b1 \u21aa \u03b2` is a bundled injective function. "
+    },
+    {
+      "name": "Topology.IsEmbedding.injective",
+      "type": " {X : Type u_1} {Y : Type u_2} [tX : TopologicalSpace X] [tY : TopologicalSpace Y] {f : X \u2192 Y} (self : Topology.IsEmbedding f) : Function.Injective f",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "A topological embedding is injective. "
+    },
+    {
+      "name": "Topology.IsClosedEmbedding.toIsEmbedding",
+      "type": " {X : Type u_1} {Y : Type u_2} [tX : TopologicalSpace X] [tY : TopologicalSpace Y] {f : X \u2192 Y} (self : Topology.IsClosedEmbedding f) : Topology.IsEmbedding f",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsEmbedding.toIsInducing",
+      "type": " {X : Type u_1} {Y : Type u_2} [tX : TopologicalSpace X] [tY : TopologicalSpace Y] {f : X \u2192 Y} (self : Topology.IsEmbedding f) : Topology.IsInducing f",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsOpenEmbedding.toIsEmbedding",
+      "type": " {X : Type u_1} {Y : Type u_2} [tX : TopologicalSpace X] [tY : TopologicalSpace Y] {f : X \u2192 Y} (self : Topology.IsOpenEmbedding f) : Topology.IsEmbedding f",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsEmbedding.mk",
+      "type": " {X : Type u_1} {Y : Type u_2} [tX : TopologicalSpace X] [tY : TopologicalSpace Y] {f : X \u2192 Y} (toIsInducing : Topology.IsInducing f) (injective : Function.Injective f) : Topology.IsEmbedding f",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "Topology.isEmbedding_iff",
+      "type": " {X : Type u_1} {Y : Type u_2} [tX : TopologicalSpace X] [tY : TopologicalSpace Y] (f : X \u2192 Y) : Topology.IsEmbedding f \u2194 Topology.IsInducing f \u2227 Function.Injective f",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsEmbedding.id",
+      "type": " {X : Type u_1} [TopologicalSpace X] : Topology.IsEmbedding id",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsEmbedding.of_subsingleton",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] [Subsingleton X] (f : X \u2192 Y) : Topology.IsEmbedding f",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.isEmbedding_induced",
+      "type": " {X : Type u_1} {Y : Type u_2} {f : X \u2192 Y} [t : TopologicalSpace Y] (hf : Function.Injective f) : Topology.IsEmbedding f",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": "**Alias** of `Topology.IsEmbedding.induced`."
+    },
+    {
+      "name": "Topology.IsClosedEmbedding.isEmbedding",
+      "type": " {X : Type u_1} {Y : Type u_2} {f : X \u2192 Y} [TopologicalSpace X] [TopologicalSpace Y] (hf : Topology.IsClosedEmbedding f) : Topology.IsEmbedding f",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsEmbedding.continuous",
+      "type": " {X : Type u_1} {Y : Type u_2} {f : X \u2192 Y} [TopologicalSpace X] [TopologicalSpace Y] (hf : Topology.IsEmbedding f) : Continuous f",
+      "module": "Mathlib.Topology.Maps.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsEmbedding",
+      "type": " {X : Type u_1} {Y : Type u_2} [tX : TopologicalSpace X] [tY : TopologicalSpace Y] (f : X \u2192 Y) : Prop",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "A function between topological spaces is an embedding if it is injective,\nand for all `s : Set X`, `s` is open iff it is the preimage of an open set. "
+    },
+    {
+      "name": "Continuous.isClosedEmbedding",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] [CompactSpace X] [T2Space Y] {f : X \u2192 Y} (h : Continuous f) (hf : Function.Injective f) : Topology.IsClosedEmbedding f",
+      "module": "Mathlib.Topology.Separation.Hausdorff",
+      "doc": "A continuous injective map from a compact space to a Hausdorff space is a closed embedding. "
+    },
+    {
+      "name": "IsOpen.continuousOn_iff",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] {f : \u03b1 \u2192 \u03b2} {s : Set \u03b1} (hs : IsOpen s) : ContinuousOn f s \u2194 \u2200 \u2983a : \u03b1\u2984, a \u2208 s \u2192 ContinuousAt f a",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsEmbedding.continuousOn_iff",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b3 : Type u_3} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] [TopologicalSpace \u03b3] {f : \u03b1 \u2192 \u03b2} {g : \u03b2 \u2192 \u03b3} (hg : Topology.IsEmbedding g) {s : Set \u03b1} : ContinuousOn f s \u2194 ContinuousOn (g \u2218 f) s",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsInducing.continuousOn_iff",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b3 : Type u_3} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] [TopologicalSpace \u03b3] {f : \u03b1 \u2192 \u03b2} {g : \u03b2 \u2192 \u03b3} (hg : Topology.IsInducing g) {s : Set \u03b1} : ContinuousOn f s \u2194 ContinuousOn (g \u2218 f) s",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": ""
+    },
+    {
+      "name": "continuousOn_iff_continuous_domRestrict",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] {f : \u03b1 \u2192 \u03b2} {s : Set \u03b1} : ContinuousOn f s \u2194 Continuous (s.domRestrict f)",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": ""
+    },
+    {
+      "name": "continuousOn_iff_continuous_restrict",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] {f : \u03b1 \u2192 \u03b2} {s : Set \u03b1} : ContinuousOn f s \u2194 Continuous (s.domRestrict f)",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": "**Alias** of `continuousOn_iff_continuous_domRestrict`."
+    },
+    {
+      "name": "continuousOn_iff'",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] {f : \u03b1 \u2192 \u03b2} {s : Set \u03b1} : ContinuousOn f s \u2194 \u2200 (t : Set \u03b2), IsOpen t \u2192 \u2203 u, IsOpen u \u2227 f \u207b\u00b9' t \u2229 s = u \u2229 s",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": ""
+    },
+    {
+      "name": "continuousOn_iff_isClosed",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] {f : \u03b1 \u2192 \u03b2} {s : Set \u03b1} : ContinuousOn f s \u2194 \u2200 (t : Set \u03b2), IsClosed t \u2192 \u2203 u, IsClosed u \u2227 f \u207b\u00b9' t \u2229 s = u \u2229 s",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": ""
+    },
+    {
+      "name": "continuousOn_iff",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] {f : \u03b1 \u2192 \u03b2} {s : Set \u03b1} : ContinuousOn f s \u2194 \u2200 x \u2208 s, \u2200 (t : Set \u03b2), IsOpen t \u2192 f x \u2208 t \u2192 \u2203 u, IsOpen u \u2227 x \u2208 u \u2227 u \u2229 s \u2286 f \u207b\u00b9' t",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.IsTopologicalBasis.continuousOn_iff",
+      "type": " {\u03b1 : Type u} {\u03b2 : Type u_1} [t : TopologicalSpace \u03b1] {s : Set \u03b1} [TopologicalSpace \u03b2] {B : Set (Set \u03b2)} (hB : TopologicalSpace.IsTopologicalBasis B) {f : \u03b1 \u2192 \u03b2} : ContinuousOn f s \u2194 \u2200 t_1 \u2208 B, \u2203 u, IsOpen u \u2227 f \u207b\u00b9' t_1 \u2229 s = u \u2229 s",
+      "module": "Mathlib.Topology.Bases",
+      "doc": ""
+    },
+    {
+      "name": "Homeomorph.comp_continuousOn_iff",
+      "type": " {X : Type u_1} {Y : Type u_2} {Z : Type u_4} [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpace Z] (h : X \u2243\u209c Y) (f : Z \u2192 X) (s : Set Z) : ContinuousOn (\u21d1h \u2218 f) s \u2194 ContinuousOn f s",
+      "module": "Mathlib.Topology.Homeomorph.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Filter.HasBasis.uniformContinuousOn_iff",
+      "type": " {\u03b1 : Type ua} {\u03b2 : Type ub} {\u03b9 : Sort u_1} [UniformSpace \u03b1] [UniformSpace \u03b2] {\u03b9' : Sort u_2} {p : \u03b9 \u2192 Prop} {s : \u03b9 \u2192 SetRel \u03b1 \u03b1} (ha : (uniformity \u03b1).HasBasis p s) {q : \u03b9' \u2192 Prop} {t : \u03b9' \u2192 Set (\u03b2 \u00d7 \u03b2)} (hb : (uniformity \u03b2).HasBasis q t) {f : \u03b1 \u2192 \u03b2} {S : Set \u03b1} : UniformContinuousOn f S \u2194 \u2200 (i : \u03b9'), q i \u2192 \u2203 j, p j \u2227 \u2200 x \u2208 S, \u2200 y \u2208 S, (x, y) \u2208 s j \u2192 (f x, f y) \u2208 t i",
+      "module": "Mathlib.Topology.UniformSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "uniformContinuousOn_iff_restrict",
+      "type": " {\u03b1 : Type ua} {\u03b2 : Type ub} [UniformSpace \u03b1] [UniformSpace \u03b2] {f : \u03b1 \u2192 \u03b2} {s : Set \u03b1} : UniformContinuousOn f s \u2194 UniformContinuous (s.domRestrict f)",
+      "module": "Mathlib.Topology.UniformSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.inter_left",
+      "type": " {X : Type u} [TopologicalSpace X] {s t : Set X} (ht : IsCompact t) (hs : IsClosed s) : IsCompact (s \u2229 t)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": "The intersection of a closed set and a compact set is a compact set. "
+    },
+    {
+      "name": "IsCompact.inter_right",
+      "type": " {X : Type u} [TopologicalSpace X] {s t : Set X} (hs : IsCompact s) (ht : IsClosed t) : IsCompact (s \u2229 t)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": "The intersection of a compact set and a closed set is a compact set. "
+    },
+    {
+      "name": "IsCompact.inter_iInter_nonempty",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} {\u03b9 : Type v} (hs : IsCompact s) (t : \u03b9 \u2192 Set X) (htc : \u2200 (i : \u03b9), IsClosed (t i)) (hst : \u2200 (u : Finset \u03b9), (s \u2229 \u22c2 i \u2208 u, t i).Nonempty) : (s \u2229 \u22c2 i, t i).Nonempty",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": "To show that a compact set intersects the intersection of a family of closed sets,\nit is sufficient to show that it intersects every finite subfamily. "
+    },
+    {
+      "name": "IsCompact.inter",
+      "type": " {X : Type u_1} [TopologicalSpace X] [T2Space X] {s t : Set X} (hs : IsCompact s) (ht : IsCompact t) : IsCompact (s \u2229 t)",
+      "module": "Mathlib.Topology.Separation.Hausdorff",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.inter_of_isOpen",
+      "type": " {\u03b1 : Type u_1} [TopologicalSpace \u03b1] [QuasiSeparatedSpace \u03b1] {U V : Set \u03b1} (hUcomp : IsCompact U) (hVcomp : IsCompact V) (hUopen : IsOpen U) (hVopen : IsOpen V) : IsCompact (U \u2229 V)",
+      "module": "Mathlib.Topology.QuasiSeparated",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.inter_riemannZetaZeros_finite",
+      "type": " {S : Set \u2102} (hS : IsCompact S) : (S \u2229 riemannZetaZeros).Finite",
+      "module": "Mathlib.NumberTheory.LSeries.ZetaZeros",
+      "doc": "Any compact subset of `\u2102` contains only finitely many zeros of the Riemann zeta function. "
+    },
+    {
+      "name": "IsCompact.isClosed",
+      "type": " {X : Type u_1} [TopologicalSpace X] [T2Space X] {s : Set X} (hs : IsCompact s) : IsClosed s",
+      "module": "Mathlib.Topology.Separation.Hausdorff",
+      "doc": "In a `T2Space`, every compact set is closed. "
+    },
+    {
+      "name": "IsCompact.isClosed_image_restrict",
+      "type": " {\u03b9 : Type u_1} {\u03b1 : \u03b9 \u2192 Type u_2} {s : Set ((i : \u03b9) \u2192 \u03b1 i)} [(i : \u03b9) \u2192 TopologicalSpace (\u03b1 i)] (S : Set \u03b9) (hs_compact : IsCompact s) (hs_closed : IsClosed s) : IsClosed (S.domRestrict '' s)",
+      "module": "Mathlib.Topology.IsClosedRestrict",
+      "doc": "The restriction of a compact closed set in a product space to a set of coordinates is closed. "
+    },
+    {
+      "name": "continuousOn_fst",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] {s : Set (\u03b1 \u00d7 \u03b2)} : ContinuousOn Prod.fst s",
+      "module": "Mathlib.Topology.ContinuousOn",
+      "doc": ""
+    },
+    {
+      "name": "Set.inter_subset_right",
+      "type": " {\u03b1 : Type u} {s t : Set \u03b1} : s \u2229 t \u2286 t",
+      "module": "Mathlib.Data.Set.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Set.image2_inter_subset_right",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_3} {\u03b3 : Type u_5} {f : \u03b1 \u2192 \u03b2 \u2192 \u03b3} {s : Set \u03b1} {t t' : Set \u03b2} : Set.image2 f s (t \u2229 t') \u2286 Set.image2 f s t \u2229 Set.image2 f s t'",
+      "module": "Mathlib.Data.Set.NAry",
+      "doc": ""
+    },
+    {
+      "name": "List.inter_subset_right",
+      "type": " {\u03b1 : Type u_1} [DecidableEq \u03b1] {l\u2081 l\u2082 : List \u03b1} : l\u2081 \u2229 l\u2082 \u2286 l\u2082",
+      "module": "Mathlib.Data.List.Lattice",
+      "doc": ""
+    },
+    {
+      "name": "Multiset.ndinter_subset_right",
+      "type": " {\u03b1 : Type u_1} [DecidableEq \u03b1] (s t : Multiset \u03b1) : s.ndinter t \u2286 t",
+      "module": "Mathlib.Data.Multiset.FinsetOps",
+      "doc": ""
+    },
+    {
+      "name": "Finset.inter_subset_right",
+      "type": " {\u03b1 : Type u_1} [DecidableEq \u03b1] {s\u2081 s\u2082 : Finset \u03b1} : s\u2081 \u2229 s\u2082 \u2286 s\u2082",
+      "module": "Mathlib.Data.Finset.Lattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Set.image2_iInter_subset_right",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b3 : Type u_3} {\u03b9 : Sort u_5} (f : \u03b1 \u2192 \u03b2 \u2192 \u03b3) (s : Set \u03b1) (t : \u03b9 \u2192 Set \u03b2) : Set.image2 f s (\u22c2 i, t i) \u2286 \u22c2 i, Set.image2 f s (t i)",
+      "module": "Mathlib.Data.Set.Lattice.Image",
+      "doc": ""
+    },
+    {
+      "name": "Set.image2_sInter_subset_right",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b3 : Type u_3} (f : \u03b1 \u2192 \u03b2 \u2192 \u03b3) (s : Set \u03b1) (T : Set (Set \u03b2)) : Set.image2 f s (\u22c2\u2080 T) \u2286 \u22c2 t \u2208 T, Set.image2 f s t",
+      "module": "Mathlib.Data.Set.Lattice.Image",
+      "doc": ""
+    },
+    {
+      "name": "Finset.image\u2082_inter_subset_right",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_3} {\u03b3 : Type u_5} [DecidableEq \u03b3] {f : \u03b1 \u2192 \u03b2 \u2192 \u03b3} {s : Finset \u03b1} {t t' : Finset \u03b2} [DecidableEq \u03b2] : Finset.image\u2082 f s (t \u2229 t') \u2286 Finset.image\u2082 f s t \u2229 Finset.image\u2082 f s t'",
+      "module": "Mathlib.Data.Finset.NAry",
+      "doc": ""
+    },
+    {
+      "name": "Set.infs_inter_subset_right",
+      "type": " {\u03b1 : Type u_2} [SemilatticeInf \u03b1] {s t\u2081 t\u2082 : Set \u03b1} : s \u22bc (t\u2081 \u2229 t\u2082) \u2286 s \u22bc t\u2081 \u2229 s \u22bc t\u2082",
+      "module": "Mathlib.Data.Set.Sups",
+      "doc": ""
+    },
+    {
+      "name": "Set.sups_inter_subset_right",
+      "type": " {\u03b1 : Type u_2} [SemilatticeSup \u03b1] {s t\u2081 t\u2082 : Set \u03b1} : s \u22bb (t\u2081 \u2229 t\u2082) \u2286 s \u22bb t\u2081 \u2229 s \u22bb t\u2082",
+      "module": "Mathlib.Data.Set.Sups",
+      "doc": ""
+    },
+    {
+      "name": "Finset.diffs_inter_subset_right",
+      "type": " {\u03b1 : Type u_2} [DecidableEq \u03b1] [GeneralizedBooleanAlgebra \u03b1] {s t\u2081 t\u2082 : Finset \u03b1} : s.diffs (t\u2081 \u2229 t\u2082) \u2286 s.diffs t\u2081 \u2229 s.diffs t\u2082",
+      "module": "Mathlib.Data.Finset.Sups",
+      "doc": ""
+    },
+    {
+      "name": "Finset.infs_inter_subset_right",
+      "type": " {\u03b1 : Type u_2} [DecidableEq \u03b1] [SemilatticeInf \u03b1] {s t\u2081 t\u2082 : Finset \u03b1} : s \u22bc (t\u2081 \u2229 t\u2082) \u2286 s \u22bc t\u2081 \u2229 s \u22bc t\u2082",
+      "module": "Mathlib.Data.Finset.Sups",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> CompactSpace.isCompact_univ, isCompact_empty, isCompact_univ, Set.Finite.isCompact, Set.Subsingleton.isCompact, isCompact_singleton, IsClosed.isCompact, isCompact_diagonal",
+    "search: '\"graph\"' -> Set.graphOn, Set.Nonempty.graphOn, Set.fst_injOn_graph, Set.graphOn_nonempty, Set.image_fst_graphOn, Set.graphOn_empty, Set.graphOn_univ_eq_range, Set.image_snd_graphOn",
+    "search: '\"graphOn\"' -> Set.graphOn, Set.Nonempty.graphOn, Set.graphOn_nonempty, Set.image_fst_graphOn, Set.graphOn_empty, Set.graphOn_univ_eq_range, Set.image_snd_graphOn, Set.graphOn_inj",
+    "search: '\"continuousOn\" \"graph\"' -> nothing",
+    "search: '\"continuousOn\" \"graph\"' -> nothing; goal shape -> CompactSpace.isCompact_univ, isCompact_empty, isCompact_univ, Set.Finite.isCompact, Set.Subsingleton.isCompact, isCompact_singleton, IsClosed.isCompact, isCompact_diagonal",
+    "search: \"|- IsCompact (_ '' _)\" -> IsCompact.image, IsCompact.image_of_continuousOn, Polynomial.isCompact_image_comap_of_monic, ContinuousLinearMap.isCompact_image_coe_closedBall, ContinuousLinearMap.isCompact_image_coe_of_bounded_of_closed_image, ContinuousLinearMap.isCompact_image_coe_of_bounded_of_weak_closed, SmoothBumpFunction.isCompact_symm_image_closedBall",
+    "search: '\"ContinuousOn\" \"prod\"' -> nothing",
+    "search: '\"ContinuousOn\" \"prod\"' -> nothing; goal shape -> CompactSpace.isCompact_univ, isCompact_empty, isCompact_univ, Set.Finite.isCompact, Set.Subsingleton.isCompact, isCompact_singleton, IsClosed.isCompact, isCompact_diagonal",
+    "search: '\"prod_mk\"' -> Finset.prod_mk, FreeGroup.prod_mk, prod_mk_prod, prod_mk_sum, Unitization.toProd_mk, MvPolynomial.eval\u2082_rename_prod_mk, MvPolynomial.eval_rename_prod_mk, MvPolynomial.rename_prod_mk_eval\u2082",
+    "search: '\"ContinuousOn\" \"prod\"' -> nothing",
+    "search: '\"ContinuousOn\" \"prod\"' -> nothing; goal shape -> CompactSpace.isCompact_univ, isCompact_empty, isCompact_univ, Set.Finite.isCompact, Set.Subsingleton.isCompact, isCompact_singleton, IsClosed.isCompact, isCompact_diagonal",
+    "search: '\"ContinuousOn.prod\"' -> ScottContinuousOn.prodMk, ContinuousOn.prodMk, ContinuousOn.prodMap, ContinuousOn.prod_mapL, ContinuousOn.prod_map_equivL",
+    "search: '\"continuousOn_id\"' -> continuousOn_id, continuousOn_id'",
+    "search: '\"Homeomorph\" \"compact\"' -> nothing",
+    "search: '\"Homeomorph\" \"compact\"' -> nothing; goal shape -> CompactSpace.isCompact_univ, isCompact_empty, isCompact_univ, Set.Finite.isCompact, Set.Subsingleton.isCompact, isCompact_singleton, IsClosed.isCompact, isCompact_diagonal",
+    "search: '\"homeomorph\"' -> Homeomorph.refl, Homeomorph.instGroup, IsHomeomorph.id, Homeomorph.Simps.symm_apply, Homeomorph.instEquivLike, Homeomorph.toEquiv, Homeomorph.empty, Homeomorph.homeomorphOfUnique",
+    "search: '\"isClosedMap\"' -> IsClosedMap.id, Topology.IsClosedEmbedding.isClosedMap, IsClosedMap.isClosed_range, Topology.IsClosedEmbedding.of_isEmbedding_isClosedMap, Topology.IsInducing.isClosedMap, isClosedMap_iff_kernImage, IsClosedMap.isQuotientMap, Topology.IsClosedEmbedding.of_continuous_injective_isClosedMap",
+    "search: '\"Continuous.isClosedMap\"' -> Continuous.isClosedMap",
+    "search: '\"embedding\" \"compact\"' -> nothing",
+    "search: '\"embedding\" \"compact\"' -> nothing; goal shape -> CompactSpace.isCompact_univ, isCompact_empty, isCompact_univ, Set.Finite.isCompact, Set.Subsingleton.isCompact, isCompact_singleton, IsClosed.isCompact, isCompact_diagonal",
+    "search: '\"embedding\"' -> EmbeddingLike.injective, EmbeddingLike.injective', EmbeddingLike.mk, EmbeddingLike.comp_injective, EmbeddingLike.apply_eq_iff_eq, EquivLike.toEmbeddingLike, EmbeddingLike.map_eq_one_iff, EmbeddingLike.map_eq_zero_iff",
+    "search: '\"IsEmbedding\"' -> Topology.IsEmbedding.injective, Topology.IsClosedEmbedding.toIsEmbedding, Topology.IsEmbedding.toIsInducing, Topology.IsOpenEmbedding.toIsEmbedding, Topology.IsEmbedding.mk, Topology.isEmbedding_iff, Topology.IsEmbedding.id, Topology.IsEmbedding.of_subsingleton",
+    "search: '\"IsEmbedding\" \"compact\"' -> nothing",
+    "search: '\"IsEmbedding\" \"compact\"' -> nothing; goal shape -> CompactSpace.isCompact_univ, isCompact_empty, isCompact_univ, Set.Finite.isCompact, Set.Subsingleton.isCompact, isCompact_singleton, IsClosed.isCompact, isCompact_diagonal",
+    "search: '\"Continuous.isClosedEmbedding\"' -> Continuous.isClosedEmbedding",
+    "search: '\"continuousOn_iff\"' -> IsOpen.continuousOn_iff, Topology.IsEmbedding.continuousOn_iff, Topology.IsInducing.continuousOn_iff, continuousOn_iff_continuous_domRestrict, continuousOn_iff_continuous_restrict, continuousOn_iff', continuousOn_iff_isClosed, continuousOn_iff",
+    "search: '\"IsCompact\" \"IsClosed\" \"inter\"' -> nothing",
+    "search: '\"IsCompact\" \"IsClosed\" \"inter\"' -> nothing; goal shape -> CompactSpace.isCompact_univ, isCompact_empty, isCompact_univ, Set.Finite.isCompact, Set.Subsingleton.isCompact, isCompact_singleton, IsClosed.isCompact, isCompact_diagonal",
+    "search: '\"IsCompact\" \"inter\"' -> nothing",
+    "search: '\"IsCompact\" \"inter\"' -> nothing; goal shape -> CompactSpace.isCompact_univ, isCompact_empty, isCompact_univ, Set.Finite.isCompact, Set.Subsingleton.isCompact, isCompact_singleton, IsClosed.isCompact, isCompact_diagonal",
+    "search: '\"IsCompact.inter\"' -> IsCompact.inter_left, IsCompact.inter_right, IsCompact.inter_iInter_nonempty, IsCompact.inter, IsCompact.inter_of_isOpen, IsCompact.inter_riemannZetaZeros_finite",
+    "search: '\"IsCompact.isClosed\"' -> IsCompact.isClosed, IsCompact.isClosed_image_restrict",
+    "search: '\"continuousOn_fst\"' -> continuousOn_fst",
+    "search: '\"inter_subset_right\"' -> Set.inter_subset_right, Set.image2_inter_subset_right, List.inter_subset_right, Multiset.ndinter_subset_right, Finset.inter_subset_right, Set.image2_iInter_subset_right, Set.image2_sInter_subset_right, Finset.image\u2082_inter_subset_right"
+  ],
+  "budget": {
+    "tool_calls": 50,
+    "lean_calls": 20,
+    "searches": 32,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788778681.2898648,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 62.4,
+    "statement_checks": 1
+  },
+  "goal": "theorem exercise_4_6\n  (f : \u211d \u2192 \u211d)\n  (E : Set \u211d)\n  (G : Set (\u211d \u00d7 \u211d))\n  (h\u2081 : IsCompact E)\n  (h\u2082 : G = {(x, f x) | x \u2208 E})\n  : ContinuousOn f E \u2194 IsCompact G"
+}

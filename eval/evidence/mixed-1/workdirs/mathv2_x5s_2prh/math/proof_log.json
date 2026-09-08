@@ -1,0 +1,197 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem goldbach_under_100 : \u2200 n : \u2115, 2 < n \u2192 n < 100 \u2192 Even n \u2192 \u2203 p q : \u2115, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = n",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788775573.2428317,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem goldbach_under_100 : \u2200 n : \u2115, 2 < n \u2192 n < 100 \u2192 Even n \u2192 \u2203 p q : \u2115, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = n",
+      "proof": "by\n  intro n h1 h2 h3\n  interval_cases n\n  \u00b7 contradiction\n  \u00b7 use 2, 2; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 3; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 5; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 7; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 7; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 11; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 13; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 13; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 17; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 19; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 19; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 23; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 23; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 23; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 29; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 31; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 31; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 31; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 37; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 37; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 41; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 43; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 43; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 47; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 47; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 47; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 53; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 53; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 53; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 59; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 61; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 61; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 61; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 67; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 67; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 71; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 73; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 73; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 73; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 79; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 79; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 83; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 83; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 83; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 89; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 89; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 89; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 19, 79; exact \u27e8by decide, by decide, rfl\u27e9\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:107: error: unsolved goals\ncase \u00ab99\u00bb\nn : \u2115\nh1 : 2 < 99\nh2 : 99 < 100\nh3 : Even 99\n\u22a2 \u2203 p q, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = 99\n\nStill to prove:\n\u22a2 \u2203 p q, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = 99",
+      "at": 1788775602.1830592,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem goldbach_under_100 : \u2200 n : \u2115, 2 < n \u2192 n < 100 \u2192 Even n \u2192 \u2203 p q : \u2115, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = n",
+      "proof": "by\n  intro n h1 h2 h3\n  interval_cases n\n  \u00b7 contradiction\n  \u00b7 use 2, 2; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 3; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 5; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 7; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 7; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 11; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 13; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 13; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 17; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 19; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 19; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 23; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 23; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 23; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 29; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 31; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 31; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 31; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 37; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 37; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 41; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 43; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 43; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 47; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 47; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 47; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 53; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 53; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 53; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 59; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 61; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 61; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 61; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 67; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 67; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 71; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 73; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 73; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 73; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 79; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 79; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 83; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 83; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 83; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 3, 89; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 5, 89; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 7, 89; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n  \u00b7 use 19, 79; exact \u27e8by decide, by decide, rfl\u27e9\n  \u00b7 contradiction\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem goldbach_under_100 : \u2200 n : \u2115, 2 < n \u2192 n < 100 \u2192 Even n \u2192 \u2203 p q : \u2115, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = n",
+      "at": 1788775623.037087,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Even.add_self",
+      "type": " {\u03b1 : Type u_2} [Add \u03b1] (r : \u03b1) : Even (r + r)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Even.zero",
+      "type": " {\u03b1 : Type u_2} [AddZeroClass \u03b1] : Even 0",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Even.two_nsmul",
+      "type": " {\u03b1 : Type u_2} [AddMonoid \u03b1] (r : \u03b1) : Even (2 \u2022 r)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Even.nsmul_left",
+      "type": " {\u03b1 : Type u_2} [AddMonoid \u03b1] {n : \u2115} (hn : Even n) (a : \u03b1) : Even (n \u2022 a)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Even.nsmul_right",
+      "type": " {\u03b1 : Type u_2} [AddMonoid \u03b1] {a : \u03b1} (n : \u2115) (ha : Even a) : Even (n \u2022 a)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Even.zsmul_left",
+      "type": " {\u03b1 : Type u_2} [AddGroup \u03b1] {n : \u2124} : Even n \u2192 \u2200 (a : \u03b1), Even (n \u2022 a)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Even.add",
+      "type": " {\u03b1 : Type u_2} [AddCommSemigroup \u03b1] {a b : \u03b1} : Even a \u2192 Even b \u2192 Even (a + b)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Even.neg",
+      "type": " {\u03b1 : Type u_2} [SubtractionMonoid \u03b1] {a : \u03b1} : Even a \u2192 Even (-a)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": "**Alias** of the reverse direction of `even_neg`."
+    },
+    {
+      "name": "Even.map",
+      "type": " {F : Type u_1} {\u03b1 : Type u_2} {\u03b2 : Type u_3} [AddZeroClass \u03b1] [AddZeroClass \u03b2] [FunLike F \u03b1 \u03b2] [AddMonoidHomClass F \u03b1 \u03b2] {a : \u03b1} (f : F) : Even a \u2192 Even (f a)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Even.zsmul_right",
+      "type": " {\u03b1 : Type u_2} [SubtractionMonoid \u03b1] {a : \u03b1} (n : \u2124) : Even a \u2192 Even (n \u2022 a)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Even.sub",
+      "type": " {\u03b1 : Type u_2} [SubtractionCommMonoid \u03b1] {a b : \u03b1} (ha : Even a) (hb : Even b) : Even (a - b)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Nat.even_mul_pred_self",
+      "type": " (n : \u2115) : Even (n * (n - 1))",
+      "module": "Mathlib.Algebra.Group.Nat.Even",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_eleven",
+      "type": " : Nat.Prime 11",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_five",
+      "type": " : Nat.Prime 5",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_seven",
+      "type": " : Nat.Prime 7",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_three",
+      "type": " : Nat.Prime 3",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_two",
+      "type": " : Nat.Prime 2",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Prime.nat_prime",
+      "type": " {p : \u2115} : Prime p \u2192 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "**Alias** of the reverse direction of `Nat.prime_iff`."
+    },
+    {
+      "name": "Nat.minFac_prime",
+      "type": " {n : \u2115} (n1 : n \u2260 1) : Nat.Prime n.minFac",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_of_coprime",
+      "type": " (n : \u2115) (h1 : 1 < n) (h : \u2200 m < n, m \u2260 0 \u2192 n.Coprime m) : Nat.Prime n",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_is_prime_of_two_le",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] (p : \u2115) [CharP R p] (hp : 2 \u2264 p) : Nat.Prime p",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_prime_of_ne_zero",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] [Nontrivial R] {p : \u2115} [CharP R p] (hp : p \u2260 0) : Nat.Prime p",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": "The characteristic is prime if it is non-zero. "
+    },
+    {
+      "name": "Nat.prime_of_mem_primeFactorsList",
+      "type": " {n p : \u2115} : p \u2208 n.primeFactorsList \u2192 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Factors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_of_mem_primeFactors",
+      "type": " {n p : \u2115} (hp : p \u2208 n.primeFactors) : Nat.Prime p",
+      "module": "Mathlib.Data.Nat.PrimeFin",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Even.add_self, Even.zero, Even.two_nsmul, Even.nsmul_left, Even.nsmul_right, Even.zsmul_left, Even.add, Even.neg",
+    "search: '\"interval_cases\"' -> nothing",
+    "search: '\"interval_cases\"' -> nothing; goal shape -> Even.add_self, Even.zero, Even.two_nsmul, Even.nsmul_left, Even.nsmul_right, Even.zsmul_left, Even.add, Even.neg"
+  ],
+  "budget": {
+    "tool_calls": 4,
+    "lean_calls": 3,
+    "searches": 1,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788775569.7972577,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 3.6,
+    "statement_checks": 1
+  },
+  "goal": "theorem goldbach_under_100 : \u2200 n : \u2115, 2 < n \u2192 n < 100 \u2192 Even n \u2192 \u2203 p q : \u2115, Nat.Prime p \u2227 Nat.Prime q \u2227 p + q = n"
+}

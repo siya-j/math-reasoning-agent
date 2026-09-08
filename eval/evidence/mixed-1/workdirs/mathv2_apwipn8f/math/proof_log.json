@@ -1,0 +1,187 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788775143.742337,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "proof": "obtain \u27e8p, hp1, hp2\u27e9 := Nat.exists_infinite_primes (n + 1)\nexact \u27e8p, hp2, hp1\u27e9",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "at": 1788775149.514546,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Nat.exists_infinite_primes",
+      "type": " (n : \u2115) : \u2203 p, n \u2264 p \u2227 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Prime.Infinite",
+      "doc": "Euclid's theorem on the **infinitude of primes**.\nHere given in the form: for every `n`, there exists a prime number `p \u2265 n`. "
+    },
+    {
+      "name": "Nat.exists_prime_and_dvd",
+      "type": " {n : \u2115} (hn : n \u2260 1) : \u2203 p, Nat.Prime p \u2227 p \u2223 n",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "exists_prime_addEquiv_ZMod",
+      "type": " {G : Type u_2} [CommGroup G] [IsSimpleGroup G] : \u2203 p, Nat.Prime p \u2227 Nonempty (Additive G \u2243+ ZMod p)",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic",
+      "doc": "A commutative simple group is isomorphic to `ZMod p` from some prime `p`. "
+    },
+    {
+      "name": "IsPrimePow.exists_ordCompl_eq_one",
+      "type": " {n : \u2115} (h : IsPrimePow n) : \u2203 p, Nat.Prime p \u2227 n / p ^ n.factorization p = 1",
+      "module": "Mathlib.Data.Nat.Factorization.PrimePow",
+      "doc": ""
+    },
+    {
+      "name": "FiniteField.card",
+      "type": " (K : Type u_1) [Field K] [Fintype K] (p : \u2115) [CharP K p] : \u2203 n, Nat.Prime p \u2227 Fintype.card K = p ^ \u2191n",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": "The cardinality `q` is a power of the characteristic of `K`. "
+    },
+    {
+      "name": "Nat.bertrand",
+      "type": " (n : \u2115) (hn0 : n \u2260 0) : \u2203 p, Nat.Prime p \u2227 n < p \u2227 p \u2264 2 * n",
+      "module": "Mathlib.NumberTheory.Bertrand",
+      "doc": "**Alias** of `Nat.exists_prime_lt_and_le_two_mul`.\n\n---\n\n**Bertrand's Postulate**: For any positive natural number, there is a prime which is greater than\nit, but no more than twice as large.\n"
+    },
+    {
+      "name": "Nat.exists_prime_lt_and_le_two_mul",
+      "type": " (n : \u2115) (hn0 : n \u2260 0) : \u2203 p, Nat.Prime p \u2227 n < p \u2227 p \u2264 2 * n",
+      "module": "Mathlib.NumberTheory.Bertrand",
+      "doc": "**Bertrand's Postulate**: For any positive natural number, there is a prime which is greater than\nit, but no more than twice as large.\n"
+    },
+    {
+      "name": "Nat.exists_prime_lt_and_le_two_mul_eventually",
+      "type": " (n : \u2115) (n_large : 512 \u2264 n) : \u2203 p, Nat.Prime p \u2227 n < p \u2227 p \u2264 2 * n",
+      "module": "Mathlib.NumberTheory.Bertrand",
+      "doc": "Proves that **Bertrand's postulate** holds for all sufficiently large `n`.\n"
+    },
+    {
+      "name": "Nat.exists_prime_lt_and_le_two_mul_succ",
+      "type": " {n : \u2115} (q : \u2115) {p : \u2115} (prime_p : Nat.Prime p) (covering : p \u2264 2 * q) (H : n < q \u2192 \u2203 p, Nat.Prime p \u2227 n < p \u2227 p \u2264 2 * n) (hn : n < p) : \u2203 p, Nat.Prime p \u2227 n < p \u2227 p \u2264 2 * n",
+      "module": "Mathlib.NumberTheory.Bertrand",
+      "doc": "Proves that Bertrand's postulate holds over all positive naturals less than n by identifying a\ndescending list of primes, each no more than twice the next, such that the list contains a witness\nfor each number \u2264 n.\n"
+    },
+    {
+      "name": "jacobiSym.eq_neg_one_at_prime_divisor_of_eq_neg_one",
+      "type": " {a : \u2124} {n : \u2115} (h : jacobiSym a n = -1) : \u2203 p, Nat.Prime p \u2227 p \u2223 n \u2227 jacobiSym a p = -1",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol",
+      "doc": "If `J(a | n) = -1`, then `n` has a prime divisor `p` such that `J(a | p) = -1`. "
+    },
+    {
+      "name": "NumberField.exists_not_isUnramifiedIn",
+      "type": " {K : Type u_1} {\ud835\udcaa : Type u_2} [Field K] [NumberField K] [CommRing \ud835\udcaa] [Algebra \ud835\udcaa K] [IsIntegralClosure \ud835\udcaa \u2124 K] (H : Module.finrank \u211a K \u2260 1) : \u2203 p, Nat.Prime p \u2227 \u00acAlgebra.IsUnramifiedIn \ud835\udcaa (Ideal.span {\u2191p})",
+      "module": "Mathlib.NumberTheory.NumberField.ExistsRamified",
+      "doc": "If `K` is a number field with positive rank, then some prime is ramified in `K`. "
+    },
+    {
+      "name": "NumberField.exists_not_isUnramifiedAt_int_of_isGalois",
+      "type": " {K : Type u_1} {\ud835\udcaa : Type u_2} [Field K] [NumberField K] [CommRing \ud835\udcaa] [Algebra \ud835\udcaa K] [IsIntegralClosure \ud835\udcaa \u2124 K] [IsGalois \u211a K] (H : 1 < Module.finrank \u211a K) : \u2203 p, Nat.Prime p \u2227 \u2200 (P : Ideal \ud835\udcaa) (x : P.IsPrime), \u2191p \u2208 P \u2192 \u00acAlgebra.IsUnramifiedAt \u2124 P",
+      "module": "Mathlib.NumberTheory.NumberField.ExistsRamified",
+      "doc": "If `K` is a number field with positive rank such that `K/\u211a` is galois, then there exists\nsome rational prime `p : \u2115` such that every prime of `K` over `p` is ramified. "
+    },
+    {
+      "name": "Nat.exists_prime_gt_modEq_one",
+      "type": " {k : \u2115} (n : \u2115) (hk0 : k \u2260 0) : \u2203 p, Nat.Prime p \u2227 n < p \u2227 p \u2261 1 [MOD k]",
+      "module": "Mathlib.NumberTheory.PrimesCongruentOne",
+      "doc": "For any positive `k : \u2115` there exists an arbitrarily large prime `p` such that\n`p \u2261 1 [MOD k]`. "
+    },
+    {
+      "name": "Nat.prime_eleven",
+      "type": " : Nat.Prime 11",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_five",
+      "type": " : Nat.Prime 5",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_seven",
+      "type": " : Nat.Prime 7",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_three",
+      "type": " : Nat.Prime 3",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_two",
+      "type": " : Nat.Prime 2",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Prime.nat_prime",
+      "type": " {p : \u2115} : Prime p \u2192 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "**Alias** of the reverse direction of `Nat.prime_iff`."
+    },
+    {
+      "name": "Nat.minFac_prime",
+      "type": " {n : \u2115} (n1 : n \u2260 1) : Nat.Prime n.minFac",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_of_coprime",
+      "type": " (n : \u2115) (h1 : 1 < n) (h : \u2200 m < n, m \u2260 0 \u2192 n.Coprime m) : Nat.Prime n",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_is_prime_of_two_le",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] (p : \u2115) [CharP R p] (hp : 2 \u2264 p) : Nat.Prime p",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_prime_of_ne_zero",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] [Nontrivial R] {p : \u2115} [CharP R p] (hp : p \u2260 0) : Nat.Prime p",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": "The characteristic is prime if it is non-zero. "
+    },
+    {
+      "name": "Nat.prime_of_mem_primeFactorsList",
+      "type": " {n p : \u2115} : p \u2208 n.primeFactorsList \u2192 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Factors",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"exists_infinite_primes\"' -> Nat.exists_infinite_primes",
+    "seeded from goal shape -> Nat.exists_prime_and_dvd, exists_prime_addEquiv_ZMod, IsPrimePow.exists_ordCompl_eq_one, FiniteField.card, Nat.bertrand, Nat.exists_prime_lt_and_le_two_mul, Nat.exists_prime_lt_and_le_two_mul_eventually, Nat.exists_prime_lt_and_le_two_mul_succ"
+  ],
+  "budget": {
+    "tool_calls": 3,
+    "lean_calls": 2,
+    "searches": 1,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788775139.0799148,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.0,
+    "statement_checks": 1
+  },
+  "goal": "theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p"
+}

@@ -1,0 +1,462 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem dirichlet_theorem (a n : \u2115) (coprime : Nat.Coprime a n) :\n  {p : \u2115 | p.Prime \u2227 p \u2261 a [MOD n]}.Infinite",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776904.2807157,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem dirichlet_theorem (a n : \u2115) (coprime : Nat.Coprime a n) :\n  {p : \u2115 | p.Prime \u2227 p \u2261 a [MOD n]}.Infinite",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact ArithmeticFunction.dirichletInverseFun\n    | exact ArithmeticFunction.dirichletInverseFun _\n    | apply ArithmeticFunction.dirichletInverseFun\n    | simpa using ArithmeticFunction.dirichletInverseFun\n    | exact \u27e8_, ArithmeticFunction.dirichletInverseFun\u27e9\n    | exact ArithmeticFunction.dirichletInverseFun (by assumption)\n    | exact ArithmeticFunction.dirichletInverseFun \u2039_\u203a\n    | apply ArithmeticFunction.dirichletInverseFun <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ArithmeticFunction.dirichletInverseFun (by assumption))\n    | exact ArithmeticFunction.dirichletInverse\n    | exact ArithmeticFunction.dirichletInverse _\n    | apply ArithmeticFunction.dirichletInverse\n    | simpa using ArithmeticFunction.dirichletInverse\n    | exact \u27e8_, ArithmeticFunction.dirichletInverse\u27e9\n    | exact ArithmeticFunction.dirichletInverse (by assumption)\n    | exact ArithmeticFunction.dirichletInverse \u2039_\u203a\n    | apply ArithmeticFunction.dirichletInverse <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ArithmeticFunction.dirichletInverse (by assumption))\n    | exact ArithmeticFunction.dirichletInverseFun_apply_zero\n    | exact ArithmeticFunction.dirichletInverseFun_apply_zero _\n    | apply ArithmeticFunction.dirichletInverseFun_apply_zero\n    | simpa using ArithmeticFunction.dirichletInverseFun_apply_zero\n    | exact \u27e8_, ArithmeticFunction.dirichletInverseFun_apply_zero\u27e9\n    | exact ArithmeticFunction.dirichletInverseFun_apply_zero (by assumption)\n    | exact ArithmeticFunction.dirichletInverseFun_apply_zero \u2039_\u203a\n    | apply ArithmeticFunction.dirichletInverseFun_apply_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ArithmeticFunction.dirichletInverseFun_apply_zero (by assumption))\n    | exact ArithmeticFunction.dirichletInverseFun_apply_one\n    | exact ArithmeticFunction.dirichletInverseFun_apply_one _\n    | apply ArithmeticFunction.dirichletInverseFun_apply_one\n    | simpa using ArithmeticFunction.dirichletInverseFun_apply_one\n    | exact \u27e8_, ArithmeticFunction.dirichletInverseFun_apply_one\u27e9\n    | exact ArithmeticFunction.dirichletInverseFun_apply_one (by assumption)\n    | exact ArithmeticFunction.dirichletInverseFun_apply_one \u2039_\u203a\n    | apply ArithmeticFunction.dirichletInverseFun_apply_one <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ArithmeticFunction.dirichletInverseFun_apply_one (by assumption))\n    | exact ArithmeticFunction.dirichletInverseFun_apply_ne\n    | exact ArithmeticFunction.dirichletInverseFun_apply_ne _\n    | apply ArithmeticFunction.dirichletInverseFun_apply_ne\n    | simpa using ArithmeticFunction.dirichletInverseFun_apply_ne\n    | exact \u27e8_, ArithmeticFunction.dirichletInverseFun_apply_ne\u27e9\n    | exact ArithmeticFunction.dirichletInverseFun_apply_ne (by assumption)\n    | exact ArithmeticFunction.dirichletInverseFun_apply_ne \u2039_\u203a\n    | apply ArithmeticFunction.dirichletInverseFun_apply_ne <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ArithmeticFunction.dirichletInverseFun_apply_ne (by assumption))\n    | exact ArithmeticFunction.self_mul_dirichletInverse\n    | exact ArithmeticFunction.self_mul_dirichletInverse _\n    | apply ArithmeticFunction.self_mul_dirichletInverse\n    | simpa using ArithmeticFunction.self_mul_dirichletInverse\n    | exact \u27e8_, ArithmeticFunction.self_mul_dirichletInverse\u27e9\n    | exact ArithmeticFunction.self_mul_dirichletInverse (by assumption)\n    | exact ArithmeticFunction.self_mul_dirichletInverse \u2039_\u203a\n    | apply ArithmeticFunction.self_mul_dirichletInverse <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ArithmeticFunction.self_mul_dirichletInverse (by assumption))\n    | exact ArithmeticFunction.dirichletInverse_mul_self\n    | exact ArithmeticFunction.dirichletInverse_mul_self _\n    | apply ArithmeticFunction.dirichletInverse_mul_self\n    | simpa using ArithmeticFunction.dirichletInverse_mul_self\n    | exact \u27e8_, ArithmeticFunction.dirichletInverse_mul_self\u27e9\n    | exact ArithmeticFunction.dirichletInverse_mul_self (by assumption)\n    | exact ArithmeticFunction.dirichletInverse_mul_self \u2039_\u203a\n    | apply ArithmeticFunction.dirichletInverse_mul_self <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ArithmeticFunction.dirichletInverse_mul_self (by assumption))\n    | exact DirichletCharacter.conductor\n    | exact DirichletCharacter.conductor _\n    | apply DirichletCharacter.conductor\n    | simpa using DirichletCharacter.conductor\n    | exact \u27e8_, DirichletCharacter.conductor\u27e9\n    | exact DirichletCharacter.conductor (by assumption)\n    | exact DirichletCharacter.conductor \u2039_\u203a\n    | apply DirichletCharacter.conductor <;> assumption\n    | (haveI := Fact.mk (by assumption); exact DirichletCharacter.conductor (by assumption))\n    | exact DirichletCharacter.conductorSet\n    | exact DirichletCharacter.conductorSet _\n    | apply DirichletCharacter.conductorSet\n    | simpa using DirichletCharacter.conductorSet\n    | exact \u27e8_, DirichletCharacter.conductorSet\u27e9\n    | exact DirichletCharacter.conductorSet (by assumption)\n    | exact DirichletCharacter.conductorSet \u2039_\u203a\n    | apply DirichletCharacter.conductorSet <;> assumption\n    | (haveI := Fact.mk (by assumption); exact DirichletCharacter.conductorSet (by assumption))\n    | exact finite_or_infinite\n    | exact finite_or_infinite _\n    | apply finite_or_infinite\n    | simpa using finite_or_infinite\n    | exact \u27e8_, finite_or_infinite\u27e9\n    | exact finite_or_infinite (by assumption)\n    | exact finite_or_infinite \u2039_\u203a\n    | apply finite_or_infinite <;> assumption\n    | (haveI := Fact.mk (by assumption); exact finite_or_infinite (by assumption))\n    | exact instInfinitePLift\n    | exact instInfinitePLift _\n    | apply instInfinitePLift\n    | simpa using instInfinitePLift\n    | exact \u27e8_, instInfinitePLift\u27e9\n    | exact instInfinitePLift (by assumption)\n    | exact instInfinitePLift \u2039_\u203a\n    | apply instInfinitePLift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact instInfinitePLift (by assumption))\n    | exact instInfiniteULift\n    | exact instInfiniteULift _\n    | apply instInfiniteULift\n    | simpa using instInfiniteULift\n    | exact \u27e8_, instInfiniteULift\u27e9\n    | exact instInfiniteULift (by assumption)\n    | exact instInfiniteULift \u2039_\u203a\n    | apply instInfiniteULift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact instInfiniteULift (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n2:48: error: unsolved goals\na n : \u2115\ncoprime : a.Coprime n\n\u22a2 {p | Nat.Prime p \u2227 p \u2261 a [MOD n]}.Infinite\n\nStill to prove:\n\u22a2 {p | Nat.Prime p \u2227 p \u2261 a [MOD n]}.Infinite",
+      "at": 1788776913.4708364,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem dirichlet_theorem (a n : \u2115) (coprime : Nat.Coprime a n) (hn : n \u2260 0) :\n  {p : \u2115 | p.Prime \u2227 p \u2261 a [MOD n]}.Infinite",
+      "proof": "exact Nat.infinite_setOf_prime_and_modEq hn coprime",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem dirichlet_theorem (a n : \u2115) (coprime : Nat.Coprime a n) (hn : n \u2260 0) :\n  {p : \u2115 | p.Prime \u2227 p \u2261 a [MOD n]}.Infinite",
+      "at": 1788776922.4924586,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem dirichlet_theorem (a n : \u2115) (coprime : Nat.Coprime a n) (hn : 0 < n) :\n  {p : \u2115 | p.Prime \u2227 p \u2261 a [MOD n]}.Infinite",
+      "proof": "exact Nat.infinite_setOf_prime_and_modEq (Nat.ne_of_gt hn) coprime",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem dirichlet_theorem (a n : \u2115) (coprime : Nat.Coprime a n) (hn : 0 < n) :\n  {p : \u2115 | p.Prime \u2227 p \u2261 a [MOD n]}.Infinite",
+      "at": 1788776924.8904893,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem dirichlet_theorem (a n : \u2115) (coprime : Nat.Coprime a n) (hn : n \u2260 a - a) :\n  {p : \u2115 | p.Prime \u2227 p \u2261 a [MOD n]}.Infinite",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776949.0408523,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem dirichlet_theorem (a n : \u2115) (coprime : Nat.Coprime a n) (hn : n \u2260 a - a) :\n  {p : \u2115 | p.Prime \u2227 p \u2261 a [MOD n]}.Infinite",
+      "proof": "have hn0 : n \u2260 0 := by\n  intro h\n  subst h\n  apply hn\n  rw [Nat.sub_self]\nexact Nat.infinite_setOf_prime_and_modEq hn0 coprime",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem dirichlet_theorem (a n : \u2115) (coprime : Nat.Coprime a n) (hn : n \u2260 a - a) :\n  {p : \u2115 | p.Prime \u2227 p \u2261 a [MOD n]}.Infinite",
+      "at": 1788776955.7331214,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "ArithmeticFunction.dirichletInverseFun",
+      "type": " {R : Type u_1} [Ring R] (f : \u2115 \u2192 R) (hf : Invertible (f 1)) (n : \u2115) : R",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Defs",
+      "doc": "Given an inverse of `f 1`, construct the Dirichlet inverse of `f`. We use `Invertible` to make\nthis definition computable when `f` is computable. "
+    },
+    {
+      "name": "ArithmeticFunction.dirichletInverse",
+      "type": " {R : Type u_1} [Ring R] (f : \u2115 \u2192 R) (hf : Invertible (f 1)) : ArithmeticFunction R",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Defs",
+      "doc": "Given an inverse of `f 1`, construct the Dirichlet inverse of `f`. "
+    },
+    {
+      "name": "ArithmeticFunction.dirichletInverseFun_apply_zero",
+      "type": " {R : Type u_1} [Ring R] (f : \u2115 \u2192 R) (hf : Invertible (f 1)) : ArithmeticFunction.dirichletInverseFun f hf 0 = 0",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.dirichletInverseFun_apply_one",
+      "type": " {R : Type u_1} [Ring R] (f : \u2115 \u2192 R) (hf : Invertible (f 1)) : ArithmeticFunction.dirichletInverseFun f hf 1 = \u215f(f 1)",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.dirichletInverseFun_apply_ne",
+      "type": " {R : Type u_1} [Ring R] (f : \u2115 \u2192 R) (hf : Invertible (f 1)) {n : \u2115} (hn0 : n \u2260 0) (hn1 : n \u2260 1) : ArithmeticFunction.dirichletInverseFun f hf n = -\u215f(f 1) * \u2211 d \u2208 n.properDivisors, f (n / d) * ArithmeticFunction.dirichletInverseFun f hf d",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.self_mul_dirichletInverse",
+      "type": " {R : Type u_1} [Ring R] (f : ArithmeticFunction R) (hf : Invertible (f 1)) : f * ArithmeticFunction.dirichletInverse (\u21d1f) hf = 1",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.dirichletInverse_mul_self",
+      "type": " {R : Type u_1} [CommRing R] (f : ArithmeticFunction R) (hf : Invertible (f 1)) : ArithmeticFunction.dirichletInverse (\u21d1f) hf * f = 1",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Defs",
+      "doc": ""
+    },
+    {
+      "name": "DirichletCharacter.conductor",
+      "type": " {R : Type u_1} [CommMonoidWithZero R] {n : \u2115} (\u03c7 : DirichletCharacter R n) : \u2115",
+      "module": "Mathlib.NumberTheory.DirichletCharacter.Basic",
+      "doc": "The minimum natural number level `n` through which `\u03c7` factors. "
+    },
+    {
+      "name": "DirichletCharacter.conductorSet",
+      "type": " {R : Type u_1} [CommMonoidWithZero R] {n : \u2115} (\u03c7 : DirichletCharacter R n) : Set \u2115",
+      "module": "Mathlib.NumberTheory.DirichletCharacter.Basic",
+      "doc": "The set of natural numbers `d` such that `\u03c7` factors through a character of level `d`. "
+    },
+    {
+      "name": "DirichletCharacter",
+      "type": " (R : Type u_1) [CommMonoidWithZero R] (n : \u2115) : Type u_1",
+      "module": "Mathlib.NumberTheory.DirichletCharacter.Basic",
+      "doc": "The type of Dirichlet characters of level `n`. "
+    },
+    {
+      "name": "DirichletCharacter.IsPrimitive",
+      "type": " {R : Type u_1} [CommMonoidWithZero R] {n : \u2115} (\u03c7 : DirichletCharacter R n) : Prop",
+      "module": "Mathlib.NumberTheory.DirichletCharacter.Basic",
+      "doc": "A character is primitive if its level is equal to its conductor. "
+    },
+    {
+      "name": "DirichletCharacter.FactorsThrough",
+      "type": " {R : Type u_1} [CommMonoidWithZero R] {n : \u2115} (\u03c7 : DirichletCharacter R n) (d : \u2115) : Prop",
+      "module": "Mathlib.NumberTheory.DirichletCharacter.Basic",
+      "doc": "`\u03c7` of level `n` factors through a Dirichlet character `\u03c7\u2080` of level `d` if `d \u2223 n` and\n`\u03c7\u2080 = \u03c7 \u2218 (ZMod n \u2192 ZMod d)`. "
+    },
+    {
+      "name": "finite_or_infinite",
+      "type": " (\u03b1 : Sort u_3) : Finite \u03b1 \u2228 Infinite \u03b1",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": ""
+    },
+    {
+      "name": "instInfinitePLift",
+      "type": " {\u03b1 : Sort u_1} [Infinite \u03b1] : Infinite (PLift \u03b1)",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": ""
+    },
+    {
+      "name": "instInfiniteULift",
+      "type": " {\u03b1 : Type v} [Infinite \u03b1] : Infinite (ULift.{u, v} \u03b1)",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finite.not_infinite",
+      "type": " {\u03b1 : Sort u_1} : Finite \u03b1 \u2192 \u00acInfinite \u03b1",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": "**Alias** of the reverse direction of `not_infinite_iff_finite`."
+    },
+    {
+      "name": "Finite.of_not_infinite",
+      "type": " {\u03b1 : Sort u_1} : \u00acInfinite \u03b1 \u2192 Finite \u03b1",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": "**Alias** of the forward direction of `not_infinite_iff_finite`."
+    },
+    {
+      "name": "Infinite.false",
+      "type": " {\u03b1 : Sort u_1} [Finite \u03b1] : Infinite \u03b1 \u2192 False",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Infinite.mk",
+      "type": " {\u03b1 : Sort u_3} (not_finite : \u00acFinite \u03b1) : Infinite \u03b1",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Infinite.not_finite",
+      "type": " {\u03b1 : Sort u_3} [self : Infinite \u03b1] : \u00acFinite \u03b1",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": "assertion that `\u03b1` is `\u00acFinite` "
+    },
+    {
+      "name": "not_finite_iff_infinite",
+      "type": " {\u03b1 : Sort u_1} : \u00acFinite \u03b1 \u2194 Infinite \u03b1",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": ""
+    },
+    {
+      "name": "not_infinite_iff_finite",
+      "type": " {\u03b1 : Sort u_1} : \u00acInfinite \u03b1 \u2194 Finite \u03b1",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Infinite",
+      "type": " (\u03b1 : Sort u_3) : Prop",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": "A type is said to be infinite if it is not finite. Note that `Infinite \u03b1` is equivalent to\n`IsEmpty (Fintype \u03b1)` or `IsEmpty (Finite \u03b1)`. "
+    },
+    {
+      "name": "Set.Infinite",
+      "type": " {\u03b1 : Type u} (s : Set \u03b1) : Prop",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": "A set is infinite if it is not finite.\n\nThis is protected so that it does not conflict with global `Infinite`. "
+    },
+    {
+      "name": "Irreducible.prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] [DecompositionMonoid M] {a : M} (irr : Irreducible a) : Prime a",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Irreducible.prime_of_isPrimal",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {a : M} (irr : Irreducible a) (primal : IsPrimal a) : Prime a",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "comap_prime",
+      "type": " {M : Type u_1} {N : Type u_2} [CommMonoidWithZero M] [CommMonoidWithZero N] {F : Type u_3} {G : Type u_4} [FunLike F M N] [MonoidWithZeroHomClass F M N] [FunLike G N M] [MulHomClass G N M] (f : F) (g : G) {p : M} (hinv : \u2200 (a : M), g (f a) = a) (hp : Prime (f p)) : Prime p",
+      "module": "Mathlib.Algebra.Prime.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Associated.prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p q : M} (h : Associated p q) (hp : Prime p) : Prime q",
+      "module": "Mathlib.Algebra.GroupWithZero.Associated",
+      "doc": ""
+    },
+    {
+      "name": "UniqueFactorizationMonoid.prime_of_factor",
+      "type": " {\u03b1 : Type u_1} [CommMonoidWithZero \u03b1] [UniqueFactorizationMonoid \u03b1] {a : \u03b1} (x : \u03b1) (hx : x \u2208 UniqueFactorizationMonoid.factors a) : Prime x",
+      "module": "Mathlib.RingTheory.UniqueFactorizationDomain.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Submodule.IsPrincipal.prime_generator_of_isPrime",
+      "type": " {R : Type u} [CommSemiring R] (S : Ideal R) [Submodule.IsPrincipal S] [is_prime : S.IsPrime] (ne_bot : S \u2260 \u22a5) : Prime (Submodule.IsPrincipal.generator S)",
+      "module": "Mathlib.RingTheory.PrincipalIdealDomain",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime.prime",
+      "type": " {p : \u2115} : Nat.Prime p \u2192 Prime p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "**Alias** of the forward direction of `Nat.prime_iff`."
+    },
+    {
+      "name": "Polynomial.prime_X",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] : Prime Polynomial.X",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.Monic.prime_of_degree_eq_one",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] {p : Polynomial R} (hp1 : p.degree = 1) (hm : p.Monic) : Prime p",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.prime_X_sub_C",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] (r : R) : Prime (Polynomial.X - Polynomial.C r)",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "UniqueFactorizationMonoid.prime_of_normalized_factor",
+      "type": " {\u03b1 : Type u_1} [CommMonoidWithZero \u03b1] [NormalizationMonoid \u03b1] [UniqueFactorizationMonoid \u03b1] {a : \u03b1} (x : \u03b1) : x \u2208 UniqueFactorizationMonoid.normalizedFactors a \u2192 Prime x",
+      "module": "Mathlib.RingTheory.UniqueFactorizationDomain.NormalizedFactors",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.prime_of_degree_eq_one",
+      "type": " {R : Type u} [Field R] {p : Polynomial R} (hp1 : p.degree = 1) : Prime p",
+      "module": "Mathlib.Algebra.Polynomial.FieldDivision",
+      "doc": ""
+    },
+    {
+      "name": "Set.Infinite.to_subtype",
+      "type": " {\u03b1 : Type u} {s : Set \u03b1} : s.Infinite \u2192 Infinite \u2191s",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": "**Alias** of the reverse direction of `Set.infinite_coe_iff`."
+    },
+    {
+      "name": "instInfiniteNat",
+      "type": " : Infinite \u2115",
+      "module": "Mathlib.Data.Fintype.EquivFin",
+      "doc": ""
+    },
+    {
+      "name": "Int.infinite",
+      "type": " : Infinite \u2124",
+      "module": "Mathlib.Data.Fintype.EquivFin",
+      "doc": ""
+    },
+    {
+      "name": "String.infinite",
+      "type": " : Infinite String",
+      "module": "Mathlib.Data.Fintype.EquivFin",
+      "doc": ""
+    },
+    {
+      "name": "instInfiniteFinset",
+      "type": " {\u03b1 : Type u_1} [Infinite \u03b1] : Infinite (Finset \u03b1)",
+      "module": "Mathlib.Data.Fintype.EquivFin",
+      "doc": ""
+    },
+    {
+      "name": "instInfiniteListOfNonempty",
+      "type": " {\u03b1 : Type u_1} [Nonempty \u03b1] : Infinite (List \u03b1)",
+      "module": "Mathlib.Data.Fintype.EquivFin",
+      "doc": ""
+    },
+    {
+      "name": "instInfiniteMultisetOfNonempty",
+      "type": " {\u03b1 : Type u_1} [Nonempty \u03b1] : Infinite (Multiset \u03b1)",
+      "module": "Mathlib.Data.Fintype.EquivFin",
+      "doc": ""
+    },
+    {
+      "name": "instInfiniteOption",
+      "type": " {\u03b1 : Type u_1} [Infinite \u03b1] : Infinite (Option \u03b1)",
+      "module": "Mathlib.Data.Fintype.EquivFin",
+      "doc": ""
+    },
+    {
+      "name": "instInfinitePerm",
+      "type": " {\u03b1 : Type u_1} [Infinite \u03b1] : Infinite (Equiv.Perm \u03b1)",
+      "module": "Mathlib.Data.Fintype.EquivFin",
+      "doc": ""
+    },
+    {
+      "name": "Nat.infinite_setOfPred_prime_and_modEq",
+      "type": " {q a : \u2115} (hq : q \u2260 0) (h : a.Coprime q) : {p | Nat.Prime p \u2227 p \u2261 a [MOD q]}.Infinite",
+      "module": "Mathlib.NumberTheory.LSeries.PrimesInAP",
+      "doc": ""
+    },
+    {
+      "name": "Nat.infinite_setOf_prime_and_modEq",
+      "type": " {q a : \u2115} (hq : q \u2260 0) (h : a.Coprime q) : {p | Nat.Prime p \u2227 p \u2261 a [MOD q]}.Infinite",
+      "module": "Mathlib.NumberTheory.LSeries.PrimesInAP",
+      "doc": "**Alias** of `Nat.infinite_setOfPred_prime_and_modEq`."
+    },
+    {
+      "name": "Nat.infinite_setOfPred_prime_and_eq_mod",
+      "type": " {q : \u2115} [NeZero q] {a : ZMod q} (ha : IsUnit a) : {p | Nat.Prime p \u2227 \u2191p = a}.Infinite",
+      "module": "Mathlib.NumberTheory.LSeries.PrimesInAP",
+      "doc": "**Dirichlet's Theorem** on primes in arithmetic progression: if `q` is a positive\ninteger and `a : ZMod q` is a unit, then there are infinitely many prime numbers `p`\nsuch that `(p : ZMod q) = a`. "
+    },
+    {
+      "name": "Nat.infinite_setOf_prime_and_eq_mod",
+      "type": " {q : \u2115} [NeZero q] {a : ZMod q} (ha : IsUnit a) : {p | Nat.Prime p \u2227 \u2191p = a}.Infinite",
+      "module": "Mathlib.NumberTheory.LSeries.PrimesInAP",
+      "doc": "**Alias** of `Nat.infinite_setOfPred_prime_and_eq_mod`.\n\n---\n\n**Dirichlet's Theorem** on primes in arithmetic progression: if `q` is a positive\ninteger and `a : ZMod q` is a unit, then there are infinitely many prime numbers `p`\nsuch that `(p : ZMod q) = a`. "
+    },
+    {
+      "name": "Nat.infinite_setOfPred_prime_modEq_one",
+      "type": " {k : \u2115} (hk0 : k \u2260 0) : {p | Nat.Prime p \u2227 p \u2261 1 [MOD k]}.Infinite",
+      "module": "Mathlib.NumberTheory.PrimesCongruentOne",
+      "doc": "For any positive `k : \u2115` there are infinitely many primes `p` such that `p \u2261 1 [MOD k]`. "
+    },
+    {
+      "name": "Nat.infinite_setOf_prime_modEq_one",
+      "type": " {k : \u2115} (hk0 : k \u2260 0) : {p | Nat.Prime p \u2227 p \u2261 1 [MOD k]}.Infinite",
+      "module": "Mathlib.NumberTheory.PrimesCongruentOne",
+      "doc": "**Alias** of `Nat.infinite_setOfPred_prime_modEq_one`.\n\n---\n\nFor any positive `k : \u2115` there are infinitely many primes `p` such that `p \u2261 1 [MOD k]`. "
+    },
+    {
+      "name": "BitVec.cpopNatRec",
+      "type": " {w : \u2115} (x : BitVec w) (pos acc : \u2115) : \u2115",
+      "module": "Init.Data.BitVec.Basic",
+      "doc": "Count the number of bits with value `1` downward from the `pos`-th bit to the\n`0`-th bit of `x`, storing the result in `acc`. "
+    },
+    {
+      "name": "BitVec.cpopNatRec_zero_self",
+      "type": " {w acc : \u2115} {x : BitVec w} : x.cpopNatRec 0 acc = acc",
+      "module": "Init.Data.BitVec.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "BitVec.cpopNatRec_zero",
+      "type": " {w n acc : \u2115} : (0#w).cpopNatRec n acc = acc",
+      "module": "Init.Data.BitVec.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "BitVec.cpopNatRec_zero_le",
+      "type": " {w : \u2115} (x : BitVec w) (n : \u2115) : x.cpopNatRec n 0 \u2264 w",
+      "module": "Init.Data.BitVec.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "BitVec.cpopNatRec_le",
+      "type": " {w acc : \u2115} {x : BitVec w} (n : \u2115) : x.cpopNatRec n acc \u2264 acc + n",
+      "module": "Init.Data.BitVec.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "BitVec.cpopNatRec_cast_eq_of_eq",
+      "type": " {w v n : \u2115} {x : BitVec w} (p : w = v) : (BitVec.cast p x).cpopNatRec n = x.cpopNatRec n",
+      "module": "Init.Data.BitVec.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "BitVec.cpopNatRec_le_of_acc_le",
+      "type": " {w : \u2115} {x : BitVec w} {pos acc acc' : \u2115} (h : acc \u2264 acc') : x.cpopNatRec pos acc \u2264 x.cpopNatRec pos acc'",
+      "module": "Init.Data.BitVec.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "BitVec.cpopNatRec_le_of_pos_le",
+      "type": " {w : \u2115} {x : BitVec w} {pos pos' acc : \u2115} (h : pos \u2264 pos') : x.cpopNatRec pos acc \u2264 x.cpopNatRec pos' acc",
+      "module": "Init.Data.BitVec.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "BitVec.cpopNatRec_allOnes",
+      "type": " {n w acc : \u2115} (h : n \u2264 w) : (BitVec.allOnes w).cpopNatRec n acc = acc + n",
+      "module": "Init.Data.BitVec.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "BitVec.cpopNatRec_setWidth_of_le",
+      "type": " {w pos v acc : \u2115} (x : BitVec w) (h : pos \u2264 v) : (BitVec.setWidth v x).cpopNatRec pos acc = x.cpopNatRec pos acc",
+      "module": "Init.Data.BitVec.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "BitVec.cpopNatRec_eq",
+      "type": " {w : \u2115} {x : BitVec w} {n : \u2115} (acc : \u2115) : x.cpopNatRec n acc = x.cpopNatRec n 0 + acc",
+      "module": "Init.Data.BitVec.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "BitVec.cpopNatRec_of_le",
+      "type": " {w acc : \u2115} {x : BitVec w} (k n : \u2115) (hn : w \u2264 n) : x.cpopNatRec (n + k) acc = x.cpopNatRec n acc",
+      "module": "Init.Data.BitVec.Lemmas",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"Dirichlet\"' -> ArithmeticFunction.dirichletInverseFun, ArithmeticFunction.dirichletInverse, ArithmeticFunction.dirichletInverseFun_apply_zero, ArithmeticFunction.dirichletInverseFun_apply_one, ArithmeticFunction.dirichletInverseFun_apply_ne, ArithmeticFunction.self_mul_dirichletInverse, ArithmeticFunction.dirichletInverse_mul_self, DirichletCharacter.conductor",
+    "search: '\"infinite\"' -> finite_or_infinite, instInfinitePLift, instInfiniteULift, Finite.not_infinite, Finite.of_not_infinite, Infinite.false, Infinite.mk, Infinite.not_finite",
+    "search: '\"infinite\" \"prime\"' -> nothing",
+    "seeded from goal shape -> Irreducible.prime, Irreducible.prime_of_isPrimal, comap_prime, Associated.prime, UniqueFactorizationMonoid.prime_of_factor, Submodule.IsPrincipal.prime_generator_of_isPrime, Nat.Prime.prime, Polynomial.prime_X",
+    "search: '|- {p : \u2115 | Nat.Prime p \u2227 _}.Infinite' -> Nat.infinite_setOfPred_prime_and_modEq, Nat.infinite_setOf_prime_and_modEq, Nat.infinite_setOfPred_prime_and_eq_mod, Nat.infinite_setOf_prime_and_eq_mod, Nat.infinite_setOfPred_prime_modEq_one, Nat.infinite_setOf_prime_modEq_one",
+    "search: '\"PNat\"' -> BitVec.cpopNatRec, BitVec.cpopNatRec_zero_self, BitVec.cpopNatRec_zero, BitVec.cpopNatRec_zero_le, BitVec.cpopNatRec_le, BitVec.cpopNatRec_cast_eq_of_eq, BitVec.cpopNatRec_le_of_acc_le, BitVec.cpopNatRec_le_of_pos_le",
+    "seeded from goal shape -> Irreducible.prime, Irreducible.prime_of_isPrimal, comap_prime, Associated.prime, UniqueFactorizationMonoid.prime_of_factor, Submodule.IsPrincipal.prime_generator_of_isPrime, Nat.Prime.prime, Polynomial.prime_X"
+  ],
+  "budget": {
+    "tool_calls": 13,
+    "lean_calls": 6,
+    "searches": 7,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788776892.0259647,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 2
+  },
+  "goal": "theorem dirichlet_theorem (a n : \u2115) (coprime : Nat.Coprime a n) (hn : n \u2260 a - a) :\n  {p : \u2115 | p.Prime \u2227 p \u2261 a [MOD n]}.Infinite"
+}

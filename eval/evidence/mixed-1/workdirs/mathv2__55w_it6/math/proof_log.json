@@ -1,0 +1,622 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_2_5_30 {G : Type*} [Group G] [Fintype G]\n  {p m : \u2115} (hp : Nat.Prime p) (hp1 : \u00ac p \u2223 m) (hG : card G = p*m)\n  {H : Subgroup G} [Fintype H] [H.Normal] (hH : card H = p):\n  Subgroup.Characteristic H",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n2:53: error: Function expected at\n  card\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  G\n\nHint: The identifier `card` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n3:48: error: Function expected at\n  card\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  H\n\nHint: The identifier `card` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.",
+      "at": 1788778971.8043666,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_2_5_30 {G : Type*} [Group G] [Fintype G]\n  {p m : \u2115} (hp : Nat.Prime p) (hp1 : \u00ac p \u2223 m) (hG : Fintype.card G = p*m)\n  {H : Subgroup G} [Fintype H] [H.Normal] (hH : Fintype.card H = p):\n  Subgroup.Characteristic H",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788778981.7135394,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_5_30 {G : Type*} [Group G] [Fintype G]\n  {p m : \u2115} (hp : Nat.Prime p) (hp1 : \u00ac p \u2223 m) (hG : Fintype.card G = p*m)\n  {H : Subgroup G} [Fintype H] [H.Normal] (hH : Fintype.card H = p):\n  Subgroup.Characteristic H",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fintype.card\n    | exact Fintype.card _\n    | apply Fintype.card\n    | simpa using Fintype.card\n    | exact \u27e8_, Fintype.card\u27e9\n    | exact Fintype.card (by assumption)\n    | exact Fintype.card \u2039_\u203a\n    | apply Fintype.card <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card (by assumption))\n    | exact Fintype.card_fin\n    | exact Fintype.card_fin _\n    | apply Fintype.card_fin\n    | simpa using Fintype.card_fin\n    | exact \u27e8_, Fintype.card_fin\u27e9\n    | exact Fintype.card_fin (by assumption)\n    | exact Fintype.card_fin \u2039_\u203a\n    | apply Fintype.card_fin <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_fin (by assumption))\n    | exact Fintype.card_bool\n    | exact Fintype.card_bool _\n    | apply Fintype.card_bool\n    | simpa using Fintype.card_bool\n    | exact \u27e8_, Fintype.card_bool\u27e9\n    | exact Fintype.card_bool (by assumption)\n    | exact Fintype.card_bool \u2039_\u203a\n    | apply Fintype.card_bool <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_bool (by assumption))\n    | exact Fintype.card_empty\n    | exact Fintype.card_empty _\n    | apply Fintype.card_empty\n    | simpa using Fintype.card_empty\n    | exact \u27e8_, Fintype.card_empty\u27e9\n    | exact Fintype.card_empty (by assumption)\n    | exact Fintype.card_empty \u2039_\u203a\n    | apply Fintype.card_empty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_empty (by assumption))\n    | exact Fintype.card_pempty\n    | exact Fintype.card_pempty _\n    | apply Fintype.card_pempty\n    | simpa using Fintype.card_pempty\n    | exact \u27e8_, Fintype.card_pempty\u27e9\n    | exact Fintype.card_pempty (by assumption)\n    | exact Fintype.card_pempty \u2039_\u203a\n    | apply Fintype.card_pempty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_pempty (by assumption))\n    | exact Fintype.card_prop\n    | exact Fintype.card_prop _\n    | apply Fintype.card_prop\n    | simpa using Fintype.card_prop\n    | exact \u27e8_, Fintype.card_prop\u27e9\n    | exact Fintype.card_prop (by assumption)\n    | exact Fintype.card_prop \u2039_\u203a\n    | apply Fintype.card_prop <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_prop (by assumption))\n    | exact Fintype.card_punit\n    | exact Fintype.card_punit _\n    | apply Fintype.card_punit\n    | simpa using Fintype.card_punit\n    | exact \u27e8_, Fintype.card_punit\u27e9\n    | exact Fintype.card_punit (by assumption)\n    | exact Fintype.card_punit \u2039_\u203a\n    | apply Fintype.card_punit <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_punit (by assumption))\n    | exact Fintype.card_unit\n    | exact Fintype.card_unit _\n    | apply Fintype.card_unit\n    | simpa using Fintype.card_unit\n    | exact \u27e8_, Fintype.card_unit\u27e9\n    | exact Fintype.card_unit (by assumption)\n    | exact Fintype.card_unit \u2039_\u203a\n    | apply Fintype.card_unit <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_unit (by assumption))\n    | exact Fintype.card_lex\n    | exact Fintype.card_lex _\n    | apply Fintype.card_lex\n    | simpa using Fintype.card_lex\n    | exact \u27e8_, Fintype.card_lex\u27e9\n    | exact Fintype.card_lex (by assumption)\n    | exact Fintype.card_lex \u2039_\u203a\n    | apply Fintype.card_lex <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_lex (by assumption))\n    | exact Fintype.card_orderDual\n    | exact Fintype.card_orderDual _\n    | apply Fintype.card_orderDual\n    | simpa using Fintype.card_orderDual\n    | exact \u27e8_, Fintype.card_orderDual\u27e9\n    | exact Fintype.card_orderDual (by assumption)\n    | exact Fintype.card_orderDual \u2039_\u203a\n    | apply Fintype.card_orderDual <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_orderDual (by assumption))\n    | exact Fintype.card_plift\n    | exact Fintype.card_plift _\n    | apply Fintype.card_plift\n    | simpa using Fintype.card_plift\n    | exact \u27e8_, Fintype.card_plift\u27e9\n    | exact Fintype.card_plift (by assumption)\n    | exact Fintype.card_plift \u2039_\u203a\n    | apply Fintype.card_plift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_plift (by assumption))\n    | exact Fintype.card_ulift\n    | exact Fintype.card_ulift _\n    | apply Fintype.card_ulift\n    | simpa using Fintype.card_ulift\n    | exact \u27e8_, Fintype.card_ulift\u27e9\n    | exact Fintype.card_ulift (by assumption)\n    | exact Fintype.card_ulift \u2039_\u203a\n    | apply Fintype.card_ulift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_ulift (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:31: error: unsolved goals\nG : Type u_1\ninst\u271d\u00b3 : Group G\ninst\u271d\u00b2 : Fintype G\np m : \u2115\nhp : Nat.Prime p\nhp1 : \u00acp \u2223 m\nhG : Fintype.card G = p * m\nH : Subgroup G\ninst\u271d\u00b9 : Fintype \u21a5H\ninst\u271d : H.Normal\nhH : Fintype.card \u21a5H = p\n\u22a2 H.Characteristic\n\nStill to prove:\n\u22a2 H.Characteristic",
+      "at": 1788778990.8314629,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_2_5_30 {G : Type*} [Group G] [Fintype G]\n  {p m : \u2115} (hp : Nat.Prime p) (hp1 : \u00ac p \u2223 m) (hG : Fintype.card G = p*m)\n  {H : Subgroup G} [Fintype H] [H.Normal] (hH : Fintype.card H = p):\n  Subgroup.Characteristic H",
+      "proof": "constructor\nintro \u03d5\nsorry",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788779001.518156,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_5_30 {G : Type*} [Group G] [Fintype G]\n  {p m : \u2115} (hp : Nat.Prime p) (hp1 : \u00ac p \u2223 m) (hG : Fintype.card G = p*m)\n  {H : Subgroup G} [Fintype H] [H.Normal] (hH : Fintype.card H = p):\n  Subgroup.Characteristic H",
+      "proof": "constructor\nintro \u03d5\nrfl",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n7:2: error: Tactic `rfl` failed: The left-hand side\n  Subgroup.comap \u03d5.toMonoidHom H\nis not definitionally equal to the right-hand side\n  H\n\nG : Type u_1\ninst\u271d\u00b3 : Group G\ninst\u271d\u00b2 : Fintype G\np m : \u2115\nhp : Nat.Prime p\nhp1 : \u00acp \u2223 m\nhG : Fintype.card G = p * m\nH : Subgroup G\ninst\u271d\u00b9 : Fintype \u21a5H\ninst\u271d : H.Normal\nhH : Fintype.card \u21a5H = p\n\u03d5 : G \u2243* G\n\u22a2 Subgroup.comap \u03d5.toMonoidHom H = H\n\nStill to prove:\n\u22a2 Subgroup.comap \u03d5.toMonoidHom H = H",
+      "at": 1788779005.8741457,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_5_30 {G : Type*} [Group G] [Fintype G]\n  {p m : \u2115} (hp : Nat.Prime p) (hp1 : \u00ac p \u2223 m) (hG : Fintype.card G = p*m)\n  {H : Subgroup G} [Fintype H] [H.Normal] (hH : Fintype.card H = p):\n  Subgroup.Characteristic H",
+      "proof": "constructor\nintro \u03d5\next x\ndecide",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n8:2: error: Expected type must not contain free variables\n  x \u2208 Subgroup.comap \u03d5.toMonoidHom H \u2194 x \u2208 H\n\nHint: Use the `+revert` option to automatically clean up and revert free variables",
+      "at": 1788779026.4577942,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_5_30 {G : Type*} [Group G] [Fintype G]\n  {p m : \u2115} (hp : Nat.Prime p) (hp1 : \u00ac p \u2223 m) (hG : Fintype.card G = p*m)\n  {H : Subgroup G} [Fintype H] [H.Normal] (hH : Fintype.card H = p):\n  Subgroup.Characteristic H",
+      "proof": "constructor\nintro \u03d5\next x\nsimp\ndecide",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n9:2: error: Expected type must not contain free variables\n  \u03d5 x \u2208 H \u2194 x \u2208 H\n\nHint: Use the `+revert` option to automatically clean up and revert free variables",
+      "at": 1788779043.4489648,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_5_30 {G : Type*} [Group G] [Fintype G]\n  {p m : \u2115} (hp : Nat.Prime p) (hp1 : \u00ac p \u2223 m) (hG : Fintype.card G = p*m)\n  {H : Subgroup G} [Fintype H] [H.Normal] (hH : Fintype.card H = p):\n  Subgroup.Characteristic H",
+      "proof": "constructor\nintro \u03d5\next x\nsimp only [Subgroup.mem_comap, MulEquiv.coe_toMonoidHom]\ndecide",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n9:2: error: Expected type must not contain free variables\n  \u03d5 x \u2208 H \u2194 x \u2208 H\n\nHint: Use the `+revert` option to automatically clean up and revert free variables",
+      "at": 1788779076.0900986,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Fintype.card",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : \u2115",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": "`card \u03b1` is the number of elements in `\u03b1`, defined when `\u03b1` is a fintype. "
+    },
+    {
+      "name": "Fintype.card_fin",
+      "type": " (n : \u2115) : Fintype.card (Fin n) = n",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_bool",
+      "type": " : Fintype.card Bool = 2",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_empty",
+      "type": " : Fintype.card Empty = 0",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_pempty",
+      "type": " : Fintype.card PEmpty.{u_3 + 1} = 0",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_prop",
+      "type": " : Fintype.card Prop = 2",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_punit",
+      "type": " : Fintype.card PUnit.{u_3 + 1} = 1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_unit",
+      "type": " : Fintype.card Unit = 1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_lex",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype.card (Lex \u03b1) = Fintype.card \u03b1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_orderDual",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype.card \u03b1\u1d52\u1d48 = Fintype.card \u03b1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_plift",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype.card (PLift \u03b1) = Fintype.card \u03b1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_ulift",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype.card (ULift.{u_4, u_3} \u03b1) = Fintype.card \u03b1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Nat.card_Iio",
+      "type": " (b : \u2115) : (Finset.Iio b).card = b",
+      "module": "Mathlib.Order.Interval.Finset.Nat",
+      "doc": ""
+    },
+    {
+      "name": "Nat.card_Ico",
+      "type": " (a b : \u2115) : (Finset.Ico a b).card = b - a",
+      "module": "Mathlib.Order.Interval.Finset.Nat",
+      "doc": ""
+    },
+    {
+      "name": "Nat.card_Ioc",
+      "type": " (a b : \u2115) : (Finset.Ioc a b).card = b - a",
+      "module": "Mathlib.Order.Interval.Finset.Nat",
+      "doc": ""
+    },
+    {
+      "name": "Nat.card_Iic",
+      "type": " (b : \u2115) : (Finset.Iic b).card = b + 1",
+      "module": "Mathlib.Order.Interval.Finset.Nat",
+      "doc": ""
+    },
+    {
+      "name": "Nat.card_Icc",
+      "type": " (a b : \u2115) : (Finset.Icc a b).card = b + 1 - a",
+      "module": "Mathlib.Order.Interval.Finset.Nat",
+      "doc": ""
+    },
+    {
+      "name": "Nat.card_Ioo",
+      "type": " (a b : \u2115) : (Finset.Ioo a b).card = b - a - 1",
+      "module": "Mathlib.Order.Interval.Finset.Nat",
+      "doc": ""
+    },
+    {
+      "name": "Nat.card_uIcc",
+      "type": " (a b : \u2115) : (Finset.uIcc a b).card = (\u2191b - \u2191a).natAbs + 1",
+      "module": "Mathlib.Order.Interval.Finset.Nat",
+      "doc": ""
+    },
+    {
+      "name": "ENat.card",
+      "type": " (\u03b1 : Type u_3) : \u2115\u221e",
+      "module": "Mathlib.SetTheory.Cardinal.Finite",
+      "doc": "`ENat.card \u03b1` is the cardinality of `\u03b1` as an extended natural number.\nIf `\u03b1` is infinite, `ENat.card \u03b1 = \u22a4`. "
+    },
+    {
+      "name": "Nat.card",
+      "type": " (\u03b1 : Type u_3) : \u2115",
+      "module": "Mathlib.SetTheory.Cardinal.Finite",
+      "doc": "`Nat.card \u03b1` is the cardinality of `\u03b1` as a natural number.\nIf `\u03b1` is infinite, `Nat.card \u03b1 = 0`. "
+    },
+    {
+      "name": "Nat.card_fin",
+      "type": " (n : \u2115) : Nat.card (Fin n) = n",
+      "module": "Mathlib.SetTheory.Cardinal.Finite",
+      "doc": ""
+    },
+    {
+      "name": "Nat.card_zmod",
+      "type": " (n : \u2115) : Nat.card (ZMod n) = n",
+      "module": "Mathlib.SetTheory.Cardinal.Finite",
+      "doc": ""
+    },
+    {
+      "name": "ENat.card_plift",
+      "type": " (\u03b1 : Type u_3) : ENat.card (PLift \u03b1) = ENat.card \u03b1",
+      "module": "Mathlib.SetTheory.Cardinal.Finite",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.botCharacteristic",
+      "type": " {G : Type u_1} [Group G] : \u22a5.Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.topCharacteristic",
+      "type": " {G : Type u_1} [Group G] : \u22a4.Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.characteristic_iInf",
+      "type": " {G : Type u_1} [Group G] {\u03b9 : Sort u_4} {H : \u03b9 \u2192 Subgroup G} [\u2200 (i : \u03b9), (H i).Characteristic] : (\u2a05 i, H i).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.characteristic_inf",
+      "type": " {G : Type u_1} [Group G] {H K : Subgroup G} [H.Characteristic] [K.Characteristic] : (H \u2293 K).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.characteristic_iSup",
+      "type": " {G : Type u_1} [Group G] {\u03b9 : Sort u_4} {H : \u03b9 \u2192 Subgroup G} [\u2200 (i : \u03b9), (H i).Characteristic] : (\u2a06 i, H i).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.characteristic_sInf",
+      "type": " {G : Type u_1} [Group G] {Hs : Set (Subgroup G)} (h : \u2200 H \u2208 Hs, H.Characteristic) : (sInf Hs).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.characteristic_sup",
+      "type": " {G : Type u_1} [Group G] {H K : Subgroup G} [H.Characteristic] [K.Characteristic] : (H \u2294 K).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.characteristic_sSup",
+      "type": " {G : Type u_1} [Group G] {Hs : Set (Subgroup G)} (h : \u2200 H \u2208 Hs, H.Characteristic) : (sSup Hs).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.characteristic_biInf",
+      "type": " {G : Type u_1} [Group G] {\u03b9 : Type u_4} {s : Set \u03b9} {H : \u03b9 \u2192 Subgroup G} (h : \u2200 i \u2208 s, (H i).Characteristic) : (\u2a05 i \u2208 s, H i).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.Characteristic.mk",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} (fixed : \u2200 (\u03d5 : G \u2243* G), Subgroup.comap \u03d5.toMonoidHom H = H) : H.Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.characteristic_biSup",
+      "type": " {G : Type u_1} [Group G] {\u03b9 : Type u_4} {s : Set \u03b9} {H : \u03b9 \u2192 Subgroup G} (h : \u2200 i \u2208 s, (H i).Characteristic) : (\u2a06 i \u2208 s, H i).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.characteristic_of_characteristic_of_characteristic",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} [H.Characteristic] {K : Subgroup \u21a5H} [hK : K.Characteristic] : (Subgroup.map H.subtype K).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "If `H` is a characteristic subgroup of `G` and `K` is a characteristic subgroup of `H`, then\n`K` is a characteristic subgroup of `G`. "
+    },
+    {
+      "name": "CommGroup.toGroup",
+      "type": " {G : Type u_2} [self : CommGroup G] : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.mk",
+      "type": " {G : Type u_2} [toDivInvMonoid : DivInvMonoid G] (inv_mul_cancel : \u2200 (a : G), a\u207b\u00b9 * a = 1) : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Pi.group",
+      "type": " {I : Type u} {f : I \u2192 Type v\u2081} [(i : I) \u2192 Group (f i)] : Group ((i : I) \u2192 f i)",
+      "module": "Mathlib.Algebra.Group.Pi.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative.group",
+      "type": " {\u03b1 : Type u} [AddGroup \u03b1] : Group (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2081] [One M\u2081] [Pow M\u2081 \u2115] [Inv M\u2081] [Div M\u2081] [Pow M\u2081 \u2124] [Group M\u2082] (f : M\u2081 \u2192 M\u2082) (hf : Function.Injective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2081",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits an injective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "Function.Surjective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2082] [One M\u2082] [Pow M\u2082 \u2115] [Inv M\u2082] [Div M\u2082] [Pow M\u2082 \u2124] [Group M\u2081] (f : M\u2081 \u2192 M\u2082) (hf : Function.Surjective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2082",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits a surjective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "AddOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "Units.instGroup",
+      "type": " {\u03b1 : Type u} [Monoid \u03b1] : Group \u03b1\u02e3",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Units of a monoid form a group. "
+    },
+    {
+      "name": "groupOfIsUnit",
+      "type": " {M : Type u_1} [hM : Monoid M] (h : \u2200 (a : M), IsUnit a) : Group M",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Constructs a `Group` structure on a `Monoid` consisting only of units. "
+    },
+    {
+      "name": "Prod.instGroup",
+      "type": " {G : Type u_1} {H : Type u_2} [Group G] [Group H] : Group (G \u00d7 H)",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.Perm.permGroup",
+      "type": " {\u03b1 : Type u_4} : Group (Equiv.Perm \u03b1)",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.characteristic_iInf",
+      "type": " {G : Type u_1} [AddGroup G] {\u03b9 : Sort u_4} {H : \u03b9 \u2192 AddSubgroup G} [\u2200 (i : \u03b9), (H i).Characteristic] : (\u2a05 i, H i).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.characteristic_inf",
+      "type": " {G : Type u_1} [AddGroup G] {H K : AddSubgroup G} [H.Characteristic] [K.Characteristic] : (H \u2293 K).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.characteristic_iSup",
+      "type": " {G : Type u_1} [AddGroup G] {\u03b9 : Sort u_4} {H : \u03b9 \u2192 AddSubgroup G} [\u2200 (i : \u03b9), (H i).Characteristic] : (\u2a06 i, H i).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.characteristic_sInf",
+      "type": " {G : Type u_1} [AddGroup G] {Hs : Set (AddSubgroup G)} (h : \u2200 H \u2208 Hs, H.Characteristic) : (sInf Hs).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.characteristic_sup",
+      "type": " {G : Type u_1} [AddGroup G] {H K : AddSubgroup G} [H.Characteristic] [K.Characteristic] : (H \u2294 K).Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.Characteristic",
+      "type": " {A : Type u_3} [AddGroup A] (H : AddSubgroup A) : Prop",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "An `AddSubgroup` is characteristic if it is fixed by all automorphisms.\nSeveral equivalent conditions are provided by lemmas of the form `Characteristic.iff...` "
+    },
+    {
+      "name": "Subgroup.Characteristic",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) : Prop",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "A subgroup is characteristic if it is fixed by all automorphisms.\nSeveral equivalent conditions are provided by lemmas of the form `Characteristic.iff...` "
+    },
+    {
+      "name": "AddSubgroup.botCharacteristic",
+      "type": " {G : Type u_1} [AddGroup G] : \u22a5.Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.topCharacteristic",
+      "type": " {G : Type u_1} [AddGroup G] : \u22a4.Characteristic",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.normal_of_characteristic",
+      "type": " {A : Type u_3} [AddGroup A] (H : AddSubgroup A) [h : H.Characteristic] : H.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normal_of_characteristic",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) [h : H.Characteristic] : H.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.inhabited",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : Inhabited (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.instPartialOrder",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : PartialOrder (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.nonempty",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : Nonempty (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.instSetLike",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : SetLike (Sylow p G) G",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.toSubgroup",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] (self : Sylow p G) : Subgroup G",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.instCoeOutSubgroup",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : CoeOut (Sylow p G) (Subgroup G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.mulAction",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : MulAction G (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.instSubgroupClass",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : SubgroupClass (Sylow p G) G",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.characteristic_of_subsingleton",
+      "type": " {G : Type u} [Group G] {p : \u2115} [Subsingleton (Sylow p G)] (P : Sylow p G) : (\u2191P).Characteristic",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.finite_of_finiteIndex",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] (P : Sylow p G) [(\u2191P).FiniteIndex] : Finite (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "If a Sylow `p`-subgroup has finite index, then the number of Sylow `p`-subgroups is finite. "
+    },
+    {
+      "name": "Sylow.normal_of_subsingleton",
+      "type": " {G : Type u} [Group G] {p : \u2115} [Subsingleton (Sylow p G)] (P : Sylow p G) : (\u2191P).Normal",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow",
+      "type": " (p : \u2115) (G : Type u_1) [Group G] : Type u_1",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "A Sylow `p`-subgroup is a maximal `p`-subgroup. "
+    },
+    {
+      "name": "instSubsingletonEmpty",
+      "type": " : Subsingleton Empty",
+      "module": "Init.Core",
+      "doc": ""
+    },
+    {
+      "name": "instSubsingletonPEmpty",
+      "type": " : Subsingleton PEmpty.{u_1}",
+      "module": "Init.Core",
+      "doc": ""
+    },
+    {
+      "name": "instSubsingletonPUnit",
+      "type": " : Subsingleton PUnit.{u_1}",
+      "module": "Init.Core",
+      "doc": ""
+    },
+    {
+      "name": "instSubsingleton",
+      "type": " (p : Prop) : Subsingleton p",
+      "module": "Init.Core",
+      "doc": ""
+    },
+    {
+      "name": "instSubsingletonDecidable",
+      "type": " (p : Prop) : Subsingleton (Decidable p)",
+      "module": "Init.Core",
+      "doc": ""
+    },
+    {
+      "name": "instSubsingletonSquash",
+      "type": " {\u03b1 : Sort u_1} : Subsingleton (Squash \u03b1)",
+      "module": "Init.Core",
+      "doc": ""
+    },
+    {
+      "name": "PUnit.subsingleton",
+      "type": " (a b : PUnit.{u_1}) : a = b",
+      "module": "Init.Core",
+      "doc": ""
+    },
+    {
+      "name": "Subsingleton.allEq",
+      "type": " {\u03b1 : Sort u} [self : Subsingleton \u03b1] (a b : \u03b1) : a = b",
+      "module": "Init.Core",
+      "doc": "Any two elements of a subsingleton are equal. "
+    },
+    {
+      "name": "Subsingleton.elim",
+      "type": " {\u03b1 : Sort u} [h : Subsingleton \u03b1] (a b : \u03b1) : a = b",
+      "module": "Init.Core",
+      "doc": "If a type is a subsingleton, then all of its elements are equal.\n"
+    },
+    {
+      "name": "Subsingleton.intro",
+      "type": " {\u03b1 : Sort u} (allEq : \u2200 (a b : \u03b1), a = b) : Subsingleton \u03b1",
+      "module": "Init.Core",
+      "doc": "Prove that `\u03b1` is a subsingleton by showing that any two elements are equal. "
+    },
+    {
+      "name": "instSubsingletonProd",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [Subsingleton \u03b1] [Subsingleton \u03b2] : Subsingleton (\u03b1 \u00d7 \u03b2)",
+      "module": "Init.Core",
+      "doc": ""
+    },
+    {
+      "name": "Subsingleton",
+      "type": " (\u03b1 : Sort u) : Prop",
+      "module": "Init.Core",
+      "doc": "A _subsingleton_ is a type with at most one element. It is either empty or has a unique element.\n\nAll propositions are subsingletons because of proof irrelevance: false propositions are empty, and\nall proofs of a true proposition are equal to one another. Some non-propositional types are also\nsubsingletons.\n"
+    },
+    {
+      "name": "alternatingGroup.subsingleton_two_sylow",
+      "type": " {\u03b1 : Type u_1} [DecidableEq \u03b1] [Fintype \u03b1] (h\u03b14 : Nat.card \u03b1 = 4) : Subsingleton (Sylow 2 \u21a5(alternatingGroup \u03b1))",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Alternating.KleinFour",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"Fintype.card\"' -> Fintype.card, Fintype.card_fin, Fintype.card_bool, Fintype.card_empty, Fintype.card_pempty, Fintype.card_prop, Fintype.card_punit, Fintype.card_unit",
+    "search: '\"Nat.card\"' -> Nat.card_Iio, Nat.card_Ico, Nat.card_Ioc, Nat.card_Iic, Nat.card_Icc, Nat.card_Ioo, Nat.card_uIcc, ENat.card",
+    "seeded from goal shape -> Subgroup.botCharacteristic, Subgroup.topCharacteristic, Subgroup.characteristic_iInf, Subgroup.characteristic_inf, Subgroup.characteristic_iSup, Subgroup.characteristic_sInf, Subgroup.characteristic_sup, Subgroup.characteristic_sSup",
+    "search: '\"Subgroup.Characteristic\"' -> AddSubgroup.characteristic_iInf, Subgroup.characteristic_iInf, AddSubgroup.characteristic_inf, Subgroup.characteristic_inf, AddSubgroup.characteristic_iSup, Subgroup.characteristic_iSup, AddSubgroup.characteristic_sInf, Subgroup.characteristic_sInf",
+    "search: '\"Characteristic\"' -> AddSubgroup.botCharacteristic, AddSubgroup.topCharacteristic, Subgroup.botCharacteristic, Subgroup.topCharacteristic, AddSubgroup.normal_of_characteristic, Subgroup.normal_of_characteristic, AddSubgroup.characteristic_iInf, Subgroup.characteristic_iInf",
+    "search: '\"characteristic\"' -> AddSubgroup.botCharacteristic, AddSubgroup.topCharacteristic, Subgroup.botCharacteristic, Subgroup.topCharacteristic, AddSubgroup.normal_of_characteristic, Subgroup.normal_of_characteristic, AddSubgroup.characteristic_iInf, Subgroup.characteristic_iInf",
+    "search: '|- Subgroup.Characteristic _' -> Subgroup.botCharacteristic, Subgroup.topCharacteristic, Subgroup.characteristic_iInf, Subgroup.characteristic_inf, Subgroup.characteristic_iSup, Subgroup.characteristic_sInf, Subgroup.characteristic_sup, Subgroup.characteristic_sSup",
+    "search: '\"Sylow\"' -> Sylow.inhabited, Sylow.instPartialOrder, Sylow.nonempty, Sylow.instSetLike, Sylow.toSubgroup, Sylow.instCoeOutSubgroup, Sylow.mulAction, Sylow.instSubgroupClass",
+    "search: '\"Sylow\" \"normal\"' -> nothing",
+    "search: '\"Sylow\" \"normal\"' -> nothing; goal shape -> Subgroup.botCharacteristic, Subgroup.topCharacteristic, Subgroup.characteristic_iInf, Subgroup.characteristic_inf, Subgroup.characteristic_iSup, Subgroup.characteristic_sInf, Subgroup.characteristic_sup, Subgroup.characteristic_sSup",
+    "search: '\"Sylow\" \"subsingleton\"' -> nothing",
+    "search: '\"Sylow\" \"subsingleton\"' -> nothing; goal shape -> Subgroup.botCharacteristic, Subgroup.topCharacteristic, Subgroup.characteristic_iInf, Subgroup.characteristic_inf, Subgroup.characteristic_iSup, Subgroup.characteristic_sInf, Subgroup.characteristic_sup, Subgroup.characteristic_sSup",
+    "search: '\"Sylow\"' -> Sylow.inhabited, Sylow.instPartialOrder, Sylow.nonempty, Sylow.instSetLike, Sylow.toSubgroup, Sylow.instCoeOutSubgroup, Sylow.mulAction, Sylow.instSubgroupClass",
+    "search: '\"Sylow\" \"Normal\"' -> nothing",
+    "search: '\"Sylow\" \"Normal\"' -> nothing; goal shape -> Subgroup.botCharacteristic, Subgroup.topCharacteristic, Subgroup.characteristic_iInf, Subgroup.characteristic_inf, Subgroup.characteristic_iSup, Subgroup.characteristic_sInf, Subgroup.characteristic_sup, Subgroup.characteristic_sSup",
+    "search: '\"subsingleton\"' -> instSubsingletonEmpty, instSubsingletonPEmpty, instSubsingletonPUnit, instSubsingleton, instSubsingletonDecidable, instSubsingletonSquash, PUnit.subsingleton, Subsingleton.allEq",
+    "search: '\"Sylow\" \"unique\"' -> nothing",
+    "search: '\"Sylow\" \"unique\"' -> nothing; goal shape -> Subgroup.botCharacteristic, Subgroup.topCharacteristic, Subgroup.characteristic_iInf, Subgroup.characteristic_inf, Subgroup.characteristic_iSup, Subgroup.characteristic_sInf, Subgroup.characteristic_sup, Subgroup.characteristic_sSup",
+    "search: '\"subsingleton\" \"Sylow\"' -> nothing",
+    "search: '\"subsingleton\" \"Sylow\"' -> nothing; goal shape -> Subgroup.botCharacteristic, Subgroup.topCharacteristic, Subgroup.characteristic_iInf, Subgroup.characteristic_inf, Subgroup.characteristic_iSup, Subgroup.characteristic_sInf, Subgroup.characteristic_sup, Subgroup.characteristic_sSup",
+    "search: '|- Subsingleton (Sylow _ _)' -> alternatingGroup.subsingleton_two_sylow",
+    "search: '\"Sylow.subsingleton\"' -> nothing",
+    "search: '\"Sylow.subsingleton\"' -> nothing; goal shape -> Subgroup.botCharacteristic, Subgroup.topCharacteristic, Subgroup.characteristic_iInf, Subgroup.characteristic_inf, Subgroup.characteristic_iSup, Subgroup.characteristic_sInf, Subgroup.characteristic_sup, Subgroup.characteristic_sSup"
+  ],
+  "budget": {
+    "tool_calls": 32,
+    "lean_calls": 11,
+    "searches": 21,
+    "symbolic_calls": 0,
+    "searches_since_compile": 1,
+    "grace": 3,
+    "started": 1788778970.132526,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.2,
+    "statement_checks": 2
+  },
+  "goal": "theorem exercise_2_5_30 {G : Type*} [Group G] [Fintype G]\n  {p m : \u2115} (hp : Nat.Prime p) (hp1 : \u00ac p \u2223 m) (hG : Fintype.card G = p*m)\n  {H : Subgroup G} [Fintype H] [H.Normal] (hH : Fintype.card H = p):\n  Subgroup.Characteristic H"
+}

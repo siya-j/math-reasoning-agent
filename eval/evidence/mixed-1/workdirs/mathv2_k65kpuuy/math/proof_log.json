@@ -1,0 +1,54 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem nat_add_zero (n : Nat) : n + 0 = n",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788775195.6044314,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem nat_add_zero (n : Nat) : n + 0 = n",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact AddMonoid.mk\n    | exact AddMonoid.mk _\n    | apply AddMonoid.mk\n    | simpa using AddMonoid.mk\n    | exact \u27e8_, AddMonoid.mk\u27e9\n    | exact AddMonoid.mk (by assumption)\n    | exact AddMonoid.mk \u2039_\u203a\n    | apply AddMonoid.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact AddMonoid.mk (by assumption))\n    | exact CliffordAlgebra.even_induction\n    | exact CliffordAlgebra.even_induction _\n    | apply CliffordAlgebra.even_induction\n    | simpa using CliffordAlgebra.even_induction\n    | exact \u27e8_, CliffordAlgebra.even_induction\u27e9\n    | exact CliffordAlgebra.even_induction (by assumption)\n    | exact CliffordAlgebra.even_induction \u2039_\u203a\n    | apply CliffordAlgebra.even_induction <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CliffordAlgebra.even_induction (by assumption))",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem nat_add_zero (n : Nat) : n + 0 = n",
+      "at": 1788775214.1182864,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "AddMonoid.mk",
+      "type": " {M : Type u_2} [toZero : Zero M] [toAdd : Add M] (add_assoc : \u2200 (a b c : M), a + b + c = a + (b + c)) (zero_add : \u2200 (a : M), 0 + a = a) (add_zero : \u2200 (a : M), a + 0 = a) [toNSMul : NSMul M] (nsmul_zero : \u2200 (x : M), 0 \u2022 x = 0 := by intros; rfl) (nsmul_succ : \u2200 (n : \u2115) (x : M), (n + 1) \u2022 x = n \u2022 x + x := by intros; rfl) : AddMonoid M",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": ""
+    },
+    {
+      "name": "CliffordAlgebra.even_induction",
+      "type": " {R : Type u_1} {M : Type u_2} [CommRing R] [AddCommGroup M] [Module R M] (Q : QuadraticForm R M) {motive : (x : CliffordAlgebra Q) \u2192 x \u2208 CliffordAlgebra.evenOdd Q 0 \u2192 Prop} (algebraMap : \u2200 (r : R), motive ((algebraMap R (CliffordAlgebra Q)) r) \u22ef) (add : \u2200 (x y : CliffordAlgebra Q) (hx : x \u2208 CliffordAlgebra.evenOdd Q 0) (hy : y \u2208 CliffordAlgebra.evenOdd Q 0), motive x hx \u2192 motive y hy \u2192 motive (x + y) \u22ef) (\u03b9_mul_\u03b9_mul : \u2200 (m\u2081 m\u2082 : M) (x : CliffordAlgebra Q) (hx : x \u2208 CliffordAlgebra.evenOdd Q 0), motive x hx \u2192 motive ((CliffordAlgebra.\u03b9 Q) m\u2081 * (CliffordAlgebra.\u03b9 Q) m\u2082 * x) \u22ef) (x : CliffordAlgebra Q) (hx : x \u2208 CliffordAlgebra.evenOdd Q 0) : motive x hx",
+      "module": "Mathlib.LinearAlgebra.CliffordAlgebra.Grading",
+      "doc": "To show a property is true on the even parts, it suffices to show it is true on the\nscalars, closed under addition, and under left-multiplication by a pair of vectors. "
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> AddMonoid.mk, CliffordAlgebra.even_induction"
+  ],
+  "budget": {
+    "tool_calls": 2,
+    "lean_calls": 2,
+    "searches": 0,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788775193.7610953,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.0,
+    "statement_checks": 1
+  },
+  "goal": "theorem nat_add_zero (n : Nat) : n + 0 = n"
+}

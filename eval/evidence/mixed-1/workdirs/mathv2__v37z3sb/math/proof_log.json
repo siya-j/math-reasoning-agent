@@ -1,0 +1,43 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem real_uncountable : \u00ac Countable \u211d",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788775472.2654057,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem real_uncountable : \u00ac Countable \u211d",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem real_uncountable : \u00ac Countable \u211d",
+      "at": 1788775488.1205738,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [],
+  "trace": [
+    "search: '\"uncountable\"' -> nothing",
+    "search: '\"countable\"' -> nothing",
+    "search: '\"Real\"' -> nothing"
+  ],
+  "budget": {
+    "tool_calls": 7,
+    "lean_calls": 2,
+    "searches": 5,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788775410.4557693,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 1
+  },
+  "goal": "theorem real_uncountable : \u00ac Countable \u211d"
+}

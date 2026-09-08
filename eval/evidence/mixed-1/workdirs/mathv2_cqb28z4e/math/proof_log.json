@@ -1,0 +1,266 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem liouville_theorem (f : \u2102 \u2192 \u2102) (hf : Differentiable \u2102 f) (hb : Bornology.IsBounded (Set.range f)) :\n    \u2203 c, f = fun _ => c",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776786.7318225,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem liouville_theorem (f : \u2102 \u2192 \u2102) (hf : Differentiable \u2102 f) (hb : Bornology.IsBounded (Set.range f)) :\n    \u2203 c, f = fun _ => c",
+      "proof": "by\n  use f 0\n  ext z\n  exact hf.apply_eq_apply_of_bounded hb z 0",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem liouville_theorem (f : \u2102 \u2192 \u2102) (hf : Differentiable \u2102 f) (hb : Bornology.IsBounded (Set.range f)) :\n    \u2203 c, f = fun _ => c",
+      "at": 1788776794.681623,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Complex.liouville_theorem_aux",
+      "type": " {F : Type v} [NormedAddCommGroup F] [NormedSpace \u2102 F] {f : \u2102 \u2192 F} (hf : Differentiable \u2102 f) (hb : Bornology.IsBounded (Set.range f)) (z w : \u2102) : f z = f w",
+      "module": "Mathlib.Analysis.Complex.Liouville",
+      "doc": "An auxiliary lemma for Liouville's theorem `Differentiable.apply_eq_apply_of_bounded`. "
+    },
+    {
+      "name": "IsLiouville.rfl",
+      "type": " (F : Type u_1) [Field F] [Differential F] : IsLiouville F F",
+      "module": "Mathlib.FieldTheory.Differential.Liouville",
+      "doc": ""
+    },
+    {
+      "name": "isLiouville_of_finiteDimensional",
+      "type": " {F : Type u_1} {K : Type u_2} [Field F] [Field K] [Differential F] [Differential K] [Algebra F K] [DifferentialAlgebra F K] [CharZero F] [FiniteDimensional F K] : IsLiouville F K",
+      "module": "Mathlib.FieldTheory.Differential.Liouville",
+      "doc": "We lift `isLiouville_of_finiteDimensional_galois` to non-Galois field extensions by using it for the\nnormal closure then obtaining it for `F`.\n"
+    },
+    {
+      "name": "IsLiouville.equiv",
+      "type": " {F : Type u_1} {K : Type u_2} [Field F] [Field K] [Differential F] [Differential K] [Algebra F K] [DifferentialAlgebra F K] [CharZero F] {K' : Type u_3} [Field K'] [Differential K'] [Algebra F K'] [DifferentialAlgebra F K'] [Algebra.IsAlgebraic F K'] [inst : IsLiouville F K] (e : K \u2243\u2090[F] K') : IsLiouville F K'",
+      "module": "Mathlib.FieldTheory.Differential.Liouville",
+      "doc": "Transfer an `IsLiouville` instance using an equivalence `K \u2243\u2090[F] K'`.\nRequires an algebraic `K'` to show that the equivalence commutes with the derivative.\n"
+    },
+    {
+      "name": "IsLiouville.trans",
+      "type": " (F : Type u_1) (K : Type u_2) [Field F] [Field K] [Differential F] [Differential K] [Algebra F K] [DifferentialAlgebra F K] {A : Type u_3} [Field A] [Algebra K A] [Algebra F A] [Differential A] [IsScalarTower F K A] [Differential.ContainConstants F K] (inst1 : IsLiouville F K) (inst2 : IsLiouville K A) : IsLiouville F A",
+      "module": "Mathlib.FieldTheory.Differential.Liouville",
+      "doc": ""
+    },
+    {
+      "name": "instIsLiouvilleSubtypeMemIntermediateField",
+      "type": " {F : Type u_1} {K : Type u_2} [Field F] [Field K] [Differential F] [Differential K] [Algebra F K] [DifferentialAlgebra F K] [CharZero F] (B : IntermediateField F K) [FiniteDimensional F \u21a5B] [inst : IsLiouville F K] : IsLiouville F \u21a5B",
+      "module": "Mathlib.FieldTheory.Differential.Liouville",
+      "doc": "If `K` is a Liouville extension of `F` and `B` is a finite-dimensional intermediate\nfield `K / B / F`, then it's also a Liouville extension of `F`.\n"
+    },
+    {
+      "name": "IsLiouville.isLiouville",
+      "type": " {F : Type u_1} {K : Type u_2} {inst\u271d : Field F} {inst\u271d\u00b9 : Field K} {inst\u271d\u00b2 : Differential F} {inst\u271d\u00b3 : Differential K} {inst\u271d\u2074 : Algebra F K} [self : IsLiouville F K] (a : F) (\u03b9 : Type) [Fintype \u03b9] (c : \u03b9 \u2192 F) (hc : \u2200 (x : \u03b9), (c x)\u2032 = 0) (u : \u03b9 \u2192 K) (v : K) (h : \u2191a = \u2211 x, \u2191(c x) * Differential.logDeriv (u x) + v\u2032) : \u2203 \u03b9\u2080 x c\u2080, \u2203 (_ : \u2200 (x : \u03b9\u2080), (c\u2080 x)\u2032 = 0), \u2203 u\u2080 v\u2080, a = \u2211 x, c\u2080 x * Differential.logDeriv (u\u2080 x) + v\u2080\u2032",
+      "module": "Mathlib.FieldTheory.Differential.Liouville",
+      "doc": ""
+    },
+    {
+      "name": "IsLiouville.mk",
+      "type": " {F : Type u_1} {K : Type u_2} [Field F] [Field K] [Differential F] [Differential K] [Algebra F K] (isLiouville : \u2200 (a : F) (\u03b9 : Type) [inst : Fintype \u03b9] (c : \u03b9 \u2192 F), (\u2200 (x : \u03b9), (c x)\u2032 = 0) \u2192 \u2200 (u : \u03b9 \u2192 K) (v : K), \u2191a = \u2211 x, \u2191(c x) * Differential.logDeriv (u x) + v\u2032 \u2192 \u2203 \u03b9\u2080 x c\u2080, \u2203 (_ : \u2200 (x : \u03b9\u2080), (c\u2080 x)\u2032 = 0), \u2203 u\u2080 v\u2080, a = \u2211 x, c\u2080 x * Differential.logDeriv (u\u2080 x) + v\u2080\u2032) : IsLiouville F K",
+      "module": "Mathlib.FieldTheory.Differential.Liouville",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.isMultiplicative_liouville",
+      "type": " : ArithmeticFunction.liouville.IsMultiplicative",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Liouville",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.liouville",
+      "type": " : ArithmeticFunction \u2124",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Liouville",
+      "doc": "The Liouville function `\u03bb(n)` defined to be `1` if `n` has an even number of prime factors\n(counting multiplicity) and `-1` otherwise. "
+    },
+    {
+      "name": "ArithmeticFunction.liouville_apply_one",
+      "type": " : ArithmeticFunction.liouville 1 = 1",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Liouville",
+      "doc": ""
+    },
+    {
+      "name": "IsLiouville",
+      "type": " (F : Type u_1) (K : Type u_2) [Field F] [Field K] [Differential F] [Differential K] [Algebra F K] : Prop",
+      "module": "Mathlib.FieldTheory.Differential.Liouville",
+      "doc": "We say that a differential field extension `K / F` is Liouville if, whenever an element `a \u2208 F` can\nbe written as `a = v + \u2211 c\u1d62 * logDeriv u\u1d62` for `v, c\u1d62, u\u1d62 \u2208 K` and `c\u1d62` constant, it can also be\nwritten in that way with `v, c\u1d62, u\u1d62 \u2208 F`.\n"
+    },
+    {
+      "name": "Differentiable.apply_eq_apply_of_bounded",
+      "type": " {E : Type u} [NormedAddCommGroup E] [NormedSpace \u2102 E] {F : Type v} [NormedAddCommGroup F] [NormedSpace \u2102 F] {f : E \u2192 F} (hf : Differentiable \u2102 f) (hb : Bornology.IsBounded (Set.range f)) (z w : E) : f z = f w",
+      "module": "Mathlib.Analysis.Complex.Liouville",
+      "doc": "**Liouville's theorem**: a complex differentiable bounded function `f : E \u2192 F` is a constant. "
+    },
+    {
+      "name": "Bornology.isBounded_empty",
+      "type": " {\u03b1 : Type u_2} {x\u271d : Bornology \u03b1} : Bornology.IsBounded \u2205",
+      "module": "Mathlib.Topology.Bornology.Basic",
+      "doc": ""
+    },
+    {
+      "name": "BoundedSpace.bounded_univ",
+      "type": " {\u03b1 : Type u_4} {inst\u271d : Bornology \u03b1} [self : BoundedSpace \u03b1] : Bornology.IsBounded Set.univ",
+      "module": "Mathlib.Topology.Bornology.Basic",
+      "doc": "The `Set.univ` is bounded. "
+    },
+    {
+      "name": "Bornology.IsBounded.all",
+      "type": " {\u03b1 : Type u_2} [Bornology \u03b1] [BoundedSpace \u03b1] (s : Set \u03b1) : Bornology.IsBounded s",
+      "module": "Mathlib.Topology.Bornology.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Set.Finite.isBounded",
+      "type": " {\u03b1 : Type u_2} [Bornology \u03b1] {s : Set \u03b1} (hs : s.Finite) : Bornology.IsBounded s",
+      "module": "Mathlib.Topology.Bornology.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Bornology.isBounded_singleton",
+      "type": " {\u03b1 : Type u_2} {x\u271d : Bornology \u03b1} {x : \u03b1} : Bornology.IsBounded {x}",
+      "module": "Mathlib.Topology.Bornology.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Bornology.IsCobounded.compl",
+      "type": " {\u03b1 : Type u_2} {x\u271d : Bornology \u03b1} {s : Set \u03b1} : Bornology.IsCobounded s \u2192 Bornology.IsBounded s\u1d9c",
+      "module": "Mathlib.Topology.Bornology.Basic",
+      "doc": "**Alias** of the reverse direction of `Bornology.isBounded_compl_iff`."
+    },
+    {
+      "name": "Bornology.IsCobounded.of_compl",
+      "type": " {\u03b1 : Type u_2} {x\u271d : Bornology \u03b1} {s : Set \u03b1} : Bornology.IsCobounded s\u1d9c \u2192 Bornology.IsBounded s",
+      "module": "Mathlib.Topology.Bornology.Basic",
+      "doc": "**Alias** of the forward direction of `Bornology.isCobounded_compl_iff`."
+    },
+    {
+      "name": "Bornology.IsBounded.insert",
+      "type": " {\u03b1 : Type u_2} {x\u271d : Bornology \u03b1} {s : Set \u03b1} (h : Bornology.IsBounded s) (x : \u03b1) : Bornology.IsBounded (insert x s)",
+      "module": "Mathlib.Topology.Bornology.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Bornology.IsBounded.subset",
+      "type": " {\u03b1 : Type u_2} {x\u271d : Bornology \u03b1} {s t : Set \u03b1} (ht : Bornology.IsBounded t) (hs : s \u2286 t) : Bornology.IsBounded s",
+      "module": "Mathlib.Topology.Bornology.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Bornology.IsBounded.union",
+      "type": " {\u03b1 : Type u_2} {x\u271d : Bornology \u03b1} {s t : Set \u03b1} (hs : Bornology.IsBounded s) (ht : Bornology.IsBounded t) : Bornology.IsBounded (s \u222a t)",
+      "module": "Mathlib.Topology.Bornology.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Bornology.isBounded_image_of_isLocallyBounded_of_isCompact",
+      "type": " {X : Type u} [TopologicalSpace X] {Y : Type u_2} [Bornology Y] {s : Set X} (hs : IsCompact s) {f : X \u2192 Y} (hf : \u2200 (x : X), \u2203 t \u2208 nhds x, Bornology.IsBounded (f '' t)) : Bornology.IsBounded (f '' s)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": "A locally bounded function maps a compact set to a bounded set. "
+    },
+    {
+      "name": "Bornology.IsBounded.image_fst",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [Bornology \u03b1] [Bornology \u03b2] {s : Set (\u03b1 \u00d7 \u03b2)} (hs : Bornology.IsBounded s) : Bornology.IsBounded (Prod.fst '' s)",
+      "module": "Mathlib.Topology.Bornology.Constructions",
+      "doc": ""
+    },
+    {
+      "name": "Differentiable",
+      "type": " (\ud835\udd5c : Type u_1) [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] (f : E \u2192 F) : Prop",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Defs",
+      "doc": "`Differentiable \ud835\udd5c f` means that `f` is differentiable at any point. "
+    },
+    {
+      "name": "differentiable_fun_id",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] : Differentiable \ud835\udd5c fun x => x",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": "Eta-expanded form of `differentiable_id`"
+    },
+    {
+      "name": "differentiable_id",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] : Differentiable \ud835\udd5c id",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Differentiable.differentiableAt",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} {x : E} (h : Differentiable \ud835\udd5c f) : DifferentiableAt \ud835\udd5c f x",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "differentiableOn_univ",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} : DifferentiableOn \ud835\udd5c f Set.univ \u2194 Differentiable \ud835\udd5c f",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Differentiable.differentiableOn",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} {s : Set E} (h : Differentiable \ud835\udd5c f) : DifferentiableOn \ud835\udd5c f s",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "differentiable_of_differentiableOn_iUnion_of_isOpen",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} {\u03b9 : Type u_4} {s : \u03b9 \u2192 Set E} (hf : \u2200 (i : \u03b9), DifferentiableOn \ud835\udd5c f (s i)) (hs : \u2200 (i : \u03b9), IsOpen (s i)) (hs' : \u22c3 i, s i = Set.univ) : Differentiable \ud835\udd5c f",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "differentiable_of_differentiableOn_union_of_isOpen",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} {s t : Set E} (hf : DifferentiableOn \ud835\udd5c f s) (hf' : DifferentiableOn \ud835\udd5c f t) (hst : s \u222a t = Set.univ) (hs : IsOpen s) (ht : IsOpen t) : Differentiable \ud835\udd5c f",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Differentiable.continuous",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} [ContinuousAdd E] [ContinuousSMul \ud835\udd5c E] [ContinuousAdd F] [ContinuousSMul \ud835\udd5c F] (h : Differentiable \ud835\udd5c f) : Continuous f",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "differentiable_const",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] (c : F) : Differentiable \ud835\udd5c fun x => c",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Const",
+      "doc": ""
+    },
+    {
+      "name": "differentiable_of_subsingleton",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] [Subsingleton E] {f : E \u2192 F} : Differentiable \ud835\udd5c f",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Const",
+      "doc": ""
+    },
+    {
+      "name": "differentiable_intCast",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] [IntCast F] (z : \u2124) : Differentiable \ud835\udd5c \u2191z",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Const",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"liouville\"' -> Complex.liouville_theorem_aux, IsLiouville.rfl, isLiouville_of_finiteDimensional, IsLiouville.equiv, IsLiouville.trans, instIsLiouvilleSubtypeMemIntermediateField, IsLiouville.isLiouville, IsLiouville.mk",
+    "search: '\"apply_eq_apply_of_bounded\"' -> Differentiable.apply_eq_apply_of_bounded",
+    "seeded from goal shape -> Bornology.isBounded_empty, BoundedSpace.bounded_univ, Bornology.IsBounded.all, Set.Finite.isBounded, Bornology.isBounded_singleton, Bornology.IsCobounded.compl, Bornology.IsCobounded.of_compl, Bornology.IsBounded.insert"
+  ],
+  "budget": {
+    "tool_calls": 4,
+    "lean_calls": 2,
+    "searches": 2,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788776778.8752792,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 1
+  },
+  "goal": "theorem liouville_theorem (f : \u2102 \u2192 \u2102) (hf : Differentiable \u2102 f) (hb : Bornology.IsBounded (Set.range f)) :\n    \u2203 c, f = fun _ => c"
+}

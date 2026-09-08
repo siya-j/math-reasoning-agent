@@ -1,0 +1,1159 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_5_15 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}) :\n  (M1 ^ 2) \u2264 4 * M0 * M2",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788777178.992798,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_5_15 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}) :\n  (M1 ^ 2) \u2264 4 * M0 * M2",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fin.append_elim0\n    | exact Fin.append_elim0 _\n    | apply Fin.append_elim0\n    | simpa using Fin.append_elim0\n    | exact \u27e8_, Fin.append_elim0\u27e9\n    | exact Fin.append_elim0 (by assumption)\n    | exact Fin.append_elim0 \u2039_\u203a\n    | apply Fin.append_elim0 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.append_elim0 (by assumption))\n    | exact Fin.elim0_append\n    | exact Fin.elim0_append _\n    | apply Fin.elim0_append\n    | simpa using Fin.elim0_append\n    | exact \u27e8_, Fin.elim0_append\u27e9\n    | exact Fin.elim0_append (by assumption)\n    | exact Fin.elim0_append \u2039_\u203a\n    | apply Fin.elim0_append <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.elim0_append (by assumption))\n    | exact Turing.TM0.Stmt.move\n    | exact Turing.TM0.Stmt.move _\n    | apply Turing.TM0.Stmt.move\n    | simpa using Turing.TM0.Stmt.move\n    | exact \u27e8_, Turing.TM0.Stmt.move\u27e9\n    | exact Turing.TM0.Stmt.move (by assumption)\n    | exact Turing.TM0.Stmt.move \u2039_\u203a\n    | apply Turing.TM0.Stmt.move <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.move (by assumption))\n    | exact Turing.TM0.Stmt.write\n    | exact Turing.TM0.Stmt.write _\n    | apply Turing.TM0.Stmt.write\n    | simpa using Turing.TM0.Stmt.write\n    | exact \u27e8_, Turing.TM0.Stmt.write\u27e9\n    | exact Turing.TM0.Stmt.write (by assumption)\n    | exact Turing.TM0.Stmt.write \u2039_\u203a\n    | apply Turing.TM0.Stmt.write <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.write (by assumption))\n    | exact Turing.TM0.Stmt.inhabited\n    | exact Turing.TM0.Stmt.inhabited _\n    | apply Turing.TM0.Stmt.inhabited\n    | simpa using Turing.TM0.Stmt.inhabited\n    | exact \u27e8_, Turing.TM0.Stmt.inhabited\u27e9\n    | exact Turing.TM0.Stmt.inhabited (by assumption)\n    | exact Turing.TM0.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM0.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.inhabited (by assumption))\n    | exact Turing.TM0to1.\u039b'.normal\n    | exact Turing.TM0to1.\u039b'.normal _\n    | apply Turing.TM0to1.\u039b'.normal\n    | simpa using Turing.TM0to1.\u039b'.normal\n    | exact \u27e8_, Turing.TM0to1.\u039b'.normal\u27e9\n    | exact Turing.TM0to1.\u039b'.normal (by assumption)\n    | exact Turing.TM0to1.\u039b'.normal \u2039_\u203a\n    | apply Turing.TM0to1.\u039b'.normal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.\u039b'.normal (by assumption))\n    | exact Turing.TM0to1.instInhabited\u039b'\n    | exact Turing.TM0to1.instInhabited\u039b' _\n    | apply Turing.TM0to1.instInhabited\u039b'\n    | simpa using Turing.TM0to1.instInhabited\u039b'\n    | exact \u27e8_, Turing.TM0to1.instInhabited\u039b'\u27e9\n    | exact Turing.TM0to1.instInhabited\u039b' (by assumption)\n    | exact Turing.TM0to1.instInhabited\u039b' \u2039_\u203a\n    | apply Turing.TM0to1.instInhabited\u039b' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.instInhabited\u039b' (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1a\n    | exact HomotopicalAlgebra.ModelCategory.cm1a _\n    | apply HomotopicalAlgebra.ModelCategory.cm1a\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1a\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1a\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1a \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1a <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1b\n    | exact HomotopicalAlgebra.ModelCategory.cm1b _\n    | apply HomotopicalAlgebra.ModelCategory.cm1b\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1b\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1b\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1b \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1b <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption))\n    | exact ZNum.bitm1\n    | exact ZNum.bitm1 _\n    | apply ZNum.bitm1\n    | simpa using ZNum.bitm1\n    | exact \u27e8_, ZNum.bitm1\u27e9\n    | exact ZNum.bitm1 (by assumption)\n    | exact ZNum.bitm1 \u2039_\u203a\n    | apply ZNum.bitm1 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.bitm1 (by assumption))\n    | exact Turing.TM1.Stmt.halt\n    | exact Turing.TM1.Stmt.halt _\n    | apply Turing.TM1.Stmt.halt\n    | simpa using Turing.TM1.Stmt.halt\n    | exact \u27e8_, Turing.TM1.Stmt.halt\u27e9\n    | exact Turing.TM1.Stmt.halt (by assumption)\n    | exact Turing.TM1.Stmt.halt \u2039_\u203a\n    | apply Turing.TM1.Stmt.halt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.halt (by assumption))\n    | exact Turing.TM1.Stmt.inhabited\n    | exact Turing.TM1.Stmt.inhabited _\n    | apply Turing.TM1.Stmt.inhabited\n    | simpa using Turing.TM1.Stmt.inhabited\n    | exact \u27e8_, Turing.TM1.Stmt.inhabited\u27e9\n    | exact Turing.TM1.Stmt.inhabited (by assumption)\n    | exact Turing.TM1.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM1.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.inhabited (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n7:28: error: unsolved goals\nf : \u211d \u2192 \u211d\na M0 M1 M2 : \u211d\nhf' : DifferentiableOn \u211d f (Set.Ici a)\nhf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a)\nhM0 : M0 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |f x_1| = x}\nhM1 : M1 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv f x_1| = x}\nhM2 : M2 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv (deriv f) x_1| = x}\n\u22a2 M1 ^ 2 \u2264 4 * M0 * M2\n\nStill to prove:\n\u22a2 M1 ^ 2 \u2264 4 * M0 * M2",
+      "at": 1788777199.474763,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_5_15 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}) :\n  (M1 ^ 2) \u2264 4 * M0 * M2",
+      "proof": "have h : (M1 ^ 2) \u2264 4 * M0 * M2 := by sorry\nexact h",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788777221.2225332,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma dummy (P : Prop) : P \u2192 P",
+      "proof": "by\n  intro h\n  exact h",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma dummy (P : Prop) : P \u2192 P",
+      "at": 1788777236.6011465,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma csSup_le_test {s : Set \u211d} (h1 : s.Nonempty) (h2 : \u2200 x \u2208 s, x \u2264 5) : sSup s \u2264 5",
+      "proof": "by\n  apply csSup_le h1\n  intro x hx\n  exact h2 x hx",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma csSup_le_test {s : Set \u211d} (h1 : s.Nonempty) (h2 : \u2200 x \u2208 s, x \u2264 5) : sSup s \u2264 5",
+      "at": 1788777278.8465197,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma sSup_empty_real : sSup (\u2205 : Set \u211d) = 0",
+      "proof": "by\n  exact csSup_empty",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n11:8: error: typeclass instance problem is stuck\n  ConditionallyCompleteLinearOrderBot ?m.9\n\nNote: Lean will not try to resolve this typeclass instance problem because the type argument to `ConditionallyCompleteLinearOrderBot` is a metavariable. This argument must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.",
+      "at": 1788777290.0809374,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma diff_id (a : \u211d) : DifferentiableOn \u211d (fun x : \u211d => x) (Set.Ici a)",
+      "proof": "by\n  exact differentiableOn_id",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma diff_id (a : \u211d) : DifferentiableOn \u211d (fun x : \u211d => x) (Set.Ici a)",
+      "at": 1788777301.936528,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma diff_deriv_id (a : \u211d) : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici a)",
+      "proof": "by\n  rw [deriv_id'']\n  exact differentiableOn_const 1",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma diff_deriv_id (a : \u211d) : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici a)",
+      "at": 1788777306.7120733,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_5_15_neg : \u00ac (\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d) (hf' : DifferentiableOn \u211d f (Set.Ici a)) (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a)) (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)}) (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)}) (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}), (M1 ^ 2) \u2264 4 * M0 * M2)",
+      "proof": "intro h\nhave h_diff' : DifferentiableOn \u211d (fun x : \u211d => x) (Set.Ici 0) := by sorry\nhave h_diff'' : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici 0) := by sorry\nhave h_M0 : (0 : \u211d) = sSup {(|x|) | x \u2208 Set.Ici 0} := by sorry\nhave h_M1 : (1 : \u211d) = sSup {(|deriv (fun x : \u211d => x) x|) | x \u2208 Set.Ici 0} := by sorry\nhave h_M2 : (0 : \u211d) = sSup {(|deriv (deriv (fun x : \u211d => x)) x|) | x \u2208 Set.Ici 0} := by sorry\nhave h_ineq := h 0 0 1 0 h_diff' h_diff'' h_M0 h_M1 h_M2\nnorm_num at h_ineq",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788777317.559659,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_5_15_neg_refutation : \u00ac (\u00ac (\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d) (hf' : DifferentiableOn \u211d f (Set.Ici a)) (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a)) (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)}) (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)}) (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}), (M1 ^ 2) \u2264 4 * M0 * M2))",
+      "proof": "intro h\nhave h_diff' : DifferentiableOn \u211d (fun x : \u211d => x) (Set.Ici 0) := diff_id 0\nhave h_diff'' : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici 0) := diff_deriv_id 0\nhave h_set0 : { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |x| = y } = Set.Ici 0 := by\n  ext y\n  simp only [Set.mem_setOf_eq, Set.mem_Ici]\n  constructor\n  \u00b7 rintro \u27e8x, hx, rfl\u27e9\n    exact abs_nonneg x\n  \u00b7 intro hy\n    use y\n    refine \u27e8hy, abs_of_nonneg hy\u27e9\nhave h_not_bdd : \u00ac BddAbove (Set.Ici (0 : \u211d)) := by\n  rintro \u27e8b, hb\u27e9\n  have h1 : max 0 b + 1 \u2208 Set.Ici (0 : \u211d) := by\n    simp only [Set.mem_Ici, le_add_iff_nonneg_right]\n    exact le_trans (le_max_left 0 b) (by linarith)\n  have h2 := hb h1\n  have h3 : b < max 0 b + 1 := by\n    have := le_max_right 0 b\n    linarith\n  linarith\nhave h_M0 : (0 : \u211d) = sSup { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |x| = y } := by\n  rw [h_set0]\n  exact (csSup_of_not_bddAbove h_not_bdd).symm\nhave h_set1 : { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (fun x : \u211d => x) x| = y } = {1} := by\n  ext y\n  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]\n  rw [deriv_id'']\n  simp only [abs_one]\n  constructor\n  \u00b7 rintro \u27e8x, hx, rfl\u27e9\n    rfl\n  \u00b7 rintro rfl\n    use 0\n    simp only [Set.mem_Ici, le_refl, true_and]\nhave h_M1 : (1 : \u211d) = sSup { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (fun x : \u211d => x) x| = y } := by\n  rw [h_set1]\n  exact (csSup_singleton 1).symm\nhave h_set2 : { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (deriv (fun x : \u211d => x)) x| = y } = {0} := by\n  ext y\n  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]\n  rw [deriv_id'', deriv_const' 1]\n  simp only [abs_zero]\n  constructor\n  \u00b7 rintro \u27e8x, hx, rfl\u27e9\n    rfl\n  \u00b7 rintro rfl\n    use 0\n    simp only [Set.mem_Ici, le_refl, true_and]\nhave h_M2 : (0 : \u211d) = sSup { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (deriv (fun x : \u211d => x)) x| = y } := by\n  rw [h_set2]\n  exact (csSup_singleton 0).symm\nhave h_ineq := h 0 0 1 0 h_diff' h_diff'' h_M0 h_M1 h_M2\nnorm_num at h_ineq",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n42:4: error: Type mismatch\n  Eq.symm (csSup_of_not_bddAbove h_not_bdd)\nhas type\n  sSup \u2205 = sSup (Set.Ici 0)\nbut is expected to have type\n  0 = sSup (Set.Ici 0)\n71:19: error: numerals are data in Lean, but the expected type is a proposition\n  \u2200 (a M0 M1 M2 : \u211d),\n    DifferentiableOn \u211d f\u271d (Set.Ici a) \u2192\n      DifferentiableOn \u211d (deriv f\u271d) (Set.Ici a) \u2192\n        M0 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |f\u271d x_1| = x} \u2192\n          M1 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv f\u271d x_1| = x} \u2192\n            M2 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv (deriv f\u271d) x_1| = x} \u2192 M1 ^ 2 \u2264 4 * M0 * M2 : Prop\n17:334: error: unsolved goals\nh :\n  \u00ac\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d),\n      DifferentiableOn \u211d f (Set.Ici a) \u2192\n        DifferentiableOn \u211d (deriv f) (Set.Ici a) \u2192\n          M0 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |f x_1| = x} \u2192\n            M1 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv f x_1| = x} \u2192\n              M2 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv (deriv f) x_1| = x} \u2192 M1 ^ 2 \u2264 4 * M0 * M2\nh_diff' : DifferentiableOn \u211d (fun x => x) (Set.Ici 0)\nh_diff'' : DifferentiableOn \u211d (deriv fun x => x) (Set.Ici 0)\nh_set0 : {y | \u2203 x \u2208 Set.Ici 0, |x| = y} = Set.Ici 0\nh_not_bdd : \u00acBddAbove (Set.Ici 0)\nh_M0 : 0 = sSup {y | \u2203 x \u2208 Set.Ici 0, |x| = y}\nh_set1 : {y | \u2203 x \u2208 Set.Ici 0, |deriv (fun x => x) x| = y} = {1}\nh_M1 : 1 = sSup {y | \u2203 x \u2208 Set.Ici 0, |deriv (fun x => x) x| = y}\nh_set2 : {y | \u2203 x \u2208 Set.Ici 0, |deriv (deriv fun x => x) x| = y} = {0}\nh_M2 : 0 = sSup {y | \u2203 x \u2208 Set.Ici 0, |deriv (deriv fun x => x) x| = y}\n\u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788777340.9300468,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "\u00ac (\u2200 (f : \u211d \u2192 \u211d) (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}) :\n  (M1 ^ 2) \u2264 4 * M0 * M2)",
+      "proof": "intro h\nhave h_diff' : DifferentiableOn \u211d (fun x : \u211d => x) (Set.Ici 0) := diff_id 0\nhave h_diff'' : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici 0) := diff_deriv_id 0\nhave h_set0 : { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |x| = y } = Set.Ici 0 := by\n  ext y\n  simp only [Set.mem_setOf_eq, Set.mem_Ici]\n  constructor\n  \u00b7 rintro \u27e8x, hx, rfl\u27e9\n    exact abs_nonneg x\n  \u00b7 intro hy\n    use y\n    refine \u27e8hy, abs_of_nonneg hy\u27e9\nhave h_not_bdd : \u00ac BddAbove (Set.Ici (0 : \u211d)) := by\n  rintro \u27e8b, hb\u27e9\n  have h1 : max 0 b + 1 \u2208 Set.Ici (0 : \u211d) := by\n    simp only [Set.mem_Ici, le_add_iff_nonneg_right]\n    exact le_trans (le_max_left 0 b) (by linarith)\n  have h2 := hb h1\n  have h3 : b < max 0 b + 1 := by\n    have := le_max_right 0 b\n    linarith\n  linarith\nhave h_M0 : (0 : \u211d) = sSup { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |x| = y } := by\n  rw [h_set0]\n  rw [csSup_of_not_bddAbove h_not_bdd]\n  exact Real.sSup_empty.symm\nhave h_set1 : { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (fun x : \u211d => x) x| = y } = {1} := by\n  ext y\n  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]\n  rw [deriv_id'']\n  simp only [abs_one]\n  constructor\n  \u00b7 rintro \u27e8x, hx, rfl\u27e9\n    rfl\n  \u00b7 rintro rfl\n    use 0\n    simp only [Set.mem_Ici, le_refl, true_and]\nhave h_M1 : (1 : \u211d) = sSup { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (fun x : \u211d => x) x| = y } := by\n  rw [h_set1]\n  exact (csSup_singleton 1).symm\nhave h_set2 : { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (deriv (fun x : \u211d => x)) x| = y } = {0} := by\n  ext y\n  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]\n  rw [deriv_id'', deriv_const' 1]\n  simp only [abs_zero]\n  constructor\n  \u00b7 rintro \u27e8x, hx, rfl\u27e9\n    rfl\n  \u00b7 rintro rfl\n    use 0\n    simp only [Set.mem_Ici, le_refl, true_and]\nhave h_M2 : (0 : \u211d) = sSup { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (deriv (fun x : \u211d => x)) x| = y } := by\n  rw [h_set2]\n  exact (csSup_singleton 0).symm\nhave h_ineq := h (fun x => x) 0 0 1 0 h_diff' h_diff'' h_M0 h_M1 h_M2\nnorm_num at h_ineq",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n17:0: error: unexpected token '\u00ac'; expected command",
+      "at": 1788777379.6467056,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_5_15_neg : \u00ac (\u2200 (f : \u211d \u2192 \u211d) (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}) :\n  (M1 ^ 2) \u2264 4 * M0 * M2)",
+      "proof": "intro h\nhave h_diff' : DifferentiableOn \u211d (fun x : \u211d => x) (Set.Ici 0) := diff_id 0\nhave h_diff'' : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici 0) := diff_deriv_id 0\nhave h_set0 : { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |x| = y } = Set.Ici 0 := by\n  ext y\n  simp only [Set.mem_setOf_eq, Set.mem_Ici]\n  constructor\n  \u00b7 rintro \u27e8x, hx, rfl\u27e9\n    exact abs_nonneg x\n  \u00b7 intro hy\n    use y\n    refine \u27e8hy, abs_of_nonneg hy\u27e9\nhave h_not_bdd : \u00ac BddAbove (Set.Ici (0 : \u211d)) := by\n  rintro \u27e8b, hb\u27e9\n  have h1 : max 0 b + 1 \u2208 Set.Ici (0 : \u211d) := by\n    simp only [Set.mem_Ici, le_add_iff_nonneg_right]\n    exact le_trans (le_max_left 0 b) (by linarith)\n  have h2 := hb h1\n  have h3 : b < max 0 b + 1 := by\n    have := le_max_right 0 b\n    linarith\n  linarith\nhave h_M0 : (0 : \u211d) = sSup { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |x| = y } := by\n  rw [h_set0]\n  rw [csSup_of_not_bddAbove h_not_bdd]\n  exact Real.sSup_empty.symm\nhave h_set1 : { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (fun x : \u211d => x) x| = y } = {1} := by\n  ext y\n  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]\n  rw [deriv_id'']\n  simp only [abs_one]\n  constructor\n  \u00b7 rintro \u27e8x, hx, rfl\u27e9\n    rfl\n  \u00b7 rintro rfl\n    use 0\n    simp only [Set.mem_Ici, le_refl, true_and]\nhave h_M1 : (1 : \u211d) = sSup { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (fun x : \u211d => x) x| = y } := by\n  rw [h_set1]\n  exact (csSup_singleton 1).symm\nhave h_set2 : { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (deriv (fun x : \u211d => x)) x| = y } = {0} := by\n  ext y\n  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]\n  rw [deriv_id'', deriv_const' 1]\n  simp only [abs_zero]\n  constructor\n  \u00b7 rintro \u27e8x, hx, rfl\u27e9\n    rfl\n  \u00b7 rintro rfl\n    use 0\n    simp only [Set.mem_Ici, le_refl, true_and]\nhave h_M2 : (0 : \u211d) = sSup { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (deriv (fun x : \u211d => x)) x| = y } := by\n  rw [h_set2]\n  exact (csSup_singleton 0).symm\nhave h_ineq := h (fun x => x) 0 0 1 0 h_diff' h_diff'' h_M0 h_M1 h_M2\nnorm_num at h_ineq",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n23:24: error: unexpected token ')'; expected ','",
+      "at": 1788777384.789152,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_5_15_neg : \u00ac (\u2200 (f : \u211d \u2192 \u211d) (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}),\n  (M1 ^ 2) \u2264 4 * M0 * M2)",
+      "proof": "intro h\nhave h_diff' : DifferentiableOn \u211d (fun x : \u211d => x) (Set.Ici 0) := diff_id 0\nhave h_diff'' : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici 0) := diff_deriv_id 0\nhave h_set0 : { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |x| = y } = Set.Ici 0 := by\n  ext y\n  simp only [Set.mem_setOf_eq, Set.mem_Ici]\n  constructor\n  \u00b7 rintro \u27e8x, hx, rfl\u27e9\n    exact abs_nonneg x\n  \u00b7 intro hy\n    use y\n    refine \u27e8hy, abs_of_nonneg hy\u27e9\nhave h_not_bdd : \u00ac BddAbove (Set.Ici (0 : \u211d)) := by\n  rintro \u27e8b, hb\u27e9\n  have h1 : max 0 b + 1 \u2208 Set.Ici (0 : \u211d) := by\n    simp only [Set.mem_Ici, le_add_iff_nonneg_right]\n    exact le_trans (le_max_left 0 b) (by linarith)\n  have h2 := hb h1\n  have h3 : b < max 0 b + 1 := by\n    have := le_max_right 0 b\n    linarith\n  linarith\nhave h_M0 : (0 : \u211d) = sSup { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |x| = y } := by\n  rw [h_set0]\n  rw [csSup_of_not_bddAbove h_not_bdd]\n  exact Real.sSup_empty.symm\nhave h_set1 : { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (fun x : \u211d => x) x| = y } = {1} := by\n  ext y\n  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]\n  rw [deriv_id'']\n  simp only [abs_one]\n  constructor\n  \u00b7 rintro \u27e8x, hx, rfl\u27e9\n    rfl\n  \u00b7 rintro rfl\n    use 0\n    simp only [Set.mem_Ici, le_refl, true_and]\nhave h_M1 : (1 : \u211d) = sSup { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (fun x : \u211d => x) x| = y } := by\n  rw [h_set1]\n  exact (csSup_singleton 1).symm\nhave h_set2 : { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (deriv (fun x : \u211d => x)) x| = y } = {0} := by\n  ext y\n  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]\n  rw [deriv_id'', deriv_const' 1]\n  simp only [abs_zero]\n  constructor\n  \u00b7 rintro \u27e8x, hx, rfl\u27e9\n    rfl\n  \u00b7 rintro rfl\n    use 0\n    simp only [Set.mem_Ici, le_refl, true_and]\nhave h_M2 : (0 : \u211d) = sSup { y | \u2203 x \u2208 Set.Ici (0 : \u211d), |deriv (deriv (fun x : \u211d => x)) x| = y } := by\n  rw [h_set2]\n  exact (csSup_singleton 0).symm\nhave h_ineq := h (fun x => x) 0 0 1 0 h_diff' h_diff'' h_M0 h_M1 h_M2\nnorm_num at h_ineq",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_5_15_neg : \u00ac (\u2200 (f : \u211d \u2192 \u211d) (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}),\n  (M1 ^ 2) \u2264 4 * M0 * M2)",
+      "at": 1788777390.5299156,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma dummy (P : Prop) : P \u2192 P := by\n  intro h\n  exact h",
+    "lemma csSup_le_test {s : Set \u211d} (h1 : s.Nonempty) (h2 : \u2200 x \u2208 s, x \u2264 5) : sSup s \u2264 5 := by\n  apply csSup_le h1\n  intro x hx\n  exact h2 x hx",
+    "lemma diff_id (a : \u211d) : DifferentiableOn \u211d (fun x : \u211d => x) (Set.Ici a) := by\n  exact differentiableOn_id",
+    "lemma diff_deriv_id (a : \u211d) : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici a) := by\n  rw [deriv_id'']\n  exact differentiableOn_const 1"
+  ],
+  "premises": [
+    {
+      "name": "Fin.append_elim0",
+      "type": " {m : \u2115} {\u03b1 : Sort u_1} (u : Fin m \u2192 \u03b1) : Fin.append u Fin.elim0 = u \u2218 Fin.cast \u22ef",
+      "module": "Mathlib.Data.Fin.Tuple.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Fin.elim0_append",
+      "type": " {n : \u2115} {\u03b1 : Sort u_1} (v : Fin n \u2192 \u03b1) : Fin.append Fin.elim0 v = v \u2218 Fin.cast \u22ef",
+      "module": "Mathlib.Data.Fin.Tuple.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM0.Stmt",
+      "type": " (\u0393 : Type u_1) : Type u_1",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "A Turing machine \"statement\" is just a command to either move\nleft or right, or write a symbol on the tape. "
+    },
+    {
+      "name": "Turing.TM0to1.\u039b'",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) : Type (max u_1 u_2)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "The machine states for a TM1 emulating a TM0 machine. States of the TM0 machine are embedded\nas `normal q` states, but the actual operation is split into two parts, a jump to `act s q`\nfollowed by the action and a jump to the next `normal` state. "
+    },
+    {
+      "name": "Turing.TM0.Stmt.move",
+      "type": " {\u0393 : Type u_1} : Turing.Dir \u2192 Turing.TM0.Stmt \u0393",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM0.Stmt.write",
+      "type": " {\u0393 : Type u_1} : \u0393 \u2192 Turing.TM0.Stmt \u0393",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM0.Cfg",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) [Inhabited \u0393] : Type (max u_1 u_2)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "The configuration state of a Turing machine during operation\nconsists of a label (machine state), and a tape.\nThe tape is represented in the form `(a, L, R)`, meaning the tape looks like `L.rev ++ [a] ++ R`\nwith the machine currently reading the `a`. The lists are\nautomatically extended with blanks as the machine moves around. "
+    },
+    {
+      "name": "Turing.TM0.Machine",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) [Inhabited \u039b] : Type (max (max u_1 u_2) u_1 u_2)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "A Post-Turing machine with symbol type `\u0393` and label type `\u039b`\nis a function which, given the current state `q : \u039b` and\nthe tape head `a : \u0393`, either halts (returns `none`) or returns\na new state `q' : \u039b` and a `Stmt` describing what to do,\neither a move left or right, or a write command.\n\nBoth `\u039b` and `\u0393` are required to be inhabited; the default value\nfor `\u0393` is the \"blank\" tape value, and the default value of `\u039b` is\nthe initial state. "
+    },
+    {
+      "name": "Turing.TM0.Stmt.inhabited",
+      "type": " (\u0393 : Type u_1) [Inhabited \u0393] : Inhabited (Turing.TM0.Stmt \u0393)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM0to1.\u039b'.normal",
+      "type": " {\u0393 : Type u_1} {\u039b : Type u_2} : \u039b \u2192 Turing.TM0to1.\u039b' \u0393 \u039b",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM0to1.instInhabited\u039b'",
+      "type": " {\u0393 : Type u_1} {\u039b : Type u_2} [Inhabited \u039b] : Inhabited (Turing.TM0to1.\u039b' \u0393 \u039b)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "HomotopicalAlgebra.ModelCategory.cm1a",
+      "type": " {C : Type u} {inst\u271d : CategoryTheory.Category.{v, u} C} [self : HomotopicalAlgebra.ModelCategory C] : CategoryTheory.Limits.HasFiniteLimits C",
+      "module": "Mathlib.AlgebraicTopology.ModelCategory.Basic",
+      "doc": ""
+    },
+    {
+      "name": "HomotopicalAlgebra.ModelCategory.cm1b",
+      "type": " {C : Type u} {inst\u271d : CategoryTheory.Category.{v, u} C} [self : HomotopicalAlgebra.ModelCategory C] : CategoryTheory.Limits.HasFiniteColimits C",
+      "module": "Mathlib.AlgebraicTopology.ModelCategory.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZNum.bitm1",
+      "type": " : ZNum \u2192 ZNum",
+      "module": "Mathlib.Data.Num.Basic",
+      "doc": "`bitm1 x` appends a `1` to the end of `x`, mapping `x` to `2 * x - 1`. "
+    },
+    {
+      "name": "Turing.TM1.Stmt",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) (\u03c3 : Type u_3) : Type (max (max u_1 u_2) u_3)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "The TM1 model is a simplification and extension of TM0\n(Post-Turing model) in the direction of Wang B-machines. The machine's\ninternal state is extended with a (finite) store `\u03c3` of variables\nthat may be accessed and updated at any time.\nA machine is given by a `\u039b` indexed set of procedures or functions.\nEach function has a body which is a `Stmt`, which can either be a\n`move` or `write` command, a `branch` (if statement based on the\ncurrent tape value), a `load` (set the variable value),\na `goto` (call another function), or `halt`. Note that here\nmost statements do not have labels; `goto` commands can only\ngo to a new function. All commands have access to the variable value\nand current tape value. "
+    },
+    {
+      "name": "Turing.TM1to1.\u039b'",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) (\u03c3 : Type u_3) : Type (max (max u_1 u_2) u_3)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "The configuration state of the TM. "
+    },
+    {
+      "name": "Turing.TM1.Cfg",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) (\u03c3 : Type u_3) [Inhabited \u0393] : Type (max (max u_1 u_2) u_3)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "The configuration of a TM1 machine is given by the currently\nevaluating statement, the variable store value, and the tape. "
+    },
+    {
+      "name": "Turing.TM1.Stmt.halt",
+      "type": " {\u0393 : Type u_1} {\u039b : Type u_2} {\u03c3 : Type u_3} : Turing.TM1.Stmt \u0393 \u039b \u03c3",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM1.Stmt.inhabited",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) (\u03c3 : Type u_3) : Inhabited (Turing.TM1.Stmt \u0393 \u039b \u03c3)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM1to1.\u039b'.normal",
+      "type": " {\u0393 : Type u_1} {\u039b : Type u_2} {\u03c3 : Type u_3} : \u039b \u2192 Turing.TM1to1.\u039b' \u0393 \u039b \u03c3",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "tacticDeriving_LawfulEq_tactic",
+      "type": " : Lean.ParserDescr",
+      "module": "Init.LawfulBEqTactics",
+      "doc": ""
+    },
+    {
+      "name": "tacticDeriving_LawfulEq_tactic_step",
+      "type": " : Lean.ParserDescr",
+      "module": "Init.LawfulBEqTactics",
+      "doc": ""
+    },
+    {
+      "name": "DerivingHelpers.tacticDeriving_ReflEq_tactic",
+      "type": " : Lean.ParserDescr",
+      "module": "Init.LawfulBEqTactics",
+      "doc": ""
+    },
+    {
+      "name": "DerivingHelpers.and_true_curry",
+      "type": " {a b : Bool} {P : Prop} (h : a = true \u2192 b = true \u2192 P) : (a && b) = true \u2192 P",
+      "module": "Init.LawfulBEqTactics",
+      "doc": ""
+    },
+    {
+      "name": "DerivingHelpers.deriving_lawful_beq_helper_nd",
+      "type": " {\u03b1 : Type u_1} {x y : \u03b1} [BEq \u03b1] [ReflBEq \u03b1] {P : Prop} (inst : (x == y) = true \u2192 x = y) (k : x = y \u2192 P) : (x == y) = true \u2192 P",
+      "module": "Init.LawfulBEqTactics",
+      "doc": ""
+    },
+    {
+      "name": "DerivingHelpers.deriving_lawful_beq_helper_dep",
+      "type": " {\u03b1 : Type u_1} {x y : \u03b1} [BEq \u03b1] [ReflBEq \u03b1] {t : (x == y) = true \u2192 Bool} {P : Prop} (inst : (x == y) = true \u2192 x = y) (k : \u2200 (h : x = y), t \u22ef = true \u2192 P) : (if h : (x == y) = true then t h else false) = true \u2192 P",
+      "module": "Init.LawfulBEqTactics",
+      "doc": ""
+    },
+    {
+      "name": "DerivedWanted.ofVal",
+      "type": " {\u03b1 : Sort u} (val : \u03b1) : DerivedWanted \u03b1",
+      "module": "Batteries.Util.ProofWanted",
+      "doc": ""
+    },
+    {
+      "name": "DerivedWanted.val",
+      "type": " {\u03b1 : Sort u} (self : DerivedWanted \u03b1) : \u03b1",
+      "module": "Batteries.Util.ProofWanted",
+      "doc": "The carried value. Reference the declaration via `\u2770\u2026\u2771` rather than projecting this\ndirectly. "
+    },
+    {
+      "name": "Mathlib.Meta.NormNum.deriveSimp",
+      "type": " (ctx : Lean.Meta.Simp.Context) (useSimp : Bool := true) (e : Lean.Expr) : Lean.MetaM Lean.Meta.Simp.Result",
+      "module": "Mathlib.Tactic.NormNum.Core",
+      "doc": "Traverses the given expression using simp and normalises any numbers it finds. "
+    },
+    {
+      "name": "Mathlib.Meta.NormNum.deriveBool",
+      "type": " (p : Q(Prop)) : Lean.MetaM ((b : Bool) \u00d7 Mathlib.Meta.NormNum.BoolResult p b)",
+      "module": "Mathlib.Tactic.NormNum.Core",
+      "doc": "Run each registered `norm_num` extension on a typed expression `p : Prop`,\nand returning the truth or falsity of `p' : Prop` from an equivalence `p \u2194 p'`. "
+    },
+    {
+      "name": "Mathlib.Meta.NormNum.derive",
+      "type": " {u : Lean.Level} {\u03b1 : Q(Type u)} (e : Q(\u00ab$\u03b1\u00bb)) (post : Bool := false) : Lean.MetaM (Mathlib.Meta.NormNum.Result e)",
+      "module": "Mathlib.Tactic.NormNum.Core",
+      "doc": "Run each registered `norm_num` extension on an expression, returning a `NormNum.Result`. "
+    },
+    {
+      "name": "DerivedWanted",
+      "type": " (\u03b1 : Sort u) : Sort (max 1 u)",
+      "module": "Batteries.Util.ProofWanted",
+      "doc": "Wrapper carrying the body of a *transparent* `def_wanted` (one given a `:= body`). Unlike the\nempty `DefWanted`, it stores the value, so `\u2770foo\u2771` projects it back out and downstream definitional\nequalities go through; but the placeholder still has type `DerivedWanted T`, not `T`, so it\ncannot be used directly as an inhabitant of `T` \u2014 the intended access is via the `\u2770\u2026\u2771` syntax,\nwhich projects\nthe value back out. (`val` is `public`, so direct projection is possible, but `\u2770\u2026\u2771` is what callers\nshould use.) "
+    },
+    {
+      "name": "hasDerivAt_const",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] (x : \ud835\udd5c) (c : F) : HasDerivAt (fun x => c) 0 x",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "hasDerivAtFilter_const",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] (L : Filter (\ud835\udd5c \u00d7 \ud835\udd5c)) (c : F) : HasDerivAtFilter (fun x => c) 0 L",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "hasDerivAt_intCast",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] (x : \ud835\udd5c) [IntCast F] (z : \u2124) : HasDerivAt (\u2191z) 0 x",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "hasDerivAt_natCast",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] (x : \ud835\udd5c) [NatCast F] (n : \u2115) : HasDerivAt (\u2191n) 0 x",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "hasDerivAt_one",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] (x : \ud835\udd5c) [One F] : HasDerivAt 1 0 x",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "hasDerivAt_ofNat",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] (x : \ud835\udd5c) (n : \u2115) [OfNat F n] : HasDerivAt (OfNat.ofNat n) 0 x",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "hasDerivAtFilter_intCast",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] (L : Filter (\ud835\udd5c \u00d7 \ud835\udd5c)) [IntCast F] (z : \u2124) : HasDerivAtFilter (\u2191z) 0 L",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "hasDerivAtFilter_natCast",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] (L : Filter (\ud835\udd5c \u00d7 \ud835\udd5c)) [NatCast F] (n : \u2115) : HasDerivAtFilter (\u2191n) 0 L",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "HasDerivAt.continuousAt",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] {f : \ud835\udd5c \u2192 F} {f' : F} {x : \ud835\udd5c} (h : HasDerivAt f f' x) : ContinuousAt f x",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "hasDerivAtFilter_one",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] (L : Filter (\ud835\udd5c \u00d7 \ud835\udd5c)) [One F] : HasDerivAtFilter 1 0 L",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "HasDerivAt.deriv",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] {f : \ud835\udd5c \u2192 F} {f' : F} {x : \ud835\udd5c} (h : HasDerivAt f f' x) : deriv f x = f'",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "hasDerivAtFilter_ofNat",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] (L : Filter (\ud835\udd5c \u00d7 \ud835\udd5c)) (n : \u2115) [OfNat F n] : HasDerivAtFilter (OfNat.ofNat n) 0 L",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ProbabilityTheory.IsAEKolmogorovProcess.mk",
+      "type": " {T : Type u_1} {\u03a9 : Type u_2} {E : Type u_3} [PseudoEMetricSpace T] {m\u03a9 : MeasurableSpace \u03a9} [PseudoEMetricSpace E] {p q : \u211d} {M : NNReal} {P : MeasureTheory.Measure \u03a9} (X : T \u2192 \u03a9 \u2192 E) (h : ProbabilityTheory.IsAEKolmogorovProcess X P p q M) : T \u2192 \u03a9 \u2192 E",
+      "module": "Mathlib.Probability.Process.Kolmogorov",
+      "doc": "A process with the property `IsKolmogorovProcess` such that `\u2200 t, X t =\u1d50[P] h.mk X t`. "
+    },
+    {
+      "name": "ProbabilityTheory.IsAEKolmogorovProcess.p_pos",
+      "type": " {T : Type u_1} {\u03a9 : Type u_2} {E : Type u_3} [PseudoEMetricSpace T] {m\u03a9 : MeasurableSpace \u03a9} [PseudoEMetricSpace E] {p q : \u211d} {M : NNReal} {P : MeasureTheory.Measure \u03a9} {X : T \u2192 \u03a9 \u2192 E} (hX : ProbabilityTheory.IsAEKolmogorovProcess X P p q M) : 0 < p",
+      "module": "Mathlib.Probability.Process.Kolmogorov",
+      "doc": ""
+    },
+    {
+      "name": "ProbabilityTheory.IsAEKolmogorovProcess.q_pos",
+      "type": " {T : Type u_1} {\u03a9 : Type u_2} {E : Type u_3} [PseudoEMetricSpace T] {m\u03a9 : MeasurableSpace \u03a9} [PseudoEMetricSpace E] {p q : \u211d} {M : NNReal} {P : MeasureTheory.Measure \u03a9} {X : T \u2192 \u03a9 \u2192 E} (hX : ProbabilityTheory.IsAEKolmogorovProcess X P p q M) : 0 < q",
+      "module": "Mathlib.Probability.Process.Kolmogorov",
+      "doc": ""
+    },
+    {
+      "name": "ProbabilityTheory.IsKolmogorovProcess.p_pos",
+      "type": " {T : Type u_1} {\u03a9 : Type u_2} {E : Type u_3} [PseudoEMetricSpace T] {m\u03a9 : MeasurableSpace \u03a9} [PseudoEMetricSpace E] {X : T \u2192 \u03a9 \u2192 E} {P : MeasureTheory.Measure \u03a9} {p q : \u211d} {M : NNReal} (self : ProbabilityTheory.IsKolmogorovProcess X P p q M) : 0 < p",
+      "module": "Mathlib.Probability.Process.Kolmogorov",
+      "doc": ""
+    },
+    {
+      "name": "ProbabilityTheory.IsKolmogorovProcess.q_pos",
+      "type": " {T : Type u_1} {\u03a9 : Type u_2} {E : Type u_3} [PseudoEMetricSpace T] {m\u03a9 : MeasurableSpace \u03a9} [PseudoEMetricSpace E] {X : T \u2192 \u03a9 \u2192 E} {P : MeasureTheory.Measure \u03a9} {p q : \u211d} {M : NNReal} (self : ProbabilityTheory.IsKolmogorovProcess X P p q M) : 0 < q",
+      "module": "Mathlib.Probability.Process.Kolmogorov",
+      "doc": ""
+    },
+    {
+      "name": "ProbabilityTheory.IsKolmogorovProcess.IsAEKolmogorovProcess",
+      "type": " {T : Type u_1} {\u03a9 : Type u_2} {E : Type u_3} [PseudoEMetricSpace T] {m\u03a9 : MeasurableSpace \u03a9} [PseudoEMetricSpace E] {p q : \u211d} {M : NNReal} {P : MeasureTheory.Measure \u03a9} {X : T \u2192 \u03a9 \u2192 E} (hX : ProbabilityTheory.IsKolmogorovProcess X P p q M) : ProbabilityTheory.IsAEKolmogorovProcess X P p q M",
+      "module": "Mathlib.Probability.Process.Kolmogorov",
+      "doc": ""
+    },
+    {
+      "name": "ProbabilityTheory.IsKolmogorovProcess.measurable",
+      "type": " {T : Type u_1} {\u03a9 : Type u_2} {E : Type u_3} [PseudoEMetricSpace T] {m\u03a9 : MeasurableSpace \u03a9} [PseudoEMetricSpace E] {p q : \u211d} {M : NNReal} {P : MeasureTheory.Measure \u03a9} {X : T \u2192 \u03a9 \u2192 E} [MeasurableSpace E] [BorelSpace E] (hX : ProbabilityTheory.IsKolmogorovProcess X P p q M) (s : T) : Measurable (X s)",
+      "module": "Mathlib.Probability.Process.Kolmogorov",
+      "doc": ""
+    },
+    {
+      "name": "ProbabilityTheory.IsAEKolmogorovProcess.aemeasurable",
+      "type": " {T : Type u_1} {\u03a9 : Type u_2} {E : Type u_3} [PseudoEMetricSpace T] {m\u03a9 : MeasurableSpace \u03a9} [PseudoEMetricSpace E] {p q : \u211d} {M : NNReal} {P : MeasureTheory.Measure \u03a9} {X : T \u2192 \u03a9 \u2192 E} [MeasurableSpace E] [BorelSpace E] (hX : ProbabilityTheory.IsAEKolmogorovProcess X P p q M) (s : T) : AEMeasurable (X s) P",
+      "module": "Mathlib.Probability.Process.Kolmogorov",
+      "doc": ""
+    },
+    {
+      "name": "ProbabilityTheory.IsAEKolmogorovProcess.IsKolmogorovProcess_mk",
+      "type": " {T : Type u_1} {\u03a9 : Type u_2} {E : Type u_3} [PseudoEMetricSpace T] {m\u03a9 : MeasurableSpace \u03a9} [PseudoEMetricSpace E] {p q : \u211d} {M : NNReal} {P : MeasureTheory.Measure \u03a9} {X : T \u2192 \u03a9 \u2192 E} (h : ProbabilityTheory.IsAEKolmogorovProcess X P p q M) : ProbabilityTheory.IsKolmogorovProcess (ProbabilityTheory.IsAEKolmogorovProcess.mk X h) P p q M",
+      "module": "Mathlib.Probability.Process.Kolmogorov",
+      "doc": ""
+    },
+    {
+      "name": "ProbabilityTheory.IsKolmogorovProcess.measurable_edist",
+      "type": " {T : Type u_1} {\u03a9 : Type u_2} {E : Type u_3} [PseudoEMetricSpace T] {m\u03a9 : MeasurableSpace \u03a9} [PseudoEMetricSpace E] {p q : \u211d} {M : NNReal} {P : MeasureTheory.Measure \u03a9} {X : T \u2192 \u03a9 \u2192 E} (hX : ProbabilityTheory.IsKolmogorovProcess X P p q M) {s t : T} : Measurable fun \u03c9 => edist (X s \u03c9) (X t \u03c9)",
+      "module": "Mathlib.Probability.Process.Kolmogorov",
+      "doc": ""
+    },
+    {
+      "name": "ProbabilityTheory.IsAEKolmogorovProcess",
+      "type": " {T : Type u_1} {\u03a9 : Type u_2} {E : Type u_3} [PseudoEMetricSpace T] {m\u03a9 : MeasurableSpace \u03a9} [PseudoEMetricSpace E] (X : T \u2192 \u03a9 \u2192 E) (P : MeasureTheory.Measure \u03a9) (p q : \u211d) (M : NNReal) : Prop",
+      "module": "Mathlib.Probability.Process.Kolmogorov",
+      "doc": "Property of being a modification of a stochastic process that satisfies the Kolmogorov\ncondition (`IsKolmogorovProcess`). "
+    },
+    {
+      "name": "ProbabilityTheory.IsKolmogorovProcess",
+      "type": " {T : Type u_1} {\u03a9 : Type u_2} {E : Type u_3} [PseudoEMetricSpace T] {m\u03a9 : MeasurableSpace \u03a9} [PseudoEMetricSpace E] (X : T \u2192 \u03a9 \u2192 E) (P : MeasureTheory.Measure \u03a9) (p q : \u211d) (M : NNReal) : Prop",
+      "module": "Mathlib.Probability.Process.Kolmogorov",
+      "doc": "A stochastic process `X : T \u2192 \u03a9 \u2192 E` on an index space `T` and a measurable space `\u03a9`\nwith measure `P` is said to satisfy the Kolmogorov condition with exponents `p, q` and constant `M`\nif for all `s, t : T`, the pair `(X s, X t)` is measurable for the Borel sigma-algebra on `E \u00d7 E`\nand the following condition holds: `\u222b\u207b \u03c9, edist (X s \u03c9) (X t \u03c9) ^ p \u2202P \u2264 M * edist s t ^ q`. "
+    },
+    {
+      "name": "ne_of_ssuperset",
+      "type": " {\u03b1 : Type u_1} [UsesSetNotationForOrder \u03b1] [Preorder \u03b1] {a b : \u03b1} (h : b \u2282 a) : a \u2260 b",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Set notation form of `ne_of_gt`"
+    },
+    {
+      "name": "not_subset_of_ssuperset",
+      "type": " {\u03b1 : Type u_1} [UsesSetNotationForOrder \u03b1] [Preorder \u03b1] {a b : \u03b1} (hab : a \u2282 b) : \u00acb \u2286 a",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Set notation form of `not_le_of_gt`"
+    },
+    {
+      "name": "LE.le.not_ssuperset",
+      "type": " {\u03b1 : Type u_1} [UsesSetNotationForOrder \u03b1] [Preorder \u03b1] {a b : \u03b1} (hab : a \u2286 b) : \u00acb \u2282 a",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Set notation form of `LE.le.not_gt`"
+    },
+    {
+      "name": "eq_of_superset_of_not_ssuperset",
+      "type": " {\u03b1 : Type u_2} [UsesSetNotationForOrder \u03b1] [PartialOrder \u03b1] {a b : \u03b1} (h\u2081 : b \u2286 a) (h\u2082 : \u00acb \u2282 a) : a = b",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "**Alias** of `eq_of_subset_of_not_ssubset'`.\n\n---\n\nSet notation form of `eq_of_le_of_not_lt'`"
+    },
+    {
+      "name": "HasSubset.Subset.eq_of_not_ssuperset",
+      "type": " {\u03b1 : Type u_2} [UsesSetNotationForOrder \u03b1] [PartialOrder \u03b1] {a b : \u03b1} (h\u2081 : b \u2286 a) (h\u2082 : \u00acb \u2282 a) : a = b",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "**Alias** of `LE.le.eq_of_not_ssuperset`.\n\n---\n\n**Alias** of `LE.le.eq_of_not_ssubset'`.\n\n---\n\nSet notation form of `LE.le.eq_of_not_lt'`"
+    },
+    {
+      "name": "LE.le.eq_of_not_ssuperset",
+      "type": " {\u03b1 : Type u_2} [UsesSetNotationForOrder \u03b1] [PartialOrder \u03b1] {a b : \u03b1} (h\u2081 : b \u2286 a) (h\u2082 : \u00acb \u2282 a) : a = b",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "**Alias** of `LE.le.eq_of_not_ssubset'`.\n\n---\n\nSet notation form of `LE.le.eq_of_not_lt'`"
+    },
+    {
+      "name": "SupSet.sSup",
+      "type": " {\u03b1 : Type u_1} [self : SupSet \u03b1] : Set \u03b1 \u2192 \u03b1",
+      "module": "Mathlib.Order.SetNotation",
+      "doc": "Supremum of a set "
+    },
+    {
+      "name": "Set.sSup_eq_sUnion",
+      "type": " {\u03b1 : Type u} (S : Set (Set \u03b1)) : sSup S = \u22c3\u2080 S",
+      "module": "Mathlib.Order.SetNotation",
+      "doc": ""
+    },
+    {
+      "name": "isLUB_sSup",
+      "type": " {\u03b1 : Type u_1} [CompleteSemilatticeSup \u03b1] (s : Set \u03b1) : IsLUB s (sSup s)",
+      "module": "Mathlib.Order.CompleteLattice.Defs",
+      "doc": ""
+    },
+    {
+      "name": "instCoeTCSupHomOfSupHomClass",
+      "type": " {F : Type u_1} {\u03b1 : Type u_2} {\u03b2 : Type u_3} [FunLike F \u03b1 \u03b2] [Max \u03b1] [Max \u03b2] [SupHomClass F \u03b1 \u03b2] : CoeTC F (SupHom \u03b1 \u03b2)",
+      "module": "Mathlib.Order.Hom.Lattice",
+      "doc": ""
+    },
+    {
+      "name": "instCoeTCSupBotHomOfSupBotHomClass",
+      "type": " {F : Type u_1} {\u03b1 : Type u_2} {\u03b2 : Type u_3} [FunLike F \u03b1 \u03b2] [Max \u03b1] [Max \u03b2] [Bot \u03b1] [Bot \u03b2] [SupBotHomClass F \u03b1 \u03b2] : CoeTC F (SupBotHom \u03b1 \u03b2)",
+      "module": "Mathlib.Order.Hom.BoundedLattice",
+      "doc": ""
+    },
+    {
+      "name": "ChainCompletePartialOrder.cSup",
+      "type": " {\u03b1 : Type u_4} [self : ChainCompletePartialOrder \u03b1] : NonemptyChain \u03b1 \u2192 \u03b1",
+      "module": "Mathlib.Order.BourbakiWitt",
+      "doc": "The supremum of a nonempty chain "
+    },
+    {
+      "name": "ChainCompletePartialOrder.le_cSup",
+      "type": " {\u03b1 : Type u_4} [self : ChainCompletePartialOrder \u03b1] (c : NonemptyChain \u03b1) (x : \u03b1) : x \u2208 c.carrier \u2192 x \u2264 ChainCompletePartialOrder.cSup c",
+      "module": "Mathlib.Order.BourbakiWitt",
+      "doc": "`cSup` is an upper bound of the nonempty chain "
+    },
+    {
+      "name": "ChainCompletePartialOrder.cSup_le",
+      "type": " {\u03b1 : Type u_4} [self : ChainCompletePartialOrder \u03b1] (c : NonemptyChain \u03b1) (x : \u03b1) : (\u2200 y \u2208 c.carrier, y \u2264 x) \u2192 ChainCompletePartialOrder.cSup c \u2264 x",
+      "module": "Mathlib.Order.BourbakiWitt",
+      "doc": "`cSup` is a lower bound of the set of upper bounds of the nonempty chain "
+    },
+    {
+      "name": "ChainCompletePartialOrder.IsAdmissible.cSup_mem",
+      "type": " {\u03b1 : Type u_1} [ChainCompletePartialOrder \u03b1] {x : \u03b1} {f : \u03b1 \u2192 \u03b1} {s : Set \u03b1} (self : ChainCompletePartialOrder.IsAdmissible x f s) (c : NonemptyChain \u03b1) : \u2191c \u2286 s \u2192 ChainCompletePartialOrder.cSup c \u2208 s",
+      "module": "Mathlib.Order.BourbakiWitt",
+      "doc": "If a chain is a subset of an admissible set, its `cSup` is a member of the admissible set "
+    },
+    {
+      "name": "infIccOrderIsoIccSup",
+      "type": " {\u03b1 : Type u_1} [Lattice \u03b1] [IsModularLattice \u03b1] (a b : \u03b1) : \u2191(Set.Icc (a \u2293 b) a) \u2243o \u2191(Set.Icc b (a \u2294 b))",
+      "module": "Mathlib.Order.ModularLattice",
+      "doc": "The diamond isomorphism between the closed intervals `[a \u2293 b, a]` and `[b, a \u2294 b]` "
+    },
+    {
+      "name": "infIccOrderIsoIccSup'",
+      "type": " {\u03b1 : Type u_1} [Lattice \u03b1] [IsModularLattice \u03b1] (a b : \u03b1) : \u2191(Set.Icc (a \u2293 b) b) \u2243o \u2191(Set.Icc a (a \u2294 b))",
+      "module": "Mathlib.Order.ModularLattice",
+      "doc": "The diamond isomorphism between the closed intervals `[a \u2293 b, b]` and `[a, a \u2294 b]` "
+    },
+    {
+      "name": "infIccOrderIsoIccSup'_apply_coe",
+      "type": " {\u03b1 : Type u_1} [Lattice \u03b1] [IsModularLattice \u03b1] (a b : \u03b1) (a\u271d : \u2191(Set.Icc (a \u2293 b) b)) : \u2191((infIccOrderIsoIccSup' a b) a\u271d) = \u2191a\u271d \u2294 a",
+      "module": "Mathlib.Order.ModularLattice",
+      "doc": ""
+    },
+    {
+      "name": "infIccOrderIsoIccSup_apply_coe",
+      "type": " {\u03b1 : Type u_1} [Lattice \u03b1] [IsModularLattice \u03b1] (a b : \u03b1) (x : \u2191(Set.Icc (a \u2293 b) a)) : \u2191((infIccOrderIsoIccSup a b) x) = \u2191x \u2294 b",
+      "module": "Mathlib.Order.ModularLattice",
+      "doc": ""
+    },
+    {
+      "name": "infIccOrderIsoIccSup_symm_apply_coe",
+      "type": " {\u03b1 : Type u_1} [Lattice \u03b1] [IsModularLattice \u03b1] (a b : \u03b1) (x : \u2191(Set.Icc b (a \u2294 b))) : \u2191((RelIso.symm (infIccOrderIsoIccSup a b)) x) = a \u2293 \u2191x",
+      "module": "Mathlib.Order.ModularLattice",
+      "doc": ""
+    },
+    {
+      "name": "infIccOrderIsoIccSup'_symm_apply_coe",
+      "type": " {\u03b1 : Type u_1} [Lattice \u03b1] [IsModularLattice \u03b1] (a b : \u03b1) (a\u271d : \u2191(Set.Icc a (a \u2294 b))) : \u2191((RelIso.symm (infIccOrderIsoIccSup' a b)) a\u271d) = \u2191((infIccOrderIsoIccSup b a).symm (((Set.Icc a (b \u2294 a)).orderIsoOfEq (Set.Icc a (a \u2294 b)) \u22ef).symm a\u271d))",
+      "module": "Mathlib.Order.ModularLattice",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.taylorAlgHom",
+      "type": " {R : Type u_1} [CommSemiring R] (r : R) : Polynomial R \u2192\u2090[R] Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.Taylor",
+      "doc": "`Polynomial.taylor` as an `AlgHom` for commutative semirings "
+    },
+    {
+      "name": "Polynomial.taylor",
+      "type": " {R : Type u_1} [Semiring R] (r : R) : Polynomial R \u2192\u2097[R] Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.Taylor",
+      "doc": "The Taylor expansion of a polynomial `f` at `r`. "
+    },
+    {
+      "name": "Polynomial.taylorEquiv",
+      "type": " {R : Type u_1} [CommRing R] (r : R) : Polynomial R \u2243\u2090[R] Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.Taylor",
+      "doc": "`Polynomial.taylor` as an `AlgEquiv` for commutative rings. "
+    },
+    {
+      "name": "Polynomial.taylor_zero'",
+      "type": " {R : Type u_1} [Semiring R] : Polynomial.taylor 0 = LinearMap.id",
+      "module": "Mathlib.Algebra.Polynomial.Taylor",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.leadingCoeff_taylor",
+      "type": " {R : Type u_1} [Semiring R] (r : R) (f : Polynomial R) : ((Polynomial.taylor r) f).leadingCoeff = f.leadingCoeff",
+      "module": "Mathlib.Algebra.Polynomial.Taylor",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.natDegree_taylor",
+      "type": " {R : Type u_1} [Semiring R] (p : Polynomial R) (r : R) : ((Polynomial.taylor r) p).natDegree = p.natDegree",
+      "module": "Mathlib.Algebra.Polynomial.Taylor",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.degree_taylor",
+      "type": " {R : Type u_1} [Semiring R] (p : Polynomial R) (r : R) : ((Polynomial.taylor r) p).degree = p.degree",
+      "module": "Mathlib.Algebra.Polynomial.Taylor",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.taylor_zero",
+      "type": " {R : Type u_1} [Semiring R] (f : Polynomial R) : (Polynomial.taylor 0) f = f",
+      "module": "Mathlib.Algebra.Polynomial.Taylor",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.toAlgHom_taylorEquiv",
+      "type": " {R : Type u_1} [CommRing R] (r : R) : \u2191(Polynomial.taylorEquiv r) = Polynomial.taylorAlgHom r",
+      "module": "Mathlib.Algebra.Polynomial.Taylor",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.coeff_taylor_natDegree",
+      "type": " {R : Type u_1} [Semiring R] (r : R) (f : Polynomial R) : ((Polynomial.taylor r) f).coeff f.natDegree = f.leadingCoeff",
+      "module": "Mathlib.Algebra.Polynomial.Taylor",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.taylor_eq_zero",
+      "type": " {R : Type u_1} [Semiring R] (r : R) (f : Polynomial R) : (Polynomial.taylor r) f = 0 \u2194 f = 0",
+      "module": "Mathlib.Algebra.Polynomial.Taylor",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.taylor_coeff_zero",
+      "type": " {R : Type u_1} [Semiring R] (r : R) (f : Polynomial R) : ((Polynomial.taylor r) f).coeff 0 = Polynomial.eval r f",
+      "module": "Mathlib.Algebra.Polynomial.Taylor",
+      "doc": ""
+    },
+    {
+      "name": "exists_deriv_eq_zero",
+      "type": " {f : \u211d \u2192 \u211d} {a b : \u211d} (hab : a < b) (hfc : ContinuousOn f (Set.Icc a b)) (hfI : f a = f b) : \u2203 c \u2208 Set.Ioo a b, deriv f c = 0",
+      "module": "Mathlib.Analysis.Calculus.LocalExtr.Rolle",
+      "doc": "**Rolle's Theorem** `deriv` version "
+    },
+    {
+      "name": "exists_deriv_eq_zero'",
+      "type": " {f : \u211d \u2192 \u211d} {a b l : \u211d} (hab : a < b) (hfa : Filter.Tendsto f (nhdsWithin a (Set.Ioi a)) (nhds l)) (hfb : Filter.Tendsto f (nhdsWithin b (Set.Iio b)) (nhds l)) : \u2203 c \u2208 Set.Ioo a b, deriv f c = 0",
+      "module": "Mathlib.Analysis.Calculus.LocalExtr.Rolle",
+      "doc": "**Rolle's Theorem**, a version for a function on an open interval: if `f` has the same limit\n`l` at `\ud835\udcdd[>] a` and `\ud835\udcdd[<] b`, then `deriv f c = 0` for some `c \u2208 (a, b)`. This version\ndoes not require differentiability of `f` because we define `deriv f c = 0` whenever `f` is not\ndifferentiable at `c`. "
+    },
+    {
+      "name": "exists_deriv_eq_slope",
+      "type": " (f : \u211d \u2192 \u211d) {a b : \u211d} (hab : a < b) (hfc : ContinuousOn f (Set.Icc a b)) (hfd : DifferentiableOn \u211d f (Set.Ioo a b)) : \u2203 c \u2208 Set.Ioo a b, deriv f c = (f b - f a) / (b - a)",
+      "module": "Mathlib.Analysis.Calculus.Deriv.MeanValue",
+      "doc": "Lagrange's **Mean Value Theorem**, `deriv` version. "
+    },
+    {
+      "name": "exists_deriv_eq_slope'",
+      "type": " (f : \u211d \u2192 \u211d) {a b : \u211d} (hab : a < b) (hfc : ContinuousOn f (Set.Icc a b)) (hfd : DifferentiableOn \u211d f (Set.Ioo a b)) : \u2203 c \u2208 Set.Ioo a b, deriv f c = slope f a b",
+      "module": "Mathlib.Analysis.Calculus.Deriv.MeanValue",
+      "doc": "Lagrange's **Mean Value Theorem**, `deriv` version. "
+    },
+    {
+      "name": "exists_derivative_mul_eq_and_isIntegral_coeff",
+      "type": " {R : Type u_1} {S : Type u_2} {B : Type u_3} [CommRing R] [CommRing S] [Algebra R S] [CommRing B] [Algebra R B] {\u03c6 : Polynomial S \u2192\u2090[R] B} (h\u03c6 : Function.Surjective \u21d1\u03c6) {f : Polynomial S} (hf : f.Monic) (hf' : \u2200 (i : \u2115), IsIntegral R (f.coeff i)) (hfx : RingHom.ker \u03c6.toRingHom = Ideal.span {f}) {y : B} (hy : IsIntegral R y) : \u2203 g, \u03c6 (Polynomial.derivative f) * y = \u03c6 g \u2227 \u2200 (i : \u2115), IsIntegral R (g.coeff i)",
+      "module": "Mathlib.RingTheory.Smooth.IntegralClosure",
+      "doc": "Let `S` be an `R`-algebra and `f : S[X]` be a monic polynomial with `R`-integral coefficients.\nSuppose `y` in `B = S[X]/f` is `R`-integral, then `f' * y` is the image of some `g : S[X]` with\n`R`-integral coefficients. "
+    },
+    {
+      "name": "StrictMonoOn.exists_deriv_lt_slope",
+      "type": " {x y : \u211d} {f : \u211d \u2192 \u211d} (hf : ContinuousOn f (Set.Icc x y)) (hxy : x < y) (hf'_mono : StrictMonoOn (deriv f) (Set.Ioo x y)) : \u2203 a \u2208 Set.Ioo x y, deriv f a < (f y - f x) / (y - x)",
+      "module": "Mathlib.Analysis.Convex.Deriv",
+      "doc": ""
+    },
+    {
+      "name": "StrictMonoOn.exists_deriv_lt_slope_aux",
+      "type": " {x y : \u211d} {f : \u211d \u2192 \u211d} (hf : ContinuousOn f (Set.Icc x y)) (hxy : x < y) (hf'_mono : StrictMonoOn (deriv f) (Set.Ioo x y)) (h : \u2200 w \u2208 Set.Ioo x y, deriv f w \u2260 0) : \u2203 a \u2208 Set.Ioo x y, deriv f a < (f y - f x) / (y - x)",
+      "module": "Mathlib.Analysis.Convex.Deriv",
+      "doc": ""
+    },
+    {
+      "name": "le_sSup",
+      "type": " {\u03b1 : Type u_1} [CompleteSemilatticeSup \u03b1] {s : Set \u03b1} {a : \u03b1} (h : a \u2208 s) : a \u2264 sSup s",
+      "module": "Mathlib.Order.CompleteLattice.Defs",
+      "doc": ""
+    },
+    {
+      "name": "sSup_le_sSup",
+      "type": " {\u03b1 : Type u_1} [CompleteSemilatticeSup \u03b1] {s t : Set \u03b1} (h : s \u2286 t) : sSup s \u2264 sSup t",
+      "module": "Mathlib.Order.CompleteLattice.Defs",
+      "doc": ""
+    },
+    {
+      "name": "le_sSup_of_le",
+      "type": " {\u03b1 : Type u_1} [CompleteSemilatticeSup \u03b1] {s : Set \u03b1} {a b : \u03b1} (hb : b \u2208 s) (h : a \u2264 b) : a \u2264 sSup s",
+      "module": "Mathlib.Order.CompleteLattice.Defs",
+      "doc": ""
+    },
+    {
+      "name": "le_sSup_iff",
+      "type": " {\u03b1 : Type u_1} [CompleteSemilatticeSup \u03b1] {s : Set \u03b1} {a : \u03b1} : a \u2264 sSup s \u2194 \u2200 b \u2208 upperBounds s, a \u2264 b",
+      "module": "Mathlib.Order.CompleteLattice.Defs",
+      "doc": ""
+    },
+    {
+      "name": "le_sSup_iff_forall_lt",
+      "type": " {\u03b1 : Type u_1} [CompleteLinearOrder \u03b1] {s : Set \u03b1} {l : \u03b1} : l \u2264 sSup s \u2194 \u2200 b < l, \u2203 a \u2208 s, b < a",
+      "module": "Mathlib.Order.CompleteLattice.Defs",
+      "doc": ""
+    },
+    {
+      "name": "sInf_le_sSup",
+      "type": " {\u03b1 : Type u_1} [CompleteLattice \u03b1] {s : Set \u03b1} (hs : s.Nonempty) : sInf s \u2264 sSup s",
+      "module": "Mathlib.Order.CompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "sSup_le_sSup_of_isCofinalFor",
+      "type": " {\u03b1 : Type u_1} [CompleteSemilatticeSup \u03b1] {s t : Set \u03b1} (h : IsCofinalFor s t) : sSup s \u2264 sSup t",
+      "module": "Mathlib.Order.CompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "sInf_le_sSup_of_nonempty_inter",
+      "type": " {\u03b1 : Type u_1} [CompleteLattice \u03b1] {s t : Set \u03b1} (h : (s \u2229 t).Nonempty) : sInf s \u2264 sSup t",
+      "module": "Mathlib.Order.CompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "sSup_le_sSup_of_subset_insert_bot",
+      "type": " {\u03b1 : Type u_1} [CompleteLattice \u03b1] {s t : Set \u03b1} (h : s \u2286 insert \u22a5 t) : sSup s \u2264 sSup t",
+      "module": "Mathlib.Order.CompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "iSup_inf_le_sSup_inf",
+      "type": " {\u03b1 : Type u_1} [CompleteLattice \u03b1] {a : \u03b1} {s : Set \u03b1} : \u2a06 b \u2208 s, b \u2293 a \u2264 sSup s \u2293 a",
+      "module": "Mathlib.Order.CompleteLattice.Lemmas",
+      "doc": "This is a weaker version of `sSup_inf_eq` "
+    },
+    {
+      "name": "le_sSup_iff_of_not_isSuccPrelimit",
+      "type": " {\u03b1 : Type u_2} [CompleteLinearOrder \u03b1] {s : Set \u03b1} {x : \u03b1} (h : \u00acOrder.IsSuccPrelimit x) : x \u2264 sSup s \u2194 \u2203 a \u2208 s, x \u2264 a",
+      "module": "Mathlib.Order.SuccPred.CompleteLinearOrder",
+      "doc": "Similar to `le_sSup_iff_forall_lt` but with a stronger RHS, as it requires a uniform bound. "
+    },
+    {
+      "name": "Order.IsSuccPrelimit.le_sSup_iff",
+      "type": " {\u03b1 : Type u_2} [CompleteLinearOrder \u03b1] {s : Set \u03b1} {x : \u03b1} (h : Order.IsSuccPrelimit x) : x \u2264 sSup s \u2194 IsCofinalFor (Set.Iio x) s",
+      "module": "Mathlib.Order.SuccPred.CompleteLinearOrder",
+      "doc": "Similar to `le_sSup_iff_forall_lt` but with a weaker RHS, as it requires a non-strict\ninequality. "
+    },
+    {
+      "name": "DirectedOn.le_csSup",
+      "type": " {\u03b1 : Type u_2} [ConditionallyCompletePartialOrderSup \u03b1] {s : Set \u03b1} {a : \u03b1} (hs : DirectedOn (fun x1 x2 => x1 \u2264 x2) s) (h_bdd : BddAbove s) (ha : a \u2208 s) : a \u2264 sSup s",
+      "module": "Mathlib.Order.ConditionallyCompletePartialOrder.Defs",
+      "doc": ""
+    },
+    {
+      "name": "DirectedOn.le_csSup_of_le",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompletePartialOrderSup \u03b1] {s : Set \u03b1} {a b : \u03b1} (hd : DirectedOn (fun x1 x2 => x1 \u2264 x2) s) (hs : BddAbove s) (hb : b \u2208 s) (h : a \u2264 b) : a \u2264 sSup s",
+      "module": "Mathlib.Order.ConditionallyCompletePartialOrder.Basic",
+      "doc": ""
+    },
+    {
+      "name": "DirectedOn.csSup_le_csSup",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompletePartialOrderSup \u03b1] {s t : Set \u03b1} (hds : DirectedOn (fun x1 x2 => x1 \u2264 x2) s) (hdt : DirectedOn (fun x1 x2 => x1 \u2264 x2) t) (ht : BddAbove t) (hs : s.Nonempty) (h : s \u2286 t) : sSup s \u2264 sSup t",
+      "module": "Mathlib.Order.ConditionallyCompletePartialOrder.Basic",
+      "doc": ""
+    },
+    {
+      "name": "DirectedOn.le_csSup_iff",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompletePartialOrderSup \u03b1] {s : Set \u03b1} {a : \u03b1} (hd : DirectedOn (fun x1 x2 => x1 \u2264 x2) s) (h : BddAbove s) (hs : s.Nonempty) : a \u2264 sSup s \u2194 \u2200 b \u2208 upperBounds s, a \u2264 b",
+      "module": "Mathlib.Order.ConditionallyCompletePartialOrder.Basic",
+      "doc": ""
+    },
+    {
+      "name": "DirectedOn.csInf_le_csSup",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompletePartialOrder \u03b1] {s : Set \u03b1} (hdb : DirectedOn (fun x1 x2 => x1 \u2265 x2) s) (hda : DirectedOn (fun x1 x2 => x1 \u2264 x2) s) (hb : BddBelow s) (ha : BddAbove s) (ne : s.Nonempty) : sInf s \u2264 sSup s",
+      "module": "Mathlib.Order.ConditionallyCompletePartialOrder.Basic",
+      "doc": "If a set is bounded below and above, and nonempty, its infimum is less than or equal to\nits supremum. "
+    },
+    {
+      "name": "le_csSup",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompleteLattice \u03b1] {s : Set \u03b1} {a : \u03b1} (h\u2081 : BddAbove s) (h\u2082 : a \u2208 s) : a \u2264 sSup s",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "csSup_le_csSup",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompleteLattice \u03b1] {s t : Set \u03b1} (ht : BddAbove t) (hs : s.Nonempty) (h : s \u2286 t) : sSup s \u2264 sSup t",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "le_csSup_of_le",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompleteLattice \u03b1] {s : Set \u03b1} {a b : \u03b1} (hs : BddAbove s) (hb : b \u2208 s) (h : a \u2264 b) : a \u2264 sSup s",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Monotone.le_csSup_image",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [ConditionallyCompleteLattice \u03b2] [Preorder \u03b1] {f : \u03b1 \u2192 \u03b2} (h_mono : Monotone f) {s : Set \u03b1} {c : \u03b1} (hcs : c \u2208 s) (h_bdd : BddAbove s) : f c \u2264 sSup (f '' s)",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "csInf_le_csSup",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompleteLattice \u03b1] {s : Set \u03b1} (ne : s.Nonempty) (hb : BddBelow s := by bddDefault) (ha : BddAbove s := by bddDefault) : sInf s \u2264 sSup s",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": "If a set is bounded below and above, and nonempty, its infimum is less than or equal to\nits supremum. "
+    },
+    {
+      "name": "csSup_le_csSup'",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompleteLinearOrderBot \u03b1] {s t : Set \u03b1} (h\u2081 : BddAbove t) (h\u2082 : s \u2286 t) : sSup s \u2264 sSup t",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "csInf_le_csSup_of_nonempty_inter",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompleteLattice \u03b1] {s t : Set \u03b1} (h : (s \u2229 t).Nonempty) (hs : BddBelow s := by bddDefault) (ht : BddAbove t := by bddDefault) : sInf s \u2264 sSup t",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "not_bddAbove_univ",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] [NoTopOrder \u03b1] : \u00acBddAbove Set.univ",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "nonempty_of_not_bddAbove",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {s : Set \u03b1} [ha : Nonempty \u03b1] (h : \u00acBddAbove s) : s.Nonempty",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "not_bddAbove_iff'",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {s : Set \u03b1} : \u00acBddAbove s \u2194 \u2200 (x : \u03b1), \u2203 y \u2208 s, \u00acy \u2264 x",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": "A set `s` is not bounded above if and only if for each `x` there exists `y \u2208 s` such that `x`\nis not greater than or equal to `y`. This version only assumes `Preorder` structure and uses\n`\u00ac(y \u2264 x)`. A version for linear orders is called `not_bddAbove_iff`. "
+    },
+    {
+      "name": "not_bddAbove_iff",
+      "type": " {\u03b1 : Type u_4} [LinearOrder \u03b1] {s : Set \u03b1} : \u00acBddAbove s \u2194 \u2200 (x : \u03b1), \u2203 y \u2208 s, x < y",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": "A set `s` is not bounded above if and only if for each `x` there exists `y \u2208 s` that is greater\nthan `x`. A version for preorders is called `not_bddAbove_iff'`. "
+    },
+    {
+      "name": "StrictMono.not_bddAbove_range_of_wellFoundedLT",
+      "type": " {\u03b2 : Type u_2} [LinearOrder \u03b2] {f : \u03b2 \u2192 \u03b2} [WellFoundedLT \u03b2] [NoMaxOrder \u03b2] (hf : StrictMono f) : \u00acBddAbove (Set.range f)",
+      "module": "Mathlib.Order.WellFounded",
+      "doc": ""
+    },
+    {
+      "name": "ConditionallyCompleteLinearOrder.csSup_of_not_bddAbove",
+      "type": " {\u03b1 : Type u_2} [self : ConditionallyCompleteLinearOrder \u03b1] (s : Set \u03b1) : \u00acBddAbove s \u2192 sSup s = sSup \u2205",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Defs",
+      "doc": "If a set is not bounded above, its supremum is by convention `sSup \u2205`. "
+    },
+    {
+      "name": "WithBot.sSup_of_not_bddAbove",
+      "type": " {\u03b1 : Type u_1} [LE \u03b1] [SupSet \u03b1] {s : Set (WithBot \u03b1)} (h : \u00acBddAbove s) : sSup s = \u22a5",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "WithTop.sSup_of_not_bddAbove",
+      "type": " {\u03b1 : Type u_1} [LE \u03b1] [SupSet \u03b1] {s : Set (WithTop \u03b1)} (h : \u00acBddAbove (WithTop.some \u207b\u00b9' s)) : sSup s = \u22a4",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "csSup_eq_univ_of_not_bddAbove",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompleteLinearOrder \u03b1] {s : Set \u03b1} (hs : \u00acBddAbove s) : sSup s = sSup Set.univ",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "csSup_of_not_bddAbove",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompleteLinearOrder \u03b1] {s : Set \u03b1} (hs : \u00acBddAbove s) : sSup s = sSup \u2205",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ciSup_eq_univ_of_not_bddAbove",
+      "type": " {\u03b1 : Type u_1} {\u03b9 : Sort u_4} [ConditionallyCompleteLinearOrder \u03b1] {f : \u03b9 \u2192 \u03b1} (hf : \u00acBddAbove (Set.range f)) : \u2a06 i, f i = sSup Set.univ",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ciSup_of_not_bddAbove",
+      "type": " {\u03b1 : Type u_1} {\u03b9 : Sort u_4} [ConditionallyCompleteLinearOrder \u03b1] {f : \u03b9 \u2192 \u03b1} (hf : \u00acBddAbove (Set.range f)) : \u2a06 i, f i = sSup \u2205",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "sSup_empty",
+      "type": " {\u03b1 : Type u_1} [CompleteLattice \u03b1] : sSup \u2205 = \u22a5",
+      "module": "Mathlib.Order.CompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ConditionallyCompleteLinearOrderBot.csSup_empty",
+      "type": " {\u03b1 : Type u_2} [self : ConditionallyCompleteLinearOrderBot \u03b1] : sSup \u2205 = \u22a5",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Defs",
+      "doc": "The supremum of the empty set is special-cased to `\u22a5` "
+    },
+    {
+      "name": "WithBot.sSup_empty",
+      "type": " {\u03b1 : Type u_1} [LE \u03b1] [SupSet \u03b1] : sSup \u2205 = \u22a5",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "csSup_empty",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompleteLinearOrderBot \u03b1] : sSup \u2205 = \u22a5",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "WithTop.sSup_empty",
+      "type": " (\u03b1 : Type u_5) [CompleteLattice \u03b1] : sSup \u2205 = \u22a5",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "subset_sSup_emptyset",
+      "type": " {\u03b1 : Type u_2} (s : Set \u03b1) [Preorder \u03b1] [SupSet \u03b1] [Inhabited \u2191s] : sSup \u2205 = default",
+      "module": "Mathlib.Order.CompleteLatticeIntervals",
+      "doc": ""
+    },
+    {
+      "name": "List.iSup_mem_map_of_exists_sSup_empty_le",
+      "type": " {\u03b9 : Type u_1} {\u03b1 : Type u_2} [ConditionallyCompleteLinearOrder \u03b1] {l : List \u03b9} (f : \u03b9 \u2192 \u03b1) (h : \u2203 x \u2208 l, sSup \u2205 \u2264 f x) : \u2a06 x \u2208 l, f x \u2208 List.map f l",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Finset",
+      "doc": ""
+    },
+    {
+      "name": "Multiset.iSup_mem_map_of_exists_sSup_empty_le",
+      "type": " {\u03b9 : Type u_1} {\u03b1 : Type u_2} [ConditionallyCompleteLinearOrder \u03b1] {s : Multiset \u03b9} (f : \u03b9 \u2192 \u03b1) (h : \u2203 x \u2208 s, sSup \u2205 \u2264 f x) : \u2a06 x \u2208 s, f x \u2208 Multiset.map f s",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Finset",
+      "doc": ""
+    },
+    {
+      "name": "Int.csSup_empty",
+      "type": " : sSup \u2205 = 0",
+      "module": "Mathlib.Data.Int.ConditionallyCompleteOrder",
+      "doc": ""
+    },
+    {
+      "name": "Real.sSup_empty",
+      "type": " : sSup \u2205 = 0",
+      "module": "Mathlib.Algebra.Order.Archimedean.Real.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Seminorm.sSup_empty",
+      "type": " {\ud835\udd5c : Type u_3} {E : Type u_7} [NormedField \ud835\udd5c] [AddCommGroup E] [Module \ud835\udd5c E] : sSup \u2205 = \u22a5",
+      "module": "Mathlib.Analysis.Normed.Module.Seminorm.Basic",
+      "doc": ""
+    },
+    {
+      "name": "fderiv_id",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {x : E} [ContinuousAdd E] [ContinuousSMul \ud835\udd5c E] [T2Space E] : fderiv \ud835\udd5c id x = ContinuousLinearMap.id \ud835\udd5c E",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "fderiv_id'",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {x : E} [ContinuousAdd E] [ContinuousSMul \ud835\udd5c E] [T2Space E] : fderiv \ud835\udd5c (fun x => x) x = ContinuousLinearMap.id \ud835\udd5c E",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": "**Alias** of `fderiv_fun_id`.\n\n---\n\nEta-expanded form of `fderiv_id`"
+    },
+    {
+      "name": "deriv_id",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] (x : \ud835\udd5c) : deriv id x = 1",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "deriv_id'",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] : deriv id = fun x => 1",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "deriv_id''",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] : (deriv fun x => x) = fun x => 1",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": "Variant with `fun x => x` rather than `id` "
+    },
+    {
+      "name": "logDeriv_id",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] (x : \ud835\udd5c) : logDeriv id x = 1 / x",
+      "module": "Mathlib.Analysis.Calculus.LogDeriv",
+      "doc": ""
+    },
+    {
+      "name": "logDeriv_id'",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] (x : \ud835\udd5c) : logDeriv (fun x => x) x = 1 / x",
+      "module": "Mathlib.Analysis.Calculus.LogDeriv",
+      "doc": ""
+    },
+    {
+      "name": "iteratedDeriv_id",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {n : \u2115} {x : \ud835\udd5c} : iteratedDeriv n id x = if n = 0 then x else if n = 1 then 1 else 0",
+      "module": "Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "mfderiv_id",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [NormedAddCommGroup E] [NormedSpace \ud835\udd5c E] {H : Type u_3} [TopologicalSpace H] {I : ModelWithCorners \ud835\udd5c E H} {M : Type u_4} [TopologicalSpace M] [ChartedSpace H M] {x : M} : mfderiv% id x = ContinuousLinearMap.id \ud835\udd5c (TangentSpace I x)",
+      "module": "Mathlib.Geometry.Manifold.MFDeriv.SpecificFunctions",
+      "doc": ""
+    },
+    {
+      "name": "csSup_singleton",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompletePartialOrderSup \u03b1] (a : \u03b1) : sSup {a} = a",
+      "module": "Mathlib.Order.ConditionallyCompletePartialOrder.Basic",
+      "doc": "The supremum of a singleton is the element of the singleton "
+    },
+    {
+      "name": "fderiv_const_apply",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {x : E} (c : F) : fderiv \ud835\udd5c (fun x => c) x = 0",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Const",
+      "doc": ""
+    },
+    {
+      "name": "fderiv_const",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] (c : F) : fderiv \ud835\udd5c (Function.const E c) = 0",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Const",
+      "doc": ""
+    },
+    {
+      "name": "deriv_const",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] (x : \ud835\udd5c) (c : F) : deriv (fun x => c) x = 0",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "deriv_const'",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {F : Type v} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] (c : F) : (deriv fun x => c) = fun x => 0",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "fderiv_const_add",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [NormedAddCommGroup E] [NormedSpace \ud835\udd5c E] {F : Type u_3} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] {f : E \u2192 F} {x : E} (c : F) : fderiv \ud835\udd5c (fun y => c + f y) x = fderiv \ud835\udd5c f x",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Add",
+      "doc": ""
+    },
+    {
+      "name": "fderiv_const_sub",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [NormedAddCommGroup E] [NormedSpace \ud835\udd5c E] {F : Type u_3} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] {f : E \u2192 F} {x : E} (c : F) : fderiv \ud835\udd5c (fun y => c - f y) x = -fderiv \ud835\udd5c f x",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Add",
+      "doc": ""
+    },
+    {
+      "name": "fderiv_const_smul_of_invertible",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [NormedAddCommGroup E] [NormedSpace \ud835\udd5c E] {F : Type u_3} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] {f : E \u2192 F} {x : E} {R : Type u_4} [Monoid R] [DistribMulAction R F] [SMulCommClass \ud835\udd5c R F] [ContinuousConstSMul R F] (c : R) [Invertible c] : fderiv \ud835\udd5c (c \u2022 f) x = c \u2022 fderiv \ud835\udd5c f x",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Add",
+      "doc": "A version of `fderiv_const_smul` without differentiability hypothesis: in return, the constant\n`c` must be invertible, i.e. if `R` is a field. "
+    },
+    {
+      "name": "fderiv_const_smul",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [NormedAddCommGroup E] [NormedSpace \ud835\udd5c E] {F : Type u_3} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] {f : E \u2192 F} {x : E} {R : Type u_4} [Monoid R] [DistribMulAction R F] [SMulCommClass \ud835\udd5c R F] [ContinuousConstSMul R F] (h : DifferentiableAt \ud835\udd5c f x) (c : R) : fderiv \ud835\udd5c (c \u2022 f) x = c \u2022 fderiv \ud835\udd5c f x",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Add",
+      "doc": ""
+    },
+    {
+      "name": "fderiv_const_smul_field",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [NormedAddCommGroup E] [NormedSpace \ud835\udd5c E] {F : Type u_3} [NormedAddCommGroup F] [NormedSpace \ud835\udd5c F] {f : E \u2192 F} {R : Type u_4} [DivisionSemiring R] [Module R F] [SMulCommClass \ud835\udd5c R F] [ContinuousConstSMul R F] (c : R) : fderiv \ud835\udd5c (c \u2022 f) = c \u2022 fderiv \ud835\udd5c f",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Add",
+      "doc": "Special case of `fderiv_const_smul_of_invertible` over a division semiring: any constant is\nallowed.\n\nTODO: This would work for scalars in a `GroupWithZero` if we had a `DistribMulActionWithZero`\ntypeclass. "
+    },
+    {
+      "name": "fderiv_const_mul",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [NormedAddCommGroup E] [NormedSpace \ud835\udd5c E] {x : E} {\ud835\udd38 : Type u_4} [NormedRing \ud835\udd38] [NormedAlgebra \ud835\udd5c \ud835\udd38] {a : E \u2192 \ud835\udd38} (ha : DifferentiableAt \ud835\udd5c a x) (b : \ud835\udd38) : fderiv \ud835\udd5c (fun y => b * a y) x = b \u2022 fderiv \ud835\udd5c a x",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Mul",
+      "doc": ""
+    },
+    {
+      "name": "deriv_const_mul_id",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] {x : \ud835\udd5c} (c : \ud835\udd5c) : deriv (fun y => c * y) x = c",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Mul",
+      "doc": ""
+    },
+    {
+      "name": "deriv_const_mul_id'",
+      "type": " {\ud835\udd5c : Type u} [NontriviallyNormedField \ud835\udd5c] (c : \ud835\udd5c) : (deriv fun x => c * x) = fun x => c",
+      "module": "Mathlib.Analysis.Calculus.Deriv.Mul",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Fin.append_elim0, Fin.elim0_append, Turing.TM0.Stmt, Turing.TM0to1.\u039b', Turing.TM0.Stmt.move, Turing.TM0.Stmt.write, Turing.TM0.Cfg, Turing.TM0.Machine",
+    "search: '\"exercise_5_15\"' -> nothing",
+    "search: '\"exercise_5_15\"' -> nothing; goal shape -> Fin.append_elim0, Fin.elim0_append, Turing.TM0.Stmt.move, Turing.TM0.Stmt.write, Turing.TM0.Stmt.inhabited, Turing.TM0to1.\u039b'.normal, Turing.TM0to1.instInhabited\u039b', HomotopicalAlgebra.ModelCategory.cm1a",
+    "search: '\"Landau\"' -> nothing",
+    "search: '\"Landau\"' -> nothing; goal shape -> Fin.append_elim0, Fin.elim0_append, Turing.TM0.Stmt.move, Turing.TM0.Stmt.write, Turing.TM0.Stmt.inhabited, Turing.TM0to1.\u039b'.normal, Turing.TM0to1.instInhabited\u039b', HomotopicalAlgebra.ModelCategory.cm1a",
+    "search: '\"deriv\"' -> tacticDeriving_LawfulEq_tactic, tacticDeriving_LawfulEq_tactic_step, DerivingHelpers.tacticDeriving_ReflEq_tactic, DerivingHelpers.and_true_curry, DerivingHelpers.deriving_lawful_beq_helper_nd, DerivingHelpers.deriving_lawful_beq_helper_dep, DerivedWanted.ofVal, DerivedWanted.val",
+    "search: '\"deriv\"' -> tacticDeriving_LawfulEq_tactic, tacticDeriving_LawfulEq_tactic_step, DerivingHelpers.tacticDeriving_ReflEq_tactic, DerivingHelpers.and_true_curry, DerivingHelpers.deriving_lawful_beq_helper_nd, DerivingHelpers.deriving_lawful_beq_helper_dep, DerivedWanted.ofVal, DerivedWanted.val",
+    "search: '\"HasDerivAt\"' -> hasDerivAt_const, hasDerivAtFilter_const, hasDerivAt_intCast, hasDerivAt_natCast, hasDerivAt_one, hasDerivAt_ofNat, hasDerivAtFilter_intCast, hasDerivAtFilter_natCast",
+    "search: '\"Kolmogorov\"' -> ProbabilityTheory.IsAEKolmogorovProcess.mk, ProbabilityTheory.IsAEKolmogorovProcess.p_pos, ProbabilityTheory.IsAEKolmogorovProcess.q_pos, ProbabilityTheory.IsKolmogorovProcess.p_pos, ProbabilityTheory.IsKolmogorovProcess.q_pos, ProbabilityTheory.IsKolmogorovProcess.IsAEKolmogorovProcess, ProbabilityTheory.IsKolmogorovProcess.measurable, ProbabilityTheory.IsAEKolmogorovProcess.aemeasurable",
+    "search: '\"sSup\"' -> ne_of_ssuperset, not_subset_of_ssuperset, LE.le.not_ssuperset, eq_of_superset_of_not_ssuperset, HasSubset.Subset.eq_of_not_ssuperset, LE.le.eq_of_not_ssuperset, SupSet.sSup, Set.sSup_eq_sUnion",
+    "search: '\"cSup\"' -> instCoeTCSupHomOfSupHomClass, instCoeTCSupBotHomOfSupBotHomClass, ChainCompletePartialOrder.cSup, ChainCompletePartialOrder.le_cSup, ChainCompletePartialOrder.cSup_le, ChainCompletePartialOrder.IsAdmissible.cSup_mem, infIccOrderIsoIccSup, infIccOrderIsoIccSup'",
+    "search: '\"taylor\"' -> Polynomial.taylorAlgHom, Polynomial.taylor, Polynomial.taylorEquiv, Polynomial.taylor_zero', Polynomial.leadingCoeff_taylor, Polynomial.natDegree_taylor, Polynomial.degree_taylor, Polynomial.taylor_zero",
+    "search: '\"exists_deriv\"' -> exists_deriv_eq_zero, exists_deriv_eq_zero', exists_deriv_eq_slope, exists_deriv_eq_slope', exists_derivative_mul_eq_and_isIntegral_coeff, StrictMonoOn.exists_deriv_lt_slope, StrictMonoOn.exists_deriv_lt_slope_aux",
+    "search: '\"taylor_mean_value\"' -> nothing",
+    "search: '\"taylor_mean_value\"' -> nothing; goal shape -> Fin.append_elim0, Fin.elim0_append, Turing.TM0.Stmt.move, Turing.TM0.Stmt.write, Turing.TM0.Stmt.inhabited, Turing.TM0to1.\u039b'.normal, Turing.TM0to1.instInhabited\u039b', HomotopicalAlgebra.ModelCategory.cm1a",
+    "search: '\"le_cSup\"' -> ChainCompletePartialOrder.le_cSup",
+    "search: '\"le_sSup\"' -> le_sSup, sSup_le_sSup, le_sSup_of_le, le_sSup_iff, le_sSup_iff_forall_lt, sInf_le_sSup, sSup_le_sSup_of_isCofinalFor, sInf_le_sSup_of_nonempty_inter",
+    "search: '\"le_csSup\"' -> DirectedOn.le_csSup, DirectedOn.le_csSup_of_le, DirectedOn.csSup_le_csSup, DirectedOn.le_csSup_iff, DirectedOn.csInf_le_csSup, le_csSup, csSup_le_csSup, le_csSup_of_le",
+    "search: '\"not_bddAbove\"' -> not_bddAbove_univ, nonempty_of_not_bddAbove, not_bddAbove_iff', not_bddAbove_iff, StrictMono.not_bddAbove_range_of_wellFoundedLT, ConditionallyCompleteLinearOrder.csSup_of_not_bddAbove, WithBot.sSup_of_not_bddAbove, WithTop.sSup_of_not_bddAbove",
+    "search: '\"sSup_empty\"' -> sSup_empty, ConditionallyCompleteLinearOrderBot.csSup_empty, WithBot.sSup_empty, csSup_empty, WithTop.sSup_empty, subset_sSup_emptyset, List.iSup_mem_map_of_exists_sSup_empty_le, Multiset.iSup_mem_map_of_exists_sSup_empty_le",
+    "search: '\"deriv_id\"' -> fderiv_id, fderiv_id', deriv_id, deriv_id', deriv_id'', logDeriv_id, logDeriv_id', iteratedDeriv_id",
+    "search: '\"csSup_singleton\"' -> csSup_singleton",
+    "search: '\"deriv_const\"' -> fderiv_const_apply, fderiv_const, deriv_const, deriv_const', fderiv_const_add, fderiv_const_sub, fderiv_const_smul_of_invertible, fderiv_const_smul",
+    "refuted statement: The theorem as written in Lean 4 is false because it lacks the hypothesis that the function $f$ is bounded on $[a, \\infty)$. \n\nIn Lean, the supremum `sSup` of a set of real numbers that is not bounded above is defined by convention to be `0` (specifically, `sSup \u2205 = 0`). \n\nIf we choose $f(x) = x$ on"
+  ],
+  "budget": {
+    "tool_calls": 41,
+    "lean_calls": 18,
+    "searches": 23,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788777176.8293922,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.9,
+    "statement_checks": 1
+  },
+  "goal": "theorem exercise_5_15_neg : \u00ac (\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d) (hf' : DifferentiableOn \u211d f (Set.Ici a)) (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a)) (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)}) (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)}) (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}), (M1 ^ 2) \u2264 4 * M0 * M2)"
+}

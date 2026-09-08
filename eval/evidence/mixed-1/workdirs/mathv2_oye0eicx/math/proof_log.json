@@ -1,0 +1,165 @@
+{
+  "records": [
+    {
+      "kind": "computation",
+      "statement": "check_primality(lhs='7')",
+      "proof": "",
+      "status": "true",
+      "detail": "7 is prime (SymPy isprime).",
+      "at": 1788775222.200809,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem seven_is_prime : Nat.Prime 7",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788775226.450478,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem seven_is_prime : Nat.Prime 7",
+      "proof": "exact Nat.prime_seven",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem seven_is_prime : Nat.Prime 7",
+      "at": 1788775232.7506583,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Nat.prime_seven",
+      "type": " : Nat.Prime 7",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_eleven",
+      "type": " : Nat.Prime 11",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_five",
+      "type": " : Nat.Prime 5",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_three",
+      "type": " : Nat.Prime 3",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_two",
+      "type": " : Nat.Prime 2",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Prime.nat_prime",
+      "type": " {p : \u2115} : Prime p \u2192 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "**Alias** of the reverse direction of `Nat.prime_iff`."
+    },
+    {
+      "name": "Nat.minFac_prime",
+      "type": " {n : \u2115} (n1 : n \u2260 1) : Nat.Prime n.minFac",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_of_coprime",
+      "type": " (n : \u2115) (h1 : 1 < n) (h : \u2200 m < n, m \u2260 0 \u2192 n.Coprime m) : Nat.Prime n",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_is_prime_of_two_le",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] (p : \u2115) [CharP R p] (hp : 2 \u2264 p) : Nat.Prime p",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_prime_of_ne_zero",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] [Nontrivial R] {p : \u2115} [CharP R p] (hp : p \u2260 0) : Nat.Prime p",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": "The characteristic is prime if it is non-zero. "
+    },
+    {
+      "name": "Nat.prime_of_mem_primeFactorsList",
+      "type": " {n p : \u2115} : p \u2208 n.primeFactorsList \u2192 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Factors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_of_mem_primeFactors",
+      "type": " {n p : \u2115} (hp : p \u2208 n.primeFactors) : Nat.Prime p",
+      "module": "Mathlib.Data.Nat.PrimeFin",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime",
+      "type": " (p : \u2115) : Prop",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "`Nat.Prime p` means that `p` is a prime number, that is, a natural number\nat least 2 whose only divisors are `p` and `1`.\nThe theorem `Nat.prime_def` witnesses this description of a prime number. "
+    },
+    {
+      "name": "Nat.decidablePrime",
+      "type": " (p : \u2115) : Decidable (Nat.Prime p)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "This instance is set up to work in the kernel (`by decide`) for small values.\n\nBelow (`decidablePrime'`) we will define a faster variant to be used by the compiler\n(e.g. in `#eval` or `by native_decide`).\n\nIf you need to prove that a particular number is prime, in any case\nyou should not use `by decide`, but rather `by norm_num`, which is\nmuch faster.\n"
+    },
+    {
+      "name": "Nat.decidablePrime'",
+      "type": " (p : \u2115) : Decidable (Nat.Prime p)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "This definition is faster in the virtual machine than `decidablePrime`,\nbut slower in the kernel.\n"
+    },
+    {
+      "name": "Nat.decidablePrime_csimp",
+      "type": " : Nat.decidablePrime = Nat.decidablePrime'",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.fact_prime_three",
+      "type": " : Fact (Nat.Prime 3)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.fact_prime_two",
+      "type": " : Fact (Nat.Prime 2)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_prime_one",
+      "type": " : \u00acNat.Prime 1",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Nat.prime_seven, Nat.prime_eleven, Nat.prime_five, Nat.prime_three, Nat.prime_two, Prime.nat_prime, Nat.minFac_prime, Nat.prime_of_coprime"
+  ],
+  "budget": {
+    "tool_calls": 3,
+    "lean_calls": 2,
+    "searches": 0,
+    "symbolic_calls": 1,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788775220.159488,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.0,
+    "statement_checks": 1
+  },
+  "goal": "theorem seven_is_prime : Nat.Prime 7"
+}

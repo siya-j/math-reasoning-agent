@@ -1,0 +1,390 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem am_gm_two (a b : \u211d) (ha : 0 \u2264 a) (hb : 0 \u2264 b) : Real.sqrt (a * b) \u2264 (a + b) / 2",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776181.432581,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem am_gm_two (a b : \u211d) (ha : 0 \u2264 a) (hb : 0 \u2264 b) : Real.sqrt (a * b) \u2264 (a + b) / 2",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Real.sqrt\n    | exact Real.sqrt _\n    | apply Real.sqrt\n    | simpa using Real.sqrt\n    | exact \u27e8_, Real.sqrt\u27e9\n    | exact Real.sqrt (by assumption)\n    | exact Real.sqrt \u2039_\u203a\n    | apply Real.sqrt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.sqrt (by assumption))\n    | exact Real.sqrt_monotone\n    | exact Real.sqrt_monotone _\n    | apply Real.sqrt_monotone\n    | simpa using Real.sqrt_monotone\n    | exact \u27e8_, Real.sqrt_monotone\u27e9\n    | exact Real.sqrt_monotone (by assumption)\n    | exact Real.sqrt_monotone \u2039_\u203a\n    | apply Real.sqrt_monotone <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.sqrt_monotone (by assumption))\n    | exact Real.sqrt_nonneg\n    | exact Real.sqrt_nonneg _\n    | apply Real.sqrt_nonneg\n    | simpa using Real.sqrt_nonneg\n    | exact \u27e8_, Real.sqrt_nonneg\u27e9\n    | exact Real.sqrt_nonneg (by assumption)\n    | exact Real.sqrt_nonneg \u2039_\u203a\n    | apply Real.sqrt_nonneg <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.sqrt_nonneg (by assumption))\n    | exact Real.tendsto_sqrt_atTop\n    | exact Real.tendsto_sqrt_atTop _\n    | apply Real.tendsto_sqrt_atTop\n    | simpa using Real.tendsto_sqrt_atTop\n    | exact \u27e8_, Real.tendsto_sqrt_atTop\u27e9\n    | exact Real.tendsto_sqrt_atTop (by assumption)\n    | exact Real.tendsto_sqrt_atTop \u2039_\u203a\n    | apply Real.tendsto_sqrt_atTop <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.tendsto_sqrt_atTop (by assumption))\n    | exact Real.sqrt_inv\n    | exact Real.sqrt_inv _\n    | apply Real.sqrt_inv\n    | simpa using Real.sqrt_inv\n    | exact \u27e8_, Real.sqrt_inv\u27e9\n    | exact Real.sqrt_inv (by assumption)\n    | exact Real.sqrt_inv \u2039_\u203a\n    | apply Real.sqrt_inv <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.sqrt_inv (by assumption))\n    | exact Real.nat_sqrt_le_real_sqrt\n    | exact Real.nat_sqrt_le_real_sqrt _\n    | apply Real.nat_sqrt_le_real_sqrt\n    | simpa using Real.nat_sqrt_le_real_sqrt\n    | exact \u27e8_, Real.nat_sqrt_le_real_sqrt\u27e9\n    | exact Real.nat_sqrt_le_real_sqrt (by assumption)\n    | exact Real.nat_sqrt_le_real_sqrt \u2039_\u203a\n    | apply Real.nat_sqrt_le_real_sqrt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.nat_sqrt_le_real_sqrt (by assumption))\n    | exact Real.sqrt_le_sqrt\n    | exact Real.sqrt_le_sqrt _\n    | apply Real.sqrt_le_sqrt\n    | simpa using Real.sqrt_le_sqrt\n    | exact \u27e8_, Real.sqrt_le_sqrt\u27e9\n    | exact Real.sqrt_le_sqrt (by assumption)\n    | exact Real.sqrt_le_sqrt \u2039_\u203a\n    | apply Real.sqrt_le_sqrt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.sqrt_le_sqrt (by assumption))\n    | exact Real.comap_sqrt_atTop\n    | exact Real.comap_sqrt_atTop _\n    | apply Real.comap_sqrt_atTop\n    | simpa using Real.comap_sqrt_atTop\n    | exact \u27e8_, Real.comap_sqrt_atTop\u27e9\n    | exact Real.comap_sqrt_atTop (by assumption)\n    | exact Real.comap_sqrt_atTop \u2039_\u203a\n    | apply Real.comap_sqrt_atTop <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.comap_sqrt_atTop (by assumption))\n    | exact Real.map_sqrt_atTop\n    | exact Real.map_sqrt_atTop _\n    | apply Real.map_sqrt_atTop\n    | simpa using Real.map_sqrt_atTop\n    | exact \u27e8_, Real.map_sqrt_atTop\u27e9\n    | exact Real.map_sqrt_atTop (by assumption)\n    | exact Real.map_sqrt_atTop \u2039_\u203a\n    | apply Real.map_sqrt_atTop <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.map_sqrt_atTop (by assumption))\n    | exact Real.sqrt_one\n    | exact Real.sqrt_one _\n    | apply Real.sqrt_one\n    | simpa using Real.sqrt_one\n    | exact \u27e8_, Real.sqrt_one\u27e9\n    | exact Real.sqrt_one (by assumption)\n    | exact Real.sqrt_one \u2039_\u203a\n    | apply Real.sqrt_one <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.sqrt_one (by assumption))\n    | exact Real.sqrt_zero\n    | exact Real.sqrt_zero _\n    | apply Real.sqrt_zero\n    | simpa using Real.sqrt_zero\n    | exact \u27e8_, Real.sqrt_zero\u27e9\n    | exact Real.sqrt_zero (by assumption)\n    | exact Real.sqrt_zero \u2039_\u203a\n    | apply Real.sqrt_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.sqrt_zero (by assumption))\n    | exact Real.strictMonoOn_sqrt\n    | exact Real.strictMonoOn_sqrt _\n    | apply Real.strictMonoOn_sqrt\n    | simpa using Real.strictMonoOn_sqrt\n    | exact \u27e8_, Real.strictMonoOn_sqrt\u27e9\n    | exact Real.strictMonoOn_sqrt (by assumption)\n    | exact Real.strictMonoOn_sqrt \u2039_\u203a\n    | apply Real.strictMonoOn_sqrt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Real.strictMonoOn_sqrt (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:90: error: unsolved goals\na b : \u211d\nha : 0 \u2264 a\nhb : 0 \u2264 b\n\u22a2 \u221a(a * b) \u2264 (a + b) / 2\n\nStill to prove:\n\u22a2 \u221a(a * b) \u2264 (a + b) / 2",
+      "at": 1788776194.6105013,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem am_gm_two (a b : \u211d) (ha : 0 \u2264 a) (hb : 0 \u2264 b) : Real.sqrt (a * b) \u2264 (a + b) / 2",
+      "proof": "by\n  rw [Real.sqrt_le_iff]\n  constructor\n  \u00b7 linarith\n  \u00b7 have h : 0 \u2264 (a - b) ^ 2 := sq_nonneg (a - b)\n    linarith\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem am_gm_two (a b : \u211d) (ha : 0 \u2264 a) (hb : 0 \u2264 b) : Real.sqrt (a * b) \u2264 (a + b) / 2",
+      "at": 1788776198.8736813,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem am_gm_two (a b : \u211d) (ha : 0 \u2264 a) (hb : 0 \u2264 b) : Real.sqrt (a * b) \u2264 (a + b) / 2",
+      "proof": "by\n  rw [Real.sqrt_le_iff]\n  constructor\n  \u00b7 linarith\n  \u00b7 have h : 0 \u2264 (a - b) ^ 2 := sq_nonneg (a - b)\n    linarith\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem am_gm_two (a b : \u211d) (ha : 0 \u2264 a) (hb : 0 \u2264 b) : Real.sqrt (a * b) \u2264 (a + b) / 2",
+      "at": 1788776200.9132047,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem am_gm_two (a b : NNReal) : NNReal.sqrt (a * b) \u2264 (a + b) / 2",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776208.4003947,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem am_gm_two (a b : NNReal) : NNReal.sqrt (a * b) \u2264 (a + b) / 2",
+      "proof": "by exact NNReal.sqrt_mul_le_half_add a b",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem am_gm_two (a b : NNReal) : NNReal.sqrt (a * b) \u2264 (a + b) / 2",
+      "at": 1788776215.0258806,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Real.sqrt",
+      "type": " (x : \u211d) : \u211d",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "The square root of a real number. This returns 0 for negative inputs.\n\nThis has notation `\u221ax`. Note that `\u221ax\u207b\u00b9` is parsed as `\u221a(x\u207b\u00b9)`. "
+    },
+    {
+      "name": "Real.sqrt_monotone",
+      "type": " : Monotone Real.sqrt",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt_nonneg",
+      "type": " (x : \u211d) : 0 \u2264 \u221ax",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.tendsto_sqrt_atTop",
+      "type": " : Filter.Tendsto (fun x => \u221ax) Filter.atTop Filter.atTop",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt_inv",
+      "type": " (x : \u211d) : \u221ax\u207b\u00b9 = (\u221ax)\u207b\u00b9",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.nat_sqrt_le_real_sqrt",
+      "type": " {a : \u2115} : \u2191a.sqrt \u2264 \u221a\u2191a",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "The natural square root is at most the real square root "
+    },
+    {
+      "name": "Real.sqrt_le_sqrt",
+      "type": " {x y : \u211d} (h : x \u2264 y) : \u221ax \u2264 \u221ay",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.comap_sqrt_atTop",
+      "type": " : Filter.comap (fun x => \u221ax) Filter.atTop = Filter.atTop",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.map_sqrt_atTop",
+      "type": " : Filter.map (fun x => \u221ax) Filter.atTop = Filter.atTop",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt_one",
+      "type": " : \u221a1 = 1",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt_zero",
+      "type": " : \u221a0 = 0",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.strictMonoOn_sqrt",
+      "type": " : StrictMonoOn Real.sqrt (Set.Ici 0)",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sqrt_le_self",
+      "type": " (n : \u2115) : n.sqrt \u2264 n",
+      "module": "Mathlib.Data.Nat.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sqrt_le_sqrt",
+      "type": " {m n : \u2115} (h : m \u2264 n) : m.sqrt \u2264 n.sqrt",
+      "module": "Mathlib.Data.Nat.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sqrt_le'",
+      "type": " (n : \u2115) : n.sqrt ^ 2 \u2264 n",
+      "module": "Mathlib.Data.Nat.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Nat.add_one_sqrt_le_of_ne_zero",
+      "type": " {n : \u2115} (hn : n \u2260 0) : (n + 1).sqrt \u2264 n",
+      "module": "Mathlib.Data.Nat.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sqrt_le_add",
+      "type": " (n : \u2115) : n \u2264 n.sqrt * n.sqrt + n.sqrt + n.sqrt",
+      "module": "Mathlib.Data.Nat.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt_le_one",
+      "type": " {x : \u211d} : \u221ax \u2264 1 \u2194 x \u2264 1",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt_le_sqrt_iff",
+      "type": " {x y : \u211d} (hy : 0 \u2264 y) : \u221ax \u2264 \u221ay \u2194 x \u2264 y",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt_le_sqrt_iff'",
+      "type": " {x y : \u211d} (hx : 0 < x) : \u221ax \u2264 \u221ay \u2194 x \u2264 y",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.real_sqrt_le_nat_sqrt_succ",
+      "type": " {a : \u2115} : \u221a\u2191a \u2264 \u2191a.sqrt + 1",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "The real square root is at most the natural square root plus one "
+    },
+    {
+      "name": "Real.sqrt_le_iff",
+      "type": " {x y : \u211d} : \u221ax \u2264 y \u2194 0 \u2264 y \u2227 x \u2264 y ^ 2",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrt_le_iff_le_sq",
+      "type": " {x y : NNReal} : NNReal.sqrt x \u2264 y \u2194 x \u2264 y ^ 2",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrtHom",
+      "type": " : NNReal \u2192*\u2080 NNReal",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "`NNReal.sqrt` as a `MonoidWithZeroHom`. "
+    },
+    {
+      "name": "NNReal.sqrt",
+      "type": " : NNReal \u2243o NNReal",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "Square root of a nonnegative real number. "
+    },
+    {
+      "name": "NNReal.sqrt_one",
+      "type": " : NNReal.sqrt 1 = 1",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrt_zero",
+      "type": " : NNReal.sqrt 0 = 0",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrt_mul_self",
+      "type": " (x : NNReal) : NNReal.sqrt (x * x) = x",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrt_eq_one",
+      "type": " {x : NNReal} : NNReal.sqrt x = 1 \u2194 x = 1",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrt_eq_zero",
+      "type": " {x : NNReal} : NNReal.sqrt x = 0 \u2194 x = 0",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrt_sq",
+      "type": " (x : NNReal) : NNReal.sqrt (x ^ 2) = x",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrt_mul_le_max",
+      "type": " {x y : NNReal} : NNReal.sqrt (x * y) \u2264 max x y",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrt_pos_of_pos",
+      "type": " {x : NNReal} : 0 < x \u2192 0 < NNReal.sqrt x",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "**Alias** of the reverse direction of `NNReal.sqrt_pos`."
+    },
+    {
+      "name": "NNReal.sqrt_eq_iff_eq_sq",
+      "type": " {x y : NNReal} : NNReal.sqrt x = y \u2194 x = y ^ 2",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrt_le_one",
+      "type": " {x : NNReal} : NNReal.sqrt x \u2264 1 \u2194 x \u2264 1",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrt_mul_le_half_add",
+      "type": " (x y : NNReal) : NNReal.sqrt (x * y) \u2264 (x + y) / 2",
+      "module": "Mathlib.Analysis.SpecialFunctions.ArithmeticGeometricMean",
+      "doc": "The AM\u2013GM inequality for two `NNReal`s, with means in canonical form. "
+    },
+    {
+      "name": "NNReal",
+      "type": " : Type",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": "Nonnegative real numbers, denoted as `\u211d\u22650` within the NNReal namespace "
+    },
+    {
+      "name": "instReprNNReal",
+      "type": " : Repr NNReal",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": "While not very useful, this instance uses the same representation as `Real.instRepr`. "
+    },
+    {
+      "name": "NNReal.instAddCancelCommMonoid",
+      "type": " : AddCancelCommMonoid NNReal",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.instBot",
+      "type": " : Bot NNReal",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.instCommMonoidWithZero",
+      "type": " : CommMonoidWithZero NNReal",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.instCommSemiring",
+      "type": " : CommSemiring NNReal",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.instConditionallyCompleteLinearOrderBot",
+      "type": " : ConditionallyCompleteLinearOrderBot NNReal",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.instDistribLattice",
+      "type": " : DistribLattice NNReal",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.instDiv",
+      "type": " : Div NNReal",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.instInhabited",
+      "type": " : Inhabited NNReal",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.instInv",
+      "type": " : Inv NNReal",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.instLinearOrder",
+      "type": " : LinearOrder NNReal",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.continuous_sqrt",
+      "type": " : Continuous \u21d1NNReal.sqrt",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.coe_sqrt",
+      "type": " {x : NNReal} : \u2191(NNReal.sqrt x) = \u221a\u2191x",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sq_sqrt",
+      "type": " (x : NNReal) : NNReal.sqrt x ^ 2 = x",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Real.sqrt, Real.sqrt_monotone, Real.sqrt_nonneg, Real.tendsto_sqrt_atTop, Real.sqrt_inv, Real.nat_sqrt_le_real_sqrt, Real.sqrt_le_sqrt, Real.comap_sqrt_atTop",
+    "search: '\"am_gm\"' -> nothing",
+    "search: '\"am_gm\"' -> nothing; goal shape -> Real.sqrt, Real.sqrt_monotone, Real.sqrt_nonneg, Real.tendsto_sqrt_atTop, Real.sqrt_inv, Real.nat_sqrt_le_real_sqrt, Real.sqrt_le_sqrt, Real.comap_sqrt_atTop",
+    "search: '\"sqrt_le\"' -> Nat.sqrt_le_self, Nat.sqrt_le_sqrt, Nat.sqrt_le', Nat.add_one_sqrt_le_of_ne_zero, Nat.sqrt_le_add, Real.nat_sqrt_le_real_sqrt, Real.sqrt_le_sqrt, Real.sqrt_le_one",
+    "search: '\"sqrt_le_iff\"' -> Real.sqrt_le_iff, NNReal.sqrt_le_iff_le_sq",
+    "search: '\"NNReal.sqrt\"' -> NNReal.sqrtHom, NNReal.sqrt, NNReal.sqrt_one, NNReal.sqrt_zero, NNReal.sqrt_mul_self, NNReal.sqrt_eq_one, NNReal.sqrt_eq_zero, NNReal.sqrt_sq",
+    "seeded from goal shape -> NNReal.sqrt_mul_le_half_add, NNReal, instReprNNReal, NNReal.instAddCancelCommMonoid, NNReal.instBot, NNReal.instCommMonoidWithZero, NNReal.instCommSemiring, NNReal.instConditionallyCompleteLinearOrderBot"
+  ],
+  "budget": {
+    "tool_calls": 10,
+    "lean_calls": 6,
+    "searches": 4,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788776179.2016134,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.5,
+    "statement_checks": 2
+  },
+  "goal": "theorem am_gm_two (a b : NNReal) : NNReal.sqrt (a * b) \u2264 (a + b) / 2"
+}

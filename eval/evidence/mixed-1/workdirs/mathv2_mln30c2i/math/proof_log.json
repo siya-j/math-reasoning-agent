@@ -1,0 +1,230 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem irrational_sqrt_two_proof : Irrational (Real.sqrt 2)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788775557.678217,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem irrational_sqrt_two_proof : Irrational (Real.sqrt 2)",
+      "proof": "exact irrational_sqrt_two",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem irrational_sqrt_two_proof : Irrational (Real.sqrt 2)",
+      "at": 1788775563.5411103,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Int.not_irrational",
+      "type": " (m : \u2124) : \u00acIrrational \u2191m",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_irrational",
+      "type": " (m : \u2115) : \u00acIrrational \u2191m",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Rat.not_irrational",
+      "type": " (q : \u211a) : \u00acIrrational \u2191q",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "instDecidableIrrationalSqrtCastReal",
+      "type": " (n : \u2115) : Decidable (Irrational \u221a\u2191n)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "instDecidableIrrationalSqrtCastReal_1",
+      "type": " (z : \u2124) : Decidable (Irrational \u221a\u2191z)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "instDecidableIrrationalSqrtCastReal_2",
+      "type": " (q : \u211a) : Decidable (Irrational \u221a\u2191q)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "not_irrational_one",
+      "type": " : \u00acIrrational 1",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "not_irrational_zero",
+      "type": " : \u00acIrrational 0",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.inv",
+      "type": " {x : \u211d} (h : Irrational x) : Irrational x\u207b\u00b9",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.neg",
+      "type": " {x : \u211d} (h : Irrational x) : Irrational (-x)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.of_inv",
+      "type": " {x : \u211d} (h : Irrational x\u207b\u00b9) : Irrational x",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational",
+      "type": " (x : \u211d) : Prop",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": "A real number is irrational if it is not equal to any rational number. "
+    },
+    {
+      "name": "Nat.Prime.irrational_sqrt",
+      "type": " {p : \u2115} (hp : Nat.Prime p) : Irrational \u221a\u2191p",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_natCast_iff",
+      "type": " {n : \u2115} : Irrational \u221a\u2191n \u2194 \u00acIsSquare n",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_two",
+      "type": " : Irrational \u221a2",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": "**Irrationality of the Square Root of 2** "
+    },
+    {
+      "name": "irrational_sqrt_intCast_iff_of_nonneg",
+      "type": " {z : \u2124} (hz : 0 \u2264 z) : Irrational \u221a\u2191z \u2194 \u00acIsSquare z",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_ratCast_iff_of_nonneg",
+      "type": " {q : \u211a} (hq : 0 \u2264 q) : Irrational \u221a\u2191q \u2194 \u00acIsSquare q",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_intCast_iff",
+      "type": " {z : \u2124} : Irrational \u221a\u2191z \u2194 \u00acIsSquare z \u2227 0 \u2264 z",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_ratCast_iff",
+      "type": " {q : \u211a} : Irrational \u221a\u2191q \u2194 \u00acIsSquare q \u2227 0 \u2264 q",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_ofNat_iff",
+      "type": " {n : \u2115} [n.AtLeastTwo] : Irrational \u221a(OfNat.ofNat n) \u2194 \u00acIsSquare (OfNat.ofNat n)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_of_multiplicity_odd",
+      "type": " (m : \u2124) (hm : 0 < m) (p : \u2115) [hp : Fact (Nat.Prime p)] (Hpv : multiplicity (\u2191p) m % 2 = 1) : Irrational \u221a\u2191m",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.of_neg",
+      "type": " {x : \u211d} (h : Irrational (-x)) : Irrational x",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.of_mul_self",
+      "type": " {x : \u211d} (h : Irrational (x * x)) : Irrational x",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.add_intCast",
+      "type": " {x : \u211d} (h : Irrational x) (m : \u2124) : Irrational (x + \u2191m)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.add_natCast",
+      "type": " {x : \u211d} (h : Irrational x) (m : \u2115) : Irrational (x + \u2191m)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.add_ratCast",
+      "type": " (q : \u211a) {x : \u211d} (h : Irrational x) : Irrational (x + \u2191q)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.intCast_add",
+      "type": " {x : \u211d} (h : Irrational x) (m : \u2124) : Irrational (\u2191m + x)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.intCast_sub",
+      "type": " {x : \u211d} (h : Irrational x) (m : \u2124) : Irrational (\u2191m - x)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.natCast_add",
+      "type": " {x : \u211d} (h : Irrational x) (m : \u2115) : Irrational (\u2191m + x)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt",
+      "type": " (x : \u211d) : \u211d",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "The square root of a real number. This returns 0 for negative inputs.\n\nThis has notation `\u221ax`. Note that `\u221ax\u207b\u00b9` is parsed as `\u221a(x\u207b\u00b9)`. "
+    },
+    {
+      "name": "Real.sqrt_monotone",
+      "type": " : Monotone Real.sqrt",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"Irrational\"' -> Int.not_irrational, Nat.not_irrational, Rat.not_irrational, instDecidableIrrationalSqrtCastReal, instDecidableIrrationalSqrtCastReal_1, instDecidableIrrationalSqrtCastReal_2, not_irrational_one, not_irrational_zero",
+    "search: '\"irrational_sqrt\"' -> Nat.Prime.irrational_sqrt, irrational_sqrt_natCast_iff, irrational_sqrt_two, irrational_sqrt_intCast_iff_of_nonneg, irrational_sqrt_ratCast_iff_of_nonneg, irrational_sqrt_intCast_iff, irrational_sqrt_ratCast_iff, irrational_sqrt_ofNat_iff",
+    "seeded from goal shape -> irrational_sqrt_two, Irrational.inv, Irrational.neg, Irrational.of_inv, Irrational.of_neg, Nat.Prime.irrational_sqrt, Irrational.of_mul_self, Irrational.add_intCast"
+  ],
+  "budget": {
+    "tool_calls": 4,
+    "lean_calls": 2,
+    "searches": 2,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788775550.3739223,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.0,
+    "statement_checks": 1
+  },
+  "goal": "theorem irrational_sqrt_two_proof : Irrational (Real.sqrt 2)"
+}

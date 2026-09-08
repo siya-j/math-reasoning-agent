@@ -1,0 +1,217 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exists_basis (K : Type*) (V : Type*) [Field K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type _), Nonempty (Basis \u03b9 K V)",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:109: error: Function expected at\n  Basis\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  \u03b9\n\nHint: The identifier `Basis` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.",
+      "at": 1788775504.4788578,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem dummy : True",
+      "proof": "",
+      "status": "false",
+      "detail": "The conclusion is `True`; the claim was thrown away.",
+      "at": 1788775508.9556923,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem dummy (n : Nat) : n + 0 = n",
+      "proof": "rfl",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem dummy (n : Nat) : n + 0 = n",
+      "at": 1788775512.8793046,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exists_basis (K : Type*) (V : Type*) [Field K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type _), Nonempty (Module.Basis \u03b9 K V)",
+      "proof": "by\n  obtain \u27e8s, hs\u27e9 := Module.Basis.exists_basis K V\n  exact \u27e8\u21a5s, hs\u27e9",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:9: error: Application type mismatch: The argument\n  \u2191s\nhas type\n  Type u_2\nof sort `Type (u_2 + 1)` but is expected to have type\n  Type u_3\nof sort `Type (u_3 + 1)` in the application\n  Exists.intro \u2191s",
+      "at": 1788775525.1618166,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exists_basis (K : Type u) (V : Type v) [Field K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type v), Nonempty (Module.Basis \u03b9 K V)",
+      "proof": "by\n  obtain \u27e8s, hs\u27e9 := Module.Basis.exists_basis K V\n  exact \u27e8\u21a5s, hs\u27e9",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exists_basis (K : Type u) (V : Type v) [Field K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type v), Nonempty (Module.Basis \u03b9 K V)",
+      "at": 1788775529.8803365,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Module.Basis.instFunLike",
+      "type": " {\u03b9 : Type u_1} {R : Type u_3} {M : Type u_4} [Semiring R] [AddCommMonoid M] [Module R M] : FunLike (Module.Basis \u03b9 R M) \u03b9 M",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "`b i` is the `i`th basis vector. "
+    },
+    {
+      "name": "Module.Basis.reindex",
+      "type": " {\u03b9 : Type u_1} {\u03b9' : Type u_2} {R : Type u_3} {M : Type u_4} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) (e : \u03b9 \u2243 \u03b9') : Module.Basis \u03b9' R M",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "`b.reindex (e : \u03b9 \u2243 \u03b9')` is a basis indexed by `\u03b9'` "
+    },
+    {
+      "name": "Module.Basis.instInhabitedFinsupp",
+      "type": " {\u03b9 : Type u_1} {R : Type u_3} [Semiring R] : Inhabited (Module.Basis \u03b9 R (\u03b9 \u2192\u2080 R))",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Module.Basis.reindex_refl",
+      "type": " {\u03b9 : Type u_1} {R : Type u_3} {M : Type u_4} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) : b.reindex (Equiv.refl \u03b9) = b",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Module.Basis.sumCoords",
+      "type": " {\u03b9 : Type u_7} {R : Type u_8} {M : Type u_9} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) : M \u2192\u2097[R] R",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "The sum of the coordinates of an element `m : M` with respect to a basis. "
+    },
+    {
+      "name": "Module.Basis.coord",
+      "type": " {\u03b9 : Type u_7} {R : Type u_8} {M : Type u_9} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) (i : \u03b9) : M \u2192\u2097[R] R",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "`b.coord i` is the linear function giving the `i`-th coordinate of a vector\nwith respect to the basis `b`.\n\n`b.coord i` is an element of the dual space. In particular, for\nfinite-dimensional spaces it is the `\u03b9`th basis vector of the dual space.\n"
+    },
+    {
+      "name": "Module.Basis.injective",
+      "type": " {\u03b9 : Type u_1} {R : Type u_3} {M : Type u_4} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) [Nontrivial R] : Function.Injective \u21d1b",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Module.Basis.ofEquivFun_equivFun",
+      "type": " {\u03b9 : Type u_1} {R : Type u_3} {M : Type u_4} [Semiring R] [AddCommMonoid M] [Module R M] [Finite \u03b9] (v : Module.Basis \u03b9 R M) : Module.Basis.ofEquivFun v.equivFun = v",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Module.Basis.reindexRange",
+      "type": " {\u03b9 : Type u_7} {R : Type u_8} {M : Type u_9} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) : Module.Basis (\u2191(Set.range \u21d1b)) R M",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "`b.reindexRange` is a basis indexed by `range b`, the basis vectors themselves. "
+    },
+    {
+      "name": "Module.Basis.map",
+      "type": " {\u03b9 : Type u_1} {R : Type u_3} {M : Type u_4} {M' : Type u_5} [Semiring R] [AddCommMonoid M] [Module R M] [AddCommMonoid M'] [Module R M'] (b : Module.Basis \u03b9 R M) (f : M \u2243\u2097[R] M') : Module.Basis \u03b9 R M'",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "Apply the linear equivalence `f` to the basis vectors. "
+    },
+    {
+      "name": "Module.Basis.equiv",
+      "type": " {\u03b9' : Type u_2} {M' : Type u_5} [AddCommMonoid M'] {\u03b9 : Type u_7} {R : Type u_8} {M : Type u_9} [Semiring R] [AddCommMonoid M] [Module R M] (b : Module.Basis \u03b9 R M) [Module R M'] (b' : Module.Basis \u03b9' R M') (e : \u03b9 \u2243 \u03b9') : M \u2243\u2097[R] M'",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "If `b` is a basis for `M` and `b'` a basis for `M'`, and the index types are equivalent,\n`b.equiv b' e` is a linear equivalence `M \u2243\u2097[R] M'`, mapping `b i` to `b' (e i)`. "
+    },
+    {
+      "name": "Module.Basis",
+      "type": " (\u03b9 : Type u_1) (R : Type u_3) (M : Type u_4) [Semiring R] [AddCommMonoid M] [Module R M] : Type (max (max u_1 u_3) u_4)",
+      "module": "Mathlib.LinearAlgebra.Basis.Defs",
+      "doc": "A `Basis \u03b9 R M` for a module `M` is the type of `\u03b9`-indexed `R`-bases of `M`.\n\nThe basis vectors are available as `DFunLike.coe (b : Basis \u03b9 R M) : \u03b9 \u2192 M`.\nTo turn a linear independent family of vectors spanning `M` into a basis, use `Basis.mk`.\nThey are internally represented as linear equivs `M \u2243\u2097[R] (\u03b9 \u2192\u2080 R)`,\navailable as `Basis.repr`.\n"
+    },
+    {
+      "name": "finrank_eq_zero_of_not_exists_basis",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] [Module.Free R M] (h : \u00ac\u2203 s, Nonempty (Module.Basis (\u2191\u2191s) R M)) : Module.finrank R M = 0",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finite",
+      "doc": ""
+    },
+    {
+      "name": "finrank_eq_zero_of_not_exists_basis_finite",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] [Module.Free R M] (h : \u00ac\u2203 s x, s.Finite) : Module.finrank R M = 0",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finite",
+      "doc": ""
+    },
+    {
+      "name": "finrank_eq_zero_of_not_exists_basis_finset",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] [Module.Free R M] (h : \u00ac\u2203 s, Nonempty (Module.Basis (\u21a5s) R M)) : Module.finrank R M = 0",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finite",
+      "doc": ""
+    },
+    {
+      "name": "Module.Basis.exists_basis",
+      "type": " (K : Type u_3) (V : Type u_4) [DivisionRing K] [AddCommGroup V] [Module K V] : \u2203 s, Nonempty (Module.Basis (\u2191s) K V)",
+      "module": "Mathlib.LinearAlgebra.Basis.VectorSpace",
+      "doc": ""
+    },
+    {
+      "name": "exists_basis_of_pairing_eq_zero",
+      "type": " {K : Type u_6} {V : Type u_7} [Field K] [AddCommGroup V] [Module K V] {f : V \u2192\u2097[K] K} {v : V} (hfv : f v = 0) (hf : f \u2260 0) (hv : v \u2260 0) : \u2203 n b i j, i \u2260 j \u2227 v = b i \u2227 f = b.coord j",
+      "module": "Mathlib.LinearAlgebra.Basis.VectorSpace",
+      "doc": "In a vector space, given a nonzero linear form `f`,\na nonzero vector `v` such that `f v = 0`,\nthere exists a basis `b` with two distinct indices `i`, `j`\nsuch that `v = b i` and `f = b.coord j`. "
+    },
+    {
+      "name": "exists_basis_of_pairing_ne_zero",
+      "type": " {K : Type u_6} {V : Type u_7} [Field K] [AddCommGroup V] [Module K V] {f : V \u2192\u2097[K] K} {v : V} (hfv : f v \u2260 0) : \u2203 n b i, v = b i \u2227 f = f v \u2022 b.coord i",
+      "module": "Mathlib.LinearAlgebra.Basis.VectorSpace",
+      "doc": "In a vector space, given a nonzero linear form `f`,\na nonzero vector `v` such that `f v \u2260 0`,\nthere exists a basis `b` with an index `i`\nsuch that `v = b i` and `f = (f v) \u2022 b.coord i`. "
+    },
+    {
+      "name": "Algebra.norm_eq_one_of_not_exists_basis",
+      "type": " (R : Type u_1) {S : Type u_2} [CommRing R] [Ring S] [Algebra R S] (h : \u00ac\u2203 s, Nonempty (Module.Basis (\u21a5s) R S)) (x : S) : (Algebra.norm R) x = 1",
+      "module": "Mathlib.RingTheory.Norm.Defs",
+      "doc": ""
+    },
+    {
+      "name": "LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap",
+      "type": " {K : Type u_1} {L : Type u_2} {M : Type u_3} {N : Type u_4} [Field K] [Field L] [Algebra K L] [AddCommGroup M] [AddCommGroup N] [Module L M] [Module L N] [Module K M] [Module K N] [IsScalarTower K L M] (p : M \u2192\u2097[L] N \u2192\u2097[L] L) [p.IsPerfPair] (M' : Submodule K M) (N' : Submodule K N) (hM : Submodule.span L \u2191M' = \u22a4) (hN : Submodule.span L \u2191N' = \u22a4) (hp : \u2200 x \u2208 M', \u2200 y \u2208 N', (p x) y \u2208 (algebraMap K L).range) : \u2203 n b b', \u2200 (i : Fin n), b i = \u2191(b' i)",
+      "module": "Mathlib.LinearAlgebra.PerfectPairing.Restrict",
+      "doc": "If a perfect pairing over a field `L` takes values in a subfield `K` along two `K`-subspaces\nwhose `L` span is full, then these subspaces induce a `K`-structure in the sense of\n[*Algebra I*, Bourbaki : Chapter II, \u00a78.1 Definition 1][bourbaki1989]. "
+    },
+    {
+      "name": "LieAlgebra.exists_basis_of_base",
+      "type": " {K : Type u_1} {L : Type u_2} [Field K] [CharZero K] [LieRing L] [LieAlgebra K L] [FiniteDimensional K L] {H : LieSubalgebra K L} [H.IsCartanSubalgebra] [LieModule.IsTriangularizable K (\u21a5H) L] [LieAlgebra.IsKilling K L] (b : (LieAlgebra.IsKilling.rootSystem H).Base) : \u2203 B, B.A = b.cartanMatrix \u2227 \u2200 (i : \u21a5b.support), B.h i = \u2191((LieAlgebra.IsKilling.rootSystem H).coroot \u2191i)",
+      "module": "Mathlib.Algebra.Lie.Basis.Base",
+      "doc": ""
+    },
+    {
+      "name": "Module.exists_basis_of_span_of_flat",
+      "type": " {R : Type u_1} {M : Type u_2} [CommRing R] [AddCommGroup M] [Module R M] [IsLocalRing R] [Module.FinitePresentation R M] [Module.Flat R M] {\u03b9 : Type u} (v : \u03b9 \u2192 M) (hv : Submodule.span R (Set.range v) = \u22a4) : \u2203 \u03ba a b, \u2200 (i : \u03ba), b i = v (a i)",
+      "module": "Mathlib.RingTheory.LocalRing.Module",
+      "doc": ""
+    },
+    {
+      "name": "Module.exists_basis_of_span_of_maximalIdeal_rTensor_injective",
+      "type": " {R : Type u_1} {M : Type u_2} [CommRing R] [AddCommGroup M] [Module R M] [IsLocalRing R] [Module.FinitePresentation R M] (H : Function.Injective \u21d1(LinearMap.rTensor M (Submodule.subtype (IsLocalRing.maximalIdeal R)))) {\u03b9 : Type u} (v : \u03b9 \u2192 M) (hv : Submodule.span R (Set.range v) = \u22a4) : \u2203 \u03ba a b, \u2200 (i : \u03ba), b i = v (a i)",
+      "module": "Mathlib.RingTheory.LocalRing.Module",
+      "doc": "If `M` is a finitely presented module over a local ring `(R, \ud835\udd2a)` such that `m \u2297 M \u2192 M` is\ninjective, then every generating family contains a basis.\n"
+    },
+    {
+      "name": "Module.Free.exists_basis",
+      "type": " (R : Type u) (M : Type v) {inst\u271d : Semiring R} {inst\u271d\u00b9 : AddCommMonoid M} {inst\u271d\u00b2 : Module R M} [self : Module.Free R M] : Nonempty ((I : Type v) \u00d7 Module.Basis I R M)",
+      "module": "Mathlib.LinearAlgebra.FreeModule.Basic",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"exists_basis\"' -> nothing",
+    "search: '\"Basis\"' -> nothing",
+    "search: '\"basis\"' -> nothing",
+    "search: '\"Basis\"' -> Module.Basis.instFunLike, Module.Basis.reindex, Module.Basis.instInhabitedFinsupp, Module.Basis.reindex_refl, Module.Basis.sumCoords, Module.Basis.coord, Module.Basis.injective, Module.Basis.ofEquivFun_equivFun",
+    "search: '\"exists_basis\"' -> finrank_eq_zero_of_not_exists_basis, finrank_eq_zero_of_not_exists_basis_finite, finrank_eq_zero_of_not_exists_basis_finset, Module.Basis.exists_basis, exists_basis_of_pairing_eq_zero, exists_basis_of_pairing_ne_zero, Algebra.norm_eq_one_of_not_exists_basis, LinearMap.exists_basis_basis_of_span_eq_top_of_mem_algebraMap"
+  ],
+  "budget": {
+    "tool_calls": 14,
+    "lean_calls": 5,
+    "searches": 7,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788775494.007067,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 2
+  },
+  "goal": "theorem exists_basis (K : Type u) (V : Type v) [Field K] [AddCommGroup V] [Module K V] : \u2203 (\u03b9 : Type v), Nonempty (Module.Basis \u03b9 K V)"
+}

@@ -1,0 +1,853 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_2_11_22 {p : \u2115} {n : \u2115} {G : Type*} [Fintype G]\n  [Group G] (hp : Nat.Prime p) (hG : card G = p ^ n) {K : Subgroup G}\n  [Fintype K] (hK : card K = p ^ (n-1)) :\n  K.Normal",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n2:37: error: Function expected at\n  card\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  G\n\nHint: The identifier `card` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n3:20: error: Function expected at\n  card\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  K\n\nHint: The identifier `card` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.",
+      "at": 1788779352.554669,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_2_11_22 {p : \u2115} {n : \u2115} {G : Type*} [Fintype G]\n  [Group G] (hp : Nat.Prime p) (hG : Fintype.card G = p ^ n) {K : Subgroup G}\n  [Fintype K] (hK : Fintype.card K = p ^ (n-1)) :\n  K.Normal",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788779360.4162908,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_11_22 {p : \u2115} {n : \u2115} {G : Type*} [Fintype G]\n  [Group G] (hp : Nat.Prime p) (hG : Fintype.card G = p ^ n) {K : Subgroup G}\n  [Fintype K] (hK : Fintype.card K = p ^ (n-1)) :\n  K.Normal",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fintype.card\n    | exact Fintype.card _\n    | apply Fintype.card\n    | simpa using Fintype.card\n    | exact \u27e8_, Fintype.card\u27e9\n    | exact Fintype.card (by assumption)\n    | exact Fintype.card \u2039_\u203a\n    | apply Fintype.card <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card (by assumption))\n    | exact Fintype.card_fin\n    | exact Fintype.card_fin _\n    | apply Fintype.card_fin\n    | simpa using Fintype.card_fin\n    | exact \u27e8_, Fintype.card_fin\u27e9\n    | exact Fintype.card_fin (by assumption)\n    | exact Fintype.card_fin \u2039_\u203a\n    | apply Fintype.card_fin <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_fin (by assumption))\n    | exact Fintype.card_bool\n    | exact Fintype.card_bool _\n    | apply Fintype.card_bool\n    | simpa using Fintype.card_bool\n    | exact \u27e8_, Fintype.card_bool\u27e9\n    | exact Fintype.card_bool (by assumption)\n    | exact Fintype.card_bool \u2039_\u203a\n    | apply Fintype.card_bool <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_bool (by assumption))\n    | exact Fintype.card_empty\n    | exact Fintype.card_empty _\n    | apply Fintype.card_empty\n    | simpa using Fintype.card_empty\n    | exact \u27e8_, Fintype.card_empty\u27e9\n    | exact Fintype.card_empty (by assumption)\n    | exact Fintype.card_empty \u2039_\u203a\n    | apply Fintype.card_empty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_empty (by assumption))\n    | exact Fintype.card_pempty\n    | exact Fintype.card_pempty _\n    | apply Fintype.card_pempty\n    | simpa using Fintype.card_pempty\n    | exact \u27e8_, Fintype.card_pempty\u27e9\n    | exact Fintype.card_pempty (by assumption)\n    | exact Fintype.card_pempty \u2039_\u203a\n    | apply Fintype.card_pempty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_pempty (by assumption))\n    | exact Fintype.card_prop\n    | exact Fintype.card_prop _\n    | apply Fintype.card_prop\n    | simpa using Fintype.card_prop\n    | exact \u27e8_, Fintype.card_prop\u27e9\n    | exact Fintype.card_prop (by assumption)\n    | exact Fintype.card_prop \u2039_\u203a\n    | apply Fintype.card_prop <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_prop (by assumption))\n    | exact Fintype.card_punit\n    | exact Fintype.card_punit _\n    | apply Fintype.card_punit\n    | simpa using Fintype.card_punit\n    | exact \u27e8_, Fintype.card_punit\u27e9\n    | exact Fintype.card_punit (by assumption)\n    | exact Fintype.card_punit \u2039_\u203a\n    | apply Fintype.card_punit <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_punit (by assumption))\n    | exact Fintype.card_unit\n    | exact Fintype.card_unit _\n    | apply Fintype.card_unit\n    | simpa using Fintype.card_unit\n    | exact \u27e8_, Fintype.card_unit\u27e9\n    | exact Fintype.card_unit (by assumption)\n    | exact Fintype.card_unit \u2039_\u203a\n    | apply Fintype.card_unit <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_unit (by assumption))\n    | exact Fintype.card_lex\n    | exact Fintype.card_lex _\n    | apply Fintype.card_lex\n    | simpa using Fintype.card_lex\n    | exact \u27e8_, Fintype.card_lex\u27e9\n    | exact Fintype.card_lex (by assumption)\n    | exact Fintype.card_lex \u2039_\u203a\n    | apply Fintype.card_lex <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_lex (by assumption))\n    | exact Fintype.card_orderDual\n    | exact Fintype.card_orderDual _\n    | apply Fintype.card_orderDual\n    | simpa using Fintype.card_orderDual\n    | exact \u27e8_, Fintype.card_orderDual\u27e9\n    | exact Fintype.card_orderDual (by assumption)\n    | exact Fintype.card_orderDual \u2039_\u203a\n    | apply Fintype.card_orderDual <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_orderDual (by assumption))\n    | exact Fintype.card_plift\n    | exact Fintype.card_plift _\n    | apply Fintype.card_plift\n    | simpa using Fintype.card_plift\n    | exact \u27e8_, Fintype.card_plift\u27e9\n    | exact Fintype.card_plift (by assumption)\n    | exact Fintype.card_plift \u2039_\u203a\n    | apply Fintype.card_plift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_plift (by assumption))\n    | exact Fintype.card_ulift\n    | exact Fintype.card_ulift _\n    | apply Fintype.card_ulift\n    | simpa using Fintype.card_ulift\n    | exact \u27e8_, Fintype.card_ulift\u27e9\n    | exact Fintype.card_ulift (by assumption)\n    | exact Fintype.card_ulift \u2039_\u203a\n    | apply Fintype.card_ulift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_ulift (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:14: error: unsolved goals\np n : \u2115\nG : Type u_1\ninst\u271d\u00b2 : Fintype G\ninst\u271d\u00b9 : Group G\nhp : Nat.Prime p\nhG : Fintype.card G = p ^ n\nK : Subgroup G\ninst\u271d : Fintype \u21a5K\nhK : Fintype.card \u21a5K = p ^ (n - 1)\n\u22a2 K.Normal\n\nStill to prove:\n\u22a2 K.Normal",
+      "at": 1788779375.4698272,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_2_11_22 {p : \u2115} {n : \u2115} {G : Type*} [Fintype G]\n  [Group G] (hp : Nat.Prime p) (hG : Fintype.card G = p ^ n) {K : Subgroup G}\n  [Fintype K] (hK : Fintype.card K = p ^ (n-1)) :\n  K.Normal",
+      "proof": "by\n  have h : K.Normal := by sorry\n  exact h",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788779394.323938,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma dummy : 1 + 1 = 2",
+      "proof": "by rfl",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma dummy : 1 + 1 = 2",
+      "at": 1788779427.2036462,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma dummy2 : 2 + 2 = 4",
+      "proof": "by rfl",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma dummy2 : 2 + 2 = 4",
+      "at": 1788779627.4301982,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma dummy3 : 3 + 3 = 6",
+      "proof": "by rfl",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma dummy3 : 3 + 3 = 6",
+      "at": 1788779832.115343,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma dummy4 : 4 + 4 = 8",
+      "proof": "by rfl",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma dummy4 : 4 + 4 = 8",
+      "at": 1788780436.816258,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma dummy : 1 + 1 = 2 := by rfl",
+    "lemma dummy2 : 2 + 2 = 4 := by rfl",
+    "lemma dummy3 : 3 + 3 = 6 := by rfl",
+    "lemma dummy4 : 4 + 4 = 8 := by rfl"
+  ],
+  "premises": [
+    {
+      "name": "Fintype.card",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : \u2115",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": "`card \u03b1` is the number of elements in `\u03b1`, defined when `\u03b1` is a fintype. "
+    },
+    {
+      "name": "Fintype.card_fin",
+      "type": " (n : \u2115) : Fintype.card (Fin n) = n",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_bool",
+      "type": " : Fintype.card Bool = 2",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_empty",
+      "type": " : Fintype.card Empty = 0",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_pempty",
+      "type": " : Fintype.card PEmpty.{u_3 + 1} = 0",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_prop",
+      "type": " : Fintype.card Prop = 2",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_punit",
+      "type": " : Fintype.card PUnit.{u_3 + 1} = 1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_unit",
+      "type": " : Fintype.card Unit = 1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_lex",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype.card (Lex \u03b1) = Fintype.card \u03b1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_orderDual",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype.card \u03b1\u1d52\u1d48 = Fintype.card \u03b1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_plift",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype.card (PLift \u03b1) = Fintype.card \u03b1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_ulift",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype.card (ULift.{u_4, u_3} \u03b1) = Fintype.card \u03b1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Bool.fintype",
+      "type": " : Fintype Bool",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Ordering.fintype",
+      "type": " : Fintype Ordering",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Lex.fintype",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype (Lex \u03b1)",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "OrderDual.fintype",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype \u03b1\u1d52\u1d48",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.mk",
+      "type": " {\u03b1 : Type u_3} (elems : Finset \u03b1) (complete : \u2200 (x : \u03b1), x \u2208 elems) : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.subtype",
+      "type": " {\u03b1 : Type u_1} {p : \u03b1 \u2192 Prop} (s : Finset \u03b1) (H : \u2200 (x : \u03b1), x \u2208 s \u2194 p x) : Fintype { x // p x }",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": "Given a predicate that can be represented by a finset, the subtype\nassociated to the predicate is a fintype. "
+    },
+    {
+      "name": "Fintype.ofFinset",
+      "type": " {\u03b1 : Type u_1} {p : Set \u03b1} (s : Finset \u03b1) (H : \u2200 (x : \u03b1), x \u2208 s \u2194 x \u2208 p) : Fintype \u2191p",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": "Construct a fintype from a finset with the same elements. "
+    },
+    {
+      "name": "Fintype.instEmpty",
+      "type": " : Fintype Empty",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.instPEmpty",
+      "type": " : Fintype PEmpty.{u_3 + 1}",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.ofIsEmpty",
+      "type": " {\u03b1 : Type u_1} [IsEmpty \u03b1] : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "An empty type is a fintype. Not registered as an instance, to make sure that there aren't two\nconflicting `Fintype \u03b9` instances around when casing over whether a fintype `\u03b9` is empty or not. "
+    },
+    {
+      "name": "Fintype.ofSubsingleton",
+      "type": " {\u03b1 : Type u_1} (a : \u03b1) [Subsingleton \u03b1] : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "Any subsingleton type with a witness is a fintype (with one term). "
+    },
+    {
+      "name": "Fintype.ofEquiv",
+      "type": " {\u03b2 : Type u_2} (\u03b1 : Type u_3) [Fintype \u03b1] (f : \u03b1 \u2243 \u03b2) : Fintype \u03b2",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "If `f : \u03b1 \u2243 \u03b2` and `\u03b1` is a fintype, then `\u03b2` is also a fintype. "
+    },
+    {
+      "name": "CommGroup.toGroup",
+      "type": " {G : Type u_2} [self : CommGroup G] : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.mk",
+      "type": " {G : Type u_2} [toDivInvMonoid : DivInvMonoid G] (inv_mul_cancel : \u2200 (a : G), a\u207b\u00b9 * a = 1) : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Pi.group",
+      "type": " {I : Type u} {f : I \u2192 Type v\u2081} [(i : I) \u2192 Group (f i)] : Group ((i : I) \u2192 f i)",
+      "module": "Mathlib.Algebra.Group.Pi.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative.group",
+      "type": " {\u03b1 : Type u} [AddGroup \u03b1] : Group (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2081] [One M\u2081] [Pow M\u2081 \u2115] [Inv M\u2081] [Div M\u2081] [Pow M\u2081 \u2124] [Group M\u2082] (f : M\u2081 \u2192 M\u2082) (hf : Function.Injective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2081",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits an injective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "Function.Surjective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2082] [One M\u2082] [Pow M\u2082 \u2115] [Inv M\u2082] [Div M\u2082] [Pow M\u2082 \u2124] [Group M\u2081] (f : M\u2081 \u2192 M\u2082) (hf : Function.Surjective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2082",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits a surjective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "AddOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "Units.instGroup",
+      "type": " {\u03b1 : Type u} [Monoid \u03b1] : Group \u03b1\u02e3",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Units of a monoid form a group. "
+    },
+    {
+      "name": "groupOfIsUnit",
+      "type": " {M : Type u_1} [hM : Monoid M] (h : \u2200 (a : M), IsUnit a) : Group M",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Constructs a `Group` structure on a `Monoid` consisting only of units. "
+    },
+    {
+      "name": "Prod.instGroup",
+      "type": " {G : Type u_1} {H : Type u_2} [Group G] [Group H] : Group (G \u00d7 H)",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.Perm.permGroup",
+      "type": " {\u03b1 : Type u_4} : Group (Equiv.Perm \u03b1)",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize.dvd_den",
+      "type": " {num : \u2124} {den g : \u2115} (e : g = num.natAbs.gcd den) : g \u2223 den",
+      "module": "Init.Data.Rat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize.dvd_num",
+      "type": " {num : \u2124} {den g : \u2115} (e : g = num.natAbs.gcd den) : \u2191g \u2223 num",
+      "module": "Init.Data.Rat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize",
+      "type": " (num : \u2124) (den : \u2115 := 1) (den_nz : den \u2260 0 := by decide) : \u211a",
+      "module": "Init.Data.Rat.Basic",
+      "doc": "Construct a normalized `Rat` from a numerator and nonzero denominator.\nThis is a \"smart constructor\" that divides the numerator and denominator by\nthe gcd to ensure that the resulting rational number is normalized.\n"
+    },
+    {
+      "name": "Rat.normalize.den_nz",
+      "type": " {num : \u2124} {den g : \u2115} (den_nz : den \u2260 0) (e : g = num.natAbs.gcd den) : den / g \u2260 0",
+      "module": "Init.Data.Rat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize.reduced",
+      "type": " {num : \u2124} {den g : \u2115} (den_nz : den \u2260 0) (e : g = num.natAbs.gcd den) : (num / \u2191g).natAbs.Coprime (den / g)",
+      "module": "Init.Data.Rat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Rat.maybeNormalize",
+      "type": " (num : \u2124) (den g : \u2115) (dvd_num : \u2191g \u2223 num) (dvd_den : g \u2223 den) (den_nz : den / g \u2260 0) (reduced : (num / \u2191g).natAbs.Coprime (den / g)) : \u211a",
+      "module": "Init.Data.Rat.Basic",
+      "doc": "Auxiliary definition for `Rat.normalize`. Constructs `num / den` as a rational number,\ndividing both `num` and `den` by `g` (which is the gcd of the two) if it is not 1.\n"
+    },
+    {
+      "name": "Rat.normalize_self",
+      "type": " (r : \u211a) : Rat.normalize r.num r.den \u22ef = r",
+      "module": "Init.Data.Rat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize_eq_mkRat",
+      "type": " {num : \u2124} {den : \u2115} (den_nz : den \u2260 0) : Rat.normalize num den den_nz = mkRat num den",
+      "module": "Init.Data.Rat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize_eq_zero",
+      "type": " {d : \u2115} {n : \u2124} (d0 : d \u2260 0) : Rat.normalize n d d0 = 0 \u2194 n = 0",
+      "module": "Init.Data.Rat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize_zero",
+      "type": " {d : \u2115} (nz : d \u2260 0) : Rat.normalize 0 d nz = 0",
+      "module": "Init.Data.Rat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Rat.mk_eq_normalize",
+      "type": " (num : \u2124) (den : \u2115) (nz : den \u2260 0) (c : num.natAbs.Coprime den) : { num := num, den := den, den_nz := nz, reduced := c } = Rat.normalize num den nz",
+      "module": "Init.Data.Rat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Rat.neg_normalize",
+      "type": " (n : \u2124) (d : \u2115) (z : d \u2260 0) : -Rat.normalize n d z = Rat.normalize (-n) d z",
+      "module": "Init.Data.Rat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.normalizer",
+      "type": " {G : Type u_1} [AddGroup G] (S : Set G) : AddSubgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "The `normalizer` of `S` is the subgroup of `G` whose elements satisfy `g + S - g = S`.\nWhen `S` is a subgroup, this is the largest subgroup of `G` inside which `S` is normal. "
+    },
+    {
+      "name": "Subgroup.normalizer",
+      "type": " {G : Type u_1} [Group G] (S : Set G) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "The `normalizer` of `S` is the subgroup of `G` whose elements satisfy `g * S * g\u207b\u00b9 = S`.\nWhen `S` is a subgroup, this is the largest subgroup of `G` inside which `S` is normal. "
+    },
+    {
+      "name": "AddSubgroup.normal_of_isAddCommutative",
+      "type": " {G : Type u_1} [AddGroup G] [IsAddCommutative G] (H : AddSubgroup G) : H.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normal_of_comm",
+      "type": " {G : Type u_1} [Group G] [IsMulCommutative G] (H : Subgroup G) : H.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "**Alias** of `Subgroup.normal_of_isMulCommutative`."
+    },
+    {
+      "name": "Subgroup.normal_of_isMulCommutative",
+      "type": " {G : Type u_1} [Group G] [IsMulCommutative G] (H : Subgroup G) : H.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.Normal.mem_comm",
+      "type": " {G : Type u_1} [AddGroup G] {H : AddSubgroup G} (nH : H.Normal) {a b : G} (h : a + b \u2208 H) : b + a \u2208 H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.Normal.mem_comm",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} (nH : H.Normal) {a b : G} (h : a * b \u2208 H) : b * a \u2208 H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.Normal.mem_comm_iff",
+      "type": " {G : Type u_1} [AddGroup G] {H : AddSubgroup G} (nH : H.Normal) {a b : G} : a + b \u2208 H \u2194 b + a \u2208 H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.Normal.mem_comm_iff",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} (nH : H.Normal) {a b : G} : a * b \u2208 H \u2194 b * a \u2208 H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.Normal.conj_mem",
+      "type": " {A : Type u_2} [AddGroup A] {H : AddSubgroup A} (self : H.Normal) (n : A) : n \u2208 H \u2192 \u2200 (g : A), g + n + -g \u2208 H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "`H` is closed under additive conjugation "
+    },
+    {
+      "name": "AddSubgroup.Normal",
+      "type": " {A : Type u_2} [AddGroup A] (H : AddSubgroup A) : Prop",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "An AddSubgroup `H` is normal if whenever `n \u2208 H`, then `g + n - g \u2208 H` for every `g : A` \n\n[Wikidata Q743179](https://www.wikidata.org/wiki/Q743179)"
+    },
+    {
+      "name": "Subgroup.Normal",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) : Prop",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "A subgroup `H` is normal if whenever `n \u2208 H`, then `g * n * g\u207b\u00b9 \u2208 H` for every `g : G` \n\n[Wikidata Q743179](https://www.wikidata.org/wiki/Q743179)"
+    },
+    {
+      "name": "AddSubgroup.setNormalizer",
+      "type": " {G : Type u_1} [AddGroup G] (S : Set G) : AddSubgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "**Alias** of `AddSubgroup.normalizer`.\n\n---\n\nThe `normalizer` of `S` is the subgroup of `G` whose elements satisfy `g + S - g = S`.\nWhen `S` is a subgroup, this is the largest subgroup of `G` inside which `S` is normal. "
+    },
+    {
+      "name": "Subgroup.setNormalizer",
+      "type": " {G : Type u_1} [Group G] (S : Set G) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "**Alias** of `Subgroup.normalizer`.\n\n---\n\nThe `normalizer` of `S` is the subgroup of `G` whose elements satisfy `g * S * g\u207b\u00b9 = S`.\nWhen `S` is a subgroup, this is the largest subgroup of `G` inside which `S` is normal. "
+    },
+    {
+      "name": "AddSubgroup.le_normalizer",
+      "type": " {G : Type u_1} [AddGroup G] {H : AddSubgroup G} : H \u2264 AddSubgroup.normalizer \u2191H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.le_normalizer",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} : H \u2264 Subgroup.normalizer \u2191H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.mem_set_normalizer_iff'",
+      "type": " {G : Type u_1} [AddGroup G] {S : Set G} {g : G} : g \u2208 AddSubgroup.normalizer S \u2194 \u2200 (h : G), h + g \u2208 S \u2194 g + h \u2208 S",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.mem_set_normalizer_iff'",
+      "type": " {G : Type u_1} [Group G] {S : Set G} {g : G} : g \u2208 Subgroup.normalizer S \u2194 \u2200 (h : G), h * g \u2208 S \u2194 g * h \u2208 S",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.mem_set_normalizer_iff",
+      "type": " {G : Type u_1} [AddGroup G] {S : Set G} {g : G} : g \u2208 AddSubgroup.normalizer S \u2194 \u2200 (h : G), h \u2208 S \u2194 g + h + -g \u2208 S",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.mem_set_normalizer_iff''",
+      "type": " {G : Type u_1} [AddGroup G] {S : Set G} {g : G} : g \u2208 AddSubgroup.normalizer S \u2194 \u2200 (h : G), h \u2208 S \u2194 -g + h + g \u2208 S",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.mem_set_normalizer_iff",
+      "type": " {G : Type u_1} [Group G] {S : Set G} {g : G} : g \u2208 Subgroup.normalizer S \u2194 \u2200 (h : G), h \u2208 S \u2194 g * h * g\u207b\u00b9 \u2208 S",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.mem_set_normalizer_iff''",
+      "type": " {G : Type u_1} [Group G] {S : Set G} {g : G} : g \u2208 Subgroup.normalizer S \u2194 \u2200 (h : G), h \u2208 S \u2194 g\u207b\u00b9 * h * g \u2208 S",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "IsPGroup.card",
+      "type": " {G : Type u_1} [Group G] : IsPGroup (Nat.card G) G",
+      "module": "Mathlib.GroupTheory.PGroup",
+      "doc": ""
+    },
+    {
+      "name": "IsPGroup.of_subsingleton",
+      "type": " (p : \u2115) (G : Type u_1) [Group G] [Subsingleton G] : IsPGroup p G",
+      "module": "Mathlib.GroupTheory.PGroup",
+      "doc": ""
+    },
+    {
+      "name": "IsPGroup.zero",
+      "type": " (G : Type u_1) [Group G] : IsPGroup 0 G",
+      "module": "Mathlib.GroupTheory.PGroup",
+      "doc": ""
+    },
+    {
+      "name": "isPGroup_one_iff_subsingleton",
+      "type": " {G : Type u_1} [Group G] : IsPGroup 1 G \u2194 Subsingleton G",
+      "module": "Mathlib.GroupTheory.PGroup",
+      "doc": ""
+    },
+    {
+      "name": "IsPGroup.powEquiv",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] (hG : IsPGroup p G) {n : \u2115} (hn : p.Coprime n) : G \u2243 G",
+      "module": "Mathlib.GroupTheory.PGroup",
+      "doc": "If `gcd(p,n) = 1`, then the `n`th power map is a bijection. "
+    },
+    {
+      "name": "IsPGroup.mono",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] {q : \u2115} (hpq : p \u2223 q) (hp : IsPGroup p G) : IsPGroup q G",
+      "module": "Mathlib.GroupTheory.PGroup",
+      "doc": ""
+    },
+    {
+      "name": "IsPGroup.powEquiv'",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] (hG : IsPGroup p G) [hp : Fact (Nat.Prime p)] {n : \u2115} (hn : \u00acp \u2223 n) : G \u2243 G",
+      "module": "Mathlib.GroupTheory.PGroup",
+      "doc": "If `p \u2224 n`, then the `n`th power map is a bijection. "
+    },
+    {
+      "name": "IsPGroup.orderOf_coprime",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] (hG : IsPGroup p G) {n : \u2115} (hn : p.Coprime n) (g : G) : (orderOf g).Coprime n",
+      "module": "Mathlib.GroupTheory.PGroup",
+      "doc": ""
+    },
+    {
+      "name": "IsPGroup.isOfFinOrder",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] (hG : IsPGroup p G) (hp : p \u2260 0) (g : G) : IsOfFinOrder g",
+      "module": "Mathlib.GroupTheory.PGroup",
+      "doc": ""
+    },
+    {
+      "name": "IsPGroup.of_pow",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] {n : \u2115} (h : IsPGroup (p ^ n) G) : IsPGroup p G",
+      "module": "Mathlib.GroupTheory.PGroup",
+      "doc": ""
+    },
+    {
+      "name": "IsPGroup.card_eq_or_dvd",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] (hG : IsPGroup p G) [hp : Fact (Nat.Prime p)] : Nat.card G = 1 \u2228 p \u2223 Nat.card G",
+      "module": "Mathlib.GroupTheory.PGroup",
+      "doc": ""
+    },
+    {
+      "name": "IsPGroup",
+      "type": " (p : \u2115) (G : Type u_1) [Group G] : Prop",
+      "module": "Mathlib.GroupTheory.PGroup",
+      "doc": "A p-group is a group in which the order of every element is a power of `p`. "
+    },
+    {
+      "name": "AddCommGroup.normalizer_eq_top",
+      "type": " {G : Type u_4} [AddCommGroup G] (s : Set G) : AddSubgroup.normalizer s = \u22a4",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CommGroup.normalizer_eq_top",
+      "type": " {G : Type u_4} [CommGroup G] (s : Set G) : Subgroup.normalizer s = \u22a4",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.normalizer_eq_top",
+      "type": " {G : Type u_1} [AddGroup G] (H : AddSubgroup G) [h : H.Normal] : AddSubgroup.normalizer \u2191H = \u22a4",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normalizer_eq_top",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) [h : H.Normal] : Subgroup.normalizer \u2191H = \u22a4",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.normalizer_eq_top_iff",
+      "type": " {G : Type u_1} [AddGroup G] {H : AddSubgroup G} : AddSubgroup.normalizer \u2191H = \u22a4 \u2194 H.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normalizer_eq_top_iff",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} : Subgroup.normalizer \u2191H = \u22a4 \u2194 H.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.comap_normalizer_eq_of_le_range",
+      "type": " {G : Type u_1} [AddGroup G] {H : AddSubgroup G} {N : Type u_4} [AddGroup N] {f : N \u2192+ G} (h : H \u2264 f.range) : AddSubgroup.comap f (AddSubgroup.normalizer \u2191H) = AddSubgroup.normalizer \u2191(AddSubgroup.comap f H)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.comap_normalizer_eq_of_le_range",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} {N : Type u_4} [Group N] {f : N \u2192* G} (h : H \u2264 f.range) : Subgroup.comap f (Subgroup.normalizer \u2191H) = Subgroup.normalizer \u2191(Subgroup.comap f H)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.map_equiv_normalizer_eq",
+      "type": " {G : Type u_1} [AddGroup G] {N : Type u_4} [AddGroup N] (H : AddSubgroup G) (f : G \u2243+ N) : AddSubgroup.map f.toAddMonoidHom (AddSubgroup.normalizer \u2191H) = AddSubgroup.normalizer \u2191(AddSubgroup.map f.toAddMonoidHom H)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "The image of the normalizer is equal to the normalizer of the image of an\nisomorphism. "
+    },
+    {
+      "name": "Subgroup.map_equiv_normalizer_eq",
+      "type": " {G : Type u_1} [Group G] {N : Type u_4} [Group N] (H : Subgroup G) (f : G \u2243* N) : Subgroup.map f.toMonoidHom (Subgroup.normalizer \u2191H) = Subgroup.normalizer \u2191(Subgroup.map f.toMonoidHom H)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "The image of the normalizer is equal to the normalizer of the image of an isomorphism. "
+    },
+    {
+      "name": "AddSubgroup.comap_normalizer_eq_of_surjective",
+      "type": " {G : Type u_1} [AddGroup G] {N : Type u_4} [AddGroup N] (H : AddSubgroup G) {f : N \u2192+ G} (hf : Function.Surjective \u21d1f) : AddSubgroup.comap f (AddSubgroup.normalizer \u2191H) = AddSubgroup.normalizer \u2191(AddSubgroup.comap f H)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "The preimage of the normalizer is equal to the normalizer of the preimage of\na surjective function. "
+    },
+    {
+      "name": "AddSubgroup.map_normalizer_eq_of_bijective",
+      "type": " {G : Type u_1} [AddGroup G] {N : Type u_4} [AddGroup N] (H : AddSubgroup G) {f : G \u2192+ N} (hf : Function.Bijective \u21d1f) : AddSubgroup.map f (AddSubgroup.normalizer \u2191H) = AddSubgroup.normalizer \u2191(AddSubgroup.map f H)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "The image of the normalizer is equal to the normalizer of the image of a bijective\nfunction. "
+    },
+    {
+      "name": "isNilpotent_of_subsingleton",
+      "type": " {R : Type u_3} {x : R} [Zero R] [Pow R \u2115] [Subsingleton R] : IsNilpotent x",
+      "module": "Mathlib.Algebra.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsNilpotent.eq_zero",
+      "type": " {R : Type u_3} {x : R} [Zero R] [Pow R \u2115] [IsReduced R] (h : IsNilpotent x) : x = 0",
+      "module": "Mathlib.Algebra.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "exists_isNilpotent_of_not_isReduced",
+      "type": " {R : Type u_5} [Zero R] [Pow R \u2115] (h : \u00acIsReduced R) : \u2203 x, x \u2260 0 \u2227 IsNilpotent x",
+      "module": "Mathlib.Algebra.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsNilpotent.mk",
+      "type": " {R : Type u_3} [Zero R] [Pow R \u2115] (x : R) (n : \u2115) (e : x ^ n = 0) : IsNilpotent x",
+      "module": "Mathlib.Algebra.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsNilpotent.zero",
+      "type": " {R : Type u_3} [MonoidWithZero R] : IsNilpotent 0",
+      "module": "Mathlib.Algebra.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "not_isNilpotent_one",
+      "type": " {R : Type u_3} [MonoidWithZero R] [Nontrivial R] : \u00acIsNilpotent 1",
+      "module": "Mathlib.Algebra.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "isNilpotent_iff_eq_zero",
+      "type": " {R : Type u_3} {x : R} [MonoidWithZero R] [IsReduced R] : IsNilpotent x \u2194 x = 0",
+      "module": "Mathlib.Algebra.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsNilpotent.of_pow",
+      "type": " {R : Type u_3} [MonoidWithZero R] {x : R} {m : \u2115} (h : IsNilpotent (x ^ m)) : IsNilpotent x",
+      "module": "Mathlib.Algebra.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsNilpotent.pow_succ",
+      "type": " (n : \u2115) {S : Type u_5} [MonoidWithZero S] {x : S} (hx : IsNilpotent x) : IsNilpotent (x ^ n.succ)",
+      "module": "Mathlib.Algebra.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsNilpotent.pow_of_pos",
+      "type": " {n : \u2115} {S : Type u_5} [MonoidWithZero S] {x : S} (hx : IsNilpotent x) (hn : n \u2260 0) : IsNilpotent (x ^ n)",
+      "module": "Mathlib.Algebra.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsNilpotent.pow_iff_pos",
+      "type": " {n : \u2115} {S : Type u_5} [MonoidWithZero S] {x : S} (hn : n \u2260 0) : IsNilpotent (x ^ n) \u2194 IsNilpotent x",
+      "module": "Mathlib.Algebra.GroupWithZero.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsNilpotent",
+      "type": " {R : Type u_3} [Zero R] [Pow R \u2115] (x : R) : Prop",
+      "module": "Mathlib.Algebra.GroupWithZero.Basic",
+      "doc": "An element is said to be nilpotent if some natural-number-power of it equals zero.\n\nNote that we require only the bare minimum assumptions for the definition to make sense. Even\n`MonoidWithZero` is too strong since nilpotency is important in the study of rings that are only\npower-associative. "
+    },
+    {
+      "name": "LieSubalgebra.normalizer_eq_self_iff",
+      "type": " {R : Type u_1} {L : Type u_2} [CommRing R] [LieRing L] [LieAlgebra R L] (H : LieSubalgebra R L) : H.normalizer = H \u2194 LieModule.maxTrivSubmodule R (\u21a5H) (L \u29f8 H.toLieSubmodule) = \u22a5",
+      "module": "Mathlib.Algebra.Lie.Normalizer",
+      "doc": ""
+    },
+    {
+      "name": "LieSubmodule.ucs_eq_self_of_normalizer_eq_self",
+      "type": " {R : Type u} {L : Type v} {M : Type w} [CommRing R] [LieRing L] [LieAlgebra R L] [AddCommGroup M] [Module R M] [LieRingModule L M] {N\u2081 : LieSubmodule R L M} [LieModule R L M] (h : N\u2081.normalizer = N\u2081) (k : \u2115) : LieSubmodule.ucs k N\u2081 = N\u2081",
+      "module": "Mathlib.Algebra.Lie.Nilpotent",
+      "doc": ""
+    },
+    {
+      "name": "LieSubmodule.ucs_le_of_normalizer_eq_self",
+      "type": " {R : Type u} {L : Type v} {M : Type w} [CommRing R] [LieRing L] [LieAlgebra R L] [AddCommGroup M] [Module R M] [LieRingModule L M] {N\u2081 : LieSubmodule R L M} [LieModule R L M] (h : N\u2081.normalizer = N\u2081) (k : \u2115) : LieSubmodule.ucs k \u22a5 \u2264 N\u2081",
+      "module": "Mathlib.Algebra.Lie.Nilpotent",
+      "doc": "If a Lie module `M` contains a self-normalizing Lie submodule `N`, then all terms of the upper\ncentral series of `M` are contained in `N`.\n\nAn important instance of this situation arises from a Cartan subalgebra `H \u2286 L` with the roles of\n`L`, `M`, `N` played by `H`, `L`, `H`, respectively. "
+    },
+    {
+      "name": "LieModule.genWeightSpace_zero_normalizer_eq_self",
+      "type": " (R : Type u_2) (L : Type u_3) (M : Type u_4) [CommRing R] [LieRing L] [LieAlgebra R L] [AddCommGroup M] [Module R M] [LieRingModule L M] [LieModule R L M] [LieRing.IsNilpotent L] : (LieModule.genWeightSpace M 0).normalizer = LieModule.genWeightSpace M 0",
+      "module": "Mathlib.Algebra.Lie.Weights.Basic",
+      "doc": ""
+    },
+    {
+      "name": "LieSubalgebra.normalizer_eq_self_of_isCartanSubalgebra",
+      "type": " {R : Type u} {L : Type v} [CommRing R] [LieRing L] [LieAlgebra R L] (H : LieSubalgebra R L) [H.IsCartanSubalgebra] : H.toLieSubmodule.normalizer = H.toLieSubmodule",
+      "module": "Mathlib.Algebra.Lie.CartanSubalgebra",
+      "doc": ""
+    },
+    {
+      "name": "LieAlgebra.zeroRootSubalgebra_normalizer_eq_self",
+      "type": " (R : Type u_1) (L : Type u_2) [CommRing R] [LieRing L] [LieAlgebra R L] (H : LieSubalgebra R L) [LieRing.IsNilpotent \u21a5H] : (LieAlgebra.zeroRootSubalgebra R L H).normalizer = LieAlgebra.zeroRootSubalgebra R L H",
+      "module": "Mathlib.Algebra.Lie.Weights.Cartan",
+      "doc": ""
+    },
+    {
+      "name": "LieSubalgebra.normalizer_eq_self_of_engel_le",
+      "type": " {R : Type u_1} {L : Type u_2} [CommRing R] [LieRing L] [LieAlgebra R L] [IsArtinian R L] (H : LieSubalgebra R L) (x : L) (h : LieSubalgebra.engel R x \u2264 H) : H.normalizer = H",
+      "module": "Mathlib.Algebra.Lie.EngelSubalgebra",
+      "doc": "A Lie-subalgebra of an Artinian Lie algebra is self-normalizing\nif it contains an Engel subalgebra.\nSee `LieSubalgebra.normalizer_engel` for a proof that Engel subalgebras are self-normalizing,\navoiding the Artinian condition. "
+    },
+    {
+      "name": "List.choose_property",
+      "type": " {\u03b1 : Type u} (p : \u03b1 \u2192 Prop) [DecidablePred p] (l : List \u03b1) (hp : \u2203 a \u2208 l, p a) : p (List.choose p l hp)",
+      "module": "Mathlib.Data.List.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiset.choose_property",
+      "type": " {\u03b1 : Type u_1} (p : \u03b1 \u2192 Prop) [DecidablePred p] (l : Multiset \u03b1) (hp : \u2203! a, a \u2208 l \u2227 p a) : p (Multiset.choose p l hp)",
+      "module": "Mathlib.Data.Multiset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.choose_property",
+      "type": " {\u03b1 : Type u_1} (p : \u03b1 \u2192 Prop) [DecidablePred p] (l : Finset \u03b1) (hp : \u2203! a, a \u2208 l \u2227 p a) : p (Finset.choose p l hp)",
+      "module": "Mathlib.Data.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.property_of_mem_map_subtype",
+      "type": " {\u03b1 : Type u_1} {p : \u03b1 \u2192 Prop} (s : Finset { x // p x }) {a : \u03b1} (h : a \u2208 Finset.map (Function.Embedding.subtype fun x => p x) s) : p a",
+      "module": "Mathlib.Data.Finset.Image",
+      "doc": "If a `Finset` of a subtype is converted to the main type with\n`Embedding.subtype`, all elements of the result have the property of\nthe subtype. "
+    },
+    {
+      "name": "Finset.notMem_map_subtype_of_not_property",
+      "type": " {\u03b1 : Type u_1} {p : \u03b1 \u2192 Prop} (s : Finset { x // p x }) {a : \u03b1} (h : \u00acp a) : a \u2209 Finset.map (Function.Embedding.subtype fun x => p x) s",
+      "module": "Mathlib.Data.Finset.Image",
+      "doc": "If a `Finset` of a subtype is converted to the main type with\n`Embedding.subtype`, the result does not contain any value that does\nnot satisfy the property of the subtype. "
+    },
+    {
+      "name": "Ideal.zero_ne_one_of_proper",
+      "type": " {\u03b1 : Type u} [Semiring \u03b1] {I : Ideal \u03b1} (h : I \u2260 \u22a4) : 0 \u2260 1",
+      "module": "Mathlib.RingTheory.Ideal.Span",
+      "doc": ""
+    },
+    {
+      "name": "Filter.HasBasis.property_index",
+      "type": " {\u03b1 : Type u_1} {\u03b9 : Sort u_3} {l : Filter \u03b1} {p : \u03b9 \u2192 Prop} {s : \u03b9 \u2192 Set \u03b1} {t : Set \u03b1} (h : l.HasBasis p s) (ht : t \u2208 l) : p \u2191(h.index t ht)",
+      "module": "Mathlib.Order.Filter.Bases.Basic",
+      "doc": ""
+    },
+    {
+      "name": "OrzechProperty",
+      "type": " (R : Type u) [Semiring R] : Prop",
+      "module": "Mathlib.RingTheory.OrzechProperty",
+      "doc": "A ring `R` satisfies the Orzech property, if for any finitely generated `R`-module `M`,\nany surjective homomorphism `f : N \u2192 M` from a submodule `N` of `M` to `M` is injective.\n\nNOTE: In the definition we need to assume that `M` has the same universe level as `R`, but it\nin fact implies the universe polymorphic versions\n`OrzechProperty.injective_of_surjective_of_injective`\nand `OrzechProperty.injective_of_surjective_of_submodule`. "
+    }
+  ],
+  "trace": [
+    "search: '\"Fintype.card\"' -> Fintype.card, Fintype.card_fin, Fintype.card_bool, Fintype.card_empty, Fintype.card_pempty, Fintype.card_prop, Fintype.card_punit, Fintype.card_unit",
+    "seeded from goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"normal\"' -> Rat.normalize.dvd_den, Rat.normalize.dvd_num, Rat.normalize, Rat.normalize.den_nz, Rat.normalize.reduced, Rat.maybeNormalize, Rat.normalize_self, Rat.normalize_eq_mkRat",
+    "search: '\"Subgroup.Normal\"' -> AddSubgroup.normalizer, Subgroup.normalizer, AddSubgroup.normal_of_isAddCommutative, Subgroup.normal_of_comm, Subgroup.normal_of_isMulCommutative, AddSubgroup.Normal.mem_comm, Subgroup.Normal.mem_comm, AddSubgroup.Normal.mem_comm_iff",
+    "search: '\"normalizer\"' -> AddSubgroup.normalizer, AddSubgroup.setNormalizer, Subgroup.normalizer, Subgroup.setNormalizer, AddSubgroup.le_normalizer, Subgroup.le_normalizer, AddSubgroup.mem_set_normalizer_iff', Subgroup.mem_set_normalizer_iff'",
+    "search: '\"IsPGroup\"' -> IsPGroup.card, IsPGroup.of_subsingleton, IsPGroup.zero, isPGroup_one_iff_subsingleton, IsPGroup.powEquiv, IsPGroup.mono, IsPGroup.powEquiv', IsPGroup.orderOf_coprime",
+    "search: '\"IsPGroup\" \"normalizer\"' -> nothing",
+    "search: '\"IsPGroup\" \"normalizer\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"normalizer\" \"proper\"' -> nothing",
+    "search: '\"normalizer\" \"proper\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"normalizer\" \"top\"' -> nothing",
+    "search: '\"normalizer\" \"top\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"normalizer_eq\"' -> AddCommGroup.normalizer_eq_top, CommGroup.normalizer_eq_top, AddSubgroup.normalizer_eq_top, Subgroup.normalizer_eq_top, AddSubgroup.normalizer_eq_top_iff, Subgroup.normalizer_eq_top_iff, AddSubgroup.comap_normalizer_eq_of_le_range, Subgroup.comap_normalizer_eq_of_le_range",
+    "search: '\"nilpotent\"' -> isNilpotent_of_subsingleton, IsNilpotent.eq_zero, exists_isNilpotent_of_not_isReduced, IsNilpotent.mk, IsNilpotent.zero, not_isNilpotent_one, isNilpotent_iff_eq_zero, IsNilpotent.of_pow",
+    "search: '\"NilpotentGroup\"' -> nothing",
+    "search: '\"NilpotentGroup\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"Nilpotent\"' -> isNilpotent_of_subsingleton, IsNilpotent.eq_zero, exists_isNilpotent_of_not_isReduced, IsNilpotent.mk, IsNilpotent.zero, not_isNilpotent_one, isNilpotent_iff_eq_zero, IsNilpotent.of_pow",
+    "search: '\"IsPGroup\"' -> IsPGroup.card, IsPGroup.of_subsingleton, IsPGroup.zero, isPGroup_one_iff_subsingleton, IsPGroup.powEquiv, IsPGroup.mono, IsPGroup.powEquiv', IsPGroup.orderOf_coprime",
+    "search: '\"normalizer_eq_self\"' -> LieSubalgebra.normalizer_eq_self_iff, LieSubmodule.ucs_eq_self_of_normalizer_eq_self, LieSubmodule.ucs_le_of_normalizer_eq_self, LieModule.genWeightSpace_zero_normalizer_eq_self, LieSubalgebra.normalizer_eq_self_of_isCartanSubalgebra, LieAlgebra.zeroRootSubalgebra_normalizer_eq_self, LieSubalgebra.normalizer_eq_self_of_engel_le",
+    "search: '\"normalizer\" \"self\"' -> nothing",
+    "search: '\"normalizer\" \"self\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"normalizer\"' -> AddSubgroup.normalizer, AddSubgroup.setNormalizer, Subgroup.normalizer, Subgroup.setNormalizer, AddSubgroup.le_normalizer, Subgroup.le_normalizer, AddSubgroup.mem_set_normalizer_iff', Subgroup.mem_set_normalizer_iff'",
+    "search: '\"IsPGroup\" \"normalizer\"' -> nothing",
+    "search: '\"IsPGroup\" \"normalizer\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"proper\"' -> List.choose_property, Multiset.choose_property, Finset.choose_property, Finset.property_of_mem_map_subtype, Finset.notMem_map_subtype_of_not_property, Ideal.zero_ne_one_of_proper, Filter.HasBasis.property_index, OrzechProperty",
+    "search: '\"IsPGroup\" \"normalizer\"' -> nothing",
+    "search: '\"IsPGroup\" \"normalizer\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty"
+  ],
+  "budget": {
+    "tool_calls": 36,
+    "lean_calls": 12,
+    "searches": 24,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788779350.3837976,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.5,
+    "statement_checks": 2
+  },
+  "goal": "theorem exercise_2_11_22 {p : \u2115} {n : \u2115} {G : Type*} [Fintype G]\n  [Group G] (hp : Nat.Prime p) (hG : Fintype.card G = p ^ n) {K : Subgroup G}\n  [Fintype K] (hK : Fintype.card K = p ^ (n-1)) :\n  K.Normal"
+}

@@ -1,0 +1,342 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "import Mathlib.Topology.Instances.Real\nimport Mathlib.Topology.ContinuousOn\n\ntheorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_i1qrju4k\\math/lean\\claim_32fd87d0.lean:1:0: error: object file 'C:\\Users\\SiyaJethliya\\Projects\\lean-workspace\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean\\Mathlib\\Topology\\Instances\\Real.olean' of module Mathlib.Topology.Instances.Real does not exist",
+      "at": 1788775333.692809,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "import Mathlib.Topology.Basic\nimport Mathlib.Data.Real.Basic\n\ntheorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788775367.7714167,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "import Mathlib.Topology.Basic\nimport Mathlib.Data.Real.Basic\n\ntheorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+      "proof": "exact hs.exists_isMaxOn hne hf",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: import Mathlib.Topology.Basic\nimport Mathlib.Data.Real.Basic\n\ntheorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+      "at": 1788775401.4747057,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "CompleteLattice.isCompactlyGenerated_of_wellFoundedGT",
+      "type": " {\u03b1 : Type u_2} [CompleteLattice \u03b1] [h : WellFoundedGT \u03b1] : IsCompactlyGenerated \u03b1",
+      "module": "Mathlib.Order.CompactlyGenerated.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsCompactlyGenerated.exists_sSup_eq",
+      "type": " {\u03b1 : Type u_3} {inst\u271d : CompleteLattice \u03b1} [self : IsCompactlyGenerated \u03b1] (x : \u03b1) : \u2203 s, (\u2200 x \u2208 s, IsCompactElement x) \u2227 sSup s = x",
+      "module": "Mathlib.Order.CompactlyGenerated.Basic",
+      "doc": "In a compactly generated complete lattice,\nevery element is the `sSup` of some set of compact elements. "
+    },
+    {
+      "name": "IsCompactlyGenerated.mk",
+      "type": " {\u03b1 : Type u_3} [CompleteLattice \u03b1] (exists_sSup_eq : \u2200 (x : \u03b1), \u2203 s, (\u2200 x \u2208 s, IsCompactElement x) \u2227 sSup s = x) : IsCompactlyGenerated \u03b1",
+      "module": "Mathlib.Order.CompactlyGenerated.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CompleteLattice.isCompactElement_finsetSup",
+      "type": " {\u03b1 : Type u_3} {\u03b2 : Type u_4} [CompleteLattice \u03b1] {f : \u03b2 \u2192 \u03b1} (s : Finset \u03b2) (h : \u2200 x \u2208 s, IsCompactElement (f x)) : IsCompactElement (s.sup f)",
+      "module": "Mathlib.Order.CompactlyGenerated.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CompleteLattice.IsCompactElement.directed_sSup_lt_of_lt",
+      "type": " {\u03b1 : Type u_3} [CompleteLattice \u03b1] {k : \u03b1} (hk : IsCompactElement k) {s : Set \u03b1} (hemp : s.Nonempty) (hdir : DirectedOn (fun x1 x2 => x1 \u2264 x2) s) (hbelow : \u2200 x \u2208 s, x < k) : sSup s < k",
+      "module": "Mathlib.Order.CompactlyGenerated.Basic",
+      "doc": "A compact element `k` has the property that any directed set lying strictly below `k` has\nits `sSup` strictly below `k`. "
+    },
+    {
+      "name": "CompleteLattice.isCompactElement_iff_exists_le_iSup_of_le_iSup",
+      "type": " {\u03b1 : Type u} [CompleteLattice \u03b1] (k : \u03b1) : IsCompactElement k \u2194 \u2200 (\u03b9 : Type u) (s : \u03b9 \u2192 \u03b1), k \u2264 iSup s \u2192 \u2203 t, k \u2264 t.sup s",
+      "module": "Mathlib.Order.CompactlyGenerated.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CompleteLattice.isCompactElement_iff_le_of_directed_sSup_le",
+      "type": " (\u03b1 : Type u_2) [CompleteLattice \u03b1] (k : \u03b1) : IsCompactElement k \u2194 \u2200 (s : Set \u03b1), s.Nonempty \u2192 DirectedOn (fun x1 x2 => x1 \u2264 x2) s \u2192 k \u2264 sSup s \u2192 \u2203 x \u2208 s, k \u2264 x",
+      "module": "Mathlib.Order.CompactlyGenerated.Basic",
+      "doc": "An element `k` is compact if and only if any directed set with `sSup` above\n`k` already got above `k` at some point in the set. "
+    },
+    {
+      "name": "CompleteLattice.isCompactElement_iff_exists_le_sSup_of_le_sSup",
+      "type": " (\u03b1 : Type u_2) [CompleteLattice \u03b1] (k : \u03b1) : IsCompactElement k \u2194 \u2200 (s : Set \u03b1), k \u2264 sSup s \u2192 \u2203 t, \u2191t \u2286 s \u2227 k \u2264 t.sup id",
+      "module": "Mathlib.Order.CompactlyGenerated.Basic",
+      "doc": "An element `k` of is compact if any set with `sSup`\nabove `k` has a finite subset with `sSup` above `k`. "
+    },
+    {
+      "name": "CompleteLattice.IsCompactElement.exists_finset_of_le_iSup",
+      "type": " (\u03b1 : Type u_2) [CompleteLattice \u03b1] {k : \u03b1} (hk : IsCompactElement k) {\u03b9 : Type u_3} (f : \u03b9 \u2192 \u03b1) (h : k \u2264 \u2a06 i, f i) : \u2203 s, k \u2264 \u2a06 i \u2208 s, f i",
+      "module": "Mathlib.Order.CompactlyGenerated.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Submodule.instIsCompactlyGenerated",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] [AddCommMonoid M] [Module R M] : IsCompactlyGenerated (Submodule R M)",
+      "module": "Mathlib.LinearAlgebra.Span.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsCompactlyGenerated",
+      "type": " (\u03b1 : Type u_3) [CompleteLattice \u03b1] : Prop",
+      "module": "Mathlib.Order.CompactlyGenerated.Basic",
+      "doc": "A complete lattice is said to be compactly generated if any\nelement is the `sSup` of compact elements. "
+    },
+    {
+      "name": "IsCompactElement",
+      "type": " {\u03b1 : Type u_1} [PartialOrder \u03b1] (k : \u03b1) : Prop",
+      "module": "Mathlib.Order.CompactlyGenerated.Basic",
+      "doc": "An element `k` is compact if any directed set with `LUB` (least upper bound) above\n`k` has already got above `k` at some point in the set.\nSuch an element is also called \"finite\" or \"S-compact\". "
+    },
+    {
+      "name": "IsCompact.exists_clusterPt_of_frequently",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} {l : Filter X} (hs : IsCompact s) (hl : \u2203\u1da0 (x : X) in l, x \u2208 s) : \u2203 a \u2208 s, ClusterPt a l",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.exists_clusterPt",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} (hs : IsCompact s) {f : Filter X} [f.NeBot] (hf : f \u2264 Filter.principal s) : \u2203 x \u2208 s, ClusterPt x f",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.exists_mapClusterPt_of_frequently",
+      "type": " {X : Type u} {\u03b9 : Type u_1} [TopologicalSpace X] {s : Set X} {l : Filter \u03b9} {f : \u03b9 \u2192 X} (hs : IsCompact s) (hf : \u2203\u1da0 (x : \u03b9) in l, f x \u2208 s) : \u2203 a \u2208 s, MapClusterPt a l f",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.exists_mapClusterPt",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} {\u03b9 : Type u_2} (hs : IsCompact s) {f : Filter \u03b9} [f.NeBot] {u : \u03b9 \u2192 X} (hf : Filter.map u f \u2264 Filter.principal s) : \u2203 x \u2208 s, MapClusterPt x f u",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.exists_isOpen_closure_subset",
+      "type": " {X : Type u_1} [TopologicalSpace X] [RegularSpace X] {K U : Set X} (hK : IsCompact K) (hU : U \u2208 nhdsSet K) : \u2203 V, IsOpen V \u2227 K \u2286 V \u2227 closure V \u2286 U",
+      "module": "Mathlib.Topology.Separation.Regular",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.exists_isGreatest",
+      "type": " {\u03b1 : Type u_2} [LinearOrder \u03b1] [TopologicalSpace \u03b1] [ClosedIciTopology \u03b1] {s : Set \u03b1} (hs : IsCompact s) (ne_s : s.Nonempty) : \u2203 x, IsGreatest s x",
+      "module": "Mathlib.Topology.Order.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.exists_isLeast",
+      "type": " {\u03b1 : Type u_2} [LinearOrder \u03b1] [TopologicalSpace \u03b1] [ClosedIicTopology \u03b1] {s : Set \u03b1} (hs : IsCompact s) (ne_s : s.Nonempty) : \u2203 x, IsLeast s x",
+      "module": "Mathlib.Topology.Order.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.exists_isGLB",
+      "type": " {\u03b1 : Type u_2} [LinearOrder \u03b1] [TopologicalSpace \u03b1] [ClosedIicTopology \u03b1] {s : Set \u03b1} (hs : IsCompact s) (ne_s : s.Nonempty) : \u2203 x \u2208 s, IsGLB s x",
+      "module": "Mathlib.Topology.Order.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.exists_isLUB",
+      "type": " {\u03b1 : Type u_2} [LinearOrder \u03b1] [TopologicalSpace \u03b1] [ClosedIciTopology \u03b1] {s : Set \u03b1} (hs : IsCompact s) (ne_s : s.Nonempty) : \u2203 x \u2208 s, IsLUB s x",
+      "module": "Mathlib.Topology.Order.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.exists_isMaxOn",
+      "type": " {\u03b1 : Type u_2} {\u03b2 : Type u_3} [LinearOrder \u03b1] [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] [ClosedIciTopology \u03b1] {s : Set \u03b2} (hs : IsCompact s) (ne_s : s.Nonempty) {f : \u03b2 \u2192 \u03b1} (hf : ContinuousOn f s) : \u2203 x \u2208 s, IsMaxOn f s x",
+      "module": "Mathlib.Topology.Order.Compact",
+      "doc": "The **extreme value theorem**: a continuous function realizes its maximum on a compact set. "
+    },
+    {
+      "name": "IsCompact.exists_isMinOn",
+      "type": " {\u03b1 : Type u_2} {\u03b2 : Type u_3} [LinearOrder \u03b1] [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] [ClosedIicTopology \u03b1] {s : Set \u03b2} (hs : IsCompact s) (ne_s : s.Nonempty) {f : \u03b2 \u2192 \u03b1} (hf : ContinuousOn f s) : \u2203 x \u2208 s, IsMinOn f s x",
+      "module": "Mathlib.Topology.Order.Compact",
+      "doc": "The **extreme value theorem**: a continuous function realizes its minimum on a compact set. "
+    },
+    {
+      "name": "IsCompact.exists_sInf_image_eq",
+      "type": " {\u03b1 : Type u_2} {\u03b2 : Type u_3} [ConditionallyCompleteLinearOrder \u03b1] [TopologicalSpace \u03b1] [TopologicalSpace \u03b2] [ClosedIicTopology \u03b1] {s : Set \u03b2} (hs : IsCompact s) (ne_s : s.Nonempty) {f : \u03b2 \u2192 \u03b1} (hf : ContinuousOn f s) : \u2203 x \u2208 s, sInf (f '' s) = f x",
+      "module": "Mathlib.Topology.Order.Compact",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.mk",
+      "type": " {X : Type u} (IsOpen : Set X \u2192 Prop) (isOpen_univ : IsOpen Set.univ) (isOpen_inter : \u2200 (s t : Set X), IsOpen s \u2192 IsOpen t \u2192 IsOpen (s \u2229 t)) (isOpen_sUnion : \u2200 (s : Set (Set X)), (\u2200 t \u2208 s, IsOpen t) \u2192 IsOpen (\u22c3\u2080 s)) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.ofClosed",
+      "type": " {X : Type u} (T : Set (Set X)) (empty_mem : \u2205 \u2208 T) (sInter_mem : \u2200 A \u2286 T, \u22c2\u2080 A \u2208 T) (union_mem : \u2200 A \u2208 T, \u2200 B \u2208 T, A \u222a B \u2208 T) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Basic",
+      "doc": "A constructor for topologies by specifying the closed sets,\nand showing that they satisfy the appropriate conditions. "
+    },
+    {
+      "name": "WithTopology.instTopologicalSpace",
+      "type": " (X : Type u_1) (t : TopologicalSpace X) : TopologicalSpace (WithTopology X t)",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.coinduced",
+      "type": " {X : Type u_1} {Y : Type u_2} (f : X \u2192 Y) (t : TopologicalSpace X) : TopologicalSpace Y",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "Given `f : X \u2192 Y` and a topology on `X`,\nthe coinduced topology on `Y` is defined such that\n`s : Set Y` is open if the preimage of `s` is open.\nThis is the finest topology that makes `f` continuous. "
+    },
+    {
+      "name": "TopologicalSpace.induced",
+      "type": " {X : Type u_1} {Y : Type u_2} (f : X \u2192 Y) (t : TopologicalSpace Y) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "Given `f : X \u2192 Y` and a topology on `Y`,\nthe induced topology on `X` is the collection of sets\nthat are preimages of some open set in `Y`.\nThis is the coarsest topology that makes `f` continuous. "
+    },
+    {
+      "name": "instTopologicalSpaceSubtype",
+      "type": " {X : Type u_1} {p : X \u2192 Prop} [t : TopologicalSpace X] : TopologicalSpace (Subtype p)",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceBool",
+      "type": " : TopologicalSpace Bool",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceEmpty",
+      "type": " : TopologicalSpace Empty",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceInt",
+      "type": " : TopologicalSpace \u2124",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceNat",
+      "type": " : TopologicalSpace \u2115",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpacePEmpty",
+      "type": " : TopologicalSpace PEmpty.{u_1 + 1}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpacePUnit",
+      "type": " : TopologicalSpace PUnit.{u_1 + 1}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "CompactSpace.isCompact_univ",
+      "type": " {X : Type u_1} {inst\u271d : TopologicalSpace X} [self : CompactSpace X] : IsCompact Set.univ",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": "In a compact space, `Set.univ` is a compact set. "
+    },
+    {
+      "name": "isCompact_empty",
+      "type": " {X : Type u} [TopologicalSpace X] : IsCompact \u2205",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_univ",
+      "type": " {X : Type u} [TopologicalSpace X] [h : CompactSpace X] : IsCompact Set.univ",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "Set.Finite.isCompact",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} (hs : s.Finite) : IsCompact s",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "Set.Subsingleton.isCompact",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} (hs : s.Subsingleton) : IsCompact s",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_singleton",
+      "type": " {X : Type u} [TopologicalSpace X] {x : X} : IsCompact {x}",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsClosed.isCompact",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} [CompactSpace X] (h : IsClosed s) : IsCompact s",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_diagonal",
+      "type": " {X : Type u} [TopologicalSpace X] [CompactSpace X] : IsCompact (Set.diagonal X)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.insert",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} (hs : IsCompact s) (a : X) : IsCompact (insert a s)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_accumulate",
+      "type": " {X : Type u} [TopologicalSpace X] {K : \u2115 \u2192 Set X} (hK : \u2200 (n : \u2115), IsCompact (K n)) (n : \u2115) : IsCompact (Set.accumulate K n)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_iUnion",
+      "type": " {X : Type u} [TopologicalSpace X] {\u03b9 : Sort u_2} {f : \u03b9 \u2192 Set X} [Finite \u03b9] (h : \u2200 (i : \u03b9), IsCompact (f i)) : IsCompact (\u22c3 i, f i)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_range",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] [CompactSpace X] {f : X \u2192 Y} (hf : Continuous f) : IsCompact (Set.range f)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"IsCompact\"' -> CompleteLattice.isCompactlyGenerated_of_wellFoundedGT, IsCompactlyGenerated.exists_sSup_eq, IsCompactlyGenerated.mk, CompleteLattice.isCompactElement_finsetSup, CompleteLattice.IsCompactElement.directed_sSup_lt_of_lt, CompleteLattice.isCompactElement_iff_exists_le_iSup_of_le_iSup, CompleteLattice.isCompactElement_iff_le_of_directed_sSup_le, CompleteLattice.isCompactElement_iff_exists_le_sSup_of_le_sSup",
+    "search: '\"IsCompact.exists\"' -> IsCompact.exists_clusterPt_of_frequently, IsCompact.exists_clusterPt, IsCompact.exists_mapClusterPt_of_frequently, IsCompact.exists_mapClusterPt, IsCompact.exists_isOpen_closure_subset, IsCompact.exists_isGreatest, IsCompact.exists_isLeast, IsCompact.exists_isGLB",
+    "search: 'IsCompact.exists_isMaxOn' -> IsCompact.exists_isMaxOn",
+    "seeded from goal shape -> TopologicalSpace.mk, TopologicalSpace.ofClosed, WithTopology.instTopologicalSpace, TopologicalSpace.coinduced, TopologicalSpace.induced, instTopologicalSpaceSubtype, instTopologicalSpaceBool, instTopologicalSpaceEmpty"
+  ],
+  "budget": {
+    "tool_calls": 8,
+    "lean_calls": 3,
+    "searches": 5,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788775310.4780195,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 22.9,
+    "statement_checks": 2
+  },
+  "goal": "import Mathlib.Topology.Basic\nimport Mathlib.Data.Real.Basic\n\ntheorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x"
+}

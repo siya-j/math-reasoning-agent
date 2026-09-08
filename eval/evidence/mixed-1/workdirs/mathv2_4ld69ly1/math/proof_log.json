@@ -1,0 +1,558 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem irrational_sqrt2_add_sqrt3 : Irrational (Real.sqrt 2 + Real.sqrt 3)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776539.168694,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem irrational_sqrt2_add_sqrt3 : Irrational (Real.sqrt 2 + Real.sqrt 3)",
+      "proof": "by\n  intro h\n  rcases h with \u27e8q, hq\u27e9\n  sorry\n",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776554.9653406,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma not_isSquare_six : \u00acIsSquare 6",
+      "proof": "by decide",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:35: error: Tactic `decide` failed for proposition\n  \u00acIsSquare 6\nbecause its `Decidable` instance\n  instDecidableNot\ndid not reduce to `isTrue` or `isFalse`.\n\nAfter unfolding the instances `decidable_of_decidable_of_iff`, `decidable_of_iff'`, `instDecidableEqBool`, `instDecidableEqNat`, `instDecidableNot`, `Bool.decEq`, `Nat.decEq`, `Nat.decLe`, and `Nat.instDecidablePredIsSquare`, reduction got stuck at the `Decidable` instance\n  match h : (Nat.sqrt 6 * Nat.sqrt 6).beq 6 with\n  | true => isTrue \u22ef\n  | false => isFalse \u22ef",
+      "at": 1788776560.9435833,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma not_isSquare_six : \u00acIsSquare 6",
+      "proof": "by norm_num",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma not_isSquare_six : \u00acIsSquare 6",
+      "at": 1788776563.173633,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma irrational_sqrt_six : Irrational (Real.sqrt 6)",
+      "proof": "by\n  rw [irrational_sqrt_natCast_iff]\n  exact not_isSquare_six\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  Irrational \u221a\u2191?m.4\nin the target expression\n  Irrational \u221a6\n\n\u22a2 Irrational \u221a6\n\nStill to prove:\n\u22a2 Irrational \u221a6",
+      "at": 1788776565.8389924,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma irrational_sqrt_six : Irrational (Real.sqrt 6)",
+      "proof": "by\n  rw [irrational_sqrt_ofNat_iff]\n  exact not_isSquare_six\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma irrational_sqrt_six : Irrational (Real.sqrt 6)",
+      "at": 1788776567.8310301,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma sqrt_two_mul_sqrt_three : Real.sqrt 2 * Real.sqrt 3 = Real.sqrt 6",
+      "proof": "by\n  rw [\u2190 Real.sqrt_mul (by norm_num)]\n  norm_num\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma sqrt_two_mul_sqrt_three : Real.sqrt 2 * Real.sqrt 3 = Real.sqrt 6",
+      "at": 1788776575.3717191,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma sq_sqrt_two_add_sqrt_three : (Real.sqrt 2 + Real.sqrt 3) ^ 2 = 5 + 2 * Real.sqrt 6",
+      "proof": "by\n  rw [add_sq]\n  rw [Real.sq_sqrt (by norm_num)]\n  rw [Real.sq_sqrt (by norm_num)]\n  have h : 2 * Real.sqrt 2 * Real.sqrt 3 = 2 * Real.sqrt 6 := by\n    rw [mul_assoc, sqrt_two_mul_sqrt_three]\n  rw [h]\n  ring\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma sq_sqrt_two_add_sqrt_three : (Real.sqrt 2 + Real.sqrt 3) ^ 2 = 5 + 2 * Real.sqrt 6",
+      "at": 1788776581.2840202,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem irrational_sqrt2_add_sqrt3 : Irrational (Real.sqrt 2 + Real.sqrt 3)",
+      "proof": "by\n  intro h\n  rcases h with \u27e8q, hq\u27e9\n  have h1 : (Real.sqrt 2 + Real.sqrt 3) ^ 2 = (q : \u211d) ^ 2 := by rw [hq]\n  rw [sq_sqrt_two_add_sqrt_three] at h1\n  have h2 : Real.sqrt 6 = (((q ^ 2 - 5) / 2 : \u211a) : \u211d) := by\n    push_cast\n    linarith\n  have h3 : Irrational (Real.sqrt 6) := irrational_sqrt_six\n  apply h3\n  use (q ^ 2 - 5) / 2\n  exact h2\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n31:2: error: Type mismatch\n  h2\nhas type\n  \u221a6 = \u2191((q ^ 2 - 5) / 2)\nbut is expected to have type\n  \u2191((q ^ 2 - 5) / 2) = \u221a6",
+      "at": 1788776592.0427847,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem irrational_sqrt2_add_sqrt3 : Irrational (Real.sqrt 2 + Real.sqrt 3)",
+      "proof": "by\n  intro h\n  rcases h with \u27e8q, hq\u27e9\n  have h1 : (Real.sqrt 2 + Real.sqrt 3) ^ 2 = (q : \u211d) ^ 2 := by rw [hq]\n  rw [sq_sqrt_two_add_sqrt_three] at h1\n  have h2 : Real.sqrt 6 = (((q ^ 2 - 5) / 2 : \u211a) : \u211d) := by\n    push_cast\n    linarith\n  have h3 : Irrational (Real.sqrt 6) := irrational_sqrt_six\n  apply h3\n  use (q ^ 2 - 5) / 2\n  exact h2.symm\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem irrational_sqrt2_add_sqrt3 : Irrational (Real.sqrt 2 + Real.sqrt 3)",
+      "at": 1788776594.2793498,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma not_isSquare_six : \u00acIsSquare 6 := by norm_num",
+    "lemma irrational_sqrt_six : Irrational (Real.sqrt 6) := by\n  rw [irrational_sqrt_ofNat_iff]\n  exact not_isSquare_six",
+    "lemma sqrt_two_mul_sqrt_three : Real.sqrt 2 * Real.sqrt 3 = Real.sqrt 6 := by\n  rw [\u2190 Real.sqrt_mul (by norm_num)]\n  norm_num",
+    "lemma sq_sqrt_two_add_sqrt_three : (Real.sqrt 2 + Real.sqrt 3) ^ 2 = 5 + 2 * Real.sqrt 6 := by\n  rw [add_sq]\n  rw [Real.sq_sqrt (by norm_num)]\n  rw [Real.sq_sqrt (by norm_num)]\n  have h : 2 * Real.sqrt 2 * Real.sqrt 3 = 2 * Real.sqrt 6 := by\n    rw [mul_assoc, sqrt_two_mul_sqrt_three]\n  rw [h]\n  ring"
+  ],
+  "premises": [
+    {
+      "name": "Int.not_irrational",
+      "type": " (m : \u2124) : \u00acIrrational \u2191m",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_irrational",
+      "type": " (m : \u2115) : \u00acIrrational \u2191m",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Rat.not_irrational",
+      "type": " (q : \u211a) : \u00acIrrational \u2191q",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "instDecidableIrrationalSqrtCastReal",
+      "type": " (n : \u2115) : Decidable (Irrational \u221a\u2191n)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "instDecidableIrrationalSqrtCastReal_1",
+      "type": " (z : \u2124) : Decidable (Irrational \u221a\u2191z)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "instDecidableIrrationalSqrtCastReal_2",
+      "type": " (q : \u211a) : Decidable (Irrational \u221a\u2191q)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "not_irrational_one",
+      "type": " : \u00acIrrational 1",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "not_irrational_zero",
+      "type": " : \u00acIrrational 0",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.inv",
+      "type": " {x : \u211d} (h : Irrational x) : Irrational x\u207b\u00b9",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.neg",
+      "type": " {x : \u211d} (h : Irrational x) : Irrational (-x)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.of_inv",
+      "type": " {x : \u211d} (h : Irrational x\u207b\u00b9) : Irrational x",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational",
+      "type": " (x : \u211d) : Prop",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": "A real number is irrational if it is not equal to any rational number. "
+    },
+    {
+      "name": "Irrational.of_neg",
+      "type": " {x : \u211d} (h : Irrational (-x)) : Irrational x",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime.irrational_sqrt",
+      "type": " {p : \u2115} (hp : Nat.Prime p) : Irrational \u221a\u2191p",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.of_mul_self",
+      "type": " {x : \u211d} (h : Irrational (x * x)) : Irrational x",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.add_intCast",
+      "type": " {x : \u211d} (h : Irrational x) (m : \u2124) : Irrational (x + \u2191m)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.add_natCast",
+      "type": " {x : \u211d} (h : Irrational x) (m : \u2115) : Irrational (x + \u2191m)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.add_ratCast",
+      "type": " (q : \u211a) {x : \u211d} (h : Irrational x) : Irrational (x + \u2191q)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.intCast_add",
+      "type": " {x : \u211d} (h : Irrational x) (m : \u2124) : Irrational (\u2191m + x)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.intCast_sub",
+      "type": " {x : \u211d} (h : Irrational x) (m : \u2124) : Irrational (\u2191m - x)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Irrational.natCast_add",
+      "type": " {x : \u211d} (h : Irrational x) (m : \u2115) : Irrational (\u2191m + x)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt",
+      "type": " (x : \u211d) : \u211d",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "The square root of a real number. This returns 0 for negative inputs.\n\nThis has notation `\u221ax`. Note that `\u221ax\u207b\u00b9` is parsed as `\u221a(x\u207b\u00b9)`. "
+    },
+    {
+      "name": "Real.sqrt_monotone",
+      "type": " : Monotone Real.sqrt",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt_nonneg",
+      "type": " (x : \u211d) : 0 \u2264 \u221ax",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_natCast_iff",
+      "type": " {n : \u2115} : Irrational \u221a\u2191n \u2194 \u00acIsSquare n",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_two",
+      "type": " : Irrational \u221a2",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": "**Irrationality of the Square Root of 2** "
+    },
+    {
+      "name": "irrational_sqrt_intCast_iff_of_nonneg",
+      "type": " {z : \u2124} (hz : 0 \u2264 z) : Irrational \u221a\u2191z \u2194 \u00acIsSquare z",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_ratCast_iff_of_nonneg",
+      "type": " {q : \u211a} (hq : 0 \u2264 q) : Irrational \u221a\u2191q \u2194 \u00acIsSquare q",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_intCast_iff",
+      "type": " {z : \u2124} : Irrational \u221a\u2191z \u2194 \u00acIsSquare z \u2227 0 \u2264 z",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_ratCast_iff",
+      "type": " {q : \u211a} : Irrational \u221a\u2191q \u2194 \u00acIsSquare q \u2227 0 \u2264 q",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_ofNat_iff",
+      "type": " {n : \u2115} [n.AtLeastTwo] : Irrational \u221a(OfNat.ofNat n) \u2194 \u00acIsSquare (OfNat.ofNat n)",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "irrational_sqrt_of_multiplicity_odd",
+      "type": " (m : \u2124) (hm : 0 < m) (p : \u2115) [hp : Fact (Nat.Prime p)] (Hpv : multiplicity (\u2191p) m % 2 = 1) : Irrational \u221a\u2191m",
+      "module": "Mathlib.NumberTheory.Real.Irrational",
+      "doc": ""
+    },
+    {
+      "name": "IsSquare.mul_self",
+      "type": " {\u03b1 : Type u_2} [Mul \u03b1] (r : \u03b1) : IsSquare (r * r)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "instDecidablePredMulOppositeIsSquare",
+      "type": " {\u03b1 : Type u_2} [Mul \u03b1] [DecidablePred IsSquare] : DecidablePred IsSquare",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative.instDecidablePredIsSquare",
+      "type": " {\u03b1 : Type u_2} [Add \u03b1] [DecidablePred Even] : DecidablePred IsSquare",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "isSquare_op_iff",
+      "type": " {\u03b1 : Type u_2} [Mul \u03b1] {a : \u03b1} : IsSquare (MulOpposite.op a) \u2194 IsSquare a",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "isSquare_unop_iff",
+      "type": " {\u03b1 : Type u_2} [Mul \u03b1] {a : \u03b1\u1d50\u1d52\u1d56} : IsSquare (MulOpposite.unop a) \u2194 IsSquare a",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "IsSquare.one",
+      "type": " {\u03b1 : Type u_2} [MulOneClass \u03b1] : IsSquare 1",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "IsSquare.exists_mul_self",
+      "type": " {\u03b1 : Type u_2} [Mul \u03b1] (a : \u03b1) : IsSquare a \u2192 \u2203 r, a = r * r",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": "**Alias** of the forward direction of `isSquare_iff_exists_mul_self`."
+    },
+    {
+      "name": "isSquare_iff_exists_mul_self",
+      "type": " {\u03b1 : Type u_2} [Mul \u03b1] (a : \u03b1) : IsSquare a \u2194 \u2203 r, a = r * r",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "IsSquare.sq",
+      "type": " {\u03b1 : Type u_2} [Monoid \u03b1] (r : \u03b1) : IsSquare (r ^ 2)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Even.isSquare_pow",
+      "type": " {\u03b1 : Type u_2} [Monoid \u03b1] {n : \u2115} (hn : Even n) (a : \u03b1) : IsSquare (a ^ n)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Even.isSquare_zpow",
+      "type": " {\u03b1 : Type u_2} [Group \u03b1] {n : \u2124} : Even n \u2192 \u2200 (a : \u03b1), IsSquare (a ^ n)",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "IsSquare",
+      "type": " {\u03b1 : Type u_2} [Mul \u03b1] (a : \u03b1) : Prop",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": "An element `a` of a type `\u03b1` with multiplication satisfies `IsSquare a` if `a = r * r`,\nfor some root `r : \u03b1`. "
+    },
+    {
+      "name": "Real.sq_sqrt'",
+      "type": " {x : \u211d} : \u221ax ^ 2 = max x 0",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "Variant of `sq_sqrt` without a non-negativity assumption on `x`. "
+    },
+    {
+      "name": "Real.sq_sqrt",
+      "type": " {x : \u211d} (h : 0 \u2264 x) : \u221ax ^ 2 = x",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sq_sqrt",
+      "type": " (x : NNReal) : NNReal.sqrt x ^ 2 = x",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "CFC.sq_sqrt",
+      "type": " {A : Type u_1} [PartialOrder A] [Ring A] [StarRing A] [TopologicalSpace A] [StarOrderedRing A] [Algebra \u211d A] [ContinuousFunctionalCalculus \u211d A IsSelfAdjoint] [NonnegSpectrumClass \u211d A] [IsSemitopologicalRing A] [T2Space A] (a : A) (ha : 0 \u2264 a := by cfc_tac) : CFC.sqrt a ^ 2 = a",
+      "module": "Mathlib.Analysis.SpecialFunctions.ContinuousFunctionalCalculus.Rpow.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sqrt_mul_sqrt_lt_succ",
+      "type": " (n : \u2115) : n.sqrt * n.sqrt < n + 1",
+      "module": "Mathlib.Data.Nat.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sqrt_mul_sqrt_lt_succ'",
+      "type": " (n : \u2115) : n.sqrt ^ 2 < n + 1",
+      "module": "Mathlib.Data.Nat.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt_mul_self_eq_abs",
+      "type": " (x : \u211d) : \u221a(x * x) = |x|",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt_mul_self",
+      "type": " {x : \u211d} (h : 0 \u2264 x) : \u221a(x * x) = x",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt_mul",
+      "type": " {x : \u211d} (hx : 0 \u2264 x) (y : \u211d) : \u221a(x * y) = \u221ax * \u221ay",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sqrt_mul'",
+      "type": " (x : \u211d) {y : \u211d} (hy : 0 \u2264 y) : \u221a(x * y) = \u221ax * \u221ay",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrt_mul_self",
+      "type": " (x : NNReal) : NNReal.sqrt (x * x) = x",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sqrt_mul_le_max",
+      "type": " {x y : NNReal} : NNReal.sqrt (x * y) \u2264 max x y",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Real.sum_sqrt_mul_sqrt_le",
+      "type": " {\u03b9 : Type u_2} {f g : \u03b9 \u2192 \u211d} (s : Finset \u03b9) (hf : \u2200 (i : \u03b9), 0 \u2264 f i) (hg : \u2200 (i : \u03b9), 0 \u2264 g i) : \u2211 i \u2208 s, \u221a(f i) * \u221a(g i) \u2264 \u221a(\u2211 i \u2208 s, f i) * \u221a(\u2211 i \u2208 s, g i)",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "**Cauchy-Schwarz inequality** for finsets using square roots in `\u211d`. "
+    },
+    {
+      "name": "Real.sum_mul_le_sqrt_mul_sqrt",
+      "type": " {\u03b9 : Type u_2} (s : Finset \u03b9) (f g : \u03b9 \u2192 \u211d) : \u2211 i \u2208 s, f i * g i \u2264 \u221a(\u2211 i \u2208 s, f i ^ 2) * \u221a(\u2211 i \u2208 s, g i ^ 2)",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "**Cauchy-Schwarz inequality** for finsets using square roots in `\u211d`. "
+    },
+    {
+      "name": "NNReal.sqrt_mul",
+      "type": " (x y : NNReal) : NNReal.sqrt (x * y) = NNReal.sqrt x * NNReal.sqrt y",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sum_mul_le_sqrt_mul_sqrt",
+      "type": " {\u03b9 : Type u_2} (s : Finset \u03b9) (f g : \u03b9 \u2192 NNReal) : \u2211 i \u2208 s, f i * g i \u2264 NNReal.sqrt (\u2211 i \u2208 s, f i ^ 2) * NNReal.sqrt (\u2211 i \u2208 s, g i ^ 2)",
+      "module": "Mathlib.Analysis.Real.Sqrt",
+      "doc": "**Cauchy-Schwarz inequality** for finsets using square roots in `\u211d\u22650`. "
+    },
+    {
+      "name": "add_sq",
+      "type": " {\u03b1 : Type u} [CommSemiring \u03b1] (a b : \u03b1) : (a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2",
+      "module": "Mathlib.Algebra.Ring.Defs",
+      "doc": ""
+    },
+    {
+      "name": "add_sq'",
+      "type": " {\u03b1 : Type u} [CommSemiring \u03b1] (a b : \u03b1) : (a + b) ^ 2 = a ^ 2 + b ^ 2 + 2 * a * b",
+      "module": "Mathlib.Algebra.Ring.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Commute.add_sq",
+      "type": " {R : Type u} [Semiring R] {a b : R} (h : Commute a b) : (a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2",
+      "module": "Mathlib.Algebra.Ring.Commute",
+      "doc": ""
+    },
+    {
+      "name": "sq_add_sq_eq_zero",
+      "type": " {R : Type u} [Semiring R] [LinearOrder R] {a b : R} [NoZeroDivisors R] [ExistsAddOfLE R] [PosMulMono R] [AddLeftMono R] : a ^ 2 + b ^ 2 = 0 \u2194 a = 0 \u2227 b = 0",
+      "module": "Mathlib.Algebra.Order.Ring.Unbundled.Basic",
+      "doc": "The sum of two squares is zero iff both elements are zero "
+    },
+    {
+      "name": "two_mul_le_add_sq",
+      "type": " {R : Type u} [CommSemiring R] [LinearOrder R] [ExistsAddOfLE R] [MulPosStrictMono R] [AddLeftReflectLE R] [AddLeftMono R] (a b : R) : 2 * a * b \u2264 a ^ 2 + b ^ 2",
+      "module": "Mathlib.Algebra.Order.Ring.Unbundled.Basic",
+      "doc": "Binary, squared, and division-free **arithmetic mean-geometric mean inequality**\n(aka AM-GM inequality) for linearly ordered commutative semirings. "
+    },
+    {
+      "name": "Int.nneg_mul_add_sq_of_abs_le_one",
+      "type": " {R : Type u_1} [Ring R] [LinearOrder R] [IsStrictOrderedRing R] {x : R} (n : \u2124) (hx : |x| \u2264 1) : 0 \u2264 \u2191n * x + \u2191n * \u2191n",
+      "module": "Mathlib.Algebra.Order.Ring.Cast",
+      "doc": ""
+    },
+    {
+      "name": "add_sq_le",
+      "type": " {R : Type u_3} [Semiring R] [LinearOrder R] [IsStrictOrderedRing R] {a b : R} [ExistsAddOfLE R] : (a + b) ^ 2 \u2264 2 * (a ^ 2 + b ^ 2)",
+      "module": "Mathlib.Algebra.Order.Ring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsCoprime.sq_add_sq_ne_zero",
+      "type": " {R : Type u_1} [CommRing R] [LinearOrder R] [IsStrictOrderedRing R] {a b : R} (h : IsCoprime a b) : a ^ 2 + b ^ 2 \u2260 0",
+      "module": "Mathlib.RingTheory.Coprime.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CharTwo.add_sq",
+      "type": " {R : Type u_1} [CommSemiring R] [CharP R 2] (x y : R) : (x + y) ^ 2 = x ^ 2 + y ^ 2",
+      "module": "Mathlib.Algebra.CharP.Two",
+      "doc": ""
+    },
+    {
+      "name": "Complex.norm_eq_sqrt_sq_add_sq",
+      "type": " (z : \u2102) : \u2016z\u2016 = \u221a(z.re ^ 2 + z.im ^ 2)",
+      "module": "Mathlib.Analysis.Complex.Norm",
+      "doc": ""
+    },
+    {
+      "name": "norm_add_sq_eq_norm_sq_add_norm_sq_real",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] {x y : F} (h : inner \u211d x y = 0) : \u2016x + y\u2016 * \u2016x + y\u2016 = \u2016x\u2016 * \u2016x\u2016 + \u2016y\u2016 * \u2016y\u2016",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "Pythagorean theorem, vector inner product form. "
+    },
+    {
+      "name": "norm_add_sq_eq_norm_sq_add_norm_sq_iff_real_inner_eq_zero",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] (x y : F) : \u2016x + y\u2016 * \u2016x + y\u2016 = \u2016x\u2016 * \u2016x\u2016 + \u2016y\u2016 * \u2016y\u2016 \u2194 inner \u211d x y = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": "Pythagorean theorem, if-and-only-if vector inner product form. "
+    }
+  ],
+  "trace": [
+    "search: '\"Irrational\"' -> Int.not_irrational, Nat.not_irrational, Rat.not_irrational, instDecidableIrrationalSqrtCastReal, instDecidableIrrationalSqrtCastReal_1, instDecidableIrrationalSqrtCastReal_2, not_irrational_one, not_irrational_zero",
+    "seeded from goal shape -> Irrational.inv, Irrational.neg, Irrational.of_inv, Irrational.of_neg, Nat.Prime.irrational_sqrt, Irrational.of_mul_self, Irrational.add_intCast, Irrational.add_natCast",
+    "search: '\"irrational_sqrt\"' -> Nat.Prime.irrational_sqrt, irrational_sqrt_natCast_iff, irrational_sqrt_two, irrational_sqrt_intCast_iff_of_nonneg, irrational_sqrt_ratCast_iff_of_nonneg, irrational_sqrt_intCast_iff, irrational_sqrt_ratCast_iff, irrational_sqrt_ofNat_iff",
+    "search: '\"Irrational\"' -> Int.not_irrational, Nat.not_irrational, Rat.not_irrational, instDecidableIrrationalSqrtCastReal, instDecidableIrrationalSqrtCastReal_1, instDecidableIrrationalSqrtCastReal_2, not_irrational_one, not_irrational_zero",
+    "search: '\"IsSquare\"' -> IsSquare.mul_self, instDecidablePredMulOppositeIsSquare, Multiplicative.instDecidablePredIsSquare, isSquare_op_iff, isSquare_unop_iff, IsSquare.one, IsSquare.exists_mul_self, isSquare_iff_exists_mul_self",
+    "search: '\"sq_sqrt\"' -> Real.sq_sqrt', Real.sq_sqrt, NNReal.sq_sqrt, CFC.sq_sqrt",
+    "search: '\"sqrt_mul\"' -> Nat.sqrt_mul_sqrt_lt_succ, Nat.sqrt_mul_sqrt_lt_succ', Real.sqrt_mul_self_eq_abs, Real.sqrt_mul_self, Real.sqrt_mul, Real.sqrt_mul', NNReal.sqrt_mul_self, NNReal.sqrt_mul_le_max",
+    "search: '\"add_sq\"' -> add_sq, add_sq', Commute.add_sq, sq_add_sq_eq_zero, two_mul_le_add_sq, Int.nneg_mul_add_sq_of_abs_le_one, add_sq_le, IsCoprime.sq_add_sq_ne_zero"
+  ],
+  "budget": {
+    "tool_calls": 19,
+    "lean_calls": 12,
+    "searches": 7,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788776534.959003,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.4,
+    "statement_checks": 1
+  },
+  "goal": "theorem irrational_sqrt2_add_sqrt3 : Irrational (Real.sqrt 2 + Real.sqrt 3)"
+}

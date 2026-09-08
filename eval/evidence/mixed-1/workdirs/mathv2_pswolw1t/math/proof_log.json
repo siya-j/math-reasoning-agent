@@ -1,0 +1,291 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem not_prime_n_pow_four_add_four (n : \u2115) (hn : n > 1) : \u00ac Nat.Prime (n^4 + 4)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776221.6832256,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem not_prime_n_pow_four_add_four (n : \u2115) (hn : n > 1) : \u00ac Nat.Prime (n^4 + 4)",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.prime_eleven\n    | exact Nat.prime_eleven _\n    | apply Nat.prime_eleven\n    | simpa using Nat.prime_eleven\n    | exact \u27e8_, Nat.prime_eleven\u27e9\n    | exact Nat.prime_eleven (by assumption)\n    | exact Nat.prime_eleven \u2039_\u203a\n    | apply Nat.prime_eleven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_eleven (by assumption))\n    | exact Nat.prime_five\n    | exact Nat.prime_five _\n    | apply Nat.prime_five\n    | simpa using Nat.prime_five\n    | exact \u27e8_, Nat.prime_five\u27e9\n    | exact Nat.prime_five (by assumption)\n    | exact Nat.prime_five \u2039_\u203a\n    | apply Nat.prime_five <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_five (by assumption))\n    | exact Nat.prime_seven\n    | exact Nat.prime_seven _\n    | apply Nat.prime_seven\n    | simpa using Nat.prime_seven\n    | exact \u27e8_, Nat.prime_seven\u27e9\n    | exact Nat.prime_seven (by assumption)\n    | exact Nat.prime_seven \u2039_\u203a\n    | apply Nat.prime_seven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_seven (by assumption))\n    | exact Nat.prime_three\n    | exact Nat.prime_three _\n    | apply Nat.prime_three\n    | simpa using Nat.prime_three\n    | exact \u27e8_, Nat.prime_three\u27e9\n    | exact Nat.prime_three (by assumption)\n    | exact Nat.prime_three \u2039_\u203a\n    | apply Nat.prime_three <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_three (by assumption))\n    | exact Nat.prime_two\n    | exact Nat.prime_two _\n    | apply Nat.prime_two\n    | simpa using Nat.prime_two\n    | exact \u27e8_, Nat.prime_two\u27e9\n    | exact Nat.prime_two (by assumption)\n    | exact Nat.prime_two \u2039_\u203a\n    | apply Nat.prime_two <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_two (by assumption))\n    | exact Prime.nat_prime\n    | exact Prime.nat_prime _\n    | apply Prime.nat_prime\n    | simpa using Prime.nat_prime\n    | exact \u27e8_, Prime.nat_prime\u27e9\n    | exact Prime.nat_prime (by assumption)\n    | exact Prime.nat_prime \u2039_\u203a\n    | apply Prime.nat_prime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Prime.nat_prime (by assumption))\n    | exact Nat.minFac_prime\n    | exact Nat.minFac_prime _\n    | apply Nat.minFac_prime\n    | simpa using Nat.minFac_prime\n    | exact \u27e8_, Nat.minFac_prime\u27e9\n    | exact Nat.minFac_prime (by assumption)\n    | exact Nat.minFac_prime \u2039_\u203a\n    | apply Nat.minFac_prime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.minFac_prime (by assumption))\n    | exact Nat.prime_of_coprime\n    | exact Nat.prime_of_coprime _\n    | apply Nat.prime_of_coprime\n    | simpa using Nat.prime_of_coprime\n    | exact \u27e8_, Nat.prime_of_coprime\u27e9\n    | exact Nat.prime_of_coprime (by assumption)\n    | exact Nat.prime_of_coprime \u2039_\u203a\n    | apply Nat.prime_of_coprime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_of_coprime (by assumption))\n    | exact CharP.char_is_prime_of_two_le\n    | exact CharP.char_is_prime_of_two_le _\n    | apply CharP.char_is_prime_of_two_le\n    | simpa using CharP.char_is_prime_of_two_le\n    | exact \u27e8_, CharP.char_is_prime_of_two_le\u27e9\n    | exact CharP.char_is_prime_of_two_le (by assumption)\n    | exact CharP.char_is_prime_of_two_le \u2039_\u203a\n    | apply CharP.char_is_prime_of_two_le <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CharP.char_is_prime_of_two_le (by assumption))\n    | exact CharP.char_prime_of_ne_zero\n    | exact CharP.char_prime_of_ne_zero _\n    | apply CharP.char_prime_of_ne_zero\n    | simpa using CharP.char_prime_of_ne_zero\n    | exact \u27e8_, CharP.char_prime_of_ne_zero\u27e9\n    | exact CharP.char_prime_of_ne_zero (by assumption)\n    | exact CharP.char_prime_of_ne_zero \u2039_\u203a\n    | apply CharP.char_prime_of_ne_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CharP.char_prime_of_ne_zero (by assumption))\n    | exact Nat.prime_of_mem_primeFactorsList\n    | exact Nat.prime_of_mem_primeFactorsList _\n    | apply Nat.prime_of_mem_primeFactorsList\n    | simpa using Nat.prime_of_mem_primeFactorsList\n    | exact \u27e8_, Nat.prime_of_mem_primeFactorsList\u27e9\n    | exact Nat.prime_of_mem_primeFactorsList (by assumption)\n    | exact Nat.prime_of_mem_primeFactorsList \u2039_\u203a\n    | apply Nat.prime_of_mem_primeFactorsList <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_of_mem_primeFactorsList (by assumption))\n    | exact Nat.prime_of_mem_primeFactors\n    | exact Nat.prime_of_mem_primeFactors _\n    | apply Nat.prime_of_mem_primeFactors\n    | simpa using Nat.prime_of_mem_primeFactors\n    | exact \u27e8_, Nat.prime_of_mem_primeFactors\u27e9\n    | exact Nat.prime_of_mem_primeFactors (by assumption)\n    | exact Nat.prime_of_mem_primeFactors \u2039_\u203a\n    | apply Nat.prime_of_mem_primeFactors <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_of_mem_primeFactors (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:65: error: unsolved goals\nn : \u2115\nhn : n > 1\n\u22a2 \u00acNat.Prime (n ^ 4 + 4)\n\nStill to prove:\n\u22a2 \u00acNat.Prime (n ^ 4 + 4)",
+      "at": 1788776230.753094,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma algebraic_identity (n : \u2115) (hn : n > 1) : n^4 + 4 = (n^2 - 2*n + 2) * (n^2 + 2*n + 2)",
+      "proof": "by omega",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:88: error: omega could not prove the goal:\na possible counterexample may satisfy the constraints\n  c \u2265 0\n  b \u2265 0\n  b - c \u2265 5\n  a \u2265 2\nwhere\n a := \u2191n\n b := \u2191(n ^ 2 - 2 * n + 2) * \u2191(n ^ 2 + 2 * n + 2)\n c := \u2191(n ^ 4)",
+      "at": 1788776232.7133024,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma algebraic_identity_z (n : \u2124) : n^4 + 4 = (n^2 - 2*n + 2) * (n^2 + 2*n + 2)",
+      "proof": "by ring",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma algebraic_identity_z (n : \u2124) : n^4 + 4 = (n^2 - 2*n + 2) * (n^2 + 2*n + 2)",
+      "at": 1788776235.1133811,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma algebraic_identity_nat (m : \u2115) : (m + 2)^4 + 4 = (m^2 + 2*m + 2) * (m^2 + 6*m + 10)",
+      "proof": "by ring",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma algebraic_identity_nat (m : \u2115) : (m + 2)^4 + 4 = (m^2 + 2*m + 2) * (m^2 + 6*m + 10)",
+      "at": 1788776241.830085,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma eq_m_plus_two (n : \u2115) (hn : n > 1) : \u2203 m : \u2115, n = m + 2",
+      "proof": "by omega",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:63: error: omega could not prove the goal:\na possible counterexample may satisfy the constraints\n  a \u2265 2\nwhere\n a := \u2191n",
+      "at": 1788776243.9719808,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma eq_m_plus_two (n : \u2115) (hn : n > 1) : n = (n - 2) + 2",
+      "proof": "by omega",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma eq_m_plus_two (n : \u2115) (hn : n > 1) : n = (n - 2) + 2",
+      "at": 1788776245.766834,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma factor1_ne_one (m : \u2115) : m^2 + 2*m + 2 \u2260 1",
+      "proof": "by omega",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma factor1_ne_one (m : \u2115) : m^2 + 2*m + 2 \u2260 1",
+      "at": 1788776248.2773645,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem not_prime_n_pow_four_add_four (n : \u2115) (hn : n > 1) : \u00ac Nat.Prime (n^4 + 4)",
+      "proof": "by\n  have h_eq : n = (n - 2) + 2 := eq_m_plus_two n hn\n  set m := n - 2\n  have h_eq2 : n^4 + 4 = (m + 2)^4 + 4 := by rw [h_eq]\n  have h_factor : (m + 2)^4 + 4 = (m^2 + 2*m + 2) * (m^2 + 6*m + 10) := algebraic_identity_nat m\n  have h_eq3 : n^4 + 4 = (m^2 + 2*m + 2) * (m^2 + 6*m + 10) := by rw [h_eq2, h_factor]\n  have h1 : m^2 + 2*m + 2 \u2260 1 := factor1_ne_one m\n  have h2 : m^2 + 6*m + 10 \u2260 1 := by omega\n  have h_not_prime : \u00ac Nat.Prime ((m^2 + 2*m + 2) * (m^2 + 6*m + 10)) := Nat.not_prime_mul h1 h2\n  rw [h_eq3]\n  exact h_not_prime",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem not_prime_n_pow_four_add_four (n : \u2115) (hn : n > 1) : \u00ac Nat.Prime (n^4 + 4)",
+      "at": 1788776254.2750666,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma algebraic_identity_z (n : \u2124) : n^4 + 4 = (n^2 - 2*n + 2) * (n^2 + 2*n + 2) := by ring",
+    "lemma algebraic_identity_nat (m : \u2115) : (m + 2)^4 + 4 = (m^2 + 2*m + 2) * (m^2 + 6*m + 10) := by ring",
+    "lemma eq_m_plus_two (n : \u2115) (hn : n > 1) : n = (n - 2) + 2 := by omega",
+    "lemma factor1_ne_one (m : \u2115) : m^2 + 2*m + 2 \u2260 1 := by omega"
+  ],
+  "premises": [
+    {
+      "name": "Nat.prime_eleven",
+      "type": " : Nat.Prime 11",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_five",
+      "type": " : Nat.Prime 5",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_seven",
+      "type": " : Nat.Prime 7",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_three",
+      "type": " : Nat.Prime 3",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_two",
+      "type": " : Nat.Prime 2",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Prime.nat_prime",
+      "type": " {p : \u2115} : Prime p \u2192 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "**Alias** of the reverse direction of `Nat.prime_iff`."
+    },
+    {
+      "name": "Nat.minFac_prime",
+      "type": " {n : \u2115} (n1 : n \u2260 1) : Nat.Prime n.minFac",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_of_coprime",
+      "type": " (n : \u2115) (h1 : 1 < n) (h : \u2200 m < n, m \u2260 0 \u2192 n.Coprime m) : Nat.Prime n",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_is_prime_of_two_le",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] (p : \u2115) [CharP R p] (hp : 2 \u2264 p) : Nat.Prime p",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_prime_of_ne_zero",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] [Nontrivial R] {p : \u2115} [CharP R p] (hp : p \u2260 0) : Nat.Prime p",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": "The characteristic is prime if it is non-zero. "
+    },
+    {
+      "name": "Nat.prime_of_mem_primeFactorsList",
+      "type": " {n p : \u2115} : p \u2208 n.primeFactorsList \u2192 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Factors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_of_mem_primeFactors",
+      "type": " {n p : \u2115} (hp : p \u2208 n.primeFactors) : Nat.Prime p",
+      "module": "Mathlib.Data.Nat.PrimeFin",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime",
+      "type": " (p : \u2115) : Prop",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "`Nat.Prime p` means that `p` is a prime number, that is, a natural number\nat least 2 whose only divisors are `p` and `1`.\nThe theorem `Nat.prime_def` witnesses this description of a prime number. "
+    },
+    {
+      "name": "Nat.decidablePrime",
+      "type": " (p : \u2115) : Decidable (Nat.Prime p)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "This instance is set up to work in the kernel (`by decide`) for small values.\n\nBelow (`decidablePrime'`) we will define a faster variant to be used by the compiler\n(e.g. in `#eval` or `by native_decide`).\n\nIf you need to prove that a particular number is prime, in any case\nyou should not use `by decide`, but rather `by norm_num`, which is\nmuch faster.\n"
+    },
+    {
+      "name": "Nat.decidablePrime'",
+      "type": " (p : \u2115) : Decidable (Nat.Prime p)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "This definition is faster in the virtual machine than `decidablePrime`,\nbut slower in the kernel.\n"
+    },
+    {
+      "name": "Nat.decidablePrime_csimp",
+      "type": " : Nat.decidablePrime = Nat.decidablePrime'",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.fact_prime_three",
+      "type": " : Fact (Nat.Prime 3)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.fact_prime_two",
+      "type": " : Fact (Nat.Prime 2)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_prime_one",
+      "type": " : \u00acNat.Prime 1",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "not_prime_zero",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] : \u00acPrime 0",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "not_prime_one",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] : \u00acPrime 1",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "IsSquare.not_prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] [IsCancelMulZero M] {a : M} (ha : IsSquare a) : \u00acPrime a",
+      "module": "Mathlib.Algebra.Prime.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "not_prime_pow",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] [IsCancelMulZero M] {a : M} {n : \u2115} (hn : n \u2260 1) : \u00acPrime (a ^ n)",
+      "module": "Mathlib.Algebra.Prime.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_prime_zero",
+      "type": " : \u00acNat.Prime 0",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_prime_iff_minFac_lt",
+      "type": " {n : \u2115} (n2 : 2 \u2264 n) : \u00acNat.Prime n \u2194 n.minFac < n",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_prime_of_dvd_of_ne",
+      "type": " {m n : \u2115} (h1 : m \u2223 n) (h2 : m \u2260 1) (h3 : m \u2260 n) : \u00acNat.Prime n",
+      "module": "Mathlib.Data.Nat.Prime.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_prime_of_dvd_of_lt",
+      "type": " {m n : \u2115} (h1 : m \u2223 n) (h2 : 2 \u2264 m) (h3 : m < n) : \u00acNat.Prime n",
+      "module": "Mathlib.Data.Nat.Prime.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime.not_prime_pow'",
+      "type": " {x n : \u2115} (hn : n \u2260 1) : \u00acNat.Prime (x ^ n)",
+      "module": "Mathlib.Data.Nat.Prime.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime.not_prime_pow",
+      "type": " {x n : \u2115} (hn : 2 \u2264 n) : \u00acNat.Prime (x ^ n)",
+      "module": "Mathlib.Data.Nat.Prime.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_prime_mul",
+      "type": " {a b : \u2115} (a1 : a \u2260 1) (b1 : b \u2260 1) : \u00acNat.Prime (a * b)",
+      "module": "Mathlib.Data.Nat.Prime.Basic",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Nat.prime_eleven, Nat.prime_five, Nat.prime_seven, Nat.prime_three, Nat.prime_two, Prime.nat_prime, Nat.minFac_prime, Nat.prime_of_coprime",
+    "search: '\"not_prime\"' -> not_prime_zero, not_prime_one, IsSquare.not_prime, not_prime_pow, Nat.not_prime_one, Nat.not_prime_zero, Nat.not_prime_iff_minFac_lt, Nat.not_prime_of_dvd_of_ne"
+  ],
+  "budget": {
+    "tool_calls": 11,
+    "lean_calls": 10,
+    "searches": 1,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788776219.2918718,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.3,
+    "statement_checks": 1
+  },
+  "goal": "theorem not_prime_n_pow_four_add_four (n : \u2115) (hn : n > 1) : \u00ac Nat.Prime (n^4 + 4)"
+}

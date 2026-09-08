@@ -1,0 +1,266 @@
+{
+  "records": [
+    {
+      "kind": "computation",
+      "statement": "check_numeric(lhs='1*(5*9 - 6*8) - 2*(4*9 - 6*7) + 3*(4*8 - 5*7)', rhs='0')",
+      "proof": "",
+      "status": "true",
+      "detail": "1*(5*9 - 6*8) - 2*(4*9 - 6*7) + 3*(4*8 - 5*7) = 0 equals 0.",
+      "at": 1788776604.760538,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "import Mathlib.Data.Matrix.Notation\nimport Mathlib.LinearAlgebra.Matrix.Determinant.Basic\n\nopen Matrix\n\ntheorem matrix_det_zero : (!![1, 2, 3; 4, 5, 6; 7, 8, 9] : Matrix (Fin 3) (Fin 3) \u2124).det = 0",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\nC:\\Users\\SIYAJE~1\\AppData\\Local\\Temp\\mathv2_o6tdc41o\\math/lean\\claim_5e4aed81.lean:1:0: error: object file 'C:\\Users\\SiyaJethliya\\Projects\\lean-workspace\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean\\Mathlib\\Data\\Matrix\\Notation.olean' of module Mathlib.Data.Matrix.Notation does not exist",
+      "at": 1788776639.7309656,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "import Mathlib\n\nopen Matrix\n\ntheorem matrix_det_zero : (!![1, 2, 3; 4, 5, 6; 7, 8, 9] : Matrix (Fin 3) (Fin 3) \u2124).det = 0",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776694.2296858,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "import Mathlib\n\nopen Matrix\n\ntheorem matrix_det_zero : (!![1, 2, 3; 4, 5, 6; 7, 8, 9] : Matrix (Fin 3) (Fin 3) \u2124).det = 0",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Matrix.detp\n    | exact Matrix.detp _\n    | apply Matrix.detp\n    | simpa using Matrix.detp\n    | exact \u27e8_, Matrix.detp\u27e9\n    | exact Matrix.detp (by assumption)\n    | exact Matrix.detp \u2039_\u203a\n    | apply Matrix.detp <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Matrix.detp (by assumption))\n    | exact Matrix.detp_transpose\n    | exact Matrix.detp_transpose _\n    | apply Matrix.detp_transpose\n    | simpa using Matrix.detp_transpose\n    | exact \u27e8_, Matrix.detp_transpose\u27e9\n    | exact Matrix.detp_transpose (by assumption)\n    | exact Matrix.detp_transpose \u2039_\u203a\n    | apply Matrix.detp_transpose <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Matrix.detp_transpose (by assumption))\n    | exact Matrix.detp_one_of_isEmpty\n    | exact Matrix.detp_one_of_isEmpty _\n    | apply Matrix.detp_one_of_isEmpty\n    | simpa using Matrix.detp_one_of_isEmpty\n    | exact \u27e8_, Matrix.detp_one_of_isEmpty\u27e9\n    | exact Matrix.detp_one_of_isEmpty (by assumption)\n    | exact Matrix.detp_one_of_isEmpty \u2039_\u203a\n    | apply Matrix.detp_one_of_isEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Matrix.detp_one_of_isEmpty (by assumption))\n    | exact Matrix.detp_one_diagonal\n    | exact Matrix.detp_one_diagonal _\n    | apply Matrix.detp_one_diagonal\n    | simpa using Matrix.detp_one_diagonal\n    | exact \u27e8_, Matrix.detp_one_diagonal\u27e9\n    | exact Matrix.detp_one_diagonal (by assumption)\n    | exact Matrix.detp_one_diagonal \u2039_\u203a\n    | apply Matrix.detp_one_diagonal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Matrix.detp_one_diagonal (by assumption))\n    | exact Matrix.detp_zero\n    | exact Matrix.detp_zero _\n    | apply Matrix.detp_zero\n    | simpa using Matrix.detp_zero\n    | exact \u27e8_, Matrix.detp_zero\u27e9\n    | exact Matrix.detp_zero (by assumption)\n    | exact Matrix.detp_zero \u2039_\u203a\n    | apply Matrix.detp_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Matrix.detp_zero (by assumption))\n    | exact Matrix.detp_neg_one_of_isEmpty\n    | exact Matrix.detp_neg_one_of_isEmpty _\n    | apply Matrix.detp_neg_one_of_isEmpty\n    | simpa using Matrix.detp_neg_one_of_isEmpty\n    | exact \u27e8_, Matrix.detp_neg_one_of_isEmpty\u27e9\n    | exact Matrix.detp_neg_one_of_isEmpty (by assumption)\n    | exact Matrix.detp_neg_one_of_isEmpty \u2039_\u203a\n    | apply Matrix.detp_neg_one_of_isEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Matrix.detp_neg_one_of_isEmpty (by assumption))\n    | exact Matrix.detp_eq_of_col_eq_zero\n    | exact Matrix.detp_eq_of_col_eq_zero _\n    | apply Matrix.detp_eq_of_col_eq_zero\n    | simpa using Matrix.detp_eq_of_col_eq_zero\n    | exact \u27e8_, Matrix.detp_eq_of_col_eq_zero\u27e9\n    | exact Matrix.detp_eq_of_col_eq_zero (by assumption)\n    | exact Matrix.detp_eq_of_col_eq_zero \u2039_\u203a\n    | apply Matrix.detp_eq_of_col_eq_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Matrix.detp_eq_of_col_eq_zero (by assumption))\n    | exact Matrix.detp_eq_of_row_eq_zero\n    | exact Matrix.detp_eq_of_row_eq_zero _\n    | apply Matrix.detp_eq_of_row_eq_zero\n    | simpa using Matrix.detp_eq_of_row_eq_zero\n    | exact \u27e8_, Matrix.detp_eq_of_row_eq_zero\u27e9\n    | exact Matrix.detp_eq_of_row_eq_zero (by assumption)\n    | exact Matrix.detp_eq_of_row_eq_zero \u2039_\u203a\n    | apply Matrix.detp_eq_of_row_eq_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Matrix.detp_eq_of_row_eq_zero (by assumption))\n    | exact Matrix.detp_neg_one_diagonal\n    | exact Matrix.detp_neg_one_diagonal _\n    | apply Matrix.detp_neg_one_diagonal\n    | simpa using Matrix.detp_neg_one_diagonal\n    | exact \u27e8_, Matrix.detp_neg_one_diagonal\u27e9\n    | exact Matrix.detp_neg_one_diagonal (by assumption)\n    | exact Matrix.detp_neg_one_diagonal \u2039_\u203a\n    | apply Matrix.detp_neg_one_diagonal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Matrix.detp_neg_one_diagonal (by assumption))\n    | exact Matrix.detp_one_one\n    | exact Matrix.detp_one_one _\n    | apply Matrix.detp_one_one\n    | simpa using Matrix.detp_one_one\n    | exact \u27e8_, Matrix.detp_one_one\u27e9\n    | exact Matrix.detp_one_one (by assumption)\n    | exact Matrix.detp_one_one \u2039_\u203a\n    | apply Matrix.detp_one_one <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Matrix.detp_one_one (by assumption))\n    | exact Matrix.detp_submatrix_equiv_self\n    | exact Matrix.detp_submatrix_equiv_self _\n    | apply Matrix.detp_submatrix_equiv_self\n    | simpa using Matrix.detp_submatrix_equiv_self\n    | exact \u27e8_, Matrix.detp_submatrix_equiv_self\u27e9\n    | exact Matrix.detp_submatrix_equiv_self (by assumption)\n    | exact Matrix.detp_submatrix_equiv_self \u2039_\u203a\n    | apply Matrix.detp_submatrix_equiv_self <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Matrix.detp_submatrix_equiv_self (by assumption))\n    | exact Matrix.detp_neg_one_one\n    | exact Matrix.detp_neg_one_one _\n    | apply Matrix.detp_neg_one_one\n    | simpa using Matrix.detp_neg_one_one\n    | exact \u27e8_, Matrix.detp_neg_one_one\u27e9\n    | exact Matrix.detp_neg_one_one (by assumption)\n    | exact Matrix.detp_neg_one_one \u2039_\u203a\n    | apply Matrix.detp_neg_one_one <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Matrix.detp_neg_one_one (by assumption))",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: import Mathlib\n\nopen Matrix\n\ntheorem matrix_det_zero : (!![1, 2, 3; 4, 5, 6; 7, 8, 9] : Matrix (Fin 3) (Fin 3) \u2124).det = 0",
+      "at": 1788776700.3852353,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "import Mathlib\n\nopen Matrix\n\ntheorem matrix_det_zero : (!![1, 2, 3; 4, 5, 6; 7, 8, 9] : Matrix (Fin 3) (Fin 3) \u2124).det = 0",
+      "proof": "by decide",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: import Mathlib\n\nopen Matrix\n\ntheorem matrix_det_zero : (!![1, 2, 3; 4, 5, 6; 7, 8, 9] : Matrix (Fin 3) (Fin 3) \u2124).det = 0",
+      "at": 1788776701.9332902,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "import Mathlib\n\nopen Matrix\n\ntheorem matrix_det_zero : (!![1, 2, 3; 4, 5, 6; 7, 8, 9] : Matrix (Fin 3) (Fin 3) \u2124).det = 1 - 1",
+      "proof": "by decide",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: import Mathlib\n\nopen Matrix\n\ntheorem matrix_det_zero : (!![1, 2, 3; 4, 5, 6; 7, 8, 9] : Matrix (Fin 3) (Fin 3) \u2124).det = 1 - 1",
+      "at": 1788776712.422168,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Matrix.detp",
+      "type": " {n : Type u_1} {R : Type u_3} [Fintype n] [DecidableEq n] [CommSemiring R] (s : \u2124\u02e3) (A : Matrix n n R) : R",
+      "module": "Mathlib.LinearAlgebra.Matrix.SemiringInverse",
+      "doc": "The determinant, but only the terms of a given sign.\n`A.detp 1` is written `|A|\u207a` in the literature and `A.detp (-1)` is written `|A|\u207b`. "
+    },
+    {
+      "name": "Matrix.detp_transpose",
+      "type": " {n : Type u_1} {R : Type u_3} [Fintype n] [DecidableEq n] [CommSemiring R] (s : \u2124\u02e3) (A : Matrix n n R) : Matrix.detp s A.transpose = Matrix.detp s A",
+      "module": "Mathlib.LinearAlgebra.Matrix.SemiringInverse",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.detp_one_of_isEmpty",
+      "type": " {n : Type u_1} {R : Type u_3} [Fintype n] [DecidableEq n] [CommSemiring R] (A : Matrix n n R) [IsEmpty n] : Matrix.detp 1 A = 1",
+      "module": "Mathlib.LinearAlgebra.Matrix.SemiringInverse",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.detp_one_diagonal",
+      "type": " {n : Type u_1} {R : Type u_3} [Fintype n] [DecidableEq n] [CommSemiring R] (d : n \u2192 R) : Matrix.detp 1 (Matrix.diagonal d) = \u220f i, d i",
+      "module": "Mathlib.LinearAlgebra.Matrix.SemiringInverse",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.detp_zero",
+      "type": " {n : Type u_1} {R : Type u_3} [Fintype n] [DecidableEq n] [CommSemiring R] (s : \u2124\u02e3) [Nonempty n] : Matrix.detp s 0 = 0",
+      "module": "Mathlib.LinearAlgebra.Matrix.SemiringInverse",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.detp_neg_one_of_isEmpty",
+      "type": " {n : Type u_1} {R : Type u_3} [Fintype n] [DecidableEq n] [CommSemiring R] (A : Matrix n n R) [IsEmpty n] : Matrix.detp (-1) A = 0",
+      "module": "Mathlib.LinearAlgebra.Matrix.SemiringInverse",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.detp_eq_of_col_eq_zero",
+      "type": " {n : Type u_1} {R : Type u_3} [Fintype n] [DecidableEq n] [CommSemiring R] (s : \u2124\u02e3) {A : Matrix n n R} {p : n} (hcol : A.col p = 0) : Matrix.detp s A = 0",
+      "module": "Mathlib.LinearAlgebra.Matrix.SemiringInverse",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.detp_eq_of_row_eq_zero",
+      "type": " {n : Type u_1} {R : Type u_3} [Fintype n] [DecidableEq n] [CommSemiring R] (s : \u2124\u02e3) {A : Matrix n n R} {p : n} (hrow : A.row p = 0) : Matrix.detp s A = 0",
+      "module": "Mathlib.LinearAlgebra.Matrix.SemiringInverse",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.detp_neg_one_diagonal",
+      "type": " {n : Type u_1} {R : Type u_3} [Fintype n] [DecidableEq n] [CommSemiring R] (d : n \u2192 R) : Matrix.detp (-1) (Matrix.diagonal d) = 0",
+      "module": "Mathlib.LinearAlgebra.Matrix.SemiringInverse",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.detp_one_one",
+      "type": " {n : Type u_1} {R : Type u_3} [Fintype n] [DecidableEq n] [CommSemiring R] : Matrix.detp 1 1 = 1",
+      "module": "Mathlib.LinearAlgebra.Matrix.SemiringInverse",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.detp_submatrix_equiv_self",
+      "type": " {n : Type u_1} {m : Type u_2} {R : Type u_3} [Fintype m] [Fintype n] [DecidableEq m] [DecidableEq n] [CommSemiring R] (s : \u2124\u02e3) (A : Matrix n n R) (e : m \u2243 n) : Matrix.detp s (A.submatrix \u21d1e \u21d1e) = Matrix.detp s A",
+      "module": "Mathlib.LinearAlgebra.Matrix.SemiringInverse",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.detp_neg_one_one",
+      "type": " {n : Type u_1} {R : Type u_3} [Fintype n] [DecidableEq n] [CommSemiring R] : Matrix.detp (-1) 1 = 0",
+      "module": "Mathlib.LinearAlgebra.Matrix.SemiringInverse",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.det",
+      "type": " {n : Type u_2} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R] (M : Matrix n n R) : R",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": "The determinant of a matrix given by the Leibniz formula. "
+    },
+    {
+      "name": "Matrix.det_eq_elem_of_subsingleton",
+      "type": " {n : Type u_2} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R] [Subsingleton n] (A : Matrix n n R) (k : n) : A.det = A k k",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.det_transpose",
+      "type": " {n : Type u_2} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R] (M : Matrix n n R) : M.transpose.det = M.det",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": "Transposing a matrix preserves the determinant. "
+    },
+    {
+      "name": "Matrix.det_unique",
+      "type": " {R : Type v} [CommRing R] {n : Type u_3} [Unique n] [DecidableEq n] [Fintype n] (A : Matrix n n R) : A.det = A default default",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": "If `n` has only one element, the determinant of an `n` by `n` matrix is just that element.\nAlthough `Unique` implies `DecidableEq` and `Fintype`, the instances might\nnot be syntactically equal. Thus, we need to fill in the args explicitly. "
+    },
+    {
+      "name": "Matrix.det_eq_elem_of_card_eq_one",
+      "type": " {n : Type u_2} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R] {A : Matrix n n R} (h : Fintype.card n = 1) (k : n) : A.det = A k k",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.det_isEmpty",
+      "type": " {n : Type u_2} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R] [IsEmpty n] {A : Matrix n n R} : A.det = 1",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.coe_det_isEmpty",
+      "type": " {n : Type u_2} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R] [IsEmpty n] : Matrix.det = Function.const (Matrix n n R) 1",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.det_diagonal",
+      "type": " {n : Type u_2} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R] {d : n \u2192 R} : (Matrix.diagonal d).det = \u220f i, d i",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.det_eq_one_of_card_eq_zero",
+      "type": " {n : Type u_2} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R] {A : Matrix n n R} (h : Fintype.card n = 0) : A.det = 1",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.det_zero_of_row_eq",
+      "type": " {n : Type u_2} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R] {M : Matrix n n R} {i j : n} (i_ne_j : i \u2260 j) (hij : M i = M j) : M.det = 0",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": "If a matrix has a repeated row, the determinant will be zero. "
+    },
+    {
+      "name": "Matrix.det_updateRow_eq_zero",
+      "type": " {n : Type u_2} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R] {M : Matrix n n R} {i j : n} (h : i \u2260 j) : (M.updateRow j (M i)).det = 0",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": "If we repeat a row of a matrix, we get a matrix of determinant zero. "
+    },
+    {
+      "name": "Matrix.det_zero_of_column_eq",
+      "type": " {n : Type u_2} [DecidableEq n] [Fintype n] {R : Type v} [CommRing R] {M : Matrix n n R} {i j : n} (i_ne_j : i \u2260 j) (hij : \u2200 (k : n), M k i = M k j) : M.det = 0",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": "If a matrix has a repeated column, the determinant will be zero. "
+    },
+    {
+      "name": "Matrix.det_fin_zero",
+      "type": " {R : Type v} [CommRing R] {A : Matrix (Fin 0) (Fin 0) R} : A.det = 1",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": "Determinant of 0x0 matrix "
+    },
+    {
+      "name": "Matrix.det_fin_one",
+      "type": " {R : Type v} [CommRing R] (A : Matrix (Fin 1) (Fin 1) R) : A.det = A 0 0",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": "Determinant of 1x1 matrix "
+    },
+    {
+      "name": "Matrix.det_fin_one_of",
+      "type": " {R : Type v} [CommRing R] (a : R) : !![a].det = a",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.det_fin_two",
+      "type": " {R : Type v} [CommRing R] (A : Matrix (Fin 2) (Fin 2) R) : A.det = A 0 0 * A 1 1 - A 0 1 * A 1 0",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": "Determinant of 2x2 matrix "
+    },
+    {
+      "name": "Matrix.det_fin_two_of",
+      "type": " {R : Type v} [CommRing R] (a b c d : R) : !![a, b; c, d].det = a * d - b * c",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.det_fin_three",
+      "type": " {R : Type v} [CommRing R] (A : Matrix (Fin 3) (Fin 3) R) : A.det = A 0 0 * A 1 1 * A 2 2 - A 0 0 * A 1 2 * A 2 1 - A 0 1 * A 1 0 * A 2 2 + A 0 1 * A 1 2 * A 2 0 + A 0 2 * A 1 0 * A 2 1 - A 0 2 * A 1 1 * A 2 0",
+      "module": "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+      "doc": "Determinant of 3x3 matrix "
+    },
+    {
+      "name": "Matrix.BlockTriangular.det_fintype",
+      "type": " {\u03b1 : Type u_1} {m : Type u_2} {R : Type v} {M : Matrix m m R} {b : m \u2192 \u03b1} [CommRing R] [DecidableEq m] [Fintype m] [DecidableEq \u03b1] [Fintype \u03b1] [LinearOrder \u03b1] (h : M.BlockTriangular b) : M.det = \u220f k, (M.toSquareBlock b k).det",
+      "module": "Mathlib.LinearAlgebra.Matrix.Block",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"Matrix.det\"' -> Matrix.detp, Matrix.detp_transpose, Matrix.detp_one_of_isEmpty, Matrix.detp_one_diagonal, Matrix.detp_zero, Matrix.detp_neg_one_of_isEmpty, Matrix.detp_eq_of_col_eq_zero, Matrix.detp_eq_of_row_eq_zero",
+    "search: 'Matrix.det' -> Matrix.det, Matrix.det_eq_elem_of_subsingleton, Matrix.det_transpose, Matrix.det_unique, Matrix.det_eq_elem_of_card_eq_one, Matrix.det_isEmpty, Matrix.coe_det_isEmpty, Matrix.det_diagonal",
+    "search: '\"det_fin\"' -> Matrix.det_fin_zero, Matrix.det_fin_one, Matrix.det_fin_one_of, Matrix.det_fin_two, Matrix.det_fin_two_of, Matrix.det_fin_three, Matrix.BlockTriangular.det_fintype"
+  ],
+  "budget": {
+    "tool_calls": 11,
+    "lean_calls": 5,
+    "searches": 4,
+    "symbolic_calls": 1,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788776601.0992033,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 21.3,
+    "statement_checks": 2
+  },
+  "goal": "import Mathlib\n\nopen Matrix\n\ntheorem matrix_det_zero : (!![1, 2, 3; 4, 5, 6; 7, 8, 9] : Matrix (Fin 3) (Fin 3) \u2124).det = 1 - 1"
+}

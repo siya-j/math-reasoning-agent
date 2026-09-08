@@ -1,0 +1,279 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exists_subgroup_of_prime_pow_divides_order {G : Type*} [Group G] [Finite G]\n  (p : \u2115) (hp : Nat.Prime p) (n : \u2115) (hdvd : p ^ n \u2223 Nat.card G) :\n  \u2203 K : Subgroup G, Nat.card K = p ^ n",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776879.5263119,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exists_subgroup_of_prime_pow_divides_order {G : Type*} [Group G] [Finite G]\n  (p : \u2115) (hp : Nat.Prime p) (n : \u2115) (hdvd : p ^ n \u2223 Nat.card G) :\n  \u2203 K : Subgroup G, Nat.card K = p ^ n",
+      "proof": "by\n  haveI : Fact (Nat.Prime p) := \u27e8hp\u27e9\n  exact Sylow.exists_subgroup_card_pow_prime p hdvd",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exists_subgroup_of_prime_pow_divides_order {G : Type*} [Group G] [Finite G]\n  (p : \u2115) (hp : Nat.Prime p) (n : \u2115) (hdvd : p ^ n \u2223 Nat.card G) :\n  \u2203 K : Subgroup G, Nat.card K = p ^ n",
+      "at": 1788776886.1078596,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Sylow.inhabited",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : Inhabited (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.instPartialOrder",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : PartialOrder (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.nonempty",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : Nonempty (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.instSetLike",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : SetLike (Sylow p G) G",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.toSubgroup",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] (self : Sylow p G) : Subgroup G",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.instCoeOutSubgroup",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : CoeOut (Sylow p G) (Subgroup G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.mulAction",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : MulAction G (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.instSubgroupClass",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : SubgroupClass (Sylow p G) G",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.characteristic_of_subsingleton",
+      "type": " {G : Type u} [Group G] {p : \u2115} [Subsingleton (Sylow p G)] (P : Sylow p G) : (\u2191P).Characteristic",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.finite_of_finiteIndex",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] (P : Sylow p G) [(\u2191P).FiniteIndex] : Finite (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "If a Sylow `p`-subgroup has finite index, then the number of Sylow `p`-subgroups is finite. "
+    },
+    {
+      "name": "Sylow.normal_of_subsingleton",
+      "type": " {G : Type u} [Group G] {p : \u2115} [Subsingleton (Sylow p G)] (P : Sylow p G) : (\u2191P).Normal",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow",
+      "type": " (p : \u2115) (G : Type u_1) [Group G] : Type u_1",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "A Sylow `p`-subgroup is a maximal `p`-subgroup. "
+    },
+    {
+      "name": "Sylow.exists_subgroup_card_pow_prime",
+      "type": " {G : Type u} [Group G] [Finite G] (p : \u2115) {n : \u2115} [Fact (Nat.Prime p)] (hdvd : p ^ n \u2223 Nat.card G) : \u2203 K, Nat.card \u21a5K = p ^ n",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "A generalisation of **Sylow's first theorem**. If `p ^ n` divides\nthe cardinality of `G`, then there is a subgroup of cardinality `p ^ n` "
+    },
+    {
+      "name": "Sylow.exists_subgroup_card_pow_prime_of_le_card",
+      "type": " {G : Type u} [Group G] {n p : \u2115} (hp : Nat.Prime p) (h : IsPGroup p G) (hn : p ^ n \u2264 Nat.card G) : \u2203 H, Nat.card \u21a5H = p ^ n",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "A special case of **Sylow's first theorem**. If `G` is a `p`-group of size at least `p ^ n`\nthen there is a subgroup of cardinality `p ^ n`. "
+    },
+    {
+      "name": "Sylow.exists_subgroup_le_card_pow_prime_of_le_card",
+      "type": " {G : Type u} [Group G] {n p : \u2115} (hp : Nat.Prime p) (h : IsPGroup p G) {H : Subgroup G} (hn : p ^ n \u2264 Nat.card \u21a5H) : \u2203 H' \u2264 H, Nat.card \u21a5H' = p ^ n",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "A special case of **Sylow's first theorem**. If `G` is a `p`-group and `H` a subgroup of size at\nleast `p ^ n` then there is a subgroup of `H` of cardinality `p ^ n`. "
+    },
+    {
+      "name": "Sylow.exists_subgroup_le_card_le",
+      "type": " {G : Type u} [Group G] {k p : \u2115} (hp : Nat.Prime p) (h : IsPGroup p G) {H : Subgroup G} (hk : k \u2264 Nat.card \u21a5H) (hk\u2080 : k \u2260 0) : \u2203 H' \u2264 H, Nat.card \u21a5H' \u2264 k \u2227 k < p * Nat.card \u21a5H'",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "A special case of **Sylow's first theorem**. If `G` is a `p`-group and `H` a subgroup of size at\nleast `k` then there is a subgroup of `H` of cardinality between `k / p` and `k`. "
+    },
+    {
+      "name": "Sylow.exists_subgroup_card_pow_prime_le",
+      "type": " {G : Type u} [Group G] [Finite G] (p : \u2115) {n m : \u2115} [_hp : Fact (Nat.Prime p)] (_hdvd : p ^ m \u2223 Nat.card G) (H : Subgroup G) (_hH : Nat.card \u21a5H = p ^ n) (_hnm : n \u2264 m) : \u2203 K, Nat.card \u21a5K = p ^ m \u2227 H \u2264 K",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "If `H` is a subgroup of `G` of cardinality `p ^ n`,\nthen `H` is contained in a subgroup of cardinality `p ^ m`\nif `n \u2264 m` and `p ^ m` divides the cardinality of `G` "
+    },
+    {
+      "name": "Sylow.exists_subgroup_card_pow_succ",
+      "type": " {G : Type u} [Group G] [Finite G] {p n : \u2115} [hp : Fact (Nat.Prime p)] (hdvd : p ^ (n + 1) \u2223 Nat.card G) {H : Subgroup G} (hH : Nat.card \u21a5H = p ^ n) : \u2203 K, Nat.card \u21a5K = p ^ (n + 1) \u2227 H \u2264 K",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "If `H` is a subgroup of `G` of cardinality `p ^ n`,\nthen `H` is contained in a subgroup of cardinality `p ^ (n + 1)`\nif `p ^ (n + 1)` divides the cardinality of `G` "
+    },
+    {
+      "name": "Sylow.exists_subgroup_card_pow_prime_le_le",
+      "type": " {G : Type u} [Group G] {p : \u2115} (hp : Nat.Prime p) {n : \u2115} {H L : Subgroup G} [Finite \u21a5L] (hH : Nat.card \u21a5H \u2223 p ^ n) (hL : p ^ n \u2223 Nat.card \u21a5L) (hHL : H \u2264 L) : \u2203 K, Nat.card \u21a5K = p ^ n \u2227 H \u2264 K \u2227 K \u2264 L",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.prime_pow_dvd_card_normalizer",
+      "type": " {G : Type u} [Group G] [Finite G] {p n : \u2115} [_hp : Fact (Nat.Prime p)] (hdvd : p ^ (n + 1) \u2223 Nat.card G) {H : Subgroup G} (hH : Nat.card \u21a5H = p ^ n) : p ^ (n + 1) \u2223 Nat.card \u21a5(Subgroup.normalizer \u2191H)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "If `H` is a `p`-subgroup but not a Sylow `p`-subgroup of cardinality `p ^ n`,\nthen `p ^ (n + 1)` divides the cardinality of the normalizer of `H`. "
+    },
+    {
+      "name": "Sylow.prime_dvd_card_quotient_normalizer",
+      "type": " {G : Type u} [Group G] [Finite G] {p n : \u2115} [Fact (Nat.Prime p)] (hdvd : p ^ (n + 1) \u2223 Nat.card G) {H : Subgroup G} (hH : Nat.card \u21a5H = p ^ n) : p \u2223 Nat.card (\u21a5(Subgroup.normalizer \u2191H) \u29f8 Subgroup.comap (Subgroup.normalizer \u2191H).subtype H)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "If `H` is a `p`-subgroup but not a Sylow `p`-subgroup, then `p` divides the\nindex of `H` inside its normalizer. "
+    },
+    {
+      "name": "Sylow.exists_orderEmbedding",
+      "type": " {G : Type u} [Group G] [Finite G] {p n : \u2115} (hp : Nat.Prime p) (h : p ^ n \u2223 Nat.card G) : \u2203 f, \u2200 (k : Fin (n + 1)), Nat.card \u21a5(f k) = p ^ \u2191k",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "A corollary of **Sylow's first theorem**. If `p ^ n` divides the order of the group, then\nthere is a tower of subgroups of orders `p ^ 0, \u2026, p ^ n`. "
+    },
+    {
+      "name": "Sylow.exists_orderEmbedding_of_isChain",
+      "type": " {G : Type u} [Group G] [Finite G] {p n : \u2115} (hp : Nat.Prime p) (hdvd : p ^ n \u2223 Nat.card G) {s : Set (Subgroup G)} (hchain : IsChain (fun x1 x2 => x1 \u2264 x2) s) (hcard : \u2200 H \u2208 s, Nat.card \u21a5H \u2223 p ^ n) : \u2203 f, s \u2286 Set.range \u21d1f \u2227 \u2200 (k : Fin (n + 1)), Nat.card \u21a5(f k) = p ^ \u2191k",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "A corollary of **Sylow's first theorem**. If `p ^ n` divides the order of `G`, then any chain\nof subgroups whose orders divide `p ^ n` can be completed to a tower of subgroups of orders\n`p ^ 0, \u2026, p ^ n`. "
+    },
+    {
+      "name": "CommGroup.toGroup",
+      "type": " {G : Type u_2} [self : CommGroup G] : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.mk",
+      "type": " {G : Type u_2} [toDivInvMonoid : DivInvMonoid G] (inv_mul_cancel : \u2200 (a : G), a\u207b\u00b9 * a = 1) : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Pi.group",
+      "type": " {I : Type u} {f : I \u2192 Type v\u2081} [(i : I) \u2192 Group (f i)] : Group ((i : I) \u2192 f i)",
+      "module": "Mathlib.Algebra.Group.Pi.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative.group",
+      "type": " {\u03b1 : Type u} [AddGroup \u03b1] : Group (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2081] [One M\u2081] [Pow M\u2081 \u2115] [Inv M\u2081] [Div M\u2081] [Pow M\u2081 \u2124] [Group M\u2082] (f : M\u2081 \u2192 M\u2082) (hf : Function.Injective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2081",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits an injective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "Function.Surjective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2082] [One M\u2082] [Pow M\u2082 \u2115] [Inv M\u2082] [Div M\u2082] [Pow M\u2082 \u2124] [Group M\u2081] (f : M\u2081 \u2192 M\u2082) (hf : Function.Surjective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2082",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits a surjective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "AddOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "Units.instGroup",
+      "type": " {\u03b1 : Type u} [Monoid \u03b1] : Group \u03b1\u02e3",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Units of a monoid form a group. "
+    },
+    {
+      "name": "groupOfIsUnit",
+      "type": " {M : Type u_1} [hM : Monoid M] (h : \u2200 (a : M), IsUnit a) : Group M",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Constructs a `Group` structure on a `Monoid` consisting only of units. "
+    },
+    {
+      "name": "Prod.instGroup",
+      "type": " {G : Type u_1} {H : Type u_2} [Group G] [Group H] : Group (G \u00d7 H)",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.Perm.permGroup",
+      "type": " {\u03b1 : Type u_4} : Group (Equiv.Perm \u03b1)",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "Bool.instFinite",
+      "type": " : Finite Bool",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Prop.instFinite",
+      "type": " : Finite Prop",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": ""
+    },
+    {
+      "name": "instFinitePLift",
+      "type": " {\u03b1 : Sort u_1} [Finite \u03b1] : Finite (PLift \u03b1)",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": ""
+    },
+    {
+      "name": "instFiniteULift",
+      "type": " {\u03b1 : Type v} [Finite \u03b1] : Finite (ULift.{u, v} \u03b1)",
+      "module": "Mathlib.Basic.Finite.Defs",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"exists_subgroup_card_eq\"' -> nothing",
+    "search: '\"Sylow\"' -> Sylow.inhabited, Sylow.instPartialOrder, Sylow.nonempty, Sylow.instSetLike, Sylow.toSubgroup, Sylow.instCoeOutSubgroup, Sylow.mulAction, Sylow.instSubgroupClass",
+    "search: '\"exists_subgroup\"' -> Sylow.exists_subgroup_card_pow_prime, Sylow.exists_subgroup_card_pow_prime_of_le_card, Sylow.exists_subgroup_le_card_pow_prime_of_le_card, Sylow.exists_subgroup_le_card_le, Sylow.exists_subgroup_card_pow_prime_le, Sylow.exists_subgroup_card_pow_succ, Sylow.exists_subgroup_card_pow_prime_le_le",
+    "seeded from goal shape -> Sylow.exists_subgroup_card_pow_prime, Sylow.exists_subgroup_card_pow_prime_le, Sylow.prime_pow_dvd_card_normalizer, Sylow.exists_subgroup_card_pow_succ, Sylow.exists_subgroup_card_pow_prime_le_le, Sylow.prime_dvd_card_quotient_normalizer, Sylow.exists_orderEmbedding, Sylow.exists_orderEmbedding_of_isChain"
+  ],
+  "budget": {
+    "tool_calls": 5,
+    "lean_calls": 2,
+    "searches": 3,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788776869.570624,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 1
+  },
+  "goal": "theorem exists_subgroup_of_prime_pow_divides_order {G : Type*} [Group G] [Finite G]\n  (p : \u2115) (hp : Nat.Prime p) (n : \u2115) (hdvd : p ^ n \u2223 Nat.card G) :\n  \u2203 K : Subgroup G, Nat.card K = p ^ n"
+}

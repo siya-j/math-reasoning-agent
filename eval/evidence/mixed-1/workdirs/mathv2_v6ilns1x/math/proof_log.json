@@ -1,0 +1,382 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "import Mathlib\n\ntheorem complex_polynomial_has_root (p : Polynomial \u2102) (hp : p.degree \u2260 0) : \u2203 x : \u2102, p.IsRoot x",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776729.5000784,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "import Mathlib\n\ntheorem complex_polynomial_has_root (p : Polynomial \u2102) (hp : p.degree \u2260 0) : \u2203 x : \u2102, p.IsRoot x",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Ordinal.IsFundamentalSequence.blsub_eq\n    | exact Ordinal.IsFundamentalSequence.blsub_eq _\n    | apply Ordinal.IsFundamentalSequence.blsub_eq\n    | simpa using Ordinal.IsFundamentalSequence.blsub_eq\n    | exact \u27e8_, Ordinal.IsFundamentalSequence.blsub_eq\u27e9\n    | exact Ordinal.IsFundamentalSequence.blsub_eq (by assumption)\n    | exact Ordinal.IsFundamentalSequence.blsub_eq \u2039_\u203a\n    | apply Ordinal.IsFundamentalSequence.blsub_eq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordinal.IsFundamentalSequence.blsub_eq (by assumption))\n    | exact Ordinal.IsFundamentalSequence.cof_eq\n    | exact Ordinal.IsFundamentalSequence.cof_eq _\n    | apply Ordinal.IsFundamentalSequence.cof_eq\n    | simpa using Ordinal.IsFundamentalSequence.cof_eq\n    | exact \u27e8_, Ordinal.IsFundamentalSequence.cof_eq\u27e9\n    | exact Ordinal.IsFundamentalSequence.cof_eq (by assumption)\n    | exact Ordinal.IsFundamentalSequence.cof_eq \u2039_\u203a\n    | apply Ordinal.IsFundamentalSequence.cof_eq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordinal.IsFundamentalSequence.cof_eq (by assumption))\n    | exact Ordinal.IsFundamentalSeq.id\n    | exact Ordinal.IsFundamentalSeq.id _\n    | apply Ordinal.IsFundamentalSeq.id\n    | simpa using Ordinal.IsFundamentalSeq.id\n    | exact \u27e8_, Ordinal.IsFundamentalSeq.id\u27e9\n    | exact Ordinal.IsFundamentalSeq.id (by assumption)\n    | exact Ordinal.IsFundamentalSeq.id \u2039_\u203a\n    | apply Ordinal.IsFundamentalSeq.id <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordinal.IsFundamentalSeq.id (by assumption))\n    | exact Ordinal.IsFundamentalSequence.id_of_le_cof\n    | exact Ordinal.IsFundamentalSequence.id_of_le_cof _\n    | apply Ordinal.IsFundamentalSequence.id_of_le_cof\n    | simpa using Ordinal.IsFundamentalSequence.id_of_le_cof\n    | exact \u27e8_, Ordinal.IsFundamentalSequence.id_of_le_cof\u27e9\n    | exact Ordinal.IsFundamentalSequence.id_of_le_cof (by assumption)\n    | exact Ordinal.IsFundamentalSequence.id_of_le_cof \u2039_\u203a\n    | apply Ordinal.IsFundamentalSequence.id_of_le_cof <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordinal.IsFundamentalSequence.id_of_le_cof (by assumption))\n    | exact Ordinal.IsFundamentalSeq.ord_cof\n    | exact Ordinal.IsFundamentalSeq.ord_cof _\n    | apply Ordinal.IsFundamentalSeq.ord_cof\n    | simpa using Ordinal.IsFundamentalSeq.ord_cof\n    | exact \u27e8_, Ordinal.IsFundamentalSeq.ord_cof\u27e9\n    | exact Ordinal.IsFundamentalSeq.ord_cof (by assumption)\n    | exact Ordinal.IsFundamentalSeq.ord_cof \u2039_\u203a\n    | apply Ordinal.IsFundamentalSeq.ord_cof <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordinal.IsFundamentalSeq.ord_cof (by assumption))\n    | exact Ordinal.IsFundamentalSequence.zero\n    | exact Ordinal.IsFundamentalSequence.zero _\n    | apply Ordinal.IsFundamentalSequence.zero\n    | simpa using Ordinal.IsFundamentalSequence.zero\n    | exact \u27e8_, Ordinal.IsFundamentalSequence.zero\u27e9\n    | exact Ordinal.IsFundamentalSequence.zero (by assumption)\n    | exact Ordinal.IsFundamentalSequence.zero \u2039_\u203a\n    | apply Ordinal.IsFundamentalSequence.zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordinal.IsFundamentalSequence.zero (by assumption))\n    | exact Ordinal.IsFundamentalSequence.succ\n    | exact Ordinal.IsFundamentalSequence.succ _\n    | apply Ordinal.IsFundamentalSequence.succ\n    | simpa using Ordinal.IsFundamentalSequence.succ\n    | exact \u27e8_, Ordinal.IsFundamentalSequence.succ\u27e9\n    | exact Ordinal.IsFundamentalSequence.succ (by assumption)\n    | exact Ordinal.IsFundamentalSequence.succ \u2039_\u203a\n    | apply Ordinal.IsFundamentalSequence.succ <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordinal.IsFundamentalSequence.succ (by assumption))\n    | exact Ordinal.IsFundamentalSeq.le_ord_cof\n    | exact Ordinal.IsFundamentalSeq.le_ord_cof _\n    | apply Ordinal.IsFundamentalSeq.le_ord_cof\n    | simpa using Ordinal.IsFundamentalSeq.le_ord_cof\n    | exact \u27e8_, Ordinal.IsFundamentalSeq.le_ord_cof\u27e9\n    | exact Ordinal.IsFundamentalSeq.le_ord_cof (by assumption)\n    | exact Ordinal.IsFundamentalSeq.le_ord_cof \u2039_\u203a\n    | apply Ordinal.IsFundamentalSeq.le_ord_cof <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordinal.IsFundamentalSeq.le_ord_cof (by assumption))\n    | exact Ordinal.exists_fundamental_sequence\n    | exact Ordinal.exists_fundamental_sequence _\n    | apply Ordinal.exists_fundamental_sequence\n    | simpa using Ordinal.exists_fundamental_sequence\n    | exact \u27e8_, Ordinal.exists_fundamental_sequence\u27e9\n    | exact Ordinal.exists_fundamental_sequence (by assumption)\n    | exact Ordinal.exists_fundamental_sequence \u2039_\u203a\n    | apply Ordinal.exists_fundamental_sequence <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordinal.exists_fundamental_sequence (by assumption))\n    | exact Ordinal.IsFundamentalSequence.lt\n    | exact Ordinal.IsFundamentalSequence.lt _\n    | apply Ordinal.IsFundamentalSequence.lt\n    | simpa using Ordinal.IsFundamentalSequence.lt\n    | exact \u27e8_, Ordinal.IsFundamentalSequence.lt\u27e9\n    | exact Ordinal.IsFundamentalSequence.lt (by assumption)\n    | exact Ordinal.IsFundamentalSequence.lt \u2039_\u203a\n    | apply Ordinal.IsFundamentalSequence.lt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordinal.IsFundamentalSequence.lt (by assumption))\n    | exact IsAlgClosed.instInfinite\n    | exact IsAlgClosed.instInfinite _\n    | apply IsAlgClosed.instInfinite\n    | simpa using IsAlgClosed.instInfinite\n    | exact \u27e8_, IsAlgClosed.instInfinite\u27e9\n    | exact IsAlgClosed.instInfinite (by assumption)\n    | exact IsAlgClosed.instInfinite \u2039_\u203a\n    | apply IsAlgClosed.instInfinite <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsAlgClosed.instInfinite (by assumption))\n    | exact IsAlgClosed.perfectField\n    | exact IsAlgClosed.perfectField _\n    | apply IsAlgClosed.perfectField\n    | simpa using IsAlgClosed.perfectField\n    | exact \u27e8_, IsAlgClosed.perfectField\u27e9\n    | exact IsAlgClosed.perfectField (by assumption)\n    | exact IsAlgClosed.perfectField \u2039_\u203a\n    | apply IsAlgClosed.perfectField <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsAlgClosed.perfectField (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:81: error: unsolved goals\np : Polynomial \u2102\nhp : p.degree \u2260 0\n\u22a2 \u2203 x, Polynomial.eval x p = 0\n\nStill to prove:\n\u22a2 \u2203 x, Polynomial.eval x p = 0",
+      "at": 1788776737.2220824,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "import Mathlib\n\ntheorem complex_polynomial_has_root (p : Polynomial \u2102) (hp : p.degree \u2260 0) : \u2203 x : \u2102, p.IsRoot x",
+      "proof": "exact IsAlgClosed.exists_root p hp",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: import Mathlib\n\ntheorem complex_polynomial_has_root (p : Polynomial \u2102) (hp : p.degree \u2260 0) : \u2203 x : \u2102, p.IsRoot x",
+      "at": 1788776747.7118297,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "import Mathlib\n\ntheorem complex_polynomial_has_root (p : Polynomial \u2102) (hp : \u00ac \u2203 c : \u2102, p = Polynomial.C c) : \u2203 x : \u2102, p.IsRoot x",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788776752.3960726,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "import Mathlib\n\ntheorem complex_polynomial_has_root (p : Polynomial \u2102) (hp : \u00ac \u2203 c : \u2102, p = Polynomial.C c) : \u2203 x : \u2102, p.IsRoot x",
+      "proof": "have h_deg : p.degree \u2260 0 := by\n  intro h\n  have h_eq := Polynomial.eq_C_of_degree_eq_zero h\n  apply hp\n  use p.coeff 0\n  exact h_eq.symm\nexact IsAlgClosed.exists_root p h_deg",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n7:4: error: No goals to be solved",
+      "at": 1788776765.1993434,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "import Mathlib\n\ntheorem complex_polynomial_has_root (p : Polynomial \u2102) (hp : \u00ac \u2203 c : \u2102, p = Polynomial.C c) : \u2203 x : \u2102, p.IsRoot x",
+      "proof": "by\n  have h_deg : p.degree \u2260 0 := by\n    intro h\n    have h_eq := Polynomial.eq_C_of_degree_eq_zero h\n    apply hp\n    use p.coeff 0\n    exact h_eq.symm\n  exact IsAlgClosed.exists_root p h_deg",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n7:4: error: No goals to be solved",
+      "at": 1788776768.501436,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "import Mathlib\n\ntheorem complex_polynomial_has_root (p : Polynomial \u2102) (hp : \u00ac \u2203 c : \u2102, p = Polynomial.C c) : \u2203 x : \u2102, p.IsRoot x",
+      "proof": "by\n  have h_deg : p.degree \u2260 0 := by\n    intro h\n    have h_eq := Polynomial.eq_C_of_degree_eq_zero h\n    apply hp\n    use p.coeff 0\n  exact IsAlgClosed.exists_root p h_deg",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: import Mathlib\n\ntheorem complex_polynomial_has_root (p : Polynomial \u2102) (hp : \u00ac \u2203 c : \u2102, p = Polynomial.C c) : \u2203 x : \u2102, p.IsRoot x",
+      "at": 1788776773.035946,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Ordinal.IsFundamentalSequence.blsub_eq",
+      "type": " {a o : Ordinal.{u}} {f : (b : Ordinal.{u}) \u2192 b < o \u2192 Ordinal.{u}} (hf : a.IsFundamentalSequence o f) : o.blsub f = a",
+      "module": "Mathlib.SetTheory.Ordinal.FundamentalSequence",
+      "doc": ""
+    },
+    {
+      "name": "Ordinal.IsFundamentalSequence.cof_eq",
+      "type": " {a o : Ordinal.{u}} {f : (b : Ordinal.{u}) \u2192 b < o \u2192 Ordinal.{u}} (hf : a.IsFundamentalSequence o f) : a.cof.ord = o",
+      "module": "Mathlib.SetTheory.Ordinal.FundamentalSequence",
+      "doc": ""
+    },
+    {
+      "name": "Ordinal.IsFundamentalSeq.id",
+      "type": " {o : Ordinal.{u_1}} (ho : o \u2264 o.cof.ord) : Ordinal.IsFundamentalSeq id",
+      "module": "Mathlib.SetTheory.Ordinal.FundamentalSequence",
+      "doc": "A regular ordinal `o` has a fundamental sequence given by all smaller ordinals. "
+    },
+    {
+      "name": "Ordinal.IsFundamentalSequence.id_of_le_cof",
+      "type": " {o : Ordinal.{u}} (h : o \u2264 o.cof.ord) : o.IsFundamentalSequence o fun a x => a",
+      "module": "Mathlib.SetTheory.Ordinal.FundamentalSequence",
+      "doc": ""
+    },
+    {
+      "name": "Ordinal.IsFundamentalSeq.ord_cof",
+      "type": " {a o : Ordinal.{u_1}} {f : \u2191(Set.Iio a) \u2192 \u2191(Set.Iio o)} (hf : Ordinal.IsFundamentalSeq f) : o.cof.ord = a",
+      "module": "Mathlib.SetTheory.Ordinal.FundamentalSequence",
+      "doc": ""
+    },
+    {
+      "name": "Ordinal.IsFundamentalSequence.zero",
+      "type": " {f : (b : Ordinal.{u_1}) \u2192 b < 0 \u2192 Ordinal.{u_1}} : Ordinal.IsFundamentalSequence 0 0 f",
+      "module": "Mathlib.SetTheory.Ordinal.FundamentalSequence",
+      "doc": ""
+    },
+    {
+      "name": "Ordinal.IsFundamentalSequence.succ",
+      "type": " {o : Ordinal.{u}} : (Order.succ o).IsFundamentalSequence 1 fun x x_1 => o",
+      "module": "Mathlib.SetTheory.Ordinal.FundamentalSequence",
+      "doc": ""
+    },
+    {
+      "name": "Ordinal.IsFundamentalSeq.le_ord_cof",
+      "type": " {a o : Ordinal.{u_1}} {f : \u2191(Set.Iio a) \u2192 \u2191(Set.Iio o)} (self : Ordinal.IsFundamentalSeq f) : a \u2264 o.cof.ord",
+      "module": "Mathlib.SetTheory.Ordinal.FundamentalSequence",
+      "doc": "This condition alongside the others is enough to conclude `o.cof.ord = a`, see\n`IsFundamentalSeq.ord_cof`. "
+    },
+    {
+      "name": "Ordinal.exists_fundamental_sequence",
+      "type": " (a : Ordinal.{u}) : \u2203 f, a.IsFundamentalSequence a.cof.ord f",
+      "module": "Mathlib.SetTheory.Ordinal.FundamentalSequence",
+      "doc": "Every ordinal has a fundamental sequence. "
+    },
+    {
+      "name": "Ordinal.IsFundamentalSequence.lt",
+      "type": " {a o : Ordinal.{u_1}} {s : (p : Ordinal.{u_1}) \u2192 p < o \u2192 Ordinal.{u_1}} (h : a.IsFundamentalSequence o s) {p : Ordinal.{u_1}} (hp : p < o) : s p hp < a",
+      "module": "Mathlib.SetTheory.Ordinal.FundamentalSequence",
+      "doc": ""
+    },
+    {
+      "name": "Ordinal.IsFundamentalSequence",
+      "type": " (a o : Ordinal.{u}) (f : (b : Ordinal.{u}) \u2192 b < o \u2192 Ordinal.{u}) : Prop",
+      "module": "Mathlib.SetTheory.Ordinal.FundamentalSequence",
+      "doc": "A fundamental sequence for `a` is an increasing sequence of length `o = cof a` that converges at\n`a`. We provide `o` explicitly in order to avoid type rewrites. "
+    },
+    {
+      "name": "Ordinal.IsFundamentalSeq",
+      "type": " {a o : Ordinal.{u_1}} (f : \u2191(Set.Iio a) \u2192 \u2191(Set.Iio o)) : Prop",
+      "module": "Mathlib.SetTheory.Ordinal.FundamentalSequence",
+      "doc": "A fundamental sequence for `o` is a strictly monotonic function `Iio o.cof.ord \u2192 Iio o` with\ncofinal range. We provide `a = o.cof.ord` explicitly to avoid type rewrites. "
+    },
+    {
+      "name": "IsAlgClosed.instInfinite",
+      "type": " {K : Type u_1} [Field K] [IsAlgClosed K] : Infinite K",
+      "module": "Mathlib.FieldTheory.IsAlgClosed.Basic",
+      "doc": "Algebraically closed fields are infinite since `X\u207f\u207a\u00b9 - 1` is separable when `#K = n` "
+    },
+    {
+      "name": "IsAlgClosed.perfectField",
+      "type": " (k : Type u) [Field k] [IsAlgClosed k] : PerfectField k",
+      "module": "Mathlib.FieldTheory.IsAlgClosed.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsAlgClosed.mk",
+      "type": " {k : Type u} [Field k] (splits : \u2200 (p : Polynomial k), p.Splits) : IsAlgClosed k",
+      "module": "Mathlib.FieldTheory.IsAlgClosed.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsAlgClosed.splits",
+      "type": " {k : Type u} {inst\u271d : Field k} [self : IsAlgClosed k] (p : Polynomial k) : p.Splits",
+      "module": "Mathlib.FieldTheory.IsAlgClosed.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsAlgClosed.exists_eq_mul_self",
+      "type": " {k : Type u} [Field k] [IsAlgClosed k] (x : k) : \u2203 z, x = z * z",
+      "module": "Mathlib.FieldTheory.IsAlgClosed.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsAlgClosed.perfectRing",
+      "type": " (k : Type u) [Field k] (p : \u2115) [Fact (Nat.Prime p)] [CharP k p] [IsAlgClosed k] : PerfectRing k p",
+      "module": "Mathlib.FieldTheory.IsAlgClosed.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsAlgClosed.card_roots_eq_natDegree",
+      "type": " {k : Type u} [Field k] [IsAlgClosed k] {p : Polynomial k} : p.roots.card = p.natDegree",
+      "module": "Mathlib.FieldTheory.IsAlgClosed.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsAlgClosed.exists_pow_nat_eq",
+      "type": " {k : Type u} [Field k] [IsAlgClosed k] (x : k) {n : \u2115} (hn : 0 < n) : \u2203 z, z ^ n = x",
+      "module": "Mathlib.FieldTheory.IsAlgClosed.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsAlgClosed.eval_surjective",
+      "type": " {M : Type w} [Field M] [IsAlgClosed M] {p : Polynomial M} (hp : p.natDegree \u2260 0) : Function.Surjective fun x => Polynomial.eval x p",
+      "module": "Mathlib.FieldTheory.IsAlgClosed.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsAlgClosed.exists_root",
+      "type": " {k : Type u} [Field k] [IsAlgClosed k] (p : Polynomial k) (hp : p.degree \u2260 0) : \u2203 x, p.IsRoot x",
+      "module": "Mathlib.FieldTheory.IsAlgClosed.Basic",
+      "doc": "If `k` is algebraically closed, then every nonconstant polynomial has a root.\n"
+    },
+    {
+      "name": "IsAlgClosed.roots_eq_zero_iff_natDegree_eq_zero",
+      "type": " {k : Type u} [Field k] [IsAlgClosed k] {p : Polynomial k} : p.roots = 0 \u2194 p.natDegree = 0",
+      "module": "Mathlib.FieldTheory.IsAlgClosed.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsAlgClosed",
+      "type": " (k : Type u) [Field k] : Prop",
+      "module": "Mathlib.FieldTheory.IsAlgClosed.Basic",
+      "doc": "An algebraically closed field is one where every polynomial splits. Equivalently, all\nnon-constant polynomials have a root. See `IsAlgClosed.exists_root` and\n`IsAlgClosed.of_exists_root`. "
+    },
+    {
+      "name": "Polynomial.X",
+      "type": " {R : Type u} [Semiring R] : Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.Basic",
+      "doc": "`X` is the polynomial variable (aka indeterminate). "
+    },
+    {
+      "name": "Polynomial.erase",
+      "type": " {R : Type u_1} [Semiring R] (n : \u2115) : Polynomial R \u2192 Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.Basic",
+      "doc": "`erase p n` is the polynomial `p` in which the `X^n` term has been erased. "
+    },
+    {
+      "name": "Polynomial.ofFinsupp",
+      "type": " {R : Type u_1} [Semiring R] (toFinsupp : AddMonoidAlgebra R \u2115) : Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.update",
+      "type": " {R : Type u} [Semiring R] (p : Polynomial R) (n : \u2115) (a : R) : Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.Basic",
+      "doc": "Replace the coefficient of a `p : R[X]` at a given degree `n : \u2115`\nby a given value `a : R`. If `a = 0`, this is equal to `p.erase n`\nIf `p.natDegree < n` and `a \u2260 0`, this increases the degree to `n`. "
+    },
+    {
+      "name": "Polynomial.comp",
+      "type": " {R : Type u} [Semiring R] (p q : Polynomial R) : Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.Eval.Defs",
+      "doc": "The composition of polynomials as a polynomial. "
+    },
+    {
+      "name": "Polynomial.map",
+      "type": " {R : Type u} {S : Type v} [Semiring R] [Semiring S] (f : R \u2192+* S) : Polynomial R \u2192 Polynomial S",
+      "module": "Mathlib.Algebra.Polynomial.Eval.Defs",
+      "doc": "`map f p` maps a polynomial `p` across a ring hom `f` "
+    },
+    {
+      "name": "Polynomial.eraseLead",
+      "type": " {R : Type u_1} [Semiring R] (f : Polynomial R) : Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.EraseLead",
+      "doc": "`eraseLead f` for a polynomial `f` is the polynomial obtained by\nsubtracting from `f` the leading term of `f`. "
+    },
+    {
+      "name": "Polynomial.reverse",
+      "type": " {R : Type u_1} [Semiring R] (f : Polynomial R) : Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.Reverse",
+      "doc": "The reverse of a polynomial f is the polynomial obtained by \"reading f backwards\".\nEven though this is not the actual definition, `reverse f = f (1/X) * X ^ f.natDegree`. "
+    },
+    {
+      "name": "Polynomial.reflect",
+      "type": " {R : Type u_1} [Semiring R] (N : \u2115) : Polynomial R \u2192 Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.Reverse",
+      "doc": "`reflect N f` is the polynomial such that `(reflect N f).coeff i = f.coeff (revAt N i)`.\nIn other words, the terms with exponent `[0, ..., N]` now have exponent `[N, ..., 0]`.\n\nIn practice, `reflect` is only used when `N` is at least as large as the degree of `f`.\n\nEventually, it will be used with `N` exactly equal to the degree of `f`. "
+    },
+    {
+      "name": "Polynomial.restriction",
+      "type": " {R : Type u} [Ring R] (p : Polynomial R) : Polynomial \u21a5(Subring.closure \u2191p.coeffs)",
+      "module": "Mathlib.RingTheory.Polynomial.Basic",
+      "doc": "Given a polynomial, return the polynomial whose coefficients are in\nthe ring closure of the original coefficients. "
+    },
+    {
+      "name": "Polynomial.divX",
+      "type": " {R : Type u} [Semiring R] (p : Polynomial R) : Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.Inductions",
+      "doc": "`divX p` returns a polynomial `q` such that `q * X + C (p.coeff 0) = p`.\nIt can be used in a semiring where the usual division algorithm is not possible "
+    },
+    {
+      "name": "Polynomial.divByMonic",
+      "type": " {R : Type u} [Ring R] (p q : Polynomial R) : Polynomial R",
+      "module": "Mathlib.Algebra.Polynomial.Div",
+      "doc": "`divByMonic`, denoted as `p /\u2098 q`, gives the quotient of `p` by a monic polynomial `q`. "
+    },
+    {
+      "name": "Polynomial.natDegree_eq_zero_iff_degree_le_zero",
+      "type": " {R : Type u} [Semiring R] {p : Polynomial R} : p.natDegree = 0 \u2194 p.degree \u2264 0",
+      "module": "Mathlib.Algebra.Polynomial.Degree.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.Monic.natDegree_eq_zero",
+      "type": " {R : Type u} [Semiring R] {p : Polynomial R} (hf : p.Monic) : p.natDegree = 0 \u2194 p = 1",
+      "module": "Mathlib.Algebra.Polynomial.Degree.Operations",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.coeff_natDegree_eq_zero_of_degree_lt",
+      "type": " {R : Type u} [Semiring R] {p q : Polynomial R} (h : p.degree < q.degree) : p.coeff q.natDegree = 0",
+      "module": "Mathlib.Algebra.Polynomial.Degree.Operations",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.natDegree_eq_zero",
+      "type": " {R : Type u} [Semiring R] {p : Polynomial R} : p.natDegree = 0 \u2194 \u2203 x, Polynomial.C x = p",
+      "module": "Mathlib.Algebra.Polynomial.Degree.Operations",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.eq_C_of_natDegree_eq_zero",
+      "type": " {R : Type u} [Semiring R] {p : Polynomial R} (h : p.natDegree = 0) : p = Polynomial.C (p.coeff 0)",
+      "module": "Mathlib.Algebra.Polynomial.Degree.Operations",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.eq_C_coeff_zero_iff_natDegree_eq_zero",
+      "type": " {R : Type u} [Semiring R] {p : Polynomial R} : p = Polynomial.C (p.coeff 0) \u2194 p.natDegree = 0",
+      "module": "Mathlib.Algebra.Polynomial.Degree.Operations",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.eq_C_of_degree_eq_zero",
+      "type": " {R : Type u} [Semiring R] {p : Polynomial R} (h : p.degree = 0) : p = Polynomial.C (p.coeff 0)",
+      "module": "Mathlib.Algebra.Polynomial.Degree.Operations",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.natDegree_eq_zero_of_isUnit",
+      "type": " {R : Type u} [Semiring R] [NoZeroDivisors R] {p : Polynomial R} (h : IsUnit p) : p.natDegree = 0",
+      "module": "Mathlib.Algebra.Polynomial.Degree.Units",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.degree_eq_zero_of_isUnit",
+      "type": " {R : Type u} [Semiring R] [NoZeroDivisors R] {p : Polynomial R} [Nontrivial R] (h : IsUnit p) : p.degree = 0",
+      "module": "Mathlib.Algebra.Polynomial.Degree.Units",
+      "doc": ""
+    },
+    {
+      "name": "MvPolynomial.totalDegree_eq_zero_iff_eq_C",
+      "type": " {R : Type u} {\u03c3 : Type u_1} [CommSemiring R] {p : MvPolynomial \u03c3 R} : p.totalDegree = 0 \u2194 p = MvPolynomial.C (p.coeff 0)",
+      "module": "Mathlib.Algebra.MvPolynomial.Degrees",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.coeff_natTrailingDegree_eq_zero_of_trailingDegree_lt",
+      "type": " {R : Type u} [Semiring R] {p q : Polynomial R} (h : p.trailingDegree < q.trailingDegree) : q.coeff p.natTrailingDegree = 0",
+      "module": "Mathlib.Algebra.Polynomial.Degree.TrailingDegree",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.trailingDegree_eq_zero",
+      "type": " {R : Type u} [Semiring R] {p : Polynomial R} : p.trailingDegree = 0 \u2194 p.coeff 0 \u2260 0",
+      "module": "Mathlib.Algebra.Polynomial.Degree.TrailingDegree",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"FundamentalTheoremOfAlgebra\"' -> nothing",
+    "search: '\"fundamental\"' -> Ordinal.IsFundamentalSequence.blsub_eq, Ordinal.IsFundamentalSequence.cof_eq, Ordinal.IsFundamentalSeq.id, Ordinal.IsFundamentalSequence.id_of_le_cof, Ordinal.IsFundamentalSeq.ord_cof, Ordinal.IsFundamentalSequence.zero, Ordinal.IsFundamentalSequence.succ, Ordinal.IsFundamentalSeq.le_ord_cof",
+    "search: '\"IsAlgClosed\"' -> IsAlgClosed.instInfinite, IsAlgClosed.perfectField, IsAlgClosed.mk, IsAlgClosed.splits, IsAlgClosed.exists_eq_mul_self, IsAlgClosed.perfectRing, IsAlgClosed.card_roots_eq_natDegree, IsAlgClosed.exists_pow_nat_eq",
+    "seeded from goal shape -> Polynomial.X, Polynomial.erase, Polynomial.ofFinsupp, Polynomial.update, Polynomial.comp, Polynomial.map, Polynomial.eraseLead, Polynomial.reverse",
+    "search: '\"IsAlgClosed \u2102\"' -> nothing",
+    "search: '\"IsAlgClosed \u2102\"' -> nothing; goal shape -> Polynomial.X, Polynomial.erase, Polynomial.ofFinsupp, Polynomial.update, Polynomial.comp, Polynomial.map, Polynomial.eraseLead, Polynomial.reverse",
+    "seeded from goal shape -> Polynomial.X, Polynomial.erase, Polynomial.ofFinsupp, Polynomial.update, Polynomial.comp, Polynomial.map, Polynomial.eraseLead, Polynomial.reverse",
+    "search: '\"degree_eq_zero\"' -> Polynomial.natDegree_eq_zero_iff_degree_le_zero, Polynomial.Monic.natDegree_eq_zero, Polynomial.coeff_natDegree_eq_zero_of_degree_lt, Polynomial.natDegree_eq_zero, Polynomial.eq_C_of_natDegree_eq_zero, Polynomial.eq_C_coeff_zero_iff_natDegree_eq_zero, Polynomial.eq_C_of_degree_eq_zero, Polynomial.natDegree_eq_zero_of_isUnit"
+  ],
+  "budget": {
+    "tool_calls": 13,
+    "lean_calls": 7,
+    "searches": 6,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788776717.7385683,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 2
+  },
+  "goal": "import Mathlib\n\ntheorem complex_polynomial_has_root (p : Polynomial \u2102) (hp : \u00ac \u2203 c : \u2102, p = Polynomial.C c) : \u2203 x : \u2102, p.IsRoot x"
+}

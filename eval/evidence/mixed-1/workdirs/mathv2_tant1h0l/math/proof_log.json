@@ -1,0 +1,66 @@
+{
+  "records": [
+    {
+      "kind": "computation",
+      "statement": "check_numeric(lhs='2 + 2', rhs='4')",
+      "proof": "",
+      "status": "true",
+      "detail": "2 + 2 = 4.00000000000000 equals 4.",
+      "at": 1788775176.963384,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem two_plus_two : 2 + 2 = 4",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788775180.619954,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem two_plus_two : 2 + 2 = 4",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact two_add_two_eq_four\n    | exact two_add_two_eq_four _\n    | apply two_add_two_eq_four\n    | simpa using two_add_two_eq_four\n    | exact \u27e8_, two_add_two_eq_four\u27e9\n    | exact two_add_two_eq_four (by assumption)\n    | exact two_add_two_eq_four \u2039_\u203a\n    | apply two_add_two_eq_four <;> assumption\n    | (haveI := Fact.mk (by assumption); exact two_add_two_eq_four (by assumption))",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem two_plus_two : 2 + 2 = 4",
+      "at": 1788775188.4279892,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem two_plus_two : 2 + 2 = 4",
+      "proof": "by rfl",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem two_plus_two : 2 + 2 = 4",
+      "at": 1788775189.9512403,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "two_add_two_eq_four",
+      "type": " {R : Type u_1} [AddMonoidWithOne R] : 2 + 2 = 4",
+      "module": "Mathlib.Data.Nat.Cast.Defs",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> two_add_two_eq_four"
+  ],
+  "budget": {
+    "tool_calls": 4,
+    "lean_calls": 3,
+    "searches": 0,
+    "symbolic_calls": 1,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788775174.8274016,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.0,
+    "statement_checks": 1
+  },
+  "goal": "theorem two_plus_two : 2 + 2 = 4"
+}

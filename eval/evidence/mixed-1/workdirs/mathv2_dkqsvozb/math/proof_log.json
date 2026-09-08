@@ -1,0 +1,187 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788775538.9550946,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)",
+      "proof": "exact IsCompact.image hs hf",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)",
+      "at": 1788775546.1510835,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "IsCompact.image",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.image_of_continuousOn",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : ContinuousOn f s) : IsCompact (f '' s)",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.isCompact_image_comap_of_monic",
+      "type": " {R : Type u_1} [CommRing R] (f g : Polynomial R) (hg : g.Monic) : IsCompact (PrimeSpectrum.comap Polynomial.C '' (PrimeSpectrum.zeroLocus {g} \\ PrimeSpectrum.zeroLocus {f}))",
+      "module": "Mathlib.RingTheory.Spectrum.Prime.Polynomial",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousLinearMap.isCompact_image_coe_closedBall",
+      "type": " {\ud835\udd5c : Type u_1} {\ud835\udd5c\u2082 : Type u_2} {E : Type u_3} {F : Type u_4} [NormedAddCommGroup E] [NormedAddCommGroup F] [NontriviallyNormedField \ud835\udd5c] [NontriviallyNormedField \ud835\udd5c\u2082] [NormedSpace \ud835\udd5c E] [NormedSpace \ud835\udd5c\u2082 F] {\u03c3\u2081\u2082 : \ud835\udd5c \u2192+* \ud835\udd5c\u2082} [RingHomIsometric \u03c3\u2081\u2082] [ProperSpace F] (f\u2080 : E \u2192SL[\u03c3\u2081\u2082] F) (r : \u211d) : IsCompact (DFunLike.coe '' Metric.closedBall f\u2080 r)",
+      "module": "Mathlib.Analysis.Normed.Operator.Completeness",
+      "doc": "**Banach-Alaoglu** theorem. The set of functions `f : E \u2192 F` that represent continuous linear\nmaps `f : E \u2192SL[\u03c3\u2081\u2082] F` at distance `\u2264 r` from `f\u2080 : E \u2192SL[\u03c3\u2081\u2082] F` is compact in the topology of\npointwise convergence. Other versions of this theorem can be found in\n`Analysis.Normed.Module.WeakDual`. "
+    },
+    {
+      "name": "ContinuousLinearMap.isCompact_image_coe_of_bounded_of_closed_image",
+      "type": " {\ud835\udd5c : Type u_1} {\ud835\udd5c\u2082 : Type u_2} {F : Type u_4} [NormedAddCommGroup F] [NontriviallyNormedField \ud835\udd5c] [NontriviallyNormedField \ud835\udd5c\u2082] [NormedSpace \ud835\udd5c\u2082 F] {\u03c3\u2081\u2082 : \ud835\udd5c \u2192+* \ud835\udd5c\u2082} {E' : Type u_5} [SeminormedAddCommGroup E'] [NormedSpace \ud835\udd5c E'] [RingHomIsometric \u03c3\u2081\u2082] [ProperSpace F] {s : Set (E' \u2192SL[\u03c3\u2081\u2082] F)} (hb : Bornology.IsBounded s) (hc : IsClosed (DFunLike.coe '' s)) : IsCompact (DFunLike.coe '' s)",
+      "module": "Mathlib.Analysis.Normed.Operator.Completeness",
+      "doc": "Let `s` be a bounded set in the space of continuous (semi)linear maps `E \u2192SL[\u03c3] F` taking values\nin a proper space. If `s` interpreted as a set in the space of maps `E \u2192 F` with topology of\npointwise convergence is closed, then it is compact.\n\nTODO: reformulate this in terms of a type synonym with the right topology. "
+    },
+    {
+      "name": "ContinuousLinearMap.isCompact_image_coe_of_bounded_of_weak_closed",
+      "type": " {\ud835\udd5c : Type u_1} {\ud835\udd5c\u2082 : Type u_2} {F : Type u_4} [NormedAddCommGroup F] [NontriviallyNormedField \ud835\udd5c] [NontriviallyNormedField \ud835\udd5c\u2082] [NormedSpace \ud835\udd5c\u2082 F] {\u03c3\u2081\u2082 : \ud835\udd5c \u2192+* \ud835\udd5c\u2082} {E' : Type u_5} [SeminormedAddCommGroup E'] [NormedSpace \ud835\udd5c E'] [RingHomIsometric \u03c3\u2081\u2082] [ProperSpace F] {s : Set (E' \u2192SL[\u03c3\u2081\u2082] F)} (hb : Bornology.IsBounded s) (hc : \u2200 (f : E' \u2192SL[\u03c3\u2081\u2082] F), \u21d1f \u2208 closure (DFunLike.coe '' s) \u2192 f \u2208 s) : IsCompact (DFunLike.coe '' s)",
+      "module": "Mathlib.Analysis.Normed.Operator.Completeness",
+      "doc": "If a set `s` of semilinear functions is bounded and is closed in the weak-\\* topology, then its\nimage under coercion to functions `E \u2192 F` is a compact set. We don't have a name for `E \u2192SL[\u03c3] F`\nwith weak-\\* topology in `mathlib`, so we use an equivalent condition (see `isClosed_induced_iff'`).\n"
+    },
+    {
+      "name": "SmoothBumpFunction.isCompact_symm_image_closedBall",
+      "type": " {E : Type uE} [NormedAddCommGroup E] [NormedSpace \u211d E] {H : Type uH} [TopologicalSpace H] {I : ModelWithCorners \u211d E H} {M : Type uM} [TopologicalSpace M] [ChartedSpace H M] {c : M} (f : SmoothBumpFunction I c) [FiniteDimensional \u211d E] : IsCompact (\u2191(extChartAt I c).symm '' (Metric.closedBall (\u2191(extChartAt I c) c) f.rOut \u2229 Set.range \u2191I))",
+      "module": "Mathlib.Geometry.Manifold.BumpFunction",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.mk",
+      "type": " {X : Type u} (IsOpen : Set X \u2192 Prop) (isOpen_univ : IsOpen Set.univ) (isOpen_inter : \u2200 (s t : Set X), IsOpen s \u2192 IsOpen t \u2192 IsOpen (s \u2229 t)) (isOpen_sUnion : \u2200 (s : Set (Set X)), (\u2200 t \u2208 s, IsOpen t) \u2192 IsOpen (\u22c3\u2080 s)) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.ofClosed",
+      "type": " {X : Type u} (T : Set (Set X)) (empty_mem : \u2205 \u2208 T) (sInter_mem : \u2200 A \u2286 T, \u22c2\u2080 A \u2208 T) (union_mem : \u2200 A \u2208 T, \u2200 B \u2208 T, A \u222a B \u2208 T) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Basic",
+      "doc": "A constructor for topologies by specifying the closed sets,\nand showing that they satisfy the appropriate conditions. "
+    },
+    {
+      "name": "WithTopology.instTopologicalSpace",
+      "type": " (X : Type u_1) (t : TopologicalSpace X) : TopologicalSpace (WithTopology X t)",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.coinduced",
+      "type": " {X : Type u_1} {Y : Type u_2} (f : X \u2192 Y) (t : TopologicalSpace X) : TopologicalSpace Y",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "Given `f : X \u2192 Y` and a topology on `X`,\nthe coinduced topology on `Y` is defined such that\n`s : Set Y` is open if the preimage of `s` is open.\nThis is the finest topology that makes `f` continuous. "
+    },
+    {
+      "name": "TopologicalSpace.induced",
+      "type": " {X : Type u_1} {Y : Type u_2} (f : X \u2192 Y) (t : TopologicalSpace Y) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "Given `f : X \u2192 Y` and a topology on `Y`,\nthe induced topology on `X` is the collection of sets\nthat are preimages of some open set in `Y`.\nThis is the coarsest topology that makes `f` continuous. "
+    },
+    {
+      "name": "instTopologicalSpaceSubtype",
+      "type": " {X : Type u_1} {p : X \u2192 Prop} [t : TopologicalSpace X] : TopologicalSpace (Subtype p)",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceBool",
+      "type": " : TopologicalSpace Bool",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceEmpty",
+      "type": " : TopologicalSpace Empty",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceInt",
+      "type": " : TopologicalSpace \u2124",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceNat",
+      "type": " : TopologicalSpace \u2115",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpacePEmpty",
+      "type": " : TopologicalSpace PEmpty.{u_1 + 1}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpacePUnit",
+      "type": " : TopologicalSpace PUnit.{u_1 + 1}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "CompactSpace.isCompact_univ",
+      "type": " {X : Type u_1} {inst\u271d : TopologicalSpace X} [self : CompactSpace X] : IsCompact Set.univ",
+      "module": "Mathlib.Topology.Defs.Filter",
+      "doc": "In a compact space, `Set.univ` is a compact set. "
+    },
+    {
+      "name": "isCompact_empty",
+      "type": " {X : Type u} [TopologicalSpace X] : IsCompact \u2205",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "isCompact_univ",
+      "type": " {X : Type u} [TopologicalSpace X] [h : CompactSpace X] : IsCompact Set.univ",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "Set.Finite.isCompact",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} (hs : s.Finite) : IsCompact s",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    },
+    {
+      "name": "Set.Subsingleton.isCompact",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} (hs : s.Subsingleton) : IsCompact s",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"IsCompact.image\"' -> IsCompact.image, IsCompact.image_of_continuousOn",
+    "seeded from goal shape -> IsCompact.image, IsCompact.image_of_continuousOn, Polynomial.isCompact_image_comap_of_monic, ContinuousLinearMap.isCompact_image_coe_closedBall, ContinuousLinearMap.isCompact_image_coe_of_bounded_of_closed_image, ContinuousLinearMap.isCompact_image_coe_of_bounded_of_weak_closed, SmoothBumpFunction.isCompact_symm_image_closedBall, TopologicalSpace.mk"
+  ],
+  "budget": {
+    "tool_calls": 3,
+    "lean_calls": 2,
+    "searches": 1,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788775535.1215653,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.0,
+    "statement_checks": 1
+  },
+  "goal": "theorem continuous_image_compact {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y] {s : Set X} {f : X \u2192 Y} (hs : IsCompact s) (hf : Continuous f) : IsCompact (f '' s)"
+}

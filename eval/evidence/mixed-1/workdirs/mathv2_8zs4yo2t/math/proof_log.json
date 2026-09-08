@@ -1,0 +1,346 @@
+{
+  "records": [
+    {
+      "kind": "computation",
+      "statement": "check_inequality(lhs='x**2', rhs='0', relation='>=', variable='x')",
+      "proof": "",
+      "status": "true",
+      "detail": "Holds for every real x: the negation has no solution.",
+      "at": 1788775239.813699,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem real_sq_nonneg (x : \u211d) : x ^ 2 \u2265 0",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788775243.7990198,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem real_sq_nonneg (x : \u211d) : x ^ 2 \u2265 0",
+      "proof": "exact sq_nonneg x",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem real_sq_nonneg (x : \u211d) : x ^ 2 \u2265 0",
+      "at": 1788775245.9710443,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem real_sq_nonneg (x : \u211d) : 0 \u2264 x * x",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788775251.9589558,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem real_sq_nonneg (x : \u211d) : 0 \u2264 x * x",
+      "proof": "exact mul_self_nonneg x",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem real_sq_nonneg (x : \u211d) : 0 \u2264 x * x",
+      "at": 1788775257.3416405,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem real_sq_nonneg (x : \u211d) : x * x \u2265 x - x",
+      "proof": "have h : 0 \u2264 x * x := mul_self_nonneg x\nlinarith",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem real_sq_nonneg (x : \u211d) : x * x \u2265 x - x",
+      "at": 1788775280.7378306,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "sq_nonneg",
+      "type": " {R : Type u} [Semiring R] [LinearOrder R] [ExistsAddOfLE R] [PosMulMono R] [AddLeftMono R] (a : R) : 0 \u2264 a ^ 2",
+      "module": "Mathlib.Algebra.Order.Ring.Unbundled.Basic",
+      "doc": ""
+    },
+    {
+      "name": "one_add_mul_le_pow_of_sq_nonneg",
+      "type": " {R : Type u_1} [Semiring R] [PartialOrder R] [IsOrderedRing R] {a : R} (Hsq : 0 \u2264 a ^ 2) (Hsq' : 0 \u2264 (1 + a) ^ 2) (H : 0 \u2264 2 + a) (n : \u2115) : 1 + \u2191n * a \u2264 (1 + a) ^ n",
+      "module": "Mathlib.Algebra.Order.Ring.Pow",
+      "doc": "**Bernoulli's inequality**. This version works for semirings but requires\nadditional hypotheses `0 \u2264 a ^ 2` and `0 \u2264 (1 + a) ^ 2`. "
+    },
+    {
+      "name": "Commute.pow_add_mul_le_add_pow_of_sq_nonneg",
+      "type": " {R : Type u_1} [Semiring R] [PartialOrder R] [IsOrderedRing R] {a b : R} (Hcomm : Commute a b) (ha : 0 \u2264 a) (Hsq : 0 \u2264 b ^ 2) (Hsq' : 0 \u2264 (a + b) ^ 2) (H : 0 \u2264 2 * a + b) (n : \u2115) : a ^ n + \u2191n * a ^ (n - 1) * b \u2264 (a + b) ^ n",
+      "module": "Mathlib.Algebra.Order.Ring.Pow",
+      "doc": "Bernoulli's inequality for `b / a`, written after multiplication by the denominators. "
+    },
+    {
+      "name": "pow_add_mul_le_add_pow_of_sq_nonneg",
+      "type": " {R : Type u_1} [CommSemiring R] [PartialOrder R] [IsOrderedRing R] {a b : R} (ha : 0 \u2264 a) (Hsq : 0 \u2264 b ^ 2) (Hsq' : 0 \u2264 (a + b) ^ 2) (H : 0 \u2264 2 * a + b) (n : \u2115) : a ^ n + \u2191n * a ^ (n - 1) * b \u2264 (a + b) ^ n",
+      "module": "Mathlib.Algebra.Order.Ring.Pow",
+      "doc": "Bernoulli's inequality for `b / a`, written after multiplication by the denominators.\n\nThis version works for partially ordered commutative semirings,\nbut explicitly assumes that `b ^ 2` and `(a + b) ^ 2` are nonnegative. "
+    },
+    {
+      "name": "IsSelfAdjoint.sq_nonneg",
+      "type": " {R : Type u_1} [Semiring R] [PartialOrder R] [StarRing R] [StarOrderedRing R] {a : R} (ha : IsSelfAdjoint a) : 0 \u2264 a ^ 2",
+      "module": "Mathlib.Algebra.Order.Star.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Quaternion.normSq_nonneg",
+      "type": " {R : Type u_1} [CommRing R] [LinearOrder R] [IsStrictOrderedRing R] {a : Quaternion R} : 0 \u2264 Quaternion.normSq a",
+      "module": "Mathlib.Algebra.Quaternion",
+      "doc": ""
+    },
+    {
+      "name": "Complex.normSq_nonneg",
+      "type": " (z : \u2102) : 0 \u2264 Complex.normSq z",
+      "module": "Mathlib.Basic.Complex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Complex.sq_nonneg_iff",
+      "type": " {z : \u2102} : 0 \u2264 z ^ 2 \u2194 z.im = 0",
+      "module": "Mathlib.Analysis.Complex.Order",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.normSq_nonneg",
+      "type": " {K : Type u_1} [RCLike K] (z : K) : 0 \u2264 RCLike.normSq z",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "cfc\u2099_norm_sq_nonneg",
+      "type": " {\ud835\udd5c : Type u_1} {A : Type u_2} {p : A \u2192 Prop} [RCLike \ud835\udd5c] [NonUnitalRing A] [TopologicalSpace A] [Module \ud835\udd5c A] [StarRing A] [PartialOrder A] [StarOrderedRing A] [IsScalarTower \ud835\udd5c A A] [SMulCommClass \ud835\udd5c A A] [NonUnitalContinuousFunctionalCalculus \ud835\udd5c A p] (f : \ud835\udd5c \u2192 \ud835\udd5c) (a : A) : 0 \u2264 cfc\u2099 (fun z => star (f z) * f z) a",
+      "module": "Mathlib.Analysis.SpecialFunctions.ContinuousFunctionalCalculus.Abs",
+      "doc": ""
+    },
+    {
+      "name": "Poly.sumsq_nonneg",
+      "type": " {\u03b1 : Type u_1} (x : \u03b1 \u2192 \u2115) (l : List (Poly \u03b1)) : 0 \u2264 (Poly.sumsq l) x",
+      "module": "Mathlib.NumberTheory.Dioph",
+      "doc": ""
+    },
+    {
+      "name": "Int.mul_nonneg_of_nonneg_or_nonpos",
+      "type": " {a b : \u2124} : 0 \u2264 a \u2227 0 \u2264 b \u2228 a \u2264 0 \u2227 b \u2264 0 \u2192 0 \u2264 a * b",
+      "module": "Mathlib.Data.Int.Order.Basic",
+      "doc": ""
+    },
+    {
+      "name": "mul_nonneg",
+      "type": " {\u03b1 : Type u_1} [MulZeroClass \u03b1] {a b : \u03b1} [Preorder \u03b1] [PosMulMono \u03b1] (ha : 0 \u2264 a) (hb : 0 \u2264 b) : 0 \u2264 a * b",
+      "module": "Mathlib.Algebra.Order.GroupWithZero.Basic",
+      "doc": "**Alias** of `Left.mul_nonneg`.\n\n---\n\nAssumes left covariance. "
+    },
+    {
+      "name": "Left.mul_nonneg",
+      "type": " {\u03b1 : Type u_1} [MulZeroClass \u03b1] {a b : \u03b1} [Preorder \u03b1] [PosMulMono \u03b1] (ha : 0 \u2264 a) (hb : 0 \u2264 b) : 0 \u2264 a * b",
+      "module": "Mathlib.Algebra.Order.GroupWithZero.Basic",
+      "doc": "Assumes left covariance. "
+    },
+    {
+      "name": "Right.mul_nonneg",
+      "type": " {\u03b1 : Type u_1} [MulZeroClass \u03b1] {a b : \u03b1} [Preorder \u03b1] [MulPosMono \u03b1] (ha : 0 \u2264 a) (hb : 0 \u2264 b) : 0 \u2264 a * b",
+      "module": "Mathlib.Algebra.Order.GroupWithZero.Basic",
+      "doc": "Assumes right covariance. "
+    },
+    {
+      "name": "mul_self_nonneg",
+      "type": " {R : Type u} [Semiring R] [LinearOrder R] [ExistsAddOfLE R] [PosMulMono R] [AddLeftMono R] (a : R) : 0 \u2264 a * a",
+      "module": "Mathlib.Algebra.Order.Ring.Unbundled.Basic",
+      "doc": ""
+    },
+    {
+      "name": "mul_nonneg_of_nonpos_of_nonpos",
+      "type": " {R : Type u} [Semiring R] [Preorder R] {a b : R} [ExistsAddOfLE R] [MulPosMono R] [AddRightMono R] [AddRightReflectLE R] (ha : a \u2264 0) (hb : b \u2264 0) : 0 \u2264 a * b",
+      "module": "Mathlib.Algebra.Order.Ring.Unbundled.Basic",
+      "doc": ""
+    },
+    {
+      "name": "mul_star_self_nonneg",
+      "type": " {R : Type u_1} [NonUnitalSemiring R] [PartialOrder R] [StarRing R] [StarOrderedRing R] (r : R) : 0 \u2264 r * star r",
+      "module": "Mathlib.Algebra.Order.Star.Basic",
+      "doc": ""
+    },
+    {
+      "name": "star_mul_self_nonneg",
+      "type": " {R : Type u_1} [NonUnitalSemiring R] [PartialOrder R] [StarRing R] [StarOrderedRing R] (r : R) : 0 \u2264 star r * r",
+      "module": "Mathlib.Algebra.Order.Star.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsSelfAdjoint.mul_self_nonneg",
+      "type": " {R : Type u_1} [NonUnitalSemiring R] [PartialOrder R] [StarRing R] [StarOrderedRing R] {a : R} (ha : IsSelfAdjoint a) : 0 \u2264 a * a",
+      "module": "Mathlib.Algebra.Order.Star.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Int.NonNeg",
+      "type": " : \u2124 \u2192 Prop",
+      "module": "Init.Data.Int.Basic",
+      "doc": "An integer is non-negative if it is equal to a natural number.\n"
+    },
+    {
+      "name": "Int.NonNeg.mk",
+      "type": " (n : \u2115) : (Int.ofNat n).NonNeg",
+      "module": "Init.Data.Int.Basic",
+      "doc": "For all natural numbers `n`, `Int.ofNat n` is non-negative.\n"
+    },
+    {
+      "name": "Int.decNonneg",
+      "type": " (m : \u2124) : Decidable m.NonNeg",
+      "module": "Init.Data.Int.Basic",
+      "doc": "Decides whether an integer is negative.\n\n```\n#eval (7 : Int).decNonneg.decide -- true\n#eval (0 : Int).decNonneg.decide -- true\n#eval \u00ac (-7 : Int).decNonneg.decide -- true\n```\n\nImplemented by efficient native code. "
+    },
+    {
+      "name": "Int.nonneg_or_nonneg_neg",
+      "type": " (a : \u2124) : a.NonNeg \u2228 (-a).NonNeg",
+      "module": "Init.Data.Int.Order",
+      "doc": ""
+    },
+    {
+      "name": "Int.natCast_nonneg",
+      "type": " (n : \u2115) : 0 \u2264 \u2191n",
+      "module": "Init.Data.Int.Order",
+      "doc": ""
+    },
+    {
+      "name": "Int.negSucc_not_nonneg",
+      "type": " (n : \u2115) : 0 \u2264 Int.negSucc n \u2194 False",
+      "module": "Init.Data.Int.Order",
+      "doc": ""
+    },
+    {
+      "name": "Int.ofNat_nonneg",
+      "type": " (n : \u2115) : 0 \u2264 \u2191n",
+      "module": "Init.Data.Int.Order",
+      "doc": ""
+    },
+    {
+      "name": "Int.one_nonneg",
+      "type": " : 0 \u2264 1",
+      "module": "Init.Data.Int.Order",
+      "doc": ""
+    },
+    {
+      "name": "Int.NonNeg.elim",
+      "type": " {a : \u2124} : a.NonNeg \u2192 \u2203 n, a = \u2191n",
+      "module": "Init.Data.Int.Order",
+      "doc": ""
+    },
+    {
+      "name": "Int.nonneg_def",
+      "type": " {a : \u2124} : a.NonNeg \u2194 \u2203 n, a = \u2191n",
+      "module": "Init.Data.Int.Order",
+      "doc": ""
+    },
+    {
+      "name": "Int.eq_natAbs_of_nonneg",
+      "type": " {a : \u2124} (h : 0 \u2264 a) : a = \u2191a.natAbs",
+      "module": "Init.Data.Int.Order",
+      "doc": ""
+    },
+    {
+      "name": "Int.natAbs_of_nonneg",
+      "type": " {a : \u2124} (H : 0 \u2264 a) : \u2191a.natAbs = a",
+      "module": "Init.Data.Int.Order",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sub_self",
+      "type": " (n : \u2115) : n - n = 0",
+      "module": "Init.Data.Nat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Nat.add_sub_self_left",
+      "type": " (a b : \u2115) : a + b - a = b",
+      "module": "Init.Data.Nat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Nat.add_sub_self_right",
+      "type": " (a b : \u2115) : a + b - b = a",
+      "module": "Init.Data.Nat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sub_self_add",
+      "type": " (n m : \u2115) : n - (n + m) = 0",
+      "module": "Init.Data.Nat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Int.sub_self",
+      "type": " (a : \u2124) : a - a = 0",
+      "module": "Init.Data.Int.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Int.sub_sub_self",
+      "type": " (a b : \u2124) : a - (a - b) = b",
+      "module": "Init.Data.Int.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Nat.gcd_sub_self_left",
+      "type": " {m n : \u2115} (h : m \u2264 n) : (n - m).gcd m = n.gcd m",
+      "module": "Init.Data.Nat.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "Nat.gcd_sub_self_right",
+      "type": " {m n : \u2115} (h : m \u2264 n) : m.gcd (n - m) = m.gcd n",
+      "module": "Init.Data.Nat.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sub_sub_self",
+      "type": " {n m : \u2115} (h : m \u2264 n) : n - (n - m) = m",
+      "module": "Init.Data.Nat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Nat.div_mul_self_eq_mod_sub_self",
+      "type": " {x k : \u2115} : x / k * k = x - x % k",
+      "module": "Init.Data.Nat.Div.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Nat.mul_div_self_eq_mod_sub_self",
+      "type": " {x k : \u2115} : k * (x / k) = x - x % k",
+      "module": "Init.Data.Nat.Div.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Fin.sub_self",
+      "type": " {n : \u2115} [NeZero n] {x : Fin n} : x - x = 0",
+      "module": "Init.Data.Fin.Lemmas",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"sq_nonneg\"' -> sq_nonneg, one_add_mul_le_pow_of_sq_nonneg, Commute.pow_add_mul_le_add_pow_of_sq_nonneg, pow_add_mul_le_add_pow_of_sq_nonneg, IsSelfAdjoint.sq_nonneg, Quaternion.normSq_nonneg, Complex.normSq_nonneg, Complex.sq_nonneg_iff",
+    "seeded from goal shape -> Int.mul_nonneg_of_nonneg_or_nonpos, mul_nonneg, Left.mul_nonneg, Right.mul_nonneg, mul_self_nonneg, mul_nonneg_of_nonpos_of_nonpos, mul_star_self_nonneg, star_mul_self_nonneg",
+    "search: '\"Nonneg\"' -> Int.NonNeg, Int.NonNeg.mk, Int.decNonneg, Int.nonneg_or_nonneg_neg, Int.natCast_nonneg, Int.negSucc_not_nonneg, Int.ofNat_nonneg, Int.one_nonneg",
+    "search: '\"nonneg\"' -> Int.NonNeg, Int.NonNeg.mk, Int.decNonneg, Int.nonneg_or_nonneg_neg, Int.natCast_nonneg, Int.negSucc_not_nonneg, Int.ofNat_nonneg, Int.one_nonneg",
+    "search: '\"sub_self\"' -> Nat.sub_self, Nat.add_sub_self_left, Nat.add_sub_self_right, Nat.sub_self_add, Int.sub_self, Int.sub_sub_self, Nat.gcd_sub_self_left, Nat.gcd_sub_self_right"
+  ],
+  "budget": {
+    "tool_calls": 12,
+    "lean_calls": 5,
+    "searches": 5,
+    "symbolic_calls": 1,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788775237.1301417,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.4,
+    "statement_checks": 2
+  },
+  "goal": "theorem real_sq_nonneg (x : \u211d) : x * x \u2265 x - x"
+}
