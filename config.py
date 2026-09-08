@@ -7,6 +7,39 @@ MODEL = os.getenv("MRA_MODEL", "google_genai:gemini-3.5-flash")
 # 0.0 = most deterministic. Good for mathematics.
 TEMPERATURE = 0.0
 
+# CEILING ON WHAT THE MODEL MAY WRITE PER CALL. Output tokens are cheap on
+# their own and expensive by accumulation: the evaluation path retains the
+# whole transcript, so everything the model writes is re-sent as input on
+# every later call.
+#
+# MEASURED on eval/results/failures-after-decompose.json, output tokens per
+# model call, and the separation is stark:
+#
+#   deep-nielsen-schreier   proved      118
+#   lin-vector-space-basis  proved      234
+#   hard-sum-odd-squares    proved      391   <- the most any PROOF needed
+#   exercise_1_19           not_proved 2266
+#   exercise_1_18a          not_formal 5413
+#   exercise_3_22           refuted   12854   <- 49% of the run's entire cost
+#
+# Every goal that PROVED used at most 391 output tokens per call. The runaways
+# are an order of magnitude above that, and reading exercise_3_22's submitted
+# proof bodies shows why: paragraphs of "Wait, ... Wait, ..." deliberation
+# inside the proof argument itself.
+#
+# 4096 is deliberately generous -- more than ten times the largest successful
+# goal, and roughly 16k characters where the longest accepted proof in these
+# runs is a few hundred. It bites only on pathological verbosity. It is not
+# tighter because a truncated response can cut a tool call in half and turn a
+# slow goal into a broken one; 2048 would separate the two groups just as
+# cleanly and is one environment variable away.
+#
+# NOT the same thing as context trimming, which prunes old TOOL RESULTS and
+# therefore cannot touch this at all -- assistant messages are not tool
+# results. That is why the trim trigger of 24,000 did nothing for a goal
+# running at ~175,000 input tokens per call.
+MAX_OUTPUT_TOKENS = int(os.getenv("MRA_MAX_OUTPUT_TOKENS", "4096"))
+
 # Which agent harness runs the tool-calling step: "langchain" or "deepagents".
 # Kept as a switch rather than a replacement so both can be measured against
 # the same 109 cases with only one variable changing.

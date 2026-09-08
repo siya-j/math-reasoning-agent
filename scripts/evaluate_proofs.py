@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import datetime
 import json
+import random
 import subprocess
 import sys
 import time
@@ -33,6 +34,9 @@ from llm.reviewer import Reviewer  # noqa: E402
 from pipeline.proving import environment, prove  # noqa: E402
 from verifiers.lean_runner import lean_is_available  # noqa: E402
 
+# The same default seed `scripts/sample_by_area.py` uses, so a shuffled
+# evaluation and a shuffled sample agree on what "seed 20260101" means.
+DEFAULT_SEED = 20260101
 DEFAULT_OUT = Path(__file__).parent.parent / "eval" / "last_proof_run.json"
 CONSECUTIVE_ERROR_LIMIT = 3
 
@@ -137,6 +141,11 @@ def invocation(args, profile: dict) -> dict:
         # run was bounded by.
         "budget": dict(profile),
         "limit": getattr(args, "limit", None),
+        # Whether the order was shuffled, and with which seed. Without this a
+        # partial run's rate cannot be read: front-loaded easy goals and a
+        # cross-tier sample produce very different numbers from the same file.
+        "shuffle": bool(getattr(args, "shuffle", False)),
+        "seed": getattr(args, "seed", None) if getattr(args, "shuffle", False) else None,
         "tier": getattr(args, "tier", None) or "",
         "single_goal": getattr(args, "goal", None) or "",
         "commit": commit,
@@ -193,6 +202,19 @@ def main() -> int:
         "name a thing.",
     )
     parser.add_argument("--limit", type=int)
+    parser.add_argument(
+        "--shuffle", action="store_true",
+        help="shuffle the goals before --limit, so an interrupted run or a "
+             "limited one samples across tiers instead of taking the easy "
+             "ones first. eval/mixed-benchmark.json is ordered easy to hard, "
+             "so a run stopped partway reports an upper bound, not an "
+             "estimate.",
+    )
+    parser.add_argument(
+        "--seed", type=int, default=DEFAULT_SEED,
+        help=f"seed for --shuffle, so the order is reproducible and --resume "
+             f"sees the same sequence (default {DEFAULT_SEED})",
+    )
     parser.add_argument(
         "--out",
         help="where to write the results. Each run OVERWRITES the default, so comparing two configurations needs a separate file for each.",
@@ -254,6 +276,28 @@ def main() -> int:
             print(f"No such goal: {', '.join(sorted(unknown))}")
             return 2
         goals = [g for g in goals if g.id in wanted]
+
+    # SHUFFLED BEFORE `--limit`, deliberately, which is the whole point.
+    #
+    # MEASURED on eval/mixed-benchmark.json, whose goals are ordered easy to
+    # hard: in-mathlib and near-mathlib at positions 1-13, hard and deep at
+    # 16-25, proofnet at 26-45, putnam at 46-65. A run interrupted at position
+    # 33 -- which is exactly what happened -- has therefore completed every
+    # self-authored tier and only seven ProofNet goals, and its 75% proof rate
+    # is an UPPER BOUND rather than an estimate. The 33 goals left were the
+    # two hardest blocks.
+    #
+    # The same ordering makes cost look like it is degrading mid-run: model
+    # calls per goal climb from ~7.6 on the in-mathlib block to ~18 on
+    # ProofNet and ~24 on Putnam, purely because the goals get harder.
+    #
+    # Shuffling means an interrupted run, or a `--limit`, samples ACROSS tiers
+    # instead of front-loading the easy ones. Seeded, so the order is
+    # reproducible and `--resume` sees the same sequence; the seed is recorded
+    # in the results file with everything else.
+    if args.shuffle:
+        random.Random(args.seed).shuffle(goals)
+
     if args.limit:
         goals = goals[: args.limit]
 
