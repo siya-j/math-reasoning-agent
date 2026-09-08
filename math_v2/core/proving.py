@@ -46,6 +46,30 @@ from math_v2.core import binders, diagnosis, log
 # middleware's job.
 MAX_KEPT_LEMMAS = 4
 
+# AFTER THIS MANY REJECTED ATTEMPTS AT THE SAME GOAL, a further direct attempt
+# is refused and a helper lemma is required first.
+#
+# MEASURED on eval/results/mixed-1-rebuilt.json, 32 decided goals. Of the 24
+# proofs, TWELVE landed on the first attempt at the goal and TWENTY within
+# three -- 50% and 83%. The direct route either works almost immediately or
+# does not work: past three attempts the marginal attempt has almost no yield.
+#
+# The failures went well past that and kept going straight. Unproved goals
+# spent MORE than proved ones on every axis -- median 2.0 goal attempts against
+# 1.5, 7.5 compiles against 3.0, 9.0 searches against 3.5 -- and they searched
+# 1.39 times per compile where proofs searched 0.99. So when the direct route
+# stopped paying, the agent's next move was more of it, plus more searching.
+#
+# What it was NOT doing is decomposing. Only 6 of 32 goals kept a single
+# helper lemma, and decomposition closed 3 of those -- two of the `hard`
+# tier's only successes, and `exercise_4_6`, one of only TWO ProofNet proofs
+# in the run (9 attempts, 4 lemmas, 20 compiles). A mode reached six times and
+# paying three is not a mode to leave to the model's discretion.
+#
+# Three, not two: two would fire on `exercise_1_5`, a real ProofNet proof that
+# landed on its third attempt.
+DECOMPOSE_AFTER = 3
+
 
 def _status(verdict):
     return {
@@ -233,6 +257,88 @@ def _skeleton_loop_refusal(workdir, record):
             "REFUSED, and not compiled: you already have a decomposition that "
             "typechecks, and you have not attempted a single one of its "
             "claims since. " + what
+        ),
+    }
+
+
+def _declared_name(declaration):
+    """The name a kept lemma is cited by: the token after `lemma`/`theorem`.
+
+    Local rather than imported: `eval.proof_metrics.lemma_name` does the same
+    job for the results file, and `math_v2.core` importing from `eval` would
+    invert the dependency -- the evaluator reads this package, not the other
+    way round.
+    """
+    words = (declaration or "").split()
+    for index, word in enumerate(words[:-1]):
+        if word in ("lemma", "theorem"):
+            return words[index + 1].strip(":")
+    return ""
+
+
+def _direct_attempts_exhausted(workdir, statement):
+    """Has the direct route stopped converting on this goal? None to proceed.
+
+    Counted from the RECORD -- rejected `log.PROOF` entries for this exact
+    statement -- so a refusal, which logs nothing, is not an attempt, and
+    neither is an attempt at a helper or a diversion.
+
+    Lifted by the model's OWN lemma work since the most recent rejection,
+    accepted or rejected, exactly as `_skeleton_loop_refusal` is lifted and
+    for the same reason: the condition is what the record shows, never
+    effort or merit. `auto` records are excluded because automatic hole
+    filling writes LEMMA records too, and counting those would let the
+    system satisfy the condition on the model's behalf.
+
+    Because the threshold is measured from the LAST rejection, and a refusal
+    is not recorded, the redirect re-arms after each further failed direct
+    attempt: three failures buy one lemma attempt, that buys one more direct
+    attempt, and so on. That alternation is the intent -- not a one-time
+    nudge that a single lemma disables for the rest of the goal.
+    """
+    target = (statement or "").strip()
+    records = log.records(workdir)
+
+    failed = 0
+    last = -1
+    for index, record in enumerate(records):
+        if (record.get("kind") == log.PROOF
+                and record.get("status") != log.TRUE
+                and (record.get("statement") or "").strip() == target):
+            failed += 1
+            last = index
+    if failed < DECOMPOSE_AFTER:
+        return None
+
+    for later in records[last + 1:]:
+        if later.get("kind") == log.LEMMA and not later.get("auto"):
+            return None
+
+    kept = log.kept_lemmas(workdir)
+    have = ("You already have: " + "; ".join(
+        _declared_name(entry) or "a kept lemma" for entry in kept)
+        + ". Cite them by name, or prove another."
+    ) if kept else (
+        "You have not kept a single helper lemma on this goal yet."
+    )
+
+    return {
+        "ok": False,
+        "error": "decompose_first",
+        "outputs": {"accepted": False},
+        "message": (
+            f"REFUSED, and not compiled: {failed} attempts at this goal have "
+            "been rejected, and this would be another one of the same kind.\n\n"
+            "This is arithmetic, not a judgement about the mathematics. Of the "
+            "proofs this system has landed, half landed on the FIRST attempt "
+            "and 83% within three. Past that the direct route is not what "
+            "closes a goal -- decomposition is, and it has closed goals here "
+            "that no number of direct attempts did.\n\n"
+            "Prove ONE smaller claim with `try_lemma` -- a step you are "
+            "confident of, however small -- then attempt the goal again "
+            "citing it. " + have + " If you cannot state a smaller claim, "
+            "call `proof_state` and read what Lean last said; the outstanding "
+            "goal there is the claim to prove."
         ),
     }
 
@@ -510,6 +616,22 @@ async def try_proof(workdir, statement, proof, run_lean, search=None,
     exhausted = _generic_already_failed(workdir, proof, statement)
     if exhausted:
         return exhausted
+
+    # LAST of the refusals, deliberately. Every guard above has a more
+    # specific diagnosis for the same input -- "this exact proof already
+    # failed" and "this closer was already in the ladder" both tell the model
+    # something this one does not -- and this is the only guard whose answer
+    # is a different KIND of work rather than a different proof.
+    #
+    # `repair` is False on the automatic follow-up at the bottom of this
+    # function, which is how the system's own repair is exempted: that call is
+    # not the model choosing to try again, and the rejection that triggered it
+    # has already been logged, so without the exemption the repair would be
+    # refused by the count it just created.
+    if repair:
+        redirect = _direct_attempts_exhausted(workdir, statement)
+        if redirect:
+            return redirect
 
     source = build_source(full_statement(workdir, statement), proof)
     result = await run_lean(source)
