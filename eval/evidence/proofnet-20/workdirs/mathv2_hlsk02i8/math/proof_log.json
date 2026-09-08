@@ -1,0 +1,324 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_5_37 {p q : \u2115} [Fact (p.Prime)] [Fact (q.Prime)] {a : \u2124}\n  (ha : a < 0) (h0 : p \u2261 q [ZMOD 4*a]) (h1 : \u00ac ((p : \u2124) \u2223 a)) :\n  legendreSym p a = legendreSym q a",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788865085.2158146,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_5_37 {p q : \u2115} [Fact (p.Prime)] [Fact (q.Prime)] {a : \u2124}\n  (ha : a < 0) (h0 : p \u2261 q [ZMOD 4*a]) (h1 : \u00ac ((p : \u2124) \u2223 a)) :\n  legendreSym p a = legendreSym q a",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fact.mk\n    | exact Fact.mk _\n    | apply Fact.mk\n    | simpa using Fact.mk\n    | exact \u27e8_, Fact.mk\u27e9\n    | exact Fact.mk (by assumption)\n    | exact Fact.mk \u2039_\u203a\n    | apply Fact.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fact.mk (by assumption))\n    | exact ZeroLEOneClass.factZeroLeOne\n    | exact ZeroLEOneClass.factZeroLeOne _\n    | apply ZeroLEOneClass.factZeroLeOne\n    | simpa using ZeroLEOneClass.factZeroLeOne\n    | exact \u27e8_, ZeroLEOneClass.factZeroLeOne\u27e9\n    | exact ZeroLEOneClass.factZeroLeOne (by assumption)\n    | exact ZeroLEOneClass.factZeroLeOne \u2039_\u203a\n    | apply ZeroLEOneClass.factZeroLeOne <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZeroLEOneClass.factZeroLeOne (by assumption))\n    | exact ZeroLEOneClass.factZeroLtOne\n    | exact ZeroLEOneClass.factZeroLtOne _\n    | apply ZeroLEOneClass.factZeroLtOne\n    | simpa using ZeroLEOneClass.factZeroLtOne\n    | exact \u27e8_, ZeroLEOneClass.factZeroLtOne\u27e9\n    | exact ZeroLEOneClass.factZeroLtOne (by assumption)\n    | exact ZeroLEOneClass.factZeroLtOne \u2039_\u203a\n    | apply ZeroLEOneClass.factZeroLtOne <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZeroLEOneClass.factZeroLtOne (by assumption))\n    | exact Cardinal.fact_isRegular_aleph0\n    | exact Cardinal.fact_isRegular_aleph0 _\n    | apply Cardinal.fact_isRegular_aleph0\n    | simpa using Cardinal.fact_isRegular_aleph0\n    | exact \u27e8_, Cardinal.fact_isRegular_aleph0\u27e9\n    | exact Cardinal.fact_isRegular_aleph0 (by assumption)\n    | exact Cardinal.fact_isRegular_aleph0 \u2039_\u203a\n    | apply Cardinal.fact_isRegular_aleph0 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Cardinal.fact_isRegular_aleph0 (by assumption))\n    | exact Nat.fact_prime_three\n    | exact Nat.fact_prime_three _\n    | apply Nat.fact_prime_three\n    | simpa using Nat.fact_prime_three\n    | exact \u27e8_, Nat.fact_prime_three\u27e9\n    | exact Nat.fact_prime_three (by assumption)\n    | exact Nat.fact_prime_three \u2039_\u203a\n    | apply Nat.fact_prime_three <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.fact_prime_three (by assumption))\n    | exact Nat.fact_prime_two\n    | exact Nat.fact_prime_two _\n    | apply Nat.fact_prime_two\n    | simpa using Nat.fact_prime_two\n    | exact \u27e8_, Nat.fact_prime_two\u27e9\n    | exact Nat.fact_prime_two (by assumption)\n    | exact Nat.fact_prime_two \u2039_\u203a\n    | apply Nat.fact_prime_two <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.fact_prime_two (by assumption))\n    | exact Nat.Prime.one_lt'\n    | exact Nat.Prime.one_lt' _\n    | apply Nat.Prime.one_lt'\n    | simpa using Nat.Prime.one_lt'\n    | exact \u27e8_, Nat.Prime.one_lt'\u27e9\n    | exact Nat.Prime.one_lt' (by assumption)\n    | exact Nat.Prime.one_lt' \u2039_\u203a\n    | apply Nat.Prime.one_lt' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.Prime.one_lt' (by assumption))\n    | exact CharP.char_is_prime_of_pos\n    | exact CharP.char_is_prime_of_pos _\n    | apply CharP.char_is_prime_of_pos\n    | simpa using CharP.char_is_prime_of_pos\n    | exact \u27e8_, CharP.char_is_prime_of_pos\u27e9\n    | exact CharP.char_is_prime_of_pos (by assumption)\n    | exact CharP.char_is_prime_of_pos \u2039_\u203a\n    | apply CharP.char_is_prime_of_pos <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CharP.char_is_prime_of_pos (by assumption))\n    | exact Fintype.card_fin_two\n    | exact Fintype.card_fin_two _\n    | apply Fintype.card_fin_two\n    | simpa using Fintype.card_fin_two\n    | exact \u27e8_, Fintype.card_fin_two\u27e9\n    | exact Fintype.card_fin_two (by assumption)\n    | exact Fintype.card_fin_two \u2039_\u203a\n    | apply Fintype.card_fin_two <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_fin_two (by assumption))\n    | exact Polynomial.fact_irreducible_factor\n    | exact Polynomial.fact_irreducible_factor _\n    | apply Polynomial.fact_irreducible_factor\n    | simpa using Polynomial.fact_irreducible_factor\n    | exact \u27e8_, Polynomial.fact_irreducible_factor\u27e9\n    | exact Polynomial.fact_irreducible_factor (by assumption)\n    | exact Polynomial.fact_irreducible_factor \u2039_\u203a\n    | apply Polynomial.fact_irreducible_factor <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Polynomial.fact_irreducible_factor (by assumption))\n    | exact fact_one_le_top_ennreal\n    | exact fact_one_le_top_ennreal _\n    | apply fact_one_le_top_ennreal\n    | simpa using fact_one_le_top_ennreal\n    | exact \u27e8_, fact_one_le_top_ennreal\u27e9\n    | exact fact_one_le_top_ennreal (by assumption)\n    | exact fact_one_le_top_ennreal \u2039_\u203a\n    | apply fact_one_le_top_ennreal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact fact_one_le_top_ennreal (by assumption))\n    | exact fact_one_le_one_ennreal\n    | exact fact_one_le_one_ennreal _\n    | apply fact_one_le_one_ennreal\n    | simpa using fact_one_le_one_ennreal\n    | exact \u27e8_, fact_one_le_one_ennreal\u27e9\n    | exact fact_one_le_one_ennreal (by assumption)\n    | exact fact_one_le_one_ennreal \u2039_\u203a\n    | apply fact_one_le_one_ennreal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact fact_one_le_one_ennreal (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:39: error: unsolved goals\np q : \u2115\ninst\u271d\u00b9 : Fact (Nat.Prime p)\ninst\u271d : Fact (Nat.Prime q)\na : \u2124\nha : a < 0\nh0 : \u2191p \u2261 \u2191q [ZMOD 4 * a]\nh1 : \u00ac\u2191p \u2223 a\n\u22a2 legendreSym p a = legendreSym q a\n\nStill to prove:\n\u22a2 legendreSym p a = legendreSym q a",
+      "at": 1788865113.4045286,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Fact.mk",
+      "type": " {p : Prop} (out : p) : Fact p",
+      "module": "Mathlib.Basic.Logic.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZeroLEOneClass.factZeroLeOne",
+      "type": " {\u03b1 : Type u_1} [Zero \u03b1] [One \u03b1] [LE \u03b1] [ZeroLEOneClass \u03b1] : Fact (0 \u2264 1)",
+      "module": "Mathlib.Algebra.Order.ZeroLEOne",
+      "doc": ""
+    },
+    {
+      "name": "ZeroLEOneClass.factZeroLtOne",
+      "type": " {\u03b1 : Type u_1} [Zero \u03b1] [One \u03b1] [PartialOrder \u03b1] [ZeroLEOneClass \u03b1] [NeZero 1] : Fact (0 < 1)",
+      "module": "Mathlib.Algebra.Order.ZeroLEOne",
+      "doc": ""
+    },
+    {
+      "name": "Cardinal.fact_isRegular_aleph0",
+      "type": " : Fact Cardinal.aleph0.IsRegular",
+      "module": "Mathlib.SetTheory.Cardinal.Regular",
+      "doc": ""
+    },
+    {
+      "name": "Nat.fact_prime_three",
+      "type": " : Fact (Nat.Prime 3)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.fact_prime_two",
+      "type": " : Fact (Nat.Prime 2)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime.one_lt'",
+      "type": " (p : \u2115) [hp : Fact (Nat.Prime p)] : Fact (1 < p)",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_is_prime_of_pos",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] [Nontrivial R] (p : \u2115) [NeZero p] [CharP R p] : Fact (Nat.Prime p)",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_fin_two",
+      "type": " : Fact (Even (Fintype.card (Fin 2)))",
+      "module": "Mathlib.Data.Fintype.Parity",
+      "doc": "The cardinality of `Fin 2` is even, `Fact` version.\nThis `Fact` is needed as an instance by `Matrix.SpecialLinearGroup.instNeg`. "
+    },
+    {
+      "name": "Polynomial.fact_irreducible_factor",
+      "type": " {K : Type v} [Field K] (f : Polynomial K) : Fact (Irreducible f.factor)",
+      "module": "Mathlib.FieldTheory.SplittingField.Construction",
+      "doc": "See note [fact non-instances]. "
+    },
+    {
+      "name": "fact_one_le_top_ennreal",
+      "type": " : Fact (1 \u2264 \u22a4)",
+      "module": "Mathlib.Basic.ENNReal.Basic",
+      "doc": "`(1 : \u211d\u22650\u221e) \u2264 \u221e`, recorded as a `Fact` for use with `Lp` spaces. "
+    },
+    {
+      "name": "fact_one_le_one_ennreal",
+      "type": " : Fact (1 \u2264 1)",
+      "module": "Mathlib.Basic.ENNReal.Basic",
+      "doc": "`(1 : \u211d\u22650\u221e) \u2264 1`, recorded as a `Fact` for use with `Lp` spaces. "
+    },
+    {
+      "name": "Irreducible.prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] [DecompositionMonoid M] {a : M} (irr : Irreducible a) : Prime a",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Irreducible.prime_of_isPrimal",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {a : M} (irr : Irreducible a) (primal : IsPrimal a) : Prime a",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "comap_prime",
+      "type": " {M : Type u_1} {N : Type u_2} [CommMonoidWithZero M] [CommMonoidWithZero N] {F : Type u_3} {G : Type u_4} [FunLike F M N] [MonoidWithZeroHomClass F M N] [FunLike G N M] [MulHomClass G N M] (f : F) (g : G) {p : M} (hinv : \u2200 (a : M), g (f a) = a) (hp : Prime (f p)) : Prime p",
+      "module": "Mathlib.Algebra.Prime.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Associated.prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p q : M} (h : Associated p q) (hp : Prime p) : Prime q",
+      "module": "Mathlib.Algebra.GroupWithZero.Associated",
+      "doc": ""
+    },
+    {
+      "name": "UniqueFactorizationMonoid.prime_of_factor",
+      "type": " {\u03b1 : Type u_1} [CommMonoidWithZero \u03b1] [UniqueFactorizationMonoid \u03b1] {a : \u03b1} (x : \u03b1) (hx : x \u2208 UniqueFactorizationMonoid.factors a) : Prime x",
+      "module": "Mathlib.RingTheory.UniqueFactorizationDomain.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Submodule.IsPrincipal.prime_generator_of_isPrime",
+      "type": " {R : Type u} [CommSemiring R] (S : Ideal R) [Submodule.IsPrincipal S] [is_prime : S.IsPrime] (ne_bot : S \u2260 \u22a5) : Prime (Submodule.IsPrincipal.generator S)",
+      "module": "Mathlib.RingTheory.PrincipalIdealDomain",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime.prime",
+      "type": " {p : \u2115} : Nat.Prime p \u2192 Prime p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "**Alias** of the forward direction of `Nat.prime_iff`."
+    },
+    {
+      "name": "Polynomial.prime_X",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] : Prime Polynomial.X",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.Monic.prime_of_degree_eq_one",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] {p : Polynomial R} (hp1 : p.degree = 1) (hm : p.Monic) : Prime p",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.prime_X_sub_C",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] (r : R) : Prime (Polynomial.X - Polynomial.C r)",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "UniqueFactorizationMonoid.prime_of_normalized_factor",
+      "type": " {\u03b1 : Type u_1} [CommMonoidWithZero \u03b1] [NormalizationMonoid \u03b1] [UniqueFactorizationMonoid \u03b1] {a : \u03b1} (x : \u03b1) : x \u2208 UniqueFactorizationMonoid.normalizedFactors a \u2192 Prime x",
+      "module": "Mathlib.RingTheory.UniqueFactorizationDomain.NormalizedFactors",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.prime_of_degree_eq_one",
+      "type": " {R : Type u} [Field R] {p : Polynomial R} (hp1 : p.degree = 1) : Prime p",
+      "module": "Mathlib.Algebra.Polynomial.FieldDivision",
+      "doc": ""
+    },
+    {
+      "name": "legendreSym",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] (a : \u2124) : \u2124",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.Basic",
+      "doc": "The Legendre symbol of `a : \u2124` and a prime `p`, `legendreSym p a`,\nis an integer defined as\n\n* `0` if `a` is `0` modulo `p`;\n* `1` if `a` is a nonzero square modulo `p`\n* `-1` otherwise.\n\nNote the order of the arguments! The advantage of the order chosen here is\nthat `legendreSym p` is a multiplicative function `\u2124 \u2192 \u2124`.\n"
+    },
+    {
+      "name": "legendreSym.hom",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] : \u2124 \u2192*\u2080 \u2124",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.Basic",
+      "doc": "The Legendre symbol is a homomorphism of monoids with zero. "
+    },
+    {
+      "name": "legendreSym.at_one",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] : legendreSym p 1 = 1",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.Basic",
+      "doc": ""
+    },
+    {
+      "name": "legendreSym.at_zero",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] : legendreSym p 0 = 0",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.Basic",
+      "doc": ""
+    },
+    {
+      "name": "legendreSym.mod",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] (a : \u2124) : legendreSym p a = legendreSym p (a % \u2191p)",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.Basic",
+      "doc": "The Legendre symbol depends only on `a` mod `p`. "
+    },
+    {
+      "name": "legendreSym.mul",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] (a b : \u2124) : legendreSym p (a * b) = legendreSym p a * legendreSym p b",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.Basic",
+      "doc": "The Legendre symbol is multiplicative in `a` for `p` fixed. "
+    },
+    {
+      "name": "legendreSym.hom_apply",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] (a : \u2124) : (legendreSym.hom p) a = legendreSym p a",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.Basic",
+      "doc": ""
+    },
+    {
+      "name": "legendreSym.eq_neg_one_iff",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] {a : \u2124} : legendreSym p a = -1 \u2194 \u00acIsSquare \u2191a",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.Basic",
+      "doc": "`legendreSym p a = -1` iff `a` is a nonsquare mod `p`. "
+    },
+    {
+      "name": "legendreSym.eq_zero_iff",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] (a : \u2124) : legendreSym p a = 0 \u2194 \u2191a = 0",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.Basic",
+      "doc": "The Legendre symbol of `p` and `a` is zero iff `p \u2223 a`. "
+    },
+    {
+      "name": "legendreSym.eq_neg_one_iff'",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] {a : \u2115} : legendreSym p \u2191a = -1 \u2194 \u00acIsSquare \u2191a",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.Basic",
+      "doc": ""
+    },
+    {
+      "name": "legendreSym.eq_one_or_neg_one",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] {a : \u2124} (ha : \u2191a \u2260 0) : legendreSym p a = 1 \u2228 legendreSym p a = -1",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.Basic",
+      "doc": "If `p \u2224 a`, then `legendreSym p a` is `1` or `-1`. "
+    },
+    {
+      "name": "legendreSym.eq_neg_one_iff_not_one",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] {a : \u2124} (ha : \u2191a \u2260 0) : legendreSym p a = -1 \u2194 \u00aclegendreSym p a = 1",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.Basic",
+      "doc": ""
+    },
+    {
+      "name": "legendreSym.quadratic_reciprocity_one_mod_four",
+      "type": " {p q : \u2115} [Fact (Nat.Prime p)] [Fact (Nat.Prime q)] (hp : p % 4 = 1) (hq : q \u2260 2) : legendreSym q \u2191p = legendreSym p \u2191q",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.QuadraticReciprocity",
+      "doc": "The Law of Quadratic Reciprocity: if `p` and `q` are odd primes and `p % 4 = 1`,\nthen `(q / p) = (p / q)`. "
+    },
+    {
+      "name": "legendreSym.quadratic_reciprocity_three_mod_four",
+      "type": " {p q : \u2115} [Fact (Nat.Prime p)] [Fact (Nat.Prime q)] (hp : p % 4 = 3) (hq : q % 4 = 3) : legendreSym q \u2191p = -legendreSym p \u2191q",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.QuadraticReciprocity",
+      "doc": "The Law of Quadratic Reciprocity: if `p` and `q` are primes that are both congruent\nto `3` mod `4`, then `(q / p) = -(p / q)`. "
+    },
+    {
+      "name": "legendreSym.quadratic_reciprocity'",
+      "type": " {p q : \u2115} [Fact (Nat.Prime p)] [Fact (Nat.Prime q)] (hp : p \u2260 2) (hq : q \u2260 2) : legendreSym q \u2191p = (-1) ^ (p / 2 * (q / 2)) * legendreSym p \u2191q",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.QuadraticReciprocity",
+      "doc": "The Law of Quadratic Reciprocity: if `p` and `q` are odd primes, then\n`(q / p) = (-1)^((p-1)(q-1)/4) * (p / q)`. "
+    },
+    {
+      "name": "legendreSym.quadratic_reciprocity",
+      "type": " {p q : \u2115} [Fact (Nat.Prime p)] [Fact (Nat.Prime q)] (hp : p \u2260 2) (hq : q \u2260 2) (hpq : p \u2260 q) : legendreSym q \u2191p * legendreSym p \u2191q = (-1) ^ (p / 2 * (q / 2))",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.QuadraticReciprocity",
+      "doc": "**The Law of Quadratic Reciprocity**: if `p` and `q` are distinct odd primes, then\n`(q / p) * (p / q) = (-1)^((p-1)(q-1)/4)`. "
+    },
+    {
+      "name": "jacobiSym.quadratic_reciprocity'",
+      "type": " {a b : \u2115} (ha : Odd a) (hb : Odd b) : jacobiSym (\u2191a) b = qrSign b a * jacobiSym (\u2191b) a",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol",
+      "doc": "The **Law of Quadratic Reciprocity for the Jacobi symbol**, version with `qrSign` "
+    },
+    {
+      "name": "jacobiSym.quadratic_reciprocity_one_mod_four",
+      "type": " {a b : \u2115} (ha : a % 4 = 1) (hb : Odd b) : jacobiSym (\u2191a) b = jacobiSym (\u2191b) a",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol",
+      "doc": "The Law of Quadratic Reciprocity for the Jacobi symbol: if `a` and `b` are natural numbers\nwith `a % 4 = 1` and `b` odd, then `J(a | b) = J(b | a)`. "
+    },
+    {
+      "name": "jacobiSym.quadratic_reciprocity_one_mod_four'",
+      "type": " {a b : \u2115} (ha : Odd a) (hb : b % 4 = 1) : jacobiSym (\u2191a) b = jacobiSym (\u2191b) a",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol",
+      "doc": "The Law of Quadratic Reciprocity for the Jacobi symbol: if `a` and `b` are natural numbers\nwith `a` odd and `b % 4 = 1`, then `J(a | b) = J(b | a)`. "
+    },
+    {
+      "name": "jacobiSym.quadratic_reciprocity_three_mod_four",
+      "type": " {a b : \u2115} (ha : a % 4 = 3) (hb : b % 4 = 3) : jacobiSym (\u2191a) b = -jacobiSym (\u2191b) a",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol",
+      "doc": "The Law of Quadratic Reciprocity for the Jacobi symbol: if `a` and `b` are natural numbers\nboth congruent to `3` mod `4`, then `J(a | b) = -J(b | a)`. "
+    },
+    {
+      "name": "jacobiSym.quadratic_reciprocity",
+      "type": " {a b : \u2115} (ha : Odd a) (hb : Odd b) : jacobiSym (\u2191a) b = (-1) ^ (a / 2 * (b / 2)) * jacobiSym (\u2191b) a",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol",
+      "doc": "The Law of Quadratic Reciprocity for the Jacobi symbol "
+    },
+    {
+      "name": "jacobiSym.quadratic_reciprocity_if",
+      "type": " {a b : \u2115} (ha2 : a % 2 = 1) (hb2 : b % 2 = 1) : (if a % 4 = 3 \u2227 b % 4 = 3 then -jacobiSym (\u2191b) a else jacobiSym (\u2191b) a) = jacobiSym (\u2191a) b",
+      "module": "Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Fact.mk, ZeroLEOneClass.factZeroLeOne, ZeroLEOneClass.factZeroLtOne, Cardinal.fact_isRegular_aleph0, Nat.fact_prime_three, Nat.fact_prime_two, Nat.Prime.one_lt', CharP.char_is_prime_of_pos",
+    "search: '\"legendreSym\"' -> legendreSym, legendreSym.hom, legendreSym.at_one, legendreSym.at_zero, legendreSym.mod, legendreSym.mul, legendreSym.hom_apply, legendreSym.eq_neg_one_iff",
+    "search: '\"legendreSym\" \"ModEq\"' -> nothing",
+    "search: '\"legendreSym\" \"ModEq\"' -> nothing; goal shape -> Fact.mk, ZeroLEOneClass.factZeroLeOne, ZeroLEOneClass.factZeroLtOne, Cardinal.fact_isRegular_aleph0, Nat.fact_prime_three, Nat.fact_prime_two, Nat.Prime.one_lt', CharP.char_is_prime_of_pos",
+    "search: '\"quadratic_reciprocity\"' -> legendreSym.quadratic_reciprocity_one_mod_four, legendreSym.quadratic_reciprocity_three_mod_four, legendreSym.quadratic_reciprocity', legendreSym.quadratic_reciprocity, jacobiSym.quadratic_reciprocity', jacobiSym.quadratic_reciprocity_one_mod_four, jacobiSym.quadratic_reciprocity_one_mod_four', jacobiSym.quadratic_reciprocity_three_mod_four",
+    "refused the stop: no attempt at the goal, 39 compiles left"
+  ],
+  "budget": {
+    "tool_calls": 5,
+    "lean_calls": 2,
+    "searches": 3,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788865083.7622175,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 1,
+    "refusals": {}
+  },
+  "goal": "theorem exercise_5_37 {p q : \u2115} [Fact (p.Prime)] [Fact (q.Prime)] {a : \u2124}\n  (ha : a < 0) (h0 : p \u2261 q [ZMOD 4*a]) (h1 : \u00ac ((p : \u2124) \u2223 a)) :\n  legendreSym p a = legendreSym q a"
+}

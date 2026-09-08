@@ -1,0 +1,638 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_3_22 (X : Type*) [MetricSpace X] [CompleteSpace X]\n  (G : \u2115 \u2192 Set X) (hG : \u2200 n, IsOpen (G n) \u2227 Dense (G n)) :\n  \u2203 x, \u2200 n, x \u2208 G n",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788863029.669771,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_3_22 (X : Type*) [MetricSpace X] [CompleteSpace X]\n  (G : \u2115 \u2192 Set X) (hG : \u2200 n, IsOpen (G n) \u2227 Dense (G n)) :\n  \u2203 x, \u2200 n, x \u2208 G n",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact instMetricSpaceEmpty\n    | exact instMetricSpaceEmpty _\n    | apply instMetricSpaceEmpty\n    | simpa using instMetricSpaceEmpty\n    | exact \u27e8_, instMetricSpaceEmpty\u27e9\n    | exact instMetricSpaceEmpty (by assumption)\n    | exact instMetricSpaceEmpty \u2039_\u203a\n    | apply instMetricSpaceEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact instMetricSpaceEmpty (by assumption))\n    | exact instMetricSpacePUnit\n    | exact instMetricSpacePUnit _\n    | apply instMetricSpacePUnit\n    | simpa using instMetricSpacePUnit\n    | exact \u27e8_, instMetricSpacePUnit\u27e9\n    | exact instMetricSpacePUnit (by assumption)\n    | exact instMetricSpacePUnit \u2039_\u203a\n    | apply instMetricSpacePUnit <;> assumption\n    | (haveI := Fact.mk (by assumption); exact instMetricSpacePUnit (by assumption))\n    | exact instMetricSpaceAdditive\n    | exact instMetricSpaceAdditive _\n    | apply instMetricSpaceAdditive\n    | simpa using instMetricSpaceAdditive\n    | exact \u27e8_, instMetricSpaceAdditive\u27e9\n    | exact instMetricSpaceAdditive (by assumption)\n    | exact instMetricSpaceAdditive \u2039_\u203a\n    | apply instMetricSpaceAdditive <;> assumption\n    | (haveI := Fact.mk (by assumption); exact instMetricSpaceAdditive (by assumption))\n    | exact instMetricSpaceMultiplicative\n    | exact instMetricSpaceMultiplicative _\n    | apply instMetricSpaceMultiplicative\n    | simpa using instMetricSpaceMultiplicative\n    | exact \u27e8_, instMetricSpaceMultiplicative\u27e9\n    | exact instMetricSpaceMultiplicative (by assumption)\n    | exact instMetricSpaceMultiplicative \u2039_\u203a\n    | apply instMetricSpaceMultiplicative <;> assumption\n    | (haveI := Fact.mk (by assumption); exact instMetricSpaceMultiplicative (by assumption))\n    | exact instMetricSpaceOrderDual\n    | exact instMetricSpaceOrderDual _\n    | apply instMetricSpaceOrderDual\n    | simpa using instMetricSpaceOrderDual\n    | exact \u27e8_, instMetricSpaceOrderDual\u27e9\n    | exact instMetricSpaceOrderDual (by assumption)\n    | exact instMetricSpaceOrderDual \u2039_\u203a\n    | apply instMetricSpaceOrderDual <;> assumption\n    | (haveI := Fact.mk (by assumption); exact instMetricSpaceOrderDual (by assumption))\n    | exact MetricSpace.replaceTopology\n    | exact MetricSpace.replaceTopology _\n    | apply MetricSpace.replaceTopology\n    | simpa using MetricSpace.replaceTopology\n    | exact \u27e8_, MetricSpace.replaceTopology\u27e9\n    | exact MetricSpace.replaceTopology (by assumption)\n    | exact MetricSpace.replaceTopology \u2039_\u203a\n    | apply MetricSpace.replaceTopology <;> assumption\n    | (haveI := Fact.mk (by assumption); exact MetricSpace.replaceTopology (by assumption))\n    | exact MetricSpace.replaceBornology\n    | exact MetricSpace.replaceBornology _\n    | apply MetricSpace.replaceBornology\n    | simpa using MetricSpace.replaceBornology\n    | exact \u27e8_, MetricSpace.replaceBornology\u27e9\n    | exact MetricSpace.replaceBornology (by assumption)\n    | exact MetricSpace.replaceBornology \u2039_\u203a\n    | apply MetricSpace.replaceBornology <;> assumption\n    | (haveI := Fact.mk (by assumption); exact MetricSpace.replaceBornology (by assumption))\n    | exact MetricSpace.replaceUniformity\n    | exact MetricSpace.replaceUniformity _\n    | apply MetricSpace.replaceUniformity\n    | simpa using MetricSpace.replaceUniformity\n    | exact \u27e8_, MetricSpace.replaceUniformity\u27e9\n    | exact MetricSpace.replaceUniformity (by assumption)\n    | exact MetricSpace.replaceUniformity \u2039_\u203a\n    | apply MetricSpace.replaceUniformity <;> assumption\n    | (haveI := Fact.mk (by assumption); exact MetricSpace.replaceUniformity (by assumption))\n    | exact MetricSpace.mk\n    | exact MetricSpace.mk _\n    | apply MetricSpace.mk\n    | simpa using MetricSpace.mk\n    | exact \u27e8_, MetricSpace.mk\u27e9\n    | exact MetricSpace.mk (by assumption)\n    | exact MetricSpace.mk \u2039_\u203a\n    | apply MetricSpace.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact MetricSpace.mk (by assumption))\n    | exact MetricSpace.ofDistTopology\n    | exact MetricSpace.ofDistTopology _\n    | apply MetricSpace.ofDistTopology\n    | simpa using MetricSpace.ofDistTopology\n    | exact \u27e8_, MetricSpace.ofDistTopology\u27e9\n    | exact MetricSpace.ofDistTopology (by assumption)\n    | exact MetricSpace.ofDistTopology \u2039_\u203a\n    | apply MetricSpace.ofDistTopology <;> assumption\n    | (haveI := Fact.mk (by assumption); exact MetricSpace.ofDistTopology (by assumption))\n    | exact NormedAddCommGroup.toMetricSpace\n    | exact NormedAddCommGroup.toMetricSpace _\n    | apply NormedAddCommGroup.toMetricSpace\n    | simpa using NormedAddCommGroup.toMetricSpace\n    | exact \u27e8_, NormedAddCommGroup.toMetricSpace\u27e9\n    | exact NormedAddCommGroup.toMetricSpace (by assumption)\n    | exact NormedAddCommGroup.toMetricSpace \u2039_\u203a\n    | apply NormedAddCommGroup.toMetricSpace <;> assumption\n    | (haveI := Fact.mk (by assumption); exact NormedAddCommGroup.toMetricSpace (by assumption))\n    | exact NormedAddGroup.toMetricSpace\n    | exact NormedAddGroup.toMetricSpace _\n    | apply NormedAddGroup.toMetricSpace\n    | simpa using NormedAddGroup.toMetricSpace\n    | exact \u27e8_, NormedAddGroup.toMetricSpace\u27e9\n    | exact NormedAddGroup.toMetricSpace (by assumption)\n    | exact NormedAddGroup.toMetricSpace \u2039_\u203a\n    | apply NormedAddGroup.toMetricSpace <;> assumption\n    | (haveI := Fact.mk (by assumption); exact NormedAddGroup.toMetricSpace (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:23: error: unsolved goals\nX : Type u_1\ninst\u271d\u00b9 : MetricSpace X\ninst\u271d : CompleteSpace X\nG : \u2115 \u2192 Set X\nhG : \u2200 (n : \u2115), IsOpen (G n) \u2227 Dense (G n)\n\u22a2 \u2203 x, \u2200 (n : \u2115), x \u2208 G n\n\nStill to prove:\n\u22a2 \u2203 x, \u2200 (n : \u2115), x \u2208 G n",
+      "at": 1788863044.548602,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_3_22_refutation : \u00ac (\u2200 (X : Type*) [MetricSpace X] [CompleteSpace X]\n  (G : \u2115 \u2192 Set X) (hG : \u2200 n, IsOpen (G n) \u2227 Dense (G n)), \u2203 x, \u2200 n, x \u2208 G n)",
+      "proof": "by\n  intro h\n  have h1 := h Empty (fun _ => \u2205)\n  have h2 : \u2200 n, IsOpen (\u2205 : Set Empty) \u2227 Dense (\u2205 : Set Empty) := by\n    intro n\n    refine \u27e8isOpen_empty, ?_\u27e9\n    rw [dense_iff_closure_eq]\n    ext x\n    exact x.elim\n  have h3 := h1 h2\n  rcases h3 with \u27e8x, _\u27e9\n  exact x.elim",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:15: error: Application type mismatch: The argument\n  Empty\nhas type\n  Type\nof sort `Type 1` but is expected to have type\n  Type u_1\nof sort `Type (u_1 + 1)` in the application\n  @h Empty\n2:80: error: unsolved goals\ncase refine_2\nh :\n  \u2200 (X : Type u_1) [inst : MetricSpace X] [CompleteSpace X] (G : \u2115 \u2192 Set X),\n    (\u2200 (n : \u2115), IsOpen (G n) \u2227 Dense (G n)) \u2192 \u2203 x, \u2200 (n : \u2115), x \u2208 G n\nh1 : (\u2200 (n : \u2115), IsOpen \u2205 \u2227 Dense \u2205) \u2192 \u2203 x, \u2200 (n : \u2115), x \u2208 \u2205\n\u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788863053.6606042,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "example : MetricSpace (ULift Empty) := by sorry",
+      "proof": "by\n  infer_instance",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:48: error: unexpected token ':='; expected command",
+      "at": 1788863073.310111,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_ulift : MetricSpace (ULift Empty) := by sorry",
+      "proof": "by\n  infer_instance",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:0: error: type of theorem `mra_goal` is not a proposition\n  MetricSpace (ULift.{u_1, 0} Empty)\n1:55: error: unexpected token ':='; expected command",
+      "at": 1788863074.9600692,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_baire (X : Type*) [MetricSpace X] [CompleteSpace X] : BaireSpace X := by sorry",
+      "proof": "by\n  infer_instance",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:88: error: unexpected token ':='; expected command",
+      "at": 1788863092.2127059,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_baire (X : Type*) [MetricSpace X] [CompleteSpace X] : BaireSpace X",
+      "proof": "by\n  infer_instance",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma test_baire (X : Type*) [MetricSpace X] [CompleteSpace X] : BaireSpace X",
+      "at": 1788863094.7401757,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_3_22 (X : Type*) [MetricSpace X] [CompleteSpace X]\n  (G : \u2115 \u2192 Set X) (hG : \u2200 n, IsOpen (G n) \u2227 Dense (G n)) :\n  \u2203 x, \u2200 n, x \u2208 G n",
+      "proof": "by\n  have h_baire : BaireSpace X := test_baire X\n  have h_dense : Dense (\u22c2 n, G n) := BaireSpace.baire_property G (fun n => (hG n).1) (fun n => (hG n).2)\n  rw [\u2190 Set.nonempty_iInter]\n  exact h_dense.nonempty_iff.mpr (by infer_instance)",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n10:37: error: failed to synthesize instance of type class\n  Nonempty X\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+      "at": 1788863103.768766,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma exercise_3_22_with_nonempty (X : Type*) [MetricSpace X] [CompleteSpace X] [Nonempty X]\n  (G : \u2115 \u2192 Set X) (hG : \u2200 n, IsOpen (G n) \u2227 Dense (G n)) :\n  \u2203 x, \u2200 n, x \u2208 G n",
+      "proof": "by\n  have h_baire : BaireSpace X := test_baire X\n  have h_dense : Dense (\u22c2 n, G n) := BaireSpace.baire_property G (fun n => (hG n).1) (fun n => (hG n).2)\n  rw [\u2190 Set.nonempty_iInter]\n  exact h_dense.nonempty_iff.mpr (by infer_instance)",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma exercise_3_22_with_nonempty (X : Type*) [MetricSpace X] [CompleteSpace X] [Nonempty X]\n  (G : \u2115 \u2192 Set X) (hG : \u2200 n, IsOpen (G n) \u2227 Dense (G n)) :\n  \u2203 x, \u2200 n, x \u2208 G n",
+      "at": 1788863118.0753262,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma test_baire (X : Type*) [MetricSpace X] [CompleteSpace X] : BaireSpace X := by\n  infer_instance",
+    "lemma exercise_3_22_with_nonempty (X : Type*) [MetricSpace X] [CompleteSpace X] [Nonempty X]\n  (G : \u2115 \u2192 Set X) (hG : \u2200 n, IsOpen (G n) \u2227 Dense (G n)) :\n  \u2203 x, \u2200 n, x \u2208 G n := by\n  have h_baire : BaireSpace X := test_baire X\n  have h_dense : Dense (\u22c2 n, G n) := BaireSpace.baire_property G (fun n => (hG n).1) (fun n => (hG n).2)\n  rw [\u2190 Set.nonempty_iInter]\n  exact h_dense.nonempty_iff.mpr (by infer_instance)"
+  ],
+  "premises": [
+    {
+      "name": "instMetricSpaceEmpty",
+      "type": " : MetricSpace Empty",
+      "module": "Mathlib.Topology.MetricSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "instMetricSpacePUnit",
+      "type": " : MetricSpace PUnit.{u + 1}",
+      "module": "Mathlib.Topology.MetricSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "instMetricSpaceAdditive",
+      "type": " {X : Type u_1} [MetricSpace X] : MetricSpace (Additive X)",
+      "module": "Mathlib.Topology.MetricSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "instMetricSpaceMultiplicative",
+      "type": " {X : Type u_1} [MetricSpace X] : MetricSpace (Multiplicative X)",
+      "module": "Mathlib.Topology.MetricSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "instMetricSpaceOrderDual",
+      "type": " {X : Type u_1} [MetricSpace X] : MetricSpace X\u1d52\u1d48",
+      "module": "Mathlib.Topology.MetricSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "MetricSpace.replaceTopology",
+      "type": " {\u03b3 : Type u_2} [U : TopologicalSpace \u03b3] (m : MetricSpace \u03b3) (H : U = PseudoMetricSpace.toUniformSpace.toTopologicalSpace) : MetricSpace \u03b3",
+      "module": "Mathlib.Topology.MetricSpace.Defs",
+      "doc": "Build a new metric space from an old one where the bundled topological structure is provably\n(but typically non-definitionaly) equal to some given topological structure.\nSee Note [forgetful inheritance].\nSee Note [reducible non-instances].\n"
+    },
+    {
+      "name": "MetricSpace.replaceBornology",
+      "type": " {\u03b1 : Type u_2} [B : Bornology \u03b1] (m : MetricSpace \u03b1) (H : \u2200 (s : Set \u03b1), Bornology.IsBounded s \u2194 Bornology.IsBounded s) : MetricSpace \u03b1",
+      "module": "Mathlib.Topology.MetricSpace.Defs",
+      "doc": "Build a new metric space from an old one where the bundled bornology structure is provably\n(but typically non-definitionaly) equal to some given bornology structure.\nSee Note [forgetful inheritance].\nSee Note [reducible non-instances].\n"
+    },
+    {
+      "name": "MetricSpace.replaceUniformity",
+      "type": " {\u03b3 : Type u_2} [U : UniformSpace \u03b3] (m : MetricSpace \u03b3) (H : uniformity \u03b3 = uniformity \u03b3) : MetricSpace \u03b3",
+      "module": "Mathlib.Topology.MetricSpace.Defs",
+      "doc": "Build a new metric space from an old one where the bundled uniform structure is provably\n(but typically non-definitionaly) equal to some given uniform structure.\nSee Note [forgetful inheritance].\nSee Note [reducible non-instances].\n"
+    },
+    {
+      "name": "MetricSpace.mk",
+      "type": " {\u03b1 : Type u} [toPseudoMetricSpace : PseudoMetricSpace \u03b1] (eq_of_dist_eq_zero : \u2200 {x y : \u03b1}, dist x y = 0 \u2192 x = y) : MetricSpace \u03b1",
+      "module": "Mathlib.Topology.MetricSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "MetricSpace.ofDistTopology",
+      "type": " {\u03b1 : Type u} [TopologicalSpace \u03b1] (dist : \u03b1 \u2192 \u03b1 \u2192 \u211d) (dist_self : \u2200 (x : \u03b1), dist x x = 0) (dist_comm : \u2200 (x y : \u03b1), dist x y = dist y x) (dist_triangle : \u2200 (x y z : \u03b1), dist x z \u2264 dist x y + dist y z) (H : \u2200 (s : Set \u03b1), IsOpen s \u2194 \u2200 x \u2208 s, \u2203 \u03b5 > 0, \u2200 (y : \u03b1), dist x y < \u03b5 \u2192 y \u2208 s) (eq_of_dist_eq_zero : \u2200 (x y : \u03b1), dist x y = 0 \u2192 x = y) : MetricSpace \u03b1",
+      "module": "Mathlib.Topology.MetricSpace.Defs",
+      "doc": "Construct a metric space structure whose underlying topological space structure\n(definitionally) agrees which a pre-existing topology which is compatible with a given distance\nfunction. "
+    },
+    {
+      "name": "NormedAddCommGroup.toMetricSpace",
+      "type": " {E : Type u_4} [self : NormedAddCommGroup E] : MetricSpace E",
+      "module": "Mathlib.Analysis.Normed.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NormedAddGroup.toMetricSpace",
+      "type": " {E : Type u_4} [self : NormedAddGroup E] : MetricSpace E",
+      "module": "Mathlib.Analysis.Normed.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "DiscreteUniformity.instCompleteSpace",
+      "type": " {\u03b1 : Type u} [uniformSpace : UniformSpace \u03b1] [DiscreteUniformity \u03b1] : CompleteSpace \u03b1",
+      "module": "Mathlib.Topology.UniformSpace.Cauchy",
+      "doc": "The discrete uniformity makes a space complete. "
+    },
+    {
+      "name": "completeSpace_of_isComplete_univ",
+      "type": " {\u03b1 : Type u} [uniformSpace : UniformSpace \u03b1] (h : IsComplete Set.univ) : CompleteSpace \u03b1",
+      "module": "Mathlib.Topology.UniformSpace.Cauchy",
+      "doc": "If `univ` is complete, the space is a complete space "
+    },
+    {
+      "name": "complete_of_compact",
+      "type": " {\u03b1 : Type u} [UniformSpace \u03b1] [CompactSpace \u03b1] : CompleteSpace \u03b1",
+      "module": "Mathlib.Topology.UniformSpace.Cauchy",
+      "doc": ""
+    },
+    {
+      "name": "CompleteSpace.addOpposite",
+      "type": " {\u03b1 : Type u} [uniformSpace : UniformSpace \u03b1] [CompleteSpace \u03b1] : CompleteSpace \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Topology.UniformSpace.Cauchy",
+      "doc": ""
+    },
+    {
+      "name": "CompleteSpace.mulOpposite",
+      "type": " {\u03b1 : Type u} [uniformSpace : UniformSpace \u03b1] [CompleteSpace \u03b1] : CompleteSpace \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Topology.UniformSpace.Cauchy",
+      "doc": ""
+    },
+    {
+      "name": "CompleteSpace.fst_of_prod",
+      "type": " {\u03b1 : Type u} {\u03b2 : Type v} [uniformSpace : UniformSpace \u03b1] [UniformSpace \u03b2] [CompleteSpace (\u03b1 \u00d7 \u03b2)] [h : Nonempty \u03b2] : CompleteSpace \u03b1",
+      "module": "Mathlib.Topology.UniformSpace.Cauchy",
+      "doc": ""
+    },
+    {
+      "name": "CompleteSpace.snd_of_prod",
+      "type": " {\u03b1 : Type u} {\u03b2 : Type v} [uniformSpace : UniformSpace \u03b1] [UniformSpace \u03b2] [CompleteSpace (\u03b1 \u00d7 \u03b2)] [h : Nonempty \u03b1] : CompleteSpace \u03b2",
+      "module": "Mathlib.Topology.UniformSpace.Cauchy",
+      "doc": ""
+    },
+    {
+      "name": "CompleteSpace.prod",
+      "type": " {\u03b1 : Type u} {\u03b2 : Type v} [uniformSpace : UniformSpace \u03b1] [UniformSpace \u03b2] [CompleteSpace \u03b1] [CompleteSpace \u03b2] : CompleteSpace (\u03b1 \u00d7 \u03b2)",
+      "module": "Mathlib.Topology.UniformSpace.Cauchy",
+      "doc": ""
+    },
+    {
+      "name": "CompleteSpace.mk",
+      "type": " {\u03b1 : Type u} [UniformSpace \u03b1] (complete : \u2200 {f : Filter \u03b1}, Cauchy f \u2192 \u2203 x, f \u2264 nhds x) : CompleteSpace \u03b1",
+      "module": "Mathlib.Topology.UniformSpace.Cauchy",
+      "doc": ""
+    },
+    {
+      "name": "UniformSpace.complete_of_cauchySeq_tendsto",
+      "type": " {\u03b1 : Type u} [uniformSpace : UniformSpace \u03b1] [(uniformity \u03b1).IsCountablyGenerated] (H' : \u2200 (u : \u2115 \u2192 \u03b1), CauchySeq u \u2192 \u2203 a, Filter.Tendsto u Filter.atTop (nhds a)) : CompleteSpace \u03b1",
+      "module": "Mathlib.Topology.UniformSpace.Cauchy",
+      "doc": "A sequentially complete uniform space with a countable basis of the uniformity filter is\ncomplete. "
+    },
+    {
+      "name": "UniformSpace.complete_of_convergent_controlled_sequences",
+      "type": " {\u03b1 : Type u} [uniformSpace : UniformSpace \u03b1] [(uniformity \u03b1).IsCountablyGenerated] (U : \u2115 \u2192 SetRel \u03b1 \u03b1) (U_mem : \u2200 (n : \u2115), U n \u2208 uniformity \u03b1) (HU : \u2200 (u : \u2115 \u2192 \u03b1), (\u2200 (N m n : \u2115), N \u2264 m \u2192 N \u2264 n \u2192 (u m, u n) \u2208 U N) \u2192 \u2203 a, Filter.Tendsto u Filter.atTop (nhds a)) : CompleteSpace \u03b1",
+      "module": "Mathlib.Topology.UniformSpace.Cauchy",
+      "doc": "A uniform space is complete provided that (a) its uniformity filter has a countable basis;\n(b) any sequence satisfying a \"controlled\" version of the Cauchy condition converges. "
+    },
+    {
+      "name": "ULift.instCompleteSpace",
+      "type": " {\u03b1 : Type u} [UniformSpace \u03b1] [CompleteSpace \u03b1] : CompleteSpace (ULift.{u_1, u} \u03b1)",
+      "module": "Mathlib.Topology.UniformSpace.UniformEmbedding",
+      "doc": "The lift of a complete space to another universe is still complete. "
+    },
+    {
+      "name": "BaireSpace.baire_property",
+      "type": " {X : Type u_1} {inst\u271d : TopologicalSpace X} [self : BaireSpace X] (f : \u2115 \u2192 Set X) : (\u2200 (n : \u2115), IsOpen (f n)) \u2192 (\u2200 (n : \u2115), Dense (f n)) \u2192 Dense (\u22c2 n, f n)",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    },
+    {
+      "name": "BaireSpace.mk",
+      "type": " {X : Type u_1} [TopologicalSpace X] (baire_property : \u2200 (f : \u2115 \u2192 Set X), (\u2200 (n : \u2115), IsOpen (f n)) \u2192 (\u2200 (n : \u2115), Dense (f n)) \u2192 Dense (\u22c2 n, f n)) : BaireSpace X",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    },
+    {
+      "name": "baire_of_finite",
+      "type": " {X : Type u_1} [TopologicalSpace X] [Finite X] : BaireSpace X",
+      "module": "Mathlib.Topology.Baire.Lemmas",
+      "doc": "A finite set is Baire. "
+    },
+    {
+      "name": "IsOpenQuotientMap.baireSpace",
+      "type": " {X : Type u_1} [TopologicalSpace X] [BaireSpace X] {Y : Type u_4} [TopologicalSpace Y] {f : X \u2192 Y} (hf : IsOpenQuotientMap f) : BaireSpace Y",
+      "module": "Mathlib.Topology.Baire.Lemmas",
+      "doc": "If `f` is an open quotient map and `X` is Baire, then `Y` is Baire. "
+    },
+    {
+      "name": "Topology.IsOpenEmbedding.baireSpace",
+      "type": " {X : Type u_1} [TopologicalSpace X] [BaireSpace X] {Y : Type u_4} [TopologicalSpace Y] {p : Y \u2192 X} (hp : Topology.IsOpenEmbedding p) : BaireSpace Y",
+      "module": "Mathlib.Topology.Baire.Lemmas",
+      "doc": "If `p : Y \u2192 X` is an open embedding and `X` is a Baire space, then `Y` is a Baire space. "
+    },
+    {
+      "name": "IsOpen.baireSpace",
+      "type": " {X : Type u_1} [TopologicalSpace X] [BaireSpace X] {s : Set X} (hO : IsOpen s) : BaireSpace \u2191s",
+      "module": "Mathlib.Topology.Baire.Lemmas",
+      "doc": "An open subset of a Baire space is Baire. "
+    },
+    {
+      "name": "IsG\u03b4.baireSpace_of_dense",
+      "type": " {X : Type u_1} [TopologicalSpace X] [BaireSpace X] {s : Set X} (hG : IsG\u03b4 s) (hd : Dense s) : BaireSpace \u2191s",
+      "module": "Mathlib.Topology.Baire.Lemmas",
+      "doc": "A dense G\u03b4 subset of a Baire space is Baire. "
+    },
+    {
+      "name": "Homeomorph.baireSpace",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] [BaireSpace X] (f : X \u2243\u209c Y) : BaireSpace Y",
+      "module": "Mathlib.Topology.Homeomorph.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "BaireSpace.of_completelyPseudoMetrizable",
+      "type": " {X : Type u_1} [TopologicalSpace X] [TopologicalSpace.IsCompletelyPseudoMetrizableSpace X] : BaireSpace X",
+      "module": "Mathlib.Topology.Baire.CompleteMetrizable",
+      "doc": "**First Baire theorem**: a completely pseudometrizable topological space has Baire property. "
+    },
+    {
+      "name": "BaireSpace.instBarrelledSpace",
+      "type": " {\ud835\udd5c\u2081 : Type u_4} {E : Type u_6} [NontriviallyNormedField \ud835\udd5c\u2081] [AddCommGroup E] [Module \ud835\udd5c\u2081 E] [TopologicalSpace E] [IsTopologicalAddGroup E] [ContinuousConstSMul \ud835\udd5c\u2081 E] [BaireSpace E] : BarrelledSpace \ud835\udd5c\u2081 E",
+      "module": "Mathlib.Analysis.LocallyConvex.Barrelled",
+      "doc": "Any TVS over a `NontriviallyNormedField` that is also a Baire space is barrelled. In\nparticular, this applies to Banach spaces and Fr\u00e9chet spaces. "
+    },
+    {
+      "name": "BaireSpace.of_t2Space_locallyCompactSpace",
+      "type": " {X : Type u_1} [TopologicalSpace X] [R1Space X] [LocallyCompactSpace X] : BaireSpace X",
+      "module": "Mathlib.Topology.Baire.LocallyCompactRegular",
+      "doc": "**Second Baire theorem**: locally compact R\u2081 spaces are Baire. "
+    },
+    {
+      "name": "BaireSpace",
+      "type": " (X : Type u_1) [TopologicalSpace X] : Prop",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": "The property `BaireSpace \u03b1` means that the topological space `\u03b1` has the Baire property:\nany countable intersection of open dense subsets is dense.\nFormulated here when the source space is \u2115.\nUse `dense_iInter_of_isOpen` which works for any countable index type instead. "
+    },
+    {
+      "name": "Set.disjoint_or_nonempty_inter",
+      "type": " {\u03b1 : Type u} (s t : Set \u03b1) : Disjoint s t \u2228 (s \u2229 t).Nonempty",
+      "module": "Mathlib.Data.Set.Disjoint",
+      "doc": ""
+    },
+    {
+      "name": "Set.not_disjoint_iff_nonempty_inter",
+      "type": " {\u03b1 : Type u} {s t : Set \u03b1} : \u00acDisjoint s t \u2194 (s \u2229 t).Nonempty",
+      "module": "Mathlib.Data.Set.Disjoint",
+      "doc": ""
+    },
+    {
+      "name": "isGLB_le_isLUB_of_nonempty_inter",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {s s' : Set \u03b1} {a b : \u03b1} (h : (s \u2229 s').Nonempty) (ha : IsGLB s a) (hb : IsLUB s' b) : a \u2264 b",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "lowerBounds_le_upperBounds_of_nonempty_inter",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] {s s' : Set \u03b1} {a b : \u03b1} (h : (s \u2229 s').Nonempty) (ha : a \u2208 lowerBounds s) (hb : b \u2208 upperBounds s') : a \u2264 b",
+      "module": "Mathlib.Order.Bounds.Basic",
+      "doc": ""
+    },
+    {
+      "name": "sInf_le_sSup_of_nonempty_inter",
+      "type": " {\u03b1 : Type u_1} [CompleteLattice \u03b1] {s t : Set \u03b1} (h : (s \u2229 t).Nonempty) : sInf s \u2264 sSup t",
+      "module": "Mathlib.Order.CompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "csInf_le_csSup_of_nonempty_inter",
+      "type": " {\u03b1 : Type u_1} [ConditionallyCompleteLattice \u03b1] {s t : Set \u03b1} (h : (s \u2229 t).Nonempty) (hs : BddBelow s := by bddDefault) (ht : BddAbove t := by bddDefault) : sInf s \u2264 sSup t",
+      "module": "Mathlib.Order.ConditionallyCompleteLattice.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.disjoint_or_nonempty_inter",
+      "type": " {\u03b1 : Type u_1} [DecidableEq \u03b1] (s t : Finset \u03b1) : Disjoint s t \u2228 (s \u2229 t).Nonempty",
+      "module": "Mathlib.Data.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.not_disjoint_iff_nonempty_inter",
+      "type": " {\u03b1 : Type u_1} [DecidableEq \u03b1] {s t : Finset \u03b1} : \u00acDisjoint s t \u2194 (s \u2229 t).Nonempty",
+      "module": "Mathlib.Data.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Set.nonempty_inter_of_lt_ncard_add_ncard",
+      "type": " {\u03b1 : Type u_1} {s t : Set \u03b1} [Finite \u03b1] (h : Nat.card \u03b1 < s.ncard + t.ncard) : (s \u2229 t).Nonempty",
+      "module": "Mathlib.Data.Set.Card",
+      "doc": ""
+    },
+    {
+      "name": "Set.nonempty_inter_compl_of_ncard_add_ncard_lt",
+      "type": " {\u03b1 : Type u_1} {s t : Set \u03b1} (h : s.ncard + t.ncard < Nat.card \u03b1) : (s\u1d9c \u2229 t\u1d9c).Nonempty",
+      "module": "Mathlib.Data.Set.Card",
+      "doc": ""
+    },
+    {
+      "name": "Set.nonempty_inter_of_le_ncard_add_ncard",
+      "type": " {\u03b1 : Type u_1} {s t : Set \u03b1} [Finite \u03b1] (h' : Nat.card \u03b1 \u2264 s.ncard + t.ncard) (h : s \u222a t \u2260 Set.univ) : (s \u2229 t).Nonempty",
+      "module": "Mathlib.Data.Set.Card",
+      "doc": ""
+    },
+    {
+      "name": "Set.PairwiseDisjoint.countable_of_nonempty_interior",
+      "type": " {\u03b1 : Type u} [t : TopologicalSpace \u03b1] [TopologicalSpace.SeparableSpace \u03b1] {\u03b9 : Type u_2} {s : \u03b9 \u2192 Set \u03b1} {a : Set \u03b9} (h : a.PairwiseDisjoint s) (ha : \u2200 i \u2208 a, (interior (s i)).Nonempty) : a.Countable",
+      "module": "Mathlib.Topology.Bases",
+      "doc": "In a separable space, a family of disjoint sets with nonempty interiors is countable. "
+    },
+    {
+      "name": "Set.nonempty_iInter",
+      "type": " {\u03b1 : Type u_1} {\u03b9 : Sort u_4} {f : \u03b9 \u2192 Set \u03b1} : (\u22c2 i, f i).Nonempty \u2194 \u2203 x, \u2200 (i : \u03b9), x \u2208 f i",
+      "module": "Mathlib.Data.Set.Lattice.Bounded",
+      "doc": ""
+    },
+    {
+      "name": "Set.nonempty_iInter\u2082",
+      "type": " {\u03b1 : Type u_1} {\u03b9 : Sort u_4} {\u03ba : \u03b9 \u2192 Sort u_6} {s : (i : \u03b9) \u2192 \u03ba i \u2192 Set \u03b1} : (\u22c2 i, \u22c2 j, s i j).Nonempty \u2194 \u2203 a, \u2200 (i : \u03b9) (j : \u03ba i), a \u2208 s i j",
+      "module": "Mathlib.Data.Set.Lattice.Bounded",
+      "doc": ""
+    },
+    {
+      "name": "Set.nonempty_iInter_Ici_iff",
+      "type": " {\u03b1 : Type u_1} {\u03b9 : Sort u_3} [Preorder \u03b1] {f : \u03b9 \u2192 \u03b1} : (\u22c2 i, Set.Ici (f i)).Nonempty \u2194 BddAbove (Set.range f)",
+      "module": "Mathlib.Data.Set.Lattice.Order",
+      "doc": ""
+    },
+    {
+      "name": "Set.nonempty_iInter_Iic_iff",
+      "type": " {\u03b1 : Type u_1} {\u03b9 : Sort u_3} [Preorder \u03b1] {f : \u03b9 \u2192 \u03b1} : (\u22c2 i, Set.Iic (f i)).Nonempty \u2194 BddBelow (Set.range f)",
+      "module": "Mathlib.Data.Set.Lattice.Order",
+      "doc": ""
+    },
+    {
+      "name": "IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed",
+      "type": " {X : Type u} [TopologicalSpace X] {\u03b9 : Type v} [h\u03b9 : Nonempty \u03b9] (t : \u03b9 \u2192 Set X) (htd : Directed (fun x1 x2 => x1 \u2287 x2) t) (htn : \u2200 (i : \u03b9), (t i).Nonempty) (htc : \u2200 (i : \u03b9), IsCompact (t i)) (htcl : \u2200 (i : \u03b9), IsClosed (t i)) : (\u22c2 i, t i).Nonempty",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": "Cantor's intersection theorem for `iInter`:\nthe intersection of a directed family of nonempty compact closed sets is nonempty. "
+    },
+    {
+      "name": "IsCompact.nonempty_iInter_of_sequence_nonempty_isCompact_isClosed",
+      "type": " {X : Type u} [TopologicalSpace X] (t : \u2115 \u2192 Set X) (htd : \u2200 (i : \u2115), t (i + 1) \u2286 t i) (htn : \u2200 (i : \u2115), (t i).Nonempty) (ht0 : IsCompact (t 0)) (htcl : \u2200 (i : \u2115), IsClosed (t i)) : (\u22c2 i, t i).Nonempty",
+      "module": "Mathlib.Topology.Compactness.Compact",
+      "doc": "Cantor's intersection theorem for sequences indexed by `\u2115`:\nthe intersection of a decreasing sequence of nonempty compact closed sets is nonempty. "
+    },
+    {
+      "name": "Metric.nonempty_iInter_of_nonempty_biInter",
+      "type": " {\u03b1 : Type u} [PseudoMetricSpace \u03b1] [CompleteSpace \u03b1] {s : \u2115 \u2192 Set \u03b1} (hs : \u2200 (n : \u2115), IsClosed (s n)) (h's : \u2200 (n : \u2115), Bornology.IsBounded (s n)) (h : \u2200 (N : \u2115), (\u22c2 n, \u22c2 (_ : n \u2264 N), s n).Nonempty) (h' : Filter.Tendsto (fun n => Metric.diam (s n)) Filter.atTop (nhds 0)) : (\u22c2 n, s n).Nonempty",
+      "module": "Mathlib.Topology.MetricSpace.Bounded",
+      "doc": "In a complete space, if a family of closed sets with diameter tending to `0` is such that each\nfinite intersection is nonempty, then the total intersection is also nonempty. "
+    },
+    {
+      "name": "IsComplete.nonempty_iInter_of_nonempty_biInter",
+      "type": " {\u03b1 : Type u} [PseudoMetricSpace \u03b1] {s : \u2115 \u2192 Set \u03b1} (h0 : IsComplete (s 0)) (hs : \u2200 (n : \u2115), IsClosed (s n)) (h's : \u2200 (n : \u2115), Bornology.IsBounded (s n)) (h : \u2200 (N : \u2115), (\u22c2 n, \u22c2 (_ : n \u2264 N), s n).Nonempty) (h' : Filter.Tendsto (fun n => Metric.diam (s n)) Filter.atTop (nhds 0)) : (\u22c2 n, s n).Nonempty",
+      "module": "Mathlib.Topology.MetricSpace.Bounded",
+      "doc": "If a family of complete sets with diameter tending to `0` is such that each finite intersection\nis nonempty, then the total intersection is also nonempty. "
+    },
+    {
+      "name": "MeasureTheory.Measure.haar.nonempty_iInter_clAddPrehaar",
+      "type": " {G : Type u_1} [AddGroup G] [TopologicalSpace G] [IsTopologicalAddGroup G] (K\u2080 : TopologicalSpace.PositiveCompacts G) : (MeasureTheory.Measure.haar.addHaarProduct \u2191K\u2080 \u2229 \u22c2 V, MeasureTheory.Measure.haar.clAddPrehaar (\u2191K\u2080) V).Nonempty",
+      "module": "Mathlib.MeasureTheory.Measure.Haar.Basic",
+      "doc": ""
+    },
+    {
+      "name": "MeasureTheory.Measure.haar.nonempty_iInter_clPrehaar",
+      "type": " {G : Type u_1} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] (K\u2080 : TopologicalSpace.PositiveCompacts G) : (MeasureTheory.Measure.haar.haarProduct \u2191K\u2080 \u2229 \u22c2 V, MeasureTheory.Measure.haar.clPrehaar (\u2191K\u2080) V).Nonempty",
+      "module": "Mathlib.MeasureTheory.Measure.Haar.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsCompactSystem.nonempty_iInter",
+      "type": " {\u03b1 : Type u_1} {S : Set (Set \u03b1)} (hp : IsCompactSystem S) {C : \u2115 \u2192 Set \u03b1} (hC : \u2200 (i : \u2115), C i \u2208 S) (h_nonempty : \u2200 (n : \u2115), (Set.dissipate C n).Nonempty) : (\u22c2 i, C i).Nonempty",
+      "module": "Mathlib.Topology.Compactness.CompactSystem",
+      "doc": ""
+    },
+    {
+      "name": "IsCompactSystem.of_nonempty_iInter",
+      "type": " {\u03b1 : Type u_1} {S : Set (Set \u03b1)} (h : \u2200 (C : \u2115 \u2192 Set \u03b1), (\u2200 (i : \u2115), C i \u2208 S) \u2192 (\u2200 (n : \u2115), (Set.dissipate C n).Nonempty) \u2192 (\u22c2 i, C i).Nonempty) : IsCompactSystem S",
+      "module": "Mathlib.Topology.Compactness.CompactSystem",
+      "doc": ""
+    },
+    {
+      "name": "dense_iff_closure_eq",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} : Dense s \u2194 closure s = Set.univ",
+      "module": "Mathlib.Topology.Closure",
+      "doc": ""
+    },
+    {
+      "name": "PEmpty.instIsEmpty",
+      "type": " : IsEmpty PEmpty.{u_1}",
+      "module": "Mathlib.Basic.IsEmpty.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.pemptyArrowEquivPUnit",
+      "type": " (\u03b1 : Sort u_1) : (PEmpty.{u_2} \u2192 \u03b1) \u2243 PUnit.{u}",
+      "module": "Mathlib.Logic.Equiv.Defs",
+      "doc": "The sort of maps from `PEmpty` is equivalent to `PUnit`. "
+    },
+    {
+      "name": "Equiv.equivPEmpty",
+      "type": " (\u03b1 : Sort v) [IsEmpty \u03b1] : \u03b1 \u2243 PEmpty.{u}",
+      "module": "Mathlib.Logic.Equiv.Defs",
+      "doc": "If `\u03b1` is an empty type, then it is equivalent to the `PEmpty` type in any universe. "
+    },
+    {
+      "name": "Equiv.propEquivPEmpty",
+      "type": " {p : Prop} (h : \u00acp) : p \u2243 PEmpty.{u_1}",
+      "module": "Mathlib.Logic.Equiv.Defs",
+      "doc": "The `Sort` of proofs of a false proposition is equivalent to `PEmpty`. "
+    },
+    {
+      "name": "instLinearOrderPEmpty",
+      "type": " : LinearOrder PEmpty.{u_5 + 1}",
+      "module": "Mathlib.Order.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.pemptyProd",
+      "type": " (\u03b1 : Type u_9) : PEmpty.{u_10 + 1} \u00d7 \u03b1 \u2243 PEmpty.{u_11}",
+      "module": "Mathlib.Logic.Equiv.Prod",
+      "doc": "`PEmpty` type is a left absorbing element for type product up to an equivalence. "
+    },
+    {
+      "name": "TopologicalSpace.UpgradedIsCompletelyPseudoMetrizableSpace.toPseudoMetricSpace",
+      "type": " {X : Type u_3} [self : TopologicalSpace.UpgradedIsCompletelyPseudoMetrizableSpace X] : PseudoMetricSpace X",
+      "module": "Mathlib.Topology.Metrizable.CompletelyMetrizable",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.IsCompletelyMetrizableSpace.toIsCompletelyPseudoMetrizableSpace",
+      "type": " {X : Type u_1} [TopologicalSpace X] [TopologicalSpace.IsCompletelyMetrizableSpace X] : TopologicalSpace.IsCompletelyPseudoMetrizableSpace X",
+      "module": "Mathlib.Topology.Metrizable.CompletelyMetrizable",
+      "doc": "A completely metrizable space is completely pseudometrizable. "
+    },
+    {
+      "name": "TopologicalSpace.IsCompletelyPseudoMetrizableSpace.instPseudoMetrizableSpace",
+      "type": " {X : Type u_1} [TopologicalSpace X] [TopologicalSpace.IsCompletelyPseudoMetrizableSpace X] : TopologicalSpace.PseudoMetrizableSpace X",
+      "module": "Mathlib.Topology.Metrizable.CompletelyMetrizable",
+      "doc": "Note: the priority is set to 90 to ensure that this instance is only applied after\n`PseudoEMetricSpace.pseudoMetrizableSpace`. This prevents unnecessary attempts to infer\ncompleteness. "
+    },
+    {
+      "name": "TopologicalSpace.UpgradedIsCompletelyPseudoMetrizableSpace.mk",
+      "type": " {X : Type u_3} [toPseudoMetricSpace : PseudoMetricSpace X] [toCompleteSpace : CompleteSpace X] : TopologicalSpace.UpgradedIsCompletelyPseudoMetrizableSpace X",
+      "module": "Mathlib.Topology.Metrizable.CompletelyMetrizable",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.UpgradedIsCompletelyPseudoMetrizableSpace.toCompleteSpace",
+      "type": " {X : Type u_3} [self : TopologicalSpace.UpgradedIsCompletelyPseudoMetrizableSpace X] : CompleteSpace X",
+      "module": "Mathlib.Topology.Metrizable.CompletelyMetrizable",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.IsCompletelyMetrizableSpace_of_isCompletelyPseudoMetrizableSpace",
+      "type": " {X : Type u_1} [TopologicalSpace X] [TopologicalSpace.IsCompletelyPseudoMetrizableSpace X] [T0Space X] : TopologicalSpace.IsCompletelyMetrizableSpace X",
+      "module": "Mathlib.Topology.Metrizable.CompletelyMetrizable",
+      "doc": "A completely pseudometrizable T0 space is completely metrizable. "
+    },
+    {
+      "name": "TopologicalSpace.IsCompletelyPseudoMetrizableSpace.of_completeSpace_pseudometrizable",
+      "type": " {X : Type u_1} [UniformSpace X] [CompleteSpace X] [(uniformity X).IsCountablyGenerated] : TopologicalSpace.IsCompletelyPseudoMetrizableSpace X",
+      "module": "Mathlib.Topology.Metrizable.CompletelyMetrizable",
+      "doc": ""
+    },
+    {
+      "name": "Topology.IsClosedEmbedding.IsCompletelyPseudoMetrizableSpace",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpace.IsCompletelyPseudoMetrizableSpace Y] {f : X \u2192 Y} (hf : Topology.IsClosedEmbedding f) : TopologicalSpace.IsCompletelyPseudoMetrizableSpace X",
+      "module": "Mathlib.Topology.Metrizable.CompletelyMetrizable",
+      "doc": "Given a closed embedding into a completely pseudometrizable space,\nthe source space is also completely pseudometrizable. "
+    },
+    {
+      "name": "TopologicalSpace.IsCompletelyPseudoMetrizableSpace.prod",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace.IsCompletelyPseudoMetrizableSpace X] [TopologicalSpace Y] [TopologicalSpace.IsCompletelyPseudoMetrizableSpace Y] : TopologicalSpace.IsCompletelyPseudoMetrizableSpace (X \u00d7 Y)",
+      "module": "Mathlib.Topology.Metrizable.CompletelyMetrizable",
+      "doc": "The product of two completely pseudometrizable spaces is completely pseudometrizable. "
+    },
+    {
+      "name": "TopologicalSpace.IsCompletelyPseudoMetrizableSpace.sum",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace.IsCompletelyPseudoMetrizableSpace X] [TopologicalSpace Y] [TopologicalSpace.IsCompletelyPseudoMetrizableSpace Y] : TopologicalSpace.IsCompletelyPseudoMetrizableSpace (X \u2295 Y)",
+      "module": "Mathlib.Topology.Metrizable.CompletelyMetrizable",
+      "doc": "The disjoint union of two completely pseudometrizable spaces is completely pseudometrizable. "
+    },
+    {
+      "name": "TopologicalSpace.UpgradedIsCompletelyPseudoMetrizableSpace",
+      "type": " (X : Type u_3) : Type u_3",
+      "module": "Mathlib.Topology.Metrizable.CompletelyMetrizable",
+      "doc": "A convenience class, for a completely pseudometrizable space endowed with a complete\npseudometric. No instance of this class should be registered: It should be used as\n`letI := upgradeIsCompletelyPseudoMetrizable X` to endow a completely pseudometrizable\nspace with a complete pseudometric. "
+    },
+    {
+      "name": "TopologicalSpace.IsCompletelyPseudoMetrizableSpace",
+      "type": " (X : Type u_3) [t : TopologicalSpace X] : Prop",
+      "module": "Mathlib.Topology.Metrizable.CompletelyMetrizable",
+      "doc": "A topological space is completely pseudometrizable if there exists a pseudometric space\nstructure compatible with the topology which makes the space complete.\nTo endow such a space with a compatible distance, use\n`letI := upgradeIsCompletelyPseudoMetrizable X`. "
+    },
+    {
+      "name": "Dense.nonempty",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} [h : Nonempty X] (hs : Dense s) : s.Nonempty",
+      "module": "Mathlib.Topology.Closure",
+      "doc": ""
+    },
+    {
+      "name": "Dense.nonempty_iff",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set X} (hs : Dense s) : s.Nonempty \u2194 Nonempty X",
+      "module": "Mathlib.Topology.Closure",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.Functor.IsOneHypercoverDense.nonempty_oneHypercoverDenseData",
+      "type": " {C\u2080 : Type u\u2080} {C : Type u} {inst\u271d : CategoryTheory.Category.{v\u2080, u\u2080} C\u2080} {inst\u271d\u00b9 : CategoryTheory.Category.{v, u} C} {F : CategoryTheory.Functor C\u2080 C} {J\u2080 : CategoryTheory.GrothendieckTopology C\u2080} {J : CategoryTheory.GrothendieckTopology C} [self : F.IsOneHypercoverDense J\u2080 J] (X : C) : Nonempty (F.OneHypercoverDenseData J\u2080 J X)",
+      "module": "Mathlib.CategoryTheory.Sites.DenseSubsite.OneHypercoverDense",
+      "doc": ""
+    },
+    {
+      "name": "MeasureTheory.Measure.MeasureDense.nonempty",
+      "type": " {X : Type u_1} [m : MeasurableSpace X] {\u03bc : MeasureTheory.Measure X} {\ud835\udc9c : Set (Set X)} (h\ud835\udc9c : \u03bc.MeasureDense \ud835\udc9c) : \ud835\udc9c.Nonempty",
+      "module": "Mathlib.MeasureTheory.Measure.SeparableMeasure",
+      "doc": ""
+    },
+    {
+      "name": "MeasureTheory.Measure.MeasureDense.nonempty'",
+      "type": " {X : Type u_1} [m : MeasurableSpace X] {\u03bc : MeasureTheory.Measure X} {\ud835\udc9c : Set (Set X)} (h\ud835\udc9c : \u03bc.MeasureDense \ud835\udc9c) : {s | s \u2208 \ud835\udc9c \u2227 \u03bc s \u2260 \u22a4}.Nonempty",
+      "module": "Mathlib.MeasureTheory.Measure.SeparableMeasure",
+      "doc": ""
+    },
+    {
+      "name": "PseudoMetricSpace.ofDistTopology",
+      "type": " {\u03b1 : Type u} [TopologicalSpace \u03b1] (dist : \u03b1 \u2192 \u03b1 \u2192 \u211d) (dist_self : \u2200 (x : \u03b1), dist x x = 0) (dist_comm : \u2200 (x y : \u03b1), dist x y = dist y x) (dist_triangle : \u2200 (x y z : \u03b1), dist x z \u2264 dist x y + dist y z) (H : \u2200 (s : Set \u03b1), IsOpen s \u2194 \u2200 x \u2208 s, \u2203 \u03b5 > 0, \u2200 (y : \u03b1), dist x y < \u03b5 \u2192 y \u2208 s) : PseudoMetricSpace \u03b1",
+      "module": "Mathlib.Topology.MetricSpace.Pseudo.Defs",
+      "doc": "Construct a pseudo-metric space structure whose underlying topological space structure\n(definitionally) agrees which a pre-existing topology which is compatible with a given distance\nfunction. "
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> instMetricSpaceEmpty, instMetricSpacePUnit, instMetricSpaceAdditive, instMetricSpaceMultiplicative, instMetricSpaceOrderDual, MetricSpace.replaceTopology, MetricSpace.replaceBornology, MetricSpace.replaceUniformity",
+    "search: '\"Baire\"' -> BaireSpace.baire_property, BaireSpace.mk, baire_of_finite, IsOpenQuotientMap.baireSpace, Topology.IsOpenEmbedding.baireSpace, IsOpen.baireSpace, IsG\u03b4.baireSpace_of_dense, Homeomorph.baireSpace",
+    "search: '\"nonempty_Inter\"' -> Set.disjoint_or_nonempty_inter, Set.not_disjoint_iff_nonempty_inter, isGLB_le_isLUB_of_nonempty_inter, lowerBounds_le_upperBounds_of_nonempty_inter, sInf_le_sSup_of_nonempty_inter, csInf_le_csSup_of_nonempty_inter, Finset.disjoint_or_nonempty_inter, Finset.not_disjoint_iff_nonempty_inter",
+    "search: '\"nonempty_iInter\"' -> Set.nonempty_iInter, Set.nonempty_iInter\u2082, Set.nonempty_iInter_Ici_iff, Set.nonempty_iInter_Iic_iff, IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed, IsCompact.nonempty_iInter_of_sequence_nonempty_isCompact_isClosed, Metric.nonempty_iInter_of_nonempty_biInter, IsComplete.nonempty_iInter_of_nonempty_biInter",
+    "search: '\"dense_iff_closure_eq\"' -> dense_iff_closure_eq",
+    "search: '\"PEmpty\"' -> PEmpty.instIsEmpty, Equiv.pemptyArrowEquivPUnit, Equiv.equivPEmpty, Equiv.propEquivPEmpty, instLinearOrderPEmpty, Equiv.pemptyProd",
+    "search: '\"MetricSpace\" \"IsEmpty\"' -> nothing",
+    "search: '\"MetricSpace\" \"IsEmpty\"' -> nothing; goal shape -> instMetricSpaceEmpty, instMetricSpacePUnit, instMetricSpaceAdditive, instMetricSpaceMultiplicative, instMetricSpaceOrderDual, MetricSpace.replaceTopology, MetricSpace.replaceBornology, MetricSpace.replaceUniformity",
+    "search: '\"ULift\" \"MetricSpace\"' -> nothing",
+    "search: '\"ULift\" \"MetricSpace\"' -> nothing; goal shape -> instMetricSpaceEmpty, instMetricSpacePUnit, instMetricSpaceAdditive, instMetricSpaceMultiplicative, instMetricSpaceOrderDual, MetricSpace.replaceTopology, MetricSpace.replaceBornology, MetricSpace.replaceUniformity",
+    "search: '\"IsCompletelyPseudoMetrizableSpace\"' -> TopologicalSpace.UpgradedIsCompletelyPseudoMetrizableSpace.toPseudoMetricSpace, TopologicalSpace.IsCompletelyMetrizableSpace.toIsCompletelyPseudoMetrizableSpace, TopologicalSpace.IsCompletelyPseudoMetrizableSpace.instPseudoMetrizableSpace, TopologicalSpace.UpgradedIsCompletelyPseudoMetrizableSpace.mk, TopologicalSpace.UpgradedIsCompletelyPseudoMetrizableSpace.toCompleteSpace, TopologicalSpace.IsCompletelyMetrizableSpace_of_isCompletelyPseudoMetrizableSpace, TopologicalSpace.IsCompletelyPseudoMetrizableSpace.of_completeSpace_pseudometrizable, Topology.IsClosedEmbedding.IsCompletelyPseudoMetrizableSpace",
+    "search: '\"BaireSpace\" \"CompleteSpace\"' -> nothing",
+    "search: '\"BaireSpace\" \"CompleteSpace\"' -> nothing; goal shape -> instMetricSpaceEmpty, instMetricSpacePUnit, instMetricSpaceAdditive, instMetricSpaceMultiplicative, instMetricSpaceOrderDual, MetricSpace.replaceTopology, MetricSpace.replaceBornology, MetricSpace.replaceUniformity",
+    "search: '\"BaireSpace\" \"PseudoMetricSpace\"' -> nothing",
+    "search: '\"BaireSpace\" \"PseudoMetricSpace\"' -> nothing; goal shape -> instMetricSpaceEmpty, instMetricSpacePUnit, instMetricSpaceAdditive, instMetricSpaceMultiplicative, instMetricSpaceOrderDual, MetricSpace.replaceTopology, MetricSpace.replaceBornology, MetricSpace.replaceUniformity",
+    "search: '\"Dense.nonempty\"' -> Dense.nonempty, Dense.nonempty_iff, CategoryTheory.Functor.IsOneHypercoverDense.nonempty_oneHypercoverDenseData, MeasureTheory.Measure.MeasureDense.nonempty, MeasureTheory.Measure.MeasureDense.nonempty'",
+    "search: '\"PseudoMetricSpace\" \"IsEmpty\"' -> nothing",
+    "search: '\"PseudoMetricSpace\" \"IsEmpty\"' -> nothing; goal shape -> instMetricSpaceEmpty, instMetricSpacePUnit, instMetricSpaceAdditive, instMetricSpaceMultiplicative, instMetricSpaceOrderDual, MetricSpace.replaceTopology, MetricSpace.replaceBornology, MetricSpace.replaceUniformity",
+    "search: '\"MetricSpace.ofDistTopology\"' -> PseudoMetricSpace.ofDistTopology, MetricSpace.ofDistTopology",
+    "suspect statement: The theorem as written is false because it is missing the hypothesis `[Nonempty X]`. \n\nSpecifically, if `X` is the empty type `Empty`, it is a complete metric space, and the sequence of empty sets `G n = \u2205` is open and dense (since `closure \u2205 = \u2205 = Set.univ` in the empty space). However, the conclus"
+  ],
+  "budget": {
+    "tool_calls": 23,
+    "lean_calls": 9,
+    "searches": 14,
+    "symbolic_calls": 0,
+    "searches_since_compile": 1,
+    "grace": 3,
+    "started": 1788863026.6552863,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.2,
+    "statement_checks": 1,
+    "refusals": {}
+  },
+  "goal": "theorem exercise_3_22 (X : Type*) [MetricSpace X] [CompleteSpace X]\n  (G : \u2115 \u2192 Set X) (hG : \u2200 n, IsOpen (G n) \u2227 Dense (G n)) :\n  \u2203 x, \u2200 n, x \u2208 G n"
+}

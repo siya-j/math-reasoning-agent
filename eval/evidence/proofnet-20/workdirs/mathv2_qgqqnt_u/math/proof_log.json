@@ -1,0 +1,437 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "open Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ \u2208 T \u2227\n  (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227\n  (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 sUnion s \u2208 T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T})",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788862916.3821712,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "open Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ \u2208 T \u2227\n  (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227\n  (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 sUnion s \u2208 T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T})",
+      "proof": "by\n  ext s\n  sorry",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788862938.6976378,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "open Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ \u2208 T \u2227\n  (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227\n  (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 sUnion s \u2208 T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T})",
+      "proof": "by\n  ext s\n  triv",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n12:2: error: `triv` has been removed; use `trivial` instead",
+      "at": 1788862940.6416326,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "open Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ \u2208 T \u2227\n  (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227\n  (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 sUnion s \u2208 T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T})",
+      "proof": "by\n  ext s\n  trivial",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n12:2: error: Tactic `assumption` failed\n\nX : Type u_1\ninst\u271d : TopologicalSpace X\nA : Set (Set X)\nhA : IsTopologicalBasis A\ns : Set X\n\u22a2 IsOpen[generateFrom A] s \u2194 IsOpen[generateFrom (\u22c2\u2080 {T | is_topology X T \u2227 A \u2286 T})] s\n\nStill to prove:\n\u22a2 IsOpen[generateFrom A] s \u2194 IsOpen[generateFrom (\u22c2\u2080 {T | is_topology X T \u2227 A \u2286 T})] s",
+      "at": 1788862942.0179713,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma helper_test : 1 = 1",
+      "proof": "by rfl",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma helper_test : 1 = 1",
+      "at": 1788862967.0623384,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "open Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ \u2208 T \u2227\n  (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227\n  (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 sUnion s \u2208 T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T})",
+      "proof": "by\n  have h1 : generateFrom A \u2264 generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T}) := by sorry\n  have h2 : generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T}) \u2264 generateFrom A := by sorry\n  exact le_antisymm h1 h2",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788862968.7570114,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_1 {X : Type*} [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) : generateFrom A \u2264 generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T})",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Filter.principal\n    | exact Filter.principal _\n    | apply Filter.principal\n    | simpa using Filter.principal\n    | exact \u27e8_, Filter.principal\u27e9\n    | exact Filter.principal (by assumption)\n    | exact Filter.principal \u2039_\u203a\n    | apply Filter.principal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.principal (by assumption))\n    | exact Filter.join\n    | exact Filter.join _\n    | apply Filter.join\n    | simpa using Filter.join\n    | exact \u27e8_, Filter.join\u27e9\n    | exact Filter.join (by assumption)\n    | exact Filter.join \u2039_\u203a\n    | apply Filter.join <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.join (by assumption))\n    | exact Filter.sInf\n    | exact Filter.sInf _\n    | apply Filter.sInf\n    | simpa using Filter.sInf\n    | exact \u27e8_, Filter.sInf\u27e9\n    | exact Filter.sInf (by assumption)\n    | exact Filter.sInf \u2039_\u203a\n    | apply Filter.sInf <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.sInf (by assumption))\n    | exact Filter.comap\n    | exact Filter.comap _\n    | apply Filter.comap\n    | simpa using Filter.comap\n    | exact \u27e8_, Filter.comap\u27e9\n    | exact Filter.comap (by assumption)\n    | exact Filter.comap \u2039_\u203a\n    | apply Filter.comap <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.comap (by assumption))\n    | exact Filter.map\n    | exact Filter.map _\n    | apply Filter.map\n    | simpa using Filter.map\n    | exact \u27e8_, Filter.map\u27e9\n    | exact Filter.map (by assumption)\n    | exact Filter.map \u2039_\u203a\n    | apply Filter.map <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.map (by assumption))\n    | exact Filter.bind\n    | exact Filter.bind _\n    | apply Filter.bind\n    | simpa using Filter.bind\n    | exact \u27e8_, Filter.bind\u27e9\n    | exact Filter.bind (by assumption)\n    | exact Filter.bind \u2039_\u203a\n    | apply Filter.bind <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.bind (by assumption))\n    | exact Filter.seq\n    | exact Filter.seq _\n    | apply Filter.seq\n    | simpa using Filter.seq\n    | exact \u27e8_, Filter.seq\u27e9\n    | exact Filter.seq (by assumption)\n    | exact Filter.seq \u2039_\u203a\n    | apply Filter.seq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.seq (by assumption))\n    | exact Filter.coprod\n    | exact Filter.coprod _\n    | apply Filter.coprod\n    | simpa using Filter.coprod\n    | exact \u27e8_, Filter.coprod\u27e9\n    | exact Filter.coprod (by assumption)\n    | exact Filter.coprod \u2039_\u203a\n    | apply Filter.coprod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.coprod (by assumption))\n    | exact Filter.curry\n    | exact Filter.curry _\n    | apply Filter.curry\n    | simpa using Filter.curry\n    | exact \u27e8_, Filter.curry\u27e9\n    | exact Filter.curry (by assumption)\n    | exact Filter.curry \u2039_\u203a\n    | apply Filter.curry <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.curry (by assumption))\n    | exact Filter.lift\n    | exact Filter.lift _\n    | apply Filter.lift\n    | simpa using Filter.lift\n    | exact \u27e8_, Filter.lift\u27e9\n    | exact Filter.lift (by assumption)\n    | exact Filter.lift \u2039_\u203a\n    | apply Filter.lift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift (by assumption))\n    | exact Filter.lift'\n    | exact Filter.lift' _\n    | apply Filter.lift'\n    | simpa using Filter.lift'\n    | exact \u27e8_, Filter.lift'\u27e9\n    | exact Filter.lift' (by assumption)\n    | exact Filter.lift' \u2039_\u203a\n    | apply Filter.lift' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift' (by assumption))\n    | exact Filter.pi\n    | exact Filter.pi _\n    | apply Filter.pi\n    | simpa using Filter.pi\n    | exact \u27e8_, Filter.pi\u27e9\n    | exact Filter.pi (by assumption)\n    | exact Filter.pi \u2039_\u203a\n    | apply Filter.pi <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.pi (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:74: error: Function expected at\n  IsTopologicalBasis\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  A\n\nHint: The identifier `IsTopologicalBasis` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n3:98: error: Function expected at\n  generateFrom\nbut this term has type\n  ?m.2\n\nNote: Expected a function because this term is being applied to the argument\n  A\n\nHint: The identifier `generateFrom` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n3:115: error: Function expected at\n  generateFrom\nbut this term has type\n  ?m.2\n\nNote: Expected a function because this term is being applied to the argument\n  (sInter {T | is_topology X T \u2227 A \u2286 T})\n\nHint: The identifier `generateFrom` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n3:170: error: unsolved goals\nx\u271d\u00b9 : Sort u_2\nIsTopologicalBasis : x\u271d\u00b9\nx\u271d : Sort u_3\ngenerateFrom : x\u271d\nX : Type u_1\ninst\u271d : TopologicalSpace X\nA : Set (Set X)\nhA : sorry\n\u22a2 sorry () \u2264 sorry ()\n\nStill to prove:\n\u22a2 sorry () \u2264 sorry ()",
+      "at": 1788862968.8696637,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_2 {X : Type*} [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) : generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T}) \u2264 generateFrom A",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Filter.principal\n    | exact Filter.principal _\n    | apply Filter.principal\n    | simpa using Filter.principal\n    | exact \u27e8_, Filter.principal\u27e9\n    | exact Filter.principal (by assumption)\n    | exact Filter.principal \u2039_\u203a\n    | apply Filter.principal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.principal (by assumption))\n    | exact Filter.join\n    | exact Filter.join _\n    | apply Filter.join\n    | simpa using Filter.join\n    | exact \u27e8_, Filter.join\u27e9\n    | exact Filter.join (by assumption)\n    | exact Filter.join \u2039_\u203a\n    | apply Filter.join <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.join (by assumption))\n    | exact Filter.sInf\n    | exact Filter.sInf _\n    | apply Filter.sInf\n    | simpa using Filter.sInf\n    | exact \u27e8_, Filter.sInf\u27e9\n    | exact Filter.sInf (by assumption)\n    | exact Filter.sInf \u2039_\u203a\n    | apply Filter.sInf <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.sInf (by assumption))\n    | exact Filter.comap\n    | exact Filter.comap _\n    | apply Filter.comap\n    | simpa using Filter.comap\n    | exact \u27e8_, Filter.comap\u27e9\n    | exact Filter.comap (by assumption)\n    | exact Filter.comap \u2039_\u203a\n    | apply Filter.comap <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.comap (by assumption))\n    | exact Filter.map\n    | exact Filter.map _\n    | apply Filter.map\n    | simpa using Filter.map\n    | exact \u27e8_, Filter.map\u27e9\n    | exact Filter.map (by assumption)\n    | exact Filter.map \u2039_\u203a\n    | apply Filter.map <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.map (by assumption))\n    | exact Filter.bind\n    | exact Filter.bind _\n    | apply Filter.bind\n    | simpa using Filter.bind\n    | exact \u27e8_, Filter.bind\u27e9\n    | exact Filter.bind (by assumption)\n    | exact Filter.bind \u2039_\u203a\n    | apply Filter.bind <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.bind (by assumption))\n    | exact Filter.seq\n    | exact Filter.seq _\n    | apply Filter.seq\n    | simpa using Filter.seq\n    | exact \u27e8_, Filter.seq\u27e9\n    | exact Filter.seq (by assumption)\n    | exact Filter.seq \u2039_\u203a\n    | apply Filter.seq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.seq (by assumption))\n    | exact Filter.coprod\n    | exact Filter.coprod _\n    | apply Filter.coprod\n    | simpa using Filter.coprod\n    | exact \u27e8_, Filter.coprod\u27e9\n    | exact Filter.coprod (by assumption)\n    | exact Filter.coprod \u2039_\u203a\n    | apply Filter.coprod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.coprod (by assumption))\n    | exact Filter.curry\n    | exact Filter.curry _\n    | apply Filter.curry\n    | simpa using Filter.curry\n    | exact \u27e8_, Filter.curry\u27e9\n    | exact Filter.curry (by assumption)\n    | exact Filter.curry \u2039_\u203a\n    | apply Filter.curry <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.curry (by assumption))\n    | exact Filter.lift\n    | exact Filter.lift _\n    | apply Filter.lift\n    | simpa using Filter.lift\n    | exact \u27e8_, Filter.lift\u27e9\n    | exact Filter.lift (by assumption)\n    | exact Filter.lift \u2039_\u203a\n    | apply Filter.lift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift (by assumption))\n    | exact Filter.lift'\n    | exact Filter.lift' _\n    | apply Filter.lift'\n    | simpa using Filter.lift'\n    | exact \u27e8_, Filter.lift'\u27e9\n    | exact Filter.lift' (by assumption)\n    | exact Filter.lift' \u2039_\u203a\n    | apply Filter.lift' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift' (by assumption))\n    | exact Filter.pi\n    | exact Filter.pi _\n    | apply Filter.pi\n    | simpa using Filter.pi\n    | exact \u27e8_, Filter.pi\u27e9\n    | exact Filter.pi (by assumption)\n    | exact Filter.pi \u2039_\u203a\n    | apply Filter.pi <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.pi (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:74: error: Function expected at\n  IsTopologicalBasis\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  A\n\nHint: The identifier `IsTopologicalBasis` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n3:98: error: Function expected at\n  generateFrom\nbut this term has type\n  ?m.2\n\nNote: Expected a function because this term is being applied to the argument\n  (sInter {T | is_topology X T \u2227 A \u2286 T})\n\nHint: The identifier `generateFrom` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n3:152: error: Function expected at\n  generateFrom\nbut this term has type\n  ?m.2\n\nNote: Expected a function because this term is being applied to the argument\n  A\n\nHint: The identifier `generateFrom` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n3:170: error: unsolved goals\nx\u271d\u00b9 : Sort u_2\nIsTopologicalBasis : x\u271d\u00b9\nx\u271d : Sort u_3\ngenerateFrom : x\u271d\nX : Type u_1\ninst\u271d : TopologicalSpace X\nA : Set (Set X)\nhA : sorry\n\u22a2 sorry () \u2264 sorry ()\n\nStill to prove:\n\u22a2 sorry () \u2264 sorry ()",
+      "at": 1788862968.9387956,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lemma2 {X : Type*} [TopologicalSpace X] (A : Set (Set X)) : generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T}) \u2264 generateFrom A",
+      "proof": "by\n  apply TopologicalSpace.generateFrom_anti\n  intro x hx\n  rw [Set.mem_sInter]\n  intro t ht\n  exact ht.2 hx",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:68: error: Function expected at\n  generateFrom\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  (sInter {T | is_topology X T \u2227 A \u2286 T})\n\nHint: The identifier `generateFrom` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n3:122: error: Function expected at\n  generateFrom\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  A\n\nHint: The identifier `generateFrom` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.",
+      "at": 1788862972.9408042,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lemma2 {X : Type*} [TopologicalSpace X] (A : Set (Set X)) : TopologicalSpace.generateFrom (Set.sInter {T | is_topology X T \u2227 A \u2286 T}) \u2264 TopologicalSpace.generateFrom A",
+      "proof": "by\n  apply TopologicalSpace.generateFrom_anti\n  intro x hx\n  rw [Set.mem_sInter]\n  intro t ht\n  exact ht.2 hx",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:115: error: Function expected at\n  is_topology\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  X\n\nHint: The identifier `is_topology` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.",
+      "at": 1788862975.2119803,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "open Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ \u2208 T \u2227\n  (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227\n  (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 sUnion s \u2208 T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T})",
+      "proof": "by\n  apply le_antisymm\n  \u00b7 apply le_generateFrom\n    intro s hs\n    have hTA : {s | IsOpen[generateFrom A] s} \u2208 {T | is_topology X T \u2227 A \u2286 T} := by\n      constructor\n      \u00b7 refine \u27e8isOpen_univ, ?_, ?_\u27e9\n        \u00b7 intro u v hu hv\n          exact IsOpen.inter hu hv\n        \u00b7 intro S' hS'\n          exact isOpen_sUnion hS'\n      \u00b7 intro u hu\n        exact TopologicalSpace.isOpen_generateFrom_of_mem hu\n    exact hs hTA\n  \u00b7 apply TopologicalSpace.generateFrom_anti\n    intro s hs\n    rw [Set.mem_sInter]\n    intro t ht\n    exact ht.2 hs",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n18:16: error: Application type mismatch: The argument\n  isOpen_univ\nhas type\n  IsOpen[?m.47] univ\nbut is expected to have type\n  univ \u2208 {s | IsOpen[generateFrom A] s}\nin the application\n  And.intro isOpen_univ\n20:29: error: Application type mismatch: The argument\n  hu\nhas type\n  u \u2208 {s | IsOpen[generateFrom A] s}\nbut is expected to have type\n  IsOpen[?m.61] ?m.62\nin the application\n  IsOpen.inter hu\n22:30: error: Application type mismatch: The argument\n  hS'\nhas type\n  \u2200 t \u2208 S', t \u2208 {s | IsOpen[generateFrom A] s}\nbut is expected to have type\n  \u2200 t \u2208 ?m.70, IsOpen[?m.69] t\nin the application\n  isOpen_sUnion hS'\n25:13: error: Application type mismatch: The argument\n  hTA\nhas type\n  {s | IsOpen[generateFrom A] s} \u2208 {T | is_topology X T \u2227 A \u2286 T}\nof sort `Prop` but is expected to have type\n  Set (Set X)\nof sort `Type u_1` in the application\n  hs hTA",
+      "at": 1788862986.4394038,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lemma2 {X : Type*} [TopologicalSpace X] (A : Set (Set X)) : TopologicalSpace.generateFrom (Set.sInter {T | (Set.univ \u2208 T \u2227 (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 Set.sUnion s \u2208 T)) \u2227 A \u2286 T}) \u2264 TopologicalSpace.generateFrom A",
+      "proof": "by\n  apply TopologicalSpace.generateFrom_anti\n  intro s hs\n  rw [Set.mem_sInter]\n  intro t ht\n  exact ht.2 hs",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma lemma2 {X : Type*} [TopologicalSpace X] (A : Set (Set X)) : TopologicalSpace.generateFrom (Set.sInter {T | (Set.univ \u2208 T \u2227 (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 Set.sUnion s \u2208 T)) \u2227 A \u2286 T}) \u2264 TopologicalSpace.generateFrom A",
+      "at": 1788863000.3300314,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lemma1 {X : Type*} [TopologicalSpace X] (A : Set (Set X)) : TopologicalSpace.generateFrom A \u2264 TopologicalSpace.generateFrom (Set.sInter {T | (Set.univ \u2208 T \u2227 (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 Set.sUnion s \u2208 T)) \u2227 A \u2286 T})",
+      "proof": "by\n  apply le_generateFrom\n  intro s hs\n  have hTA : {s | IsOpen[TopologicalSpace.generateFrom A] s} \u2208 {T | (Set.univ \u2208 T \u2227 (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 Set.sUnion s \u2208 T)) \u2227 A \u2286 T} := by\n    constructor\n    \u00b7 refine \u27e8@isOpen_univ X (TopologicalSpace.generateFrom A), ?_, ?_\u27e9\n      \u00b7 intro u v hu hv\n        exact @IsOpen.inter X (TopologicalSpace.generateFrom A) u v hu hv\n      \u00b7 intro S' hS'\n        exact @isOpen_sUnion X (TopologicalSpace.generateFrom A) S' hS'\n    \u00b7 intro u hu\n      exact TopologicalSpace.isOpen_generateFrom_of_mem hu\n  exact hs {s | IsOpen[TopologicalSpace.generateFrom A] s} hTA",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n13:18: error: failed to synthesize instance of type class\n  GetElem (Set ?m.121 \u2192 Prop) (TopologicalSpace X) ?m.118 ?m.119\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.\n13:18: error: failed to prove index is valid, possible solutions:\n  - Use `have`-expressions to prove the index is valid\n  - Use `a[i]!` notation instead, runtime check is performed, and 'Panic' error message is produced if index is not valid\n  - Use `a[i]?` notation instead, result is an `Option` type\n  - Use `a[i]'h` notation instead, where `h` is a proof that index is valid\nX : Type u_1\ninst\u271d : TopologicalSpace X\nA : Set (Set X)\ns\u271d : Set X\nhs :\n  s\u271d \u2208\n    \u22c2\u2080\n      {T |\n        (Set.univ \u2208 T \u2227\n            (\u2200 (s t : Set X), s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 \u2200 (s : Set (Set X)), (\u2200 t \u2208 s, t \u2208 T) \u2192 \u22c3\u2080 s \u2208 T) \u2227\n          A \u2286 T}\ns : Set X\n\u22a2 ?m.119 IsOpen (TopologicalSpace.generateFrom A)\n22:16: error: failed to synthesize instance of type class\n  GetElem (Set ?m.173 \u2192 Prop) (TopologicalSpace X) ?m.170 ?m.171\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.\n22:16: error: failed to prove index is valid, possible solutions:\n  - Use `have`-expressions to prove the index is valid\n  - Use `a[i]!` notation instead, runtime check is performed, and 'Panic' error message is produced if index is not valid\n  - Use `a[i]?` notation instead, result is an `Option` type\n  - Use `a[i]'h` notation instead, where `h` is a proof that index is valid\nX : Type u_1\ninst\u271d : TopologicalSpace X\nA : Set (Set X)\ns\u271d : Set X\nhs :\n  s\u271d \u2208\n    \u22c2\u2080\n      {T |\n        (Set.univ \u2208 T \u2227\n            (\u2200 (s t : Set X), s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 \u2200 (s : Set (Set X)), (\u2200 t \u2208 s, t \u2208 T) \u2192 \u22c3\u2080 s \u2208 T) \u2227\n          A \u2286 T}\nhTA :\n  {s | sorry} \u2208\n    {T |\n      (Set.univ \u2208 T \u2227 (\u2200 (s t : Set X), s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 \u2200 (s : Set (Set X)), (\u2200 t \u2208 s, t \u2208 T) \u2192 \u22c3\u2080 s \u2208 T) \u2227\n        A \u2286 T}\ns : Set X\n\u22a2 ?m.171 IsOpen (TopologicalSpace.generateFrom A)\n\nStill to prove:\n\u22a2 ?m.119 IsOpen (TopologicalSpace.generateFrom A)\n\u22a2 ?m.171 IsOpen (TopologicalSpace.generateFrom A)",
+      "at": 1788863003.2810748,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lemma1 {X : Type*} [TopologicalSpace X] (A : Set (Set X)) : TopologicalSpace.generateFrom A \u2264 TopologicalSpace.generateFrom (Set.sInter {T | (Set.univ \u2208 T \u2227 (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 Set.sUnion s \u2208 T)) \u2227 A \u2286 T})",
+      "proof": "by\n  apply le_generateFrom\n  intro s hs\n  have hTA : {s | (TopologicalSpace.generateFrom A).IsOpen s} \u2208 {T | (Set.univ \u2208 T \u2227 (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 Set.sUnion s \u2208 T)) \u2227 A \u2286 T} := by\n    constructor\n    \u00b7 refine \u27e8(TopologicalSpace.generateFrom A).isOpen_univ, ?_, ?_\u27e9\n      \u00b7 intro u v hu hv\n        exact (TopologicalSpace.generateFrom A).isOpen_inter u v hu hv\n      \u00b7 intro S' hS'\n        exact (TopologicalSpace.generateFrom A).isOpen_sUnion S' hS'\n    \u00b7 intro u hu\n      exact TopologicalSpace.isOpen_generateFrom_of_mem hu\n  exact hs {s | (TopologicalSpace.generateFrom A).IsOpen s} hTA",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma lemma1 {X : Type*} [TopologicalSpace X] (A : Set (Set X)) : TopologicalSpace.generateFrom A \u2264 TopologicalSpace.generateFrom (Set.sInter {T | (Set.univ \u2208 T \u2227 (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 Set.sUnion s \u2208 T)) \u2227 A \u2286 T})",
+      "at": 1788863008.5973115,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "open Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ \u2208 T \u2227\n  (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227\n  (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 sUnion s \u2208 T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T})",
+      "proof": "by\n  apply le_antisymm\n  \u00b7 exact lemma1 A\n  \u00b7 exact lemma2 A",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: open Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ \u2208 T \u2227\n  (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227\n  (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 sUnion s \u2208 T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T})",
+      "at": 1788863012.2437606,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma helper_test : 1 = 1 := by rfl",
+    "lemma lemma2 {X : Type*} [TopologicalSpace X] (A : Set (Set X)) : TopologicalSpace.generateFrom (Set.sInter {T | (Set.univ \u2208 T \u2227 (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 Set.sUnion s \u2208 T)) \u2227 A \u2286 T}) \u2264 TopologicalSpace.generateFrom A := by\n  apply TopologicalSpace.generateFrom_anti\n  intro s hs\n  rw [Set.mem_sInter]\n  intro t ht\n  exact ht.2 hs",
+    "lemma lemma1 {X : Type*} [TopologicalSpace X] (A : Set (Set X)) : TopologicalSpace.generateFrom A \u2264 TopologicalSpace.generateFrom (Set.sInter {T | (Set.univ \u2208 T \u2227 (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 Set.sUnion s \u2208 T)) \u2227 A \u2286 T}) := by\n  apply le_generateFrom\n  intro s hs\n  have hTA : {s | (TopologicalSpace.generateFrom A).IsOpen s} \u2208 {T | (Set.univ \u2208 T \u2227 (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227 (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 Set.sUnion s \u2208 T)) \u2227 A \u2286 T} := by\n    constructor\n    \u00b7 refine \u27e8(TopologicalSpace.generateFrom A).isOpen_univ, ?_, ?_\u27e9\n      \u00b7 intro u v hu hv\n        exact (TopologicalSpace.generateFrom A).isOpen_inter u v hu hv\n      \u00b7 intro S' hS'\n        exact (TopologicalSpace.generateFrom A).isOpen_sUnion S' hS'\n    \u00b7 intro u hu\n      exact TopologicalSpace.isOpen_generateFrom_of_mem hu\n  exact hs {s | (TopologicalSpace.generateFrom A).IsOpen s} hTA"
+  ],
+  "premises": [
+    {
+      "name": "Filter.principal",
+      "type": " {\u03b1 : Type u_1} (s : Set \u03b1) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The principal filter of `s` is the collection of all supersets of `s`. "
+    },
+    {
+      "name": "Filter.join",
+      "type": " {\u03b1 : Type u_1} (f : Filter (Filter \u03b1)) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The join of a filter of filters is defined by the relation `s \u2208 join f \u2194 {t | s \u2208 t} \u2208 f`. "
+    },
+    {
+      "name": "Filter.sInf",
+      "type": " {\u03b1 : Type u_1} (s : Set (Filter \u03b1)) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "Infimum of a set of filters.\nThis definition is marked as irreducible\nso that Lean doesn't try to unfold it when unifying expressions. "
+    },
+    {
+      "name": "Filter.comap",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (m : \u03b1 \u2192 \u03b2) (f : Filter \u03b2) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The inverse map of a filter. A set `s` belongs to `Filter.comap m f` if either of the following\nequivalent conditions hold.\n\n1. There exists a set `t \u2208 f` such that `m \u207b\u00b9' t \u2286 s`. This is used as a definition.\n2. The set `kernImage m s = {y | \u2200 x, m x = y \u2192 x \u2208 s}` belongs to `f`, see `Filter.mem_comap'`.\n3. The set `(m '' s\u1d9c)\u1d9c` belongs to `f`, see `Filter.mem_comap_iff_compl` and\n   `Filter.compl_mem_comap`.\n"
+    },
+    {
+      "name": "Filter.map",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (m : \u03b1 \u2192 \u03b2) (f : Filter \u03b1) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The forward map of a filter "
+    },
+    {
+      "name": "Filter.bind",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (m : \u03b1 \u2192 Filter \u03b2) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The monadic bind operation on filter is defined the usual way in terms of `map` and `join`.\n\nUnfortunately, this `bind` does not result in the expected applicative. See `Filter.seq` for the\napplicative instance. "
+    },
+    {
+      "name": "Filter.seq",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter (\u03b1 \u2192 \u03b2)) (g : Filter \u03b1) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The applicative sequentiation operation. This is not induced by the bind operation. "
+    },
+    {
+      "name": "Filter.coprod",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (g : Filter \u03b2) : Filter (\u03b1 \u00d7 \u03b2)",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "Coproduct of filters. "
+    },
+    {
+      "name": "Filter.curry",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (g : Filter \u03b2) : Filter (\u03b1 \u00d7 \u03b2)",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "This filter is characterized by `Filter.eventually_curry_iff`:\n`(\u2200\u1da0 (x : \u03b1 \u00d7 \u03b2) in f.curry g, p x) \u2194 \u2200\u1da0 (x : \u03b1) in f, \u2200\u1da0 (y : \u03b2) in g, p (x, y)`. Useful\nin adding quantifiers to the middle of `Tendsto`s. See\n`hasFDerivAt_of_tendstoUniformlyOnFilter`. "
+    },
+    {
+      "name": "Filter.lift",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (g : Set \u03b1 \u2192 Filter \u03b2) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "A variant on `bind` using a function `g` taking a set instead of a member of `\u03b1`.\nThis is essentially a push-forward along a function mapping each set to a filter. "
+    },
+    {
+      "name": "Filter.lift'",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (h : Set \u03b1 \u2192 Set \u03b2) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "Specialize `lift` to functions `Set \u03b1 \u2192 Set \u03b2`. This can be viewed as a generalization of `map`.\nThis is essentially a push-forward along a function mapping each set to a set. "
+    },
+    {
+      "name": "Filter.pi",
+      "type": " {\u03b9 : Type u_3} {\u03b1 : \u03b9 \u2192 Type u_4} (f : (i : \u03b9) \u2192 Filter (\u03b1 i)) : Filter ((i : \u03b9) \u2192 \u03b1 i)",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The product of an indexed family of filters. "
+    },
+    {
+      "name": "TopologicalSpace.mk",
+      "type": " {X : Type u} (IsOpen : Set X \u2192 Prop) (isOpen_univ : IsOpen Set.univ) (isOpen_inter : \u2200 (s t : Set X), IsOpen s \u2192 IsOpen t \u2192 IsOpen (s \u2229 t)) (isOpen_sUnion : \u2200 (s : Set (Set X)), (\u2200 t \u2208 s, IsOpen t) \u2192 IsOpen (\u22c3\u2080 s)) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.ofClosed",
+      "type": " {X : Type u} (T : Set (Set X)) (empty_mem : \u2205 \u2208 T) (sInter_mem : \u2200 A \u2286 T, \u22c2\u2080 A \u2208 T) (union_mem : \u2200 A \u2208 T, \u2200 B \u2208 T, A \u222a B \u2208 T) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Basic",
+      "doc": "A constructor for topologies by specifying the closed sets,\nand showing that they satisfy the appropriate conditions. "
+    },
+    {
+      "name": "WithTopology.instTopologicalSpace",
+      "type": " (X : Type u_1) (t : TopologicalSpace X) : TopologicalSpace (WithTopology X t)",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.coinduced",
+      "type": " {X : Type u_1} {Y : Type u_2} (f : X \u2192 Y) (t : TopologicalSpace X) : TopologicalSpace Y",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "Given `f : X \u2192 Y` and a topology on `X`,\nthe coinduced topology on `Y` is defined such that\n`s : Set Y` is open if the preimage of `s` is open.\nThis is the finest topology that makes `f` continuous. "
+    },
+    {
+      "name": "TopologicalSpace.induced",
+      "type": " {X : Type u_1} {Y : Type u_2} (f : X \u2192 Y) (t : TopologicalSpace Y) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "Given `f : X \u2192 Y` and a topology on `Y`,\nthe induced topology on `X` is the collection of sets\nthat are preimages of some open set in `Y`.\nThis is the coarsest topology that makes `f` continuous. "
+    },
+    {
+      "name": "instTopologicalSpaceSubtype",
+      "type": " {X : Type u_1} {p : X \u2192 Prop} [t : TopologicalSpace X] : TopologicalSpace (Subtype p)",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceBool",
+      "type": " : TopologicalSpace Bool",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceEmpty",
+      "type": " : TopologicalSpace Empty",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceInt",
+      "type": " : TopologicalSpace \u2124",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceNat",
+      "type": " : TopologicalSpace \u2115",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpacePEmpty",
+      "type": " : TopologicalSpace PEmpty.{u_1 + 1}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpacePUnit",
+      "type": " : TopologicalSpace PUnit.{u_1 + 1}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.generateFrom",
+      "type": " {\u03b1 : Type u} (g : Set (Set \u03b1)) : TopologicalSpace \u03b1",
+      "module": "Mathlib.Topology.Order",
+      "doc": "The smallest topological space containing the collection `g` of basic sets "
+    },
+    {
+      "name": "TopologicalSpace.generateFrom_surjective",
+      "type": " {\u03b1 : Type u} : Function.Surjective TopologicalSpace.generateFrom",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.generateFrom_setOfPred_isOpen",
+      "type": " {\u03b1 : Type u} (t : TopologicalSpace \u03b1) : TopologicalSpace.generateFrom {s | IsOpen s} = t",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.generateFrom_setOf_isOpen",
+      "type": " {\u03b1 : Type u} (t : TopologicalSpace \u03b1) : TopologicalSpace.generateFrom {s | IsOpen s} = t",
+      "module": "Mathlib.Topology.Order",
+      "doc": "**Alias** of `TopologicalSpace.generateFrom_setOfPred_isOpen`."
+    },
+    {
+      "name": "TopologicalSpace.leftInverse_generateFrom",
+      "type": " {\u03b1 : Type u} : Function.LeftInverse TopologicalSpace.generateFrom fun t => {s | IsOpen s}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.isOpen_generateFrom_of_mem",
+      "type": " {\u03b1 : Type u} {g : Set (Set \u03b1)} {s : Set \u03b1} (hs : s \u2208 g) : IsOpen s",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "generateFrom_insert_univ",
+      "type": " {\u03b1 : Type u_1} {s : Set (Set \u03b1)} : TopologicalSpace.generateFrom (insert Set.univ s) = TopologicalSpace.generateFrom s",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "generateFrom_insert_empty",
+      "type": " {\u03b1 : Type u_1} {s : Set (Set \u03b1)} : TopologicalSpace.generateFrom (insert \u2205 s) = TopologicalSpace.generateFrom s",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "generateFrom_insert_of_generateOpen",
+      "type": " {\u03b1 : Type u_1} {s : Set (Set \u03b1)} {t : Set \u03b1} (ht : TopologicalSpace.GenerateOpen s t) : TopologicalSpace.generateFrom (insert t s) = TopologicalSpace.generateFrom s",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "induced_generateFrom_eq",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {b : Set (Set \u03b2)} {f : \u03b1 \u2192 \u03b2} : TopologicalSpace.induced f (TopologicalSpace.generateFrom b) = TopologicalSpace.generateFrom (Set.preimage f '' b)",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.generateFrom_anti",
+      "type": " {\u03b1 : Type u_1} {g\u2081 g\u2082 : Set (Set \u03b1)} (h : g\u2081 \u2286 g\u2082) : TopologicalSpace.generateFrom g\u2082 \u2264 TopologicalSpace.generateFrom g\u2081",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "le_generateFrom",
+      "type": " {\u03b1 : Type u} {t : TopologicalSpace \u03b1} {g : Set (Set \u03b1)} (h : \u2200 s \u2208 g, IsOpen s) : t \u2264 TopologicalSpace.generateFrom g",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "isOpen_mk",
+      "type": " {X : Type u} {s : Set X} {p : Set X \u2192 Prop} {h\u2081 : p Set.univ} {h\u2082 : \u2200 (s t : Set X), p s \u2192 p t \u2192 p (s \u2229 t)} {h\u2083 : \u2200 (s : Set (Set X)), (\u2200 t \u2208 s, p t) \u2192 p (\u22c3\u2080 s)} : IsOpen s \u2194 p s",
+      "module": "Mathlib.Topology.Basic",
+      "doc": ""
+    },
+    {
+      "name": "isOpen_univ",
+      "type": " {X : Type u} [TopologicalSpace X] : IsOpen Set.univ",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.Opens.mk_univ",
+      "type": " {\u03b1 : Type u_2} [TopologicalSpace \u03b1] : { carrier := Set.univ, is_open' := \u22ef } = \u22a4",
+      "module": "Mathlib.Topology.Sets.Opens",
+      "doc": ""
+    },
+    {
+      "name": "OpenPartialHomeomorph.ofSet_univ_eq_refl",
+      "type": " {X : Type u_1} [TopologicalSpace X] : OpenPartialHomeomorph.ofSet Set.univ \u22ef = OpenPartialHomeomorph.refl X",
+      "module": "Mathlib.Topology.OpenPartialHomeomorph.IsImage",
+      "doc": ""
+    },
+    {
+      "name": "DiffeologicalSpace.CorePlotsOn.isPlotOn_univ",
+      "type": " {X : Type u_1} (self : DiffeologicalSpace.CorePlotsOn X) {n : \u2115} {p : EuclideanSpace \u211d (Fin n) \u2192 X} : self.isPlotOn \u22ef p \u2194 self.isPlot p",
+      "module": "Mathlib.Geometry.Diffeology.Basic",
+      "doc": ""
+    },
+    {
+      "name": "DiffeologicalSpace.CorePlotsOn.mk",
+      "type": " {X : Type u_1} (isPlotOn : {n : \u2115} \u2192 {u : Set (EuclideanSpace \u211d (Fin n))} \u2192 IsOpen u \u2192 (EuclideanSpace \u211d (Fin n) \u2192 X) \u2192 Prop) (isPlotOn_congr : \u2200 {n : \u2115} {u : Set (EuclideanSpace \u211d (Fin n))} (hu : IsOpen u) {p q : EuclideanSpace \u211d (Fin n) \u2192 X}, Set.EqOn p q u \u2192 (isPlotOn hu p \u2194 isPlotOn hu q)) (isPlot : {n : \u2115} \u2192 (EuclideanSpace \u211d (Fin n) \u2192 X) \u2192 Prop) (isPlotOn_univ : \u2200 {n : \u2115} {p : EuclideanSpace \u211d (Fin n) \u2192 X}, isPlotOn \u22ef p \u2194 isPlot p := by simp) (isPlot_const : \u2200 {n : \u2115} (x : X), isPlot fun x_1 => x) (isPlotOn_reparam : \u2200 {n m : \u2115} {u : Set (EuclideanSpace \u211d (Fin n))} {v : Set (EuclideanSpace \u211d (Fin m))} {hu : IsOpen u} (hv : IsOpen v) {p : EuclideanSpace \u211d (Fin n) \u2192 X} {f : EuclideanSpace \u211d (Fin m) \u2192 EuclideanSpace \u211d (Fin n)}, Set.MapsTo f v u \u2192 isPlotOn hu p \u2192 ContDiffOn \u211d (\u2191\u22a4) f v \u2192 isPlotOn hv (p \u2218 f)) (locality : \u2200 {n : \u2115} {u : Set (EuclideanSpace \u211d (Fin n))} (hu : IsOpen u) {p : EuclideanSpace \u211d (Fin n) \u2192 X}, (\u2200 x \u2208 u, \u2203 v, \u2203 (hv : IsOpen v), x \u2208 v \u2227 isPlotOn hv p) \u2192 isPlotOn hu p) (dTopology : TopologicalSpace X) (isOpen_iff_preimages_plots : \u2200 {u : Set X}, TopologicalSpace.IsOpen u \u2194 \u2200 {n : \u2115} (p : EuclideanSpace \u211d (Fin n) \u2192 X), isPlot p \u2192 IsOpen (p \u207b\u00b9' u) := by rfl) : DiffeologicalSpace.CorePlotsOn X",
+      "module": "Mathlib.Geometry.Diffeology.Basic",
+      "doc": ""
+    },
+    {
+      "name": "isOpen_sUnion",
+      "type": " {X : Type u} [TopologicalSpace X] {s : Set (Set X)} (h : \u2200 t \u2208 s, IsOpen t) : IsOpen (\u22c3\u2080 s)",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Filter.principal, Filter.join, Filter.sInf, Filter.comap, Filter.map, Filter.bind, Filter.seq, Filter.coprod",
+    "search: 'generateFrom' -> TopologicalSpace.generateFrom, TopologicalSpace.generateFrom_surjective, TopologicalSpace.generateFrom_setOfPred_isOpen, TopologicalSpace.generateFrom_setOf_isOpen, TopologicalSpace.leftInverse_generateFrom, TopologicalSpace.isOpen_generateFrom_of_mem, generateFrom_insert_univ, generateFrom_insert_empty",
+    "search: '\"is_topology\"' -> nothing",
+    "search: '\"is_topology\"' -> nothing; goal shape -> Filter.principal, Filter.join, Filter.sInf, Filter.comap, Filter.map, Filter.bind, Filter.seq, Filter.coprod",
+    "search: 'TopologicalSpace.mk' -> TopologicalSpace.mk, isOpen_mk",
+    "search: '\"generateFrom\"' -> TopologicalSpace.generateFrom, TopologicalSpace.generateFrom_surjective, TopologicalSpace.generateFrom_setOfPred_isOpen, TopologicalSpace.generateFrom_setOf_isOpen, TopologicalSpace.leftInverse_generateFrom, TopologicalSpace.isOpen_generateFrom_of_mem, generateFrom_insert_univ, generateFrom_insert_empty",
+    "search: '\"TopologicalSpace\" \"le\"' -> nothing",
+    "search: '\"TopologicalSpace\" \"le\"' -> nothing; goal shape -> Filter.principal, Filter.join, Filter.sInf, Filter.comap, Filter.map, Filter.bind, Filter.seq, Filter.coprod",
+    "search: '\"TopologicalSpace\" \"LE\"' -> nothing",
+    "search: '\"TopologicalSpace\" \"LE\"' -> nothing; goal shape -> Filter.principal, Filter.join, Filter.sInf, Filter.comap, Filter.map, Filter.bind, Filter.seq, Filter.coprod",
+    "search: 'isOpen_univ' -> isOpen_univ, TopologicalSpace.Opens.mk_univ, OpenPartialHomeomorph.ofSet_univ_eq_refl, DiffeologicalSpace.CorePlotsOn.isPlotOn_univ, DiffeologicalSpace.CorePlotsOn.mk",
+    "search: 'isOpen_sUnion' -> isOpen_sUnion"
+  ],
+  "budget": {
+    "tool_calls": 28,
+    "lean_calls": 15,
+    "searches": 10,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788862879.06039,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.2,
+    "statement_checks": 1,
+    "refusals": {
+      "placeholder_proof": 3,
+      "skeleton_not_engaged": 1,
+      "decompose_first": 1
+    }
+  },
+  "goal": "open Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ \u2208 T \u2227\n  (\u2200 s t, s \u2208 T \u2192 t \u2208 T \u2192 s \u2229 t \u2208 T) \u2227\n  (\u2200s, (\u2200t \u2208 s, t \u2208 T) \u2192 sUnion s \u2208 T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T \u2227 A \u2286 T})"
+}

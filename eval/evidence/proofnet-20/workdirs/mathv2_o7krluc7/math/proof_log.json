@@ -1,0 +1,530 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_4_5 {p t : \u2115} (hp0 : p.Prime) (hp1 : p = 4*t + 3)\n  (a : ZMod p) :\n  IsPrimitiveRoot a p \u2194 ((-a) ^ ((p-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (p-1)/2 \u2192 (-a)^k \u2260 1)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788864315.9115705,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_4_5_refutation : \u00ac (\u2200 {p t : \u2115} (hp0 : p.Prime) (hp1 : p = 4*t + 3)\n  (a : ZMod p), IsPrimitiveRoot a p \u2194 ((-a) ^ ((p-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (p-1)/2 \u2192 (-a)^k \u2260 1))",
+      "proof": "by\n  intro h\n  have h1 : IsPrimitiveRoot (2 : ZMod 3) 3 \u2194 ((-(2 : ZMod 3)) ^ ((3-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (3-1)/2 \u2192 (-(2 : ZMod 3))^k \u2260 1) := by\n    apply h (p := 3) (t := 0)\n    \u00b7 decide\n    \u00b7 rfl\n  have h_lhs : IsPrimitiveRoot (2 : ZMod 3) 3 := by\n    -- Let's see if decide can prove this\n    decide\n  have h_rhs : \u00ac (((-(2 : ZMod 3)) ^ ((3-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (3-1)/2 \u2192 (-(2 : ZMod 3))^k \u2260 1)) := by\n    intro h_and\n    have h_all := h_and.2\n    have h_zero : 0 < (3-1)/2 := by decide\n    have h_not := h_all 0 h_zero\n    simp at h_not\n  exact h_rhs (h1.mp h_lhs)",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n10:4: error: failed to synthesize\n  Decidable (IsPrimitiveRoot 2 3)\n\nHint: Additional diagnostic information may be available using the `set_option diagnostics true` command.",
+      "at": 1788864348.8365045,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma rhs_false {p t : \u2115} (hp1 : p = 4*t + 3) (a : ZMod p) :\n  \u00ac ((-a) ^ ((p-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (p-1)/2 \u2192 (-a)^k \u2260 1)",
+      "proof": "by\n  intro h\n  have h_all := h.2\n  have h_zero : 0 < (p-1)/2 := by omega\n  have h_not := h_all 0 h_zero\n  simp at h_not",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma rhs_false {p t : \u2115} (hp1 : p = 4*t + 3) (a : ZMod p) :\n  \u00ac ((-a) ^ ((p-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (p-1)/2 \u2192 (-a)^k \u2260 1)",
+      "at": 1788864359.407268,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_4_5 {p t : \u2115} (hp0 : p.Prime) (hp1 : p = 4*t + 3)\n  (a : ZMod p) :\n  IsPrimitiveRoot a p \u2194 ((-a) ^ ((p-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (p-1)/2 \u2192 (-a)^k \u2260 1)",
+      "proof": "have h_lhs : \u00ac IsPrimitiveRoot a p := by sorry\nhave h_rhs : \u00ac ((-a) ^ ((p-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (p-1)/2 \u2192 (-a)^k \u2260 1) := by\n  apply rhs_false hp1\nexact iff_of_false h_lhs h_rhs",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788864381.7703447,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_1 {p t : \u2115} (hp0 : p.Prime) (hp1 : p = 4*t + 3) (a : ZMod p) : \u00ac IsPrimitiveRoot a p",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Irreducible.prime\n    | exact Irreducible.prime _\n    | apply Irreducible.prime\n    | simpa using Irreducible.prime\n    | exact \u27e8_, Irreducible.prime\u27e9\n    | exact Irreducible.prime (by assumption)\n    | exact Irreducible.prime \u2039_\u203a\n    | apply Irreducible.prime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Irreducible.prime (by assumption))\n    | exact Irreducible.prime_of_isPrimal\n    | exact Irreducible.prime_of_isPrimal _\n    | apply Irreducible.prime_of_isPrimal\n    | simpa using Irreducible.prime_of_isPrimal\n    | exact \u27e8_, Irreducible.prime_of_isPrimal\u27e9\n    | exact Irreducible.prime_of_isPrimal (by assumption)\n    | exact Irreducible.prime_of_isPrimal \u2039_\u203a\n    | apply Irreducible.prime_of_isPrimal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Irreducible.prime_of_isPrimal (by assumption))\n    | exact comap_prime\n    | exact comap_prime _\n    | apply comap_prime\n    | simpa using comap_prime\n    | exact \u27e8_, comap_prime\u27e9\n    | exact comap_prime (by assumption)\n    | exact comap_prime \u2039_\u203a\n    | apply comap_prime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact comap_prime (by assumption))\n    | exact Associated.prime\n    | exact Associated.prime _\n    | apply Associated.prime\n    | simpa using Associated.prime\n    | exact \u27e8_, Associated.prime\u27e9\n    | exact Associated.prime (by assumption)\n    | exact Associated.prime \u2039_\u203a\n    | apply Associated.prime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Associated.prime (by assumption))\n    | exact UniqueFactorizationMonoid.prime_of_factor\n    | exact UniqueFactorizationMonoid.prime_of_factor _\n    | apply UniqueFactorizationMonoid.prime_of_factor\n    | simpa using UniqueFactorizationMonoid.prime_of_factor\n    | exact \u27e8_, UniqueFactorizationMonoid.prime_of_factor\u27e9\n    | exact UniqueFactorizationMonoid.prime_of_factor (by assumption)\n    | exact UniqueFactorizationMonoid.prime_of_factor \u2039_\u203a\n    | apply UniqueFactorizationMonoid.prime_of_factor <;> assumption\n    | (haveI := Fact.mk (by assumption); exact UniqueFactorizationMonoid.prime_of_factor (by assumption))\n    | exact Submodule.IsPrincipal.prime_generator_of_isPrime\n    | exact Submodule.IsPrincipal.prime_generator_of_isPrime _\n    | apply Submodule.IsPrincipal.prime_generator_of_isPrime\n    | simpa using Submodule.IsPrincipal.prime_generator_of_isPrime\n    | exact \u27e8_, Submodule.IsPrincipal.prime_generator_of_isPrime\u27e9\n    | exact Submodule.IsPrincipal.prime_generator_of_isPrime (by assumption)\n    | exact Submodule.IsPrincipal.prime_generator_of_isPrime \u2039_\u203a\n    | apply Submodule.IsPrincipal.prime_generator_of_isPrime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Submodule.IsPrincipal.prime_generator_of_isPrime (by assumption))\n    | exact Nat.Prime.prime\n    | exact Nat.Prime.prime _\n    | apply Nat.Prime.prime\n    | simpa using Nat.Prime.prime\n    | exact \u27e8_, Nat.Prime.prime\u27e9\n    | exact Nat.Prime.prime (by assumption)\n    | exact Nat.Prime.prime \u2039_\u203a\n    | apply Nat.Prime.prime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.Prime.prime (by assumption))\n    | exact Polynomial.prime_X\n    | exact Polynomial.prime_X _\n    | apply Polynomial.prime_X\n    | simpa using Polynomial.prime_X\n    | exact \u27e8_, Polynomial.prime_X\u27e9\n    | exact Polynomial.prime_X (by assumption)\n    | exact Polynomial.prime_X \u2039_\u203a\n    | apply Polynomial.prime_X <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Polynomial.prime_X (by assumption))\n    | exact Polynomial.Monic.prime_of_degree_eq_one\n    | exact Polynomial.Monic.prime_of_degree_eq_one _\n    | apply Polynomial.Monic.prime_of_degree_eq_one\n    | simpa using Polynomial.Monic.prime_of_degree_eq_one\n    | exact \u27e8_, Polynomial.Monic.prime_of_degree_eq_one\u27e9\n    | exact Polynomial.Monic.prime_of_degree_eq_one (by assumption)\n    | exact Polynomial.Monic.prime_of_degree_eq_one \u2039_\u203a\n    | apply Polynomial.Monic.prime_of_degree_eq_one <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Polynomial.Monic.prime_of_degree_eq_one (by assumption))\n    | exact Polynomial.prime_X_sub_C\n    | exact Polynomial.prime_X_sub_C _\n    | apply Polynomial.prime_X_sub_C\n    | simpa using Polynomial.prime_X_sub_C\n    | exact \u27e8_, Polynomial.prime_X_sub_C\u27e9\n    | exact Polynomial.prime_X_sub_C (by assumption)\n    | exact Polynomial.prime_X_sub_C \u2039_\u203a\n    | apply Polynomial.prime_X_sub_C <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Polynomial.prime_X_sub_C (by assumption))\n    | exact UniqueFactorizationMonoid.prime_of_normalized_factor\n    | exact UniqueFactorizationMonoid.prime_of_normalized_factor _\n    | apply UniqueFactorizationMonoid.prime_of_normalized_factor\n    | simpa using UniqueFactorizationMonoid.prime_of_normalized_factor\n    | exact \u27e8_, UniqueFactorizationMonoid.prime_of_normalized_factor\u27e9\n    | exact UniqueFactorizationMonoid.prime_of_normalized_factor (by assumption)\n    | exact UniqueFactorizationMonoid.prime_of_normalized_factor \u2039_\u203a\n    | apply UniqueFactorizationMonoid.prime_of_normalized_factor <;> assumption\n    | (haveI := Fact.mk (by assumption); exact UniqueFactorizationMonoid.prime_of_normalized_factor (by assumption))\n    | exact Polynomial.prime_of_degree_eq_one\n    | exact Polynomial.prime_of_degree_eq_one _\n    | apply Polynomial.prime_of_degree_eq_one\n    | simpa using Polynomial.prime_of_degree_eq_one\n    | exact \u27e8_, Polynomial.prime_of_degree_eq_one\u27e9\n    | exact Polynomial.prime_of_degree_eq_one (by assumption)\n    | exact Polynomial.prime_of_degree_eq_one \u2039_\u203a\n    | apply Polynomial.prime_of_degree_eq_one <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Polynomial.prime_of_degree_eq_one (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n9:103: error: unsolved goals\np t : \u2115\nhp0 : Nat.Prime p\nhp1 : p = 4 * t + 3\na : ZMod p\n\u22a2 \u00acIsPrimitiveRoot a p\n\nStill to prove:\n\u22a2 \u00acIsPrimitiveRoot a p",
+      "at": 1788864381.9125168,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lhs_false {p t : \u2115} (hp0 : p.Prime) (hp1 : p = 4*t + 3) (a : ZMod p) :\n  \u00ac IsPrimitiveRoot a p",
+      "proof": "by\n  have : Fact p.Prime := \u27e8hp0\u27e9\n  by_cases ha : a = 0\n  \u00b7 subst ha\n    intro h\n    have h_eq := IsPrimitiveRoot.eq_orderOf h\n    have h_zero : orderOf (0 : ZMod p) = 0 := by\n      haveI : Nontrivial (ZMod p) := ZMod.nontrivial_of_prime p hp0\n      exact orderOf_zero (ZMod p)\n    rw [h_zero] at h_eq\n    omega\n  \u00b7 intro h\n    have h_eq := IsPrimitiveRoot.eq_orderOf h\n    have h_pow : a ^ (p - 1) = 1 := ZMod.pow_card_sub_one_eq_one ha\n    have h_dvd : orderOf a \u2223 p - 1 := by\n      -- Let's see if orderOf_dvd_iff_pow_eq_one works\n      exact orderOf_dvd_iff_pow_eq_one.mpr h_pow\n    rw [h_eq] at h_dvd\n    -- p \u2223 p - 1 is impossible for p >= 3\n    have h_le : p \u2264 p - 1 := Nat.le_of_dvd (by omega) h_dvd\n    omega",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n17:37: error: Unknown constant `ZMod.nontrivial_of_prime`\n27:8: error: Tactic `rewrite` failed: motive is not type correct:\n  fun _a => orderOf a \u2223 _a - 1\nError: Application type mismatch: The argument\n  this\nhas type\n  Fact (Nat.Prime p)\nbut is expected to have type\n  Fact (Nat.Prime _a)\nin the application\n  @ZMod.instField _a \u22ef\n\nExplanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.\n\nPossible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).\n\ncase neg\np t : \u2115\nhp0 : Nat.Prime p\nhp1 : p = 4 * t + 3\na : ZMod p\nthis : Fact (Nat.Prime p)\nha : \u00aca = 0\nh : IsPrimitiveRoot a p\nh_eq : p = orderOf a\nh_pow : a ^ (p - 1) = 1\nh_dvd : orderOf a \u2223 p - 1\n\u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788864396.2332299,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lhs_false {p t : \u2115} (hp0 : p.Prime) (hp1 : p = 4*t + 3) (a : ZMod p) :\n  \u00ac IsPrimitiveRoot a p",
+      "proof": "by\n  have : Fact p.Prime := \u27e8hp0\u27e9\n  by_cases ha : a = 0\n  \u00b7 subst ha\n    intro h\n    have h_eq := IsPrimitiveRoot.eq_orderOf h\n    have h_zero : orderOf (0 : ZMod p) = 0 := by\n      haveI : Nontrivial (ZMod p) := ZMod.nontrivial_iff.mpr (by omega)\n      exact orderOf_zero (ZMod p)\n    rw [h_zero] at h_eq\n    omega\n  \u00b7 intro h\n    have h_eq := IsPrimitiveRoot.eq_orderOf h\n    have h_pow : a ^ (p - 1) = 1 := ZMod.pow_card_sub_one_eq_one ha\n    have h_dvd : orderOf a \u2223 p - 1 := orderOf_dvd_iff_pow_eq_one.mpr h_pow\n    rw [\u2190 h_eq] at h_dvd\n    have h_le : p \u2264 p - 1 := Nat.le_of_dvd (by omega) h_dvd\n    omega",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma lhs_false {p t : \u2115} (hp0 : p.Prime) (hp1 : p = 4*t + 3) (a : ZMod p) :\n  \u00ac IsPrimitiveRoot a p",
+      "at": 1788864411.770355,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_5 {p t : \u2115} (hp0 : p.Prime) (hp1 : p = 4*t + 3)\n  (a : ZMod p) :\n  IsPrimitiveRoot a p \u2194 ((-a) ^ ((p-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (p-1)/2 \u2192 (-a)^k \u2260 1)",
+      "proof": "by\n  have h_lhs : \u00ac IsPrimitiveRoot a p := lhs_false hp0 hp1 a\n  have h_rhs : \u00ac ((-a) ^ ((p-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (p-1)/2 \u2192 (-a)^k \u2260 1) := rhs_false hp1 a\n  exact iff_of_false h_lhs h_rhs",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_4_5 {p t : \u2115} (hp0 : p.Prime) (hp1 : p = 4*t + 3)\n  (a : ZMod p) :\n  IsPrimitiveRoot a p \u2194 ((-a) ^ ((p-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (p-1)/2 \u2192 (-a)^k \u2260 1)",
+      "at": 1788864414.6793761,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma rhs_false {p t : \u2115} (hp1 : p = 4*t + 3) (a : ZMod p) :\n  \u00ac ((-a) ^ ((p-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (p-1)/2 \u2192 (-a)^k \u2260 1) := by\n  intro h\n  have h_all := h.2\n  have h_zero : 0 < (p-1)/2 := by omega\n  have h_not := h_all 0 h_zero\n  simp at h_not",
+    "lemma lhs_false {p t : \u2115} (hp0 : p.Prime) (hp1 : p = 4*t + 3) (a : ZMod p) :\n  \u00ac IsPrimitiveRoot a p := by\n  have : Fact p.Prime := \u27e8hp0\u27e9\n  by_cases ha : a = 0\n  \u00b7 subst ha\n    intro h\n    have h_eq := IsPrimitiveRoot.eq_orderOf h\n    have h_zero : orderOf (0 : ZMod p) = 0 := by\n      haveI : Nontrivial (ZMod p) := ZMod.nontrivial_iff.mpr (by omega)\n      exact orderOf_zero (ZMod p)\n    rw [h_zero] at h_eq\n    omega\n  \u00b7 intro h\n    have h_eq := IsPrimitiveRoot.eq_orderOf h\n    have h_pow : a ^ (p - 1) = 1 := ZMod.pow_card_sub_one_eq_one ha\n    have h_dvd : orderOf a \u2223 p - 1 := orderOf_dvd_iff_pow_eq_one.mpr h_pow\n    rw [\u2190 h_eq] at h_dvd\n    have h_le : p \u2264 p - 1 := Nat.le_of_dvd (by omega) h_dvd\n    omega"
+  ],
+  "premises": [
+    {
+      "name": "Irreducible.prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] [DecompositionMonoid M] {a : M} (irr : Irreducible a) : Prime a",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Irreducible.prime_of_isPrimal",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {a : M} (irr : Irreducible a) (primal : IsPrimal a) : Prime a",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "comap_prime",
+      "type": " {M : Type u_1} {N : Type u_2} [CommMonoidWithZero M] [CommMonoidWithZero N] {F : Type u_3} {G : Type u_4} [FunLike F M N] [MonoidWithZeroHomClass F M N] [FunLike G N M] [MulHomClass G N M] (f : F) (g : G) {p : M} (hinv : \u2200 (a : M), g (f a) = a) (hp : Prime (f p)) : Prime p",
+      "module": "Mathlib.Algebra.Prime.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Associated.prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p q : M} (h : Associated p q) (hp : Prime p) : Prime q",
+      "module": "Mathlib.Algebra.GroupWithZero.Associated",
+      "doc": ""
+    },
+    {
+      "name": "UniqueFactorizationMonoid.prime_of_factor",
+      "type": " {\u03b1 : Type u_1} [CommMonoidWithZero \u03b1] [UniqueFactorizationMonoid \u03b1] {a : \u03b1} (x : \u03b1) (hx : x \u2208 UniqueFactorizationMonoid.factors a) : Prime x",
+      "module": "Mathlib.RingTheory.UniqueFactorizationDomain.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Submodule.IsPrincipal.prime_generator_of_isPrime",
+      "type": " {R : Type u} [CommSemiring R] (S : Ideal R) [Submodule.IsPrincipal S] [is_prime : S.IsPrime] (ne_bot : S \u2260 \u22a5) : Prime (Submodule.IsPrincipal.generator S)",
+      "module": "Mathlib.RingTheory.PrincipalIdealDomain",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime.prime",
+      "type": " {p : \u2115} : Nat.Prime p \u2192 Prime p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "**Alias** of the forward direction of `Nat.prime_iff`."
+    },
+    {
+      "name": "Polynomial.prime_X",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] : Prime Polynomial.X",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.Monic.prime_of_degree_eq_one",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] {p : Polynomial R} (hp1 : p.degree = 1) (hm : p.Monic) : Prime p",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.prime_X_sub_C",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] (r : R) : Prime (Polynomial.X - Polynomial.C r)",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "UniqueFactorizationMonoid.prime_of_normalized_factor",
+      "type": " {\u03b1 : Type u_1} [CommMonoidWithZero \u03b1] [NormalizationMonoid \u03b1] [UniqueFactorizationMonoid \u03b1] {a : \u03b1} (x : \u03b1) : x \u2208 UniqueFactorizationMonoid.normalizedFactors a \u2192 Prime x",
+      "module": "Mathlib.RingTheory.UniqueFactorizationDomain.NormalizedFactors",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.prime_of_degree_eq_one",
+      "type": " {R : Type u} [Field R] {p : Polynomial R} (hp1 : p.degree = 1) : Prime p",
+      "module": "Mathlib.Algebra.Polynomial.FieldDivision",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.inv",
+      "type": " (n : \u2115) : ZMod n \u2192 ZMod n",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": "The inversion on `ZMod n`.\nIt is setup in such a way that `a * a\u207b\u00b9` is equal to `gcd a.val n`.\nIn particular, if `a` is coprime to `n`, and hence a unit, `a * a\u207b\u00b9 = 1`. "
+    },
+    {
+      "name": "Quandle.dihedralAct",
+      "type": " (n : \u2115) (a : ZMod n) : ZMod n \u2192 ZMod n",
+      "module": "Mathlib.Algebra.Quandle",
+      "doc": "The operation for the dihedral quandle.  It does not need to be an equivalence\nbecause it is an involution (see `dihedralAct.inv`). "
+    },
+    {
+      "name": "modularCyclotomicCharacter.toFun",
+      "type": " {L : Type u} [CommRing L] [IsDomain L] (n : \u2115) [NeZero n] (g : L \u2243+* L) : ZMod (Nat.card \u21a5(rootsOfUnity n L))",
+      "module": "Mathlib.NumberTheory.Cyclotomic.CyclotomicCharacter",
+      "doc": "If `g` is a ring automorphism of `L`, and `n : \u2115+`, then\n`modularCyclotomicCharacter.toFun n g` is the `j : ZMod d` such that `g(\u03b6)=\u03b6^j` for all\n`n`-th roots of unity. Here `d` is the number of `n`th roots of unity in `L`. "
+    },
+    {
+      "name": "LucasLehmer.lucasLehmerResidue",
+      "type": " (p : \u2115) : ZMod (2 ^ p - 1)",
+      "module": "Mathlib.NumberTheory.LucasLehmer",
+      "doc": "The Lucas-Lehmer residue is `s p (p-2)` in `ZMod (2^p - 1)`. "
+    },
+    {
+      "name": "LucasLehmer.sZMod",
+      "type": " (p a\u271d : \u2115) : ZMod (2 ^ p - 1)",
+      "module": "Mathlib.NumberTheory.LucasLehmer",
+      "doc": "The recurrence `s (i+1) = (s i)^2 - 2` in `ZMod (2^p - 1)`. "
+    },
+    {
+      "name": "Prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] (p : M) : Prop",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": "An element `p` of a commutative monoid with zero (e.g., a ring) is called *prime*,\nif it's not zero, not a unit, and `p \u2223 a * b \u2192 p \u2223 a \u2228 p \u2223 b` for all `a`, `b`. "
+    },
+    {
+      "name": "Prime.not_isUnit",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p : M} (hp : Prime p) : \u00acIsUnit p",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Prime.not_unit",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p : M} (hp : Prime p) : \u00acIsUnit p",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": "**Alias** of `Prime.not_isUnit`."
+    },
+    {
+      "name": "Prime.isPrimal",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p : M} (hp : Prime p) : IsPrimal p",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "not_prime_zero",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] : \u00acPrime 0",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "not_prime_one",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] : \u00acPrime 1",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Prime.ne_zero",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p : M} (hp : Prime p) : p \u2260 0",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.existsUnique",
+      "type": " {M : Type u_1} [CommMonoid M] {\u03b6 : M} : \u2203! k, IsPrimitiveRoot \u03b6 k",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.orderOf",
+      "type": " {M : Type u_1} [CommMonoid M] (\u03b6 : M) : IsPrimitiveRoot \u03b6 (orderOf \u03b6)",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.of_subsingleton",
+      "type": " {M : Type u_1} [CommMonoid M] [Subsingleton M] (x : M) : IsPrimitiveRoot x 1",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.eq_orderOf",
+      "type": " {M : Type u_1} [CommMonoid M] {k : \u2115} {\u03b6 : M} (h : IsPrimitiveRoot \u03b6 k) : k = orderOf \u03b6",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.iff_orderOf",
+      "type": " {M : Type u_1} [CommMonoid M] {k : \u2115} {\u03b6 : M} : IsPrimitiveRoot \u03b6 k \u2194 orderOf \u03b6 = k",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.unique",
+      "type": " {M : Type u_1} [CommMonoid M] {k l : \u2115} {\u03b6 : M} (hk : IsPrimitiveRoot \u03b6 k) (hl : IsPrimitiveRoot \u03b6 l) : k = l",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.not_iff",
+      "type": " {M : Type u_1} [CommMonoid M] {k : \u2115} {\u03b6 : M} : \u00acIsPrimitiveRoot \u03b6 k \u2194 orderOf \u03b6 \u2260 k",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.isOfFinOrder",
+      "type": " {M : Type u_1} [CommMonoid M] {k : \u2115} {\u03b6 : M} (h : IsPrimitiveRoot \u03b6 k) (h0 : k \u2260 0) : IsOfFinOrder \u03b6",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.isUnit",
+      "type": " {M : Type u_1} [CommMonoid M] {k : \u2115} {\u03b6 : M} (h : IsPrimitiveRoot \u03b6 k) (h0 : k \u2260 0) : IsUnit \u03b6",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.one",
+      "type": " {M : Type u_1} [CommMonoid M] : IsPrimitiveRoot 1 1",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.zero",
+      "type": " {M\u2080 : Type u_7} [CommMonoidWithZero M\u2080] [Nontrivial M\u2080] : IsPrimitiveRoot 0 0",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot",
+      "type": " {M : Type u_1} [CommMonoid M] (\u03b6 : M) (k : \u2115) : Prop",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": "An element `\u03b6` is a primitive `k`-th root of unity if `\u03b6 ^ k = 1`,\nand if `l` satisfies `\u03b6 ^ l = 1` then `k \u2223 l`. "
+    },
+    {
+      "name": "Relation.ReflGen.instIsPreorderOfIsTrans",
+      "type": " {\u03b1 : Type u_1} {r : \u03b1 \u2192 \u03b1 \u2192 Prop} [IsTrans \u03b1 r] : IsPreorder \u03b1 (Relation.ReflGen r)",
+      "module": "Mathlib.Logic.Relation",
+      "doc": ""
+    },
+    {
+      "name": "Relation.TransGen.instIsPreorderOfRefl",
+      "type": " {\u03b1 : Type u_1} {r : \u03b1 \u2192 \u03b1 \u2192 Prop} [Std.Refl r] : IsPreorder \u03b1 (Relation.TransGen r)",
+      "module": "Mathlib.Logic.Relation",
+      "doc": ""
+    },
+    {
+      "name": "instNoBotOrderOfNoMinOrder",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] [NoMinOrder \u03b1] : NoBotOrder \u03b1",
+      "module": "Mathlib.Order.Max",
+      "doc": ""
+    },
+    {
+      "name": "instNoTopOrderOfNoMaxOrder",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] [NoMaxOrder \u03b1] : NoTopOrder \u03b1",
+      "module": "Mathlib.Order.Max",
+      "doc": ""
+    },
+    {
+      "name": "linearOrderOfCompares",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] (cmp : \u03b1 \u2192 \u03b1 \u2192 Ordering) (h : \u2200 (a b : \u03b1), (cmp a b).Compares a b) : LinearOrder \u03b1",
+      "module": "Mathlib.Order.Compare",
+      "doc": "Generate a linear order structure from a preorder and `cmp` function. "
+    },
+    {
+      "name": "instIsWellOrderOfIsEmpty",
+      "type": " {\u03b1 : Type u} [IsEmpty \u03b1] (r : \u03b1 \u2192 \u03b1 \u2192 Prop) : IsWellOrder \u03b1 r",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": ""
+    },
+    {
+      "name": "partialOrderOfSO",
+      "type": " {\u03b1 : Type u} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [IsStrictOrder \u03b1 r] : PartialOrder \u03b1",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Construct a partial order from an `isStrictOrder` relation.\n\nSee note [reducible non-instances]. "
+    },
+    {
+      "name": "instIsStrictTotalOrderOfIsWellOrder",
+      "type": " {\u03b1 : Type u_1} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [IsWellOrder \u03b1 r] : IsStrictTotalOrder \u03b1 r",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": ""
+    },
+    {
+      "name": "linearOrderOfSTO",
+      "type": " {\u03b1 : Type u} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [IsStrictTotalOrder \u03b1 r] [DecidableRel r] : LinearOrder \u03b1",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Construct a linear order from an `IsStrictTotalOrder` relation.\n\nSee note [reducible non-instances]. "
+    },
+    {
+      "name": "Subsingleton.addOrderOf_eq",
+      "type": " {G : Type u_1} [AddMonoid G] [Subsingleton G] (x : G) : addOrderOf x = 1",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "Subsingleton.orderOf_eq",
+      "type": " {G : Type u_1} [Monoid G] [Subsingleton G] (x : G) : orderOf x = 1",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "addOrderOf_eq_zero",
+      "type": " {G : Type u_1} [AddMonoid G] {x : G} (h : \u00acIsOfFinAddOrder x) : addOrderOf x = 0",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_eq_zero",
+      "type": " {G : Type u_1} [Monoid G] {x : G} (h : \u00acIsOfFinOrder x) : orderOf x = 0",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "addOrderOf_eq_zero_iff",
+      "type": " {G : Type u_1} [AddMonoid G] {x : G} : addOrderOf x = 0 \u2194 \u00acIsOfFinAddOrder x",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_eq_zero_iff",
+      "type": " {G : Type u_1} [Monoid G] {x : G} : orderOf x = 0 \u2194 \u00acIsOfFinOrder x",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "IsAddUnit.addOrderOf_eq_zero",
+      "type": " {G : Type u_1} [AddMonoid G] [Subsingleton (AddUnits G)] {x : G} (h : IsAddUnit x) : addOrderOf x = 1",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "IsUnit.orderOf_eq_one",
+      "type": " {G : Type u_1} [Monoid G] [Subsingleton G\u02e3] {x : G} (h : IsUnit x) : orderOf x = 1",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_eq_one_iff",
+      "type": " {G : Type u_1} [Monoid G] {x : G} : orderOf x = 1 \u2194 x = 1",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "AddMonoid.addOrderOf_eq_one_iff",
+      "type": " {G : Type u_1} [AddMonoid G] {x : G} : addOrderOf x = 1 \u2194 x = 0",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "pow_orderOf_eq_one",
+      "type": " {G : Type u_1} [Monoid G] (x : G) : x ^ orderOf x = 1",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_eq_zero_iff_eq_zero",
+      "type": " {G\u2080 : Type u_6} [GroupWithZero G\u2080] [Finite G\u2080] {a : G\u2080} : orderOf a = 0 \u2194 a = 0",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "iff_of_false",
+      "type": " {a b : Prop} (ha : \u00aca) (hb : \u00acb) : a \u2194 b",
+      "module": "Init.Core",
+      "doc": ""
+    },
+    {
+      "name": "addOrderOf_zero",
+      "type": " {G : Type u_1} [AddMonoid G] : addOrderOf 0 = 1",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_zero",
+      "type": " (M\u2080 : Type u_6) [MonoidWithZero M\u2080] [Nontrivial M\u2080] : orderOf 0 = 0",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": "In a nontrivial monoid with zero, the order of the zero element is zero. "
+    },
+    {
+      "name": "isUnit_iff_ne_zero",
+      "type": " {G\u2080 : Type u_3} [GroupWithZero G\u2080] {a : G\u2080} : IsUnit a \u2194 a \u2260 0",
+      "module": "Mathlib.Algebra.GroupWithZero.Units.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ModEq.pow_card_sub_one_eq_one",
+      "type": " {p : \u2115} (hp : Nat.Prime p) {n : \u2115} (hpn : n.Coprime p) : n ^ (p - 1) \u2261 1 [MOD p]",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": "**Fermat's Little Theorem**: for all `n : \u2115` coprime to `p`, we have\n`n ^ (p - 1) \u2261 1 [MOD p]`. "
+    },
+    {
+      "name": "Int.ModEq.pow_card_sub_one_eq_one",
+      "type": " {p : \u2115} (hp : Nat.Prime p) {n : \u2124} (hpn : IsCoprime n \u2191p) : n ^ (p - 1) \u2261 1 [ZMOD \u2191p]",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": "**Fermat's Little Theorem**: for all `a : \u2124` coprime to `p`, we have\n`a ^ (p - 1) \u2261 1 [ZMOD p]`. "
+    },
+    {
+      "name": "FiniteField.pow_card_sub_one_eq_one",
+      "type": " {K : Type u_1} [GroupWithZero K] [Fintype K] (a : K) (ha : a \u2260 0) : a ^ (Fintype.card K - 1) = 1",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.pow_card_sub_one_eq_one",
+      "type": " {p : \u2115} [Fact (Nat.Prime p)] {a : ZMod p} (ha : a \u2260 0) : a ^ (p - 1) = 1",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": "**Fermat's Little Theorem**: for all nonzero `a : ZMod p`, we have `a ^ (p - 1) = 1`. "
+    },
+    {
+      "name": "ZMod.units_pow_card_sub_one_eq_one",
+      "type": " (p : \u2115) [Fact (Nat.Prime p)] (a : (ZMod p)\u02e3) : a ^ (p - 1) = 1",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": "**Fermat's Little Theorem**: for every unit `a` of `ZMod p`, we have `a ^ (p - 1) = 1`. "
+    },
+    {
+      "name": "ZMod.nontrivial'",
+      "type": " : Nontrivial (ZMod 0)",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.nontrivial_iff",
+      "type": " {n : \u2115} : Nontrivial (ZMod n) \u2194 n \u2260 1",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.nontrivial",
+      "type": " (n : \u2115) [Fact (1 < n)] : Nontrivial (ZMod n)",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Irreducible.prime, Irreducible.prime_of_isPrimal, comap_prime, Associated.prime, UniqueFactorizationMonoid.prime_of_factor, Submodule.IsPrincipal.prime_generator_of_isPrime, Nat.Prime.prime, Polynomial.prime_X",
+    "search: '\"IsPrimitiveRoot\"' -> IsPrimitiveRoot.existsUnique, IsPrimitiveRoot.orderOf, IsPrimitiveRoot.of_subsingleton, IsPrimitiveRoot.eq_orderOf, IsPrimitiveRoot.iff_orderOf, IsPrimitiveRoot.unique, IsPrimitiveRoot.not_iff, IsPrimitiveRoot.isOfFinOrder",
+    "search: '\"orderOf\"' -> Relation.ReflGen.instIsPreorderOfIsTrans, Relation.TransGen.instIsPreorderOfRefl, instNoBotOrderOfNoMinOrder, instNoTopOrderOfNoMaxOrder, linearOrderOfCompares, instIsWellOrderOfIsEmpty, partialOrderOfSO, instIsStrictTotalOrderOfIsWellOrder",
+    "search: '\"orderOf_eq\"' -> Subsingleton.addOrderOf_eq, Subsingleton.orderOf_eq, addOrderOf_eq_zero, orderOf_eq_zero, addOrderOf_eq_zero_iff, orderOf_eq_zero_iff, IsAddUnit.addOrderOf_eq_zero, IsUnit.orderOf_eq_one",
+    "search: '\"iff_of_false\"' -> iff_of_false",
+    "search: '\"orderOf\" \"ZMod\"' -> nothing",
+    "search: '\"orderOf\" \"ZMod\"' -> nothing; goal shape -> Irreducible.prime, Irreducible.prime_of_isPrimal, comap_prime, Associated.prime, UniqueFactorizationMonoid.prime_of_factor, Submodule.IsPrincipal.prime_generator_of_isPrime, Nat.Prime.prime, Polynomial.prime_X",
+    "search: '\"orderOf\" \"card\"' -> nothing",
+    "search: '\"orderOf\" \"card\"' -> nothing; goal shape -> Irreducible.prime, Irreducible.prime_of_isPrimal, comap_prime, Associated.prime, UniqueFactorizationMonoid.prime_of_factor, Submodule.IsPrincipal.prime_generator_of_isPrime, Nat.Prime.prime, Polynomial.prime_X",
+    "search: '\"orderOf_zero\"' -> addOrderOf_zero, orderOf_zero",
+    "search: '\"isUnit_iff_ne_zero\"' -> isUnit_iff_ne_zero",
+    "search: '\"pow_card_sub_one_eq_one\"' -> Nat.ModEq.pow_card_sub_one_eq_one, Int.ModEq.pow_card_sub_one_eq_one, FiniteField.pow_card_sub_one_eq_one, ZMod.pow_card_sub_one_eq_one, ZMod.units_pow_card_sub_one_eq_one",
+    "search: '\"ZMod\" \"nontrivial\"' -> nothing",
+    "search: '\"ZMod\" \"nontrivial\"' -> nothing; goal shape -> Irreducible.prime, Irreducible.prime_of_isPrimal, comap_prime, Associated.prime, UniqueFactorizationMonoid.prime_of_factor, Submodule.IsPrincipal.prime_generator_of_isPrime, Nat.Prime.prime, Polynomial.prime_X",
+    "search: '\"ZMod.nontrivial\"' -> ZMod.nontrivial', ZMod.nontrivial_iff, ZMod.nontrivial"
+  ],
+  "budget": {
+    "tool_calls": 22,
+    "lean_calls": 8,
+    "searches": 14,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788864314.236586,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.4,
+    "statement_checks": 1,
+    "refusals": {
+      "placeholder_proof": 1
+    }
+  },
+  "goal": "theorem exercise_4_5 {p t : \u2115} (hp0 : p.Prime) (hp1 : p = 4*t + 3)\n  (a : ZMod p) :\n  IsPrimitiveRoot a p \u2194 ((-a) ^ ((p-1)/2) = 1 \u2227 \u2200 (k : \u2115), k < (p-1)/2 \u2192 (-a)^k \u2260 1)"
+}

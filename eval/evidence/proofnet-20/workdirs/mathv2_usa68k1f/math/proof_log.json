@@ -1,0 +1,817 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : Fintype.card G = 132) : \u00ac IsSimpleGroup G",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788865407.527703,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : Fintype.card G = 132) : \u00ac IsSimpleGroup G",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Bool.fintype\n    | exact Bool.fintype _\n    | apply Bool.fintype\n    | simpa using Bool.fintype\n    | exact \u27e8_, Bool.fintype\u27e9\n    | exact Bool.fintype (by assumption)\n    | exact Bool.fintype \u2039_\u203a\n    | apply Bool.fintype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Bool.fintype (by assumption))\n    | exact Ordering.fintype\n    | exact Ordering.fintype _\n    | apply Ordering.fintype\n    | simpa using Ordering.fintype\n    | exact \u27e8_, Ordering.fintype\u27e9\n    | exact Ordering.fintype (by assumption)\n    | exact Ordering.fintype \u2039_\u203a\n    | apply Ordering.fintype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordering.fintype (by assumption))\n    | exact Lex.fintype\n    | exact Lex.fintype _\n    | apply Lex.fintype\n    | simpa using Lex.fintype\n    | exact \u27e8_, Lex.fintype\u27e9\n    | exact Lex.fintype (by assumption)\n    | exact Lex.fintype \u2039_\u203a\n    | apply Lex.fintype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Lex.fintype (by assumption))\n    | exact OrderDual.fintype\n    | exact OrderDual.fintype _\n    | apply OrderDual.fintype\n    | simpa using OrderDual.fintype\n    | exact \u27e8_, OrderDual.fintype\u27e9\n    | exact OrderDual.fintype (by assumption)\n    | exact OrderDual.fintype \u2039_\u203a\n    | apply OrderDual.fintype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact OrderDual.fintype (by assumption))\n    | exact Fintype.mk\n    | exact Fintype.mk _\n    | apply Fintype.mk\n    | simpa using Fintype.mk\n    | exact \u27e8_, Fintype.mk\u27e9\n    | exact Fintype.mk (by assumption)\n    | exact Fintype.mk \u2039_\u203a\n    | apply Fintype.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.mk (by assumption))\n    | exact Fintype.subtype\n    | exact Fintype.subtype _\n    | apply Fintype.subtype\n    | simpa using Fintype.subtype\n    | exact \u27e8_, Fintype.subtype\u27e9\n    | exact Fintype.subtype (by assumption)\n    | exact Fintype.subtype \u2039_\u203a\n    | apply Fintype.subtype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.subtype (by assumption))\n    | exact Fintype.ofFinset\n    | exact Fintype.ofFinset _\n    | apply Fintype.ofFinset\n    | simpa using Fintype.ofFinset\n    | exact \u27e8_, Fintype.ofFinset\u27e9\n    | exact Fintype.ofFinset (by assumption)\n    | exact Fintype.ofFinset \u2039_\u203a\n    | apply Fintype.ofFinset <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.ofFinset (by assumption))\n    | exact Fintype.instEmpty\n    | exact Fintype.instEmpty _\n    | apply Fintype.instEmpty\n    | simpa using Fintype.instEmpty\n    | exact \u27e8_, Fintype.instEmpty\u27e9\n    | exact Fintype.instEmpty (by assumption)\n    | exact Fintype.instEmpty \u2039_\u203a\n    | apply Fintype.instEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.instEmpty (by assumption))\n    | exact Fintype.instPEmpty\n    | exact Fintype.instPEmpty _\n    | apply Fintype.instPEmpty\n    | simpa using Fintype.instPEmpty\n    | exact \u27e8_, Fintype.instPEmpty\u27e9\n    | exact Fintype.instPEmpty (by assumption)\n    | exact Fintype.instPEmpty \u2039_\u203a\n    | apply Fintype.instPEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.instPEmpty (by assumption))\n    | exact Fintype.ofIsEmpty\n    | exact Fintype.ofIsEmpty _\n    | apply Fintype.ofIsEmpty\n    | simpa using Fintype.ofIsEmpty\n    | exact \u27e8_, Fintype.ofIsEmpty\u27e9\n    | exact Fintype.ofIsEmpty (by assumption)\n    | exact Fintype.ofIsEmpty \u2039_\u203a\n    | apply Fintype.ofIsEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.ofIsEmpty (by assumption))\n    | exact Fintype.ofSubsingleton\n    | exact Fintype.ofSubsingleton _\n    | apply Fintype.ofSubsingleton\n    | simpa using Fintype.ofSubsingleton\n    | exact \u27e8_, Fintype.ofSubsingleton\u27e9\n    | exact Fintype.ofSubsingleton (by assumption)\n    | exact Fintype.ofSubsingleton \u2039_\u203a\n    | apply Fintype.ofSubsingleton <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.ofSubsingleton (by assumption))\n    | exact Fintype.ofEquiv\n    | exact Fintype.ofEquiv _\n    | apply Fintype.ofEquiv\n    | simpa using Fintype.ofEquiv\n    | exact \u27e8_, Fintype.ofEquiv\u27e9\n    | exact Fintype.ofEquiv (by assumption)\n    | exact Fintype.ofEquiv \u2039_\u203a\n    | apply Fintype.ofEquiv <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.ofEquiv (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n2:53: error: unsolved goals\nG : Type u_1\ninst\u271d\u00b9 : Fintype G\ninst\u271d : Group G\nhG : Fintype.card G = 132\n\u22a2 \u00acIsSimpleGroup G\n\nStill to prove:\n\u22a2 \u00acIsSimpleGroup G",
+      "at": 1788865428.4400012,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : Fintype.card G = 132) : \u00ac IsSimpleGroup G",
+      "proof": "by\n  intro h\n  exact False.elim (by aesop)",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:23: error: Tactic `aesop` failed, made no progress\nInitial goal:\n  G : Type u_1\n  inst\u271d\u00b9 : Fintype G\n  inst\u271d : Group G\n  hG : Fintype.card G = 132\n  h : IsSimpleGroup G\n  \u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788865445.0435636,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : Fintype.card G = 132) : \u00ac IsSimpleGroup G",
+      "proof": "by\n  intro h\n  have : Fintype.card G = 132 := hG\n  exact False.elim (by aesop)",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:20: error: unsolved goals\nG : Type u_1\ninst : Fintype G\ninst_1 : Group G\nh : IsSimpleGroup G\nthis : Fintype.card G = 132\n\u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788865466.1891077,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma prime_11 : Nat.Prime 11",
+      "proof": "by decide",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma prime_11 : Nat.Prime 11",
+      "at": 1788865583.1053824,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma prime_3 : Nat.Prime 3",
+      "proof": "by decide",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma prime_3 : Nat.Prime 3",
+      "at": 1788865584.769671,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma not_prime_132 : \u00ac Nat.Prime 132",
+      "proof": "by decide",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma not_prime_132 : \u00ac Nat.Prime 132",
+      "at": 1788865639.8128998,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : Fintype.card G = 132) : \u00ac IsSimpleGroup G",
+      "proof": "by\n  intro h\n  have h11 := prime_11\n  have h3 := prime_3\n  have h132 := not_prime_132\n  have h_not_simple : \u00ac IsSimpleGroup G := by sorry\n  exact h_not_simple h",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788865698.2566142,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : Fintype.card G = 132) : \u00ac IsSimpleGroup G",
+      "proof": "by\n  intro h\n  have h11 := prime_11\n  have h3 := prime_3\n  have h132 := not_prime_132\n  have h_card : Fintype.card G = 132 := hG\n  by_cases hcomm : \u2200 x y : G, x * y = y * x\n  \u00b7 haveI : CommGroup G := { mul_comm := hcomm }\n    have h_prime : Nat.Prime (Nat.card G) := IsSimpleGroup.prime_card\n    have h_card_eq : Nat.card G = Fintype.card G := Nat.card_eq_fintype_card\n    rw [h_card_eq, h_card] at h_prime\n    exact h132 h_prime\n  \u00b7 exact (by aesop)",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n16:45: error: failed to synthesize instance of type class\n  IsSimpleGroup G\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.\n20:11: error: unsolved goals\nG : Type u_1\ninst : Fintype G\ninst_1 : Group G\nh : IsSimpleGroup G\nh11 : Nat.Prime 11\nh3 : Nat.Prime 3\nh132 : \u00acNat.Prime 132\nh_card : Fintype.card G = 132\nw w_1 : G\nh_1 : \u00acw * w_1 = w_1 * w\n\u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788865758.7850335,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma comm_simple_contradiction {G : Type*} [Fintype G] [Group G]\n  (hG : Fintype.card G = 132) (hcomm : \u2200 x y : G, x * y = y * x) (hsimple : IsSimpleGroup G) : False",
+      "proof": "by\n  haveI : CommGroup G := { mul_comm := hcomm }\n  haveI : IsSimpleGroup G := hsimple\n  have h_prime : Nat.Prime (Nat.card G) := IsSimpleGroup.prime_card\n  have h_card_eq : Nat.card G = Fintype.card G := Nat.card_eq_fintype_card\n  rw [h_card_eq, hG] at h_prime\n  exact not_prime_132 h_prime",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n11:43: error: failed to synthesize instance of type class\n  IsSimpleGroup G\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+      "at": 1788865764.6363502,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma comm_simple_contradiction {G : Type*} [Fintype G] [instG : Group G]\n  (hG : Fintype.card G = 132) (hcomm : \u2200 x y : G, x * y = y * x) (hsimple : IsSimpleGroup G) : False",
+      "proof": "by\n  haveI : CommGroup G := { instG with mul_comm := hcomm }\n  haveI : IsSimpleGroup G := hsimple\n  have h_prime : Nat.Prime (Nat.card G) := IsSimpleGroup.prime_card\n  have h_card_eq : Nat.card G = Fintype.card G := Nat.card_eq_fintype_card\n  rw [h_card_eq, hG] at h_prime\n  exact not_prime_132 h_prime",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n11:43: error: failed to synthesize instance of type class\n  IsSimpleGroup G\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+      "at": 1788865769.0836062,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma comm_simple_contradiction {G : Type*} [Fintype G] [instG : Group G]\n  (hG : Fintype.card G = 132) (hcomm : \u2200 x y : G, x * y = y * x) (hsimple : IsSimpleGroup G) : False",
+      "proof": "by\n  have comm_inst : CommGroup G := { instG with mul_comm := hcomm }\n  have h_prime : Nat.Prime (Nat.card G) := @IsSimpleGroup.prime_card G comm_inst hsimple\n  have h_card_eq : Nat.card G = Fintype.card G := Nat.card_eq_fintype_card\n  rw [h_card_eq, hG] at h_prime\n  exact not_prime_132 h_prime",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n10:81: error: Application type mismatch: The argument\n  hsimple\nhas type\n  @IsSimpleGroup G instG\nbut is expected to have type\n  @IsSimpleGroup G comm_inst.toGroup\nin the application\n  @IsSimpleGroup.prime_card G comm_inst hsimple",
+      "at": 1788865780.707858,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma card_ne_zero : 132 \u2260 0",
+      "proof": "by decide",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma card_ne_zero : 132 \u2260 0",
+      "at": 1788865805.1474812,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : Fintype.card G = 132) : \u00ac IsSimpleGroup G",
+      "proof": "by\n  intro h\n  have h11 := prime_11\n  have h3 := prime_3\n  have h132 := not_prime_132\n  have h_card : Fintype.card G = 132 := hG\n  by_cases hcomm : \u2200 x y : G, x * y = y * x\n  \u00b7 let G_comm := G\n    haveI : CommGroup G_comm := CommGroup.mk hcomm\n    haveI : IsSimpleGroup G_comm := h\n    have h_prime : Nat.Prime (Nat.card G_comm) := IsSimpleGroup.prime_card\n    have h_card_eq : Nat.card G_comm = Fintype.card G := Nat.card_eq_fintype_card\n    rw [h_card_eq, h_card] at h_prime\n    exact h132 h_prime\n  \u00b7 exact False.elim (by aesop)",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n20:50: error: failed to synthesize instance of type class\n  IsSimpleGroup G_comm\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.\n24:22: error: unsolved goals\nG : Type u_1\ninst : Fintype G\ninst_1 : Group G\nh : IsSimpleGroup G\nh11 : Nat.Prime 11\nh3 : Nat.Prime 3\nh132 : \u00acNat.Prime 132\nh_card : Fintype.card G = 132\nw w_1 : G\nh_1 : \u00acw * w_1 = w_1 * w\n\u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788865827.4227145,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma comm_simple_contradiction {G : Type*} [Fintype G] [CommGroup G] [IsSimpleGroup G]\n  (hG : Fintype.card G = 132) : False",
+      "proof": "by\n  have h_prime : Nat.Prime (Nat.card G) := IsSimpleGroup.prime_card\n  have h_card_eq : Nat.card G = Fintype.card G := Nat.card_eq_fintype_card\n  rw [h_card_eq, hG] at h_prime\n  exact not_prime_132 h_prime",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma comm_simple_contradiction {G : Type*} [Fintype G] [CommGroup G] [IsSimpleGroup G]\n  (hG : Fintype.card G = 132) : False",
+      "at": 1788865834.7023396,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : Fintype.card G = 132) : \u00ac IsSimpleGroup G",
+      "proof": "by\n  intro h\n  have h_card : Fintype.card G = 132 := hG\n  by_cases hcomm : \u2200 x y : G, x * y = y * x\n  \u00b7 exact (by aesop)\n  \u00b7 exact (by aesop)",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n21:11: error: unsolved goals\nG : Type u_1\ninst : Fintype G\ninst_1 : Group G\nh : IsSimpleGroup G\nh_card : Fintype.card G = 132\nhcomm : \u2200 (x y : G), x * y = y * x\n\u22a2 False\n22:11: error: unsolved goals\nG : Type u_1\ninst : Fintype G\ninst_1 : Group G\nh : IsSimpleGroup G\nh_card : Fintype.card G = 132\nw w_1 : G\nh_1 : \u00acw * w_1 = w_1 * w\n\u22a2 False\n\nStill to prove:\n\u22a2 False\n\u22a2 False",
+      "at": 1788865845.7359579,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma isSimpleGroup_of_comm {G : Type*} [Fintype G] [instG : Group G] (hcomm : \u2200 x y : G, x * y = y * x) (hsimple : IsSimpleGroup G) : @IsSimpleGroup G (CommGroup.toGroup (CommGroup.mk hcomm))",
+      "proof": "by\n  exact hsimple",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n16:140: error: Function expected at\n  CommGroup.toGroup\nbut this term has type\n  Group ?m.11\n\nNote: Expected a function because this term is being applied to the argument\n  (CommGroup.mk hcomm)",
+      "at": 1788865849.7450824,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma isSimpleGroup_of_comm {G : Type*} [Fintype G] [instG : Group G] (hcomm : \u2200 x y : G, x * y = y * x) (hsimple : IsSimpleGroup G) :\n  \u2200 (comm_inst : CommGroup G), IsSimpleGroup G",
+      "proof": "by\n  intro comm_inst\n  exact hsimple",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma isSimpleGroup_of_comm {G : Type*} [Fintype G] [instG : Group G] (hcomm : \u2200 x y : G, x * y = y * x) (hsimple : IsSimpleGroup G) :\n  \u2200 (comm_inst : CommGroup G), IsSimpleGroup G",
+      "at": 1788865854.286983,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : Fintype.card G = 132) : \u00ac IsSimpleGroup G",
+      "proof": "by\n  intro h\n  have h_card : Fintype.card G = 132 := hG\n  by_cases hcomm : \u2200 x y : G, x * y = y * x\n  \u00b7 have comm_inst : CommGroup G := CommGroup.mk hcomm\n    haveI : CommGroup G := comm_inst\n    haveI : IsSimpleGroup G := isSimpleGroup_of_comm hcomm h comm_inst\n    exact comm_simple_contradiction h_card\n  \u00b7 exact (by aesop)",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n29:10: error: failed to synthesize instance of type class\n  IsSimpleGroup G\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.\n30:11: error: unsolved goals\nG : Type u_1\ninst : Fintype G\ninst_1 : Group G\nh : IsSimpleGroup G\nh_card : Fintype.card G = 132\nw w_1 : G\nh_1 : \u00acw * w_1 = w_1 * w\n\u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788865860.6331775,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma not_comm_of_simple_132 {G : Type*} [Fintype G] [instG : Group G]\n  (hG : Fintype.card G = 132) (hsimple : IsSimpleGroup G) : \u00ac (\u2200 x y : G, x * y = y * x)",
+      "proof": "by\n  intro hcomm\n  have comm_inst : CommGroup G := CommGroup.mk hcomm\n  exact @comm_simple_contradiction G _ comm_inst (isSimpleGroup_of_comm hcomm hsimple comm_inst) hG",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n25:72: error: Application type mismatch: The argument\n  hcomm\nhas type\n  \u2200 (x y : G),\n    @HMul.hMul G G G\n        (@instHMul G\n          (@MulOne.toMul G\n            (@MulOneClass.toMulOne G\n              (@Monoid.toMulOneClass G (@DivInvMonoid.toMonoid G (@Group.toDivInvMonoid G instG))))))\n        x y =\n      y * x\nbut is expected to have type\n  \u2200 (x y : G),\n    @HMul.hMul G G G\n        (@instHMul G\n          (@MulOne.toMul G\n            (@MulOneClass.toMulOne G\n              (@Monoid.toMulOneClass G (@DivInvMonoid.toMonoid G (@Group.toDivInvMonoid G comm_inst.toGroup))))))\n        x y =\n      y * x\nin the application\n  isSimpleGroup_of_comm hcomm\n25:50: error: synthesized type class instance is not definitionally equal to expression inferred by typing rules, synthesized\n  instG\ninferred\n  comm_inst.toGroup",
+      "at": 1788865868.3066661,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma not_comm_of_simple_132 {G : Type*} [Fintype G] [instG : Group G]\n  (hG : Fintype.card G = 132) (hsimple : IsSimpleGroup G) : \u00ac (\u2200 x y : G, x * y = y * x)",
+      "proof": "by\n  intro hcomm\n  have comm_inst : CommGroup G := CommGroup.mk hcomm\n  exact @comm_simple_contradiction G _ comm_inst (@isSimpleGroup_of_comm G _ instG hcomm hsimple comm_inst) hG",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n25:49: error: Application type mismatch: The argument\n  isSimpleGroup_of_comm hcomm hsimple comm_inst\nhas type\n  @IsSimpleGroup G instG\nbut is expected to have type\n  @IsSimpleGroup G comm_inst.toGroup\nin the application\n  @comm_simple_contradiction G ?m.22 comm_inst (isSimpleGroup_of_comm hcomm hsimple comm_inst)",
+      "at": 1788865872.7768915,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma isSimpleGroup_of_comm_correct {G : Type*} [Fintype G] [instG : Group G] (hcomm : \u2200 x y : G, x * y = y * x) (hsimple : IsSimpleGroup G) (comm_inst : CommGroup G) : @IsSimpleGroup G comm_inst.toGroup",
+      "proof": "by\n  exact hsimple",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n22:2: error: Type mismatch\n  hsimple\nhas type\n  @IsSimpleGroup G instG\nbut is expected to have type\n  @IsSimpleGroup G comm_inst.toGroup",
+      "at": 1788865877.3953857,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma prime_11 : Nat.Prime 11 := by decide",
+    "lemma prime_3 : Nat.Prime 3 := by decide",
+    "lemma not_prime_132 : \u00ac Nat.Prime 132 := by decide",
+    "lemma card_ne_zero : 132 \u2260 0 := by decide",
+    "lemma comm_simple_contradiction {G : Type*} [Fintype G] [CommGroup G] [IsSimpleGroup G]\n  (hG : Fintype.card G = 132) : False := by\n  have h_prime : Nat.Prime (Nat.card G) := IsSimpleGroup.prime_card\n  have h_card_eq : Nat.card G = Fintype.card G := Nat.card_eq_fintype_card\n  rw [h_card_eq, hG] at h_prime\n  exact not_prime_132 h_prime",
+    "lemma isSimpleGroup_of_comm {G : Type*} [Fintype G] [instG : Group G] (hcomm : \u2200 x y : G, x * y = y * x) (hsimple : IsSimpleGroup G) :\n  \u2200 (comm_inst : CommGroup G), IsSimpleGroup G := by\n  intro comm_inst\n  exact hsimple"
+  ],
+  "premises": [
+    {
+      "name": "Bool.fintype",
+      "type": " : Fintype Bool",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Ordering.fintype",
+      "type": " : Fintype Ordering",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Lex.fintype",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype (Lex \u03b1)",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "OrderDual.fintype",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype \u03b1\u1d52\u1d48",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.mk",
+      "type": " {\u03b1 : Type u_3} (elems : Finset \u03b1) (complete : \u2200 (x : \u03b1), x \u2208 elems) : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.subtype",
+      "type": " {\u03b1 : Type u_1} {p : \u03b1 \u2192 Prop} (s : Finset \u03b1) (H : \u2200 (x : \u03b1), x \u2208 s \u2194 p x) : Fintype { x // p x }",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": "Given a predicate that can be represented by a finset, the subtype\nassociated to the predicate is a fintype. "
+    },
+    {
+      "name": "Fintype.ofFinset",
+      "type": " {\u03b1 : Type u_1} {p : Set \u03b1} (s : Finset \u03b1) (H : \u2200 (x : \u03b1), x \u2208 s \u2194 x \u2208 p) : Fintype \u2191p",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": "Construct a fintype from a finset with the same elements. "
+    },
+    {
+      "name": "Fintype.instEmpty",
+      "type": " : Fintype Empty",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.instPEmpty",
+      "type": " : Fintype PEmpty.{u_3 + 1}",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.ofIsEmpty",
+      "type": " {\u03b1 : Type u_1} [IsEmpty \u03b1] : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "An empty type is a fintype. Not registered as an instance, to make sure that there aren't two\nconflicting `Fintype \u03b9` instances around when casing over whether a fintype `\u03b9` is empty or not. "
+    },
+    {
+      "name": "Fintype.ofSubsingleton",
+      "type": " {\u03b1 : Type u_1} (a : \u03b1) [Subsingleton \u03b1] : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "Any subsingleton type with a witness is a fintype (with one term). "
+    },
+    {
+      "name": "Fintype.ofEquiv",
+      "type": " {\u03b2 : Type u_2} (\u03b1 : Type u_3) [Fintype \u03b1] (f : \u03b1 \u2243 \u03b2) : Fintype \u03b2",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "If `f : \u03b1 \u2243 \u03b2` and `\u03b1` is a fintype, then `\u03b2` is also a fintype. "
+    },
+    {
+      "name": "CommGroup.toGroup",
+      "type": " {G : Type u_2} [self : CommGroup G] : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.mk",
+      "type": " {G : Type u_2} [toDivInvMonoid : DivInvMonoid G] (inv_mul_cancel : \u2200 (a : G), a\u207b\u00b9 * a = 1) : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Pi.group",
+      "type": " {I : Type u} {f : I \u2192 Type v\u2081} [(i : I) \u2192 Group (f i)] : Group ((i : I) \u2192 f i)",
+      "module": "Mathlib.Algebra.Group.Pi.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative.group",
+      "type": " {\u03b1 : Type u} [AddGroup \u03b1] : Group (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2081] [One M\u2081] [Pow M\u2081 \u2115] [Inv M\u2081] [Div M\u2081] [Pow M\u2081 \u2124] [Group M\u2082] (f : M\u2081 \u2192 M\u2082) (hf : Function.Injective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2081",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits an injective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "Function.Surjective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2082] [One M\u2082] [Pow M\u2082 \u2115] [Inv M\u2082] [Div M\u2082] [Pow M\u2082 \u2124] [Group M\u2081] (f : M\u2081 \u2192 M\u2082) (hf : Function.Surjective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2082",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits a surjective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "AddOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "Units.instGroup",
+      "type": " {\u03b1 : Type u} [Monoid \u03b1] : Group \u03b1\u02e3",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Units of a monoid form a group. "
+    },
+    {
+      "name": "groupOfIsUnit",
+      "type": " {M : Type u_1} [hM : Monoid M] (h : \u2200 (a : M), IsUnit a) : Group M",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Constructs a `Group` structure on a `Monoid` consisting only of units. "
+    },
+    {
+      "name": "Prod.instGroup",
+      "type": " {G : Type u_1} {H : Type u_2} [Group G] [Group H] : Group (G \u00d7 H)",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.Perm.permGroup",
+      "type": " {\u03b1 : Type u_4} : Group (Equiv.Perm \u03b1)",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "IsSimpleGroup.toNontrivial",
+      "type": " {G : Type u_1} {inst\u271d : Group G} [self : IsSimpleGroup G] : Nontrivial G",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": ""
+    },
+    {
+      "name": "MulEquiv.isSimpleGroup",
+      "type": " {G : Type u_1} [Group G] {H : Type u_3} [Group H] [IsSimpleGroup H] (e : G \u2243* H) : IsSimpleGroup G",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": ""
+    },
+    {
+      "name": "IsSimpleGroup.eq_bot_or_eq_top_of_normal",
+      "type": " {G : Type u_1} {inst\u271d : Group G} [self : IsSimpleGroup G] (H : Subgroup G) : H.Normal \u2192 H = \u22a5 \u2228 H = \u22a4",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": "Any normal subgroup is either `\u22a5` or `\u22a4` "
+    },
+    {
+      "name": "MulEquiv.isSimpleGroup_congr",
+      "type": " {G : Type u_1} [Group G] {H : Type u_3} [Group H] (e : G \u2243* H) : IsSimpleGroup G \u2194 IsSimpleGroup H",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": ""
+    },
+    {
+      "name": "IsSimpleGroup.mk",
+      "type": " {G : Type u_1} [Group G] [toNontrivial : Nontrivial G] (eq_bot_or_eq_top_of_normal : \u2200 (H : Subgroup G), H.Normal \u2192 H = \u22a5 \u2228 H = \u22a4) : IsSimpleGroup G",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": ""
+    },
+    {
+      "name": "isSimpleGroup_iff",
+      "type": " (G : Type u_1) [Group G] : IsSimpleGroup G \u2194 Nontrivial G \u2227 \u2200 (H : Subgroup G), H.Normal \u2192 H = \u22a5 \u2228 H = \u22a4",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": ""
+    },
+    {
+      "name": "IsSimpleGroup.instIsSimpleOrderSubgroup",
+      "type": " {C : Type u_3} [CommGroup C] [IsSimpleGroup C] : IsSimpleOrder (Subgroup C)",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": ""
+    },
+    {
+      "name": "IsSimpleGroup.isSimpleGroup_of_surjective",
+      "type": " {G : Type u_1} [Group G] {H : Type u_3} [Group H] [IsSimpleGroup G] [Nontrivial H] (f : G \u2192* H) (hf : Function.Surjective \u21d1f) : IsSimpleGroup H",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.isSimpleGroup_iff",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} : IsSimpleGroup \u21a5H \u2194 H \u2260 \u22a5 \u2227 \u2200 H' \u2264 H, (H'.subgroupOf H).Normal \u2192 H' = \u22a5 \u2228 H' = H",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": ""
+    },
+    {
+      "name": "IsSimpleGroup.finite",
+      "type": " {\u03b1 : Type u_1} [CommGroup \u03b1] [IsSimpleGroup \u03b1] : Finite \u03b1",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic",
+      "doc": "A commutative simple group is a finite group. "
+    },
+    {
+      "name": "IsSimpleGroup.prime_card",
+      "type": " {\u03b1 : Type u_1} [CommGroup \u03b1] [IsSimpleGroup \u03b1] : Nat.Prime (Nat.card \u03b1)",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic",
+      "doc": ""
+    },
+    {
+      "name": "IsSimpleGroup",
+      "type": " (G : Type u_1) [Group G] : Prop",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": "A `Group` is simple when it has exactly two normal `Subgroup`s. "
+    },
+    {
+      "name": "Sylow.inhabited",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : Inhabited (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.instPartialOrder",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : PartialOrder (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.nonempty",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : Nonempty (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.instSetLike",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : SetLike (Sylow p G) G",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.toSubgroup",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] (self : Sylow p G) : Subgroup G",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.instCoeOutSubgroup",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : CoeOut (Sylow p G) (Subgroup G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.mulAction",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : MulAction G (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.instSubgroupClass",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] : SubgroupClass (Sylow p G) G",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.characteristic_of_subsingleton",
+      "type": " {G : Type u} [Group G] {p : \u2115} [Subsingleton (Sylow p G)] (P : Sylow p G) : (\u2191P).Characteristic",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow.finite_of_finiteIndex",
+      "type": " {p : \u2115} {G : Type u_1} [Group G] (P : Sylow p G) [(\u2191P).FiniteIndex] : Finite (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "If a Sylow `p`-subgroup has finite index, then the number of Sylow `p`-subgroups is finite. "
+    },
+    {
+      "name": "Sylow.normal_of_subsingleton",
+      "type": " {G : Type u} [Group G] {p : \u2115} [Subsingleton (Sylow p G)] (P : Sylow p G) : (\u2191P).Normal",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "Sylow",
+      "type": " (p : \u2115) (G : Type u_1) [Group G] : Type u_1",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "A Sylow `p`-subgroup is a maximal `p`-subgroup. "
+    },
+    {
+      "name": "not_dvd_card_sylow",
+      "type": " (p : \u2115) (G : Type u_1) [Group G] [hp : Fact (Nat.Prime p)] [Finite (Sylow p G)] : \u00acp \u2223 Nat.card (Sylow p G)",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": ""
+    },
+    {
+      "name": "card_sylow_modEq_one",
+      "type": " (p : \u2115) (G : Type u_1) [Group G] [Fact (Nat.Prime p)] [Finite (Sylow p G)] : Nat.card (Sylow p G) \u2261 1 [MOD p]",
+      "module": "Mathlib.GroupTheory.Sylow",
+      "doc": "A generalization of **Sylow's third theorem**.\nIf the number of Sylow `p`-subgroups is finite, then it is congruent to `1` modulo `p`. "
+    },
+    {
+      "name": "IsEmpty.false",
+      "type": " {\u03b1 : Sort u} [self : IsEmpty \u03b1] : \u2200 (a : \u03b1), False",
+      "module": "Mathlib.Basic.IsEmpty.Defs",
+      "doc": ""
+    },
+    {
+      "name": "RpcEncodablePacket.goals._@.Mathlib.Tactic.Widget.Calc.1713132172._hygCtx._hyg.1",
+      "type": " (self : RpcEncodablePacket\u271d) : Lean.Json",
+      "module": "Mathlib.Tactic.Widget.Calc",
+      "doc": ""
+    },
+    {
+      "name": "RpcEncodablePacket.indent._@.Mathlib.Tactic.Widget.Calc.1713132172._hygCtx._hyg.1",
+      "type": " (self : RpcEncodablePacket\u271d) : Lean.Json",
+      "module": "Mathlib.Tactic.Widget.Calc",
+      "doc": ""
+    },
+    {
+      "name": "RpcEncodablePacket.isFirst._@.Mathlib.Tactic.Widget.Calc.1713132172._hygCtx._hyg.1",
+      "type": " (self : RpcEncodablePacket\u271d) : Lean.Json",
+      "module": "Mathlib.Tactic.Widget.Calc",
+      "doc": ""
+    },
+    {
+      "name": "RpcEncodablePacket.pos._@.Mathlib.Tactic.Widget.Calc.1713132172._hygCtx._hyg.1",
+      "type": " (self : RpcEncodablePacket\u271d) : Lean.Json",
+      "module": "Mathlib.Tactic.Widget.Calc",
+      "doc": ""
+    },
+    {
+      "name": "RpcEncodablePacket.replaceRange._@.Mathlib.Tactic.Widget.Calc.1713132172._hygCtx._hyg.1",
+      "type": " (self : RpcEncodablePacket\u271d) : Lean.Json",
+      "module": "Mathlib.Tactic.Widget.Calc",
+      "doc": ""
+    },
+    {
+      "name": "RpcEncodablePacket.selectedLocations._@.Mathlib.Tactic.Widget.Calc.1713132172._hygCtx._hyg.1",
+      "type": " (self : RpcEncodablePacket\u271d) : Lean.Json",
+      "module": "Mathlib.Tactic.Widget.Calc",
+      "doc": ""
+    },
+    {
+      "name": "CategoryTheory.zero_not_simple",
+      "type": " (C : Type u) [CategoryTheory.Category.{v, u} C] [CategoryTheory.Limits.HasZeroMorphisms C] [CategoryTheory.Limits.HasZeroObject C] [CategoryTheory.Simple 0] : False",
+      "module": "Mathlib.CategoryTheory.Simple",
+      "doc": "We don't want the definition of 'simple' to include the zero object, so we check that here. "
+    },
+    {
+      "name": "isAddCyclic_of_prime_card",
+      "type": " {\u03b1 : Type u_1} [AddGroup \u03b1] {p : \u2115} [hp : Fact (Nat.Prime p)] (h : Nat.card \u03b1 = p) : IsAddCyclic \u03b1",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": "A finite group of prime order is cyclic. "
+    },
+    {
+      "name": "isCyclic_of_prime_card",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] {p : \u2115} [hp : Fact (Nat.Prime p)] (h : Nat.card \u03b1 = p) : IsCyclic \u03b1",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": "A finite group of prime order is cyclic. "
+    },
+    {
+      "name": "AddSubgroup.eq_bot_or_eq_top_of_prime_card",
+      "type": " {G : Type u_2} [AddGroup G] (H : AddSubgroup G) [hp : Fact (Nat.Prime (Nat.card G))] : H = \u22a5 \u2228 H = \u22a4",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.eq_bot_or_eq_top_of_prime_card",
+      "type": " {G : Type u_2} [Group G] (H : Subgroup G) [hp : Fact (Nat.Prime (Nat.card G))] : H = \u22a5 \u2228 H = \u22a4",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": ""
+    },
+    {
+      "name": "zmultiples_eq_top_of_prime_card",
+      "type": " {G : Type u_2} [AddGroup G] {p : \u2115} [hp : Fact (Nat.Prime p)] (h : Nat.card G = p) {g : G} (hg : g \u2260 0) : AddSubgroup.zmultiples g = \u22a4",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": "Any non-identity element of a finite group of prime order generates the group. "
+    },
+    {
+      "name": "zpowers_eq_top_of_prime_card",
+      "type": " {G : Type u_2} [Group G] {p : \u2115} [hp : Fact (Nat.Prime p)] (h : Nat.card G = p) {g : G} (hg : g \u2260 1) : Subgroup.zpowers g = \u22a4",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": "Any non-identity element of a finite group of prime order generates the group. "
+    },
+    {
+      "name": "mem_zmultiples_of_prime_card",
+      "type": " {G : Type u_2} [AddGroup G] {p : \u2115} [hp : Fact (Nat.Prime p)] (h : Nat.card G = p) {g g' : G} (hg : g \u2260 0) : g' \u2208 AddSubgroup.zmultiples g",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": ""
+    },
+    {
+      "name": "mem_zpowers_of_prime_card",
+      "type": " {G : Type u_2} [Group G] {p : \u2115} [hp : Fact (Nat.Prime p)] (h : Nat.card G = p) {g g' : G} (hg : g \u2260 1) : g' \u2208 Subgroup.zpowers g",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": ""
+    },
+    {
+      "name": "multiples_eq_top_of_prime_card",
+      "type": " {G : Type u_2} [AddGroup G] {p : \u2115} [hp : Fact (Nat.Prime p)] (h : Nat.card G = p) {g : G} (hg : g \u2260 0) : AddSubmonoid.multiples g = \u22a4",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": ""
+    },
+    {
+      "name": "powers_eq_top_of_prime_card",
+      "type": " {G : Type u_2} [Group G] {p : \u2115} [hp : Fact (Nat.Prime p)] (h : Nat.card G = p) {g : G} (hg : g \u2260 1) : Submonoid.powers g = \u22a4",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": ""
+    },
+    {
+      "name": "mem_multiples_of_prime_card",
+      "type": " {G : Type u_2} [AddGroup G] {p : \u2115} [hp : Fact (Nat.Prime p)] (h : Nat.card G = p) {g g' : G} (hg : g \u2260 0) : g' \u2208 AddSubmonoid.multiples g",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": ""
+    },
+    {
+      "name": "mem_powers_of_prime_card",
+      "type": " {G : Type u_2} [Group G] {p : \u2115} [hp : Fact (Nat.Prime p)] (h : Nat.card G = p) {g g' : G} (hg : g \u2260 1) : g' \u2208 Submonoid.powers g",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsSimpleOrder.eq_bot_or_eq_top",
+      "type": " {\u03b1 : Type u_4} {inst\u271d : LE \u03b1} {inst\u271d\u00b9 : BoundedOrder \u03b1} [self : IsSimpleOrder \u03b1] (a : \u03b1) : a = \u22a5 \u2228 a = \u22a4",
+      "module": "Mathlib.Order.Atoms",
+      "doc": "Every element is either `\u22a5` or `\u22a4` "
+    },
+    {
+      "name": "IsSimpleRing.of_eq_bot_or_eq_top",
+      "type": " {R : Type u_1} [NonUnitalNonAssocRing R] [Nontrivial R] (h : \u2200 (I : TwoSidedIdeal R), I = \u22a5 \u2228 I = \u22a4) : IsSimpleRing R",
+      "module": "Mathlib.RingTheory.SimpleRing.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsLocalRing.Ring.KrullDimLE.eq_bot_or_eq_top",
+      "type": " {R : Type u} [CommSemiring R] [IsLocalRing R] [IsDomain R] [Ring.KrullDimLE 1 R] (x : PrimeSpectrum R) : x = \u22a5 \u2228 x = \u22a4",
+      "module": "Mathlib.RingTheory.Spectrum.Prime.Topology",
+      "doc": ""
+    },
+    {
+      "name": "IsSimpleAddGroup.eq_bot_or_eq_top_of_normal",
+      "type": " {A : Type u_2} {inst\u271d : AddGroup A} [self : IsSimpleAddGroup A] (H : AddSubgroup A) : H.Normal \u2192 H = \u22a5 \u2228 H = \u22a4",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": "Any normal additive subgroup is either `\u22a5` or `\u22a4` "
+    },
+    {
+      "name": "AddSubgroup.Normal.eq_bot_or_eq_top",
+      "type": " {G : Type u_1} [AddGroup G] [IsSimpleAddGroup G] {H : AddSubgroup G} (Hn : H.Normal) : H = \u22a5 \u2228 H = \u22a4",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.Normal.eq_bot_or_eq_top",
+      "type": " {G : Type u_1} [Group G] [IsSimpleGroup G] {H : Subgroup G} (Hn : H.Normal) : H = \u22a5 \u2228 H = \u22a4",
+      "module": "Mathlib.GroupTheory.Subgroup.Simple",
+      "doc": ""
+    },
+    {
+      "name": "LieAlgebra.IsSimple.eq_bot_or_eq_top",
+      "type": " {R : Type u_1} {L : Type u_2} {inst\u271d : CommRing R} {inst\u271d\u00b9 : LieRing L} {inst\u271d\u00b2 : LieAlgebra R L} [self : LieAlgebra.IsSimple R L] (I : LieIdeal R L) : I = \u22a5 \u2228 I = \u22a4",
+      "module": "Mathlib.Algebra.Lie.Semisimple.Defs",
+      "doc": ""
+    },
+    {
+      "name": "alternatingGroup.normal_subgroup_eq_bot_or_eq_top",
+      "type": " {\u03b1 : Type u_1} [DecidableEq \u03b1] [Fintype \u03b1] (h\u03b1 : 5 \u2264 Nat.card \u03b1) {N : Subgroup \u21a5(alternatingGroup \u03b1)} [N.Normal] : N = \u22a5 \u2228 N = \u22a4",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Alternating.Simple",
+      "doc": ""
+    },
+    {
+      "name": "alternatingGroup.normal_subgroup_eq_bot_or_eq_top_of_card_ne_eight",
+      "type": " {\u03b1 : Type u_1} [DecidableEq \u03b1] [Fintype \u03b1] (h\u03b1 : 5 \u2264 Nat.card \u03b1) (h\u03b1' : Nat.card \u03b1 \u2260 8) {N : Subgroup \u21a5(alternatingGroup \u03b1)} [N.Normal] : N = \u22a5 \u2228 N = \u22a4",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Alternating.Simple",
+      "doc": "If `\u03b1` has at least 5 elements, but not 8,\nthen the only nontrivial normal subgroup of `alternatingGroup \u03b1`\nis `\u22a4`. "
+    },
+    {
+      "name": "Subgroup.normal_of_comm",
+      "type": " {G : Type u_1} [Group G] [IsMulCommutative G] (H : Subgroup G) : H.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "**Alias** of `Subgroup.normal_of_isMulCommutative`."
+    },
+    {
+      "name": "AddCommGroup.toAddCancelCommMonoid",
+      "type": " {G : Type u_1} [AddCommGroup G] : AddCancelCommMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.toAddCommMonoid",
+      "type": " {G : Type u_2} [self : AddCommGroup G] : AddCommMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.toAddGroup",
+      "type": " {G : Type u_2} [self : AddCommGroup G] : AddGroup G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.toDivisionAddCommMonoid",
+      "type": " {G : Type u_1} [AddCommGroup G] : SubtractionCommMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CommGroup.toCancelCommMonoid",
+      "type": " {G : Type u_1} [CommGroup G] : CancelCommMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CommGroup.toCommMonoid",
+      "type": " {G : Type u_2} [self : CommGroup G] : CommMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CommGroup.toDivisionCommMonoid",
+      "type": " {G : Type u_1} [CommGroup G] : DivisionCommMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.mk",
+      "type": " {G : Type u_2} [toAddGroup : AddGroup G] (add_comm : \u2200 (a b : G), a + b = b + a) : AddCommGroup G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup",
+      "type": " (G : Type u_2) : Type u_2",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": "An additive commutative group is an additive group with commutative `(+)`. \n\n[Wikidata Q181296](https://www.wikidata.org/wiki/Q181296)"
+    },
+    {
+      "name": "CommGroup",
+      "type": " (G : Type u_2) : Type u_2",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": "A commutative group is a group with commutative `(*)`. \n\n[Wikidata Q181296](https://www.wikidata.org/wiki/Q181296)"
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"IsSimpleGroup\"' -> IsSimpleGroup.toNontrivial, MulEquiv.isSimpleGroup, IsSimpleGroup.eq_bot_or_eq_top_of_normal, MulEquiv.isSimpleGroup_congr, IsSimpleGroup.mk, isSimpleGroup_iff, IsSimpleGroup.instIsSimpleOrderSubgroup, IsSimpleGroup.isSimpleGroup_of_surjective",
+    "search: '\"Sylow\"' -> Sylow.inhabited, Sylow.instPartialOrder, Sylow.nonempty, Sylow.instSetLike, Sylow.toSubgroup, Sylow.instCoeOutSubgroup, Sylow.mulAction, Sylow.instSubgroupClass",
+    "search: '\"card\" \"Sylow\"' -> nothing",
+    "search: '\"card\" \"Sylow\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"card_Sylow\"' -> not_dvd_card_sylow, card_sylow_modEq_one",
+    "search: '\"card_sylow\"' -> not_dvd_card_sylow, card_sylow_modEq_one",
+    "search: '\"Sylow\" \"dvd\"' -> nothing",
+    "search: '\"Sylow\" \"dvd\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"card_sylow\"' -> not_dvd_card_sylow, card_sylow_modEq_one",
+    "search: '\"card_sylow_eq\"' -> nothing",
+    "search: '\"card_sylow_eq\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"Sylow\" \"normalizer\"' -> nothing",
+    "search: '\"Sylow\" \"normalizer\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search (from error): '|- False' -> IsEmpty.false",
+    "search: '\"Sylow\"' -> Sylow.inhabited, Sylow.instPartialOrder, Sylow.nonempty, Sylow.instSetLike, Sylow.toSubgroup, Sylow.instCoeOutSubgroup, Sylow.mulAction, Sylow.instSubgroupClass",
+    "search: '\"card_sylow\" \"dvd\"' -> nothing",
+    "search: '\"card_sylow\" \"dvd\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"card_sylow\" \"index\"' -> nothing",
+    "search: '\"card_sylow\" \"index\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"Sylow\" \"card\"' -> nothing",
+    "search: '\"Sylow\" \"card\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"Sylow\" \"card\"' -> nothing",
+    "search: '\"Sylow\" \"card\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"card_sylow\"' -> not_dvd_card_sylow, card_sylow_modEq_one",
+    "search: '\"card_sylow\"' -> not_dvd_card_sylow, card_sylow_modEq_one",
+    "search: '\"card_sylow\"' -> not_dvd_card_sylow, card_sylow_modEq_one",
+    "search: '\"card_sylow\"' -> not_dvd_card_sylow, card_sylow_modEq_one",
+    "search: '\"card_sylow\"' -> not_dvd_card_sylow, card_sylow_modEq_one",
+    "search: '\"card_sylow\"' -> not_dvd_card_sylow, card_sylow_modEq_one",
+    "search: '\"card_sylow\"' -> not_dvd_card_sylow, card_sylow_modEq_one",
+    "search: '\"132\"' -> RpcEncodablePacket.goals._@.Mathlib.Tactic.Widget.Calc.1713132172._hygCtx._hyg.1, RpcEncodablePacket.indent._@.Mathlib.Tactic.Widget.Calc.1713132172._hygCtx._hyg.1, RpcEncodablePacket.isFirst._@.Mathlib.Tactic.Widget.Calc.1713132172._hygCtx._hyg.1, RpcEncodablePacket.pos._@.Mathlib.Tactic.Widget.Calc.1713132172._hygCtx._hyg.1, RpcEncodablePacket.replaceRange._@.Mathlib.Tactic.Widget.Calc.1713132172._hygCtx._hyg.1, RpcEncodablePacket.selectedLocations._@.Mathlib.Tactic.Widget.Calc.1713132172._hygCtx._hyg.1",
+    "search: '\"not_simple\"' -> CategoryTheory.zero_not_simple",
+    "search: '\"Sylow\" \"card\"' -> nothing",
+    "search: '\"Sylow\" \"card\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"prime_card\"' -> isAddCyclic_of_prime_card, isCyclic_of_prime_card, AddSubgroup.eq_bot_or_eq_top_of_prime_card, Subgroup.eq_bot_or_eq_top_of_prime_card, zmultiples_eq_top_of_prime_card, zpowers_eq_top_of_prime_card, mem_zmultiples_of_prime_card, mem_zpowers_of_prime_card",
+    "search: '\"IsSimpleGroup.prime_card\"' -> IsSimpleGroup.prime_card",
+    "search: '\"eq_bot_or_eq_top\"' -> IsSimpleOrder.eq_bot_or_eq_top, IsSimpleRing.of_eq_bot_or_eq_top, AddSubgroup.eq_bot_or_eq_top_of_prime_card, Subgroup.eq_bot_or_eq_top_of_prime_card, IsLocalRing.Ring.KrullDimLE.eq_bot_or_eq_top, IsSimpleAddGroup.eq_bot_or_eq_top_of_normal, IsSimpleGroup.eq_bot_or_eq_top_of_normal, AddSubgroup.Normal.eq_bot_or_eq_top",
+    "search: '\"Normal\" \"comm\"' -> nothing",
+    "search: '\"Normal\" \"comm\"' -> nothing; goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"normal_of_comm\"' -> Subgroup.normal_of_comm",
+    "search: '\"CommGroup\"' -> AddCommGroup.toAddCancelCommMonoid, AddCommGroup.toAddCommMonoid, AddCommGroup.toAddGroup, AddCommGroup.toDivisionAddCommMonoid, CommGroup.toCancelCommMonoid, CommGroup.toCommMonoid, CommGroup.toDivisionCommMonoid, CommGroup.toGroup",
+    "search (from error): '|- False' -> IsEmpty.false",
+    "search: '\"Sylow\"' -> Sylow.inhabited, Sylow.instPartialOrder, Sylow.nonempty, Sylow.instSetLike, Sylow.toSubgroup, Sylow.instCoeOutSubgroup, Sylow.mulAction, Sylow.instSubgroupClass"
+  ],
+  "budget": {
+    "tool_calls": 72,
+    "lean_calls": 22,
+    "searches": 41,
+    "symbolic_calls": 0,
+    "searches_since_compile": 2,
+    "grace": 3,
+    "started": 1788865405.9659705,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 14.8,
+    "statement_checks": 1,
+    "refusals": {
+      "placeholder_proof": 1,
+      "decompose_first": 4,
+      "assemble_first": 4
+    }
+  },
+  "goal": "theorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : Fintype.card G = 132) : \u00ac IsSimpleGroup G"
+}

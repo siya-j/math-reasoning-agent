@@ -1,0 +1,531 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 (inner x y) = (0 : \u211d)",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:53: error: Application type mismatch: The argument\n  x\nhas type\n  EuclideanSpace \u211d (Fin n)\nof sort `Type` but is expected to have type\n  Type ?u.19\nof sort `Type (?u.19 + 1)` in the application\n  @inner x",
+      "at": 1788865935.6718779,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 \u27eax, y\u27eb = (0 : \u211d)",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:51: error: expected token",
+      "at": 1788865953.6950722,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner x y = (0 : \u211d)",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:58: error: Application type mismatch: The argument\n  x\nhas type\n  EuclideanSpace \u211d (Fin n)\nof sort `Type` but is expected to have type\n  Type ?u.19\nof sort `Type (?u.19 + 1)` in the application\n  @inner x",
+      "at": 1788865955.9441051,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner (\ud835\udd5c := \u211d) (E := EuclideanSpace \u211d (Fin n)) x y = (0 : \u211d)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788865959.66384,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner (\ud835\udd5c := \u211d) (E := EuclideanSpace \u211d (Fin n)) x y = (0 : \u211d)",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact LieDerivation.inner\n    | exact LieDerivation.inner _\n    | apply LieDerivation.inner\n    | simpa using LieDerivation.inner\n    | exact \u27e8_, LieDerivation.inner\u27e9\n    | exact LieDerivation.inner (by assumption)\n    | exact LieDerivation.inner \u2039_\u203a\n    | apply LieDerivation.inner <;> assumption\n    | (haveI := Fact.mk (by assumption); exact LieDerivation.inner (by assumption))\n    | exact LieDerivation.inner_apply_apply\n    | exact LieDerivation.inner_apply_apply _\n    | apply LieDerivation.inner_apply_apply\n    | simpa using LieDerivation.inner_apply_apply\n    | exact \u27e8_, LieDerivation.inner_apply_apply\u27e9\n    | exact LieDerivation.inner_apply_apply (by assumption)\n    | exact LieDerivation.inner_apply_apply \u2039_\u203a\n    | apply LieDerivation.inner_apply_apply <;> assumption\n    | (haveI := Fact.mk (by assumption); exact LieDerivation.inner_apply_apply (by assumption))\n    | exact ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\n    | exact ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb _\n    | apply ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\n    | simpa using ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\n    | exact \u27e8_, ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\u27e9\n    | exact ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb (by assumption)\n    | exact ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb \u2039_\u203a\n    | apply ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb (by assumption))\n    | exact InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb\n    | exact InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb _\n    | apply InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb\n    | simpa using InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb\n    | exact \u27e8_, InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb\u27e9\n    | exact InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb (by assumption)\n    | exact InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb \u2039_\u203a\n    | apply InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb <;> assumption\n    | (haveI := Fact.mk (by assumption); exact InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb (by assumption))\n    | exact RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\n    | exact RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb _\n    | apply RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\n    | simpa using RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\n    | exact \u27e8_, RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb\u27e9\n    | exact RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb (by assumption)\n    | exact RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb \u2039_\u203a\n    | apply RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb <;> assumption\n    | (haveI := Fact.mk (by assumption); exact RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb (by assumption))\n    | exact InnerProductSpace.toInner\n    | exact InnerProductSpace.toInner _\n    | apply InnerProductSpace.toInner\n    | simpa using InnerProductSpace.toInner\n    | exact \u27e8_, InnerProductSpace.toInner\u27e9\n    | exact InnerProductSpace.toInner (by assumption)\n    | exact InnerProductSpace.toInner \u2039_\u203a\n    | apply InnerProductSpace.toInner <;> assumption\n    | (haveI := Fact.mk (by assumption); exact InnerProductSpace.toInner (by assumption))\n    | exact PUnit.instInnerProductSpace\n    | exact PUnit.instInnerProductSpace _\n    | apply PUnit.instInnerProductSpace\n    | simpa using PUnit.instInnerProductSpace\n    | exact \u27e8_, PUnit.instInnerProductSpace\u27e9\n    | exact PUnit.instInnerProductSpace (by assumption)\n    | exact PUnit.instInnerProductSpace \u2039_\u203a\n    | apply PUnit.instInnerProductSpace <;> assumption\n    | (haveI := Fact.mk (by assumption); exact PUnit.instInnerProductSpace (by assumption))\n    | exact InnerProductSpace.toNormedSpace\n    | exact InnerProductSpace.toNormedSpace _\n    | apply InnerProductSpace.toNormedSpace\n    | simpa using InnerProductSpace.toNormedSpace\n    | exact \u27e8_, InnerProductSpace.toNormedSpace\u27e9\n    | exact InnerProductSpace.toNormedSpace (by assumption)\n    | exact InnerProductSpace.toNormedSpace \u2039_\u203a\n    | apply InnerProductSpace.toNormedSpace <;> assumption\n    | (haveI := Fact.mk (by assumption); exact InnerProductSpace.toNormedSpace (by assumption))\n    | exact PreInnerProductSpace.toCore\n    | exact PreInnerProductSpace.toCore _\n    | apply PreInnerProductSpace.toCore\n    | simpa using PreInnerProductSpace.toCore\n    | exact \u27e8_, PreInnerProductSpace.toCore\u27e9\n    | exact PreInnerProductSpace.toCore (by assumption)\n    | exact PreInnerProductSpace.toCore \u2039_\u203a\n    | apply PreInnerProductSpace.toCore <;> assumption\n    | (haveI := Fact.mk (by assumption); exact PreInnerProductSpace.toCore (by assumption))\n    | exact InnerProductSpace.Core.normSq\n    | exact InnerProductSpace.Core.normSq _\n    | apply InnerProductSpace.Core.normSq\n    | simpa using InnerProductSpace.Core.normSq\n    | exact \u27e8_, InnerProductSpace.Core.normSq\u27e9\n    | exact InnerProductSpace.Core.normSq (by assumption)\n    | exact InnerProductSpace.Core.normSq \u2039_\u203a\n    | apply InnerProductSpace.Core.normSq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact InnerProductSpace.Core.normSq (by assumption))\n    | exact InnerProductSpace.Core.toNorm\n    | exact InnerProductSpace.Core.toNorm _\n    | apply InnerProductSpace.Core.toNorm\n    | simpa using InnerProductSpace.Core.toNorm\n    | exact \u27e8_, InnerProductSpace.Core.toNorm\u27e9\n    | exact InnerProductSpace.Core.toNorm (by assumption)\n    | exact InnerProductSpace.Core.toNorm \u2039_\u203a\n    | apply InnerProductSpace.Core.toNorm <;> assumption\n    | (haveI := Fact.mk (by assumption); exact InnerProductSpace.Core.toNorm (by assumption))\n    | exact EuclideanSpace.infinite\n    | exact EuclideanSpace.infinite _\n    | apply EuclideanSpace.infinite\n    | simpa using EuclideanSpace.infinite\n    | exact \u27e8_, EuclideanSpace.infinite\u27e9\n    | exact EuclideanSpace.infinite (by assumption)\n    | exact EuclideanSpace.infinite \u2039_\u203a\n    | apply EuclideanSpace.infinite <;> assumption\n    | (haveI := Fact.mk (by assumption); exact EuclideanSpace.infinite (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:116: error: unsolved goals\nn : \u2115\nh : n > 1\nx : EuclideanSpace \u211d (Fin n)\n\u22a2 \u2203 y, \u00acy = 0 \u2227 inner \u211d x y = 0\n\nStill to prove:\n\u22a2 \u2203 y, \u00acy = 0 \u2227 inner \u211d x y = 0",
+      "at": 1788865971.2142134,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_ofLp_add (n : \u2115) (u v : EuclideanSpace \u211d (Fin n)) : WithLp.ofLp (u + v) = WithLp.ofLp u + WithLp.ofLp v",
+      "proof": "by rfl",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma test_ofLp_add (n : \u2115) (u v : EuclideanSpace \u211d (Fin n)) : WithLp.ofLp (u + v) = WithLp.ofLp u + WithLp.ofLp v",
+      "at": 1788865998.715851,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma y_ne_zero (n : \u2115) (i0 i1 : Fin n) (h01 : i0 \u2260 i1) (a b : \u211d) (hab : a \u2260 0 \u2228 b \u2260 0) :\n  EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a \u2260 0",
+      "proof": "by\n  intro h\n  have h0 : (WithLp.ofLp (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a)) i0 = 0 := by\n    rw [h]\n    rfl\n  have h1 : (WithLp.ofLp (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a)) i1 = 0 := by\n    rw [h]\n    rfl\n  rw [EuclideanSpace.single_apply, EuclideanSpace.single_apply] at h0\n  rw [EuclideanSpace.single_apply, EuclideanSpace.single_apply] at h1\n  simp [h01, h01.symm] at h0 h1\n  rcases hab with ha | hb\n  \u00b7 exact ha h1\n  \u00b7 exact hb (neg_eq_zero.mp h0)",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n12:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  (EuclideanSpace.single ?i ?a).ofLp ?j\nin the target expression\n  (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a).ofLp i0 = 0\n\nn : \u2115\ni0 i1 : Fin n\nh01 : i0 \u2260 i1\na b : \u211d\nhab : a \u2260 0 \u2228 b \u2260 0\nh : EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a = 0\nh0 : (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a).ofLp i0 = 0\nh1 : (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a).ofLp i1 = 0\n\u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788866004.111884,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma y_ne_zero (n : \u2115) (i0 i1 : Fin n) (h01 : i0 \u2260 i1) (a b : \u211d) (hab : a \u2260 0 \u2228 b \u2260 0) :\n  EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a \u2260 0",
+      "proof": "by\n  intro h\n  have h0 : (WithLp.ofLp (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a)) i0 = 0 := by\n    rw [h]\n    rfl\n  have h1 : (WithLp.ofLp (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a)) i1 = 0 := by\n    rw [h]\n    rfl\n  simp [EuclideanSpace.single_apply, h01, h01.symm] at h0 h1\n  rcases hab with ha | hb\n  \u00b7 exact ha h1\n  \u00b7 exact hb (neg_eq_zero.mp h0)",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n15:29: error: Application type mismatch: The argument\n  h0\nhas type\n  b = 0\nbut is expected to have type\n  -b = 0\nin the application\n  neg_eq_zero.mp h0",
+      "at": 1788866009.973402,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma y_ne_zero (n : \u2115) (i0 i1 : Fin n) (h01 : i0 \u2260 i1) (a b : \u211d) (hab : a \u2260 0 \u2228 b \u2260 0) :\n  EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a \u2260 0",
+      "proof": "by\n  intro h\n  have h0 : (WithLp.ofLp (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a)) i0 = 0 := by\n    rw [h]\n    rfl\n  have h1 : (WithLp.ofLp (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a)) i1 = 0 := by\n    rw [h]\n    rfl\n  simp [EuclideanSpace.single_apply, h01, h01.symm] at h0 h1\n  rcases hab with ha | hb\n  \u00b7 exact ha h1\n  \u00b7 exact hb h0",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma y_ne_zero (n : \u2115) (i0 i1 : Fin n) (h01 : i0 \u2260 i1) (a b : \u211d) (hab : a \u2260 0 \u2228 b \u2260 0) :\n  EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a \u2260 0",
+      "at": 1788866012.9610262,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma inner_calc (n : \u2115) (x : EuclideanSpace \u211d (Fin n)) (i0 i1 : Fin n) (a b : \u211d)\n  (ha : a = x.ofLp i0) (hb : b = x.ofLp i1) :\n  inner \u211d x (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a) = 0",
+      "proof": "by\n  rw [inner_add_right, EuclideanSpace.inner_single_right, EuclideanSpace.inner_single_right]\n  rw [\u2190 ha, \u2190 hb]\n  simp\n  ring",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma inner_calc (n : \u2115) (x : EuclideanSpace \u211d (Fin n)) (i0 i1 : Fin n) (a b : \u211d)\n  (ha : a = x.ofLp i0) (hb : b = x.ofLp i1) :\n  inner \u211d x (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a) = 0",
+      "at": 1788866018.736109,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner (\ud835\udd5c := \u211d) (E := EuclideanSpace \u211d (Fin n)) x y = (0 : \u211d)",
+      "proof": "by\n  have i0 : Fin n := \u27e80, by omega\u27e9\n  have i1 : Fin n := \u27e81, by omega\u27e9\n  have h01 : i0 \u2260 i1 := by\n    intro h_eq\n    injection h_eq with h_eq'\n    nomatch h_eq'\n  set a := x.ofLp i0\n  set b := x.ofLp i1\n  by_cases hab : a = 0 \u2227 b = 0\n  \u00b7 use EuclideanSpace.single i0 1\n    constructor\n    \u00b7 rw [ne_eq, EuclideanSpace.single_eq_zero_iff]\n      exact one_ne_zero\n    \u00b7 rw [EuclideanSpace.inner_single_right]\n      have ha0 : x.ofLp i0 = 0 := hab.1\n      rw [ha0]\n      simp\n  \u00b7 use EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a\n    constructor\n    \u00b7 have hab_or : a \u2260 0 \u2228 b \u2260 0 := by\n        push_neg at hab\n        exact hab\n      exact y_ne_zero n i0 i1 h01 a b hab_or\n    \u00b7 exact inner_calc n x i0 i1 a b rfl rfl",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n34:4: error: Tactic `injection` failed: equality of constructor applications expected\n\nn : \u2115\nh : n > 1\nx : EuclideanSpace \u211d (Fin n)\ni0 i1 : Fin n\nh_eq : i0 = i1\n\u22a2 False\n51:8: error: Type mismatch\n  hab\nhas type\n  a = 0 \u2192 b \u2260 0\nbut is expected to have type\n  a \u2260 0 \u2228 b \u2260 0\n\nStill to prove:\n\u22a2 False",
+      "at": 1788866028.7000458,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner (\ud835\udd5c := \u211d) (E := EuclideanSpace \u211d (Fin n)) x y = (0 : \u211d)",
+      "proof": "by\n  have i0 : Fin n := \u27e80, by omega\u27e9\n  have i1 : Fin n := \u27e81, by omega\u27e9\n  have h01 : i0 \u2260 i1 := by omega\n  set a := x.ofLp i0\n  set b := x.ofLp i1\n  by_cases hab : a = 0 \u2227 b = 0\n  \u00b7 use EuclideanSpace.single i0 1\n    constructor\n    \u00b7 rw [ne_eq, EuclideanSpace.single_eq_zero_iff]\n      exact one_ne_zero\n    \u00b7 rw [EuclideanSpace.inner_single_right]\n      have ha0 : x.ofLp i0 = 0 := hab.1\n      rw [ha0]\n      simp\n  \u00b7 use EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a\n    constructor\n    \u00b7 have hab_or : a \u2260 0 \u2228 b \u2260 0 := by\n        by_cases ha : a = 0\n        \u00b7 exact Or.inr (hab ha)\n        \u00b7 exact Or.inl ha\n      exact y_ne_zero n i0 i1 h01 a b hab_or\n    \u00b7 exact inner_calc n x i0 i1 a b rfl rfl",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n32:27: error: omega could not prove the goal:\na possible counterexample may satisfy the constraints\n  b \u2265 0\n  a \u2265 2\n  a - b \u2265 1\nwhere\n a := \u2191n\n b := \u2191\u2191i1\n48:28: error: Application type mismatch: The argument\n  ha\nhas type\n  a = 0\nbut is expected to have type\n  a = 0 \u2227 b = 0\nin the application\n  hab ha",
+      "at": 1788866034.7156253,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma h01_lemma (n : \u2115) (h : n > 1) : (\u27e80, by omega\u27e9 : Fin n) \u2260 \u27e81, by omega\u27e9",
+      "proof": "by\n  intro h_eq\n  have h_val : (\u27e80, by omega\u27e9 : Fin n).val = (\u27e81, by omega\u27e9 : Fin n).val := congrArg Fin.val h_eq\n  nomatch h_val",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma h01_lemma (n : \u2115) (h : n > 1) : (\u27e80, by omega\u27e9 : Fin n) \u2260 \u27e81, by omega\u27e9",
+      "at": 1788866042.6524277,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner (\ud835\udd5c := \u211d) (E := EuclideanSpace \u211d (Fin n)) x y = (0 : \u211d)",
+      "proof": "by\n  have i0 : Fin n := \u27e80, by omega\u27e9\n  have i1 : Fin n := \u27e81, by omega\u27e9\n  have h01 : i0 \u2260 i1 := h01_lemma n h\n  set a := x.ofLp i0\n  set b := x.ofLp i1\n  by_cases hab : a = 0 \u2227 b = 0\n  \u00b7 use EuclideanSpace.single i0 1\n    constructor\n    \u00b7 rw [ne_eq, EuclideanSpace.single_eq_zero_iff]\n      exact one_ne_zero\n    \u00b7 rw [EuclideanSpace.inner_single_right]\n      have ha0 : x.ofLp i0 = 0 := hab.1\n      rw [ha0]\n      simp\n  \u00b7 use EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a\n    constructor\n    \u00b7 have hab_or : a \u2260 0 \u2228 b \u2260 0 := by\n        by_cases ha : a = 0\n        \u00b7 have hb : b \u2260 0 := by\n            intro hb0\n            exact hab \u27e8ha, hb0\u27e9\n          exact Or.inr hb\n        \u00b7 exact Or.inl ha\n      exact y_ne_zero n i0 i1 h01 a b hab_or\n    \u00b7 exact inner_calc n x i0 i1 a b rfl rfl",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n37:24: error: Type mismatch\n  h01_lemma n h\nhas type\n  \u27e80, \u22ef\u27e9 \u2260 \u27e81, h\u27e9\nbut is expected to have type\n  i0 \u2260 i1",
+      "at": 1788866049.106728,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner (\ud835\udd5c := \u211d) (E := EuclideanSpace \u211d (Fin n)) x y = (0 : \u211d)",
+      "proof": "by\n  have i0 : Fin n := \u27e80, by omega\u27e9\n  have i1 : Fin n := \u27e81, h\u27e9\n  have h01 : i0 \u2260 i1 := h01_lemma n h\n  set a := x.ofLp i0\n  set b := x.ofLp i1\n  by_cases hab : a = 0 \u2227 b = 0\n  \u00b7 use EuclideanSpace.single i0 1\n    constructor\n    \u00b7 rw [ne_eq, EuclideanSpace.single_eq_zero_iff]\n      exact one_ne_zero\n    \u00b7 rw [EuclideanSpace.inner_single_right]\n      have ha0 : x.ofLp i0 = 0 := hab.1\n      rw [ha0]\n      simp\n  \u00b7 use EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a\n    constructor\n    \u00b7 have hab_or : a \u2260 0 \u2228 b \u2260 0 := by sorry\n      exact y_ne_zero n i0 i1 h01 a b hab_or\n    \u00b7 exact inner_calc n x i0 i1 a b rfl rfl",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n37:24: error: Type mismatch\n  h01_lemma n h\nhas type\n  \u27e80, \u22ef\u27e9 \u2260 \u27e81, h\u27e9\nbut is expected to have type\n  i0 \u2260 i1",
+      "at": 1788866068.0808036,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma h01_lemma_det (n : \u2115) (h : 1 < n) : (\u27e80, Nat.zero_lt_one.trans h\u27e9 : Fin n) \u2260 \u27e81, h\u27e9",
+      "proof": "by\n  intro h_eq\n  have h_val : (\u27e80, Nat.zero_lt_one.trans h\u27e9 : Fin n).val = (\u27e81, h\u27e9 : Fin n).val := congrArg Fin.val h_eq\n  nomatch h_val",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma h01_lemma_det (n : \u2115) (h : 1 < n) : (\u27e80, Nat.zero_lt_one.trans h\u27e9 : Fin n) \u2260 \u27e81, h\u27e9",
+      "at": 1788866072.0547917,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner (\ud835\udd5c := \u211d) (E := EuclideanSpace \u211d (Fin n)) x y = (0 : \u211d)",
+      "proof": "by\n  have i0 : Fin n := \u27e80, Nat.zero_lt_one.trans h\u27e9\n  have i1 : Fin n := \u27e81, h\u27e9\n  have h01 : i0 \u2260 i1 := h01_lemma_det n h\n  set a := x.ofLp i0\n  set b := x.ofLp i1\n  by_cases hab : a = 0 \u2227 b = 0\n  \u00b7 use EuclideanSpace.single i0 1\n    constructor\n    \u00b7 rw [ne_eq, EuclideanSpace.single_eq_zero_iff]\n      exact one_ne_zero\n    \u00b7 rw [EuclideanSpace.inner_single_right]\n      have ha0 : x.ofLp i0 = 0 := hab.1\n      rw [ha0]\n      simp\n  \u00b7 use EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a\n    constructor\n    \u00b7 have hab_or : a \u2260 0 \u2228 b \u2260 0 := by sorry\n      exact y_ne_zero n i0 i1 h01 a b hab_or\n    \u00b7 exact inner_calc n x i0 i1 a b rfl rfl",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n42:24: error: Type mismatch\n  h01_lemma_det n h\nhas type\n  \u27e80, \u22ef\u27e9 \u2260 \u27e81, h\u27e9\nbut is expected to have type\n  i0 \u2260 i1",
+      "at": 1788866075.3859227,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner (\ud835\udd5c := \u211d) (E := EuclideanSpace \u211d (Fin n)) x y = (0 : \u211d)",
+      "proof": "by\n  set i0 : Fin n := \u27e80, Nat.zero_lt_one.trans h\u27e9\n  set i1 : Fin n := \u27e81, h\u27e9\n  have h01 : i0 \u2260 i1 := h01_lemma_det n h\n  set a := x.ofLp i0\n  set b := x.ofLp i1\n  by_cases hab : a = 0 \u2227 b = 0\n  \u00b7 use EuclideanSpace.single i0 1\n    constructor\n    \u00b7 rw [ne_eq, EuclideanSpace.single_eq_zero_iff]\n      exact one_ne_zero\n    \u00b7 rw [EuclideanSpace.inner_single_right]\n      have ha0 : x.ofLp i0 = 0 := hab.1\n      rw [ha0]\n      simp\n  \u00b7 use EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a\n    constructor\n    \u00b7 have hab_or : a \u2260 0 \u2228 b \u2260 0 := by sorry\n      exact y_ne_zero n i0 i1 h01 a b hab_or\n    \u00b7 exact inner_calc n x i0 i1 a b rfl rfl",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788866081.1411872,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner (\ud835\udd5c := \u211d) (E := EuclideanSpace \u211d (Fin n)) x y = (0 : \u211d)",
+      "proof": "by\n  set i0 : Fin n := \u27e80, Nat.zero_lt_one.trans h\u27e9\n  set i1 : Fin n := \u27e81, h\u27e9\n  have h01 : i0 \u2260 i1 := h01_lemma_det n h\n  set a := x.ofLp i0\n  set b := x.ofLp i1\n  by_cases hab : a = 0 \u2227 b = 0\n  \u00b7 use EuclideanSpace.single i0 1\n    constructor\n    \u00b7 rw [ne_eq, EuclideanSpace.single_eq_zero_iff]\n      exact one_ne_zero\n    \u00b7 rw [EuclideanSpace.inner_single_right]\n      have ha0 : x.ofLp i0 = 0 := hab.1\n      rw [ha0]\n      simp\n  \u00b7 use EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a\n    constructor\n    \u00b7 have hab_or : a \u2260 0 \u2228 b \u2260 0 := by\n        by_cases ha : a = 0\n        \u00b7 have hb : b \u2260 0 := by\n            intro hb0\n            exact hab \u27e8ha, hb0\u27e9\n          exact Or.inr hb\n        \u00b7 exact Or.inl ha\n      exact y_ne_zero n i0 i1 h01 a b hab_or\n    \u00b7 exact inner_calc n x i0 i1 a b rfl rfl",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner (\ud835\udd5c := \u211d) (E := EuclideanSpace \u211d (Fin n)) x y = (0 : \u211d)",
+      "at": 1788866088.7845287,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma test_ofLp_add (n : \u2115) (u v : EuclideanSpace \u211d (Fin n)) : WithLp.ofLp (u + v) = WithLp.ofLp u + WithLp.ofLp v := by rfl",
+    "lemma y_ne_zero (n : \u2115) (i0 i1 : Fin n) (h01 : i0 \u2260 i1) (a b : \u211d) (hab : a \u2260 0 \u2228 b \u2260 0) :\n  EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a \u2260 0 := by\n  intro h\n  have h0 : (WithLp.ofLp (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a)) i0 = 0 := by\n    rw [h]\n    rfl\n  have h1 : (WithLp.ofLp (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a)) i1 = 0 := by\n    rw [h]\n    rfl\n  simp [EuclideanSpace.single_apply, h01, h01.symm] at h0 h1\n  rcases hab with ha | hb\n  \u00b7 exact ha h1\n  \u00b7 exact hb h0",
+    "lemma inner_calc (n : \u2115) (x : EuclideanSpace \u211d (Fin n)) (i0 i1 : Fin n) (a b : \u211d)\n  (ha : a = x.ofLp i0) (hb : b = x.ofLp i1) :\n  inner \u211d x (EuclideanSpace.single i0 (-b) + EuclideanSpace.single i1 a) = 0 := by\n  rw [inner_add_right, EuclideanSpace.inner_single_right, EuclideanSpace.inner_single_right]\n  rw [\u2190 ha, \u2190 hb]\n  simp\n  ring",
+    "lemma h01_lemma (n : \u2115) (h : n > 1) : (\u27e80, by omega\u27e9 : Fin n) \u2260 \u27e81, by omega\u27e9 := by\n  intro h_eq\n  have h_val : (\u27e80, by omega\u27e9 : Fin n).val = (\u27e81, by omega\u27e9 : Fin n).val := congrArg Fin.val h_eq\n  nomatch h_val",
+    "lemma h01_lemma_det (n : \u2115) (h : 1 < n) : (\u27e80, Nat.zero_lt_one.trans h\u27e9 : Fin n) \u2260 \u27e81, h\u27e9 := by\n  intro h_eq\n  have h_val : (\u27e80, Nat.zero_lt_one.trans h\u27e9 : Fin n).val = (\u27e81, h\u27e9 : Fin n).val := congrArg Fin.val h_eq\n  nomatch h_val"
+  ],
+  "premises": [
+    {
+      "name": "LieDerivation.inner",
+      "type": " (R : Type u_1) (L : Type u_2) (M : Type u_3) [CommRing R] [LieRing L] [LieAlgebra R L] [AddCommGroup M] [Module R M] [LieRingModule L M] [LieModule R L M] : M \u2192\u2097[R] LieDerivation R L M",
+      "module": "Mathlib.Algebra.Lie.Derivation.Basic",
+      "doc": "The natural map from a Lie module to the derivations taking values in it. "
+    },
+    {
+      "name": "LieDerivation.inner_apply_apply",
+      "type": " (R : Type u_1) (L : Type u_2) (M : Type u_3) [CommRing R] [LieRing L] [LieAlgebra R L] [AddCommGroup M] [Module R M] [LieRingModule L M] [LieModule R L M] (m : M) (m\u271d : L) : ((LieDerivation.inner R L M) m) m\u271d = \u2045m\u271d, m\u2046",
+      "module": "Mathlib.Algebra.Lie.Derivation.Basic",
+      "doc": ""
+    },
+    {
+      "name": "MeasureTheory.Measure.InnerRegular",
+      "type": " {\u03b1 : Type u_1} [MeasurableSpace \u03b1] [TopologicalSpace \u03b1] (\u03bc : MeasureTheory.Measure \u03b1) : Prop",
+      "module": "Mathlib.MeasureTheory.Measure.Regular",
+      "doc": "A measure `\u03bc` is inner regular if, for any measurable set `s`, then\n`\u03bc(s) = sup {\u03bc(K) | K \u2286 s compact}`. "
+    },
+    {
+      "name": "MeasureTheory.Measure.InnerRegularCompactLTTop",
+      "type": " {\u03b1 : Type u_1} [MeasurableSpace \u03b1] [TopologicalSpace \u03b1] (\u03bc : MeasureTheory.Measure \u03b1) : Prop",
+      "module": "Mathlib.MeasureTheory.Measure.Regular",
+      "doc": "A measure `\u03bc` is inner regular for finite measure sets with respect to compact sets:\nfor any measurable set `s` with finite measure, then `\u03bc(s) = sup {\u03bc(K) | K \u2286 s compact}`.\nThe main interest of this class is that it is satisfied for both natural Haar measures (the\nregular one and the inner regular one). "
+    },
+    {
+      "name": "MeasureTheory.Measure.InnerRegularWRT",
+      "type": " {\u03b1 : Type u_1} {x\u271d : MeasurableSpace \u03b1} (\u03bc : MeasureTheory.Measure \u03b1) (p q : Set \u03b1 \u2192 Prop) : Prop",
+      "module": "Mathlib.MeasureTheory.Measure.Regular",
+      "doc": "We say that a measure `\u03bc` is *inner regular* with respect to predicates `p q : Set \u03b1 \u2192 Prop`,\nif for every `U` such that `q U` and `r < \u03bc U`, there exists a subset `K \u2286 U` satisfying `p K`\nof measure greater than `r`.\n\nThis definition is used to prove some facts about regular and weakly regular measures without\nrepeating the proofs. "
+    },
+    {
+      "name": "ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb",
+      "type": " : Lean.ParserDescr",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The inner product with values in `\u2102`. "
+    },
+    {
+      "name": "InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb",
+      "type": " : Lean.ParserDescr",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The inner product with values in `\ud835\udd5c`. "
+    },
+    {
+      "name": "RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb",
+      "type": " : Lean.ParserDescr",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The inner product with values in `\u211d`. "
+    },
+    {
+      "name": "InnerProductSpace.toInner",
+      "type": " {\ud835\udd5c : Type u_4} {E : Type u_5} {inst\u271d : RCLike \ud835\udd5c} {inst\u271d\u00b9 : SeminormedAddCommGroup E} [self : InnerProductSpace \ud835\udd5c E] : Inner \ud835\udd5c E",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "PUnit.instInnerProductSpace",
+      "type": " {\ud835\udd5c : Type u_1} [RCLike \ud835\udd5c] : InnerProductSpace \ud835\udd5c PUnit.{u_4 + 1}",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.toNormedSpace",
+      "type": " {\ud835\udd5c : Type u_4} {E : Type u_5} {inst\u271d : RCLike \ud835\udd5c} {inst\u271d\u00b9 : SeminormedAddCommGroup E} [self : InnerProductSpace \ud835\udd5c E] : NormedSpace \ud835\udd5c E",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "PreInnerProductSpace.toCore",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [c : InnerProductSpace \ud835\udd5c E] : PreInnerProductSpace.Core \ud835\udd5c E",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "Define `PreInnerProductSpace.Core` from `InnerProductSpace`. Defined to reuse lemmas about\n`PreInnerProductSpace.Core` for `PreInnerProductSpace`s. Note that the `Seminorm` instance provided\nby `PreInnerProductSpace.Core.norm` is propositionally but not definitionally equal to the original\nnorm. "
+    },
+    {
+      "name": "InnerProductSpace.Core.normSq",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x : F) : \u211d",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The norm squared function for `PreInnerProductSpace.Core` structure. "
+    },
+    {
+      "name": "InnerProductSpace.Core.toNorm",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] : Norm F",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "(Semi)norm constructed from a `PreInnerProductSpace.Core` structure, defined to be the square\nroot of the scalar product. "
+    },
+    {
+      "name": "InnerProductSpace",
+      "type": " (\ud835\udd5c : Type u_4) (E : Type u_5) [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] : Type (max u_4 u_5)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "A (pre) inner product space is a vector space with an additional operation called inner product.\nThe (semi)norm could be derived from the inner product, instead we require the existence of a\nseminorm and the fact that `\u2016x\u2016^2 = re \u27eax, x\u27eb` to be able to put instances on `\ud835\udd42` or product spaces.\n\nNote that `NormedSpace` does not assume that `\u2016x\u2016=0` implies `x=0` (it is rather a seminorm).\n\nTo construct a seminorm from an inner product, see `PreInnerProductSpace.ofCore`.\n"
+    },
+    {
+      "name": "InnerProductSpace.Core",
+      "type": " (\ud835\udd5c : Type u_4) (F : Type u_5) [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] : Type (max u_4 u_5)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "A structure requiring that a scalar product is positive definite. Some theorems that\nrequire these assumptions are put under section `InnerProductSpace.Core`. "
+    },
+    {
+      "name": "PreInnerProductSpace.Core",
+      "type": " (\ud835\udd5c : Type u_4) (F : Type u_5) [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] : Type (max u_4 u_5)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "A structure requiring that a scalar product is positive semidefinite and symmetric. "
+    },
+    {
+      "name": "EuclideanSpace",
+      "type": " (\ud835\udd5c : Type u_7) (n : Type u_8) : Type (max u_7 u_8)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The standard real/complex Euclidean space, functions on a finite type. For an `n`-dimensional\nspace use `EuclideanSpace \ud835\udd5c (Fin n)`.\n\nFor the case when `n = Fin _`, there is `!\u2082[x, y, ...]` notation for building elements of this type,\nanalogous to `![x, y, ...]` notation. "
+    },
+    {
+      "name": "EuclideanSpace.infinite",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [Nonempty \u03b9] : Infinite (EuclideanSpace \ud835\udd5c \u03b9)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] (i : \u03b9) (a : \ud835\udd5c) : EuclideanSpace \ud835\udd5c \u03b9",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The vector given in Euclidean space by being `a : \ud835\udd5c` at coordinate `i : \u03b9` and `0 : \ud835\udd5c` at\nall other coordinates. "
+    },
+    {
+      "name": "EuclideanSpace.norm_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a : \ud835\udd5c) : \u2016EuclideanSpace.single i a\u2016 = \u2016a\u2016",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.basisFun",
+      "type": " (\u03b9 : Type u_1) (\ud835\udd5c : Type u_3) [RCLike \ud835\udd5c] [Fintype \u03b9] : OrthonormalBasis \u03b9 \ud835\udd5c (EuclideanSpace \ud835\udd5c \u03b9)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The basis `Pi.basisFun`, bundled as an orthonormal basis of `EuclideanSpace \ud835\udd5c \u03b9`. "
+    },
+    {
+      "name": "OrthonormalBasis.instInhabited",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [Fintype \u03b9] : Inhabited (OrthonormalBasis \u03b9 \ud835\udd5c (EuclideanSpace \ud835\udd5c \u03b9))",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.dist_single_same",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a b : \ud835\udd5c) : dist (EuclideanSpace.single i a) (EuclideanSpace.single i b) = dist a b",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.nndist_single_same",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a b : \ud835\udd5c) : nndist (EuclideanSpace.single i a) (EuclideanSpace.single i b) = nndist a b",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.nnnorm_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a : \ud835\udd5c) : \u2016EuclideanSpace.single i a\u2016\u208a = \u2016a\u2016\u208a",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.real_norm_sq_eq",
+      "type": " {n : Type u_7} [Fintype n] (x : EuclideanSpace \u211d n) : \u2016x\u2016 ^ 2 = \u2211 i, x.ofLp i ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.norm_eq",
+      "type": " {\ud835\udd5c : Type u_7} [RCLike \ud835\udd5c] {n : Type u_8} [Fintype n] (x : EuclideanSpace \ud835\udd5c n) : \u2016x\u2016 = \u221a(\u2211 i, \u2016x.ofLp i\u2016 ^ 2)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.orthonormal_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] : Orthonormal \ud835\udd5c fun i => EuclideanSpace.single i 1",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "`EuclideanSpace.single` forms an orthonormal family. "
+    },
+    {
+      "name": "EuclideanSpace.inner_single_left",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a : \ud835\udd5c) (v : EuclideanSpace \ud835\udd5c \u03b9) : inner \ud835\udd5c (EuclideanSpace.single i a) v = (starRingEnd \ud835\udd5c) a * v.ofLp i",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.inner_single_right",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a : \ud835\udd5c) (v : EuclideanSpace \ud835\udd5c \u03b9) : inner \ud835\udd5c v (EuclideanSpace.single i a) = a * (starRingEnd ((fun x => \ud835\udd5c) i)) (v.ofLp i)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "WithCStarModule.inner_single_left",
+      "type": " {A : Type u_1} [NonUnitalCStarAlgebra A] [PartialOrder A] {\u03b9 : Type u_2} {E : \u03b9 \u2192 Type u_3} [Fintype \u03b9] [(i : \u03b9) \u2192 NormedAddCommGroup (E i)] [(i : \u03b9) \u2192 Module \u2102 (E i)] [(i : \u03b9) \u2192 SMul A (E i)] [(i : \u03b9) \u2192 CStarModule A (E i)] [StarOrderedRing A] [DecidableEq \u03b9] (x : WithCStarModule A ((i : \u03b9) \u2192 E i)) {i : \u03b9} (y : E i) : inner A ((WithCStarModule.equiv A ((j : \u03b9) \u2192 E j)).symm (Pi.single i y)) x = inner A y (x i)",
+      "module": "Mathlib.Analysis.CStarAlgebra.Module.Constructions",
+      "doc": ""
+    },
+    {
+      "name": "WithCStarModule.inner_single_right",
+      "type": " {A : Type u_1} [NonUnitalCStarAlgebra A] [PartialOrder A] {\u03b9 : Type u_2} {E : \u03b9 \u2192 Type u_3} [Fintype \u03b9] [(i : \u03b9) \u2192 NormedAddCommGroup (E i)] [(i : \u03b9) \u2192 Module \u2102 (E i)] [(i : \u03b9) \u2192 SMul A (E i)] [(i : \u03b9) \u2192 CStarModule A (E i)] [StarOrderedRing A] [DecidableEq \u03b9] (x : WithCStarModule A ((i : \u03b9) \u2192 E i)) {i : \u03b9} (y : E i) : inner A x ((WithCStarModule.equiv A ((i : \u03b9) \u2192 E i)).symm (Pi.single i y)) = inner A (x i) y",
+      "module": "Mathlib.Analysis.CStarAlgebra.Module.Constructions",
+      "doc": ""
+    },
+    {
+      "name": "lp.inner_single_left",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_2} [RCLike \ud835\udd5c] {G : \u03b9 \u2192 Type u_4} [(i : \u03b9) \u2192 NormedAddCommGroup (G i)] [(i : \u03b9) \u2192 InnerProductSpace \ud835\udd5c (G i)] [DecidableEq \u03b9] (i : \u03b9) (a : G i) (f : \u21a5(lp G 2)) : inner \ud835\udd5c (lp.single 2 i a) f = inner \ud835\udd5c a (\u2191f i)",
+      "module": "Mathlib.Analysis.InnerProductSpace.l2Space",
+      "doc": ""
+    },
+    {
+      "name": "lp.inner_single_right",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_2} [RCLike \ud835\udd5c] {G : \u03b9 \u2192 Type u_4} [(i : \u03b9) \u2192 NormedAddCommGroup (G i)] [(i : \u03b9) \u2192 InnerProductSpace \ud835\udd5c (G i)] [DecidableEq \u03b9] (i : \u03b9) (a : G i) (f : \u21a5(lp G 2)) : inner \ud835\udd5c f (lp.single 2 i a) = inner \ud835\udd5c (\u2191f i) a",
+      "module": "Mathlib.Analysis.InnerProductSpace.l2Space",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.ofLp",
+      "type": " {p : ENNReal} {V : Type u_1} (self : WithLp p V) : V",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": "Converts an element of `WithLp p V` to an element of `V`. "
+    },
+    {
+      "name": "WithLp.ofLp_bijective",
+      "type": " (p : ENNReal) {V : Type u_4} : Function.Bijective WithLp.ofLp",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.ofLp_injective",
+      "type": " (p : ENNReal) {V : Type u_4} : Function.Injective WithLp.ofLp",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.ofLp_surjective",
+      "type": " (p : ENNReal) {V : Type u_4} : Function.Surjective WithLp.ofLp",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.ofLp_toLp",
+      "type": " (p : ENNReal) {V : Type u_4} (x : V) : (WithLp.toLp p x).ofLp = x",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.toLp_ofLp",
+      "type": " (p : ENNReal) {V : Type u_4} (x : WithLp p V) : WithLp.toLp p x.ofLp = x",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.ofLp_multisetSum",
+      "type": " (p : ENNReal) (V : Type u_4) [AddCommGroup V] (s : Multiset (WithLp p V)) : s.sum.ofLp = (Multiset.map WithLp.ofLp s).sum",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.equiv_symm_apply_ofLp",
+      "type": " (p : ENNReal) (V : Type u_4) (ofLp : V) : ((WithLp.equiv p V).symm ofLp).ofLp = ofLp",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.ofLp_sum",
+      "type": " (p : ENNReal) (V : Type u_4) [AddCommGroup V] {\u03b9 : Type u_7} (s : Finset \u03b9) (f : \u03b9 \u2192 WithLp p V) : (\u2211 i \u2208 s, f i).ofLp = \u2211 i \u2208 s, (f i).ofLp",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.ofLp_smul",
+      "type": " (p : ENNReal) {K : Type u_1} {V : Type u_4} [SMul K V] (c : K) (x : WithLp p V) : (c \u2022 x).ofLp = c \u2022 x.ofLp",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.ofLp_neg",
+      "type": " (p : ENNReal) {V : Type u_4} [AddCommGroup V] (x : WithLp p V) : (-x).ofLp = -x.ofLp",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.ofLp_zero",
+      "type": " (p : ENNReal) {V : Type u_4} [AddCommGroup V] : WithLp.ofLp 0 = 0",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.single_apply",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] (i : \u03b9) (a : \ud835\udd5c) (j : \u03b9) : (EuclideanSpace.single i a).ofLp j = if j = i then a else 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.single_eq_zero_iff",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] {i : \u03b9} {a : \ud835\udd5c} : EuclideanSpace.single i a = 0 \u2194 a = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_add_right",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x y z : F) : inner \ud835\udd5c x (y + z) = inner \ud835\udd5c x y + inner \ud835\udd5c x z",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "inner_add_right",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] (x y z : E) : inner \ud835\udd5c x (y + z) = inner \ud835\udd5c x y + inner \ud835\udd5c x z",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CStarModule.inner_add_right",
+      "type": " {A : Type u_1} {E : Type u_2} {inst\u271d : NonUnitalSemiring A} {inst\u271d\u00b9 : StarRing A} {inst\u271d\u00b2 : Module \u2102 A} {inst\u271d\u00b3 : AddCommGroup E} {inst\u271d\u2074 : Module \u2102 E} {inst\u271d\u2075 : PartialOrder A} {inst\u271d\u2076 : SMul A E} {inst\u271d\u2077 : Norm A} {inst\u271d\u2078 : Norm E} [self : CStarModule A E] {x y z : E} : inner A x (y + z) = inner A x y + inner A x z",
+      "module": "Mathlib.Analysis.CStarAlgebra.Module.Defs",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.wInner_add_right",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} {E : \u03b9 \u2192 Type u_4} [Fintype \u03b9] [RCLike \ud835\udd5c] [(i : \u03b9) \u2192 SeminormedAddCommGroup (E i)] [(i : \u03b9) \u2192 InnerProductSpace \ud835\udd5c (E i)] (w : \u03b9 \u2192 \u211d) (f g\u2081 g\u2082 : (i : \u03b9) \u2192 E i) : \u27eaf, g\u2081 + g\u2082\u27eb_[\ud835\udd5c, w] = \u27eaf, g\u2081\u27eb_[\ud835\udd5c, w] + \u27eaf, g\u2082\u27eb_[\ud835\udd5c, w]",
+      "module": "Mathlib.Analysis.RCLike.Inner",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"inner\"' -> LieDerivation.inner, LieDerivation.inner_apply_apply, MeasureTheory.Measure.InnerRegular, MeasureTheory.Measure.InnerRegularCompactLTTop, MeasureTheory.Measure.InnerRegularWRT",
+    "search: '\"innerProductSpace\"' -> ComplexInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb, InnerProductSpace.\u00abterm\u27ea_,_\u27eb__\u00bb, RealInnerProductSpace.\u00abterm\u27ea_,_\u27eb\u00bb, InnerProductSpace.toInner, PUnit.instInnerProductSpace, InnerProductSpace.toNormedSpace, PreInnerProductSpace.toCore, InnerProductSpace.Core.normSq",
+    "search: '\"Inner\"' -> LieDerivation.inner, LieDerivation.inner_apply_apply, MeasureTheory.Measure.InnerRegular, MeasureTheory.Measure.InnerRegularCompactLTTop, MeasureTheory.Measure.InnerRegularWRT",
+    "seeded from goal shape -> EuclideanSpace, EuclideanSpace.infinite, EuclideanSpace.single, EuclideanSpace.norm_single, EuclideanSpace.basisFun, OrthonormalBasis.instInhabited, EuclideanSpace.dist_single_same, EuclideanSpace.nndist_single_same",
+    "search: '\"inner_single\"' -> EuclideanSpace.inner_single_left, EuclideanSpace.inner_single_right, WithCStarModule.inner_single_left, WithCStarModule.inner_single_right, lp.inner_single_left, lp.inner_single_right",
+    "search: '\"ofLp\"' -> WithLp.ofLp, WithLp.ofLp_bijective, WithLp.ofLp_injective, WithLp.ofLp_surjective, WithLp.ofLp_toLp, WithLp.toLp_ofLp, WithLp.ofLp_multisetSum, WithLp.equiv_symm_apply_ofLp",
+    "search: '\"EuclideanSpace.single\"' -> EuclideanSpace.single, EuclideanSpace.single_apply, EuclideanSpace.single_eq_zero_iff",
+    "search: '\"inner_add_right\"' -> InnerProductSpace.Core.inner_add_right, inner_add_right, CStarModule.inner_add_right, RCLike.wInner_add_right"
+  ],
+  "budget": {
+    "tool_calls": 36,
+    "lean_calls": 19,
+    "searches": 10,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788865934.2148986,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.6,
+    "statement_checks": 4,
+    "refusals": {
+      "placeholder_proof": 1,
+      "assemble_first": 3,
+      "decompose_first": 2
+    }
+  },
+  "goal": "theorem exercise_1_18a\n  (n : \u2115)\n  (h : n > 1)\n  (x : EuclideanSpace \u211d (Fin n)) -- R^n\n  : \u2203 (y : EuclideanSpace \u211d (Fin n)), y \u2260 0 \u2227 Inner.inner (\ud835\udd5c := \u211d) (E := EuclideanSpace \u211d (Fin n)) x y = (0 : \u211d)"
+}

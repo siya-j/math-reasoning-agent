@@ -1,0 +1,464 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_5_15 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}) :\n  (M1 ^ 2) \u2264 4 * M0 * M2",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788866111.4092057,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_5_15 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}) :\n  (M1 ^ 2) \u2264 4 * M0 * M2",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fin.append_elim0\n    | exact Fin.append_elim0 _\n    | apply Fin.append_elim0\n    | simpa using Fin.append_elim0\n    | exact \u27e8_, Fin.append_elim0\u27e9\n    | exact Fin.append_elim0 (by assumption)\n    | exact Fin.append_elim0 \u2039_\u203a\n    | apply Fin.append_elim0 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.append_elim0 (by assumption))\n    | exact Fin.elim0_append\n    | exact Fin.elim0_append _\n    | apply Fin.elim0_append\n    | simpa using Fin.elim0_append\n    | exact \u27e8_, Fin.elim0_append\u27e9\n    | exact Fin.elim0_append (by assumption)\n    | exact Fin.elim0_append \u2039_\u203a\n    | apply Fin.elim0_append <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.elim0_append (by assumption))\n    | exact Turing.TM0.Stmt.move\n    | exact Turing.TM0.Stmt.move _\n    | apply Turing.TM0.Stmt.move\n    | simpa using Turing.TM0.Stmt.move\n    | exact \u27e8_, Turing.TM0.Stmt.move\u27e9\n    | exact Turing.TM0.Stmt.move (by assumption)\n    | exact Turing.TM0.Stmt.move \u2039_\u203a\n    | apply Turing.TM0.Stmt.move <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.move (by assumption))\n    | exact Turing.TM0.Stmt.write\n    | exact Turing.TM0.Stmt.write _\n    | apply Turing.TM0.Stmt.write\n    | simpa using Turing.TM0.Stmt.write\n    | exact \u27e8_, Turing.TM0.Stmt.write\u27e9\n    | exact Turing.TM0.Stmt.write (by assumption)\n    | exact Turing.TM0.Stmt.write \u2039_\u203a\n    | apply Turing.TM0.Stmt.write <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.write (by assumption))\n    | exact Turing.TM0.Stmt.inhabited\n    | exact Turing.TM0.Stmt.inhabited _\n    | apply Turing.TM0.Stmt.inhabited\n    | simpa using Turing.TM0.Stmt.inhabited\n    | exact \u27e8_, Turing.TM0.Stmt.inhabited\u27e9\n    | exact Turing.TM0.Stmt.inhabited (by assumption)\n    | exact Turing.TM0.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM0.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.inhabited (by assumption))\n    | exact Turing.TM0to1.\u039b'.normal\n    | exact Turing.TM0to1.\u039b'.normal _\n    | apply Turing.TM0to1.\u039b'.normal\n    | simpa using Turing.TM0to1.\u039b'.normal\n    | exact \u27e8_, Turing.TM0to1.\u039b'.normal\u27e9\n    | exact Turing.TM0to1.\u039b'.normal (by assumption)\n    | exact Turing.TM0to1.\u039b'.normal \u2039_\u203a\n    | apply Turing.TM0to1.\u039b'.normal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.\u039b'.normal (by assumption))\n    | exact Turing.TM0to1.instInhabited\u039b'\n    | exact Turing.TM0to1.instInhabited\u039b' _\n    | apply Turing.TM0to1.instInhabited\u039b'\n    | simpa using Turing.TM0to1.instInhabited\u039b'\n    | exact \u27e8_, Turing.TM0to1.instInhabited\u039b'\u27e9\n    | exact Turing.TM0to1.instInhabited\u039b' (by assumption)\n    | exact Turing.TM0to1.instInhabited\u039b' \u2039_\u203a\n    | apply Turing.TM0to1.instInhabited\u039b' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.instInhabited\u039b' (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1a\n    | exact HomotopicalAlgebra.ModelCategory.cm1a _\n    | apply HomotopicalAlgebra.ModelCategory.cm1a\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1a\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1a\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1a \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1a <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1b\n    | exact HomotopicalAlgebra.ModelCategory.cm1b _\n    | apply HomotopicalAlgebra.ModelCategory.cm1b\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1b\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1b\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1b \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1b <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption))\n    | exact ZNum.bitm1\n    | exact ZNum.bitm1 _\n    | apply ZNum.bitm1\n    | simpa using ZNum.bitm1\n    | exact \u27e8_, ZNum.bitm1\u27e9\n    | exact ZNum.bitm1 (by assumption)\n    | exact ZNum.bitm1 \u2039_\u203a\n    | apply ZNum.bitm1 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.bitm1 (by assumption))\n    | exact Turing.TM1.Stmt.halt\n    | exact Turing.TM1.Stmt.halt _\n    | apply Turing.TM1.Stmt.halt\n    | simpa using Turing.TM1.Stmt.halt\n    | exact \u27e8_, Turing.TM1.Stmt.halt\u27e9\n    | exact Turing.TM1.Stmt.halt (by assumption)\n    | exact Turing.TM1.Stmt.halt \u2039_\u203a\n    | apply Turing.TM1.Stmt.halt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.halt (by assumption))\n    | exact Turing.TM1.Stmt.inhabited\n    | exact Turing.TM1.Stmt.inhabited _\n    | apply Turing.TM1.Stmt.inhabited\n    | simpa using Turing.TM1.Stmt.inhabited\n    | exact \u27e8_, Turing.TM1.Stmt.inhabited\u27e9\n    | exact Turing.TM1.Stmt.inhabited (by assumption)\n    | exact Turing.TM1.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM1.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.inhabited (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n7:28: error: unsolved goals\nf : \u211d \u2192 \u211d\na M0 M1 M2 : \u211d\nhf' : DifferentiableOn \u211d f (Set.Ici a)\nhf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a)\nhM0 : M0 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |f x_1| = x}\nhM1 : M1 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv f x_1| = x}\nhM2 : M2 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv (deriv f) x_1| = x}\n\u22a2 M1 ^ 2 \u2264 4 * M0 * M2\n\nStill to prove:\n\u22a2 M1 ^ 2 \u2264 4 * M0 * M2",
+      "at": 1788866126.5864036,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "\u00ac (\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}),\n  (M1 ^ 2) \u2264 4 * M0 * M2)",
+      "proof": "by\n  intro h\n  have h_diff1 : DifferentiableOn \u211d (fun x => x) (Set.Ici 0) := by sorry\n  have h_deriv_id : deriv (fun x => x) = fun _ => 1 := by sorry\n  have h_diff2 : DifferentiableOn \u211d (deriv (fun x => x)) (Set.Ici 0) := by sorry\n  have h_deriv2_id : deriv (deriv (fun x => x)) = fun _ => 0 := by sorry\n  have hM0 : 0 = sSup {(|x|) | x \u2208 (Set.Ici 0)} := by sorry\n  have hM1 : 1 = sSup {(|deriv (fun x => x) x|) | x \u2208 (Set.Ici 0)} := by sorry\n  have hM2 : 0 = sSup {(|deriv (deriv (fun x => x)) x|) | x \u2208 (Set.Ici 0)} := by sorry\n  have h_ineq : (1 : \u211d) ^ 2 \u2264 4 * 0 * 0 := by sorry\n  sorry",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:0: error: unexpected token '\u00ac'; expected command",
+      "at": 1788866157.4771225,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_5_15_refutation : \u00ac (\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}),\n  (M1 ^ 2) \u2264 4 * M0 * M2)",
+      "proof": "by\n  intro h\n  have h_diff1 : DifferentiableOn \u211d (fun x => x) (Set.Ici 0) := by sorry\n  have h_deriv_id : deriv (fun x => x) = fun _ => 1 := by sorry\n  have h_diff2 : DifferentiableOn \u211d (deriv (fun x => x)) (Set.Ici 0) := by sorry\n  have h_deriv2_id : deriv (deriv (fun x => x)) = fun _ => 0 := by sorry\n  have hM0 : 0 = sSup {(|x|) | x \u2208 (Set.Ici 0)} := by sorry\n  have hM1 : 1 = sSup {(|deriv (fun x => x) x|) | x \u2208 (Set.Ici 0)} := by sorry\n  have hM2 : 0 = sSup {(|deriv (deriv (fun x => x)) x|) | x \u2208 (Set.Ici 0)} := by sorry\n  have h_ineq : (1 : \u211d) ^ 2 \u2264 4 * 0 * 0 := h (fun x => x) 0 0 1 0 h_diff1 h_diff2 hM0 hM1 hM2\n  sorry",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n9:17: error: failed to synthesize instance of type class\n  AddCommGroup \u2115\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.\n9:17: error: failed to synthesize instance of type class\n  AddCommGroup \u2115\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.\n10:20: error: failed to synthesize instance of type class\n  NontriviallyNormedField \u2115\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.\n10:20: error: failed to synthesize instance of type class\n  AddCommGroup \u2115\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.\n11:37: error: failed to synthesize instance of type class\n  NontriviallyNormedField \u2115\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+      "at": 1788866161.3470726,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_5_15_refutation : \u00ac (\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}),\n  (M1 ^ 2) \u2264 4 * M0 * M2)",
+      "proof": "by\n  intro h\n  have h_diff1 : DifferentiableOn \u211d (fun x : \u211d => x) (Set.Ici (0 : \u211d)) := by sorry\n  have h_deriv_id : deriv (fun x : \u211d => x) = fun _ => (1 : \u211d) := by sorry\n  have h_diff2 : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici (0 : \u211d)) := by sorry\n  have h_deriv2_id : deriv (deriv (fun x : \u211d => x)) = fun _ => (0 : \u211d) := by sorry\n  have hM0 : (0 : \u211d) = sSup {(|x|) | x \u2208 (Set.Ici (0 : \u211d))} := by sorry\n  have hM1 : (1 : \u211d) = sSup {(|deriv (fun x : \u211d => x) x|) | x \u2208 (Set.Ici (0 : \u211d))} := by sorry\n  have hM2 : (0 : \u211d) = sSup {(|deriv (deriv (fun x : \u211d => x)) x|) | x \u2208 (Set.Ici (0 : \u211d))} := by sorry\n  have h_ineq : ((1 : \u211d) ^ 2) \u2264 4 * (0 : \u211d) * (0 : \u211d) := h (0 : \u211d) (0 : \u211d) (1 : \u211d) (0 : \u211d) h_diff1 h_diff2 hM0 hM1 hM2\n  sorry",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788866164.4419937,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_1 : DifferentiableOn \u211d (fun x : \u211d => x) (Set.Ici (0 : \u211d))",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fin.append_elim0\n    | exact Fin.append_elim0 _\n    | apply Fin.append_elim0\n    | simpa using Fin.append_elim0\n    | exact \u27e8_, Fin.append_elim0\u27e9\n    | exact Fin.append_elim0 (by assumption)\n    | exact Fin.append_elim0 \u2039_\u203a\n    | apply Fin.append_elim0 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.append_elim0 (by assumption))\n    | exact Fin.elim0_append\n    | exact Fin.elim0_append _\n    | apply Fin.elim0_append\n    | simpa using Fin.elim0_append\n    | exact \u27e8_, Fin.elim0_append\u27e9\n    | exact Fin.elim0_append (by assumption)\n    | exact Fin.elim0_append \u2039_\u203a\n    | apply Fin.elim0_append <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.elim0_append (by assumption))\n    | exact Turing.TM0.Stmt.move\n    | exact Turing.TM0.Stmt.move _\n    | apply Turing.TM0.Stmt.move\n    | simpa using Turing.TM0.Stmt.move\n    | exact \u27e8_, Turing.TM0.Stmt.move\u27e9\n    | exact Turing.TM0.Stmt.move (by assumption)\n    | exact Turing.TM0.Stmt.move \u2039_\u203a\n    | apply Turing.TM0.Stmt.move <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.move (by assumption))\n    | exact Turing.TM0.Stmt.write\n    | exact Turing.TM0.Stmt.write _\n    | apply Turing.TM0.Stmt.write\n    | simpa using Turing.TM0.Stmt.write\n    | exact \u27e8_, Turing.TM0.Stmt.write\u27e9\n    | exact Turing.TM0.Stmt.write (by assumption)\n    | exact Turing.TM0.Stmt.write \u2039_\u203a\n    | apply Turing.TM0.Stmt.write <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.write (by assumption))\n    | exact Turing.TM0.Stmt.inhabited\n    | exact Turing.TM0.Stmt.inhabited _\n    | apply Turing.TM0.Stmt.inhabited\n    | simpa using Turing.TM0.Stmt.inhabited\n    | exact \u27e8_, Turing.TM0.Stmt.inhabited\u27e9\n    | exact Turing.TM0.Stmt.inhabited (by assumption)\n    | exact Turing.TM0.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM0.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.inhabited (by assumption))\n    | exact Turing.TM0to1.\u039b'.normal\n    | exact Turing.TM0to1.\u039b'.normal _\n    | apply Turing.TM0to1.\u039b'.normal\n    | simpa using Turing.TM0to1.\u039b'.normal\n    | exact \u27e8_, Turing.TM0to1.\u039b'.normal\u27e9\n    | exact Turing.TM0to1.\u039b'.normal (by assumption)\n    | exact Turing.TM0to1.\u039b'.normal \u2039_\u203a\n    | apply Turing.TM0to1.\u039b'.normal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.\u039b'.normal (by assumption))\n    | exact Turing.TM0to1.instInhabited\u039b'\n    | exact Turing.TM0to1.instInhabited\u039b' _\n    | apply Turing.TM0to1.instInhabited\u039b'\n    | simpa using Turing.TM0to1.instInhabited\u039b'\n    | exact \u27e8_, Turing.TM0to1.instInhabited\u039b'\u27e9\n    | exact Turing.TM0to1.instInhabited\u039b' (by assumption)\n    | exact Turing.TM0to1.instInhabited\u039b' \u2039_\u203a\n    | apply Turing.TM0to1.instInhabited\u039b' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.instInhabited\u039b' (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1a\n    | exact HomotopicalAlgebra.ModelCategory.cm1a _\n    | apply HomotopicalAlgebra.ModelCategory.cm1a\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1a\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1a\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1a \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1a <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1b\n    | exact HomotopicalAlgebra.ModelCategory.cm1b _\n    | apply HomotopicalAlgebra.ModelCategory.cm1b\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1b\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1b\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1b \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1b <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption))\n    | exact ZNum.bitm1\n    | exact ZNum.bitm1 _\n    | apply ZNum.bitm1\n    | simpa using ZNum.bitm1\n    | exact \u27e8_, ZNum.bitm1\u27e9\n    | exact ZNum.bitm1 (by assumption)\n    | exact ZNum.bitm1 \u2039_\u203a\n    | apply ZNum.bitm1 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.bitm1 (by assumption))\n    | exact Turing.TM1.Stmt.halt\n    | exact Turing.TM1.Stmt.halt _\n    | apply Turing.TM1.Stmt.halt\n    | simpa using Turing.TM1.Stmt.halt\n    | exact \u27e8_, Turing.TM1.Stmt.halt\u27e9\n    | exact Turing.TM1.Stmt.halt (by assumption)\n    | exact Turing.TM1.Stmt.halt \u2039_\u203a\n    | apply Turing.TM1.Stmt.halt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.halt (by assumption))\n    | exact Turing.TM1.Stmt.inhabited\n    | exact Turing.TM1.Stmt.inhabited _\n    | apply Turing.TM1.Stmt.inhabited\n    | simpa using Turing.TM1.Stmt.inhabited\n    | exact \u27e8_, Turing.TM1.Stmt.inhabited\u27e9\n    | exact Turing.TM1.Stmt.inhabited (by assumption)\n    | exact Turing.TM1.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM1.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.inhabited (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:76: error: unsolved goals\n\u22a2 DifferentiableOn \u211d (fun x => x) (Set.Ici 0)\n\nStill to prove:\n\u22a2 DifferentiableOn \u211d (fun x => x) (Set.Ici 0)",
+      "at": 1788866164.5009763,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_2 : deriv (fun x : \u211d => x) = fun _ => (1 : \u211d)",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fin.append_elim0\n    | exact Fin.append_elim0 _\n    | apply Fin.append_elim0\n    | simpa using Fin.append_elim0\n    | exact \u27e8_, Fin.append_elim0\u27e9\n    | exact Fin.append_elim0 (by assumption)\n    | exact Fin.append_elim0 \u2039_\u203a\n    | apply Fin.append_elim0 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.append_elim0 (by assumption))\n    | exact Fin.elim0_append\n    | exact Fin.elim0_append _\n    | apply Fin.elim0_append\n    | simpa using Fin.elim0_append\n    | exact \u27e8_, Fin.elim0_append\u27e9\n    | exact Fin.elim0_append (by assumption)\n    | exact Fin.elim0_append \u2039_\u203a\n    | apply Fin.elim0_append <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.elim0_append (by assumption))\n    | exact Turing.TM0.Stmt.move\n    | exact Turing.TM0.Stmt.move _\n    | apply Turing.TM0.Stmt.move\n    | simpa using Turing.TM0.Stmt.move\n    | exact \u27e8_, Turing.TM0.Stmt.move\u27e9\n    | exact Turing.TM0.Stmt.move (by assumption)\n    | exact Turing.TM0.Stmt.move \u2039_\u203a\n    | apply Turing.TM0.Stmt.move <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.move (by assumption))\n    | exact Turing.TM0.Stmt.write\n    | exact Turing.TM0.Stmt.write _\n    | apply Turing.TM0.Stmt.write\n    | simpa using Turing.TM0.Stmt.write\n    | exact \u27e8_, Turing.TM0.Stmt.write\u27e9\n    | exact Turing.TM0.Stmt.write (by assumption)\n    | exact Turing.TM0.Stmt.write \u2039_\u203a\n    | apply Turing.TM0.Stmt.write <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.write (by assumption))\n    | exact Turing.TM0.Stmt.inhabited\n    | exact Turing.TM0.Stmt.inhabited _\n    | apply Turing.TM0.Stmt.inhabited\n    | simpa using Turing.TM0.Stmt.inhabited\n    | exact \u27e8_, Turing.TM0.Stmt.inhabited\u27e9\n    | exact Turing.TM0.Stmt.inhabited (by assumption)\n    | exact Turing.TM0.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM0.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.inhabited (by assumption))\n    | exact Turing.TM0to1.\u039b'.normal\n    | exact Turing.TM0to1.\u039b'.normal _\n    | apply Turing.TM0to1.\u039b'.normal\n    | simpa using Turing.TM0to1.\u039b'.normal\n    | exact \u27e8_, Turing.TM0to1.\u039b'.normal\u27e9\n    | exact Turing.TM0to1.\u039b'.normal (by assumption)\n    | exact Turing.TM0to1.\u039b'.normal \u2039_\u203a\n    | apply Turing.TM0to1.\u039b'.normal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.\u039b'.normal (by assumption))\n    | exact Turing.TM0to1.instInhabited\u039b'\n    | exact Turing.TM0to1.instInhabited\u039b' _\n    | apply Turing.TM0to1.instInhabited\u039b'\n    | simpa using Turing.TM0to1.instInhabited\u039b'\n    | exact \u27e8_, Turing.TM0to1.instInhabited\u039b'\u27e9\n    | exact Turing.TM0to1.instInhabited\u039b' (by assumption)\n    | exact Turing.TM0to1.instInhabited\u039b' \u2039_\u203a\n    | apply Turing.TM0to1.instInhabited\u039b' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.instInhabited\u039b' (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1a\n    | exact HomotopicalAlgebra.ModelCategory.cm1a _\n    | apply HomotopicalAlgebra.ModelCategory.cm1a\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1a\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1a\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1a \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1a <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1b\n    | exact HomotopicalAlgebra.ModelCategory.cm1b _\n    | apply HomotopicalAlgebra.ModelCategory.cm1b\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1b\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1b\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1b \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1b <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption))\n    | exact ZNum.bitm1\n    | exact ZNum.bitm1 _\n    | apply ZNum.bitm1\n    | simpa using ZNum.bitm1\n    | exact \u27e8_, ZNum.bitm1\u27e9\n    | exact ZNum.bitm1 (by assumption)\n    | exact ZNum.bitm1 \u2039_\u203a\n    | apply ZNum.bitm1 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.bitm1 (by assumption))\n    | exact Turing.TM1.Stmt.halt\n    | exact Turing.TM1.Stmt.halt _\n    | apply Turing.TM1.Stmt.halt\n    | simpa using Turing.TM1.Stmt.halt\n    | exact \u27e8_, Turing.TM1.Stmt.halt\u27e9\n    | exact Turing.TM1.Stmt.halt (by assumption)\n    | exact Turing.TM1.Stmt.halt \u2039_\u203a\n    | apply Turing.TM1.Stmt.halt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.halt (by assumption))\n    | exact Turing.TM1.Stmt.inhabited\n    | exact Turing.TM1.Stmt.inhabited _\n    | apply Turing.TM1.Stmt.inhabited\n    | simpa using Turing.TM1.Stmt.inhabited\n    | exact \u27e8_, Turing.TM1.Stmt.inhabited\u27e9\n    | exact Turing.TM1.Stmt.inhabited (by assumption)\n    | exact Turing.TM1.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM1.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.inhabited (by assumption))",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem mra_lemma_2 : deriv (fun x : \u211d => x) = fun _ => (1 : \u211d)",
+      "at": 1788866164.642931,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_3 : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici (0 : \u211d))",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fin.append_elim0\n    | exact Fin.append_elim0 _\n    | apply Fin.append_elim0\n    | simpa using Fin.append_elim0\n    | exact \u27e8_, Fin.append_elim0\u27e9\n    | exact Fin.append_elim0 (by assumption)\n    | exact Fin.append_elim0 \u2039_\u203a\n    | apply Fin.append_elim0 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.append_elim0 (by assumption))\n    | exact Fin.elim0_append\n    | exact Fin.elim0_append _\n    | apply Fin.elim0_append\n    | simpa using Fin.elim0_append\n    | exact \u27e8_, Fin.elim0_append\u27e9\n    | exact Fin.elim0_append (by assumption)\n    | exact Fin.elim0_append \u2039_\u203a\n    | apply Fin.elim0_append <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.elim0_append (by assumption))\n    | exact Turing.TM0.Stmt.move\n    | exact Turing.TM0.Stmt.move _\n    | apply Turing.TM0.Stmt.move\n    | simpa using Turing.TM0.Stmt.move\n    | exact \u27e8_, Turing.TM0.Stmt.move\u27e9\n    | exact Turing.TM0.Stmt.move (by assumption)\n    | exact Turing.TM0.Stmt.move \u2039_\u203a\n    | apply Turing.TM0.Stmt.move <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.move (by assumption))\n    | exact Turing.TM0.Stmt.write\n    | exact Turing.TM0.Stmt.write _\n    | apply Turing.TM0.Stmt.write\n    | simpa using Turing.TM0.Stmt.write\n    | exact \u27e8_, Turing.TM0.Stmt.write\u27e9\n    | exact Turing.TM0.Stmt.write (by assumption)\n    | exact Turing.TM0.Stmt.write \u2039_\u203a\n    | apply Turing.TM0.Stmt.write <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.write (by assumption))\n    | exact Turing.TM0.Stmt.inhabited\n    | exact Turing.TM0.Stmt.inhabited _\n    | apply Turing.TM0.Stmt.inhabited\n    | simpa using Turing.TM0.Stmt.inhabited\n    | exact \u27e8_, Turing.TM0.Stmt.inhabited\u27e9\n    | exact Turing.TM0.Stmt.inhabited (by assumption)\n    | exact Turing.TM0.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM0.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.inhabited (by assumption))\n    | exact Turing.TM0to1.\u039b'.normal\n    | exact Turing.TM0to1.\u039b'.normal _\n    | apply Turing.TM0to1.\u039b'.normal\n    | simpa using Turing.TM0to1.\u039b'.normal\n    | exact \u27e8_, Turing.TM0to1.\u039b'.normal\u27e9\n    | exact Turing.TM0to1.\u039b'.normal (by assumption)\n    | exact Turing.TM0to1.\u039b'.normal \u2039_\u203a\n    | apply Turing.TM0to1.\u039b'.normal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.\u039b'.normal (by assumption))\n    | exact Turing.TM0to1.instInhabited\u039b'\n    | exact Turing.TM0to1.instInhabited\u039b' _\n    | apply Turing.TM0to1.instInhabited\u039b'\n    | simpa using Turing.TM0to1.instInhabited\u039b'\n    | exact \u27e8_, Turing.TM0to1.instInhabited\u039b'\u27e9\n    | exact Turing.TM0to1.instInhabited\u039b' (by assumption)\n    | exact Turing.TM0to1.instInhabited\u039b' \u2039_\u203a\n    | apply Turing.TM0to1.instInhabited\u039b' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.instInhabited\u039b' (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1a\n    | exact HomotopicalAlgebra.ModelCategory.cm1a _\n    | apply HomotopicalAlgebra.ModelCategory.cm1a\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1a\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1a\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1a \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1a <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1b\n    | exact HomotopicalAlgebra.ModelCategory.cm1b _\n    | apply HomotopicalAlgebra.ModelCategory.cm1b\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1b\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1b\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1b \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1b <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption))\n    | exact ZNum.bitm1\n    | exact ZNum.bitm1 _\n    | apply ZNum.bitm1\n    | simpa using ZNum.bitm1\n    | exact \u27e8_, ZNum.bitm1\u27e9\n    | exact ZNum.bitm1 (by assumption)\n    | exact ZNum.bitm1 \u2039_\u203a\n    | apply ZNum.bitm1 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.bitm1 (by assumption))\n    | exact Turing.TM1.Stmt.halt\n    | exact Turing.TM1.Stmt.halt _\n    | apply Turing.TM1.Stmt.halt\n    | simpa using Turing.TM1.Stmt.halt\n    | exact \u27e8_, Turing.TM1.Stmt.halt\u27e9\n    | exact Turing.TM1.Stmt.halt (by assumption)\n    | exact Turing.TM1.Stmt.halt \u2039_\u203a\n    | apply Turing.TM1.Stmt.halt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.halt (by assumption))\n    | exact Turing.TM1.Stmt.inhabited\n    | exact Turing.TM1.Stmt.inhabited _\n    | apply Turing.TM1.Stmt.inhabited\n    | simpa using Turing.TM1.Stmt.inhabited\n    | exact \u27e8_, Turing.TM1.Stmt.inhabited\u27e9\n    | exact Turing.TM1.Stmt.inhabited (by assumption)\n    | exact Turing.TM1.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM1.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.inhabited (by assumption))",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem mra_lemma_3 : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici (0 : \u211d))",
+      "at": 1788866164.787063,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_4 : deriv (deriv (fun x : \u211d => x)) = fun _ => (0 : \u211d)",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fin.append_elim0\n    | exact Fin.append_elim0 _\n    | apply Fin.append_elim0\n    | simpa using Fin.append_elim0\n    | exact \u27e8_, Fin.append_elim0\u27e9\n    | exact Fin.append_elim0 (by assumption)\n    | exact Fin.append_elim0 \u2039_\u203a\n    | apply Fin.append_elim0 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.append_elim0 (by assumption))\n    | exact Fin.elim0_append\n    | exact Fin.elim0_append _\n    | apply Fin.elim0_append\n    | simpa using Fin.elim0_append\n    | exact \u27e8_, Fin.elim0_append\u27e9\n    | exact Fin.elim0_append (by assumption)\n    | exact Fin.elim0_append \u2039_\u203a\n    | apply Fin.elim0_append <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.elim0_append (by assumption))\n    | exact Turing.TM0.Stmt.move\n    | exact Turing.TM0.Stmt.move _\n    | apply Turing.TM0.Stmt.move\n    | simpa using Turing.TM0.Stmt.move\n    | exact \u27e8_, Turing.TM0.Stmt.move\u27e9\n    | exact Turing.TM0.Stmt.move (by assumption)\n    | exact Turing.TM0.Stmt.move \u2039_\u203a\n    | apply Turing.TM0.Stmt.move <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.move (by assumption))\n    | exact Turing.TM0.Stmt.write\n    | exact Turing.TM0.Stmt.write _\n    | apply Turing.TM0.Stmt.write\n    | simpa using Turing.TM0.Stmt.write\n    | exact \u27e8_, Turing.TM0.Stmt.write\u27e9\n    | exact Turing.TM0.Stmt.write (by assumption)\n    | exact Turing.TM0.Stmt.write \u2039_\u203a\n    | apply Turing.TM0.Stmt.write <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.write (by assumption))\n    | exact Turing.TM0.Stmt.inhabited\n    | exact Turing.TM0.Stmt.inhabited _\n    | apply Turing.TM0.Stmt.inhabited\n    | simpa using Turing.TM0.Stmt.inhabited\n    | exact \u27e8_, Turing.TM0.Stmt.inhabited\u27e9\n    | exact Turing.TM0.Stmt.inhabited (by assumption)\n    | exact Turing.TM0.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM0.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.inhabited (by assumption))\n    | exact Turing.TM0to1.\u039b'.normal\n    | exact Turing.TM0to1.\u039b'.normal _\n    | apply Turing.TM0to1.\u039b'.normal\n    | simpa using Turing.TM0to1.\u039b'.normal\n    | exact \u27e8_, Turing.TM0to1.\u039b'.normal\u27e9\n    | exact Turing.TM0to1.\u039b'.normal (by assumption)\n    | exact Turing.TM0to1.\u039b'.normal \u2039_\u203a\n    | apply Turing.TM0to1.\u039b'.normal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.\u039b'.normal (by assumption))\n    | exact Turing.TM0to1.instInhabited\u039b'\n    | exact Turing.TM0to1.instInhabited\u039b' _\n    | apply Turing.TM0to1.instInhabited\u039b'\n    | simpa using Turing.TM0to1.instInhabited\u039b'\n    | exact \u27e8_, Turing.TM0to1.instInhabited\u039b'\u27e9\n    | exact Turing.TM0to1.instInhabited\u039b' (by assumption)\n    | exact Turing.TM0to1.instInhabited\u039b' \u2039_\u203a\n    | apply Turing.TM0to1.instInhabited\u039b' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.instInhabited\u039b' (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1a\n    | exact HomotopicalAlgebra.ModelCategory.cm1a _\n    | apply HomotopicalAlgebra.ModelCategory.cm1a\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1a\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1a\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1a \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1a <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1b\n    | exact HomotopicalAlgebra.ModelCategory.cm1b _\n    | apply HomotopicalAlgebra.ModelCategory.cm1b\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1b\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1b\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1b \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1b <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption))\n    | exact ZNum.bitm1\n    | exact ZNum.bitm1 _\n    | apply ZNum.bitm1\n    | simpa using ZNum.bitm1\n    | exact \u27e8_, ZNum.bitm1\u27e9\n    | exact ZNum.bitm1 (by assumption)\n    | exact ZNum.bitm1 \u2039_\u203a\n    | apply ZNum.bitm1 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.bitm1 (by assumption))\n    | exact Turing.TM1.Stmt.halt\n    | exact Turing.TM1.Stmt.halt _\n    | apply Turing.TM1.Stmt.halt\n    | simpa using Turing.TM1.Stmt.halt\n    | exact \u27e8_, Turing.TM1.Stmt.halt\u27e9\n    | exact Turing.TM1.Stmt.halt (by assumption)\n    | exact Turing.TM1.Stmt.halt \u2039_\u203a\n    | apply Turing.TM1.Stmt.halt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.halt (by assumption))\n    | exact Turing.TM1.Stmt.inhabited\n    | exact Turing.TM1.Stmt.inhabited _\n    | apply Turing.TM1.Stmt.inhabited\n    | simpa using Turing.TM1.Stmt.inhabited\n    | exact \u27e8_, Turing.TM1.Stmt.inhabited\u27e9\n    | exact Turing.TM1.Stmt.inhabited (by assumption)\n    | exact Turing.TM1.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM1.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.inhabited (by assumption))",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem mra_lemma_4 : deriv (deriv (fun x : \u211d => x)) = fun _ => (0 : \u211d)",
+      "at": 1788866165.067619,
+      "auto": true
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_5_15_refutation_refutation : \u00ac (\u00ac (\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}),\n  (M1 ^ 2) \u2264 4 * M0 * M2))",
+      "proof": "by\n  intro h\n  have h_diff1 : DifferentiableOn \u211d (fun x : \u211d => x) (Set.Ici (0 : \u211d)) := differentiableOn_id\n  have h_deriv_id : deriv (fun x : \u211d => x) = fun _ => (1 : \u211d) := mra_lemma_2\n  have h_diff2 : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici (0 : \u211d)) := mra_lemma_3\n  have h_deriv2_id : deriv (deriv (fun x : \u211d => x)) = fun _ => (0 : \u211d) := mra_lemma_4\n  have hM0 : (0 : \u211d) = sSup {(|x|) | x \u2208 (Set.Ici (0 : \u211d))} := by\n    rfl\n  have hM1 : (1 : \u211d) = sSup {(|deriv (fun x : \u211d => x) x|) | x \u2208 (Set.Ici (0 : \u211d))} := by\n    rfl\n  have hM2 : (0 : \u211d) = sSup {(|deriv (deriv (fun x : \u211d => x)) x|) | x \u2208 (Set.Ici (0 : \u211d))} := by\n    rfl\n  have h_ineq : ((1 : \u211d) ^ 2) \u2264 4 * (0 : \u211d) * (0 : \u211d) := h (0 : \u211d) (0 : \u211d) (1 : \u211d) (0 : \u211d) h_diff1 h_diff2 hM0 hM1 hM2\n  norm_num at h_ineq",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n383:4: error: Tactic `rfl` failed: The left-hand side\n  0\nis not definitionally equal to the right-hand side\n  sSup {x | \u2203 x_1 \u2208 Set.Ici 0, |x_1| = x}\n\nh :\n  \u00ac\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d),\n      DifferentiableOn \u211d f (Set.Ici a) \u2192\n        DifferentiableOn \u211d (deriv f) (Set.Ici a) \u2192\n          M0 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |f x_1| = x} \u2192\n            M1 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv f x_1| = x} \u2192\n              M2 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv (deriv f) x_1| = x} \u2192 M1 ^ 2 \u2264 4 * M0 * M2\nh_diff1 : DifferentiableOn \u211d (fun x => x) (Set.Ici 0)\nh_deriv_id : (deriv fun x => x) = fun x => 1\nh_diff2 : DifferentiableOn \u211d (deriv fun x => x) (Set.Ici 0)\nh_deriv2_id : deriv (deriv fun x => x) = fun x => 0\n\u22a2 0 = sSup {x | \u2203 x_1 \u2208 Set.Ici 0, |x_1| = x}\n385:4: error: Tactic `rfl` failed: The left-hand side\n  1\nis not definitionally equal to the right-hand side\n  sSup {x | \u2203 x_1 \u2208 Set.Ici 0, |deriv (fun x => x) x_1| = x}\n\nh :\n  \u00ac\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d),\n      DifferentiableOn \u211d f (Set.Ici a) \u2192\n        DifferentiableOn \u211d (deriv f) (Set.Ici a) \u2192\n          M0 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |f x_1| = x} \u2192\n            M1 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv f x_1| = x} \u2192\n              M2 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv (deriv f) x_1| = x} \u2192 M1 ^ 2 \u2264 4 * M0 * M2\nh_diff1 : DifferentiableOn \u211d (fun x => x) (Set.Ici 0)\nh_deriv_id : (deriv fun x => x) = fun x => 1\nh_diff2 : DifferentiableOn \u211d (deriv fun x => x) (Set.Ici 0)\nh_deriv2_id : deriv (deriv fun x => x) = fun x => 0\nhM0 : 0 = sSup {x | \u2203 x_1 \u2208 Set.Ici 0, |x_1| = x}\n\u22a2 1 = sSup {x | \u2203 x_1 \u2208 Set.Ici 0, |deriv (fun x => x) x_1| = x}\n387:4: error: Tactic `rfl` failed: The left-hand side\n  0\nis not definitionally equal to the right-hand side\n  sSup {x | \u2203 x_1 \u2208 Set.Ici 0, |deriv (deriv fun x => x) x_1| = x}\n\nh :\n  \u00ac\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d),\n      DifferentiableOn \u211d f (Set.Ici a) \u2192\n        DifferentiableOn \u211d (deriv f) (Set.Ici a) \u2192\n          M0 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |f x_1| = x} \u2192\n            M1 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv f x_1| = x} \u2192\n              M2 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv (deriv f) x_1| = x} \u2192 M1 ^ 2 \u2264 4 * M0 * M2\nh_diff1 : DifferentiableOn \u211d (fun x => x) (Set.Ici 0)\nh_deriv_id : (deriv fun x => x) = fun x => 1\nh_diff2 : DifferentiableOn \u211d (deriv fun x => x) (Set.Ici 0)\nh_deriv2_id : deriv (deriv fun x => x) = fun x => 0\nhM0 : 0 = sSup {x | \u2203 x_1 \u2208 Set.Ici 0, |x_1| = x}\nhM1 : 1 = sSup {x | \u2203 x_1 \u2208 Set.Ici 0, |deriv (fun x => x) x_1| = x}\n\u22a2 0 = sSup {x | \u2203 x_1 \u2208 Set.Ici 0, |deriv (deriv fun x => x) x_1| = x}\n388:59: error: Application type mismatch: The argument\n  0\nhas type\n  \u211d\nof sort `Type` but is expected to have type\n  \u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d),\n    DifferentiableOn \u211d f (Set.Ici a) \u2192\n      DifferentiableOn \u211d (deriv f) (Set.Ici a) \u2192\n        M0 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |f x_1| = x} \u2192\n          M1 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv f x_1| = x} \u2192\n            M2 = sSup {x | \u2203 x_1 \u2208 Set.Ici a, |deriv (deriv f) x_1| = x} \u2192 M1 ^ 2 \u2264 4 * M0 * M2\nof sort `Prop` in the application\n  h 0\n\nStill to prove:\n\u22a2 0 = sSup {x | \u2203 x_1 \u2208 Set.Ici 0, |x_1| = x}\n\u22a2 1 = sSup {x | \u2203 x_1 \u2208 Set.Ici 0, |deriv (fun x => x) x_1| = x}\n\u22a2 0 = sSup {x | \u2203 x_1 \u2208 Set.Ici 0, |deriv (deriv fun x => x) x_1| = x}",
+      "at": 1788866180.6728363,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "theorem mra_lemma_2 : deriv (fun x : \u211d => x) = fun _ => (1 : \u211d) := by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fin.append_elim0\n    | exact Fin.append_elim0 _\n    | apply Fin.append_elim0\n    | simpa using Fin.append_elim0\n    | exact \u27e8_, Fin.append_elim0\u27e9\n    | exact Fin.append_elim0 (by assumption)\n    | exact Fin.append_elim0 \u2039_\u203a\n    | apply Fin.append_elim0 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.append_elim0 (by assumption))\n    | exact Fin.elim0_append\n    | exact Fin.elim0_append _\n    | apply Fin.elim0_append\n    | simpa using Fin.elim0_append\n    | exact \u27e8_, Fin.elim0_append\u27e9\n    | exact Fin.elim0_append (by assumption)\n    | exact Fin.elim0_append \u2039_\u203a\n    | apply Fin.elim0_append <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.elim0_append (by assumption))\n    | exact Turing.TM0.Stmt.move\n    | exact Turing.TM0.Stmt.move _\n    | apply Turing.TM0.Stmt.move\n    | simpa using Turing.TM0.Stmt.move\n    | exact \u27e8_, Turing.TM0.Stmt.move\u27e9\n    | exact Turing.TM0.Stmt.move (by assumption)\n    | exact Turing.TM0.Stmt.move \u2039_\u203a\n    | apply Turing.TM0.Stmt.move <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.move (by assumption))\n    | exact Turing.TM0.Stmt.write\n    | exact Turing.TM0.Stmt.write _\n    | apply Turing.TM0.Stmt.write\n    | simpa using Turing.TM0.Stmt.write\n    | exact \u27e8_, Turing.TM0.Stmt.write\u27e9\n    | exact Turing.TM0.Stmt.write (by assumption)\n    | exact Turing.TM0.Stmt.write \u2039_\u203a\n    | apply Turing.TM0.Stmt.write <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.write (by assumption))\n    | exact Turing.TM0.Stmt.inhabited\n    | exact Turing.TM0.Stmt.inhabited _\n    | apply Turing.TM0.Stmt.inhabited\n    | simpa using Turing.TM0.Stmt.inhabited\n    | exact \u27e8_, Turing.TM0.Stmt.inhabited\u27e9\n    | exact Turing.TM0.Stmt.inhabited (by assumption)\n    | exact Turing.TM0.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM0.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.inhabited (by assumption))\n    | exact Turing.TM0to1.\u039b'.normal\n    | exact Turing.TM0to1.\u039b'.normal _\n    | apply Turing.TM0to1.\u039b'.normal\n    | simpa using Turing.TM0to1.\u039b'.normal\n    | exact \u27e8_, Turing.TM0to1.\u039b'.normal\u27e9\n    | exact Turing.TM0to1.\u039b'.normal (by assumption)\n    | exact Turing.TM0to1.\u039b'.normal \u2039_\u203a\n    | apply Turing.TM0to1.\u039b'.normal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.\u039b'.normal (by assumption))\n    | exact Turing.TM0to1.instInhabited\u039b'\n    | exact Turing.TM0to1.instInhabited\u039b' _\n    | apply Turing.TM0to1.instInhabited\u039b'\n    | simpa using Turing.TM0to1.instInhabited\u039b'\n    | exact \u27e8_, Turing.TM0to1.instInhabited\u039b'\u27e9\n    | exact Turing.TM0to1.instInhabited\u039b' (by assumption)\n    | exact Turing.TM0to1.instInhabited\u039b' \u2039_\u203a\n    | apply Turing.TM0to1.instInhabited\u039b' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.instInhabited\u039b' (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1a\n    | exact HomotopicalAlgebra.ModelCategory.cm1a _\n    | apply HomotopicalAlgebra.ModelCategory.cm1a\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1a\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1a\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1a \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1a <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1b\n    | exact HomotopicalAlgebra.ModelCategory.cm1b _\n    | apply HomotopicalAlgebra.ModelCategory.cm1b\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1b\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1b\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1b \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1b <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption))\n    | exact ZNum.bitm1\n    | exact ZNum.bitm1 _\n    | apply ZNum.bitm1\n    | simpa using ZNum.bitm1\n    | exact \u27e8_, ZNum.bitm1\u27e9\n    | exact ZNum.bitm1 (by assumption)\n    | exact ZNum.bitm1 \u2039_\u203a\n    | apply ZNum.bitm1 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.bitm1 (by assumption))\n    | exact Turing.TM1.Stmt.halt\n    | exact Turing.TM1.Stmt.halt _\n    | apply Turing.TM1.Stmt.halt\n    | simpa using Turing.TM1.Stmt.halt\n    | exact \u27e8_, Turing.TM1.Stmt.halt\u27e9\n    | exact Turing.TM1.Stmt.halt (by assumption)\n    | exact Turing.TM1.Stmt.halt \u2039_\u203a\n    | apply Turing.TM1.Stmt.halt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.halt (by assumption))\n    | exact Turing.TM1.Stmt.inhabited\n    | exact Turing.TM1.Stmt.inhabited _\n    | apply Turing.TM1.Stmt.inhabited\n    | simpa using Turing.TM1.Stmt.inhabited\n    | exact \u27e8_, Turing.TM1.Stmt.inhabited\u27e9\n    | exact Turing.TM1.Stmt.inhabited (by assumption)\n    | exact Turing.TM1.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM1.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.inhabited (by assumption))",
+    "theorem mra_lemma_3 : DifferentiableOn \u211d (deriv (fun x : \u211d => x)) (Set.Ici (0 : \u211d)) := by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fin.append_elim0\n    | exact Fin.append_elim0 _\n    | apply Fin.append_elim0\n    | simpa using Fin.append_elim0\n    | exact \u27e8_, Fin.append_elim0\u27e9\n    | exact Fin.append_elim0 (by assumption)\n    | exact Fin.append_elim0 \u2039_\u203a\n    | apply Fin.append_elim0 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.append_elim0 (by assumption))\n    | exact Fin.elim0_append\n    | exact Fin.elim0_append _\n    | apply Fin.elim0_append\n    | simpa using Fin.elim0_append\n    | exact \u27e8_, Fin.elim0_append\u27e9\n    | exact Fin.elim0_append (by assumption)\n    | exact Fin.elim0_append \u2039_\u203a\n    | apply Fin.elim0_append <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.elim0_append (by assumption))\n    | exact Turing.TM0.Stmt.move\n    | exact Turing.TM0.Stmt.move _\n    | apply Turing.TM0.Stmt.move\n    | simpa using Turing.TM0.Stmt.move\n    | exact \u27e8_, Turing.TM0.Stmt.move\u27e9\n    | exact Turing.TM0.Stmt.move (by assumption)\n    | exact Turing.TM0.Stmt.move \u2039_\u203a\n    | apply Turing.TM0.Stmt.move <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.move (by assumption))\n    | exact Turing.TM0.Stmt.write\n    | exact Turing.TM0.Stmt.write _\n    | apply Turing.TM0.Stmt.write\n    | simpa using Turing.TM0.Stmt.write\n    | exact \u27e8_, Turing.TM0.Stmt.write\u27e9\n    | exact Turing.TM0.Stmt.write (by assumption)\n    | exact Turing.TM0.Stmt.write \u2039_\u203a\n    | apply Turing.TM0.Stmt.write <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.write (by assumption))\n    | exact Turing.TM0.Stmt.inhabited\n    | exact Turing.TM0.Stmt.inhabited _\n    | apply Turing.TM0.Stmt.inhabited\n    | simpa using Turing.TM0.Stmt.inhabited\n    | exact \u27e8_, Turing.TM0.Stmt.inhabited\u27e9\n    | exact Turing.TM0.Stmt.inhabited (by assumption)\n    | exact Turing.TM0.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM0.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.inhabited (by assumption))\n    | exact Turing.TM0to1.\u039b'.normal\n    | exact Turing.TM0to1.\u039b'.normal _\n    | apply Turing.TM0to1.\u039b'.normal\n    | simpa using Turing.TM0to1.\u039b'.normal\n    | exact \u27e8_, Turing.TM0to1.\u039b'.normal\u27e9\n    | exact Turing.TM0to1.\u039b'.normal (by assumption)\n    | exact Turing.TM0to1.\u039b'.normal \u2039_\u203a\n    | apply Turing.TM0to1.\u039b'.normal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.\u039b'.normal (by assumption))\n    | exact Turing.TM0to1.instInhabited\u039b'\n    | exact Turing.TM0to1.instInhabited\u039b' _\n    | apply Turing.TM0to1.instInhabited\u039b'\n    | simpa using Turing.TM0to1.instInhabited\u039b'\n    | exact \u27e8_, Turing.TM0to1.instInhabited\u039b'\u27e9\n    | exact Turing.TM0to1.instInhabited\u039b' (by assumption)\n    | exact Turing.TM0to1.instInhabited\u039b' \u2039_\u203a\n    | apply Turing.TM0to1.instInhabited\u039b' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.instInhabited\u039b' (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1a\n    | exact HomotopicalAlgebra.ModelCategory.cm1a _\n    | apply HomotopicalAlgebra.ModelCategory.cm1a\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1a\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1a\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1a \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1a <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1b\n    | exact HomotopicalAlgebra.ModelCategory.cm1b _\n    | apply HomotopicalAlgebra.ModelCategory.cm1b\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1b\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1b\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1b \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1b <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption))\n    | exact ZNum.bitm1\n    | exact ZNum.bitm1 _\n    | apply ZNum.bitm1\n    | simpa using ZNum.bitm1\n    | exact \u27e8_, ZNum.bitm1\u27e9\n    | exact ZNum.bitm1 (by assumption)\n    | exact ZNum.bitm1 \u2039_\u203a\n    | apply ZNum.bitm1 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.bitm1 (by assumption))\n    | exact Turing.TM1.Stmt.halt\n    | exact Turing.TM1.Stmt.halt _\n    | apply Turing.TM1.Stmt.halt\n    | simpa using Turing.TM1.Stmt.halt\n    | exact \u27e8_, Turing.TM1.Stmt.halt\u27e9\n    | exact Turing.TM1.Stmt.halt (by assumption)\n    | exact Turing.TM1.Stmt.halt \u2039_\u203a\n    | apply Turing.TM1.Stmt.halt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.halt (by assumption))\n    | exact Turing.TM1.Stmt.inhabited\n    | exact Turing.TM1.Stmt.inhabited _\n    | apply Turing.TM1.Stmt.inhabited\n    | simpa using Turing.TM1.Stmt.inhabited\n    | exact \u27e8_, Turing.TM1.Stmt.inhabited\u27e9\n    | exact Turing.TM1.Stmt.inhabited (by assumption)\n    | exact Turing.TM1.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM1.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.inhabited (by assumption))",
+    "theorem mra_lemma_4 : deriv (deriv (fun x : \u211d => x)) = fun _ => (0 : \u211d) := by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fin.append_elim0\n    | exact Fin.append_elim0 _\n    | apply Fin.append_elim0\n    | simpa using Fin.append_elim0\n    | exact \u27e8_, Fin.append_elim0\u27e9\n    | exact Fin.append_elim0 (by assumption)\n    | exact Fin.append_elim0 \u2039_\u203a\n    | apply Fin.append_elim0 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.append_elim0 (by assumption))\n    | exact Fin.elim0_append\n    | exact Fin.elim0_append _\n    | apply Fin.elim0_append\n    | simpa using Fin.elim0_append\n    | exact \u27e8_, Fin.elim0_append\u27e9\n    | exact Fin.elim0_append (by assumption)\n    | exact Fin.elim0_append \u2039_\u203a\n    | apply Fin.elim0_append <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fin.elim0_append (by assumption))\n    | exact Turing.TM0.Stmt.move\n    | exact Turing.TM0.Stmt.move _\n    | apply Turing.TM0.Stmt.move\n    | simpa using Turing.TM0.Stmt.move\n    | exact \u27e8_, Turing.TM0.Stmt.move\u27e9\n    | exact Turing.TM0.Stmt.move (by assumption)\n    | exact Turing.TM0.Stmt.move \u2039_\u203a\n    | apply Turing.TM0.Stmt.move <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.move (by assumption))\n    | exact Turing.TM0.Stmt.write\n    | exact Turing.TM0.Stmt.write _\n    | apply Turing.TM0.Stmt.write\n    | simpa using Turing.TM0.Stmt.write\n    | exact \u27e8_, Turing.TM0.Stmt.write\u27e9\n    | exact Turing.TM0.Stmt.write (by assumption)\n    | exact Turing.TM0.Stmt.write \u2039_\u203a\n    | apply Turing.TM0.Stmt.write <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.write (by assumption))\n    | exact Turing.TM0.Stmt.inhabited\n    | exact Turing.TM0.Stmt.inhabited _\n    | apply Turing.TM0.Stmt.inhabited\n    | simpa using Turing.TM0.Stmt.inhabited\n    | exact \u27e8_, Turing.TM0.Stmt.inhabited\u27e9\n    | exact Turing.TM0.Stmt.inhabited (by assumption)\n    | exact Turing.TM0.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM0.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0.Stmt.inhabited (by assumption))\n    | exact Turing.TM0to1.\u039b'.normal\n    | exact Turing.TM0to1.\u039b'.normal _\n    | apply Turing.TM0to1.\u039b'.normal\n    | simpa using Turing.TM0to1.\u039b'.normal\n    | exact \u27e8_, Turing.TM0to1.\u039b'.normal\u27e9\n    | exact Turing.TM0to1.\u039b'.normal (by assumption)\n    | exact Turing.TM0to1.\u039b'.normal \u2039_\u203a\n    | apply Turing.TM0to1.\u039b'.normal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.\u039b'.normal (by assumption))\n    | exact Turing.TM0to1.instInhabited\u039b'\n    | exact Turing.TM0to1.instInhabited\u039b' _\n    | apply Turing.TM0to1.instInhabited\u039b'\n    | simpa using Turing.TM0to1.instInhabited\u039b'\n    | exact \u27e8_, Turing.TM0to1.instInhabited\u039b'\u27e9\n    | exact Turing.TM0to1.instInhabited\u039b' (by assumption)\n    | exact Turing.TM0to1.instInhabited\u039b' \u2039_\u203a\n    | apply Turing.TM0to1.instInhabited\u039b' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM0to1.instInhabited\u039b' (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1a\n    | exact HomotopicalAlgebra.ModelCategory.cm1a _\n    | apply HomotopicalAlgebra.ModelCategory.cm1a\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1a\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1a\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1a \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1a <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1a (by assumption))\n    | exact HomotopicalAlgebra.ModelCategory.cm1b\n    | exact HomotopicalAlgebra.ModelCategory.cm1b _\n    | apply HomotopicalAlgebra.ModelCategory.cm1b\n    | simpa using HomotopicalAlgebra.ModelCategory.cm1b\n    | exact \u27e8_, HomotopicalAlgebra.ModelCategory.cm1b\u27e9\n    | exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption)\n    | exact HomotopicalAlgebra.ModelCategory.cm1b \u2039_\u203a\n    | apply HomotopicalAlgebra.ModelCategory.cm1b <;> assumption\n    | (haveI := Fact.mk (by assumption); exact HomotopicalAlgebra.ModelCategory.cm1b (by assumption))\n    | exact ZNum.bitm1\n    | exact ZNum.bitm1 _\n    | apply ZNum.bitm1\n    | simpa using ZNum.bitm1\n    | exact \u27e8_, ZNum.bitm1\u27e9\n    | exact ZNum.bitm1 (by assumption)\n    | exact ZNum.bitm1 \u2039_\u203a\n    | apply ZNum.bitm1 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.bitm1 (by assumption))\n    | exact Turing.TM1.Stmt.halt\n    | exact Turing.TM1.Stmt.halt _\n    | apply Turing.TM1.Stmt.halt\n    | simpa using Turing.TM1.Stmt.halt\n    | exact \u27e8_, Turing.TM1.Stmt.halt\u27e9\n    | exact Turing.TM1.Stmt.halt (by assumption)\n    | exact Turing.TM1.Stmt.halt \u2039_\u203a\n    | apply Turing.TM1.Stmt.halt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.halt (by assumption))\n    | exact Turing.TM1.Stmt.inhabited\n    | exact Turing.TM1.Stmt.inhabited _\n    | apply Turing.TM1.Stmt.inhabited\n    | simpa using Turing.TM1.Stmt.inhabited\n    | exact \u27e8_, Turing.TM1.Stmt.inhabited\u27e9\n    | exact Turing.TM1.Stmt.inhabited (by assumption)\n    | exact Turing.TM1.Stmt.inhabited \u2039_\u203a\n    | apply Turing.TM1.Stmt.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Turing.TM1.Stmt.inhabited (by assumption))"
+  ],
+  "premises": [
+    {
+      "name": "Fin.append_elim0",
+      "type": " {m : \u2115} {\u03b1 : Sort u_1} (u : Fin m \u2192 \u03b1) : Fin.append u Fin.elim0 = u \u2218 Fin.cast \u22ef",
+      "module": "Mathlib.Data.Fin.Tuple.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Fin.elim0_append",
+      "type": " {n : \u2115} {\u03b1 : Sort u_1} (v : Fin n \u2192 \u03b1) : Fin.append Fin.elim0 v = v \u2218 Fin.cast \u22ef",
+      "module": "Mathlib.Data.Fin.Tuple.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM0.Stmt",
+      "type": " (\u0393 : Type u_1) : Type u_1",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "A Turing machine \"statement\" is just a command to either move\nleft or right, or write a symbol on the tape. "
+    },
+    {
+      "name": "Turing.TM0to1.\u039b'",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) : Type (max u_1 u_2)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "The machine states for a TM1 emulating a TM0 machine. States of the TM0 machine are embedded\nas `normal q` states, but the actual operation is split into two parts, a jump to `act s q`\nfollowed by the action and a jump to the next `normal` state. "
+    },
+    {
+      "name": "Turing.TM0.Stmt.move",
+      "type": " {\u0393 : Type u_1} : Turing.Dir \u2192 Turing.TM0.Stmt \u0393",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM0.Stmt.write",
+      "type": " {\u0393 : Type u_1} : \u0393 \u2192 Turing.TM0.Stmt \u0393",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM0.Cfg",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) [Inhabited \u0393] : Type (max u_1 u_2)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "The configuration state of a Turing machine during operation\nconsists of a label (machine state), and a tape.\nThe tape is represented in the form `(a, L, R)`, meaning the tape looks like `L.rev ++ [a] ++ R`\nwith the machine currently reading the `a`. The lists are\nautomatically extended with blanks as the machine moves around. "
+    },
+    {
+      "name": "Turing.TM0.Machine",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) [Inhabited \u039b] : Type (max (max u_1 u_2) u_1 u_2)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "A Post-Turing machine with symbol type `\u0393` and label type `\u039b`\nis a function which, given the current state `q : \u039b` and\nthe tape head `a : \u0393`, either halts (returns `none`) or returns\na new state `q' : \u039b` and a `Stmt` describing what to do,\neither a move left or right, or a write command.\n\nBoth `\u039b` and `\u0393` are required to be inhabited; the default value\nfor `\u0393` is the \"blank\" tape value, and the default value of `\u039b` is\nthe initial state. "
+    },
+    {
+      "name": "Turing.TM0.Stmt.inhabited",
+      "type": " (\u0393 : Type u_1) [Inhabited \u0393] : Inhabited (Turing.TM0.Stmt \u0393)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM0to1.\u039b'.normal",
+      "type": " {\u0393 : Type u_1} {\u039b : Type u_2} : \u039b \u2192 Turing.TM0to1.\u039b' \u0393 \u039b",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM0to1.instInhabited\u039b'",
+      "type": " {\u0393 : Type u_1} {\u039b : Type u_2} [Inhabited \u039b] : Inhabited (Turing.TM0to1.\u039b' \u0393 \u039b)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "HomotopicalAlgebra.ModelCategory.cm1a",
+      "type": " {C : Type u} {inst\u271d : CategoryTheory.Category.{v, u} C} [self : HomotopicalAlgebra.ModelCategory C] : CategoryTheory.Limits.HasFiniteLimits C",
+      "module": "Mathlib.AlgebraicTopology.ModelCategory.Basic",
+      "doc": ""
+    },
+    {
+      "name": "HomotopicalAlgebra.ModelCategory.cm1b",
+      "type": " {C : Type u} {inst\u271d : CategoryTheory.Category.{v, u} C} [self : HomotopicalAlgebra.ModelCategory C] : CategoryTheory.Limits.HasFiniteColimits C",
+      "module": "Mathlib.AlgebraicTopology.ModelCategory.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZNum.bitm1",
+      "type": " : ZNum \u2192 ZNum",
+      "module": "Mathlib.Data.Num.Basic",
+      "doc": "`bitm1 x` appends a `1` to the end of `x`, mapping `x` to `2 * x - 1`. "
+    },
+    {
+      "name": "Turing.TM1.Stmt",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) (\u03c3 : Type u_3) : Type (max (max u_1 u_2) u_3)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "The TM1 model is a simplification and extension of TM0\n(Post-Turing model) in the direction of Wang B-machines. The machine's\ninternal state is extended with a (finite) store `\u03c3` of variables\nthat may be accessed and updated at any time.\nA machine is given by a `\u039b` indexed set of procedures or functions.\nEach function has a body which is a `Stmt`, which can either be a\n`move` or `write` command, a `branch` (if statement based on the\ncurrent tape value), a `load` (set the variable value),\na `goto` (call another function), or `halt`. Note that here\nmost statements do not have labels; `goto` commands can only\ngo to a new function. All commands have access to the variable value\nand current tape value. "
+    },
+    {
+      "name": "Turing.TM1to1.\u039b'",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) (\u03c3 : Type u_3) : Type (max (max u_1 u_2) u_3)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "The configuration state of the TM. "
+    },
+    {
+      "name": "Turing.TM1.Cfg",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) (\u03c3 : Type u_3) [Inhabited \u0393] : Type (max (max u_1 u_2) u_3)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": "The configuration of a TM1 machine is given by the currently\nevaluating statement, the variable store value, and the tape. "
+    },
+    {
+      "name": "Turing.TM1.Stmt.halt",
+      "type": " {\u0393 : Type u_1} {\u039b : Type u_2} {\u03c3 : Type u_3} : Turing.TM1.Stmt \u0393 \u039b \u03c3",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM1.Stmt.inhabited",
+      "type": " (\u0393 : Type u_1) (\u039b : Type u_2) (\u03c3 : Type u_3) : Inhabited (Turing.TM1.Stmt \u0393 \u039b \u03c3)",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Turing.TM1to1.\u039b'.normal",
+      "type": " {\u0393 : Type u_1} {\u039b : Type u_2} {\u03c3 : Type u_3} : \u039b \u2192 Turing.TM1to1.\u039b' \u0393 \u039b \u03c3",
+      "module": "Mathlib.Computability.TuringMachine.PostTuringMachine",
+      "doc": ""
+    },
+    {
+      "name": "Real.sSup_univ",
+      "type": " : sSup Set.univ = 0",
+      "module": "Mathlib.Algebra.Order.Archimedean.Real.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.sSup_empty",
+      "type": " : sSup \u2205 = 0",
+      "module": "Mathlib.Algebra.Order.Archimedean.Real.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.sSup_of_not_bddAbove",
+      "type": " {s : Set \u211d} (hs : \u00acBddAbove s) : sSup s = 0",
+      "module": "Mathlib.Algebra.Order.Archimedean.Real.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.sSup_neg",
+      "type": " (s : Set \u211d) : sSup (-s) = -sInf s",
+      "module": "Mathlib.Algebra.Order.Archimedean.Real.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.sSup_nonneg",
+      "type": " {s : Set \u211d} (hs : \u2200 x \u2208 s, 0 \u2264 x) : 0 \u2264 sSup s",
+      "module": "Mathlib.Algebra.Order.Archimedean.Real.Basic",
+      "doc": "As `sSup s = 0` when `s` is a set of reals that's either empty or unbounded above,\nit suffices to show that all elements of `s` are nonnegative to show that `0 \u2264 sSup s`. "
+    },
+    {
+      "name": "Real.sSup_nonpos",
+      "type": " {s : Set \u211d} (hs : \u2200 x \u2208 s, x \u2264 0) : sSup s \u2264 0",
+      "module": "Mathlib.Algebra.Order.Archimedean.Real.Basic",
+      "doc": "As `sSup s = 0` when `s` is an empty set of reals, it suffices to show that all elements of `s`\nare nonpositive to show that `sSup s \u2264 0`. "
+    },
+    {
+      "name": "Real.sSup_le",
+      "type": " {s : Set \u211d} {a : \u211d} (hs : \u2200 x \u2208 s, x \u2264 a) (ha : 0 \u2264 a) : sSup s \u2264 a",
+      "module": "Mathlib.Algebra.Order.Archimedean.Real.Basic",
+      "doc": "As `sSup s = 0` when `s` is an empty set of reals, it suffices to show that all elements of `s`\nare at most some nonnegative number `a` to show that `sSup s \u2264 a`.\n\nSee also `csSup_le`. "
+    },
+    {
+      "name": "Real.sSup_nonneg'",
+      "type": " {s : Set \u211d} (hs : \u2203 x \u2208 s, 0 \u2264 x) : 0 \u2264 sSup s",
+      "module": "Mathlib.Algebra.Order.Archimedean.Real.Basic",
+      "doc": "As `sSup s = 0` when `s` is a set of reals that's unbounded above, it suffices to show that `s`\ncontains a nonnegative element to show that `0 \u2264 sSup s`. "
+    },
+    {
+      "name": "Real.sSup_def",
+      "type": " (s : Set \u211d) : sSup s = if h : s.Nonempty \u2227 BddAbove s then Classical.choose \u22ef else 0",
+      "module": "Mathlib.Algebra.Order.Archimedean.Real.Basic",
+      "doc": ""
+    },
+    {
+      "name": "NNReal.sSup_of_not_bddAbove",
+      "type": " {s : Set NNReal} (hs : \u00acBddAbove s) : sSup s = 0",
+      "module": "Mathlib.Basic.NNReal.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ENNReal.sSup_add",
+      "type": " {s : Set ENNReal} {a : ENNReal} (hs : s.Nonempty) : sSup s + a = \u2a06 b \u2208 s, b + a",
+      "module": "Mathlib.Basic.ENNReal.Operations",
+      "doc": ""
+    },
+    {
+      "name": "ENNReal.sSup_div",
+      "type": " (s : Set ENNReal) (a : ENNReal) : sSup s / a = \u2a06 b \u2208 s, b / a",
+      "module": "Mathlib.Basic.ENNReal.Inv",
+      "doc": ""
+    },
+    {
+      "name": "tacticDeriving_LawfulEq_tactic",
+      "type": " : Lean.ParserDescr",
+      "module": "Init.LawfulBEqTactics",
+      "doc": ""
+    },
+    {
+      "name": "tacticDeriving_LawfulEq_tactic_step",
+      "type": " : Lean.ParserDescr",
+      "module": "Init.LawfulBEqTactics",
+      "doc": ""
+    },
+    {
+      "name": "DerivingHelpers.tacticDeriving_ReflEq_tactic",
+      "type": " : Lean.ParserDescr",
+      "module": "Init.LawfulBEqTactics",
+      "doc": ""
+    },
+    {
+      "name": "DerivingHelpers.and_true_curry",
+      "type": " {a b : Bool} {P : Prop} (h : a = true \u2192 b = true \u2192 P) : (a && b) = true \u2192 P",
+      "module": "Init.LawfulBEqTactics",
+      "doc": ""
+    },
+    {
+      "name": "DerivingHelpers.deriving_lawful_beq_helper_nd",
+      "type": " {\u03b1 : Type u_1} {x y : \u03b1} [BEq \u03b1] [ReflBEq \u03b1] {P : Prop} (inst : (x == y) = true \u2192 x = y) (k : x = y \u2192 P) : (x == y) = true \u2192 P",
+      "module": "Init.LawfulBEqTactics",
+      "doc": ""
+    },
+    {
+      "name": "DerivingHelpers.deriving_lawful_beq_helper_dep",
+      "type": " {\u03b1 : Type u_1} {x y : \u03b1} [BEq \u03b1] [ReflBEq \u03b1] {t : (x == y) = true \u2192 Bool} {P : Prop} (inst : (x == y) = true \u2192 x = y) (k : \u2200 (h : x = y), t \u22ef = true \u2192 P) : (if h : (x == y) = true then t h else false) = true \u2192 P",
+      "module": "Init.LawfulBEqTactics",
+      "doc": ""
+    },
+    {
+      "name": "DerivedWanted.ofVal",
+      "type": " {\u03b1 : Sort u} (val : \u03b1) : DerivedWanted \u03b1",
+      "module": "Batteries.Util.ProofWanted",
+      "doc": ""
+    },
+    {
+      "name": "DerivedWanted.val",
+      "type": " {\u03b1 : Sort u} (self : DerivedWanted \u03b1) : \u03b1",
+      "module": "Batteries.Util.ProofWanted",
+      "doc": "The carried value. Reference the declaration via `\u2770\u2026\u2771` rather than projecting this\ndirectly. "
+    },
+    {
+      "name": "Mathlib.Meta.NormNum.deriveSimp",
+      "type": " (ctx : Lean.Meta.Simp.Context) (useSimp : Bool := true) (e : Lean.Expr) : Lean.MetaM Lean.Meta.Simp.Result",
+      "module": "Mathlib.Tactic.NormNum.Core",
+      "doc": "Traverses the given expression using simp and normalises any numbers it finds. "
+    },
+    {
+      "name": "Mathlib.Meta.NormNum.deriveBool",
+      "type": " (p : Q(Prop)) : Lean.MetaM ((b : Bool) \u00d7 Mathlib.Meta.NormNum.BoolResult p b)",
+      "module": "Mathlib.Tactic.NormNum.Core",
+      "doc": "Run each registered `norm_num` extension on a typed expression `p : Prop`,\nand returning the truth or falsity of `p' : Prop` from an equivalence `p \u2194 p'`. "
+    },
+    {
+      "name": "Mathlib.Meta.NormNum.derive",
+      "type": " {u : Lean.Level} {\u03b1 : Q(Type u)} (e : Q(\u00ab$\u03b1\u00bb)) (post : Bool := false) : Lean.MetaM (Mathlib.Meta.NormNum.Result e)",
+      "module": "Mathlib.Tactic.NormNum.Core",
+      "doc": "Run each registered `norm_num` extension on an expression, returning a `NormNum.Result`. "
+    },
+    {
+      "name": "DerivedWanted",
+      "type": " (\u03b1 : Sort u) : Sort (max 1 u)",
+      "module": "Batteries.Util.ProofWanted",
+      "doc": "Wrapper carrying the body of a *transparent* `def_wanted` (one given a `:= body`). Unlike the\nempty `DefWanted`, it stores the value, so `\u2770foo\u2771` projects it back out and downstream definitional\nequalities go through; but the placeholder still has type `DerivedWanted T`, not `T`, so it\ncannot be used directly as an inhabitant of `T` \u2014 the intended access is via the `\u2770\u2026\u2771` syntax,\nwhich projects\nthe value back out. (`val` is `public`, so direct projection is possible, but `\u2770\u2026\u2771` is what callers\nshould use.) "
+    },
+    {
+      "name": "differentiableOn_id",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {s : Set E} : DifferentiableOn \ud835\udd5c id s",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "differentiableOn_empty",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} : DifferentiableOn \ud835\udd5c f \u2205",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "differentiableOn_univ",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} : DifferentiableOn \ud835\udd5c f Set.univ \u2194 Differentiable \ud835\udd5c f",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Differentiable.differentiableOn",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} {s : Set E} (h : Differentiable \ud835\udd5c f) : DifferentiableOn \ud835\udd5c f s",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "DifferentiableOn.mono",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} {s t : Set E} (h : DifferentiableOn \ud835\udd5c f t) (st : s \u2286 t) : DifferentiableOn \ud835\udd5c f s",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "DifferentiableOn.differentiableAt",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} {x : E} {s : Set E} (h : DifferentiableOn \ud835\udd5c f s) (hs : s \u2208 nhds x) : DifferentiableAt \ud835\udd5c f x",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "DifferentiableOn.iUnion_of_isOpen",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} {\u03b9 : Type u_4} {s : \u03b9 \u2192 Set E} (hf : \u2200 (i : \u03b9), DifferentiableOn \ud835\udd5c f (s i)) (hs : \u2200 (i : \u03b9), IsOpen (s i)) : DifferentiableOn \ud835\udd5c f (\u22c3 i, s i)",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": "If a function is differentiable on open sets `s i`, it is differentiable on their union. "
+    },
+    {
+      "name": "differentiableOn_iUnion_iff_of_isOpen",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} {\u03b9 : Type u_4} {s : \u03b9 \u2192 Set E} (hs : \u2200 (i : \u03b9), IsOpen (s i)) : DifferentiableOn \ud835\udd5c f (\u22c3 i, s i) \u2194 \u2200 (i : \u03b9), DifferentiableOn \ud835\udd5c f (s i)",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": "A function is differentiable on a union of open sets `s i`\niff it is differentiable on each `s i`. "
+    },
+    {
+      "name": "differentiable_of_differentiableOn_iUnion_of_isOpen",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} {\u03b9 : Type u_4} {s : \u03b9 \u2192 Set E} (hf : \u2200 (i : \u03b9), DifferentiableOn \ud835\udd5c f (s i)) (hs : \u2200 (i : \u03b9), IsOpen (s i)) (hs' : \u22c3 i, s i = Set.univ) : Differentiable \ud835\udd5c f",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "DifferentiableOn.eventually_differentiableAt",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} {x : E} {s : Set E} (h : DifferentiableOn \ud835\udd5c f s) (hs : s \u2208 nhds x) : \u2200\u1da0 (y : E) in nhds x, DifferentiableAt \ud835\udd5c f y",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "DifferentiableOn.hasFDerivAt",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] {f : E \u2192 F} {x : E} {s : Set E} (h : DifferentiableOn \ud835\udd5c f s) (hs : s \u2208 nhds x) : HasFDerivAt f (fderiv \ud835\udd5c f x) x",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Basic",
+      "doc": ""
+    },
+    {
+      "name": "DifferentiableOn",
+      "type": " (\ud835\udd5c : Type u_1) [NontriviallyNormedField \ud835\udd5c] {E : Type u_2} [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] {F : Type u_3} [AddCommGroup F] [Module \ud835\udd5c F] [TopologicalSpace F] (f : E \u2192 F) (s : Set E) : Prop",
+      "module": "Mathlib.Analysis.Calculus.FDeriv.Defs",
+      "doc": "`DifferentiableOn \ud835\udd5c f s` means that `f` is differentiable within `s` at any point of `s`. "
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Fin.append_elim0, Fin.elim0_append, Turing.TM0.Stmt, Turing.TM0to1.\u039b', Turing.TM0.Stmt.move, Turing.TM0.Stmt.write, Turing.TM0.Cfg, Turing.TM0.Machine",
+    "search: '\"Real.sSup\"' -> Real.sSup_univ, Real.sSup_empty, Real.sSup_of_not_bddAbove, Real.sSup_neg, Real.sSup_nonneg, Real.sSup_nonpos, Real.sSup_le, Real.sSup_nonneg'",
+    "search: '\"Landau\"' -> nothing",
+    "search: '\"Landau\"' -> nothing; goal shape -> Fin.append_elim0, Fin.elim0_append, Turing.TM0.Stmt.move, Turing.TM0.Stmt.write, Turing.TM0.Stmt.inhabited, Turing.TM0to1.\u039b'.normal, Turing.TM0to1.instInhabited\u039b', HomotopicalAlgebra.ModelCategory.cm1a",
+    "search: '\"deriv\"' -> tacticDeriving_LawfulEq_tactic, tacticDeriving_LawfulEq_tactic_step, DerivingHelpers.tacticDeriving_ReflEq_tactic, DerivingHelpers.and_true_curry, DerivingHelpers.deriving_lawful_beq_helper_nd, DerivingHelpers.deriving_lawful_beq_helper_dep, DerivedWanted.ofVal, DerivedWanted.val",
+    "search: '\"DifferentiableOn\"' -> differentiableOn_id, differentiableOn_empty, differentiableOn_univ, Differentiable.differentiableOn, DifferentiableOn.mono, DifferentiableOn.differentiableAt, DifferentiableOn.iUnion_of_isOpen, differentiableOn_iUnion_iff_of_isOpen",
+    "suspect statement: The theorem is false as written in Lean 4 due to the behavior of `sSup` on unbounded sets. In Lean, the supremum `sSup` of a set of real numbers that is not bounded above is defined to be `0` (as shown by `Real.sSup_of_not_bddAbove`). \n\nConsider the function $f(x) = x$ on $[0, \\infty)$ (with $a = 0$"
+  ],
+  "budget": {
+    "tool_calls": 13,
+    "lean_calls": 10,
+    "searches": 5,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788866108.7922602,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.4,
+    "statement_checks": 1,
+    "refusals": {
+      "placeholder_proof": 1,
+      "assemble_first": 1
+    }
+  },
+  "goal": "theorem exercise_5_15_refutation : \u00ac (\u2200 {f : \u211d \u2192 \u211d} (a M0 M1 M2 : \u211d)\n  (hf' : DifferentiableOn \u211d f (Set.Ici a))\n  (hf'' : DifferentiableOn \u211d (deriv f) (Set.Ici a))\n  (hM0 : M0 = sSup {(|f x|) | x \u2208 (Set.Ici a)})\n  (hM1 : M1 = sSup {(|deriv f x|) | x \u2208 (Set.Ici a)})\n  (hM2 : M2 = sSup {(|deriv (deriv f) x|) | x \u2208 (Set.Ici a)}),\n  (M1 ^ 2) \u2264 4 * M0 * M2)"
+}

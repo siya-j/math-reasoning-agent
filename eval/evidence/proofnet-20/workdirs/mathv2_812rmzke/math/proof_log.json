@@ -1,0 +1,392 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_4_8 {p a : \u2115} (hp : Odd p) :\n  IsPrimitiveRoot a p \u2194 (\u2200 q : \u2115, q \u2223 (p-1) \u2192 q.Prime \u2192 \u00ac a^(p-1) \u2261 1 [MOD p])",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788863604.2326515,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_4_8 {p a : \u2115} (hp : Odd p) :\n  IsPrimitiveRoot a p \u2194 (\u2200 q : \u2115, q \u2223 (p-1) \u2192 q.Prime \u2192 \u00ac a^(p-1) \u2261 1 [MOD p])",
+      "proof": "by sorry",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788863614.9682145,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_8 {p a : \u2115} (hp : Odd p) :\n  IsPrimitiveRoot a p \u2194 (\u2200 q : \u2115, q \u2223 (p-1) \u2192 q.Prime \u2192 \u00ac a^(p-1) \u2261 1 [MOD p])",
+      "proof": "by simp",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n2:85: error: `simp` made no progress",
+      "at": 1788863618.0334568,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_8 {p a : \u2115} (hp : Odd p) :\n  IsPrimitiveRoot a p \u2194 (\u2200 q : \u2115, q \u2223 (p-1) \u2192 q.Prime \u2192 \u00ac a^(p-1) \u2261 1 [MOD p])",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.Odd.of_mul_left\n    | exact Nat.Odd.of_mul_left _\n    | apply Nat.Odd.of_mul_left\n    | simpa using Nat.Odd.of_mul_left\n    | exact \u27e8_, Nat.Odd.of_mul_left\u27e9\n    | exact Nat.Odd.of_mul_left (by assumption)\n    | exact Nat.Odd.of_mul_left \u2039_\u203a\n    | apply Nat.Odd.of_mul_left <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.Odd.of_mul_left (by assumption))\n    | exact Nat.Odd.of_mul_right\n    | exact Nat.Odd.of_mul_right _\n    | apply Nat.Odd.of_mul_right\n    | simpa using Nat.Odd.of_mul_right\n    | exact \u27e8_, Nat.Odd.of_mul_right\u27e9\n    | exact Nat.Odd.of_mul_right (by assumption)\n    | exact Nat.Odd.of_mul_right \u2039_\u203a\n    | apply Nat.Odd.of_mul_right <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.Odd.of_mul_right (by assumption))\n    | exact odd_one\n    | exact odd_one _\n    | apply odd_one\n    | simpa using odd_one\n    | exact \u27e8_, odd_one\u27e9\n    | exact odd_one (by assumption)\n    | exact odd_one \u2039_\u203a\n    | apply odd_one <;> assumption\n    | (haveI := Fact.mk (by assumption); exact odd_one (by assumption))\n    | exact Odd.natCast\n    | exact Odd.natCast _\n    | apply Odd.natCast\n    | simpa using Odd.natCast\n    | exact \u27e8_, Odd.natCast\u27e9\n    | exact Odd.natCast (by assumption)\n    | exact Odd.natCast \u2039_\u203a\n    | apply Odd.natCast <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Odd.natCast (by assumption))\n    | exact Nat.Even.sub_odd\n    | exact Nat.Even.sub_odd _\n    | apply Nat.Even.sub_odd\n    | simpa using Nat.Even.sub_odd\n    | exact \u27e8_, Nat.Even.sub_odd\u27e9\n    | exact Nat.Even.sub_odd (by assumption)\n    | exact Nat.Even.sub_odd \u2039_\u203a\n    | apply Nat.Even.sub_odd <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.Even.sub_odd (by assumption))\n    | exact Nat.Odd.sub_even\n    | exact Nat.Odd.sub_even _\n    | apply Nat.Odd.sub_even\n    | simpa using Nat.Odd.sub_even\n    | exact \u27e8_, Nat.Odd.sub_even\u27e9\n    | exact Nat.Odd.sub_even (by assumption)\n    | exact Nat.Odd.sub_even \u2039_\u203a\n    | apply Nat.Odd.sub_even <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.Odd.sub_even (by assumption))\n    | exact Odd.pow\n    | exact Odd.pow _\n    | apply Odd.pow\n    | simpa using Odd.pow\n    | exact \u27e8_, Odd.pow\u27e9\n    | exact Odd.pow (by assumption)\n    | exact Odd.pow \u2039_\u203a\n    | apply Odd.pow <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Odd.pow (by assumption))\n    | exact Odd.mul\n    | exact Odd.mul _\n    | apply Odd.mul\n    | simpa using Odd.mul\n    | exact \u27e8_, Odd.mul\u27e9\n    | exact Odd.mul (by assumption)\n    | exact Odd.mul \u2039_\u203a\n    | apply Odd.mul <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Odd.mul (by assumption))\n    | exact Odd.neg\n    | exact Odd.neg _\n    | apply Odd.neg\n    | simpa using Odd.neg\n    | exact \u27e8_, Odd.neg\u27e9\n    | exact Odd.neg (by assumption)\n    | exact Odd.neg \u2039_\u203a\n    | apply Odd.neg <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Odd.neg (by assumption))\n    | exact Even.add_odd\n    | exact Even.add_odd _\n    | apply Even.add_odd\n    | simpa using Even.add_odd\n    | exact \u27e8_, Even.add_odd\u27e9\n    | exact Even.add_odd (by assumption)\n    | exact Even.add_odd \u2039_\u203a\n    | apply Even.add_odd <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Even.add_odd (by assumption))\n    | exact Even.odd_add\n    | exact Even.odd_add _\n    | apply Even.odd_add\n    | simpa using Even.odd_add\n    | exact \u27e8_, Even.odd_add\u27e9\n    | exact Even.odd_add (by assumption)\n    | exact Even.odd_add \u2039_\u203a\n    | apply Even.odd_add <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Even.odd_add (by assumption))\n    | exact Odd.add_even\n    | exact Odd.add_even _\n    | apply Odd.add_even\n    | simpa using Odd.add_even\n    | exact \u27e8_, Odd.add_even\u27e9\n    | exact Odd.add_even (by assumption)\n    | exact Odd.add_even \u2039_\u203a\n    | apply Odd.add_even <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Odd.add_even (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n2:82: error: unsolved goals\np a : \u2115\nhp : Odd p\n\u22a2 IsPrimitiveRoot a p \u2194 \u2200 (q : \u2115), q \u2223 p - 1 \u2192 Nat.Prime q \u2192 \u00aca ^ (p - 1) \u2261 1 [MOD p]\n\nStill to prove:\n\u22a2 IsPrimitiveRoot a p \u2194 \u2200 (q : \u2115), q \u2223 p - 1 \u2192 Nat.Prime q \u2192 \u00aca ^ (p - 1) \u2261 1 [MOD p]",
+      "at": 1788863619.636621,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma is_primitive_root_nat {p a : \u2115} (hp : Odd p) (h : IsPrimitiveRoot a p) : p = 1 \u2227 a = 1",
+      "proof": "by\n  have hp0 : p \u2260 0 := by\n    rintro rfl\n    exact Nat.not_odd_zero hp\n  have hu : IsUnit a := h.isUnit hp0\n  have ha1 : a = 1 := Nat.isUnit_iff.mp hu\n  refine \u27e8?_, ha1\u27e9\n  subst ha1\n  have h_order := h.eq_orderOf\n  have h_one : orderOf (1 : \u2115) = 1 := orderOf_one\n  rw [h_one] at h_order\n  exact h_order.symm\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n12:2: error: Type mismatch\n  Eq.symm h_order\nhas type\n  1 = p\nbut is expected to have type\n  p = 1",
+      "at": 1788863659.824435,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma is_primitive_root_nat {p a : \u2115} (hp : Odd p) (h : IsPrimitiveRoot a p) : p = 1 \u2227 a = 1",
+      "proof": "by\n  have hp0 : p \u2260 0 := by\n    rintro rfl\n    exact Nat.not_odd_zero hp\n  have hu : IsUnit a := h.isUnit hp0\n  have ha1 : a = 1 := Nat.isUnit_iff.mp hu\n  refine \u27e8?_, ha1\u27e9\n  subst ha1\n  have h_order := h.eq_orderOf\n  have h_one : orderOf (1 : \u2115) = 1 := orderOf_one\n  rw [h_one] at h_order\n  exact h_order\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma is_primitive_root_nat {p a : \u2115} (hp : Odd p) (h : IsPrimitiveRoot a p) : p = 1 \u2227 a = 1",
+      "at": 1788863662.577018,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_4_8_refutation : \u00ac (\u2200 {p a : \u2115} (hp : Odd p), IsPrimitiveRoot a p \u2194 (\u2200 q : \u2115, q \u2223 (p-1) \u2192 q.Prime \u2192 \u00ac a^(p-1) \u2261 1 [MOD p]))",
+      "proof": "by\n  intro h\n  have h1 := h (p := 3) (a := 3) (by decide)\n  have h_lhs : \u00ac IsPrimitiveRoot 3 3 := by\n    intro h_prim\n    have hu := h_prim.isUnit (by decide)\n    have h31 : (3 : \u2115) = 1 := Nat.isUnit_iff.mp hu\n    contradiction\n  have h_rhs : \u2200 q : \u2115, q \u2223 2 \u2192 q.Prime \u2192 \u00ac 3^2 \u2261 1 [MOD 3] := by\n    intro q hq_div hq_prime\n    decide\n  exact h_lhs (h1.mpr h_rhs)",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_4_8_refutation : \u00ac (\u2200 {p a : \u2115} (hp : Odd p), IsPrimitiveRoot a p \u2194 (\u2200 q : \u2115, q \u2223 (p-1) \u2192 q.Prime \u2192 \u00ac a^(p-1) \u2261 1 [MOD p]))",
+      "at": 1788863675.7130232,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma is_primitive_root_nat {p a : \u2115} (hp : Odd p) (h : IsPrimitiveRoot a p) : p = 1 \u2227 a = 1 := by\n  have hp0 : p \u2260 0 := by\n    rintro rfl\n    exact Nat.not_odd_zero hp\n  have hu : IsUnit a := h.isUnit hp0\n  have ha1 : a = 1 := Nat.isUnit_iff.mp hu\n  refine \u27e8?_, ha1\u27e9\n  subst ha1\n  have h_order := h.eq_orderOf\n  have h_one : orderOf (1 : \u2115) = 1 := orderOf_one\n  rw [h_one] at h_order\n  exact h_order"
+  ],
+  "premises": [
+    {
+      "name": "Nat.Odd.of_mul_left",
+      "type": " {m n : \u2115} (h : Odd (m * n)) : Odd m",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Odd.of_mul_right",
+      "type": " {m n : \u2115} (h : Odd (m * n)) : Odd n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "odd_one",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] : Odd 1",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.natCast",
+      "type": " {R : Type u_4} [Semiring R] {n : \u2115} (hn : Odd n) : Odd \u2191n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Even.sub_odd",
+      "type": " {m n : \u2115} (h : n \u2264 m) (hm : Even m) (hn : Odd n) : Odd (m - n)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Odd.sub_even",
+      "type": " {m n : \u2115} (h : n \u2264 m) (hm : Odd m) (hn : Even n) : Odd (m - n)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.pow",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a : \u03b1} {n : \u2115} (ha : Odd a) : Odd (a ^ n)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.mul",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a b : \u03b1} : Odd a \u2192 Odd b \u2192 Odd (a * b)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.neg",
+      "type": " {\u03b1 : Type u_2} [Ring \u03b1] {a : \u03b1} (hp : Odd a) : Odd (-a)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Even.add_odd",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a b : \u03b1} : Even a \u2192 Odd b \u2192 Odd (a + b)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Even.odd_add",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a b : \u03b1} (ha : Even a) (hb : Odd b) : Odd (b + a)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.add_even",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a b : \u03b1} (ha : Odd a) (hb : Even b) : Odd (a + b)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Irreducible.prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] [DecompositionMonoid M] {a : M} (irr : Irreducible a) : Prime a",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Irreducible.prime_of_isPrimal",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {a : M} (irr : Irreducible a) (primal : IsPrimal a) : Prime a",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "comap_prime",
+      "type": " {M : Type u_1} {N : Type u_2} [CommMonoidWithZero M] [CommMonoidWithZero N] {F : Type u_3} {G : Type u_4} [FunLike F M N] [MonoidWithZeroHomClass F M N] [FunLike G N M] [MulHomClass G N M] (f : F) (g : G) {p : M} (hinv : \u2200 (a : M), g (f a) = a) (hp : Prime (f p)) : Prime p",
+      "module": "Mathlib.Algebra.Prime.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Associated.prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p q : M} (h : Associated p q) (hp : Prime p) : Prime q",
+      "module": "Mathlib.Algebra.GroupWithZero.Associated",
+      "doc": ""
+    },
+    {
+      "name": "UniqueFactorizationMonoid.prime_of_factor",
+      "type": " {\u03b1 : Type u_1} [CommMonoidWithZero \u03b1] [UniqueFactorizationMonoid \u03b1] {a : \u03b1} (x : \u03b1) (hx : x \u2208 UniqueFactorizationMonoid.factors a) : Prime x",
+      "module": "Mathlib.RingTheory.UniqueFactorizationDomain.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Submodule.IsPrincipal.prime_generator_of_isPrime",
+      "type": " {R : Type u} [CommSemiring R] (S : Ideal R) [Submodule.IsPrincipal S] [is_prime : S.IsPrime] (ne_bot : S \u2260 \u22a5) : Prime (Submodule.IsPrincipal.generator S)",
+      "module": "Mathlib.RingTheory.PrincipalIdealDomain",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime.prime",
+      "type": " {p : \u2115} : Nat.Prime p \u2192 Prime p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "**Alias** of the forward direction of `Nat.prime_iff`."
+    },
+    {
+      "name": "Polynomial.prime_X",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] : Prime Polynomial.X",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.Monic.prime_of_degree_eq_one",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] {p : Polynomial R} (hp1 : p.degree = 1) (hm : p.Monic) : Prime p",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.prime_X_sub_C",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] (r : R) : Prime (Polynomial.X - Polynomial.C r)",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "UniqueFactorizationMonoid.prime_of_normalized_factor",
+      "type": " {\u03b1 : Type u_1} [CommMonoidWithZero \u03b1] [NormalizationMonoid \u03b1] [UniqueFactorizationMonoid \u03b1] {a : \u03b1} (x : \u03b1) : x \u2208 UniqueFactorizationMonoid.normalizedFactors a \u2192 Prime x",
+      "module": "Mathlib.RingTheory.UniqueFactorizationDomain.NormalizedFactors",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.prime_of_degree_eq_one",
+      "type": " {R : Type u} [Field R] {p : Polynomial R} (hp1 : p.degree = 1) : Prime p",
+      "module": "Mathlib.Algebra.Polynomial.FieldDivision",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.existsUnique",
+      "type": " {M : Type u_1} [CommMonoid M] {\u03b6 : M} : \u2203! k, IsPrimitiveRoot \u03b6 k",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.orderOf",
+      "type": " {M : Type u_1} [CommMonoid M] (\u03b6 : M) : IsPrimitiveRoot \u03b6 (orderOf \u03b6)",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.of_subsingleton",
+      "type": " {M : Type u_1} [CommMonoid M] [Subsingleton M] (x : M) : IsPrimitiveRoot x 1",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.eq_orderOf",
+      "type": " {M : Type u_1} [CommMonoid M] {k : \u2115} {\u03b6 : M} (h : IsPrimitiveRoot \u03b6 k) : k = orderOf \u03b6",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.iff_orderOf",
+      "type": " {M : Type u_1} [CommMonoid M] {k : \u2115} {\u03b6 : M} : IsPrimitiveRoot \u03b6 k \u2194 orderOf \u03b6 = k",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.unique",
+      "type": " {M : Type u_1} [CommMonoid M] {k l : \u2115} {\u03b6 : M} (hk : IsPrimitiveRoot \u03b6 k) (hl : IsPrimitiveRoot \u03b6 l) : k = l",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.not_iff",
+      "type": " {M : Type u_1} [CommMonoid M] {k : \u2115} {\u03b6 : M} : \u00acIsPrimitiveRoot \u03b6 k \u2194 orderOf \u03b6 \u2260 k",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.isOfFinOrder",
+      "type": " {M : Type u_1} [CommMonoid M] {k : \u2115} {\u03b6 : M} (h : IsPrimitiveRoot \u03b6 k) (h0 : k \u2260 0) : IsOfFinOrder \u03b6",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.isUnit",
+      "type": " {M : Type u_1} [CommMonoid M] {k : \u2115} {\u03b6 : M} (h : IsPrimitiveRoot \u03b6 k) (h0 : k \u2260 0) : IsUnit \u03b6",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.one",
+      "type": " {M : Type u_1} [CommMonoid M] : IsPrimitiveRoot 1 1",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.zero",
+      "type": " {M\u2080 : Type u_7} [CommMonoidWithZero M\u2080] [Nontrivial M\u2080] : IsPrimitiveRoot 0 0",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot",
+      "type": " {M : Type u_1} [CommMonoid M] (\u03b6 : M) (k : \u2115) : Prop",
+      "module": "Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots",
+      "doc": "An element `\u03b6` is a primitive `k`-th root of unity if `\u03b6 ^ k = 1`,\nand if `l` satisfies `\u03b6 ^ l = 1` then `k \u2223 l`. "
+    },
+    {
+      "name": "isUnit_iff_eq_one",
+      "type": " {M : Type u_1} [Monoid M] {a : M} [Subsingleton M\u02e3] : IsUnit a \u2194 a = 1",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": ""
+    },
+    {
+      "name": "isUnit_iff_exists_inv",
+      "type": " {M : Type u_1} [Monoid M] [IsDedekindFiniteMonoid M] {a : M} : IsUnit a \u2194 \u2203 b, a * b = 1",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": ""
+    },
+    {
+      "name": "isUnit_iff_exists_inv'",
+      "type": " {M : Type u_1} [Monoid M] [IsDedekindFiniteMonoid M] {a : M} : IsUnit a \u2194 \u2203 b, b * a = 1",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": ""
+    },
+    {
+      "name": "isUnit_iff_exists",
+      "type": " {M : Type u_1} [Monoid M] {x : M} : IsUnit x \u2194 \u2203 b, x * b = 1 \u2227 b * x = 1",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "See `isUnit_iff_exists_and_exists` for a similar lemma with two existentials. "
+    },
+    {
+      "name": "isUnit_iff_exists_and_exists",
+      "type": " {M : Type u_1} [Monoid M] {a : M} : IsUnit a \u2194 (\u2203 b, a * b = 1) \u2227 \u2203 c, c * a = 1",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "See `isUnit_iff_exists` for a similar lemma with one existential. "
+    },
+    {
+      "name": "IsUnit.isUnit_iff_mulLeft_bijective",
+      "type": " {M : Type u_1} [Monoid M] {a : M} : IsUnit a \u2194 Function.Bijective fun x => a * x",
+      "module": "Mathlib.Algebra.Group.Units.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsUnit.isUnit_iff_mulRight_bijective",
+      "type": " {M : Type u_1} [Monoid M] {a : M} : IsUnit a \u2194 Function.Bijective fun x => x * a",
+      "module": "Mathlib.Algebra.Group.Units.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Prod.isUnit_iff",
+      "type": " {M : Type u_3} {N : Type u_4} [Monoid M] [Monoid N] {x : M \u00d7 N} : IsUnit x \u2194 IsUnit x.1 \u2227 IsUnit x.2",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "isUnit_iff_ne_zero",
+      "type": " {G\u2080 : Type u_3} [GroupWithZero G\u2080] {a : G\u2080} : IsUnit a \u2194 a \u2260 0",
+      "module": "Mathlib.Algebra.GroupWithZero.Units.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Ring.isUnit_iff_inverse_ne_zero",
+      "type": " {M\u2080 : Type u_2} [MonoidWithZero M\u2080] [Nontrivial M\u2080] {x : M\u2080} : IsUnit x \u2194 Ring.inverse x \u2260 0",
+      "module": "Mathlib.Algebra.GroupWithZero.Units.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Ring.not_isUnit_iff_inverse_eq_zero",
+      "type": " {M\u2080 : Type u_2} [MonoidWithZero M\u2080] [Nontrivial M\u2080] {x : M\u2080} : \u00acIsUnit x \u2194 Ring.inverse x = 0",
+      "module": "Mathlib.Algebra.GroupWithZero.Units.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Ring.isUnit_iff_inverse_mul_cancel",
+      "type": " {M\u2080 : Type u_2} [MonoidWithZero M\u2080] (x : M\u2080) : IsUnit x \u2194 Ring.inverse x * x = 1",
+      "module": "Mathlib.Algebra.GroupWithZero.Units.Basic",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Nat.Odd.of_mul_left, Nat.Odd.of_mul_right, odd_one, Odd.natCast, Nat.Even.sub_odd, Nat.Odd.sub_even, Odd.pow, Odd.mul",
+    "search: 'IsPrimitiveRoot' -> IsPrimitiveRoot.existsUnique, IsPrimitiveRoot.orderOf, IsPrimitiveRoot.of_subsingleton, IsPrimitiveRoot.eq_orderOf, IsPrimitiveRoot.iff_orderOf, IsPrimitiveRoot.unique, IsPrimitiveRoot.not_iff, IsPrimitiveRoot.isOfFinOrder",
+    "search: 'IsPrimitiveRoot' -> IsPrimitiveRoot.existsUnique, IsPrimitiveRoot.orderOf, IsPrimitiveRoot.of_subsingleton, IsPrimitiveRoot.eq_orderOf, IsPrimitiveRoot.iff_orderOf, IsPrimitiveRoot.unique, IsPrimitiveRoot.not_iff, IsPrimitiveRoot.isOfFinOrder",
+    "search: '\"IsPrimitiveRoot\"' -> IsPrimitiveRoot.existsUnique, IsPrimitiveRoot.orderOf, IsPrimitiveRoot.of_subsingleton, IsPrimitiveRoot.eq_orderOf, IsPrimitiveRoot.iff_orderOf, IsPrimitiveRoot.unique, IsPrimitiveRoot.not_iff, IsPrimitiveRoot.isOfFinOrder",
+    "search: '\"IsPrimitiveRoot\" \"iff\"' -> nothing",
+    "search: '\"IsPrimitiveRoot\" \"iff\"' -> nothing; goal shape -> Nat.Odd.of_mul_left, Nat.Odd.of_mul_right, odd_one, Odd.natCast, Nat.Even.sub_odd, Nat.Odd.sub_even, Odd.pow, Odd.mul",
+    "search: '\"IsUnit\" \"Nat\"' -> nothing",
+    "search: '\"IsUnit\" \"Nat\"' -> nothing; goal shape -> Nat.Odd.of_mul_left, Nat.Odd.of_mul_right, odd_one, Odd.natCast, Nat.Even.sub_odd, Nat.Odd.sub_even, Odd.pow, Odd.mul",
+    "search: 'Nat isUnit' -> nothing",
+    "search: 'Nat isUnit' -> nothing; goal shape -> Nat.Odd.of_mul_left, Nat.Odd.of_mul_right, odd_one, Odd.natCast, Nat.Even.sub_odd, Nat.Odd.sub_even, Odd.pow, Odd.mul",
+    "search: '\"isUnit_iff\"' -> isUnit_iff_eq_one, isUnit_iff_exists_inv, isUnit_iff_exists_inv', isUnit_iff_exists, isUnit_iff_exists_and_exists, IsUnit.isUnit_iff_mulLeft_bijective, IsUnit.isUnit_iff_mulRight_bijective, Prod.isUnit_iff",
+    "refuted statement: The theorem `exercise_4_8` as written is false. We successfully compiled a formal refutation of the theorem in Lean 4.\n\n### Analysis of the Mismatch\nThe mathematical claim is:\n\"Let $p$ be an odd prime. Show that $a$ is a primitive root modulo $p$ iff $a^{(p-1) / q} \\not \\equiv 1(p)$ for all prime di"
+  ],
+  "budget": {
+    "tool_calls": 18,
+    "lean_calls": 7,
+    "searches": 8,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788863600.2388792,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 1,
+    "refusals": {
+      "placeholder_proof": 2,
+      "skeleton_not_engaged": 1
+    }
+  },
+  "goal": "theorem exercise_4_8 {p a : \u2115} (hp : Odd p) :\n  IsPrimitiveRoot a p \u2194 (\u2200 q : \u2115, q \u2223 (p-1) \u2192 q.Prime \u2192 \u00ac a^(p-1) \u2261 1 [MOD p])"
+}

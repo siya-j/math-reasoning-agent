@@ -35,3 +35,9 @@ claude-context-2.zip
 # A local dump of `git log`, regenerated on demand and already in the history
 # it describes.
 GIT_HISTORY.txt
+
+# A workspace left in the repo root. Anything that calls a Lean seam with
+# workdir "." creates it -- a diagnostic script, a probe, a one-off check --
+# and it is a scratch proof log, never evidence. The evidence that matters
+# lives in eval/evidence/, copied there deliberately.
+/math/

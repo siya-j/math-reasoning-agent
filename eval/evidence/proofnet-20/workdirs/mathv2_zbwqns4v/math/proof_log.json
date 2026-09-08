@@ -1,0 +1,391 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_1_22a {G : Type*} [Group G] (x g : G) :\n  orderOf x = orderOf (g\u207b\u00b9 * x * g)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788863686.8389912,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_1_22a {G : Type*} [Group G] (x g : G) :\n  orderOf x = orderOf (g\u207b\u00b9 * x * g)",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact CommGroup.toGroup\n    | exact CommGroup.toGroup _\n    | apply CommGroup.toGroup\n    | simpa using CommGroup.toGroup\n    | exact \u27e8_, CommGroup.toGroup\u27e9\n    | exact CommGroup.toGroup (by assumption)\n    | exact CommGroup.toGroup \u2039_\u203a\n    | apply CommGroup.toGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CommGroup.toGroup (by assumption))\n    | exact Group.mk\n    | exact Group.mk _\n    | apply Group.mk\n    | simpa using Group.mk\n    | exact \u27e8_, Group.mk\u27e9\n    | exact Group.mk (by assumption)\n    | exact Group.mk \u2039_\u203a\n    | apply Group.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Group.mk (by assumption))\n    | exact Pi.group\n    | exact Pi.group _\n    | apply Pi.group\n    | simpa using Pi.group\n    | exact \u27e8_, Pi.group\u27e9\n    | exact Pi.group (by assumption)\n    | exact Pi.group \u2039_\u203a\n    | apply Pi.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Pi.group (by assumption))\n    | exact Multiplicative.group\n    | exact Multiplicative.group _\n    | apply Multiplicative.group\n    | simpa using Multiplicative.group\n    | exact \u27e8_, Multiplicative.group\u27e9\n    | exact Multiplicative.group (by assumption)\n    | exact Multiplicative.group \u2039_\u203a\n    | apply Multiplicative.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Multiplicative.group (by assumption))\n    | exact Function.Injective.group\n    | exact Function.Injective.group _\n    | apply Function.Injective.group\n    | simpa using Function.Injective.group\n    | exact \u27e8_, Function.Injective.group\u27e9\n    | exact Function.Injective.group (by assumption)\n    | exact Function.Injective.group \u2039_\u203a\n    | apply Function.Injective.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Injective.group (by assumption))\n    | exact Function.Surjective.group\n    | exact Function.Surjective.group _\n    | apply Function.Surjective.group\n    | simpa using Function.Surjective.group\n    | exact \u27e8_, Function.Surjective.group\u27e9\n    | exact Function.Surjective.group (by assumption)\n    | exact Function.Surjective.group \u2039_\u203a\n    | apply Function.Surjective.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Surjective.group (by assumption))\n    | exact AddOpposite.instGroup\n    | exact AddOpposite.instGroup _\n    | apply AddOpposite.instGroup\n    | simpa using AddOpposite.instGroup\n    | exact \u27e8_, AddOpposite.instGroup\u27e9\n    | exact AddOpposite.instGroup (by assumption)\n    | exact AddOpposite.instGroup \u2039_\u203a\n    | apply AddOpposite.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact AddOpposite.instGroup (by assumption))\n    | exact MulOpposite.instGroup\n    | exact MulOpposite.instGroup _\n    | apply MulOpposite.instGroup\n    | simpa using MulOpposite.instGroup\n    | exact \u27e8_, MulOpposite.instGroup\u27e9\n    | exact MulOpposite.instGroup (by assumption)\n    | exact MulOpposite.instGroup \u2039_\u203a\n    | apply MulOpposite.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact MulOpposite.instGroup (by assumption))\n    | exact Units.instGroup\n    | exact Units.instGroup _\n    | apply Units.instGroup\n    | simpa using Units.instGroup\n    | exact \u27e8_, Units.instGroup\u27e9\n    | exact Units.instGroup (by assumption)\n    | exact Units.instGroup \u2039_\u203a\n    | apply Units.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Units.instGroup (by assumption))\n    | exact groupOfIsUnit\n    | exact groupOfIsUnit _\n    | apply groupOfIsUnit\n    | simpa using groupOfIsUnit\n    | exact \u27e8_, groupOfIsUnit\u27e9\n    | exact groupOfIsUnit (by assumption)\n    | exact groupOfIsUnit \u2039_\u203a\n    | apply groupOfIsUnit <;> assumption\n    | (haveI := Fact.mk (by assumption); exact groupOfIsUnit (by assumption))\n    | exact Prod.instGroup\n    | exact Prod.instGroup _\n    | apply Prod.instGroup\n    | simpa using Prod.instGroup\n    | exact \u27e8_, Prod.instGroup\u27e9\n    | exact Prod.instGroup (by assumption)\n    | exact Prod.instGroup \u2039_\u203a\n    | apply Prod.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Prod.instGroup (by assumption))\n    | exact Equiv.Perm.permGroup\n    | exact Equiv.Perm.permGroup _\n    | apply Equiv.Perm.permGroup\n    | simpa using Equiv.Perm.permGroup\n    | exact \u27e8_, Equiv.Perm.permGroup\u27e9\n    | exact Equiv.Perm.permGroup (by assumption)\n    | exact Equiv.Perm.permGroup \u2039_\u203a\n    | apply Equiv.Perm.permGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Equiv.Perm.permGroup (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n2:39: error: unsolved goals\nG : Type u_1\ninst\u271d : Group G\nx g : G\n\u22a2 orderOf x = orderOf (g\u207b\u00b9 * x * g)\n\nStill to prove:\n\u22a2 orderOf x = orderOf (g\u207b\u00b9 * x * g)",
+      "at": 1788863703.2736924,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_1_22a {G : Type*} [Group G] (x g : G) :\n  orderOf x = orderOf (g\u207b\u00b9 * x * g)",
+      "proof": "by\n  rw [\u2190 MulAut.conj_inv_apply g x]\n  rw [MulEquiv.orderOf_eq]",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_1_1_22a {G : Type*} [Group G] (x g : G) :\n  orderOf x = orderOf (g\u207b\u00b9 * x * g)",
+      "at": 1788863720.0400574,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "CommGroup.toGroup",
+      "type": " {G : Type u_2} [self : CommGroup G] : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.mk",
+      "type": " {G : Type u_2} [toDivInvMonoid : DivInvMonoid G] (inv_mul_cancel : \u2200 (a : G), a\u207b\u00b9 * a = 1) : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Pi.group",
+      "type": " {I : Type u} {f : I \u2192 Type v\u2081} [(i : I) \u2192 Group (f i)] : Group ((i : I) \u2192 f i)",
+      "module": "Mathlib.Algebra.Group.Pi.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative.group",
+      "type": " {\u03b1 : Type u} [AddGroup \u03b1] : Group (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2081] [One M\u2081] [Pow M\u2081 \u2115] [Inv M\u2081] [Div M\u2081] [Pow M\u2081 \u2124] [Group M\u2082] (f : M\u2081 \u2192 M\u2082) (hf : Function.Injective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2081",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits an injective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "Function.Surjective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2082] [One M\u2082] [Pow M\u2082 \u2115] [Inv M\u2082] [Div M\u2082] [Pow M\u2082 \u2124] [Group M\u2081] (f : M\u2081 \u2192 M\u2082) (hf : Function.Surjective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2082",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits a surjective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "AddOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "Units.instGroup",
+      "type": " {\u03b1 : Type u} [Monoid \u03b1] : Group \u03b1\u02e3",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Units of a monoid form a group. "
+    },
+    {
+      "name": "groupOfIsUnit",
+      "type": " {M : Type u_1} [hM : Monoid M] (h : \u2200 (a : M), IsUnit a) : Group M",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Constructs a `Group` structure on a `Monoid` consisting only of units. "
+    },
+    {
+      "name": "Prod.instGroup",
+      "type": " {G : Type u_1} {H : Type u_2} [Group G] [Group H] : Group (G \u00d7 H)",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.Perm.permGroup",
+      "type": " {\u03b1 : Type u_4} : Group (Equiv.Perm \u03b1)",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "Group",
+      "type": " (G : Type u_2) : Type u_2",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": "A `Group` is a `Monoid` with an operation `\u207b\u00b9` satisfying `a\u207b\u00b9 * a = 1`.\n\nThere is also a division operation `/` such that `a / b = a * b\u207b\u00b9`,\nwith a default so that `a / b = a * b\u207b\u00b9` holds by definition.\n\nUse `Group.ofLeftAxioms` or `Group.ofRightAxioms` to define a group structure\non a type with the minimum proof obligations.\n\n\n[Wikidata Q83478](https://www.wikidata.org/wiki/Q83478)"
+    },
+    {
+      "name": "Group.toCancelMonoid",
+      "type": " {G : Type u_1} [Group G] : CancelMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.toDivInvMonoid",
+      "type": " {G : Type u_2} [self : Group G] : DivInvMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.toDivisionMonoid",
+      "type": " {G : Type u_1} [Group G] : DivisionMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "div_self'",
+      "type": " {G : Type u_1} [Group G] (a : G) : a / a = 1",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "div_mul_cancel",
+      "type": " {G : Type u_1} [Group G] (a b : G) : a / b * b = a",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "mul_div_cancel_right",
+      "type": " {G : Type u_1} [Group G] (a b : G) : a * b / b = a",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CommGroup.mk",
+      "type": " {G : Type u_2} [toGroup : Group G] (mul_comm : \u2200 (a b : G), a * b = b * a) : CommGroup G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.inv_mul_cancel",
+      "type": " {G : Type u_2} [self : Group G] (a : G) : a\u207b\u00b9 * a = 1",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "inv_mul_cancel",
+      "type": " {G : Type u_1} [Group G] (a : G) : a\u207b\u00b9 * a = 1",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Relation.ReflGen.instIsPreorderOfIsTrans",
+      "type": " {\u03b1 : Type u_1} {r : \u03b1 \u2192 \u03b1 \u2192 Prop} [IsTrans \u03b1 r] : IsPreorder \u03b1 (Relation.ReflGen r)",
+      "module": "Mathlib.Logic.Relation",
+      "doc": ""
+    },
+    {
+      "name": "Relation.TransGen.instIsPreorderOfRefl",
+      "type": " {\u03b1 : Type u_1} {r : \u03b1 \u2192 \u03b1 \u2192 Prop} [Std.Refl r] : IsPreorder \u03b1 (Relation.TransGen r)",
+      "module": "Mathlib.Logic.Relation",
+      "doc": ""
+    },
+    {
+      "name": "instNoBotOrderOfNoMinOrder",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] [NoMinOrder \u03b1] : NoBotOrder \u03b1",
+      "module": "Mathlib.Order.Max",
+      "doc": ""
+    },
+    {
+      "name": "instNoTopOrderOfNoMaxOrder",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] [NoMaxOrder \u03b1] : NoTopOrder \u03b1",
+      "module": "Mathlib.Order.Max",
+      "doc": ""
+    },
+    {
+      "name": "linearOrderOfCompares",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] (cmp : \u03b1 \u2192 \u03b1 \u2192 Ordering) (h : \u2200 (a b : \u03b1), (cmp a b).Compares a b) : LinearOrder \u03b1",
+      "module": "Mathlib.Order.Compare",
+      "doc": "Generate a linear order structure from a preorder and `cmp` function. "
+    },
+    {
+      "name": "instIsWellOrderOfIsEmpty",
+      "type": " {\u03b1 : Type u} [IsEmpty \u03b1] (r : \u03b1 \u2192 \u03b1 \u2192 Prop) : IsWellOrder \u03b1 r",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": ""
+    },
+    {
+      "name": "partialOrderOfSO",
+      "type": " {\u03b1 : Type u} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [IsStrictOrder \u03b1 r] : PartialOrder \u03b1",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Construct a partial order from an `isStrictOrder` relation.\n\nSee note [reducible non-instances]. "
+    },
+    {
+      "name": "instIsStrictTotalOrderOfIsWellOrder",
+      "type": " {\u03b1 : Type u_1} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [IsWellOrder \u03b1 r] : IsStrictTotalOrder \u03b1 r",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": ""
+    },
+    {
+      "name": "linearOrderOfSTO",
+      "type": " {\u03b1 : Type u} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [IsStrictTotalOrder \u03b1 r] [DecidableRel r] : LinearOrder \u03b1",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Construct a linear order from an `IsStrictTotalOrder` relation.\n\nSee note [reducible non-instances]. "
+    },
+    {
+      "name": "orderOf_units",
+      "type": " {G : Type u_1} [Monoid G] {y : G\u02e3} : orderOf \u2191y = orderOf y",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_inv",
+      "type": " {G : Type u_1} [Group G] (x : G) : orderOf x\u207b\u00b9 = orderOf x",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Coprime.orderOf_pow",
+      "type": " {G : Type u_1} [Monoid G] {y : G} {m : \u2115} (h : (orderOf y).Coprime m) : orderOf (y ^ m) = orderOf y",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "SemiconjBy.orderOf_eq",
+      "type": " {G : Type u_1} [Group G] (a : G) {x y : G} (h : SemiconjBy a x y) : orderOf x = orderOf y",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_piMulSingle",
+      "type": " {\u03b9 : Type u_6} [DecidableEq \u03b9] {M : \u03b9 \u2192 Type u_7} [(i : \u03b9) \u2192 Monoid (M i)] (i : \u03b9) (g : M i) : orderOf (Pi.mulSingle i g) = orderOf g",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_pow_natAbs",
+      "type": " {G : Type u_1} [Group G] (x : G) (n : \u2124) : orderOf (x ^ n.natAbs) = orderOf (x ^ n)",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "Commute.orderOf_mul_eq_left_of_forall_prime_mul_dvd",
+      "type": " {G : Type u_1} [Monoid G] {x y : G} (h : Commute x y) (hx : IsOfFinOrder x) (hdvd : \u2200 (p : \u2115), Nat.Prime p \u2192 p \u2223 orderOf y \u2192 p * orderOf y \u2223 orderOf x) : orderOf (x * y) = orderOf x",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": "If each prime factor of `orderOf y` has higher multiplicity in `orderOf x`, and `x` commutes\nwith `y`, then `x * y` has the same order as `x`. "
+    },
+    {
+      "name": "Commute.orderOf_mul_eq_right_of_forall_prime_mul_dvd",
+      "type": " {G : Type u_1} [Monoid G] {x y : G} (h : Commute x y) (hy : IsOfFinOrder y) (hdvd : \u2200 (p : \u2115), Nat.Prime p \u2192 p \u2223 orderOf x \u2192 p * orderOf x \u2223 orderOf y) : orderOf (x * y) = orderOf y",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": "If each prime factor of `orderOf x` has higher multiplicity in `orderOf y`, and `x` commutes\nwith `y`, then `x * y` has the same order as `y`. "
+    },
+    {
+      "name": "orderOf_submonoid",
+      "type": " {G : Type u_1} [Monoid G] {H : Submonoid G} (y : \u21a5H) : orderOf \u2191y = orderOf y",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "MulEquiv.orderOf_eq",
+      "type": " {G : Type u_1} [Monoid G] {H : Type u_6} [Monoid H] (e : G \u2243* H) (x : G) : orderOf (e x) = orderOf x",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": "A multiplicative equivalence preserves orders of elements. "
+    },
+    {
+      "name": "orderOf_injective",
+      "type": " {G : Type u_1} [Monoid G] {H : Type u_6} [Monoid H] (f : G \u2192* H) (hf : Function.Injective \u21d1f) (x : G) : orderOf (f x) = orderOf x",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": "An injective homomorphism of monoids preserves orders of elements. "
+    },
+    {
+      "name": "Subgroup.orderOf_mk",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} (a : G) (ha : a \u2208 H) : orderOf \u27e8a, ha\u27e9 = orderOf a",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "MulAut.conj",
+      "type": " {G : Type u_3} [Group G] : G \u2192* MulAut G",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": "Group conjugation, `MulAut.conj g h = g * h * g\u207b\u00b9`, as a monoid homomorphism\nmapping multiplication in `G` into multiplication in the automorphism group `MulAut G`.\nSee also the type `ConjAct G` for any group `G`, which has a `MulAction (ConjAct G) G` instance\nwhere `conj G` acts on `G` by conjugation. "
+    },
+    {
+      "name": "MulAut.conj_apply",
+      "type": " {G : Type u_3} [Group G] (g h : G) : (MulAut.conj g) h = g * h * g\u207b\u00b9",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "MulAut.conj_symm_apply",
+      "type": " {G : Type u_3} [Group G] (g h : G) : (MulEquiv.symm (MulAut.conj g)) h = g\u207b\u00b9 * h * g",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "MulAut.conj_inv_apply",
+      "type": " {G : Type u_3} [Group G] (g h : G) : (MulAut.conj g)\u207b\u00b9 h = g\u207b\u00b9 * h * g",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.mem_normalizer_iff_conj_image_eq",
+      "type": " {G : Type u_1} [Group G] {s : Set G} {g : G} : g \u2208 Subgroup.normalizer s \u2194 \u21d1(MulAut.conj g) '' s = s",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.Normal.map_conj_eq",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) [H.Normal] (g : G) : Subgroup.map (\u2191(MulAut.conj g)) H = H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normal_iff_map_conj_eq",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} : H.Normal \u2194 \u2200 (g : G), Subgroup.map (\u2191(MulAut.conj g)) H = H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normalCore_eq_iInf_comap_conj",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) : H.normalCore = \u2a05 g, Subgroup.comap (\u2191(MulAut.conj g)) H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normalCore_eq_iInf_map_conj",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) : H.normalCore = \u2a05 g, Subgroup.map (\u2191(MulAut.conj g)) H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.mem_normalizer_iff_map_conj_eq",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} {g : G} : g \u2208 Subgroup.normalizer \u2191H \u2194 Subgroup.map (\u2191(MulAut.conj g)) H = H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ConjAct.toConjAct_smul_eq_mulAut_conj",
+      "type": " {G : Type u_3} [Group G] (g h : G) : ConjAct.toConjAct g \u2022 h = (MulAut.conj g) h",
+      "module": "Mathlib.GroupTheory.GroupAction.ConjAct",
+      "doc": ""
+    },
+    {
+      "name": "ConjAct.smul_eq_mulAut_conj",
+      "type": " {G : Type u_3} [Group G] (g : ConjAct G) (h : G) : g \u2022 h = (MulAut.conj (ConjAct.ofConjAct g)) h",
+      "module": "Mathlib.GroupTheory.GroupAction.ConjAct",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> CommGroup.toGroup, Group.mk, Pi.group, Multiplicative.group, Function.Injective.group, Function.Surjective.group, AddOpposite.instGroup, MulOpposite.instGroup",
+    "search: '\"orderOf\" \"conj\"' -> nothing",
+    "search: '\"orderOf\" \"conj\"' -> nothing; goal shape -> CommGroup.toGroup, Group.mk, Pi.group, Multiplicative.group, Function.Injective.group, Function.Surjective.group, AddOpposite.instGroup, MulOpposite.instGroup",
+    "search: '\"orderOf\"' -> Relation.ReflGen.instIsPreorderOfIsTrans, Relation.TransGen.instIsPreorderOfRefl, instNoBotOrderOfNoMinOrder, instNoTopOrderOfNoMaxOrder, linearOrderOfCompares, instIsWellOrderOfIsEmpty, partialOrderOfSO, instIsStrictTotalOrderOfIsWellOrder",
+    "search: '|- orderOf _ = orderOf _' -> orderOf_units, orderOf_inv, Nat.Coprime.orderOf_pow, SemiconjBy.orderOf_eq, orderOf_piMulSingle, orderOf_pow_natAbs, Commute.orderOf_mul_eq_left_of_forall_prime_mul_dvd, Commute.orderOf_mul_eq_right_of_forall_prime_mul_dvd",
+    "search: '\"orderOf_conj\"' -> nothing",
+    "search: '\"orderOf_conj\"' -> nothing; goal shape -> CommGroup.toGroup, Group.mk, Pi.group, Multiplicative.group, Function.Injective.group, Function.Surjective.group, AddOpposite.instGroup, MulOpposite.instGroup",
+    "search: 'orderOf conj' -> nothing",
+    "search: 'orderOf conj' -> nothing; goal shape -> CommGroup.toGroup, Group.mk, Pi.group, Multiplicative.group, Function.Injective.group, Function.Surjective.group, AddOpposite.instGroup, MulOpposite.instGroup",
+    "search: 'MulAut.conj' -> MulAut.conj, MulAut.conj_apply, MulAut.conj_symm_apply, MulAut.conj_inv_apply, Subgroup.mem_normalizer_iff_conj_image_eq, Subgroup.Normal.map_conj_eq, Subgroup.normal_iff_map_conj_eq, Subgroup.normalCore_eq_iInf_comap_conj"
+  ],
+  "budget": {
+    "tool_calls": 10,
+    "lean_calls": 3,
+    "searches": 7,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788863685.391327,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 1,
+    "refusals": {}
+  },
+  "goal": "theorem exercise_1_1_22a {G : Type*} [Group G] (x g : G) :\n  orderOf x = orderOf (g\u207b\u00b9 * x * g)"
+}

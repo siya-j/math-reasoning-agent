@@ -1,0 +1,1086 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_2_21 {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = log p )\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = \u03bb n => \u2211 d : Nat.divisors n, ArithmeticFunction.moebius (n/d) * log d",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:6: error: Type mismatch\n  fun n => \u2211 d, ArithmeticFunction.moebius (n / \u2191d) * ?m.28\nhas type\n  \u2115 \u2192 \u2124\nbut is expected to have type\n  \u2115 \u2192 \u211d\n2:39: error: Function expected at\n  log\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  p\n\nHint: The identifier `log` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n4:70: error: Function expected at\n  log\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  d\n\nHint: The identifier `log` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.",
+      "at": 1788865184.1949205,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_2_21 {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p )\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = \u03bb n => \u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788865200.3122203,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_21 {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p )\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = \u03bb n => \u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.log2\n    | exact Nat.log2 _\n    | apply Nat.log2\n    | simpa using Nat.log2\n    | exact \u27e8_, Nat.log2\u27e9\n    | exact Nat.log2 (by assumption)\n    | exact Nat.log2 \u2039_\u203a\n    | apply Nat.log2 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2 (by assumption))\n    | exact Nat.log2_le_self\n    | exact Nat.log2_le_self _\n    | apply Nat.log2_le_self\n    | simpa using Nat.log2_le_self\n    | exact \u27e8_, Nat.log2_le_self\u27e9\n    | exact Nat.log2_le_self (by assumption)\n    | exact Nat.log2_le_self \u2039_\u203a\n    | apply Nat.log2_le_self <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_le_self (by assumption))\n    | exact Nat.log2_terminates\n    | exact Nat.log2_terminates _\n    | apply Nat.log2_terminates\n    | simpa using Nat.log2_terminates\n    | exact \u27e8_, Nat.log2_terminates\u27e9\n    | exact Nat.log2_terminates (by assumption)\n    | exact Nat.log2_terminates \u2039_\u203a\n    | apply Nat.log2_terminates <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_terminates (by assumption))\n    | exact Nat.log2_def\n    | exact Nat.log2_def _\n    | apply Nat.log2_def\n    | simpa using Nat.log2_def\n    | exact \u27e8_, Nat.log2_def\u27e9\n    | exact Nat.log2_def (by assumption)\n    | exact Nat.log2_def \u2039_\u203a\n    | apply Nat.log2_def <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_def (by assumption))\n    | exact Int.wlog_sign\n    | exact Int.wlog_sign _\n    | apply Int.wlog_sign\n    | simpa using Int.wlog_sign\n    | exact \u27e8_, Int.wlog_sign\u27e9\n    | exact Int.wlog_sign (by assumption)\n    | exact Int.wlog_sign \u2039_\u203a\n    | apply Int.wlog_sign <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Int.wlog_sign (by assumption))\n    | exact Nat.log2_zero\n    | exact Nat.log2_zero _\n    | apply Nat.log2_zero\n    | simpa using Nat.log2_zero\n    | exact \u27e8_, Nat.log2_zero\u27e9\n    | exact Nat.log2_zero (by assumption)\n    | exact Nat.log2_zero \u2039_\u203a\n    | apply Nat.log2_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_zero (by assumption))\n    | exact Nat.log2_two_pow\n    | exact Nat.log2_two_pow _\n    | apply Nat.log2_two_pow\n    | simpa using Nat.log2_two_pow\n    | exact \u27e8_, Nat.log2_two_pow\u27e9\n    | exact Nat.log2_two_pow (by assumption)\n    | exact Nat.log2_two_pow \u2039_\u203a\n    | apply Nat.log2_two_pow <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_two_pow (by assumption))\n    | exact Nat.log2_self_le\n    | exact Nat.log2_self_le _\n    | apply Nat.log2_self_le\n    | simpa using Nat.log2_self_le\n    | exact \u27e8_, Nat.log2_self_le\u27e9\n    | exact Nat.log2_self_le (by assumption)\n    | exact Nat.log2_self_le \u2039_\u203a\n    | apply Nat.log2_self_le <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_self_le (by assumption))\n    | exact Nat.lt_log2_self\n    | exact Nat.lt_log2_self _\n    | apply Nat.lt_log2_self\n    | simpa using Nat.lt_log2_self\n    | exact \u27e8_, Nat.lt_log2_self\u27e9\n    | exact Nat.lt_log2_self (by assumption)\n    | exact Nat.lt_log2_self \u2039_\u203a\n    | apply Nat.lt_log2_self <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.lt_log2_self (by assumption))\n    | exact Nat.le_log2\n    | exact Nat.le_log2 _\n    | apply Nat.le_log2\n    | simpa using Nat.le_log2\n    | exact \u27e8_, Nat.le_log2\u27e9\n    | exact Nat.le_log2 (by assumption)\n    | exact Nat.le_log2 \u2039_\u203a\n    | apply Nat.le_log2 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.le_log2 (by assumption))\n    | exact Nat.log2_lt\n    | exact Nat.log2_lt _\n    | apply Nat.log2_lt\n    | simpa using Nat.log2_lt\n    | exact \u27e8_, Nat.log2_lt\u27e9\n    | exact Nat.log2_lt (by assumption)\n    | exact Nat.log2_lt \u2039_\u203a\n    | apply Nat.log2_lt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_lt (by assumption))\n    | exact Nat.log2_two_mul\n    | exact Nat.log2_two_mul _\n    | apply Nat.log2_two_mul\n    | simpa using Nat.log2_two_mul\n    | exact \u27e8_, Nat.log2_two_mul\u27e9\n    | exact Nat.log2_two_mul (by assumption)\n    | exact Nat.log2_two_mul \u2039_\u203a\n    | apply Nat.log2_two_mul <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_two_mul (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:90: error: unsolved goals\nl : \u2115 \u2192 \u211d\nhl : \u2200 (p n : \u2115), Nat.Prime p \u2192 l (p ^ n) = Real.log \u2191p\nhl1 : \u2200 (m : \u2115), \u00acIsPrimePow m \u2192 l m = 0\n\u22a2 l = fun n => \u2211 d \u2208 n.divisors.attach, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d\n\nStill to prove:\n\u22a2 l = fun n => \u2211 d \u2208 n.divisors.attach, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d",
+      "at": 1788865215.8038027,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "lemma l_eq_vonMangoldt {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p)\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = ArithmeticFunction.vonMangoldt",
+      "proof": "by\n  ext n\n  by_cases h : IsPrimePow n\n  \u00b7 rw [ArithmeticFunction.vonMangoldt_apply, if_pos h]\n    have h_eq : l n = Real.log n.minFac := by sorry\n    exact h_eq\n  \u00b7 rw [ArithmeticFunction.vonMangoldt_apply, if_neg h]\n    exact hl1 n h\n",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788865231.1242177,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_1 {l : \u2115 \u2192 \u211d} (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p) (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) : l n = Real.log n.minFac",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.log2\n    | exact Nat.log2 _\n    | apply Nat.log2\n    | simpa using Nat.log2\n    | exact \u27e8_, Nat.log2\u27e9\n    | exact Nat.log2 (by assumption)\n    | exact Nat.log2 \u2039_\u203a\n    | apply Nat.log2 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2 (by assumption))\n    | exact Nat.log2_le_self\n    | exact Nat.log2_le_self _\n    | apply Nat.log2_le_self\n    | simpa using Nat.log2_le_self\n    | exact \u27e8_, Nat.log2_le_self\u27e9\n    | exact Nat.log2_le_self (by assumption)\n    | exact Nat.log2_le_self \u2039_\u203a\n    | apply Nat.log2_le_self <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_le_self (by assumption))\n    | exact Nat.log2_terminates\n    | exact Nat.log2_terminates _\n    | apply Nat.log2_terminates\n    | simpa using Nat.log2_terminates\n    | exact \u27e8_, Nat.log2_terminates\u27e9\n    | exact Nat.log2_terminates (by assumption)\n    | exact Nat.log2_terminates \u2039_\u203a\n    | apply Nat.log2_terminates <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_terminates (by assumption))\n    | exact Nat.log2_def\n    | exact Nat.log2_def _\n    | apply Nat.log2_def\n    | simpa using Nat.log2_def\n    | exact \u27e8_, Nat.log2_def\u27e9\n    | exact Nat.log2_def (by assumption)\n    | exact Nat.log2_def \u2039_\u203a\n    | apply Nat.log2_def <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_def (by assumption))\n    | exact Int.wlog_sign\n    | exact Int.wlog_sign _\n    | apply Int.wlog_sign\n    | simpa using Int.wlog_sign\n    | exact \u27e8_, Int.wlog_sign\u27e9\n    | exact Int.wlog_sign (by assumption)\n    | exact Int.wlog_sign \u2039_\u203a\n    | apply Int.wlog_sign <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Int.wlog_sign (by assumption))\n    | exact Nat.log2_zero\n    | exact Nat.log2_zero _\n    | apply Nat.log2_zero\n    | simpa using Nat.log2_zero\n    | exact \u27e8_, Nat.log2_zero\u27e9\n    | exact Nat.log2_zero (by assumption)\n    | exact Nat.log2_zero \u2039_\u203a\n    | apply Nat.log2_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_zero (by assumption))\n    | exact Nat.log2_two_pow\n    | exact Nat.log2_two_pow _\n    | apply Nat.log2_two_pow\n    | simpa using Nat.log2_two_pow\n    | exact \u27e8_, Nat.log2_two_pow\u27e9\n    | exact Nat.log2_two_pow (by assumption)\n    | exact Nat.log2_two_pow \u2039_\u203a\n    | apply Nat.log2_two_pow <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_two_pow (by assumption))\n    | exact Nat.log2_self_le\n    | exact Nat.log2_self_le _\n    | apply Nat.log2_self_le\n    | simpa using Nat.log2_self_le\n    | exact \u27e8_, Nat.log2_self_le\u27e9\n    | exact Nat.log2_self_le (by assumption)\n    | exact Nat.log2_self_le \u2039_\u203a\n    | apply Nat.log2_self_le <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_self_le (by assumption))\n    | exact Nat.lt_log2_self\n    | exact Nat.lt_log2_self _\n    | apply Nat.lt_log2_self\n    | simpa using Nat.lt_log2_self\n    | exact \u27e8_, Nat.lt_log2_self\u27e9\n    | exact Nat.lt_log2_self (by assumption)\n    | exact Nat.lt_log2_self \u2039_\u203a\n    | apply Nat.lt_log2_self <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.lt_log2_self (by assumption))\n    | exact Nat.le_log2\n    | exact Nat.le_log2 _\n    | apply Nat.le_log2\n    | simpa using Nat.le_log2\n    | exact \u27e8_, Nat.le_log2\u27e9\n    | exact Nat.le_log2 (by assumption)\n    | exact Nat.le_log2 \u2039_\u203a\n    | apply Nat.le_log2 <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.le_log2 (by assumption))\n    | exact Nat.log2_lt\n    | exact Nat.log2_lt _\n    | apply Nat.log2_lt\n    | simpa using Nat.log2_lt\n    | exact \u27e8_, Nat.log2_lt\u27e9\n    | exact Nat.log2_lt (by assumption)\n    | exact Nat.log2_lt \u2039_\u203a\n    | apply Nat.log2_lt <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_lt (by assumption))\n    | exact Nat.log2_two_mul\n    | exact Nat.log2_two_mul _\n    | apply Nat.log2_two_mul\n    | simpa using Nat.log2_two_mul\n    | exact \u27e8_, Nat.log2_two_mul\u27e9\n    | exact Nat.log2_two_mul (by assumption)\n    | exact Nat.log2_two_mul \u2039_\u203a\n    | apply Nat.log2_two_mul <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.log2_two_mul (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:149: error: unsolved goals\nn : \u2115\nl : \u2115 \u2192 \u211d\nhl : \u2200 (p n : \u2115), Nat.Prime p \u2192 l (p ^ n) = Real.log \u2191p\nhl1 : \u2200 (m : \u2115), \u00acIsPrimePow m \u2192 l m = 0\n\u22a2 l n = Real.log \u2191n.minFac\n\nStill to prove:\n\u22a2 l n = Real.log \u2191n.minFac",
+      "at": 1788865231.2612329,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma l_eq_log_minFac {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p)\n  (n : \u2115) (h : IsPrimePow n) : l n = Real.log n.minFac",
+      "proof": "by\n  have hn1 : n \u2260 1 := by\n    rintro rfl\n    exact not_isPrimePow_one h\n  have h_eq : n = n.minFac ^ (n.factorization n.minFac) := by\n    rwa [\u2190 isPrimePow_iff_minFac_pow_factorization_eq hn1]\n  have hp : n.minFac.Prime := Nat.minFac_prime hn1\n  rw [h_eq]\n  exact hl n.minFac (n.factorization n.minFac) hp\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n8:9: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  n.minFac ^ n.factorization n.minFac = n\nin the target expression\n  n = n.minFac ^ n.factorization n.minFac\n\nl : \u2115 \u2192 \u211d\nhl : \u2200 (p n : \u2115), Nat.Prime p \u2192 l (p ^ n) = Real.log \u2191p\nn : \u2115\nh : IsPrimePow n\nhn1 : n \u2260 1\n\u22a2 n = n.minFac ^ n.factorization n.minFac\n11:2: error: Type mismatch\n  hl n.minFac (n.factorization n.minFac) hp\nhas type\n  l (n.minFac ^ n.factorization n.minFac) = Real.log \u2191n.minFac\nbut is expected to have type\n  l (n.minFac ^ n.factorization n.minFac) = Real.log \u2191(n.minFac ^ n.factorization n.minFac).minFac\n\nStill to prove:\n\u22a2 n = n.minFac ^ n.factorization n.minFac",
+      "at": 1788865242.0173066,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma l_eq_log_minFac {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p)\n  (n : \u2115) (h : IsPrimePow n) : l n = Real.log n.minFac",
+      "proof": "by\n  have hn1 : n \u2260 1 := by\n    rintro rfl\n    exact not_isPrimePow_one h\n  have h_eq : n = n.minFac ^ (n.factorization n.minFac) := by\n    have h_iff := isPrimePow_iff_minFac_pow_factorization_eq hn1\n    rw [h_iff] at h\n    exact h.symm\n  have hp : n.minFac.Prime := Nat.minFac_prime hn1\n  nth_rw 1 [h_eq]\n  exact hl n.minFac (n.factorization n.minFac) hp\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma l_eq_log_minFac {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p)\n  (n : \u2115) (h : IsPrimePow n) : l n = Real.log n.minFac",
+      "at": 1788865245.4924808,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma l_eq_vonMangoldt {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p)\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = ArithmeticFunction.vonMangoldt",
+      "proof": "by\n  ext n\n  by_cases h : IsPrimePow n\n  \u00b7 rw [ArithmeticFunction.vonMangoldt_apply, if_pos h]\n    exact l_eq_log_minFac hl n h\n  \u00b7 rw [ArithmeticFunction.vonMangoldt_apply, if_neg h]\n    exact hl1 n h\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma l_eq_vonMangoldt {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p)\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = ArithmeticFunction.vonMangoldt",
+      "at": 1788865248.444721,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_mul (f g : ArithmeticFunction \u211d) (n : \u2115) : (f * g) n = \u2211 d \u2208 n.divisors, f (n / d) * g d",
+      "proof": "by rfl",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n26:106: error: Tactic `rfl` failed: The left-hand side\n  (f * g) n\nis not definitionally equal to the right-hand side\n  \u2211 d \u2208 n.divisors, f (n / d) * g d\n\nf g : ArithmeticFunction \u211d\nn : \u2115\n\u22a2 (f * g) n = \u2211 d \u2208 n.divisors, f (n / d) * g d\n\nStill to prove:\n\u22a2 (f * g) n = \u2211 d \u2208 n.divisors, f (n / d) * g d",
+      "at": 1788865269.5383837,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_sum_attach (s : Finset \u2115) (f : \u2115 \u2192 \u211d) : \u2211 x \u2208 s.attach, f x = \u2211 x \u2208 s, f x",
+      "proof": "by rw [Finset.sum_attach]",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma test_sum_attach (s : Finset \u2115) (f : \u2115 \u2192 \u211d) : \u2211 x \u2208 s.attach, f x = \u2211 x \u2208 s, f x",
+      "at": 1788865294.4870296,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_2_21 {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p )\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = \u03bb n => \u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  rw [l_eq_vonMangoldt hl hl1]\n  ext n\n  rw [Finset.sum_attach]\n  have h_conv : ArithmeticFunction.vonMangoldt n = \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d := by sorry\n  exact h_conv\n",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n34:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  \u2211 x \u2208 Finset.attach ?s, ?f \u2191x\nin the target expression\n  ArithmeticFunction.vonMangoldt n = \u2211 d, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d\n\nl : \u2115 \u2192 \u211d\nhl : \u2200 (p n : \u2115), Nat.Prime p \u2192 l (p ^ n) = Real.log \u2191p\nhl1 : \u2200 (m : \u2115), \u00acIsPrimePow m \u2192 l m = 0\nn : \u2115\n\u22a2 ArithmeticFunction.vonMangoldt n = \u2211 d, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d\n\nStill to prove:\n\u22a2 ArithmeticFunction.vonMangoldt n = \u2211 d, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d",
+      "at": 1788865300.5490398,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_21 {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p )\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = \u03bb n => \u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  rw [l_eq_vonMangoldt hl hl1]\n  ext n\n  rw [\u2190 Finset.sum_subtype (Nat.divisors n) (fun x => Iff.rfl)]\n  rfl\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n34:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  \u2211 a, ?f \u2191a\nin the target expression\n  ArithmeticFunction.vonMangoldt n = \u2211 d, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d\n\nl : \u2115 \u2192 \u211d\nhl : \u2200 (p n : \u2115), Nat.Prime p \u2192 l (p ^ n) = Real.log \u2191p\nhl1 : \u2200 (m : \u2115), \u00acIsPrimePow m \u2192 l m = 0\nn : \u2115\n\u22a2 ArithmeticFunction.vonMangoldt n = \u2211 d, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d\n\nStill to prove:\n\u22a2 ArithmeticFunction.vonMangoldt n = \u2211 d, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d",
+      "at": 1788865312.079606,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_21 {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p )\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = \u03bb n => \u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  rw [l_eq_vonMangoldt hl hl1]\n  ext n\n  simp\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n31:90: error: unsolved goals\nl : \u2115 \u2192 \u211d\nhl : \u2200 (p n : \u2115), Nat.Prime p \u2192 l (p ^ n) = Real.log \u2191p\nhl1 : \u2200 (m : \u2115), \u00acIsPrimePow m \u2192 l m = 0\nn : \u2115\n\u22a2 ArithmeticFunction.vonMangoldt n = \u2211 d \u2208 n.divisors.attach, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d\n\nStill to prove:\n\u22a2 ArithmeticFunction.vonMangoldt n = \u2211 d \u2208 n.divisors.attach, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d",
+      "at": 1788865316.3264627,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma vonMangoldt_eq_sum (n : \u2115) :\n  ArithmeticFunction.vonMangoldt n = \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  rw [\u2190 ArithmeticFunction.moebius_mul_log_eq_vonMangoldt]\n  rw [ArithmeticFunction.mul_apply]\n  rw [Nat.sum_divisorsAntidiagonal' (fun x y => (ArithmeticFunction.moebius x : \u211d) * ArithmeticFunction.log y)]\n  congr 1\n  ext d hd\n  rw [ArithmeticFunction.log_apply]\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n32:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  \u2211 i \u2208 Nat.divisorsAntidiagonal ?m.35, \u2191(ArithmeticFunction.moebius i.1) * ArithmeticFunction.log i.2\nin the target expression\n  \u2211 x \u2208 n.divisorsAntidiagonal, \u2191ArithmeticFunction.moebius x.1 * ArithmeticFunction.log x.2 =\n    \u2211 d \u2208 n.divisors, \u2191(ArithmeticFunction.moebius (n / d)) * Real.log \u2191d\n\nn : \u2115\n\u22a2 \u2211 x \u2208 n.divisorsAntidiagonal, \u2191ArithmeticFunction.moebius x.1 * ArithmeticFunction.log x.2 =\n    \u2211 d \u2208 n.divisors, \u2191(ArithmeticFunction.moebius (n / d)) * Real.log \u2191d\n\nStill to prove:\n\u22a2 \u2211 x \u2208 n.divisorsAntidiagonal, \u2191ArithmeticFunction.moebius x.1 * ArithmeticFunction.log x.2 =",
+      "at": 1788865324.5404418,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma vonMangoldt_eq_sum (n : \u2115) :\n  ArithmeticFunction.vonMangoldt n = \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  rw [\u2190 ArithmeticFunction.moebius_mul_log_eq_vonMangoldt]\n  rw [ArithmeticFunction.mul_apply]\n  simp_rw [Nat.sum_divisorsAntidiagonal']\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n32:11: error: `simp` made no progress",
+      "at": 1788865328.5565684,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma vonMangoldt_eq_sum (n : \u2115) :\n  ArithmeticFunction.vonMangoldt n = \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  rw [\u2190 ArithmeticFunction.moebius_mul_log_eq_vonMangoldt]\n  rw [ArithmeticFunction.mul_apply]\n  change (\u2211 x \u2208 n.divisorsAntidiagonal, (ArithmeticFunction.moebius x.1 : \u211d) * ArithmeticFunction.log x.2) = _\n  rw [Nat.sum_divisorsAntidiagonal']\n  congr 1\n  ext d hd\n  rw [ArithmeticFunction.log_apply]\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n33:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  \u2211 i \u2208 Nat.divisorsAntidiagonal ?n, ?f i.1 i.2\nin the target expression\n  \u2211 x \u2208 n.divisorsAntidiagonal, \u2191(ArithmeticFunction.moebius x.1) * ArithmeticFunction.log x.2 =\n    \u2211 d \u2208 n.divisors, \u2191(ArithmeticFunction.moebius (n / d)) * Real.log \u2191d\n\nn : \u2115\n\u22a2 \u2211 x \u2208 n.divisorsAntidiagonal, \u2191(ArithmeticFunction.moebius x.1) * ArithmeticFunction.log x.2 =\n    \u2211 d \u2208 n.divisors, \u2191(ArithmeticFunction.moebius (n / d)) * Real.log \u2191d\n\nStill to prove:\n\u22a2 \u2211 x \u2208 n.divisorsAntidiagonal, \u2191(ArithmeticFunction.moebius x.1) * ArithmeticFunction.log x.2 =",
+      "at": 1788865334.030108,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma sum_divisorsAntidiagonal_eq (n : \u2115) :\n  (\u2211 x \u2208 n.divisorsAntidiagonal, (ArithmeticFunction.moebius x.1 : \u211d) * ArithmeticFunction.log x.2) =\n    \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * ArithmeticFunction.log d",
+      "proof": "by\n  exact Nat.sum_divisorsAntidiagonal' (fun x y => (ArithmeticFunction.moebius x : \u211d) * ArithmeticFunction.log y)\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma sum_divisorsAntidiagonal_eq (n : \u2115) :\n  (\u2211 x \u2208 n.divisorsAntidiagonal, (ArithmeticFunction.moebius x.1 : \u211d) * ArithmeticFunction.log x.2) =\n    \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * ArithmeticFunction.log d",
+      "at": 1788865343.2785873,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_21 {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p )\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = \u03bb n => \u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  rw [l_eq_vonMangoldt hl hl1]\n  ext n\n  rw [test_sum_attach]\n  rw [\u2190 ArithmeticFunction.moebius_mul_log_eq_vonMangoldt]\n  rw [ArithmeticFunction.mul_apply]\n  change (\u2211 x \u2208 n.divisorsAntidiagonal, (ArithmeticFunction.moebius x.1 : \u211d) * ArithmeticFunction.log x.2) = _\n  rw [sum_divisorsAntidiagonal_eq]\n  congr 1\n  ext d hd\n  rw [ArithmeticFunction.log_apply]\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n39:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  \u2211 x \u2208 Finset.attach ?s, ?f \u2191x\nin the target expression\n  ArithmeticFunction.vonMangoldt n = \u2211 d, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d\n\nl : \u2115 \u2192 \u211d\nhl : \u2200 (p n : \u2115), Nat.Prime p \u2192 l (p ^ n) = Real.log \u2191p\nhl1 : \u2200 (m : \u2115), \u00acIsPrimePow m \u2192 l m = 0\nn : \u2115\n\u22a2 ArithmeticFunction.vonMangoldt n = \u2211 d, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d\n\nStill to prove:\n\u22a2 ArithmeticFunction.vonMangoldt n = \u2211 d, \u2191(ArithmeticFunction.moebius (n / \u2191d)) * Real.log \u2191\u2191d",
+      "at": 1788865351.4323914,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma sum_subtype_eq (n : \u2115) :\n  (\u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d) =\n    \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  change (\u2211 d : Nat.divisors n, (fun x => (ArithmeticFunction.moebius (n / x) : \u211d) * Real.log x) \u2191d) = _\n  rw [\u2190 Finset.sum_subtype (Nat.divisors n) (fun x => Iff.rfl)]\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n37:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  \u2211 a, ?f \u2191a\nin the target expression\n  \u2211 d, (fun x => \u2191(ArithmeticFunction.moebius (n / x)) * Real.log \u2191x) \u2191d =\n    \u2211 d \u2208 n.divisors, \u2191(ArithmeticFunction.moebius (n / d)) * Real.log \u2191d\n\nn : \u2115\n\u22a2 \u2211 d, (fun x => \u2191(ArithmeticFunction.moebius (n / x)) * Real.log \u2191x) \u2191d =\n    \u2211 d \u2208 n.divisors, \u2191(ArithmeticFunction.moebius (n / d)) * Real.log \u2191d\n\nStill to prove:\n\u22a2 \u2211 d, (fun x => \u2191(ArithmeticFunction.moebius (n / x)) * Real.log \u2191x) \u2191d =",
+      "at": 1788865360.157266,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma sum_subtype_eq (n : \u2115) :\n  (\u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d) =\n    \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  exact (Finset.sum_subtype (Nat.divisors n) (fun x => Iff.rfl) (fun x => (ArithmeticFunction.moebius (n / x) : \u211d) * Real.log x)).symm\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma sum_subtype_eq (n : \u2115) :\n  (\u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d) =\n    \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "at": 1788865364.4825878,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_21 {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p )\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = \u03bb n => \u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  rw [l_eq_vonMangoldt hl hl1]\n  ext n\n  rw [sum_subtype_eq]\n  rw [\u2190 ArithmeticFunction.moebius_mul_log_eq_vonMangoldt]\n  rw [ArithmeticFunction.mul_apply]\n  change (\u2211 x \u2208 n.divisorsAntidiagonal, (ArithmeticFunction.moebius x.1 : \u211d) * ArithmeticFunction.log x.2) = _\n  rw [sum_divisorsAntidiagonal_eq]\n  congr 1\n  ext d hd\n  rw [ArithmeticFunction.log_apply]\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n50:2: error: No goals to be solved",
+      "at": 1788865372.0459116,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma vonMangoldt_eq_sum_real (n : \u2115) :\n  ArithmeticFunction.vonMangoldt n = \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  rw [\u2190 ArithmeticFunction.moebius_mul_log_eq_vonMangoldt]\n  rw [ArithmeticFunction.mul_apply]\n  change (\u2211 x \u2208 n.divisorsAntidiagonal, (ArithmeticFunction.moebius x.1 : \u211d) * ArithmeticFunction.log x.2) = _\n  rw [sum_divisorsAntidiagonal_eq]\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n39:110: error: unsolved goals\nn : \u2115\n\u22a2 \u2211 d \u2208 n.divisors, \u2191(ArithmeticFunction.moebius (n / d)) * ArithmeticFunction.log d =\n    \u2211 d \u2208 n.divisors, \u2191(ArithmeticFunction.moebius (n / d)) * Real.log \u2191d\n\nStill to prove:\n\u22a2 \u2211 d \u2208 n.divisors, \u2191(ArithmeticFunction.moebius (n / d)) * ArithmeticFunction.log d =",
+      "at": 1788865378.9140663,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma vonMangoldt_eq_sum_real (n : \u2115) :\n  ArithmeticFunction.vonMangoldt n = \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  rw [\u2190 ArithmeticFunction.moebius_mul_log_eq_vonMangoldt]\n  rw [ArithmeticFunction.mul_apply]\n  change (\u2211 x \u2208 n.divisorsAntidiagonal, (ArithmeticFunction.moebius x.1 : \u211d) * ArithmeticFunction.log x.2) = _\n  rw [sum_divisorsAntidiagonal_eq]\n  rfl\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma vonMangoldt_eq_sum_real (n : \u2115) :\n  ArithmeticFunction.vonMangoldt n = \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "at": 1788865385.4106362,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_21 {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p )\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = \u03bb n => \u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "proof": "by\n  rw [l_eq_vonMangoldt hl hl1]\n  ext n\n  rw [sum_subtype_eq]\n  exact vonMangoldt_eq_sum_real n\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_2_21 {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p )\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = \u03bb n => \u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d",
+      "at": 1788865391.0090177,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma l_eq_log_minFac {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p)\n  (n : \u2115) (h : IsPrimePow n) : l n = Real.log n.minFac := by\n  have hn1 : n \u2260 1 := by\n    rintro rfl\n    exact not_isPrimePow_one h\n  have h_eq : n = n.minFac ^ (n.factorization n.minFac) := by\n    have h_iff := isPrimePow_iff_minFac_pow_factorization_eq hn1\n    rw [h_iff] at h\n    exact h.symm\n  have hp : n.minFac.Prime := Nat.minFac_prime hn1\n  nth_rw 1 [h_eq]\n  exact hl n.minFac (n.factorization n.minFac) hp",
+    "lemma l_eq_vonMangoldt {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p)\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = ArithmeticFunction.vonMangoldt := by\n  ext n\n  by_cases h : IsPrimePow n\n  \u00b7 rw [ArithmeticFunction.vonMangoldt_apply, if_pos h]\n    exact l_eq_log_minFac hl n h\n  \u00b7 rw [ArithmeticFunction.vonMangoldt_apply, if_neg h]\n    exact hl1 n h",
+    "lemma test_sum_attach (s : Finset \u2115) (f : \u2115 \u2192 \u211d) : \u2211 x \u2208 s.attach, f x = \u2211 x \u2208 s, f x := by rw [Finset.sum_attach]",
+    "lemma sum_divisorsAntidiagonal_eq (n : \u2115) :\n  (\u2211 x \u2208 n.divisorsAntidiagonal, (ArithmeticFunction.moebius x.1 : \u211d) * ArithmeticFunction.log x.2) =\n    \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * ArithmeticFunction.log d := by\n  exact Nat.sum_divisorsAntidiagonal' (fun x y => (ArithmeticFunction.moebius x : \u211d) * ArithmeticFunction.log y)",
+    "lemma sum_subtype_eq (n : \u2115) :\n  (\u2211 d : Nat.divisors n, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d) =\n    \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d := by\n  exact (Finset.sum_subtype (Nat.divisors n) (fun x => Iff.rfl) (fun x => (ArithmeticFunction.moebius (n / x) : \u211d) * Real.log x)).symm",
+    "lemma vonMangoldt_eq_sum_real (n : \u2115) :\n  ArithmeticFunction.vonMangoldt n = \u2211 d \u2208 n.divisors, (ArithmeticFunction.moebius (n/d) : \u211d) * Real.log d := by\n  rw [\u2190 ArithmeticFunction.moebius_mul_log_eq_vonMangoldt]\n  rw [ArithmeticFunction.mul_apply]\n  change (\u2211 x \u2208 n.divisorsAntidiagonal, (ArithmeticFunction.moebius x.1 : \u211d) * ArithmeticFunction.log x.2) = _\n  rw [sum_divisorsAntidiagonal_eq]\n  rfl"
+  ],
+  "premises": [
+    {
+      "name": "Nat.log2",
+      "type": " (n : \u2115) : \u2115",
+      "module": "Init.Data.Nat.Log2",
+      "doc": "Base-two logarithm of natural numbers. Returns `\u230amax 0 (log\u2082 n)\u230b`.\n\nThis function is overridden at runtime with an efficient implementation. This definition is\nthe logical model.\n\nExamples:\n * `Nat.log2 0 = 0`\n * `Nat.log2 1 = 0`\n * `Nat.log2 2 = 1`\n * `Nat.log2 4 = 2`\n * `Nat.log2 7 = 2`\n * `Nat.log2 8 = 3`\n"
+    },
+    {
+      "name": "Nat.log2_le_self",
+      "type": " (n : \u2115) : n.log2 \u2264 n",
+      "module": "Init.Data.Nat.Log2",
+      "doc": ""
+    },
+    {
+      "name": "Nat.log2_terminates",
+      "type": " (n : \u2115) : n \u2265 2 \u2192 n / 2 < n",
+      "module": "Init.Data.Nat.Log2",
+      "doc": ""
+    },
+    {
+      "name": "Nat.log2_def",
+      "type": " (n : \u2115) : n.log2 = if 2 \u2264 n then (n / 2).log2 + 1 else 0",
+      "module": "Init.Data.Nat.Log2",
+      "doc": ""
+    },
+    {
+      "name": "Int.wlog_sign",
+      "type": " {P : \u2124 \u2192 Prop} (inv : \u2200 (i : \u2124), P i \u2194 P (-i)) (w : \u2200 (n : \u2115), P \u2191n) (i : \u2124) : P i",
+      "module": "Init.Data.Int.Lemmas",
+      "doc": "If a predicate on the integers is invariant under negation,\nthen it is sufficient to prove it for the nonnegative integers.\n"
+    },
+    {
+      "name": "Nat.log2_zero",
+      "type": " : Nat.log2 0 = 0",
+      "module": "Init.Data.Nat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Nat.log2_two_pow",
+      "type": " {n : \u2115} : (2 ^ n).log2 = n",
+      "module": "Init.Data.Nat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Nat.log2_self_le",
+      "type": " {n : \u2115} (h : n \u2260 0) : 2 ^ n.log2 \u2264 n",
+      "module": "Init.Data.Nat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Nat.lt_log2_self",
+      "type": " {n : \u2115} : n < 2 ^ (n.log2 + 1)",
+      "module": "Init.Data.Nat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Nat.le_log2",
+      "type": " {n k : \u2115} (h : n \u2260 0) : k \u2264 n.log2 \u2194 2 ^ k \u2264 n",
+      "module": "Init.Data.Nat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Nat.log2_lt",
+      "type": " {n k : \u2115} (h : n \u2260 0) : n.log2 < k \u2194 n < 2 ^ k",
+      "module": "Init.Data.Nat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Nat.log2_two_mul",
+      "type": " {n : \u2115} (h : n \u2260 0) : (2 * n).log2 = n.log2 + 1",
+      "module": "Init.Data.Nat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Real.log",
+      "type": " (x : \u211d) : \u211d",
+      "module": "Mathlib.Analysis.SpecialFunctions.Log.Basic",
+      "doc": "The real logarithm function, equal to the inverse of the exponential for `x > 0`,\nto `log |x|` for `x < 0`, and to `0` for `0`. We use this unconventional extension to\n`(-\u221e, 0]` as it gives the formula `log (x * y) = log x + log y` for all nonzero `x` and `y`, and\nthe derivative of `log` is `1/x` away from `0`. "
+    },
+    {
+      "name": "Real.log_surjective",
+      "type": " : Function.Surjective Real.log",
+      "module": "Mathlib.Analysis.SpecialFunctions.Log.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.log_exp",
+      "type": " (x : \u211d) : Real.log (Real.exp x) = x",
+      "module": "Mathlib.Analysis.SpecialFunctions.Log.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.le_exp_log",
+      "type": " (x : \u211d) : x \u2264 Real.exp (Real.log x)",
+      "module": "Mathlib.Analysis.SpecialFunctions.Log.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.range_log",
+      "type": " : Set.range Real.log = Set.univ",
+      "module": "Mathlib.Analysis.SpecialFunctions.Log.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.log_neg_eq_log",
+      "type": " (x : \u211d) : Real.log (-x) = Real.log x",
+      "module": "Mathlib.Analysis.SpecialFunctions.Log.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.tendsto_log_atTop",
+      "type": " : Filter.Tendsto Real.log Filter.atTop Filter.atTop",
+      "module": "Mathlib.Analysis.SpecialFunctions.Log.Basic",
+      "doc": "The real logarithm function tends to `+\u221e` at `+\u221e`. "
+    },
+    {
+      "name": "Real.log_abs",
+      "type": " (x : \u211d) : Real.log |x| = Real.log x",
+      "module": "Mathlib.Analysis.SpecialFunctions.Log.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.log_comp_exp",
+      "type": " : Real.log \u2218 Real.exp = id",
+      "module": "Mathlib.Analysis.SpecialFunctions.Log.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.isLittleO_log_id_atTop",
+      "type": " : Real.log =o[Filter.atTop] id",
+      "module": "Mathlib.Analysis.SpecialFunctions.Log.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.isLittleO_const_log_atTop",
+      "type": " {c : \u211d} : (fun x => c) =o[Filter.atTop] Real.log",
+      "module": "Mathlib.Analysis.SpecialFunctions.Log.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Real.log_injOn_pos",
+      "type": " : Set.InjOn Real.log (Set.Ioi 0)",
+      "module": "Mathlib.Analysis.SpecialFunctions.Log.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.isMultiplicative_moebius",
+      "type": " : ArithmeticFunction.moebius.IsMultiplicative",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.moebius",
+      "type": " : ArithmeticFunction \u2124",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": "`\u03bc` is the M\u00f6bius function. If `n` is squarefree with an even number of distinct prime factors,\n`\u03bc n = 1`. If `n` is squarefree with an odd number of distinct prime factors, `\u03bc n = -1`.\nIf `n` is not squarefree, `\u03bc n = 0`. "
+    },
+    {
+      "name": "ArithmeticFunction.moebius_apply_one",
+      "type": " : ArithmeticFunction.moebius 1 = 1",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.abs_moebius_le_one",
+      "type": " {n : \u2115} : |ArithmeticFunction.moebius n| \u2264 1",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.moebius_apply_prime",
+      "type": " {p : \u2115} (hp : Nat.Prime p) : ArithmeticFunction.moebius p = -1",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.moebius_eq_zero_of_not_squarefree",
+      "type": " {n : \u2115} (h : \u00acSquarefree n) : ArithmeticFunction.moebius n = 0",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.moebius_ne_zero_iff_squarefree",
+      "type": " {n : \u2115} : ArithmeticFunction.moebius n \u2260 0 \u2194 Squarefree n",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.moebius_apply_isPrimePow_not_prime",
+      "type": " {n : \u2115} (hn : IsPrimePow n) (hn' : \u00acNat.Prime n) : ArithmeticFunction.moebius n = 0",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.abs_moebius_eq_one_of_squarefree",
+      "type": " {l : \u2115} (hl : Squarefree l) : |ArithmeticFunction.moebius l| = 1",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.abs_moebius",
+      "type": " {n : \u2115} : |ArithmeticFunction.moebius n| = if Squarefree n then 1 else 0",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.moebius_sq_eq_one_of_squarefree",
+      "type": " {l : \u2115} (hl : Squarefree l) : ArithmeticFunction.moebius l ^ 2 = 1",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.moebius_sq",
+      "type": " {n : \u2115} : ArithmeticFunction.moebius n ^ 2 = if Squarefree n then 1 else 0",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": ""
+    },
+    {
+      "name": "Irreducible.prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] [DecompositionMonoid M] {a : M} (irr : Irreducible a) : Prime a",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Irreducible.prime_of_isPrimal",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {a : M} (irr : Irreducible a) (primal : IsPrimal a) : Prime a",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "comap_prime",
+      "type": " {M : Type u_1} {N : Type u_2} [CommMonoidWithZero M] [CommMonoidWithZero N] {F : Type u_3} {G : Type u_4} [FunLike F M N] [MonoidWithZeroHomClass F M N] [FunLike G N M] [MulHomClass G N M] (f : F) (g : G) {p : M} (hinv : \u2200 (a : M), g (f a) = a) (hp : Prime (f p)) : Prime p",
+      "module": "Mathlib.Algebra.Prime.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Associated.prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p q : M} (h : Associated p q) (hp : Prime p) : Prime q",
+      "module": "Mathlib.Algebra.GroupWithZero.Associated",
+      "doc": ""
+    },
+    {
+      "name": "UniqueFactorizationMonoid.prime_of_factor",
+      "type": " {\u03b1 : Type u_1} [CommMonoidWithZero \u03b1] [UniqueFactorizationMonoid \u03b1] {a : \u03b1} (x : \u03b1) (hx : x \u2208 UniqueFactorizationMonoid.factors a) : Prime x",
+      "module": "Mathlib.RingTheory.UniqueFactorizationDomain.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Submodule.IsPrincipal.prime_generator_of_isPrime",
+      "type": " {R : Type u} [CommSemiring R] (S : Ideal R) [Submodule.IsPrincipal S] [is_prime : S.IsPrime] (ne_bot : S \u2260 \u22a5) : Prime (Submodule.IsPrincipal.generator S)",
+      "module": "Mathlib.RingTheory.PrincipalIdealDomain",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime.prime",
+      "type": " {p : \u2115} : Nat.Prime p \u2192 Prime p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "**Alias** of the forward direction of `Nat.prime_iff`."
+    },
+    {
+      "name": "Polynomial.prime_X",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] : Prime Polynomial.X",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.Monic.prime_of_degree_eq_one",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] {p : Polynomial R} (hp1 : p.degree = 1) (hm : p.Monic) : Prime p",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.prime_X_sub_C",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] (r : R) : Prime (Polynomial.X - Polynomial.C r)",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "UniqueFactorizationMonoid.prime_of_normalized_factor",
+      "type": " {\u03b1 : Type u_1} [CommMonoidWithZero \u03b1] [NormalizationMonoid \u03b1] [UniqueFactorizationMonoid \u03b1] {a : \u03b1} (x : \u03b1) : x \u2208 UniqueFactorizationMonoid.normalizedFactors a \u2192 Prime x",
+      "module": "Mathlib.RingTheory.UniqueFactorizationDomain.NormalizedFactors",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.prime_of_degree_eq_one",
+      "type": " {R : Type u} [Field R] {p : Polynomial R} (hp1 : p.degree = 1) : Prime p",
+      "module": "Mathlib.Algebra.Polynomial.FieldDivision",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime.isPrimePow",
+      "type": " {p : \u2115} (hp : Nat.Prime p) : IsPrimePow p",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": ""
+    },
+    {
+      "name": "Prime.isPrimePow",
+      "type": " {R : Type u_1} [CommMonoidWithZero R] {p : R} (hp : Prime p) : IsPrimePow p",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimePow.dvd",
+      "type": " {n m : \u2115} (hn : IsPrimePow n) (hm : m \u2223 n) (hm\u2081 : m \u2260 1) : IsPrimePow m",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimePow.pow",
+      "type": " {R : Type u_1} [CommMonoidWithZero R] {n : R} (hn : IsPrimePow n) {k : \u2115} (hk : k \u2260 0) : IsPrimePow (n ^ k)",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": ""
+    },
+    {
+      "name": "DivisorChain.isPrimePow_of_has_chain",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] [UniqueFactorizationMonoid M] {q : Associates M} {n : \u2115} (hn : n \u2260 0) {c : Fin (n + 1) \u2192 Associates M} (h\u2081 : StrictMono c) (h\u2082 : \u2200 {r : Associates M}, r \u2264 q \u2194 \u2203 i, r = c i) (hq : q \u2260 0) : IsPrimePow q",
+      "module": "Mathlib.RingTheory.ChainOfDivisors",
+      "doc": ""
+    },
+    {
+      "name": "isPrimePow_of_minFac_pow_factorization_eq",
+      "type": " {n : \u2115} (h : n.minFac ^ n.factorization n.minFac = n) (hn : n \u2260 1) : IsPrimePow n",
+      "module": "Mathlib.Data.Nat.Factorization.PrimePow",
+      "doc": ""
+    },
+    {
+      "name": "FiniteField.isPrimePow_card",
+      "type": " (K : Type u_1) [Field K] [Fintype K] : IsPrimePow (Fintype.card K)",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.isPrimePow_card_of_field",
+      "type": " {\u03b1 : Type u_1} [Fintype \u03b1] [Field \u03b1] : IsPrimePow (Fintype.card \u03b1)",
+      "module": "Mathlib.FieldTheory.Cardinality",
+      "doc": "A finite field has prime power cardinality. "
+    },
+    {
+      "name": "Prime",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] (p : M) : Prop",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": "An element `p` of a commutative monoid with zero (e.g., a ring) is called *prime*,\nif it's not zero, not a unit, and `p \u2223 a * b \u2192 p \u2223 a \u2228 p \u2223 b` for all `a`, `b`. "
+    },
+    {
+      "name": "Prime.not_isUnit",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p : M} (hp : Prime p) : \u00acIsUnit p",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Prime.not_unit",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p : M} (hp : Prime p) : \u00acIsUnit p",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": "**Alias** of `Prime.not_isUnit`."
+    },
+    {
+      "name": "Prime.isPrimal",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p : M} (hp : Prime p) : IsPrimal p",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.vonMangoldt.term\u039b",
+      "type": " : Lean.ParserDescr",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": "The `vonMangoldt` function is the function on natural numbers that returns `log p` if the input can\nbe expressed as `p^k` for a prime `p`.\nIn the case when `n` is a prime power, `Nat.minFac` will give the appropriate prime, as it is the\nsmallest prime factor.\n\nIn the `ArithmeticFunction` locale, we have the notation `\u039b` for this function.\nThis is also available in the `ArithmeticFunction.vonMangoldt` locale, allowing for selective\naccess to the notation.\n"
+    },
+    {
+      "name": "Mathlib.Meta.Positivity.evalVonMangoldt",
+      "type": " : Mathlib.Meta.Positivity.PositivityExt",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": "Extension for the `positivity` tactic: the von Mangoldt function is nonnegative. "
+    },
+    {
+      "name": "ArithmeticFunction.vonMangoldt",
+      "type": " : ArithmeticFunction \u211d",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": "The `vonMangoldt` function is the function on natural numbers that returns `log p` if the input can\nbe expressed as `p^k` for a prime `p`.\nIn the case when `n` is a prime power, `Nat.minFac` will give the appropriate prime, as it is the\nsmallest prime factor.\n\nIn the `ArithmeticFunction` locale, we have the notation `\u039b` for this function.\nThis is also available in the `ArithmeticFunction.vonMangoldt` locale, allowing for selective\naccess to the notation.\n"
+    },
+    {
+      "name": "ArithmeticFunction.vonMangoldt_le_log",
+      "type": " {n : \u2115} : ArithmeticFunction.vonMangoldt n \u2264 Real.log \u2191n",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.vonMangoldt_apply_prime",
+      "type": " {p : \u2115} (hp : Nat.Prime p) : ArithmeticFunction.vonMangoldt p = Real.log \u2191p",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.vonMangoldt_nonneg",
+      "type": " {n : \u2115} : 0 \u2264 ArithmeticFunction.vonMangoldt n",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.vonMangoldt_apply_one",
+      "type": " : ArithmeticFunction.vonMangoldt 1 = 0",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.vonMangoldt_ne_zero_iff",
+      "type": " {n : \u2115} : ArithmeticFunction.vonMangoldt n \u2260 0 \u2194 IsPrimePow n",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.vonMangoldt_eq_zero_iff",
+      "type": " {n : \u2115} : ArithmeticFunction.vonMangoldt n = 0 \u2194 \u00acIsPrimePow n",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.vonMangoldt_pos_iff",
+      "type": " {n : \u2115} : 0 < ArithmeticFunction.vonMangoldt n \u2194 IsPrimePow n",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.vonMangoldt_sum",
+      "type": " {n : \u2115} : \u2211 i \u2208 n.divisors, ArithmeticFunction.vonMangoldt i = Real.log \u2191n",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.vonMangoldt_apply",
+      "type": " {n : \u2115} : ArithmeticFunction.vonMangoldt n = if IsPrimePow n then Real.log \u2191n.minFac else 0",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "UpperHalfPlane.moebius_im",
+      "type": " (g : GL (Fin 2) \u211d) (z : \u2102) : (UpperHalfPlane.num g z / UpperHalfPlane.denom g z).im = \u2191(Matrix.GeneralLinearGroup.det g) * z.im / Complex.normSq (UpperHalfPlane.denom g z)",
+      "module": "Mathlib.Analysis.Complex.UpperHalfPlane.MoebiusAction",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.Moebius.term\u03bc",
+      "type": " : Lean.ParserDescr",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Moebius",
+      "doc": "`\u03bc` is the M\u00f6bius function. If `n` is squarefree with an even number of distinct prime factors,\n`\u03bc n = 1`. If `n` is squarefree with an odd number of distinct prime factors, `\u03bc n = -1`.\nIf `n` is not squarefree, `\u03bc n = 0`. "
+    },
+    {
+      "name": "instDecidableIsPrimePowNat",
+      "type": " {n : \u2115} : Decidable (IsPrimePow n)",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimePow.one_lt",
+      "type": " {n : \u2115} (h : IsPrimePow n) : 1 < n",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimePow.pos",
+      "type": " {n : \u2115} (hn : IsPrimePow n) : 0 < n",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimePow.two_le",
+      "type": " {n : \u2115} : IsPrimePow n \u2192 2 \u2264 n",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimePow.not_isUnit",
+      "type": " {R : Type u_1} [CommMonoidWithZero R] {n : R} (h : IsPrimePow n) : \u00acIsUnit n",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimePow.not_unit",
+      "type": " {R : Type u_1} [CommMonoidWithZero R] {n : R} (h : IsPrimePow n) : \u00acIsUnit n",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": "**Alias** of `IsPrimePow.not_isUnit`."
+    },
+    {
+      "name": "IsUnit.not_isPrimePow",
+      "type": " {R : Type u_1} [CommMonoidWithZero R] {n : R} (h : IsUnit n) : \u00acIsPrimePow n",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": ""
+    },
+    {
+      "name": "not_isPrimePow_one",
+      "type": " {R : Type u_1} [CommMonoidWithZero R] : \u00acIsPrimePow 1",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimePow",
+      "type": " {R : Type u_1} [CommMonoidWithZero R] (n : R) : Prop",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": "`n` is a prime power if there is a prime `p` and a positive natural `k` such that `n` can be\nwritten as `p^k`. "
+    },
+    {
+      "name": "isPrimePow_iff_pow_succ",
+      "type": " {R : Type u_1} [CommMonoidWithZero R] (n : R) : IsPrimePow n \u2194 \u2203 p k, Prime p \u2227 p ^ (k + 1) = n",
+      "module": "Mathlib.Algebra.IsPrimePow",
+      "doc": "An equivalent definition for prime powers: `n` is a prime power iff there is a prime `p` and a\nnatural `k` such that `n` can be written as `p^(k+1)`. "
+    },
+    {
+      "name": "isPrimePow_iff_card_primeFactors_eq_one",
+      "type": " {n : \u2115} : IsPrimePow n \u2194 n.primeFactors.card = 1",
+      "module": "Mathlib.Data.Nat.Factorization.PrimePow",
+      "doc": ""
+    },
+    {
+      "name": "isPrimePow_iff_unique_prime_dvd",
+      "type": " {n : \u2115} : IsPrimePow n \u2194 \u2203! p, Nat.Prime p \u2227 p \u2223 n",
+      "module": "Mathlib.Data.Nat.Factorization.PrimePow",
+      "doc": "An equivalent definition for prime powers: `n` is a prime power iff there is a unique prime\ndividing it. "
+    },
+    {
+      "name": "Nat.not_isPrimePow_iff_nontrivial_of_two_le",
+      "type": " {n : \u2115} (hn : 2 \u2264 n) : \u00acIsPrimePow n \u2194 n.primeFactors.Nontrivial",
+      "module": "Mathlib.Data.Nat.Factorization.PrimePow",
+      "doc": ""
+    },
+    {
+      "name": "isPrimePow_iff_factorization_eq_single",
+      "type": " {n : \u2115} : IsPrimePow n \u2194 \u2203 p k, 0 < k \u2227 n.factorization = fun\u2080 | p => k",
+      "module": "Mathlib.Data.Nat.Factorization.PrimePow",
+      "doc": ""
+    },
+    {
+      "name": "isPrimePow_iff_minFac_pow_factorization_eq",
+      "type": " {n : \u2115} (hn : n \u2260 1) : IsPrimePow n \u2194 n.minFac ^ n.factorization n.minFac = n",
+      "module": "Mathlib.Data.Nat.Factorization.PrimePow",
+      "doc": ""
+    },
+    {
+      "name": "Cardinal.isPrimePow_iff",
+      "type": " {a : Cardinal.{u_1}} : IsPrimePow a \u2194 Cardinal.aleph0 \u2264 a \u2228 \u2203 n, a = \u2191n \u2227 IsPrimePow n",
+      "module": "Mathlib.SetTheory.Cardinal.Divisibility",
+      "doc": ""
+    },
+    {
+      "name": "Nat.minFac_prime",
+      "type": " {n : \u2115} (n1 : n \u2260 1) : Nat.Prime n.minFac",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.minFac_prime_iff",
+      "type": " {n : \u2115} : Nat.Prime n.minFac \u2194 n \u2260 1",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.log_mul_moebius_eq_vonMangoldt",
+      "type": " : ArithmeticFunction.log * \u2191ArithmeticFunction.moebius = ArithmeticFunction.vonMangoldt",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.moebius_mul_log_eq_vonMangoldt",
+      "type": " : \u2191ArithmeticFunction.moebius * ArithmeticFunction.log = ArithmeticFunction.vonMangoldt",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.log",
+      "type": " : ArithmeticFunction \u211d",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": "`log` as an arithmetic function `\u2115 \u2192 \u211d`. Note this is in the `ArithmeticFunction`\nnamespace to indicate that it is bundled as an `ArithmeticFunction` rather than being the usual\nreal logarithm. "
+    },
+    {
+      "name": "ArithmeticFunction.log_apply",
+      "type": " {n : \u2115} : ArithmeticFunction.log n = Real.log \u2191n",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.vonMangoldt_mul_zeta",
+      "type": " : ArithmeticFunction.vonMangoldt * \u2191ArithmeticFunction.zeta = ArithmeticFunction.log",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.sum_moebius_mul_log_eq",
+      "type": " {n : \u2115} : \u2211 d \u2208 n.divisors, \u2191(ArithmeticFunction.moebius d) * ArithmeticFunction.log d = -ArithmeticFunction.vonMangoldt n",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.zeta_mul_vonMangoldt",
+      "type": " : \u2191ArithmeticFunction.zeta * ArithmeticFunction.vonMangoldt = ArithmeticFunction.log",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.mul_apply",
+      "type": " {R : Type u_1} [Semiring R] {f g : ArithmeticFunction R} {n : \u2115} : (f * g) n = \u2211 x \u2208 n.divisorsAntidiagonal, f x.1 * g x.2",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.divisorsAntidiagonal",
+      "type": " (n : \u2115) : Finset (\u2115 \u00d7 \u2115)",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": "Pairs of divisors of a natural number as a finset.\n\n`n.divisorsAntidiagonal` is the finset of pairs `(a, b) : \u2115 \u00d7 \u2115` such that `a * b = n`.\nBy convention, we set `Nat.divisorsAntidiagonal 0 = \u2205`.\n\nO(n). "
+    },
+    {
+      "name": "Nat.divisorsAntidiagonalList",
+      "type": " (n : \u2115) : List (\u2115 \u00d7 \u2115)",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": "Pairs of divisors of a natural number, as a list.\n\n`n.divisorsAntidiagonalList` is the list of pairs `(a, b) : \u2115 \u00d7 \u2115` such that `a * b = n`, ordered\nby increasing `a`. By convention, we set `Nat.divisorsAntidiagonalList 0 = []`.\n"
+    },
+    {
+      "name": "Nat.nodup_divisorsAntidiagonalList",
+      "type": " {n : \u2115} : n.divisorsAntidiagonalList.Nodup",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sortedGT_map_snd_divisorsAntidiagonalList",
+      "type": " {n : \u2115} : (List.map Prod.snd n.divisorsAntidiagonalList).SortedGT",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sortedLT_map_fst_divisorsAntidiagonalList",
+      "type": " {n : \u2115} : (List.map Prod.fst n.divisorsAntidiagonalList).SortedLT",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.divisorsAntidiagonalList_zero",
+      "type": " : Nat.divisorsAntidiagonalList 0 = []",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.image_fst_divisorsAntidiagonal",
+      "type": " {n : \u2115} : Finset.image Prod.fst n.divisorsAntidiagonal = n.divisors",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.image_snd_divisorsAntidiagonal",
+      "type": " {n : \u2115} : Finset.image Prod.snd n.divisorsAntidiagonal = n.divisors",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.val_divisorsAntidiagonal",
+      "type": " (n : \u2115) : n.divisorsAntidiagonal.val = \u2191n.divisorsAntidiagonalList",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": "The `Finset` and `List` versions agree by definition. "
+    },
+    {
+      "name": "Nat.divisorsAntidiagonal_zero",
+      "type": " : Nat.divisorsAntidiagonal 0 = \u2205",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.pairwise_divisorsAntidiagonalList_fst",
+      "type": " {n : \u2115} : List.Pairwise (fun x1 x2 => x1.1 < x2.1) n.divisorsAntidiagonalList",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.pairwise_divisorsAntidiagonalList_snd",
+      "type": " {n : \u2115} : List.Pairwise (fun x1 x2 => x1.2 > x2.2) n.divisorsAntidiagonalList",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sum_divisors_eq_sum_properDivisors_add_self",
+      "type": " {n : \u2115} : \u2211 i \u2208 n.divisors, i = \u2211 i \u2208 n.properDivisors, i + n",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.perfect_iff_sum_divisors_eq_two_mul",
+      "type": " {n : \u2115} (h : 0 < n) : n.Perfect \u2194 \u2211 i \u2208 n.divisors, i = 2 * n",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Prime.sum_divisors",
+      "type": " {\u03b1 : Type u_1} [AddCommMonoid \u03b1] {p : \u2115} {f : \u2115 \u2192 \u03b1} (h : Nat.Prime p) : \u2211 x \u2208 p.divisors, f x = f p + f 1",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sum_divisorsAntidiagonal",
+      "type": " {M : Type u_1} [AddCommMonoid M] (f : \u2115 \u2192 \u2115 \u2192 M) {n : \u2115} : \u2211 i \u2208 n.divisorsAntidiagonal, f i.1 i.2 = \u2211 i \u2208 n.divisors, f i (n / i)",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sum_divisorsAntidiagonal'",
+      "type": " {M : Type u_1} [AddCommMonoid M] (f : \u2115 \u2192 \u2115 \u2192 M) {n : \u2115} : \u2211 i \u2208 n.divisorsAntidiagonal, f i.1 i.2 = \u2211 i \u2208 n.divisors, f (n / i) i",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sum_divisors_prime_pow",
+      "type": " {\u03b1 : Type u_1} [AddCommMonoid \u03b1] {k p : \u2115} {f : \u2115 \u2192 \u03b1} (h : Nat.Prime p) : \u2211 x \u2208 (p ^ k).divisors, f x = \u2211 x \u2208 Finset.range (k + 1), f (p ^ x)",
+      "module": "Mathlib.NumberTheory.Divisors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sum_divisors_filter_squarefree",
+      "type": " {n : \u2115} (h0 : n \u2260 0) {\u03b1 : Type u_1} [AddCommMonoid \u03b1] {f : \u2115 \u2192 \u03b1} : \u2211 d \u2208 n.divisors with Squarefree d, f d = \u2211 i \u2208 (UniqueFactorizationMonoid.normalizedFactors n).toFinset.powerset, f i.val.prod",
+      "module": "Mathlib.Data.Nat.Squarefree",
+      "doc": ""
+    },
+    {
+      "name": "ArithmeticFunction.sum_divisorsAntidiagonal_eq_sum_divisors",
+      "type": " {R : Type u_1} {M : Type u_2} [Semiring R] [AddCommMonoid M] [MulAction R M] {f : ArithmeticFunction M} {x : \u2115} : (\u2211 x \u2208 x.divisorsAntidiagonal, if x.1 = 0 then 0 \u2022 f x.2 else f x.2) = \u2211 i \u2208 x.divisors, f i",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Zeta",
+      "doc": "`@[simp]`-normal form of `coe_zeta_smul_apply`. "
+    },
+    {
+      "name": "Nat.Coprime.sum_divisors_mul",
+      "type": " {m n : \u2115} (hmn : m.Coprime n) : \u2211 d \u2208 (m * n).divisors, d = (\u2211 d \u2208 m.divisors, d) * \u2211 d \u2208 n.divisors, d",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Misc",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sum_divisors",
+      "type": " {n : \u2115} (hn : n \u2260 0) : \u2211 d \u2208 n.divisors, d = \u220f p \u2208 n.primeFactors, \u2211 k \u2208 Finset.range (n.factorization p + 1), p ^ k",
+      "module": "Mathlib.NumberTheory.ArithmeticFunction.Misc",
+      "doc": ""
+    },
+    {
+      "name": "Nat.abundant_iff_sum_divisors",
+      "type": " {n : \u2115} : n.Abundant \u2194 2 * n < \u2211 i \u2208 n.divisors, i",
+      "module": "Mathlib.NumberTheory.FactorisationProperties",
+      "doc": ""
+    },
+    {
+      "name": "BoundingSieve.nu_inv_eq_sum_divisors_inv_selbergTerms",
+      "type": " {s : BoundingSieve} {d : \u2115} (hdP : d \u2223 s.prodPrimes) : (s.nu d)\u207b\u00b9 = \u2211 l \u2208 s.prodPrimes.divisors, if l \u2223 d then (BoundingSieve.selbergTerms l)\u207b\u00b9 else 0",
+      "module": "Mathlib.NumberTheory.SelbergSieve",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_subtype_eq_sum_filter",
+      "type": " {\u03b9 : Type u_1} {M : Type u_4} {s : Finset \u03b9} [AddCommMonoid M] (f : \u03b9 \u2192 M) {p : \u03b9 \u2192 Prop} [DecidablePred p] : \u2211 x \u2208 Finset.subtype p s, f \u2191x = \u2211 x \u2208 s with p x, f x",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": "A sum over `s.subtype p` equals one over `{x \u2208 s | p x}`. "
+    },
+    {
+      "name": "Finset.sum_subtype_of_mem",
+      "type": " {\u03b9 : Type u_1} {M : Type u_4} {s : Finset \u03b9} [AddCommMonoid M] (f : \u03b9 \u2192 M) {p : \u03b9 \u2192 Prop} [DecidablePred p] (h : \u2200 x \u2208 s, p x) : \u2211 x \u2208 Finset.subtype p s, f \u2191x = \u2211 x \u2208 s, f x",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": "If all elements of a `Finset` satisfy the predicate `p`, a sum\nover `s.subtype p` equals that sum over `s`. "
+    },
+    {
+      "name": "Finset.sum_subtype",
+      "type": " {\u03b9 : Type u_1} {M : Type u_4} [AddCommMonoid M] {p : \u03b9 \u2192 Prop} {F : Fintype (Subtype p)} (s : Finset \u03b9) (h : \u2200 (x : \u03b9), x \u2208 s \u2194 p x) (f : \u03b9 \u2192 M) : \u2211 a \u2208 s, f a = \u2211 a, f \u2191a",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_subtype_map_embedding",
+      "type": " {\u03b9 : Type u_1} {M : Type u_4} [AddCommMonoid M] {p : \u03b9 \u2192 Prop} {s : Finset { x // p x }} {f : { x // p x } \u2192 M} {g : \u03b9 \u2192 M} (h : \u2200 x \u2208 s, g \u2191x = f x) : \u2211 x \u2208 Finset.map (Function.Embedding.subtype fun x => p x) s, g x = \u2211 x \u2208 s, f x",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": "A sum of a function over a `Finset` in a subtype equals a\nsum in the main type of a function that agrees with the first\nfunction on that `Finset`. "
+    },
+    {
+      "name": "Fintype.sum_subtype_add_sum_subtype",
+      "type": " {M : Type u_4} {\u03b9 : Type u_7} [Fintype \u03b9] [AddCommMonoid M] (p : \u03b9 \u2192 Prop) (f : \u03b9 \u2192 M) [DecidablePred p] : \u2211 i, f \u2191i + \u2211 i, f \u2191i = \u2211 i, f i",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.sum_eq_add_sum_subtype_ne",
+      "type": " {\u03b1 : Type u_1} {M : Type u_4} [Fintype \u03b1] [AddCommMonoid M] [DecidableEq \u03b1] (f : \u03b1 \u2192 M) (a : \u03b1) : \u2211 i, f i = f a + \u2211 i, f \u2191i",
+      "module": "Mathlib.Data.Fintype.BigOperators",
+      "doc": ""
+    },
+    {
+      "name": "Finsupp.sum_subtypeDomain_index",
+      "type": " {\u03b1 : Type u_1} {M : Type u_5} {N : Type u_6} [Zero M] {p : \u03b1 \u2192 Prop} [AddCommMonoid N] {v : \u03b1 \u2192\u2080 M} {h : \u03b1 \u2192 M \u2192 N} (hp : \u2200 x \u2208 v.support, p x) : ((Finsupp.subtypeDomain p v).sum fun a b => h (\u2191a) b) = v.sum h",
+      "module": "Mathlib.Data.Finsupp.Basic",
+      "doc": ""
+    },
+    {
+      "name": "finsum_subtype_eq_finsum_cond",
+      "type": " {\u03b1 : Type u_1} {M : Type u_5} [AddCommMonoid M] {f : \u03b1 \u2192 M} (p : \u03b1 \u2192 Prop) : \u2211\u1da0 (j : Subtype p), f \u2191j = \u2211\u1da0 (i : \u03b1) (_ : p i), f i",
+      "module": "Mathlib.Algebra.BigOperators.Finprod",
+      "doc": ""
+    },
+    {
+      "name": "DFinsupp.sum_subtypeDomain_index",
+      "type": " {\u03b9 : Type u} {\u03b3 : Type w} {\u03b2 : \u03b9 \u2192 Type v} [DecidableEq \u03b9] [(i : \u03b9) \u2192 Zero (\u03b2 i)] [(i : \u03b9) \u2192 (x : \u03b2 i) \u2192 Decidable (x \u2260 0)] [AddCommMonoid \u03b3] {v : \u03a0\u2080 (i : \u03b9), \u03b2 i} {p : \u03b9 \u2192 Prop} [DecidablePred p] {h : (i : \u03b9) \u2192 \u03b2 i \u2192 \u03b3} (hp : \u2200 x \u2208 v.support, p x) : ((DFinsupp.subtypeDomain p v).sum fun i b => h (\u2191i) b) = v.sum h",
+      "module": "Mathlib.Data.DFinsupp.BigOperators",
+      "doc": ""
+    },
+    {
+      "name": "hasSum_subtype_iff_of_support_subset",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [AddCommMonoid \u03b1] [TopologicalSpace \u03b1] {f : \u03b2 \u2192 \u03b1} {a : \u03b1} {s : Set \u03b2} (hf : Function.support f \u2286 s) : HasSum (f \u2218 Subtype.val) a \u2194 HasSum f a",
+      "module": "Mathlib.Topology.Algebra.InfiniteSum.Defs",
+      "doc": ""
+    },
+    {
+      "name": "hasSum_subtype_comap_iff_of_support_subset",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [AddCommMonoid \u03b1] [TopologicalSpace \u03b1] {L : SummationFilter \u03b2} {f : \u03b2 \u2192 \u03b1} {a : \u03b1} {s : Set \u03b2} (hf : Function.support f \u2286 s) : HasSum (f \u2218 Subtype.val) a (L.comap (Function.Embedding.subtype fun x => x \u2208 s)) \u2194 HasSum f a L",
+      "module": "Mathlib.Topology.Algebra.InfiniteSum.Defs",
+      "doc": ""
+    },
+    {
+      "name": "tsum_subtype",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} [AddCommMonoid \u03b1] [TopologicalSpace \u03b1] (s : Set \u03b2) (f : \u03b2 \u2192 \u03b1) : \u2211' (x : \u2191s), f \u2191x = \u2211' (x : \u03b2), s.indicator f x",
+      "module": "Mathlib.Topology.Algebra.InfiniteSum.Basic",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"log\"' -> Nat.log2, Nat.log2_le_self, Nat.log2_terminates, Nat.log2_def, Int.wlog_sign, Nat.log2_zero, Nat.log2_two_pow, Nat.log2_self_le",
+    "search: 'Real.log' -> Real.log, Real.log_surjective, Real.log_exp, Real.le_exp_log, Real.range_log, Real.log_neg_eq_log, Real.tendsto_log_atTop, Real.log_abs",
+    "search: 'ArithmeticFunction.moebius' -> ArithmeticFunction.isMultiplicative_moebius, ArithmeticFunction.moebius, ArithmeticFunction.moebius_apply_one, ArithmeticFunction.abs_moebius_le_one, ArithmeticFunction.moebius_apply_prime, ArithmeticFunction.moebius_eq_zero_of_not_squarefree, ArithmeticFunction.moebius_ne_zero_iff_squarefree, ArithmeticFunction.moebius_apply_isPrimePow_not_prime",
+    "seeded from goal shape -> Irreducible.prime, Irreducible.prime_of_isPrimal, comap_prime, Associated.prime, UniqueFactorizationMonoid.prime_of_factor, Submodule.IsPrincipal.prime_generator_of_isPrime, Nat.Prime.prime, Polynomial.prime_X",
+    "search: '\"mangoldt\"' -> ArithmeticFunction.vonMangoldt.term\u039b, Mathlib.Meta.Positivity.evalVonMangoldt, ArithmeticFunction.vonMangoldt, ArithmeticFunction.vonMangoldt_le_log, ArithmeticFunction.vonMangoldt_apply_prime, ArithmeticFunction.vonMangoldt_nonneg, ArithmeticFunction.vonMangoldt_apply_one, ArithmeticFunction.vonMangoldt_ne_zero_iff",
+    "search: '\"vonMangoldt\"' -> ArithmeticFunction.vonMangoldt.term\u039b, Mathlib.Meta.Positivity.evalVonMangoldt, ArithmeticFunction.vonMangoldt, ArithmeticFunction.vonMangoldt_le_log, ArithmeticFunction.vonMangoldt_apply_prime, ArithmeticFunction.vonMangoldt_nonneg, ArithmeticFunction.vonMangoldt_apply_one, ArithmeticFunction.vonMangoldt_ne_zero_iff",
+    "search: '\"moebius\"' -> UpperHalfPlane.moebius_im, ArithmeticFunction.Moebius.term\u03bc, ArithmeticFunction.isMultiplicative_moebius, ArithmeticFunction.moebius, ArithmeticFunction.moebius_apply_one, ArithmeticFunction.abs_moebius_le_one, ArithmeticFunction.moebius_apply_prime, ArithmeticFunction.moebius_eq_zero_of_not_squarefree",
+    "search: 'IsPrimePow' -> instDecidableIsPrimePowNat, Nat.Prime.isPrimePow, Prime.isPrimePow, IsPrimePow.one_lt, IsPrimePow.pos, IsPrimePow.two_le, IsPrimePow.not_isUnit, IsPrimePow.not_unit",
+    "search: '\"isPrimePow_iff\"' -> isPrimePow_iff_pow_succ, isPrimePow_iff_card_primeFactors_eq_one, isPrimePow_iff_unique_prime_dvd, Nat.not_isPrimePow_iff_nontrivial_of_two_le, isPrimePow_iff_factorization_eq_single, isPrimePow_iff_minFac_pow_factorization_eq, Cardinal.isPrimePow_iff",
+    "search: '\"minFac_prime\"' -> Nat.minFac_prime, Nat.minFac_prime_iff",
+    "search: '\"vonMangoldt\" \"moebius\"' -> nothing",
+    "search: '\"vonMangoldt\" \"moebius\"' -> nothing; goal shape -> ArithmeticFunction.log_mul_moebius_eq_vonMangoldt, ArithmeticFunction.moebius_mul_log_eq_vonMangoldt, Irreducible.prime, Irreducible.prime_of_isPrimal, comap_prime, Associated.prime, UniqueFactorizationMonoid.prime_of_factor, Submodule.IsPrincipal.prime_generator_of_isPrime",
+    "search: 'ArithmeticFunction.log' -> ArithmeticFunction.log, ArithmeticFunction.log_apply, ArithmeticFunction.log_mul_moebius_eq_vonMangoldt, ArithmeticFunction.vonMangoldt_mul_zeta, ArithmeticFunction.sum_moebius_mul_log_eq, ArithmeticFunction.moebius_mul_log_eq_vonMangoldt, ArithmeticFunction.zeta_mul_vonMangoldt",
+    "search: '\"ArithmeticFunction\" \"mul_apply\"' -> nothing",
+    "search: '\"ArithmeticFunction\" \"mul_apply\"' -> nothing; goal shape -> ArithmeticFunction.log_mul_moebius_eq_vonMangoldt, ArithmeticFunction.moebius_mul_log_eq_vonMangoldt, Irreducible.prime, Irreducible.prime_of_isPrimal, comap_prime, Associated.prime, UniqueFactorizationMonoid.prime_of_factor, Submodule.IsPrincipal.prime_generator_of_isPrime",
+    "search: 'ArithmeticFunction.mul_apply' -> ArithmeticFunction.mul_apply",
+    "search: '\"divisorsAntidiagonal\"' -> Nat.divisorsAntidiagonal, Nat.divisorsAntidiagonalList, Nat.nodup_divisorsAntidiagonalList, Nat.sortedGT_map_snd_divisorsAntidiagonalList, Nat.sortedLT_map_fst_divisorsAntidiagonalList, Nat.divisorsAntidiagonalList_zero, Nat.image_fst_divisorsAntidiagonal, Nat.image_snd_divisorsAntidiagonal",
+    "search: '\"sum_divisors\"' -> Nat.sum_divisors_eq_sum_properDivisors_add_self, Nat.perfect_iff_sum_divisors_eq_two_mul, Nat.Prime.sum_divisors, Nat.sum_divisorsAntidiagonal, Nat.sum_divisorsAntidiagonal', Nat.sum_divisors_prime_pow, Nat.sum_divisors_filter_squarefree, ArithmeticFunction.sum_divisorsAntidiagonal_eq_sum_divisors",
+    "search: '\"sum_subtype\"' -> Finset.sum_subtype_eq_sum_filter, Finset.sum_subtype_of_mem, Finset.sum_subtype, Finset.sum_subtype_map_embedding, Fintype.sum_subtype_add_sum_subtype, Fintype.sum_eq_add_sum_subtype_ne, Finsupp.sum_subtypeDomain_index, finsum_subtype_eq_finsum_cond"
+  ],
+  "budget": {
+    "tool_calls": 53,
+    "lean_calls": 24,
+    "searches": 21,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788865179.8276503,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.9,
+    "statement_checks": 2,
+    "refusals": {
+      "placeholder_proof": 1,
+      "assemble_first": 4,
+      "decompose_first": 4
+    }
+  },
+  "goal": "lemma l_eq_vonMangoldt {l : \u2115 \u2192 \u211d}\n  (hl : \u2200 p n : \u2115, p.Prime \u2192 l (p^n) = Real.log p)\n  (hl1 : \u2200 m : \u2115, \u00ac IsPrimePow m \u2192 l m = 0) :\n  l = ArithmeticFunction.vonMangoldt"
+}

@@ -1,0 +1,417 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_2_11_22 {p : \u2115} {n : \u2115} {G : Type*} [Fintype G]\n  [Group G] (hp : Nat.Prime p) (hG : card G = p ^ n) {K : Subgroup G}\n  [Fintype K] (hK : card K = p ^ (n-1)) :\n  K.Normal",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n2:37: error: Function expected at\n  card\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  G\n\nHint: The identifier `card` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n3:20: error: Function expected at\n  card\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  K\n\nHint: The identifier `card` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.",
+      "at": 1788863953.8841271,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_2_11_22 {p : \u2115} {n : \u2115} {G : Type*} [Fintype G]\n  [Group G] (hp : Nat.Prime p) (hG : Fintype.card G = p ^ n) {K : Subgroup G}\n  [Fintype K] (hK : Fintype.card K = p ^ (n-1)) :\n  K.Normal",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788863960.684385,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_2_11_22 {p : \u2115} {n : \u2115} {G : Type*} [Fintype G]\n  [Group G] (hp : Nat.Prime p) (hG : Fintype.card G = p ^ n) {K : Subgroup G}\n  [Fintype K] (hK : Fintype.card K = p ^ (n-1)) :\n  K.Normal",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Fintype.card\n    | exact Fintype.card _\n    | apply Fintype.card\n    | simpa using Fintype.card\n    | exact \u27e8_, Fintype.card\u27e9\n    | exact Fintype.card (by assumption)\n    | exact Fintype.card \u2039_\u203a\n    | apply Fintype.card <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card (by assumption))\n    | exact Fintype.card_fin\n    | exact Fintype.card_fin _\n    | apply Fintype.card_fin\n    | simpa using Fintype.card_fin\n    | exact \u27e8_, Fintype.card_fin\u27e9\n    | exact Fintype.card_fin (by assumption)\n    | exact Fintype.card_fin \u2039_\u203a\n    | apply Fintype.card_fin <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_fin (by assumption))\n    | exact Fintype.card_bool\n    | exact Fintype.card_bool _\n    | apply Fintype.card_bool\n    | simpa using Fintype.card_bool\n    | exact \u27e8_, Fintype.card_bool\u27e9\n    | exact Fintype.card_bool (by assumption)\n    | exact Fintype.card_bool \u2039_\u203a\n    | apply Fintype.card_bool <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_bool (by assumption))\n    | exact Fintype.card_empty\n    | exact Fintype.card_empty _\n    | apply Fintype.card_empty\n    | simpa using Fintype.card_empty\n    | exact \u27e8_, Fintype.card_empty\u27e9\n    | exact Fintype.card_empty (by assumption)\n    | exact Fintype.card_empty \u2039_\u203a\n    | apply Fintype.card_empty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_empty (by assumption))\n    | exact Fintype.card_pempty\n    | exact Fintype.card_pempty _\n    | apply Fintype.card_pempty\n    | simpa using Fintype.card_pempty\n    | exact \u27e8_, Fintype.card_pempty\u27e9\n    | exact Fintype.card_pempty (by assumption)\n    | exact Fintype.card_pempty \u2039_\u203a\n    | apply Fintype.card_pempty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_pempty (by assumption))\n    | exact Fintype.card_prop\n    | exact Fintype.card_prop _\n    | apply Fintype.card_prop\n    | simpa using Fintype.card_prop\n    | exact \u27e8_, Fintype.card_prop\u27e9\n    | exact Fintype.card_prop (by assumption)\n    | exact Fintype.card_prop \u2039_\u203a\n    | apply Fintype.card_prop <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_prop (by assumption))\n    | exact Fintype.card_punit\n    | exact Fintype.card_punit _\n    | apply Fintype.card_punit\n    | simpa using Fintype.card_punit\n    | exact \u27e8_, Fintype.card_punit\u27e9\n    | exact Fintype.card_punit (by assumption)\n    | exact Fintype.card_punit \u2039_\u203a\n    | apply Fintype.card_punit <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_punit (by assumption))\n    | exact Fintype.card_unit\n    | exact Fintype.card_unit _\n    | apply Fintype.card_unit\n    | simpa using Fintype.card_unit\n    | exact \u27e8_, Fintype.card_unit\u27e9\n    | exact Fintype.card_unit (by assumption)\n    | exact Fintype.card_unit \u2039_\u203a\n    | apply Fintype.card_unit <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_unit (by assumption))\n    | exact Fintype.card_lex\n    | exact Fintype.card_lex _\n    | apply Fintype.card_lex\n    | simpa using Fintype.card_lex\n    | exact \u27e8_, Fintype.card_lex\u27e9\n    | exact Fintype.card_lex (by assumption)\n    | exact Fintype.card_lex \u2039_\u203a\n    | apply Fintype.card_lex <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_lex (by assumption))\n    | exact Fintype.card_orderDual\n    | exact Fintype.card_orderDual _\n    | apply Fintype.card_orderDual\n    | simpa using Fintype.card_orderDual\n    | exact \u27e8_, Fintype.card_orderDual\u27e9\n    | exact Fintype.card_orderDual (by assumption)\n    | exact Fintype.card_orderDual \u2039_\u203a\n    | apply Fintype.card_orderDual <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_orderDual (by assumption))\n    | exact Fintype.card_plift\n    | exact Fintype.card_plift _\n    | apply Fintype.card_plift\n    | simpa using Fintype.card_plift\n    | exact \u27e8_, Fintype.card_plift\u27e9\n    | exact Fintype.card_plift (by assumption)\n    | exact Fintype.card_plift \u2039_\u203a\n    | apply Fintype.card_plift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_plift (by assumption))\n    | exact Fintype.card_ulift\n    | exact Fintype.card_ulift _\n    | apply Fintype.card_ulift\n    | simpa using Fintype.card_ulift\n    | exact \u27e8_, Fintype.card_ulift\u27e9\n    | exact Fintype.card_ulift (by assumption)\n    | exact Fintype.card_ulift \u2039_\u203a\n    | apply Fintype.card_ulift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.card_ulift (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:14: error: unsolved goals\np n : \u2115\nG : Type u_1\ninst\u271d\u00b2 : Fintype G\ninst\u271d\u00b9 : Group G\nhp : Nat.Prime p\nhG : Fintype.card G = p ^ n\nK : Subgroup G\ninst\u271d : Fintype \u21a5K\nhK : Fintype.card \u21a5K = p ^ (n - 1)\n\u22a2 K.Normal\n\nStill to prove:\n\u22a2 K.Normal",
+      "at": 1788863974.6717052,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Fintype.card",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : \u2115",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": "`card \u03b1` is the number of elements in `\u03b1`, defined when `\u03b1` is a fintype. "
+    },
+    {
+      "name": "Fintype.card_fin",
+      "type": " (n : \u2115) : Fintype.card (Fin n) = n",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_bool",
+      "type": " : Fintype.card Bool = 2",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_empty",
+      "type": " : Fintype.card Empty = 0",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_pempty",
+      "type": " : Fintype.card PEmpty.{u_3 + 1} = 0",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_prop",
+      "type": " : Fintype.card Prop = 2",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_punit",
+      "type": " : Fintype.card PUnit.{u_3 + 1} = 1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_unit",
+      "type": " : Fintype.card Unit = 1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_lex",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype.card (Lex \u03b1) = Fintype.card \u03b1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_orderDual",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype.card \u03b1\u1d52\u1d48 = Fintype.card \u03b1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_plift",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype.card (PLift \u03b1) = Fintype.card \u03b1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.card_ulift",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype.card (ULift.{u_4, u_3} \u03b1) = Fintype.card \u03b1",
+      "module": "Mathlib.Data.Fintype.Card",
+      "doc": ""
+    },
+    {
+      "name": "Bool.fintype",
+      "type": " : Fintype Bool",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Ordering.fintype",
+      "type": " : Fintype Ordering",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Lex.fintype",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype (Lex \u03b1)",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "OrderDual.fintype",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype \u03b1\u1d52\u1d48",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.mk",
+      "type": " {\u03b1 : Type u_3} (elems : Finset \u03b1) (complete : \u2200 (x : \u03b1), x \u2208 elems) : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.subtype",
+      "type": " {\u03b1 : Type u_1} {p : \u03b1 \u2192 Prop} (s : Finset \u03b1) (H : \u2200 (x : \u03b1), x \u2208 s \u2194 p x) : Fintype { x // p x }",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": "Given a predicate that can be represented by a finset, the subtype\nassociated to the predicate is a fintype. "
+    },
+    {
+      "name": "Fintype.ofFinset",
+      "type": " {\u03b1 : Type u_1} {p : Set \u03b1} (s : Finset \u03b1) (H : \u2200 (x : \u03b1), x \u2208 s \u2194 x \u2208 p) : Fintype \u2191p",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": "Construct a fintype from a finset with the same elements. "
+    },
+    {
+      "name": "Fintype.instEmpty",
+      "type": " : Fintype Empty",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.instPEmpty",
+      "type": " : Fintype PEmpty.{u_3 + 1}",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.ofIsEmpty",
+      "type": " {\u03b1 : Type u_1} [IsEmpty \u03b1] : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "An empty type is a fintype. Not registered as an instance, to make sure that there aren't two\nconflicting `Fintype \u03b9` instances around when casing over whether a fintype `\u03b9` is empty or not. "
+    },
+    {
+      "name": "Fintype.ofSubsingleton",
+      "type": " {\u03b1 : Type u_1} (a : \u03b1) [Subsingleton \u03b1] : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "Any subsingleton type with a witness is a fintype (with one term). "
+    },
+    {
+      "name": "Fintype.ofEquiv",
+      "type": " {\u03b2 : Type u_2} (\u03b1 : Type u_3) [Fintype \u03b1] (f : \u03b1 \u2243 \u03b2) : Fintype \u03b2",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "If `f : \u03b1 \u2243 \u03b2` and `\u03b1` is a fintype, then `\u03b2` is also a fintype. "
+    },
+    {
+      "name": "CommGroup.toGroup",
+      "type": " {G : Type u_2} [self : CommGroup G] : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.mk",
+      "type": " {G : Type u_2} [toDivInvMonoid : DivInvMonoid G] (inv_mul_cancel : \u2200 (a : G), a\u207b\u00b9 * a = 1) : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Pi.group",
+      "type": " {I : Type u} {f : I \u2192 Type v\u2081} [(i : I) \u2192 Group (f i)] : Group ((i : I) \u2192 f i)",
+      "module": "Mathlib.Algebra.Group.Pi.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative.group",
+      "type": " {\u03b1 : Type u} [AddGroup \u03b1] : Group (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2081] [One M\u2081] [Pow M\u2081 \u2115] [Inv M\u2081] [Div M\u2081] [Pow M\u2081 \u2124] [Group M\u2082] (f : M\u2081 \u2192 M\u2082) (hf : Function.Injective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2081",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits an injective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "Function.Surjective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2082] [One M\u2082] [Pow M\u2082 \u2115] [Inv M\u2082] [Div M\u2082] [Pow M\u2082 \u2124] [Group M\u2081] (f : M\u2081 \u2192 M\u2082) (hf : Function.Surjective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2082",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits a surjective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "AddOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "Units.instGroup",
+      "type": " {\u03b1 : Type u} [Monoid \u03b1] : Group \u03b1\u02e3",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Units of a monoid form a group. "
+    },
+    {
+      "name": "groupOfIsUnit",
+      "type": " {M : Type u_1} [hM : Monoid M] (h : \u2200 (a : M), IsUnit a) : Group M",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Constructs a `Group` structure on a `Monoid` consisting only of units. "
+    },
+    {
+      "name": "Prod.instGroup",
+      "type": " {G : Type u_1} {H : Type u_2} [Group G] [Group H] : Group (G \u00d7 H)",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.Perm.permGroup",
+      "type": " {\u03b1 : Type u_4} : Group (Equiv.Perm \u03b1)",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize.dvd_den",
+      "type": " {num : \u2124} {den g : \u2115} (e : g = num.natAbs.gcd den) : g \u2223 den",
+      "module": "Init.Data.Rat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize.dvd_num",
+      "type": " {num : \u2124} {den g : \u2115} (e : g = num.natAbs.gcd den) : \u2191g \u2223 num",
+      "module": "Init.Data.Rat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize",
+      "type": " (num : \u2124) (den : \u2115 := 1) (den_nz : den \u2260 0 := by decide) : \u211a",
+      "module": "Init.Data.Rat.Basic",
+      "doc": "Construct a normalized `Rat` from a numerator and nonzero denominator.\nThis is a \"smart constructor\" that divides the numerator and denominator by\nthe gcd to ensure that the resulting rational number is normalized.\n"
+    },
+    {
+      "name": "Rat.normalize.den_nz",
+      "type": " {num : \u2124} {den g : \u2115} (den_nz : den \u2260 0) (e : g = num.natAbs.gcd den) : den / g \u2260 0",
+      "module": "Init.Data.Rat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize.reduced",
+      "type": " {num : \u2124} {den g : \u2115} (den_nz : den \u2260 0) (e : g = num.natAbs.gcd den) : (num / \u2191g).natAbs.Coprime (den / g)",
+      "module": "Init.Data.Rat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Rat.maybeNormalize",
+      "type": " (num : \u2124) (den g : \u2115) (dvd_num : \u2191g \u2223 num) (dvd_den : g \u2223 den) (den_nz : den / g \u2260 0) (reduced : (num / \u2191g).natAbs.Coprime (den / g)) : \u211a",
+      "module": "Init.Data.Rat.Basic",
+      "doc": "Auxiliary definition for `Rat.normalize`. Constructs `num / den` as a rational number,\ndividing both `num` and `den` by `g` (which is the gcd of the two) if it is not 1.\n"
+    },
+    {
+      "name": "Rat.normalize_self",
+      "type": " (r : \u211a) : Rat.normalize r.num r.den \u22ef = r",
+      "module": "Init.Data.Rat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize_eq_mkRat",
+      "type": " {num : \u2124} {den : \u2115} (den_nz : den \u2260 0) : Rat.normalize num den den_nz = mkRat num den",
+      "module": "Init.Data.Rat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize_eq_zero",
+      "type": " {d : \u2115} {n : \u2124} (d0 : d \u2260 0) : Rat.normalize n d d0 = 0 \u2194 n = 0",
+      "module": "Init.Data.Rat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Rat.normalize_zero",
+      "type": " {d : \u2115} (nz : d \u2260 0) : Rat.normalize 0 d nz = 0",
+      "module": "Init.Data.Rat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Rat.mk_eq_normalize",
+      "type": " (num : \u2124) (den : \u2115) (nz : den \u2260 0) (c : num.natAbs.Coprime den) : { num := num, den := den, den_nz := nz, reduced := c } = Rat.normalize num den nz",
+      "module": "Init.Data.Rat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Rat.neg_normalize",
+      "type": " (n : \u2124) (d : \u2115) (z : d \u2260 0) : -Rat.normalize n d z = Rat.normalize (-n) d z",
+      "module": "Init.Data.Rat.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normal_of_comm",
+      "type": " {G : Type u_1} [Group G] [IsMulCommutative G] (H : Subgroup G) : H.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "**Alias** of `Subgroup.normal_of_isMulCommutative`."
+    },
+    {
+      "name": "Subgroup.normal_of_isMulCommutative",
+      "type": " {G : Type u_1} [Group G] [IsMulCommutative G] (H : Subgroup G) : H.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.Normal.mk",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} (conj_mem : \u2200 n \u2208 H, \u2200 (g : G), g * n * g\u207b\u00b9 \u2208 H) : H.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "MonoidHom.normal_ker",
+      "type": " {G : Type u_1} [Group G] {M : Type u_6} [MulOneClass M] (f : G \u2192* M) : f.ker.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Ker",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normalClosure_normal",
+      "type": " {G : Type u_1} [Group G] {s : Set G} : (Subgroup.normalClosure s).Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "The normal closure of `s` is a normal subgroup. "
+    },
+    {
+      "name": "Subgroup.normalCore_normal",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) : H.normalCore.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normal_bot",
+      "type": " {G : Type u_1} [Group G] : \u22a5.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "The trivial subgroup `{1}` is normal. "
+    },
+    {
+      "name": "Subgroup.normal_top",
+      "type": " {G : Type u_1} [Group G] : \u22a4.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "The whole group `G` is normal. "
+    },
+    {
+      "name": "Subgroup.normal_of_characteristic",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) [h : H.Characteristic] : H.Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normal_iInf_normal",
+      "type": " {G : Type u_1} [Group G] {\u03b9 : Sort u_5} {a : \u03b9 \u2192 Subgroup G} (norm : \u2200 (i : \u03b9), (a i).Normal) : (iInf a).Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normal_inf_normal",
+      "type": " {G : Type u_1} [Group G] (H K : Subgroup G) [hH : H.Normal] [hK : K.Normal] : (H \u2293 K).Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.prod_normal",
+      "type": " {G : Type u_1} [Group G] {N : Type u_4} [Group N] (H : Subgroup G) (K : Subgroup N) [hH : H.Normal] [hK : K.Normal] : (H.prod K).Normal",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"Fintype.card\"' -> Fintype.card, Fintype.card_fin, Fintype.card_bool, Fintype.card_empty, Fintype.card_pempty, Fintype.card_prop, Fintype.card_punit, Fintype.card_unit",
+    "seeded from goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"normal\"' -> Rat.normalize.dvd_den, Rat.normalize.dvd_num, Rat.normalize, Rat.normalize.den_nz, Rat.normalize.reduced, Rat.maybeNormalize, Rat.normalize_self, Rat.normalize_eq_mkRat",
+    "search: '|- Subgroup.Normal _' -> Subgroup.normal_of_comm, Subgroup.normal_of_isMulCommutative, Subgroup.Normal.mk, MonoidHom.normal_ker, Subgroup.normalClosure_normal, Subgroup.normalCore_normal, Subgroup.normal_bot, Subgroup.normal_top",
+    "search: '\"index\"' -> nothing",
+    "agent failed: ReadError"
+  ],
+  "budget": {
+    "tool_calls": 8,
+    "lean_calls": 3,
+    "searches": 5,
+    "symbolic_calls": 0,
+    "searches_since_compile": 1,
+    "grace": 3,
+    "started": 1788863952.415279,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 2,
+    "refusals": {}
+  },
+  "goal": "theorem exercise_2_11_22 {p : \u2115} {n : \u2115} {G : Type*} [Fintype G]\n  [Group G] (hp : Nat.Prime p) (hG : Fintype.card G = p ^ n) {K : Subgroup G}\n  [Fintype K] (hK : Fintype.card K = p ^ (n-1)) :\n  K.Normal"
+}

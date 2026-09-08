@@ -1,0 +1,452 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_1_16 {G : Type*} [Group G]\n  (x : G) (hx : x ^ 2 = 1) :\n  orderOf x = 1 \u2228 orderOf x = 2",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788864435.2756627,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_1_16 {G : Type*} [Group G]\n  (x : G) (hx : x ^ 2 = 1) :\n  orderOf x = 1 \u2228 orderOf x = 2",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact CommGroup.toGroup\n    | exact CommGroup.toGroup _\n    | apply CommGroup.toGroup\n    | simpa using CommGroup.toGroup\n    | exact \u27e8_, CommGroup.toGroup\u27e9\n    | exact CommGroup.toGroup (by assumption)\n    | exact CommGroup.toGroup \u2039_\u203a\n    | apply CommGroup.toGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CommGroup.toGroup (by assumption))\n    | exact Group.mk\n    | exact Group.mk _\n    | apply Group.mk\n    | simpa using Group.mk\n    | exact \u27e8_, Group.mk\u27e9\n    | exact Group.mk (by assumption)\n    | exact Group.mk \u2039_\u203a\n    | apply Group.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Group.mk (by assumption))\n    | exact Pi.group\n    | exact Pi.group _\n    | apply Pi.group\n    | simpa using Pi.group\n    | exact \u27e8_, Pi.group\u27e9\n    | exact Pi.group (by assumption)\n    | exact Pi.group \u2039_\u203a\n    | apply Pi.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Pi.group (by assumption))\n    | exact Multiplicative.group\n    | exact Multiplicative.group _\n    | apply Multiplicative.group\n    | simpa using Multiplicative.group\n    | exact \u27e8_, Multiplicative.group\u27e9\n    | exact Multiplicative.group (by assumption)\n    | exact Multiplicative.group \u2039_\u203a\n    | apply Multiplicative.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Multiplicative.group (by assumption))\n    | exact Function.Injective.group\n    | exact Function.Injective.group _\n    | apply Function.Injective.group\n    | simpa using Function.Injective.group\n    | exact \u27e8_, Function.Injective.group\u27e9\n    | exact Function.Injective.group (by assumption)\n    | exact Function.Injective.group \u2039_\u203a\n    | apply Function.Injective.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Injective.group (by assumption))\n    | exact Function.Surjective.group\n    | exact Function.Surjective.group _\n    | apply Function.Surjective.group\n    | simpa using Function.Surjective.group\n    | exact \u27e8_, Function.Surjective.group\u27e9\n    | exact Function.Surjective.group (by assumption)\n    | exact Function.Surjective.group \u2039_\u203a\n    | apply Function.Surjective.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Surjective.group (by assumption))\n    | exact AddOpposite.instGroup\n    | exact AddOpposite.instGroup _\n    | apply AddOpposite.instGroup\n    | simpa using AddOpposite.instGroup\n    | exact \u27e8_, AddOpposite.instGroup\u27e9\n    | exact AddOpposite.instGroup (by assumption)\n    | exact AddOpposite.instGroup \u2039_\u203a\n    | apply AddOpposite.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact AddOpposite.instGroup (by assumption))\n    | exact MulOpposite.instGroup\n    | exact MulOpposite.instGroup _\n    | apply MulOpposite.instGroup\n    | simpa using MulOpposite.instGroup\n    | exact \u27e8_, MulOpposite.instGroup\u27e9\n    | exact MulOpposite.instGroup (by assumption)\n    | exact MulOpposite.instGroup \u2039_\u203a\n    | apply MulOpposite.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact MulOpposite.instGroup (by assumption))\n    | exact Units.instGroup\n    | exact Units.instGroup _\n    | apply Units.instGroup\n    | simpa using Units.instGroup\n    | exact \u27e8_, Units.instGroup\u27e9\n    | exact Units.instGroup (by assumption)\n    | exact Units.instGroup \u2039_\u203a\n    | apply Units.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Units.instGroup (by assumption))\n    | exact groupOfIsUnit\n    | exact groupOfIsUnit _\n    | apply groupOfIsUnit\n    | simpa using groupOfIsUnit\n    | exact \u27e8_, groupOfIsUnit\u27e9\n    | exact groupOfIsUnit (by assumption)\n    | exact groupOfIsUnit \u2039_\u203a\n    | apply groupOfIsUnit <;> assumption\n    | (haveI := Fact.mk (by assumption); exact groupOfIsUnit (by assumption))\n    | exact Prod.instGroup\n    | exact Prod.instGroup _\n    | apply Prod.instGroup\n    | simpa using Prod.instGroup\n    | exact \u27e8_, Prod.instGroup\u27e9\n    | exact Prod.instGroup (by assumption)\n    | exact Prod.instGroup \u2039_\u203a\n    | apply Prod.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Prod.instGroup (by assumption))\n    | exact Equiv.Perm.permGroup\n    | exact Equiv.Perm.permGroup _\n    | apply Equiv.Perm.permGroup\n    | simpa using Equiv.Perm.permGroup\n    | exact \u27e8_, Equiv.Perm.permGroup\u27e9\n    | exact Equiv.Perm.permGroup (by assumption)\n    | exact Equiv.Perm.permGroup \u2039_\u203a\n    | apply Equiv.Perm.permGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Equiv.Perm.permGroup (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:35: error: unsolved goals\nG : Type u_1\ninst\u271d : Group G\nx : G\nhx : x ^ 2 = 1\n\u22a2 x = 1 \u2228 orderOf x = 2\n\nStill to prove:\n\u22a2 x = 1 \u2228 orderOf x = 2",
+      "at": 1788864445.8567173,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_1_16 {G : Type*} [Group G]\n  (x : G) (hx : x ^ 2 = 1) :\n  orderOf x = 1 \u2228 orderOf x = 2",
+      "proof": "by\n  have h : orderOf x \u2223 2 := orderOf_dvd_iff_pow_eq_one.mpr hx\n  rwa [Nat.dvd_prime Nat.prime_two] at h",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_1_1_16 {G : Type*} [Group G]\n  (x : G) (hx : x ^ 2 = 1) :\n  orderOf x = 1 \u2228 orderOf x = 2",
+      "at": 1788864455.8001325,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_1_16 {G : Type*} [Group G]\n  (x : G) (hx : x ^ 2 = 1) :\n  orderOf x = 1 \u2228 orderOf x = 2",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788864472.6913645,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_1_sixteen {G : Type*} [Group G]\n  (x : G) (hx : x ^ 2 = 1) :\n  orderOf x = 1 \u2228 orderOf x = 2",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788864479.569857,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_1_sixteen {G : Type*} [Group G]\n  (x : G) (hx : x ^ 2 = 1) :\n  orderOf x = 1 \u2228 orderOf x = 2",
+      "proof": "by\n  have h : orderOf x \u2223 2 := orderOf_dvd_iff_pow_eq_one.mpr hx\n  rwa [Nat.dvd_prime Nat.prime_two] at h",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_1_1_sixteen {G : Type*} [Group G]\n  (x : G) (hx : x ^ 2 = 1) :\n  orderOf x = 1 \u2228 orderOf x = 2",
+      "at": 1788864483.9857733,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "CommGroup.toGroup",
+      "type": " {G : Type u_2} [self : CommGroup G] : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.mk",
+      "type": " {G : Type u_2} [toDivInvMonoid : DivInvMonoid G] (inv_mul_cancel : \u2200 (a : G), a\u207b\u00b9 * a = 1) : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Pi.group",
+      "type": " {I : Type u} {f : I \u2192 Type v\u2081} [(i : I) \u2192 Group (f i)] : Group ((i : I) \u2192 f i)",
+      "module": "Mathlib.Algebra.Group.Pi.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative.group",
+      "type": " {\u03b1 : Type u} [AddGroup \u03b1] : Group (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2081] [One M\u2081] [Pow M\u2081 \u2115] [Inv M\u2081] [Div M\u2081] [Pow M\u2081 \u2124] [Group M\u2082] (f : M\u2081 \u2192 M\u2082) (hf : Function.Injective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2081",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits an injective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "Function.Surjective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2082] [One M\u2082] [Pow M\u2082 \u2115] [Inv M\u2082] [Div M\u2082] [Pow M\u2082 \u2124] [Group M\u2081] (f : M\u2081 \u2192 M\u2082) (hf : Function.Surjective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2082",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits a surjective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "AddOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "Units.instGroup",
+      "type": " {\u03b1 : Type u} [Monoid \u03b1] : Group \u03b1\u02e3",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Units of a monoid form a group. "
+    },
+    {
+      "name": "groupOfIsUnit",
+      "type": " {M : Type u_1} [hM : Monoid M] (h : \u2200 (a : M), IsUnit a) : Group M",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Constructs a `Group` structure on a `Monoid` consisting only of units. "
+    },
+    {
+      "name": "Prod.instGroup",
+      "type": " {G : Type u_1} {H : Type u_2} [Group G] [Group H] : Group (G \u00d7 H)",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.Perm.permGroup",
+      "type": " {\u03b1 : Type u_4} : Group (Equiv.Perm \u03b1)",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "Group",
+      "type": " (G : Type u_2) : Type u_2",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": "A `Group` is a `Monoid` with an operation `\u207b\u00b9` satisfying `a\u207b\u00b9 * a = 1`.\n\nThere is also a division operation `/` such that `a / b = a * b\u207b\u00b9`,\nwith a default so that `a / b = a * b\u207b\u00b9` holds by definition.\n\nUse `Group.ofLeftAxioms` or `Group.ofRightAxioms` to define a group structure\non a type with the minimum proof obligations.\n\n\n[Wikidata Q83478](https://www.wikidata.org/wiki/Q83478)"
+    },
+    {
+      "name": "Group.toCancelMonoid",
+      "type": " {G : Type u_1} [Group G] : CancelMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.toDivInvMonoid",
+      "type": " {G : Type u_2} [self : Group G] : DivInvMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.toDivisionMonoid",
+      "type": " {G : Type u_1} [Group G] : DivisionMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "div_self'",
+      "type": " {G : Type u_1} [Group G] (a : G) : a / a = 1",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "div_mul_cancel",
+      "type": " {G : Type u_1} [Group G] (a b : G) : a / b * b = a",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "mul_div_cancel_right",
+      "type": " {G : Type u_1} [Group G] (a b : G) : a * b / b = a",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CommGroup.mk",
+      "type": " {G : Type u_2} [toGroup : Group G] (mul_comm : \u2200 (a b : G), a * b = b * a) : CommGroup G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.inv_mul_cancel",
+      "type": " {G : Type u_2} [self : Group G] (a : G) : a\u207b\u00b9 * a = 1",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "inv_mul_cancel",
+      "type": " {G : Type u_1} [Group G] (a : G) : a\u207b\u00b9 * a = 1",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Relation.ReflGen.instIsPreorderOfIsTrans",
+      "type": " {\u03b1 : Type u_1} {r : \u03b1 \u2192 \u03b1 \u2192 Prop} [IsTrans \u03b1 r] : IsPreorder \u03b1 (Relation.ReflGen r)",
+      "module": "Mathlib.Logic.Relation",
+      "doc": ""
+    },
+    {
+      "name": "Relation.TransGen.instIsPreorderOfRefl",
+      "type": " {\u03b1 : Type u_1} {r : \u03b1 \u2192 \u03b1 \u2192 Prop} [Std.Refl r] : IsPreorder \u03b1 (Relation.TransGen r)",
+      "module": "Mathlib.Logic.Relation",
+      "doc": ""
+    },
+    {
+      "name": "instNoBotOrderOfNoMinOrder",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] [NoMinOrder \u03b1] : NoBotOrder \u03b1",
+      "module": "Mathlib.Order.Max",
+      "doc": ""
+    },
+    {
+      "name": "instNoTopOrderOfNoMaxOrder",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] [NoMaxOrder \u03b1] : NoTopOrder \u03b1",
+      "module": "Mathlib.Order.Max",
+      "doc": ""
+    },
+    {
+      "name": "linearOrderOfCompares",
+      "type": " {\u03b1 : Type u_1} [Preorder \u03b1] (cmp : \u03b1 \u2192 \u03b1 \u2192 Ordering) (h : \u2200 (a b : \u03b1), (cmp a b).Compares a b) : LinearOrder \u03b1",
+      "module": "Mathlib.Order.Compare",
+      "doc": "Generate a linear order structure from a preorder and `cmp` function. "
+    },
+    {
+      "name": "instIsWellOrderOfIsEmpty",
+      "type": " {\u03b1 : Type u} [IsEmpty \u03b1] (r : \u03b1 \u2192 \u03b1 \u2192 Prop) : IsWellOrder \u03b1 r",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": ""
+    },
+    {
+      "name": "partialOrderOfSO",
+      "type": " {\u03b1 : Type u} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [IsStrictOrder \u03b1 r] : PartialOrder \u03b1",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Construct a partial order from an `isStrictOrder` relation.\n\nSee note [reducible non-instances]. "
+    },
+    {
+      "name": "instIsStrictTotalOrderOfIsWellOrder",
+      "type": " {\u03b1 : Type u_1} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [IsWellOrder \u03b1 r] : IsStrictTotalOrder \u03b1 r",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": ""
+    },
+    {
+      "name": "linearOrderOfSTO",
+      "type": " {\u03b1 : Type u} (r : \u03b1 \u2192 \u03b1 \u2192 Prop) [IsStrictTotalOrder \u03b1 r] [DecidableRel r] : LinearOrder \u03b1",
+      "module": "Mathlib.Order.RelClasses",
+      "doc": "Construct a linear order from an `IsStrictTotalOrder` relation.\n\nSee note [reducible non-instances]. "
+    },
+    {
+      "name": "addOrderOf_dvd_natCard",
+      "type": " {G : Type u_6} [AddGroup G] (x : G) : addOrderOf x \u2223 Nat.card G",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_dvd_natCard",
+      "type": " {G : Type u_6} [Group G] (x : G) : orderOf x \u2223 Nat.card G",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "addOrderOf_dvd_card",
+      "type": " {G : Type u_1} [AddGroup G] [Fintype G] {x : G} : addOrderOf x \u2223 Fintype.card G",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_dvd_card",
+      "type": " {G : Type u_1} [Group G] [Fintype G] {x : G} : orderOf x \u2223 Fintype.card G",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "addOrderOf_dvd_of_nsmul_eq_zero",
+      "type": " {G : Type u_1} [AddMonoid G] {x : G} {n : \u2115} (h : n \u2022 x = 0) : addOrderOf x \u2223 n",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_dvd_of_pow_eq_one",
+      "type": " {G : Type u_1} [Monoid G] {x : G} {n : \u2115} (h : x ^ n = 1) : orderOf x \u2223 n",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "addOrderOf_dvd_iff_nsmul_eq_zero",
+      "type": " {G : Type u_1} [AddMonoid G] {x : G} {n : \u2115} : addOrderOf x \u2223 n \u2194 n \u2022 x = 0",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "addOrderOf_dvd_of_mem_zmultiples",
+      "type": " {G : Type u_1} [AddGroup G] {x y : G} (h : y \u2208 AddSubgroup.zmultiples x) : addOrderOf y \u2223 addOrderOf x",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_dvd_iff_pow_eq_one",
+      "type": " {G : Type u_1} [Monoid G] {x : G} {n : \u2115} : orderOf x \u2223 n \u2194 x ^ n = 1",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_dvd_of_mem_zpowers",
+      "type": " {G : Type u_1} [Group G] {x y : G} (h : y \u2208 Subgroup.zpowers x) : orderOf y \u2223 orderOf x",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "AddCommute.addOrderOf_dvd_lcm_add",
+      "type": " {G : Type u_1} [AddMonoid G] {x y : G} (h : AddCommute x y) : addOrderOf y \u2223 (addOrderOf x).lcm (addOrderOf (x + y))",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "Commute.orderOf_dvd_lcm_mul",
+      "type": " {G : Type u_1} [Monoid G] {x y : G} (h : Commute x y) : orderOf y \u2223 (orderOf x).lcm (orderOf (x * y))",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "IsUnit.orderOf_eq_one",
+      "type": " {G : Type u_1} [Monoid G] [Subsingleton G\u02e3] {x : G} (h : IsUnit x) : orderOf x = 1",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "orderOf_eq_one_iff",
+      "type": " {G : Type u_1} [Monoid G] {x : G} : orderOf x = 1 \u2194 x = 1",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "AddMonoid.addOrderOf_eq_one_iff",
+      "type": " {G : Type u_1} [AddMonoid G] {x : G} : addOrderOf x = 1 \u2194 x = 0",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "pow_orderOf_eq_one",
+      "type": " {G : Type u_1} [Monoid G] (x : G) : x ^ orderOf x = 1",
+      "module": "Mathlib.GroupTheory.OrderOfElement",
+      "doc": ""
+    },
+    {
+      "name": "Prime.dvd_prime_iff_associated",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] [IsCancelMulZero M] {p q : M} (pp : Prime p) (qp : Prime q) : p \u2223 q \u2194 Associated p q",
+      "module": "Mathlib.Algebra.GroupWithZero.Associated",
+      "doc": ""
+    },
+    {
+      "name": "prime_dvd_prime_iff_eq",
+      "type": " {M : Type u_2} [CommMonoidWithZero M] [IsCancelMulZero M] [Subsingleton M\u02e3] {p q : M} (pp : Prime p) (qp : Prime q) : p \u2223 q \u2194 p = q",
+      "module": "Mathlib.Algebra.GroupWithZero.Associated",
+      "doc": ""
+    },
+    {
+      "name": "dvd_prime_pow",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] [IsCancelMulZero M] {p q : M} (hp : Prime p) (n : \u2115) : q \u2223 p ^ n \u2194 \u2203 i \u2264 n, Associated q (p ^ i)",
+      "module": "Mathlib.Algebra.GroupWithZero.Associated",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_dvd_prime_iff_eq",
+      "type": " {p q : \u2115} (pp : Nat.Prime p) (qp : Nat.Prime q) : p \u2223 q \u2194 p = q",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.dvd_prime",
+      "type": " {p m : \u2115} (pp : Nat.Prime p) : m \u2223 p \u2194 m = 1 \u2228 m = p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.dvd_prime_two_le",
+      "type": " {p m : \u2115} (pp : Nat.Prime p) (H : 2 \u2264 m) : m \u2223 p \u2194 m = p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.dvd_prime_pow",
+      "type": " {p : \u2115} (pp : Nat.Prime p) {m i : \u2115} : i \u2223 p ^ m \u2194 \u2203 k \u2264 m, i = p ^ k",
+      "module": "Mathlib.Data.Nat.Prime.Basic",
+      "doc": ""
+    },
+    {
+      "name": "isAddCyclic_of_card_dvd_prime",
+      "type": " {\u03b1 : Type u_1} [AddGroup \u03b1] {p : \u2115} [hp : Fact (Nat.Prime p)] (h : Nat.card \u03b1 \u2223 p) : IsAddCyclic \u03b1",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": "A finite group of order dividing a prime is cyclic. "
+    },
+    {
+      "name": "isCyclic_of_card_dvd_prime",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] {p : \u2115} [hp : Fact (Nat.Prime p)] (h : Nat.card \u03b1 \u2223 p) : IsCyclic \u03b1",
+      "module": "Mathlib.GroupTheory.SpecificGroups.Cyclic.Basic",
+      "doc": "A finite group of order dividing a prime is cyclic. "
+    },
+    {
+      "name": "PNat.dvd_prime",
+      "type": " {p m : \u2115+} (pp : p.Prime) : m \u2223 p \u2194 m = 1 \u2228 m = p",
+      "module": "Mathlib.Data.PNat.Prime",
+      "doc": ""
+    },
+    {
+      "name": "IsPrimitiveRoot.toInteger_sub_one_dvd_prime'",
+      "type": " {p : \u2115} {K : Type u} [Field K] {\u03b6 : K} [hp : Fact (Nat.Prime p)] [CharZero K] [hcycl : IsCyclotomicExtension {p} \u211a K] (h\u03b6 : IsPrimitiveRoot \u03b6 p) : h\u03b6.toInteger - 1 \u2223 \u2191p",
+      "module": "Mathlib.NumberTheory.NumberField.Cyclotomic.Basic",
+      "doc": "In a `p`-th cyclotomic extension of `\u211a`, we have that `\u03b6 - 1` divides `p` in `\ud835\udcde K`. "
+    },
+    {
+      "name": "IsPrimitiveRoot.toInteger_sub_one_dvd_prime",
+      "type": " {p k : \u2115} {K : Type u} [Field K] {\u03b6 : K} [hp : Fact (Nat.Prime p)] [CharZero K] [hcycl : IsCyclotomicExtension {p ^ (k + 1)} \u211a K] (h\u03b6 : IsPrimitiveRoot \u03b6 (p ^ (k + 1))) : h\u03b6.toInteger - 1 \u2223 \u2191p",
+      "module": "Mathlib.NumberTheory.NumberField.Cyclotomic.Basic",
+      "doc": "In a `p ^ (k + 1)`-th cyclotomic extension of `\u211a`, we have that\n`\u03b6 - 1` divides `p` in `\ud835\udcde K`. "
+    },
+    {
+      "name": "Nat.prime_two",
+      "type": " : Nat.Prime 2",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "PNat.prime_two",
+      "type": " : PNat.Prime 2",
+      "module": "Mathlib.Data.PNat.Prime",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> CommGroup.toGroup, Group.mk, Pi.group, Multiplicative.group, Function.Injective.group, Function.Surjective.group, AddOpposite.instGroup, MulOpposite.instGroup",
+    "search: '\"orderOf\"' -> Relation.ReflGen.instIsPreorderOfIsTrans, Relation.TransGen.instIsPreorderOfRefl, instNoBotOrderOfNoMinOrder, instNoTopOrderOfNoMaxOrder, linearOrderOfCompares, instIsWellOrderOfIsEmpty, partialOrderOfSO, instIsStrictTotalOrderOfIsWellOrder",
+    "search: '\"orderOf_dvd\"' -> addOrderOf_dvd_natCard, orderOf_dvd_natCard, addOrderOf_dvd_card, orderOf_dvd_card, addOrderOf_dvd_of_nsmul_eq_zero, orderOf_dvd_of_pow_eq_one, addOrderOf_dvd_iff_nsmul_eq_zero, addOrderOf_dvd_of_mem_zmultiples",
+    "search: '\"orderOf_eq_one\"' -> IsUnit.orderOf_eq_one, orderOf_eq_one_iff, AddMonoid.addOrderOf_eq_one_iff, pow_orderOf_eq_one",
+    "search: '\"dvd_prime\"' -> Prime.dvd_prime_iff_associated, prime_dvd_prime_iff_eq, dvd_prime_pow, Nat.prime_dvd_prime_iff_eq, Nat.dvd_prime, Nat.dvd_prime_two_le, Nat.dvd_prime_pow, isAddCyclic_of_card_dvd_prime",
+    "search: '\"Nat.prime_two\"' -> Nat.prime_two, PNat.prime_two",
+    "seeded from goal shape -> CommGroup.toGroup, Group.mk, Pi.group, Multiplicative.group, Function.Injective.group, Function.Surjective.group, AddOpposite.instGroup, MulOpposite.instGroup",
+    "seeded from goal shape -> CommGroup.toGroup, Group.mk, Pi.group, Multiplicative.group, Function.Injective.group, Function.Surjective.group, AddOpposite.instGroup, MulOpposite.instGroup"
+  ],
+  "budget": {
+    "tool_calls": 11,
+    "lean_calls": 6,
+    "searches": 5,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788864433.5365715,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 3,
+    "refusals": {}
+  },
+  "goal": "theorem exercise_1_1_sixteen {G : Type*} [Group G]\n  (x : G) (hx : x ^ 2 = 1) :\n  orderOf x = 1 \u2228 orderOf x = 2"
+}

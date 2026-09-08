@@ -1,0 +1,829 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_19\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016)\n  : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788861779.502351,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_19\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016)\n  : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Filter.principal\n    | exact Filter.principal _\n    | apply Filter.principal\n    | simpa using Filter.principal\n    | exact \u27e8_, Filter.principal\u27e9\n    | exact Filter.principal (by assumption)\n    | exact Filter.principal \u2039_\u203a\n    | apply Filter.principal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.principal (by assumption))\n    | exact Filter.join\n    | exact Filter.join _\n    | apply Filter.join\n    | simpa using Filter.join\n    | exact \u27e8_, Filter.join\u27e9\n    | exact Filter.join (by assumption)\n    | exact Filter.join \u2039_\u203a\n    | apply Filter.join <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.join (by assumption))\n    | exact Filter.sInf\n    | exact Filter.sInf _\n    | apply Filter.sInf\n    | simpa using Filter.sInf\n    | exact \u27e8_, Filter.sInf\u27e9\n    | exact Filter.sInf (by assumption)\n    | exact Filter.sInf \u2039_\u203a\n    | apply Filter.sInf <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.sInf (by assumption))\n    | exact Filter.comap\n    | exact Filter.comap _\n    | apply Filter.comap\n    | simpa using Filter.comap\n    | exact \u27e8_, Filter.comap\u27e9\n    | exact Filter.comap (by assumption)\n    | exact Filter.comap \u2039_\u203a\n    | apply Filter.comap <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.comap (by assumption))\n    | exact Filter.map\n    | exact Filter.map _\n    | apply Filter.map\n    | simpa using Filter.map\n    | exact \u27e8_, Filter.map\u27e9\n    | exact Filter.map (by assumption)\n    | exact Filter.map \u2039_\u203a\n    | apply Filter.map <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.map (by assumption))\n    | exact Filter.bind\n    | exact Filter.bind _\n    | apply Filter.bind\n    | simpa using Filter.bind\n    | exact \u27e8_, Filter.bind\u27e9\n    | exact Filter.bind (by assumption)\n    | exact Filter.bind \u2039_\u203a\n    | apply Filter.bind <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.bind (by assumption))\n    | exact Filter.seq\n    | exact Filter.seq _\n    | apply Filter.seq\n    | simpa using Filter.seq\n    | exact \u27e8_, Filter.seq\u27e9\n    | exact Filter.seq (by assumption)\n    | exact Filter.seq \u2039_\u203a\n    | apply Filter.seq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.seq (by assumption))\n    | exact Filter.coprod\n    | exact Filter.coprod _\n    | apply Filter.coprod\n    | simpa using Filter.coprod\n    | exact \u27e8_, Filter.coprod\u27e9\n    | exact Filter.coprod (by assumption)\n    | exact Filter.coprod \u2039_\u203a\n    | apply Filter.coprod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.coprod (by assumption))\n    | exact Filter.curry\n    | exact Filter.curry _\n    | apply Filter.curry\n    | simpa using Filter.curry\n    | exact \u27e8_, Filter.curry\u27e9\n    | exact Filter.curry (by assumption)\n    | exact Filter.curry \u2039_\u203a\n    | apply Filter.curry <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.curry (by assumption))\n    | exact Filter.lift\n    | exact Filter.lift _\n    | apply Filter.lift\n    | simpa using Filter.lift\n    | exact \u27e8_, Filter.lift\u27e9\n    | exact Filter.lift (by assumption)\n    | exact Filter.lift \u2039_\u203a\n    | apply Filter.lift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift (by assumption))\n    | exact Filter.lift'\n    | exact Filter.lift' _\n    | apply Filter.lift'\n    | simpa using Filter.lift'\n    | exact \u27e8_, Filter.lift'\u27e9\n    | exact Filter.lift' (by assumption)\n    | exact Filter.lift' \u2039_\u203a\n    | apply Filter.lift' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift' (by assumption))\n    | exact Filter.pi\n    | exact Filter.pi _\n    | apply Filter.pi\n    | simpa using Filter.pi\n    | exact \u27e8_, Filter.pi\u27e9\n    | exact Filter.pi (by assumption)\n    | exact Filter.pi \u2039_\u203a\n    | apply Filter.pi <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.pi (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n11:43: error: unsolved goals\nn : \u2115\na b c x : EuclideanSpace \u211d (Fin n)\nr : \u211d\nh\u2081 : r > 0\nh\u2082 : 3 \u2022 c = 4 \u2022 b - a\nh\u2083 : 3 * r = 2 * \u2016x - b\u2016\n\u22a2 \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r\n\nStill to prove:\n\u22a2 \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "at": 1788861804.5889409,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_19\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016)\n  : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r",
+      "proof": "by\n  constructor\n  \u00b7 intro h_eq\n    have h_contra : \u2016x - c\u2016 = r := by sorry\n    exact h_contra\n  \u00b7 intro h_eq\n    have h_contra : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 := by sorry\n    exact h_contra",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788861825.5896726,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_1 (n : \u2115) (a b c x : EuclideanSpace \u211d (Fin n)) (r : \u211d) (h\u2081 : r > 0) (h\u2082 : 3 \u2022 c = 4 \u2022 b - a) (h\u2083 : 3 * r = 2 * \u2016x - b\u2016) : \u2016x - c\u2016 = r",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Filter.principal\n    | exact Filter.principal _\n    | apply Filter.principal\n    | simpa using Filter.principal\n    | exact \u27e8_, Filter.principal\u27e9\n    | exact Filter.principal (by assumption)\n    | exact Filter.principal \u2039_\u203a\n    | apply Filter.principal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.principal (by assumption))\n    | exact Filter.join\n    | exact Filter.join _\n    | apply Filter.join\n    | simpa using Filter.join\n    | exact \u27e8_, Filter.join\u27e9\n    | exact Filter.join (by assumption)\n    | exact Filter.join \u2039_\u203a\n    | apply Filter.join <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.join (by assumption))\n    | exact Filter.sInf\n    | exact Filter.sInf _\n    | apply Filter.sInf\n    | simpa using Filter.sInf\n    | exact \u27e8_, Filter.sInf\u27e9\n    | exact Filter.sInf (by assumption)\n    | exact Filter.sInf \u2039_\u203a\n    | apply Filter.sInf <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.sInf (by assumption))\n    | exact Filter.comap\n    | exact Filter.comap _\n    | apply Filter.comap\n    | simpa using Filter.comap\n    | exact \u27e8_, Filter.comap\u27e9\n    | exact Filter.comap (by assumption)\n    | exact Filter.comap \u2039_\u203a\n    | apply Filter.comap <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.comap (by assumption))\n    | exact Filter.map\n    | exact Filter.map _\n    | apply Filter.map\n    | simpa using Filter.map\n    | exact \u27e8_, Filter.map\u27e9\n    | exact Filter.map (by assumption)\n    | exact Filter.map \u2039_\u203a\n    | apply Filter.map <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.map (by assumption))\n    | exact Filter.bind\n    | exact Filter.bind _\n    | apply Filter.bind\n    | simpa using Filter.bind\n    | exact \u27e8_, Filter.bind\u27e9\n    | exact Filter.bind (by assumption)\n    | exact Filter.bind \u2039_\u203a\n    | apply Filter.bind <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.bind (by assumption))\n    | exact Filter.seq\n    | exact Filter.seq _\n    | apply Filter.seq\n    | simpa using Filter.seq\n    | exact \u27e8_, Filter.seq\u27e9\n    | exact Filter.seq (by assumption)\n    | exact Filter.seq \u2039_\u203a\n    | apply Filter.seq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.seq (by assumption))\n    | exact Filter.coprod\n    | exact Filter.coprod _\n    | apply Filter.coprod\n    | simpa using Filter.coprod\n    | exact \u27e8_, Filter.coprod\u27e9\n    | exact Filter.coprod (by assumption)\n    | exact Filter.coprod \u2039_\u203a\n    | apply Filter.coprod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.coprod (by assumption))\n    | exact Filter.curry\n    | exact Filter.curry _\n    | apply Filter.curry\n    | simpa using Filter.curry\n    | exact \u27e8_, Filter.curry\u27e9\n    | exact Filter.curry (by assumption)\n    | exact Filter.curry \u2039_\u203a\n    | apply Filter.curry <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.curry (by assumption))\n    | exact Filter.lift\n    | exact Filter.lift _\n    | apply Filter.lift\n    | simpa using Filter.lift\n    | exact \u27e8_, Filter.lift\u27e9\n    | exact Filter.lift (by assumption)\n    | exact Filter.lift \u2039_\u203a\n    | apply Filter.lift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift (by assumption))\n    | exact Filter.lift'\n    | exact Filter.lift' _\n    | apply Filter.lift'\n    | simpa using Filter.lift'\n    | exact \u27e8_, Filter.lift'\u27e9\n    | exact Filter.lift' (by assumption)\n    | exact Filter.lift' \u2039_\u203a\n    | apply Filter.lift' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift' (by assumption))\n    | exact Filter.pi\n    | exact Filter.pi _\n    | apply Filter.pi\n    | simpa using Filter.pi\n    | exact \u27e8_, Filter.pi\u27e9\n    | exact Filter.pi (by assumption)\n    | exact Filter.pi \u2039_\u203a\n    | apply Filter.pi <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.pi (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:152: error: unsolved goals\nn : \u2115\na b c x : EuclideanSpace \u211d (Fin n)\nr : \u211d\nh\u2081 : r > 0\nh\u2082 : 3 \u2022 c = 4 \u2022 b - a\nh\u2083 : 3 * r = 2 * \u2016x - b\u2016\n\u22a2 \u2016x - c\u2016 = r\n\nStill to prove:\n\u22a2 \u2016x - c\u2016 = r",
+      "at": 1788861825.7051213,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_2 (n : \u2115) (a b c x : EuclideanSpace \u211d (Fin n)) (h\u2082 : 3 \u2022 c = 4 \u2022 b - a) : \u2016x - a\u2016 = 2 * \u2016x - b\u2016",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Filter.principal\n    | exact Filter.principal _\n    | apply Filter.principal\n    | simpa using Filter.principal\n    | exact \u27e8_, Filter.principal\u27e9\n    | exact Filter.principal (by assumption)\n    | exact Filter.principal \u2039_\u203a\n    | apply Filter.principal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.principal (by assumption))\n    | exact Filter.join\n    | exact Filter.join _\n    | apply Filter.join\n    | simpa using Filter.join\n    | exact \u27e8_, Filter.join\u27e9\n    | exact Filter.join (by assumption)\n    | exact Filter.join \u2039_\u203a\n    | apply Filter.join <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.join (by assumption))\n    | exact Filter.sInf\n    | exact Filter.sInf _\n    | apply Filter.sInf\n    | simpa using Filter.sInf\n    | exact \u27e8_, Filter.sInf\u27e9\n    | exact Filter.sInf (by assumption)\n    | exact Filter.sInf \u2039_\u203a\n    | apply Filter.sInf <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.sInf (by assumption))\n    | exact Filter.comap\n    | exact Filter.comap _\n    | apply Filter.comap\n    | simpa using Filter.comap\n    | exact \u27e8_, Filter.comap\u27e9\n    | exact Filter.comap (by assumption)\n    | exact Filter.comap \u2039_\u203a\n    | apply Filter.comap <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.comap (by assumption))\n    | exact Filter.map\n    | exact Filter.map _\n    | apply Filter.map\n    | simpa using Filter.map\n    | exact \u27e8_, Filter.map\u27e9\n    | exact Filter.map (by assumption)\n    | exact Filter.map \u2039_\u203a\n    | apply Filter.map <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.map (by assumption))\n    | exact Filter.bind\n    | exact Filter.bind _\n    | apply Filter.bind\n    | simpa using Filter.bind\n    | exact \u27e8_, Filter.bind\u27e9\n    | exact Filter.bind (by assumption)\n    | exact Filter.bind \u2039_\u203a\n    | apply Filter.bind <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.bind (by assumption))\n    | exact Filter.seq\n    | exact Filter.seq _\n    | apply Filter.seq\n    | simpa using Filter.seq\n    | exact \u27e8_, Filter.seq\u27e9\n    | exact Filter.seq (by assumption)\n    | exact Filter.seq \u2039_\u203a\n    | apply Filter.seq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.seq (by assumption))\n    | exact Filter.coprod\n    | exact Filter.coprod _\n    | apply Filter.coprod\n    | simpa using Filter.coprod\n    | exact \u27e8_, Filter.coprod\u27e9\n    | exact Filter.coprod (by assumption)\n    | exact Filter.coprod \u2039_\u203a\n    | apply Filter.coprod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.coprod (by assumption))\n    | exact Filter.curry\n    | exact Filter.curry _\n    | apply Filter.curry\n    | simpa using Filter.curry\n    | exact \u27e8_, Filter.curry\u27e9\n    | exact Filter.curry (by assumption)\n    | exact Filter.curry \u2039_\u203a\n    | apply Filter.curry <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.curry (by assumption))\n    | exact Filter.lift\n    | exact Filter.lift _\n    | apply Filter.lift\n    | simpa using Filter.lift\n    | exact \u27e8_, Filter.lift\u27e9\n    | exact Filter.lift (by assumption)\n    | exact Filter.lift \u2039_\u203a\n    | apply Filter.lift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift (by assumption))\n    | exact Filter.lift'\n    | exact Filter.lift' _\n    | apply Filter.lift'\n    | simpa using Filter.lift'\n    | exact \u27e8_, Filter.lift'\u27e9\n    | exact Filter.lift' (by assumption)\n    | exact Filter.lift' \u2039_\u203a\n    | apply Filter.lift' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift' (by assumption))\n    | exact Filter.pi\n    | exact Filter.pi _\n    | apply Filter.pi\n    | simpa using Filter.pi\n    | exact \u27e8_, Filter.pi\u27e9\n    | exact Filter.pi (by assumption)\n    | exact Filter.pi \u2039_\u203a\n    | apply Filter.pi <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.pi (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:114: error: unsolved goals\nn : \u2115\na b c x : EuclideanSpace \u211d (Fin n)\nh\u2082 : 3 \u2022 c = 4 \u2022 b - a\n\u22a2 \u2016x - a\u2016 = 2 * \u2016x - b\u2016\n\nStill to prove:\n\u22a2 \u2016x - a\u2016 = 2 * \u2016x - b\u2016",
+      "at": 1788861825.8120658,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma mra_lemma_1\n  (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016)\n  (h_eq : \u2016x - a\u2016 = 2 * \u2016x - b\u2016)\n  : \u2016x - c\u2016 = r",
+      "proof": "by\n  -- Let's try to use the hypotheses to prove it, which will fail\n  linarith",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n11:2: error: linarith failed to find a contradiction\ncase h1\nn : \u2115\na b c x : EuclideanSpace \u211d (Fin n)\nr : \u211d\nh\u2081 : r > 0\nh\u2082 : 3 \u2022 c = 4 \u2022 b - a\nh\u2083 : 3 * r = 2 * \u2016x - b\u2016\nh_eq : \u2016x - a\u2016 = 2 * \u2016x - b\u2016\na\u271d : \u2016x - c\u2016 < r\n\u22a2 False\nfailed\n\nStill to prove:\n\u22a2 False",
+      "at": 1788861852.8285363,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "\u00ac (\u2200 (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016), \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r)",
+      "proof": "by\n  push_neg\n  use 1\n  let a : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => -3)\n  let b : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => 0)\n  let c : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => 1)\n  let x : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => -1)\n  let r : \u211d := 2/3\n  use a, b, c, x, r\n  have h\u2081 : r > 0 := by sorry\n  have h\u2082 : 3 \u2022 c = 4 \u2022 b - a := by sorry\n  have h\u2083 : 3 * r = 2 * \u2016x - b\u2016 := by sorry\n  have h_not : \u00ac (\u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r) := by sorry\n  exact \u27e8h\u2081, h\u2082, h\u2083, h_not\u27e9",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:0: error: unexpected token '\u00ac'; expected command",
+      "at": 1788861863.3808796,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_1_19_refutation : \u00ac (\u2200 (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016), \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r)",
+      "proof": "by\n  push_neg\n  use 1\n  let a : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => -3)\n  let b : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => 0)\n  let c : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => 1)\n  let x : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => -1)\n  let r : \u211d := 2/3\n  use a, b, c, x, r\n  have h\u2081 : r > 0 := by sorry\n  have h\u2082 : 3 \u2022 c = 4 \u2022 b - a := by sorry\n  have h\u2083 : 3 * r = 2 * \u2016x - b\u2016 := by sorry\n  have h_not : \u00ac (\u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r) := by sorry\n  exact \u27e8h\u2081, h\u2082, h\u2083, h_not\u27e9",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n19:21: error: Application type mismatch: The argument\n  h_not\nhas type\n  \u00ac(\u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r)\nbut is expected to have type\n  \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2227 \u2016x - c\u2016 \u2260 r \u2228 \u2016x - a\u2016 \u2260 2 * \u2016x - b\u2016 \u2227 \u2016x - c\u2016 = r\nin the application\n  \u27e8h\u2083, h_not\u27e9",
+      "at": 1788861867.5317724,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_1_19_refutation : \u00ac (\u2200 (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016), \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r)",
+      "proof": "by\n  push_neg\n  use 1\n  let a : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => -3)\n  let b : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => 0)\n  let c : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => 1)\n  let x : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => -1)\n  let r : \u211d := 2/3\n  use a, b, c, x, r\n  have h\u2081 : r > 0 := by sorry\n  have h\u2082 : 3 \u2022 c = 4 \u2022 b - a := by sorry\n  have h\u2083 : 3 * r = 2 * \u2016x - b\u2016 := by sorry\n  have h_not : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2227 \u2016x - c\u2016 \u2260 r \u2228 \u2016x - a\u2016 \u2260 2 * \u2016x - b\u2016 \u2227 \u2016x - c\u2016 = r := by sorry\n  exact \u27e8h\u2081, h\u2082, h\u2083, h_not\u27e9",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788861870.951823,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_1 : r > 0",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Filter.principal\n    | exact Filter.principal _\n    | apply Filter.principal\n    | simpa using Filter.principal\n    | exact \u27e8_, Filter.principal\u27e9\n    | exact Filter.principal (by assumption)\n    | exact Filter.principal \u2039_\u203a\n    | apply Filter.principal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.principal (by assumption))\n    | exact Filter.join\n    | exact Filter.join _\n    | apply Filter.join\n    | simpa using Filter.join\n    | exact \u27e8_, Filter.join\u27e9\n    | exact Filter.join (by assumption)\n    | exact Filter.join \u2039_\u203a\n    | apply Filter.join <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.join (by assumption))\n    | exact Filter.sInf\n    | exact Filter.sInf _\n    | apply Filter.sInf\n    | simpa using Filter.sInf\n    | exact \u27e8_, Filter.sInf\u27e9\n    | exact Filter.sInf (by assumption)\n    | exact Filter.sInf \u2039_\u203a\n    | apply Filter.sInf <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.sInf (by assumption))\n    | exact Filter.comap\n    | exact Filter.comap _\n    | apply Filter.comap\n    | simpa using Filter.comap\n    | exact \u27e8_, Filter.comap\u27e9\n    | exact Filter.comap (by assumption)\n    | exact Filter.comap \u2039_\u203a\n    | apply Filter.comap <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.comap (by assumption))\n    | exact Filter.map\n    | exact Filter.map _\n    | apply Filter.map\n    | simpa using Filter.map\n    | exact \u27e8_, Filter.map\u27e9\n    | exact Filter.map (by assumption)\n    | exact Filter.map \u2039_\u203a\n    | apply Filter.map <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.map (by assumption))\n    | exact Filter.bind\n    | exact Filter.bind _\n    | apply Filter.bind\n    | simpa using Filter.bind\n    | exact \u27e8_, Filter.bind\u27e9\n    | exact Filter.bind (by assumption)\n    | exact Filter.bind \u2039_\u203a\n    | apply Filter.bind <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.bind (by assumption))\n    | exact Filter.seq\n    | exact Filter.seq _\n    | apply Filter.seq\n    | simpa using Filter.seq\n    | exact \u27e8_, Filter.seq\u27e9\n    | exact Filter.seq (by assumption)\n    | exact Filter.seq \u2039_\u203a\n    | apply Filter.seq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.seq (by assumption))\n    | exact Filter.coprod\n    | exact Filter.coprod _\n    | apply Filter.coprod\n    | simpa using Filter.coprod\n    | exact \u27e8_, Filter.coprod\u27e9\n    | exact Filter.coprod (by assumption)\n    | exact Filter.coprod \u2039_\u203a\n    | apply Filter.coprod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.coprod (by assumption))\n    | exact Filter.curry\n    | exact Filter.curry _\n    | apply Filter.curry\n    | simpa using Filter.curry\n    | exact \u27e8_, Filter.curry\u27e9\n    | exact Filter.curry (by assumption)\n    | exact Filter.curry \u2039_\u203a\n    | apply Filter.curry <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.curry (by assumption))\n    | exact Filter.lift\n    | exact Filter.lift _\n    | apply Filter.lift\n    | simpa using Filter.lift\n    | exact \u27e8_, Filter.lift\u27e9\n    | exact Filter.lift (by assumption)\n    | exact Filter.lift \u2039_\u203a\n    | apply Filter.lift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift (by assumption))\n    | exact Filter.lift'\n    | exact Filter.lift' _\n    | apply Filter.lift'\n    | simpa using Filter.lift'\n    | exact \u27e8_, Filter.lift'\u27e9\n    | exact Filter.lift' (by assumption)\n    | exact Filter.lift' \u2039_\u203a\n    | apply Filter.lift' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift' (by assumption))\n    | exact Filter.pi\n    | exact Filter.pi _\n    | apply Filter.pi\n    | simpa using Filter.pi\n    | exact \u27e8_, Filter.pi\u27e9\n    | exact Filter.pi (by assumption)\n    | exact Filter.pi \u2039_\u203a\n    | apply Filter.pi <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.pi (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:28: error: unsolved goals\nr : \u2115\n\u22a2 0 < r\n\nStill to prove:\n\u22a2 0 < r",
+      "at": 1788861871.013418,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_2 : 3 \u2022 c = 4 \u2022 b - a",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Filter.principal\n    | exact Filter.principal _\n    | apply Filter.principal\n    | simpa using Filter.principal\n    | exact \u27e8_, Filter.principal\u27e9\n    | exact Filter.principal (by assumption)\n    | exact Filter.principal \u2039_\u203a\n    | apply Filter.principal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.principal (by assumption))\n    | exact Filter.join\n    | exact Filter.join _\n    | apply Filter.join\n    | simpa using Filter.join\n    | exact \u27e8_, Filter.join\u27e9\n    | exact Filter.join (by assumption)\n    | exact Filter.join \u2039_\u203a\n    | apply Filter.join <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.join (by assumption))\n    | exact Filter.sInf\n    | exact Filter.sInf _\n    | apply Filter.sInf\n    | simpa using Filter.sInf\n    | exact \u27e8_, Filter.sInf\u27e9\n    | exact Filter.sInf (by assumption)\n    | exact Filter.sInf \u2039_\u203a\n    | apply Filter.sInf <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.sInf (by assumption))\n    | exact Filter.comap\n    | exact Filter.comap _\n    | apply Filter.comap\n    | simpa using Filter.comap\n    | exact \u27e8_, Filter.comap\u27e9\n    | exact Filter.comap (by assumption)\n    | exact Filter.comap \u2039_\u203a\n    | apply Filter.comap <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.comap (by assumption))\n    | exact Filter.map\n    | exact Filter.map _\n    | apply Filter.map\n    | simpa using Filter.map\n    | exact \u27e8_, Filter.map\u27e9\n    | exact Filter.map (by assumption)\n    | exact Filter.map \u2039_\u203a\n    | apply Filter.map <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.map (by assumption))\n    | exact Filter.bind\n    | exact Filter.bind _\n    | apply Filter.bind\n    | simpa using Filter.bind\n    | exact \u27e8_, Filter.bind\u27e9\n    | exact Filter.bind (by assumption)\n    | exact Filter.bind \u2039_\u203a\n    | apply Filter.bind <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.bind (by assumption))\n    | exact Filter.seq\n    | exact Filter.seq _\n    | apply Filter.seq\n    | simpa using Filter.seq\n    | exact \u27e8_, Filter.seq\u27e9\n    | exact Filter.seq (by assumption)\n    | exact Filter.seq \u2039_\u203a\n    | apply Filter.seq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.seq (by assumption))\n    | exact Filter.coprod\n    | exact Filter.coprod _\n    | apply Filter.coprod\n    | simpa using Filter.coprod\n    | exact \u27e8_, Filter.coprod\u27e9\n    | exact Filter.coprod (by assumption)\n    | exact Filter.coprod \u2039_\u203a\n    | apply Filter.coprod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.coprod (by assumption))\n    | exact Filter.curry\n    | exact Filter.curry _\n    | apply Filter.curry\n    | simpa using Filter.curry\n    | exact \u27e8_, Filter.curry\u27e9\n    | exact Filter.curry (by assumption)\n    | exact Filter.curry \u2039_\u203a\n    | apply Filter.curry <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.curry (by assumption))\n    | exact Filter.lift\n    | exact Filter.lift _\n    | apply Filter.lift\n    | simpa using Filter.lift\n    | exact \u27e8_, Filter.lift\u27e9\n    | exact Filter.lift (by assumption)\n    | exact Filter.lift \u2039_\u203a\n    | apply Filter.lift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift (by assumption))\n    | exact Filter.lift'\n    | exact Filter.lift' _\n    | apply Filter.lift'\n    | simpa using Filter.lift'\n    | exact \u27e8_, Filter.lift'\u27e9\n    | exact Filter.lift' (by assumption)\n    | exact Filter.lift' \u2039_\u203a\n    | apply Filter.lift' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift' (by assumption))\n    | exact Filter.pi\n    | exact Filter.pi _\n    | apply Filter.pi\n    | simpa using Filter.pi\n    | exact \u27e8_, Filter.pi\u27e9\n    | exact Filter.pi (by assumption)\n    | exact Filter.pi \u2039_\u203a\n    | apply Filter.pi <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.pi (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:19: error: typeclass instance problem is stuck\n  HSMul \u2115 ?m.12 ?m.23\n\nNote: Lean will not try to resolve this typeclass instance problem because the second type argument to `HSMul` is a metavariable. This argument must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.",
+      "at": 1788861871.0588787,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_3 : 3 * r = 2 * \u2016x - b\u2016",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Filter.principal\n    | exact Filter.principal _\n    | apply Filter.principal\n    | simpa using Filter.principal\n    | exact \u27e8_, Filter.principal\u27e9\n    | exact Filter.principal (by assumption)\n    | exact Filter.principal \u2039_\u203a\n    | apply Filter.principal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.principal (by assumption))\n    | exact Filter.join\n    | exact Filter.join _\n    | apply Filter.join\n    | simpa using Filter.join\n    | exact \u27e8_, Filter.join\u27e9\n    | exact Filter.join (by assumption)\n    | exact Filter.join \u2039_\u203a\n    | apply Filter.join <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.join (by assumption))\n    | exact Filter.sInf\n    | exact Filter.sInf _\n    | apply Filter.sInf\n    | simpa using Filter.sInf\n    | exact \u27e8_, Filter.sInf\u27e9\n    | exact Filter.sInf (by assumption)\n    | exact Filter.sInf \u2039_\u203a\n    | apply Filter.sInf <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.sInf (by assumption))\n    | exact Filter.comap\n    | exact Filter.comap _\n    | apply Filter.comap\n    | simpa using Filter.comap\n    | exact \u27e8_, Filter.comap\u27e9\n    | exact Filter.comap (by assumption)\n    | exact Filter.comap \u2039_\u203a\n    | apply Filter.comap <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.comap (by assumption))\n    | exact Filter.map\n    | exact Filter.map _\n    | apply Filter.map\n    | simpa using Filter.map\n    | exact \u27e8_, Filter.map\u27e9\n    | exact Filter.map (by assumption)\n    | exact Filter.map \u2039_\u203a\n    | apply Filter.map <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.map (by assumption))\n    | exact Filter.bind\n    | exact Filter.bind _\n    | apply Filter.bind\n    | simpa using Filter.bind\n    | exact \u27e8_, Filter.bind\u27e9\n    | exact Filter.bind (by assumption)\n    | exact Filter.bind \u2039_\u203a\n    | apply Filter.bind <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.bind (by assumption))\n    | exact Filter.seq\n    | exact Filter.seq _\n    | apply Filter.seq\n    | simpa using Filter.seq\n    | exact \u27e8_, Filter.seq\u27e9\n    | exact Filter.seq (by assumption)\n    | exact Filter.seq \u2039_\u203a\n    | apply Filter.seq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.seq (by assumption))\n    | exact Filter.coprod\n    | exact Filter.coprod _\n    | apply Filter.coprod\n    | simpa using Filter.coprod\n    | exact \u27e8_, Filter.coprod\u27e9\n    | exact Filter.coprod (by assumption)\n    | exact Filter.coprod \u2039_\u203a\n    | apply Filter.coprod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.coprod (by assumption))\n    | exact Filter.curry\n    | exact Filter.curry _\n    | apply Filter.curry\n    | simpa using Filter.curry\n    | exact \u27e8_, Filter.curry\u27e9\n    | exact Filter.curry (by assumption)\n    | exact Filter.curry \u2039_\u203a\n    | apply Filter.curry <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.curry (by assumption))\n    | exact Filter.lift\n    | exact Filter.lift _\n    | apply Filter.lift\n    | simpa using Filter.lift\n    | exact \u27e8_, Filter.lift\u27e9\n    | exact Filter.lift (by assumption)\n    | exact Filter.lift \u2039_\u203a\n    | apply Filter.lift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift (by assumption))\n    | exact Filter.lift'\n    | exact Filter.lift' _\n    | apply Filter.lift'\n    | simpa using Filter.lift'\n    | exact \u27e8_, Filter.lift'\u27e9\n    | exact Filter.lift' (by assumption)\n    | exact Filter.lift' \u2039_\u203a\n    | apply Filter.lift' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift' (by assumption))\n    | exact Filter.pi\n    | exact Filter.pi _\n    | apply Filter.pi\n    | simpa using Filter.pi\n    | exact \u27e8_, Filter.pi\u27e9\n    | exact Filter.pi (by assumption)\n    | exact Filter.pi \u2039_\u203a\n    | apply Filter.pi <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.pi (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:32: error: typeclass instance problem is stuck\n  HSub ?m.14 ?m.15 ?m.8\n\nNote: Lean will not try to resolve this typeclass instance problem because the first and second type arguments to `HSub` are metavariables. These arguments must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.",
+      "at": 1788861871.0815635,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_4 : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2227 \u2016x - c\u2016 \u2260 r \u2228 \u2016x - a\u2016 \u2260 2 * \u2016x - b\u2016 \u2227 \u2016x - c\u2016 = r",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Filter.principal\n    | exact Filter.principal _\n    | apply Filter.principal\n    | simpa using Filter.principal\n    | exact \u27e8_, Filter.principal\u27e9\n    | exact Filter.principal (by assumption)\n    | exact Filter.principal \u2039_\u203a\n    | apply Filter.principal <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.principal (by assumption))\n    | exact Filter.join\n    | exact Filter.join _\n    | apply Filter.join\n    | simpa using Filter.join\n    | exact \u27e8_, Filter.join\u27e9\n    | exact Filter.join (by assumption)\n    | exact Filter.join \u2039_\u203a\n    | apply Filter.join <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.join (by assumption))\n    | exact Filter.sInf\n    | exact Filter.sInf _\n    | apply Filter.sInf\n    | simpa using Filter.sInf\n    | exact \u27e8_, Filter.sInf\u27e9\n    | exact Filter.sInf (by assumption)\n    | exact Filter.sInf \u2039_\u203a\n    | apply Filter.sInf <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.sInf (by assumption))\n    | exact Filter.comap\n    | exact Filter.comap _\n    | apply Filter.comap\n    | simpa using Filter.comap\n    | exact \u27e8_, Filter.comap\u27e9\n    | exact Filter.comap (by assumption)\n    | exact Filter.comap \u2039_\u203a\n    | apply Filter.comap <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.comap (by assumption))\n    | exact Filter.map\n    | exact Filter.map _\n    | apply Filter.map\n    | simpa using Filter.map\n    | exact \u27e8_, Filter.map\u27e9\n    | exact Filter.map (by assumption)\n    | exact Filter.map \u2039_\u203a\n    | apply Filter.map <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.map (by assumption))\n    | exact Filter.bind\n    | exact Filter.bind _\n    | apply Filter.bind\n    | simpa using Filter.bind\n    | exact \u27e8_, Filter.bind\u27e9\n    | exact Filter.bind (by assumption)\n    | exact Filter.bind \u2039_\u203a\n    | apply Filter.bind <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.bind (by assumption))\n    | exact Filter.seq\n    | exact Filter.seq _\n    | apply Filter.seq\n    | simpa using Filter.seq\n    | exact \u27e8_, Filter.seq\u27e9\n    | exact Filter.seq (by assumption)\n    | exact Filter.seq \u2039_\u203a\n    | apply Filter.seq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.seq (by assumption))\n    | exact Filter.coprod\n    | exact Filter.coprod _\n    | apply Filter.coprod\n    | simpa using Filter.coprod\n    | exact \u27e8_, Filter.coprod\u27e9\n    | exact Filter.coprod (by assumption)\n    | exact Filter.coprod \u2039_\u203a\n    | apply Filter.coprod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.coprod (by assumption))\n    | exact Filter.curry\n    | exact Filter.curry _\n    | apply Filter.curry\n    | simpa using Filter.curry\n    | exact \u27e8_, Filter.curry\u27e9\n    | exact Filter.curry (by assumption)\n    | exact Filter.curry \u2039_\u203a\n    | apply Filter.curry <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.curry (by assumption))\n    | exact Filter.lift\n    | exact Filter.lift _\n    | apply Filter.lift\n    | simpa using Filter.lift\n    | exact \u27e8_, Filter.lift\u27e9\n    | exact Filter.lift (by assumption)\n    | exact Filter.lift \u2039_\u203a\n    | apply Filter.lift <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift (by assumption))\n    | exact Filter.lift'\n    | exact Filter.lift' _\n    | apply Filter.lift'\n    | simpa using Filter.lift'\n    | exact \u27e8_, Filter.lift'\u27e9\n    | exact Filter.lift' (by assumption)\n    | exact Filter.lift' \u2039_\u203a\n    | apply Filter.lift' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.lift' (by assumption))\n    | exact Filter.pi\n    | exact Filter.pi _\n    | apply Filter.pi\n    | simpa using Filter.pi\n    | exact \u27e8_, Filter.pi\u27e9\n    | exact Filter.pi (by assumption)\n    | exact Filter.pi \u2039_\u203a\n    | apply Filter.pi <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Filter.pi (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:20: error: typeclass instance problem is stuck\n  HSub ?m.67 ?m.45 ?m.6\n\nNote: Lean will not try to resolve this typeclass instance problem because the first and second type arguments to `HSub` are metavariables. These arguments must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.",
+      "at": 1788861871.12512,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma ref_h1 : (2/3 : \u211d) > 0",
+      "proof": "by norm_num",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma ref_h1 : (2/3 : \u211d) > 0",
+      "at": 1788861873.2210248,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma ref_h2 :\n  3 \u2022 (WithLp.toLp 2 (fun _ : Fin 1 => (1 : \u211d))) =\n  4 \u2022 (WithLp.toLp 2 (fun _ : Fin 1 => (0 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (-3 : \u211d)))",
+      "proof": "by\n  simp only [\u2190 WithLp.toLp_smul, \u2190 WithLp.toLp_sub]\n  congr 1\n  ext i\n  simp\n  ring",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n10:2: error: No goals to be solved",
+      "at": 1788861877.811304,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma ref_h2 :\n  3 \u2022 (WithLp.toLp 2 (fun _ : Fin 1 => (1 : \u211d))) =\n  4 \u2022 (WithLp.toLp 2 (fun _ : Fin 1 => (0 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (-3 : \u211d)))",
+      "proof": "by\n  simp only [\u2190 WithLp.toLp_smul, \u2190 WithLp.toLp_sub]\n  congr 1\n  ext i\n  simp",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma ref_h2 :\n  3 \u2022 (WithLp.toLp 2 (fun _ : Fin 1 => (1 : \u211d))) =\n  4 \u2022 (WithLp.toLp 2 (fun _ : Fin 1 => (0 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (-3 : \u211d)))",
+      "at": 1788861880.1748438,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma toLp_eq_single : WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d)) = EuclideanSpace.single 0 (-1)",
+      "proof": "by\n  ext i\n  rw [Fin.ext_iff] at i\n  -- wait, Fin 1 has only 0, so i must be 0\n  have : i = 0 := Subsingleton.elim i 0\n  subst this\n  simp [EuclideanSpace.single, Pi.single]",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n13:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  ?m.32 = ?m.33\nin the target expression\n  Fin 1\n\ni : Fin 1\n\u22a2 (WithLp.toLp 2 fun x => -1).ofLp i = (EuclideanSpace.single 0 (-1)).ofLp i\n\nStill to prove:\n\u22a2 (WithLp.toLp 2 fun x => -1).ofLp i = (EuclideanSpace.single 0 (-1)).ofLp i",
+      "at": 1788861890.833746,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma toLp_eq_single : WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d)) = EuclideanSpace.single 0 (-1)",
+      "proof": "by\n  ext i\n  rw [WithLp.ofLp_toLp, EuclideanSpace.ofLp_single]\n  have : i = 0 := Subsingleton.elim i 0\n  subst this\n  simp [Pi.single]",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma toLp_eq_single : WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d)) = EuclideanSpace.single 0 (-1)",
+      "at": 1788861895.7176967,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma ref_h3 :\n  3 * (2/3 : \u211d) = 2 * \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (0 : \u211d)))\u2016",
+      "proof": "by\n  rw [\u2190 WithLp.toLp_sub]\n  have h_sub : (fun _ : Fin 1 => (-1 : \u211d)) - (fun _ => 0) = (fun _ => -1) := by\n    ext i\n    simp\n  rw [h_sub, toLp_eq_single, EuclideanSpace.norm_single]\n  norm_num",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma ref_h3 :\n  3 * (2/3 : \u211d) = 2 * \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (0 : \u211d)))\u2016",
+      "at": 1788861899.0635872,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma toLp_eq_single_val (v : \u211d) : WithLp.toLp 2 (fun _ : Fin 1 => v) = EuclideanSpace.single 0 v",
+      "proof": "by\n  ext i\n  rw [WithLp.ofLp_toLp, EuclideanSpace.ofLp_single]\n  have : i = 0 := Subsingleton.elim i 0\n  subst this\n  simp [Pi.single]",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma toLp_eq_single_val (v : \u211d) : WithLp.toLp 2 (fun _ : Fin 1 => v) = EuclideanSpace.single 0 v",
+      "at": 1788861903.6699438,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma ref_h_not :\n  \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (-3 : \u211d)))\u2016 =\n  2 * \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (0 : \u211d)))\u2016 \u2227\n  \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (1 : \u211d)))\u2016 \u2260 (2/3 : \u211d)",
+      "proof": "by\n  constructor\n  \u00b7 rw [\u2190 WithLp.toLp_sub]\n    have h_sub1 : (fun _ : Fin 1 => (-1 : \u211d)) - (fun _ => -3) = (fun _ => 2) := by\n      ext i\n      simp\n    rw [h_sub1, toLp_eq_single_val, EuclideanSpace.norm_single]\n    rw [\u2190 WithLp.toLp_sub]\n    have h_sub2 : (fun _ : Fin 1 => (-1 : \u211d)) - (fun _ => 0) = (fun _ => -1) := by\n      ext i\n      simp\n    rw [h_sub2, toLp_eq_single_val, EuclideanSpace.norm_single]\n    norm_num\n  \u00b7 rw [\u2190 WithLp.toLp_sub]\n    have h_sub3 : (fun _ : Fin 1 => (-1 : \u211d)) - (fun _ => 1) = (fun _ => -2) := by\n      ext i\n      simp\n    rw [h_sub3, toLp_eq_single_val, EuclideanSpace.norm_single]\n    norm_num",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n40:80: error: unsolved goals\ni : Fin 1\n\u22a2 -1 + 3 = 2\n51:80: error: unsolved goals\ni : Fin 1\n\u22a2 -1 - 1 = -2\n\nStill to prove:\n\u22a2 -1 + 3 = 2\n\u22a2 -1 - 1 = -2",
+      "at": 1788861908.323364,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma ref_h_not :\n  \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (-3 : \u211d)))\u2016 =\n  2 * \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (0 : \u211d)))\u2016 \u2227\n  \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (1 : \u211d)))\u2016 \u2260 (2/3 : \u211d)",
+      "proof": "by\n  constructor\n  \u00b7 rw [\u2190 WithLp.toLp_sub]\n    have h_sub1 : (fun _ : Fin 1 => (-1 : \u211d)) - (fun _ => -3) = (fun _ => 2) := by\n      ext i\n      simp\n      ring\n    rw [h_sub1, toLp_eq_single_val, EuclideanSpace.norm_single]\n    rw [\u2190 WithLp.toLp_sub]\n    have h_sub2 : (fun _ : Fin 1 => (-1 : \u211d)) - (fun _ => 0) = (fun _ => -1) := by\n      ext i\n      simp\n    rw [h_sub2, toLp_eq_single_val, EuclideanSpace.norm_single]\n    norm_num\n  \u00b7 rw [\u2190 WithLp.toLp_sub]\n    have h_sub3 : (fun _ : Fin 1 => (-1 : \u211d)) - (fun _ => 1) = (fun _ => -2) := by\n      ext i\n      simp\n      ring\n    rw [h_sub3, toLp_eq_single_val, EuclideanSpace.norm_single]\n    norm_num",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma ref_h_not :\n  \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (-3 : \u211d)))\u2016 =\n  2 * \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (0 : \u211d)))\u2016 \u2227\n  \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (1 : \u211d)))\u2016 \u2260 (2/3 : \u211d)",
+      "at": 1788861912.254251,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem exercise_1_19_refutation : \u00ac (\u2200 (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016), \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r)",
+      "proof": "by\n  push_neg\n  use 1\n  let a : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => -3)\n  let b : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => 0)\n  let c : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => 1)\n  let x : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => -1)\n  let r : \u211d := 2/3\n  use a, b, c, x, r\n  have h\u2081 : r > 0 := ref_h1\n  have h\u2082 : 3 \u2022 c = 4 \u2022 b - a := ref_h2\n  have h\u2083 : 3 * r = 2 * \u2016x - b\u2016 := ref_h3\n  have h_not : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2227 \u2016x - c\u2016 \u2260 r \u2228 \u2016x - a\u2016 \u2260 2 * \u2016x - b\u2016 \u2227 \u2016x - c\u2016 = r := by\n    left\n    exact ref_h_not\n  exact \u27e8h\u2081, h\u2082, h\u2083, h_not\u27e9",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_1_19_refutation : \u00ac (\u2200 (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016), \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r)",
+      "at": 1788861918.4022195,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_1_19_refutation_refutation : \u00ac (\u00ac (\u2200 (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016), \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r))",
+      "proof": "by\n  push_neg\n  use 1\n  let a : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => -3)\n  let b : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => 0)\n  let c : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => 1)\n  let x : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => -1)\n  let r : \u211d := 2/3\n  use a, b, c, x, r\n  have h\u2081 : r > 0 := ref_h1\n  have h\u2082 : 3 \u2022 c = 4 \u2022 b - a := ref_h2\n  have h\u2083 : 3 * r = 2 * \u2016x - b\u2016 := ref_h3\n  have h_not : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2227 \u2016x - c\u2016 \u2260 r \u2228 \u2016x - a\u2016 \u2260 2 * \u2016x - b\u2016 \u2227 \u2016x - c\u2016 = r := by\n    left\n    exact ref_h_not\n  exact \u27e8h\u2081, h\u2082, h\u2083, h_not\u27e9",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n88:6: error: numerals are data in Lean, but the expected type is a proposition\n  \u2200 (n : \u2115) (a b c x : EuclideanSpace \u211d (Fin n)),\n    \u2200 r > 0, 3 \u2022 c = 4 \u2022 b - a \u2192 3 * r = 2 * \u2016x - b\u2016 \u2192 (\u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r) : Prop\n89:2: error: No goals to be solved",
+      "at": 1788861924.4769661,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_1_19_refutation_refutation : \u00ac (\u00ac (\u2200 (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016), \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r))",
+      "proof": "by exact exercise_1_19_refutation",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n86:74: error: Type mismatch\n  exercise_1_19_refutation\nhas type\n  \u00ac\u2200 (n : \u2115) (a b c x : EuclideanSpace \u211d (Fin n)),\n      \u2200 r > 0, 3 \u2022 c = 4 \u2022 b - a \u2192 3 * r = 2 * \u2016x - b\u2016 \u2192 (\u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r)\nbut is expected to have type\n  \u00ac\u00ac\u2200 (n : \u2115) (a b c x : EuclideanSpace \u211d (Fin n)),\n        \u2200 r > 0, 3 \u2022 c = 4 \u2022 b - a \u2192 3 * r = 2 * \u2016x - b\u2016 \u2192 (\u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r)",
+      "at": 1788861928.6946437,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma ref_h1 : (2/3 : \u211d) > 0 := by norm_num",
+    "lemma ref_h2 :\n  3 \u2022 (WithLp.toLp 2 (fun _ : Fin 1 => (1 : \u211d))) =\n  4 \u2022 (WithLp.toLp 2 (fun _ : Fin 1 => (0 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (-3 : \u211d))) := by\n  simp only [\u2190 WithLp.toLp_smul, \u2190 WithLp.toLp_sub]\n  congr 1\n  ext i\n  simp",
+    "lemma toLp_eq_single : WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d)) = EuclideanSpace.single 0 (-1) := by\n  ext i\n  rw [WithLp.ofLp_toLp, EuclideanSpace.ofLp_single]\n  have : i = 0 := Subsingleton.elim i 0\n  subst this\n  simp [Pi.single]",
+    "lemma ref_h3 :\n  3 * (2/3 : \u211d) = 2 * \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (0 : \u211d)))\u2016 := by\n  rw [\u2190 WithLp.toLp_sub]\n  have h_sub : (fun _ : Fin 1 => (-1 : \u211d)) - (fun _ => 0) = (fun _ => -1) := by\n    ext i\n    simp\n  rw [h_sub, toLp_eq_single, EuclideanSpace.norm_single]\n  norm_num",
+    "lemma toLp_eq_single_val (v : \u211d) : WithLp.toLp 2 (fun _ : Fin 1 => v) = EuclideanSpace.single 0 v := by\n  ext i\n  rw [WithLp.ofLp_toLp, EuclideanSpace.ofLp_single]\n  have : i = 0 := Subsingleton.elim i 0\n  subst this\n  simp [Pi.single]",
+    "lemma ref_h_not :\n  \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (-3 : \u211d)))\u2016 =\n  2 * \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (0 : \u211d)))\u2016 \u2227\n  \u2016(WithLp.toLp 2 (fun _ : Fin 1 => (-1 : \u211d))) - (WithLp.toLp 2 (fun _ : Fin 1 => (1 : \u211d)))\u2016 \u2260 (2/3 : \u211d) := by\n  constructor\n  \u00b7 rw [\u2190 WithLp.toLp_sub]\n    have h_sub1 : (fun _ : Fin 1 => (-1 : \u211d)) - (fun _ => -3) = (fun _ => 2) := by\n      ext i\n      simp\n      ring\n    rw [h_sub1, toLp_eq_single_val, EuclideanSpace.norm_single]\n    rw [\u2190 WithLp.toLp_sub]\n    have h_sub2 : (fun _ : Fin 1 => (-1 : \u211d)) - (fun _ => 0) = (fun _ => -1) := by\n      ext i\n      simp\n    rw [h_sub2, toLp_eq_single_val, EuclideanSpace.norm_single]\n    norm_num\n  \u00b7 rw [\u2190 WithLp.toLp_sub]\n    have h_sub3 : (fun _ : Fin 1 => (-1 : \u211d)) - (fun _ => 1) = (fun _ => -2) := by\n      ext i\n      simp\n      ring\n    rw [h_sub3, toLp_eq_single_val, EuclideanSpace.norm_single]\n    norm_num",
+    "theorem exercise_1_19_refutation : \u00ac (\u2200 (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016), \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r) := by\n  push_neg\n  use 1\n  let a : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => -3)\n  let b : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => 0)\n  let c : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => 1)\n  let x : EuclideanSpace \u211d (Fin 1) := WithLp.toLp 2 (fun _ => -1)\n  let r : \u211d := 2/3\n  use a, b, c, x, r\n  have h\u2081 : r > 0 := ref_h1\n  have h\u2082 : 3 \u2022 c = 4 \u2022 b - a := ref_h2\n  have h\u2083 : 3 * r = 2 * \u2016x - b\u2016 := ref_h3\n  have h_not : \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2227 \u2016x - c\u2016 \u2260 r \u2228 \u2016x - a\u2016 \u2260 2 * \u2016x - b\u2016 \u2227 \u2016x - c\u2016 = r := by\n    left\n    exact ref_h_not\n  exact \u27e8h\u2081, h\u2082, h\u2083, h_not\u27e9"
+  ],
+  "premises": [
+    {
+      "name": "Filter.principal",
+      "type": " {\u03b1 : Type u_1} (s : Set \u03b1) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The principal filter of `s` is the collection of all supersets of `s`. "
+    },
+    {
+      "name": "Filter.join",
+      "type": " {\u03b1 : Type u_1} (f : Filter (Filter \u03b1)) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The join of a filter of filters is defined by the relation `s \u2208 join f \u2194 {t | s \u2208 t} \u2208 f`. "
+    },
+    {
+      "name": "Filter.sInf",
+      "type": " {\u03b1 : Type u_1} (s : Set (Filter \u03b1)) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "Infimum of a set of filters.\nThis definition is marked as irreducible\nso that Lean doesn't try to unfold it when unifying expressions. "
+    },
+    {
+      "name": "Filter.comap",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (m : \u03b1 \u2192 \u03b2) (f : Filter \u03b2) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The inverse map of a filter. A set `s` belongs to `Filter.comap m f` if either of the following\nequivalent conditions hold.\n\n1. There exists a set `t \u2208 f` such that `m \u207b\u00b9' t \u2286 s`. This is used as a definition.\n2. The set `kernImage m s = {y | \u2200 x, m x = y \u2192 x \u2208 s}` belongs to `f`, see `Filter.mem_comap'`.\n3. The set `(m '' s\u1d9c)\u1d9c` belongs to `f`, see `Filter.mem_comap_iff_compl` and\n   `Filter.compl_mem_comap`.\n"
+    },
+    {
+      "name": "Filter.map",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (m : \u03b1 \u2192 \u03b2) (f : Filter \u03b1) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The forward map of a filter "
+    },
+    {
+      "name": "Filter.bind",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (m : \u03b1 \u2192 Filter \u03b2) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The monadic bind operation on filter is defined the usual way in terms of `map` and `join`.\n\nUnfortunately, this `bind` does not result in the expected applicative. See `Filter.seq` for the\napplicative instance. "
+    },
+    {
+      "name": "Filter.seq",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter (\u03b1 \u2192 \u03b2)) (g : Filter \u03b1) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The applicative sequentiation operation. This is not induced by the bind operation. "
+    },
+    {
+      "name": "Filter.coprod",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (g : Filter \u03b2) : Filter (\u03b1 \u00d7 \u03b2)",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "Coproduct of filters. "
+    },
+    {
+      "name": "Filter.curry",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (g : Filter \u03b2) : Filter (\u03b1 \u00d7 \u03b2)",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "This filter is characterized by `Filter.eventually_curry_iff`:\n`(\u2200\u1da0 (x : \u03b1 \u00d7 \u03b2) in f.curry g, p x) \u2194 \u2200\u1da0 (x : \u03b1) in f, \u2200\u1da0 (y : \u03b2) in g, p (x, y)`. Useful\nin adding quantifiers to the middle of `Tendsto`s. See\n`hasFDerivAt_of_tendstoUniformlyOnFilter`. "
+    },
+    {
+      "name": "Filter.lift",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (g : Set \u03b1 \u2192 Filter \u03b2) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "A variant on `bind` using a function `g` taking a set instead of a member of `\u03b1`.\nThis is essentially a push-forward along a function mapping each set to a filter. "
+    },
+    {
+      "name": "Filter.lift'",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (h : Set \u03b1 \u2192 Set \u03b2) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "Specialize `lift` to functions `Set \u03b1 \u2192 Set \u03b2`. This can be viewed as a generalization of `map`.\nThis is essentially a push-forward along a function mapping each set to a set. "
+    },
+    {
+      "name": "Filter.pi",
+      "type": " {\u03b9 : Type u_3} {\u03b1 : \u03b9 \u2192 Type u_4} (f : (i : \u03b9) \u2192 Filter (\u03b1 i)) : Filter ((i : \u03b9) \u2192 \u03b1 i)",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The product of an indexed family of filters. "
+    },
+    {
+      "name": "TopologicalSpace.mk",
+      "type": " {X : Type u} (IsOpen : Set X \u2192 Prop) (isOpen_univ : IsOpen Set.univ) (isOpen_inter : \u2200 (s t : Set X), IsOpen s \u2192 IsOpen t \u2192 IsOpen (s \u2229 t)) (isOpen_sUnion : \u2200 (s : Set (Set X)), (\u2200 t \u2208 s, IsOpen t) \u2192 IsOpen (\u22c3\u2080 s)) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.ofClosed",
+      "type": " {X : Type u} (T : Set (Set X)) (empty_mem : \u2205 \u2208 T) (sInter_mem : \u2200 A \u2286 T, \u22c2\u2080 A \u2208 T) (union_mem : \u2200 A \u2208 T, \u2200 B \u2208 T, A \u222a B \u2208 T) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Basic",
+      "doc": "A constructor for topologies by specifying the closed sets,\nand showing that they satisfy the appropriate conditions. "
+    },
+    {
+      "name": "WithTopology.instTopologicalSpace",
+      "type": " (X : Type u_1) (t : TopologicalSpace X) : TopologicalSpace (WithTopology X t)",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.coinduced",
+      "type": " {X : Type u_1} {Y : Type u_2} (f : X \u2192 Y) (t : TopologicalSpace X) : TopologicalSpace Y",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "Given `f : X \u2192 Y` and a topology on `X`,\nthe coinduced topology on `Y` is defined such that\n`s : Set Y` is open if the preimage of `s` is open.\nThis is the finest topology that makes `f` continuous. "
+    },
+    {
+      "name": "TopologicalSpace.induced",
+      "type": " {X : Type u_1} {Y : Type u_2} (f : X \u2192 Y) (t : TopologicalSpace Y) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "Given `f : X \u2192 Y` and a topology on `Y`,\nthe induced topology on `X` is the collection of sets\nthat are preimages of some open set in `Y`.\nThis is the coarsest topology that makes `f` continuous. "
+    },
+    {
+      "name": "instTopologicalSpaceSubtype",
+      "type": " {X : Type u_1} {p : X \u2192 Prop} [t : TopologicalSpace X] : TopologicalSpace (Subtype p)",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceBool",
+      "type": " : TopologicalSpace Bool",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceEmpty",
+      "type": " : TopologicalSpace Empty",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceInt",
+      "type": " : TopologicalSpace \u2124",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceNat",
+      "type": " : TopologicalSpace \u2115",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpacePEmpty",
+      "type": " : TopologicalSpace PEmpty.{u_1 + 1}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpacePUnit",
+      "type": " : TopologicalSpace PUnit.{u_1 + 1}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.delabVecNotation",
+      "type": " : Lean.PrettyPrinter.Delaborator.Delab",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "Unexpander for the `!\u2082[x, y, ...]` notation. "
+    },
+    {
+      "name": "EuclideanSpace.infinite",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [Nonempty \u03b9] : Infinite (EuclideanSpace \ud835\udd5c \u03b9)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] (i : \u03b9) (a : \ud835\udd5c) : EuclideanSpace \ud835\udd5c \u03b9",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The vector given in Euclidean space by being `a : \ud835\udd5c` at coordinate `i : \u03b9` and `0 : \ud835\udd5c` at\nall other coordinates. "
+    },
+    {
+      "name": "EuclideanSpace.norm_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a : \ud835\udd5c) : \u2016EuclideanSpace.single i a\u2016 = \u2016a\u2016",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.ofLp_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] (i : \u03b9) (a : \ud835\udd5c) : (EuclideanSpace.single i a).ofLp = Pi.single i a",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.single_apply",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] (i : \u03b9) (a : \ud835\udd5c) (j : \u03b9) : (EuclideanSpace.single i a).ofLp j = if j = i then a else 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.basisFun",
+      "type": " (\u03b9 : Type u_1) (\ud835\udd5c : Type u_3) [RCLike \ud835\udd5c] [Fintype \u03b9] : OrthonormalBasis \u03b9 \ud835\udd5c (EuclideanSpace \ud835\udd5c \u03b9)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The basis `Pi.basisFun`, bundled as an orthonormal basis of `EuclideanSpace \ud835\udd5c \u03b9`. "
+    },
+    {
+      "name": "EuclideanSpace.toLp_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] (i : \u03b9) (a : \ud835\udd5c) : WithLp.toLp 2 (Pi.single i a) = EuclideanSpace.single i a",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.dist_single_same",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a b : \ud835\udd5c) : dist (EuclideanSpace.single i a) (EuclideanSpace.single i b) = dist a b",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.nndist_single_same",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a b : \ud835\udd5c) : nndist (EuclideanSpace.single i a) (EuclideanSpace.single i b) = nndist a b",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.nnnorm_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] (i : \u03b9) (a : \ud835\udd5c) : \u2016EuclideanSpace.single i a\u2016\u208a = \u2016a\u2016\u208a",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace",
+      "type": " (\ud835\udd5c : Type u_7) (n : Type u_8) : Type (max u_7 u_8)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "The standard real/complex Euclidean space, functions on a finite type. For an `n`-dimensional\nspace use `EuclideanSpace \ud835\udd5c (Fin n)`.\n\nFor the case when `n = Fin _`, there is `!\u2082[x, y, ...]` notation for building elements of this type,\nanalogous to `![x, y, ...]` notation. "
+    },
+    {
+      "name": "InnerProductSpace.Core.ofReal_normSq_eq_inner_self",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x : F) : \u2191(InnerProductSpace.Core.normSq x) = inner \ud835\udd5c x x",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_self_of_eq_zero",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] {x : F} : x = 0 \u2192 inner \ud835\udd5c x x = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.ne_zero_of_inner_self_ne_zero",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] {x : F} : inner \ud835\udd5c x x \u2260 0 \u2192 x \u2260 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_self_eq_zero",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [cd : InnerProductSpace.Core \ud835\udd5c F] {x : F} : inner \ud835\udd5c x x = 0 \u2194 x = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_self_ne_zero",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [cd : InnerProductSpace.Core \ud835\udd5c F] {x : F} : inner \ud835\udd5c x x \u2260 0 \u2194 x \u2260 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_self_im",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x : F) : RCLike.im (inner \ud835\udd5c x x) = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_self_nonneg",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] {x : F} : 0 \u2264 RCLike.re (inner \ud835\udd5c x x)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_self_ofReal_re",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x : F) : \u2191(RCLike.re (inner \ud835\udd5c x x)) = inner \ud835\udd5c x x",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_self_eq_norm_mul_norm",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x : F) : RCLike.re (inner \ud835\udd5c x x) = \u2016x\u2016 * \u2016x\u2016",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.Core.inner_mul_inner_self_le",
+      "type": " {\ud835\udd5c : Type u_1} {F : Type u_3} [RCLike \ud835\udd5c] [AddCommGroup F] [Module \ud835\udd5c F] [c : PreInnerProductSpace.Core \ud835\udd5c F] (x y : F) : \u2016inner \ud835\udd5c x y\u2016 * \u2016inner \ud835\udd5c y x\u2016 \u2264 RCLike.re (inner \ud835\udd5c x x) * RCLike.re (inner \ud835\udd5c y y)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "**Cauchy\u2013Schwarz inequality**.\nWe need this for the `PreInnerProductSpace.Core` structure to prove the triangle inequality below\nwhen showing the core is a normed group and to take the quotient.\n\n(This is not intended for general use; see `Analysis.InnerProductSpace.Basic` for a variety of\nversions of Cauchy-Schwarz for an inner product space, rather than a `PreInnerProductSpace.Core`).\n"
+    },
+    {
+      "name": "real_inner_self_nonneg",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] {x : F} : 0 \u2264 inner \u211d x x",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "real_inner_self_abs",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] (x : F) : |inner \u211d x x| = inner \u211d x x",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {F : Type u_3} [RCLike \ud835\udd5c] [NormedAddCommGroup E] [NormedAddCommGroup F] [InnerProductSpace \ud835\udd5c E] [InnerProductSpace \ud835\udd5c F] [CompleteSpace E] [CompleteSpace F] (A : E \u2192L[\ud835\udd5c] F) (x : E) : \u2016A x\u2016 ^ 2 = RCLike.re (inner \ud835\udd5c ((ContinuousLinearMap.adjoint A \u2218SL A) x) x)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Adjoint",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_right",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {F : Type u_3} [RCLike \ud835\udd5c] [NormedAddCommGroup E] [NormedAddCommGroup F] [InnerProductSpace \ud835\udd5c E] [InnerProductSpace \ud835\udd5c F] [CompleteSpace E] [CompleteSpace F] (A : E \u2192L[\ud835\udd5c] F) (x : E) : \u2016A x\u2016 ^ 2 = RCLike.re (inner \ud835\udd5c x ((ContinuousLinearMap.adjoint A \u2218SL A) x))",
+      "module": "Mathlib.Analysis.InnerProductSpace.Adjoint",
+      "doc": ""
+    },
+    {
+      "name": "zero_lt_one_add_norm_sq",
+      "type": " {E : Type u_4} [SeminormedAddGroup E] (x : E) : 0 < 1 + \u2016x\u2016 ^ 2",
+      "module": "Mathlib.Analysis.Normed.Group.Basic",
+      "doc": ""
+    },
+    {
+      "name": "zero_lt_one_add_norm_sq'",
+      "type": " {E : Type u_4} [SeminormedGroup E] (x : E) : 0 < 1 + \u2016x\u2016 ^ 2",
+      "module": "Mathlib.Analysis.Normed.Group.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Complex.normSq_eq_norm_sq",
+      "type": " (z : \u2102) : Complex.normSq z = \u2016z\u2016 ^ 2",
+      "module": "Mathlib.Analysis.Complex.Norm",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.norm_sq_re_add_conj",
+      "type": " {K : Type u_1} [RCLike K] (x : K) : \u2016x + (starRingEnd K) x\u2016 ^ 2 = RCLike.re (x + (starRingEnd K) x) ^ 2",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.norm_sq_re_conj_add",
+      "type": " {K : Type u_1} [RCLike K] (x : K) : \u2016(starRingEnd K) x + x\u2016 ^ 2 = RCLike.re ((starRingEnd K) x + x) ^ 2",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.norm_sq_eq_def",
+      "type": " {K : Type u_1} [RCLike K] {z : K} : \u2016z\u2016 ^ 2 = RCLike.re z * RCLike.re z + RCLike.im z * RCLike.im z",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "RCLike.norm_sq_eq_def_ax",
+      "type": " {K : semiOutParam (Type u_1)} [self : RCLike K] (z : K) : \u2016z\u2016 ^ 2 = RCLike.re z * RCLike.re z + RCLike.im z * RCLike.im z",
+      "module": "Mathlib.Analysis.RCLike.Basic",
+      "doc": ""
+    },
+    {
+      "name": "InnerProductSpace.norm_sq_eq_re_inner",
+      "type": " {\ud835\udd5c : Type u_4} {E : Type u_5} {inst\u271d : RCLike \ud835\udd5c} {inst\u271d\u00b9 : SeminormedAddCommGroup E} [self : InnerProductSpace \ud835\udd5c E] (x : E) : \u2016x\u2016 ^ 2 = RCLike.re (inner \ud835\udd5c x x)",
+      "module": "Mathlib.Analysis.InnerProductSpace.Defs",
+      "doc": "The inner product induces the norm. "
+    },
+    {
+      "name": "real_inner_self_eq_norm_sq",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] (x : F) : inner \u211d x x = \u2016x\u2016 ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "inner_self_eq_norm_sq_to_K",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [RCLike \ud835\udd5c] [SeminormedAddCommGroup E] [InnerProductSpace \ud835\udd5c E] (x : E) : inner \ud835\udd5c x x = \u2191\u2016x\u2016 ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "inner_eq_norm_sq_left_iff",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] {v w : F} : inner \u211d v w = \u2016v\u2016 ^ 2 \u2194 inner \u211d v (v - w) = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "inner_eq_norm_sq_right_iff",
+      "type": " {F : Type u_3} [SeminormedAddCommGroup F] [InnerProductSpace \u211d F] {v w : F} : inner \u211d v w = \u2016w\u2016 ^ 2 \u2194 inner \u211d (v - w) w = 0",
+      "module": "Mathlib.Analysis.InnerProductSpace.Basic",
+      "doc": ""
+    },
+    {
+      "name": "instInhabitedPiLp",
+      "type": " (p : ENNReal) {\u03b9 : Type u_1} (\u03b1 : \u03b9 \u2192 Type u_2) [(i : \u03b9) \u2192 Inhabited (\u03b1 i)] : Inhabited (PiLp p \u03b1)",
+      "module": "Mathlib.Analysis.Normed.Lp.PiLp",
+      "doc": ""
+    },
+    {
+      "name": "PiLp.bornology",
+      "type": " {\u03b9 : Type u_2} (p : ENNReal) (\u03b2 : \u03b9 \u2192 Type u_5) [(i : \u03b9) \u2192 Bornology (\u03b2 i)] : Bornology (PiLp p \u03b2)",
+      "module": "Mathlib.Analysis.Normed.Lp.PiLp",
+      "doc": ""
+    },
+    {
+      "name": "PiLp.topologicalSpace",
+      "type": " (p : ENNReal) {\u03b9 : Type u_2} (\u03b2 : \u03b9 \u2192 Type u_4) [(i : \u03b9) \u2192 TopologicalSpace (\u03b2 i)] : TopologicalSpace (PiLp p \u03b2)",
+      "module": "Mathlib.Analysis.Normed.Lp.PiLp",
+      "doc": ""
+    },
+    {
+      "name": "PiLp.uniformSpace",
+      "type": " (p : ENNReal) {\u03b9 : Type u_2} (\u03b2 : \u03b9 \u2192 Type u_4) [(i : \u03b9) \u2192 UniformSpace (\u03b2 i)] : UniformSpace (PiLp p \u03b2)",
+      "module": "Mathlib.Analysis.Normed.Lp.PiLp",
+      "doc": ""
+    },
+    {
+      "name": "PiLp.instDist",
+      "type": " (p : ENNReal) {\u03b9 : Type u_2} (\u03b1 : \u03b9 \u2192 Type u_3) [Fintype \u03b9] [(i : \u03b9) \u2192 Dist (\u03b1 i)] : Dist (PiLp p \u03b1)",
+      "module": "Mathlib.Analysis.Normed.Lp.PiLp",
+      "doc": "Endowing the space `PiLp p \u03b2` with the `L^p` distance. We register this instance\nseparate from `pi_Lp.pseudo_metric` since the latter requires the type class hypothesis\n`[Fact (1 \u2264 p)]` in order to prove the triangle inequality.\n\nRegistering this separately allows for a future metric-like structure on `PiLp p \u03b2` for `p < 1`\nsatisfying a relaxed triangle inequality. The terminology for this varies throughout the\nliterature, but it is sometimes called a *quasi-metric* or *semi-metric*. "
+    },
+    {
+      "name": "PiLp.instEDist",
+      "type": " (p : ENNReal) {\u03b9 : Type u_2} (\u03b2 : \u03b9 \u2192 Type u_4) [Fintype \u03b9] [(i : \u03b9) \u2192 EDist (\u03b2 i)] : EDist (PiLp p \u03b2)",
+      "module": "Mathlib.Analysis.Normed.Lp.PiLp",
+      "doc": "Endowing the space `PiLp p \u03b2` with the `L^p` edistance. We register this instance\nseparate from `pi_Lp.pseudo_emetric` since the latter requires the type class hypothesis\n`[Fact (1 \u2264 p)]` in order to prove the triangle inequality.\n\nRegistering this separately allows for a future emetric-like structure on `PiLp p \u03b2` for `p < 1`\nsatisfying a relaxed triangle inequality. The terminology for this varies throughout the\nliterature, but it is sometimes called a *quasi-metric* or *semi-metric*. "
+    },
+    {
+      "name": "PiLp.instNorm",
+      "type": " (p : ENNReal) {\u03b9 : Type u_2} (\u03b2 : \u03b9 \u2192 Type u_4) [Fintype \u03b9] [(i : \u03b9) \u2192 Norm (\u03b2 i)] : Norm (PiLp p \u03b2)",
+      "module": "Mathlib.Analysis.Normed.Lp.PiLp",
+      "doc": "Endowing the space `PiLp p \u03b2` with the `L^p` norm. We register this instance\nseparate from `PiLp.seminormedAddCommGroup` since the latter requires the type class hypothesis\n`[Fact (1 \u2264 p)]` in order to prove the triangle inequality.\n\nRegistering this separately allows for a future norm-like structure on `PiLp p \u03b2` for `p < 1`\nsatisfying a relaxed triangle inequality. These are called *quasi-norms*. "
+    },
+    {
+      "name": "instCoeFunPiLpForall",
+      "type": " (p : ENNReal) {\u03b9 : Type u_1} (\u03b1 : \u03b9 \u2192 Type u_2) : CoeFun (PiLp p \u03b1) fun x => (i : \u03b9) \u2192 \u03b1 i",
+      "module": "Mathlib.Analysis.Normed.Lp.PiLp",
+      "doc": ""
+    },
+    {
+      "name": "PiLp.single",
+      "type": " (p : ENNReal) {\u03b9 : Type u_2} {\u03b2 : \u03b9 \u2192 Type u_4} [DecidableEq \u03b9] [(i : \u03b9) \u2192 Zero (\u03b2 i)] (i : \u03b9) (a : \u03b2 i) : PiLp p \u03b2",
+      "module": "Mathlib.Analysis.Normed.Lp.PiLp",
+      "doc": "The vector given in `PiLp` by being `a : \u03b2 i` at coordinate `i : \u03b9` and `0 : \u03b2 j` at\nall other coordinates `j`. "
+    },
+    {
+      "name": "PiLp.completeSpace",
+      "type": " (p : ENNReal) {\u03b9 : Type u_2} (\u03b2 : \u03b9 \u2192 Type u_4) [(i : \u03b9) \u2192 UniformSpace (\u03b2 i)] [\u2200 (i : \u03b9), CompleteSpace (\u03b2 i)] : CompleteSpace (PiLp p \u03b2)",
+      "module": "Mathlib.Analysis.Normed.Lp.PiLp",
+      "doc": ""
+    },
+    {
+      "name": "PiLp.instProdT0Space",
+      "type": " (p : ENNReal) {\u03b9 : Type u_2} (\u03b2 : \u03b9 \u2192 Type u_4) [(i : \u03b9) \u2192 TopologicalSpace (\u03b2 i)] [\u2200 (i : \u03b9), T0Space (\u03b2 i)] : T0Space (PiLp p \u03b2)",
+      "module": "Mathlib.Analysis.Normed.Lp.PiLp",
+      "doc": ""
+    },
+    {
+      "name": "PiLp",
+      "type": " (p : ENNReal) {\u03b9 : Type u_1} (\u03b1 : \u03b9 \u2192 Type u_2) : Type (max u_1 u_2)",
+      "module": "Mathlib.Analysis.Normed.Lp.PiLp",
+      "doc": "A copy of a Pi type, on which we will put the `L^p` distance. Since the Pi type itself is\nalready endowed with the `L^\u221e` distance, we need the type synonym to avoid confusing typeclass\nresolution. Also, we let it depend on `p`, to get a whole family of type on which we can put\ndifferent distances. "
+    },
+    {
+      "name": "WithLp.toLp",
+      "type": " (p : ENNReal) {V : Type u_1} (ofLp : V) : WithLp p V",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": "Converts an element of `V` to an element of `WithLp p V`. "
+    },
+    {
+      "name": "WithLp.toLp_bijective",
+      "type": " (p : ENNReal) {V : Type u_4} : Function.Bijective (WithLp.toLp p)",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.toLp_injective",
+      "type": " (p : ENNReal) {V : Type u_4} : Function.Injective (WithLp.toLp p)",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.toLp_surjective",
+      "type": " (p : ENNReal) {V : Type u_4} : Function.Surjective (WithLp.toLp p)",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.toLp_ofLp",
+      "type": " (p : ENNReal) {V : Type u_4} (x : WithLp p V) : WithLp.toLp p x.ofLp = x",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.toLp_multisetSum",
+      "type": " (p : ENNReal) (V : Type u_4) [AddCommGroup V] (s : Multiset V) : WithLp.toLp p s.sum = (Multiset.map (WithLp.toLp p) s).sum",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.toLp_sum",
+      "type": " (p : ENNReal) (V : Type u_4) [AddCommGroup V] {\u03b9 : Type u_7} (s : Finset \u03b9) (f : \u03b9 \u2192 V) : WithLp.toLp p (\u2211 i \u2208 s, f i) = \u2211 i \u2208 s, WithLp.toLp p (f i)",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.toLp_smul",
+      "type": " (p : ENNReal) {K : Type u_1} {V : Type u_4} [SMul K V] (c : K) (x : V) : WithLp.toLp p (c \u2022 x) = c \u2022 WithLp.toLp p x",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.toLp_neg",
+      "type": " (p : ENNReal) {V : Type u_4} [AddCommGroup V] (x : V) : WithLp.toLp p (-x) = -WithLp.toLp p x",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.toLp_zero",
+      "type": " (p : ENNReal) {V : Type u_4} [AddCommGroup V] : WithLp.toLp p 0 = 0",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.toLp_eq_zero",
+      "type": " (p : ENNReal) {V : Type u_4} [AddCommGroup V] {x : V} : WithLp.toLp p x = 0 \u2194 x = 0",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "WithLp.toLp_sub",
+      "type": " (p : ENNReal) {V : Type u_4} [AddCommGroup V] (x y : V) : WithLp.toLp p (x - y) = WithLp.toLp p x - WithLp.toLp p y",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "OrthonormalBasis.instInhabited",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [Fintype \u03b9] : Inhabited (OrthonormalBasis \u03b9 \ud835\udd5c (EuclideanSpace \ud835\udd5c \u03b9))",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.real_norm_sq_eq",
+      "type": " {n : Type u_7} [Fintype n] (x : EuclideanSpace \u211d n) : \u2016x\u2016 ^ 2 = \u2211 i, x.ofLp i ^ 2",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.norm_eq",
+      "type": " {\ud835\udd5c : Type u_7} [RCLike \ud835\udd5c] {n : Type u_8} [Fintype n] (x : EuclideanSpace \ud835\udd5c n) : \u2016x\u2016 = \u221a(\u2211 i, \u2016x.ofLp i\u2016 ^ 2)",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": ""
+    },
+    {
+      "name": "EuclideanSpace.orthonormal_single",
+      "type": " {\u03b9 : Type u_1} {\ud835\udd5c : Type u_3} [RCLike \ud835\udd5c] [DecidableEq \u03b9] [Fintype \u03b9] : Orthonormal \ud835\udd5c fun i => EuclideanSpace.single i 1",
+      "module": "Mathlib.Analysis.InnerProductSpace.PiL2",
+      "doc": "`EuclideanSpace.single` forms an orthonormal family. "
+    },
+    {
+      "name": "WithLp.ofLp_toLp",
+      "type": " (p : ENNReal) {V : Type u_4} (x : V) : (WithLp.toLp p x).ofLp = x",
+      "module": "Mathlib.Analysis.Normed.Lp.WithLp",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.ofLp_toLpLin",
+      "type": " {m : Type u_1} {n : Type u_2} {R : Type u_4} [Fintype n] [DecidableEq n] [CommRing R] (p q : ENNReal) (A : Matrix m n R) (x : WithLp p (n \u2192 R)) : (((Matrix.toLpLin p q) A) x).ofLp = (Matrix.toLin' A) x.ofLp",
+      "module": "Mathlib.Analysis.Normed.Lp.Matrix",
+      "doc": ""
+    },
+    {
+      "name": "BesselPotentialSpace.ofLp_toLp",
+      "type": " {E : Type u_1} {F : Type u_2} [NormedAddCommGroup E] [NormedAddCommGroup F] [InnerProductSpace \u211d E] [FiniteDimensional \u211d E] [MeasurableSpace E] [BorelSpace E] [CompleteSpace F] [NormedSpace \u2102 F] {s : \u211d} {p : ENNReal} [hp : Fact (1 \u2264 p)] (f : BesselPotentialSpace E F s p) : BesselPotentialSpace.ofLp s f.toLp = f",
+      "module": "Mathlib.Analysis.FunctionalSpaces.BesselPotentialSpace",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Filter.principal, Filter.join, Filter.sInf, Filter.comap, Filter.map, Filter.bind, Filter.seq, Filter.coprod",
+    "refused the stop: no attempt at the goal, 39 compiles left",
+    "search: '\"EuclideanSpace\"' -> EuclideanSpace.delabVecNotation, EuclideanSpace.infinite, EuclideanSpace.single, EuclideanSpace.norm_single, EuclideanSpace.ofLp_single, EuclideanSpace.single_apply, EuclideanSpace.basisFun, EuclideanSpace.toLp_single",
+    "search: '\"inner_self\"' -> InnerProductSpace.Core.ofReal_normSq_eq_inner_self, InnerProductSpace.Core.inner_self_of_eq_zero, InnerProductSpace.Core.ne_zero_of_inner_self_ne_zero, InnerProductSpace.Core.inner_self_eq_zero, InnerProductSpace.Core.inner_self_ne_zero, InnerProductSpace.Core.inner_self_im, InnerProductSpace.Core.inner_self_nonneg, InnerProductSpace.Core.inner_self_ofReal_re",
+    "search: '\"norm_sq_eq_inner\"' -> ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_left, ContinuousLinearMap.apply_norm_sq_eq_inner_adjoint_right",
+    "search: '\"norm_sq\"' -> zero_lt_one_add_norm_sq, zero_lt_one_add_norm_sq', Complex.normSq_eq_norm_sq, RCLike.norm_sq_re_add_conj, RCLike.norm_sq_re_conj_add, RCLike.norm_sq_eq_def, RCLike.norm_sq_eq_def_ax, InnerProductSpace.norm_sq_eq_re_inner",
+    "search: '\"PiLp\"' -> instInhabitedPiLp, PiLp.bornology, PiLp.topologicalSpace, PiLp.uniformSpace, PiLp.instDist, PiLp.instEDist, PiLp.instNorm, instCoeFunPiLpForall",
+    "search: '\"WithLp.toLp\"' -> WithLp.toLp, WithLp.toLp_bijective, WithLp.toLp_injective, WithLp.toLp_surjective, WithLp.toLp_ofLp, WithLp.toLp_multisetSum, WithLp.toLp_sum, WithLp.toLp_smul",
+    "search: '\"norm\" \"toLp\"' -> nothing",
+    "search: '\"norm\" \"toLp\"' -> nothing; goal shape -> EuclideanSpace.infinite, EuclideanSpace.single, EuclideanSpace.norm_single, EuclideanSpace.basisFun, OrthonormalBasis.instInhabited, EuclideanSpace.dist_single_same, EuclideanSpace.nndist_single_same, EuclideanSpace.nnnorm_single",
+    "search: '\"ofLp_toLp\"' -> WithLp.ofLp_toLp, Matrix.ofLp_toLpLin, BesselPotentialSpace.ofLp_toLp"
+  ],
+  "budget": {
+    "tool_calls": 31,
+    "lean_calls": 25,
+    "searches": 9,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788861776.103411,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.8,
+    "statement_checks": 1,
+    "refusals": {
+      "placeholder_proof": 2,
+      "skeleton_not_engaged": 1
+    }
+  },
+  "goal": "theorem exercise_1_19_refutation : \u00ac (\u2200 (n : \u2115)\n  (a b c x : EuclideanSpace \u211d (Fin n))\n  (r : \u211d)\n  (h\u2081 : r > 0)\n  (h\u2082 : 3 \u2022 c = 4 \u2022 b - a)\n  (h\u2083 : 3 * r = 2 * \u2016x - b\u2016), \u2016x - a\u2016 = 2 * \u2016x - b\u2016 \u2194 \u2016x - c\u2016 = r)"
+}
