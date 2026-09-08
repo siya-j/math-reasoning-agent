@@ -24,6 +24,7 @@ from eval.proof_dataset import Tier, load_goals  # noqa: E402
 from eval.proof_metrics import (  # noqa: E402
     ProofOutcome,
     ProofResult,
+    rehydrate,
     render,
     result_from,
     summarize,
@@ -88,21 +89,16 @@ def completed(resume: bool, out: Path):
         if row.get("outcome") == ProofOutcome.ERROR.value:
             continue
         try:
-            carried.append(
-                ProofResult(
-                    goal_id=row["goal_id"],
-                    area=row["area"],
-                    tier=Tier(row["tier"]),
-                    outcome=ProofOutcome(row["outcome"]),
-                    statement=row.get("statement", ""),
-                    attempts=row.get("attempts", 0),
-                    lemmas_total=row.get("lemmas_total", 0),
-                    lemmas_proved=row.get("lemmas_proved", 0),
-                    via_synthesis=row.get("via_synthesis", False),
-                    detail=row.get("detail", ""),
-                )
-            )
-        except (KeyError, ValueError):
+            # EVERY FIELD, via `rehydrate`, which reads the field list off the
+            # dataclass. This loop used to name ten fields by hand while
+            # `ProofResult` had twenty-four, and since `save` writes the whole
+            # `__dict__` back, a resume overwrote the file with the fourteen
+            # it had not heard of set to their defaults. That destroyed the
+            # accepted proofs, attempts, traces and telemetry of thirty-two
+            # decided goals in eval/results/mixed-1.json, and printed a
+            # perfectly ordinary-looking summary while doing it.
+            carried.append(rehydrate(row))
+        except (KeyError, ValueError, TypeError):
             continue
     return carried
 

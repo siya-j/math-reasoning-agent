@@ -24,7 +24,7 @@ and `probe_lean_model.py` made again.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 from enum import Enum
 
 from domain.proof import ProofRun, ProofStage
@@ -143,6 +143,50 @@ class ProofResult:
     def counted(self) -> bool:
         """Did this run actually produce evidence about the system?"""
         return self.outcome is not ProofOutcome.ERROR
+
+
+def rehydrate(row: dict) -> ProofResult:
+    """One saved results row back into a ProofResult, WITH EVERY FIELD.
+
+    LIVES HERE, NEXT TO THE FIELD LIST, and is driven off
+    `dataclasses.fields` rather than naming fields itself. That is the whole
+    point of it.
+
+    MEASURED, and the incident this exists to prevent: `--resume` in
+    `scripts/evaluate_proofs.py` rebuilt each carried-forward goal by hand
+    from ten named fields. `ProofResult` had grown to twenty-four. The other
+    fourteen took their dataclass defaults and were written straight back over
+    the real run, so resuming `eval/results/mixed-1.json` destroyed every
+    accepted proof's Lean source, every attempt, every trace and all
+    telemetry for thirty-two already-decided goals -- roughly 10.1M input
+    tokens of cost accounting, unrecoverable, because those four telemetry
+    fields are read off the agent's transcript and exist nowhere else. The
+    outcomes survived, so the summary still printed a proof rate and looked
+    fine.
+
+    A hand-written list cannot fail loudly here: every field added after it
+    was written is silently dropped, and the loss shows up as a plausible
+    zero. Reading the field list from the dataclass means a new field is
+    carried the day it is added, by nobody remembering anything.
+
+    Keys the file has and the dataclass does not are ignored, so a results
+    file written by a newer build still resumes rather than raising.
+    """
+    values = {}
+    for field in fields(ProofResult):
+        if field.name not in row:
+            continue
+        value = row[field.name]
+        if field.name == "tier":
+            value = Tier(value)
+        elif field.name == "outcome":
+            value = ProofOutcome(value)
+        elif isinstance(field.default, tuple) and isinstance(value, list):
+            # JSON has no tuples. Restored as one so a rehydrated result is
+            # `==` to the original rather than merely similar to it.
+            value = tuple(value)
+        values[field.name] = value
+    return ProofResult(**values)
 
 
 def classify(run: ProofRun) -> ProofOutcome:
