@@ -643,6 +643,10 @@ def _to_proof_run(run: ProofRun, workdir: str, prose: str, seconds: float,
         complete=telemetry_complete,
         # The ceiling, so "how much was left" is readable from the record.
         lean_budget=budget.MAX_LEAN_CALLS,
+        # Which guards fired, and how often. Read from the budget file, where
+        # the tool seam counts them -- the guards write nothing to the proof
+        # log, so this is the only place the answer exists.
+        refusals=dict(spent.get("refusals") or {}),
     )
 
     # RETAINED WHETHER OR NOT THE OUTCOME IS `refuted`, because the record is

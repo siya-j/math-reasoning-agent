@@ -84,6 +84,12 @@ def _with_headroom(runtime, result):
     workdir = runtime.context.workdir
     if result.get("error"):
         budget.refund_lean(workdir)
+        # COUNTED HERE TOO, at the same seam and by the same invariant. The
+        # guards write nothing to the proof log on purpose, so without this
+        # counter a results file cannot say whether any of them fired -- three
+        # goals converted in eval/results/failures-after-decompose.json and
+        # attribution was guesswork from the attempt counts.
+        budget.record_refusal(workdir, result.get("error"))
         return result
     result.setdefault("outputs", {})["budget_left"] = budget.headroom(workdir)
     message = result.get("message") or ""

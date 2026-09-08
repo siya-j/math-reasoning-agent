@@ -43,9 +43,37 @@ SIGNALS = {
     "suspect statement": "statement reported suspect",
 }
 
-# Kept for the day a refusal counter exists. Looking for these today is
-# guaranteed to find nothing, so they are NOT searched.
-UNOBSERVABLE = ("decompose_first", "not_the_goal", "lemma_budget_spent")
+# THE BLIND SPOT ABOVE IS NOW CLOSED for runs recorded after the refusal
+# counter shipped: `ProofResult.refusals` carries a count per error code, read
+# from the budget file where the tool seam records it. Runs from BEFORE it
+# have no `refusals` key at all, and those are reported as unknown rather
+# than as zero -- an absent counter and a guard that never fired look
+# identical otherwise, which is the mistake this whole exercise was about.
+GUARDS = {
+    "decompose_first": "decomposition redirect",
+    "not_the_goal": "drift refused",
+    "lemma_budget_spent": "kept-lemma cap",
+    "duplicate_attempt": "exact repeat",
+    "generic_exhausted": "bare closer already tried",
+    "skeleton_not_engaged": "skeleton loop",
+    "placeholder_proof": "sorry/admit",
+    "trivial_conclusion": "concludes True",
+    "assumes_conclusion": "assumes its own conclusion",
+    "not_a_negation": "refutation was not a negation",
+    "no_statement": "no goal declared",
+}
+
+
+def _guards(row):
+    """"guards fired" line for one goal, or None if the run cannot say."""
+    if "refusals" not in row:
+        return None
+    counts = row.get("refusals") or {}
+    if not counts:
+        return "none"
+    return ", ".join(
+        f"{GUARDS.get(code, code)} x{n}" for code, n in sorted(counts.items())
+    )
 
 
 def _index(path: Path) -> dict:
@@ -100,6 +128,8 @@ def main() -> int:
                   f"{now['model_calls']} model calls")
             fired = _fired(now)
             print(f"     observed: {', '.join(fired) if fired else '(nothing that leaves a record)'}")
+            guards = _guards(now)
+            print(f"     guards  : {guards if guards is not None else 'NOT RECORDED (run predates the counter)'}")
         print()
 
     # Cost, which the new guards are expected to RAISE: refusals cost a model
@@ -117,10 +147,11 @@ def main() -> int:
     print("NOTE. A failures-only selection has no meaningful proof RATE -- the")
     print("sample was chosen for having failed. Read per-goal conversion.")
     print()
-    print("`observed` covers only mechanisms that leave a record. The refusal")
-    print("guards (" + ", ".join(UNOBSERVABLE) + ") write nothing")
-    print("by design, so their effect can only be INFERRED from the attempt and")
-    print("lemma counts above -- never confirmed from this file.")
+    print("`observed` covers mechanisms that write a log note. `guards` is the")
+    print("refusal counter, which is how often each guard actually fired --")
+    print("the guards write no log entry by design, so this counter is the only")
+    print("place that answer exists. A run recorded before it shipped says NOT")
+    print("RECORDED, which is not the same as none.")
     return 0
 
 

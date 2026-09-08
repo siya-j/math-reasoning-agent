@@ -129,6 +129,17 @@ class Telemetry:
     # premature timidity is not answerable from one goal, and guessing is how
     # a nudge gets added that makes a1 and a3 waste forty compiles each.
     lean_budget: int = 0
+    # HOW OFTEN EACH GUARD REFUSED, by error code. A `dict` because the set of
+    # guards is not fixed and a named field per guard would go stale; the
+    # default is a fresh dict via `field`, never a shared literal.
+    #
+    # This is the difference between attribution and guesswork. On
+    # eval/results/failures-after-decompose.json three goals converted to
+    # `proved` under the decomposition redirect and the drift refusal, and
+    # nothing recorded whether either had fired -- the guards deliberately
+    # write no log entry, so `scripts/compare_runs.py` reported "fired:
+    # NOTHING" for every one of them.
+    refusals: dict = field(default_factory=dict)
 
     def summary(self) -> str:
         tokens = ""

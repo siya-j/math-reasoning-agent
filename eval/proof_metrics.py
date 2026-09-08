@@ -24,7 +24,7 @@ and `probe_lean_model.py` made again.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, fields
+from dataclasses import dataclass, field, fields
 from enum import Enum
 
 from domain.proof import ProofRun, ProofStage
@@ -147,6 +147,11 @@ class ProofResult:
     # recompile it.
     refutation: str = ""
     refutation_statement: str = ""
+    # WHICH GUARDS FIRED on this goal, by error code, and how often. Without
+    # it a results file cannot distinguish "the redirect converted this goal"
+    # from "this goal converted and the redirect never ran", which is the
+    # difference between a measurement and a story.
+    refusals: dict = field(default_factory=dict)
 
     @property
     def counted(self) -> bool:
@@ -343,6 +348,7 @@ def result_from(goal: Goal, run: ProofRun) -> ProofResult:
         lemmas=tuple(lemma.proof for lemma in run.lemmas),
         refutation=run.refutation,
         refutation_statement=run.refutation_statement,
+        refusals=dict(run.telemetry.refusals),
         trace=tuple(run.trace),
         stages=tuple(
             {

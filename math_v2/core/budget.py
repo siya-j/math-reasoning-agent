@@ -232,9 +232,39 @@ SEARCH_DEADLINE_FRACTION = float(os.getenv("MRA_SEARCH_DEADLINE", "0.5"))
 EXHAUSTED = "budget_exhausted"
 REDIRECT = "budget_redirect"
 
-_FIELDS = ("tool_calls", "lean_calls", "searches", "symbolic_calls",
-           "searches_since_compile", "grace", "started", "reason", "terminated",
-           "slowest_lean", "statement_checks")
+def _fresh():
+    """A brand-new budget. THE ONE definition of what a budget contains.
+
+    There were three copies of this literal -- here, in `_state`'s defaults,
+    and in `reset` -- plus a hand-written `_FIELDS` tuple naming the same keys
+    a fourth time. Adding a field meant remembering all four, and a field
+    missing from `_FIELDS` is silently dropped on every read: exactly the
+    failure that destroyed a results file in 7c9393f, one layer down.
+    `_FIELDS` is now derived from these keys, so there is nothing to remember.
+    """
+    return {
+        "tool_calls": 0, "lean_calls": 0, "searches": 0, "symbolic_calls": 0,
+        "searches_since_compile": 0, "grace": GRACE, "started": time.time(),
+        "reason": "", "terminated": False, "slowest_lean": 0.0,
+        "statement_checks": 0,
+        # HOW OFTEN EACH GUARD REFUSED, by error code. A counter, deliberately
+        # not a log record: the guards write nothing to the proof log because
+        # "a refusal is not an attempt", and that must stay true -- recording
+        # them there would inflate the attempt counts every metric is built
+        # on.
+        #
+        # MEASURED as a hole, on eval/results/failures-after-decompose.json.
+        # Three goals converted to `proved` under the decomposition redirect
+        # and the drift refusal, and NOTHING in the results file could say
+        # whether either guard had fired. `scripts/compare_runs.py` printed
+        # "fired: NOTHING" for every goal in a run where the redirect had
+        # demonstrably worked. Attribution was inference from attempt and
+        # lemma counts, and inference is not observation.
+        "refusals": {},
+    }
+
+
+_FIELDS = tuple(_fresh())
 
 
 def terminate(workdir, reason):
@@ -252,6 +282,29 @@ def terminate(workdir, reason):
         state["reason"] = state["reason"] or reason
         _save(workdir, data, state)
     except Exception:  # noqa: BLE001 - recording a stop must not raise
+        return
+
+
+def record_refusal(workdir, code):
+    """Count one guard refusal, by error code.
+
+    Called from the single tool-layer seam every refusal already passes
+    through, so a new guard is counted the day it is added without touching
+    this file.
+
+    Wrapped like `terminate`: recording a diagnostic must never be the reason
+    a run fails. A lost count is a worse measurement; a raised exception here
+    would be a lost goal.
+    """
+    if not code:
+        return
+    try:
+        data, state = _state(workdir)
+        counts = dict(state.get("refusals") or {})
+        counts[str(code)] = counts.get(str(code), 0) + 1
+        state["refusals"] = counts
+        _save(workdir, data, state)
+    except Exception:  # noqa: BLE001 - a diagnostic must not break a run
         return
 
 
@@ -279,12 +332,7 @@ def _state(workdir):
     state = data.get("budget")
     if not isinstance(state, dict):
         state = {}
-    base = {
-        "tool_calls": 0, "lean_calls": 0, "searches": 0, "symbolic_calls": 0,
-        "searches_since_compile": 0, "grace": GRACE, "started": time.time(),
-        "reason": "", "terminated": False, "slowest_lean": 0.0,
-        "statement_checks": 0,
-    }
+    base = _fresh()
     base.update({k: v for k, v in state.items() if k in _FIELDS})
     return data, base
 
@@ -302,12 +350,7 @@ def read(workdir):
 def reset(workdir):
     """Start the clock for a new goal. Explicit — nothing resets implicitly."""
     data, _ = _state(workdir)
-    data["budget"] = {
-        "tool_calls": 0, "lean_calls": 0, "searches": 0, "symbolic_calls": 0,
-        "searches_since_compile": 0, "grace": GRACE, "started": time.time(),
-        "reason": "", "terminated": False, "slowest_lean": 0.0,
-        "statement_checks": 0,
-    }
+    data["budget"] = _fresh()
     log._write(workdir, data)
 
 
@@ -605,4 +648,5 @@ def summary(workdir):
         "seconds": round(time.time() - state["started"], 1),
         "terminated_early": bool(state["terminated"]),
         "reason": state["reason"],
+        "refusals": dict(state.get("refusals") or {}),
     }
