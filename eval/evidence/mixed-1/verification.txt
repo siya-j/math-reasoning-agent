@@ -1,0 +1,46 @@
+Independent recompilation of the 24 proofs recovered from the workspaces.
+
+Run on 2026-09-08 against the SAME workspace the original run used:
+  lean project   C:\Users\SiyaJethliya\Projects\lean-workspace
+  toolchain      leanprover/lean4:v4.33.0
+  mathlib        db584cd6d4 (2026-08-10)
+  backend        REPL, Mathlib imported once
+
+This matters. A second Mathlib exists on this machine under WSL at
+~/lean-workspace/mathlib_playground, pinned to 0df444a360 (2026-08-21) and
+toolchain 4.33.1 -- eleven days of commits newer. Verifying there would have
+risked reporting a Mathlib RENAME as a failed proof, which is exactly the
+class of problem that cost lin-vector-space-basis its formalisation in this
+very run (Basis -> Module.Basis).
+
+compiling via: REPL (Mathlib imported once)
+
+eval\results\mixed-1-rebuilt.json
+  ok    num-infinitude-of-primes  recompiled
+  ok    num-primes-strictly-above  recompiled
+  ok    grp-prime-order-cyclic  recompiled
+  ok    num-two-plus-two  recompiled
+  ok    num-add-zero  recompiled
+  ok    num-seven-prime  recompiled
+  ok    alg-square-nonneg  recompiled
+  ok    grp-subgroup-of-cyclic  recompiled
+  ok    ana-continuous-compact-max  recompiled
+  ok    set-reals-uncountable  recompiled
+  ok    top-compact-image  recompiled
+  ok    num-sqrt-two-irrational  recompiled
+  ok    novel-goldbach-small  recompiled
+  ok    novel-sum-of-two-squares  recompiled
+  ok    hard-amgm-sqrt  recompiled
+  ok    hard-sophie-germain  recompiled
+  ok    hard-irrational-sqrt-sum  recompiled
+  ok    hard-det-vanishes  recompiled
+  ok    deep-fta  recompiled
+  ok    deep-liouville  recompiled
+  ok    deep-sylow  recompiled
+  ok    deep-dirichlet-ap  recompiled
+  ok    exercise_1_5  recompiled
+  ok    exercise_4_6  recompiled
+
+------------------------------------------------------------
+all 24 claimed proof(s) recompiled independently
+
