@@ -16,6 +16,8 @@ a real record, because a hand-built transcript fixture would pass against a
 harness that had stopped continuing at all.
 """
 
+import asyncio
+
 import pytest
 from langchain_core.language_models.fake_chat_models import GenericFakeChatModel
 from langchain_core.messages import AIMessage
@@ -24,6 +26,12 @@ from math_v2 import harness
 from math_v2.core import log
 
 STATEMENT = "theorem mra_goal : 2 + 2 = 4"
+
+
+def run(coro):
+    """Drive one core coroutine. The core proving functions are `async def`
+    and these tests call a few of them directly to set up a record."""
+    return asyncio.run(coro)
 
 
 def scripted(*turns):
@@ -133,27 +141,60 @@ def test_the_continuation_tells_the_model_what_the_record_says(tmp_path,
     assert len(continuations[0]) > 2, "the agent was restarted cold"
 
 
-def test_an_agent_that_did_try_is_left_alone(tmp_path, compiler_rejects):
-    """The line this guard must not cross.
+def test_an_agent_that_fought_and_lost_is_left_alone(tmp_path, compiler_rejects):
+    """THIS TEST CHANGED ITS MIND, and the evidence is why.
 
-    Whether stopping early with budget left is good judgement or timidity is
-    an open question in this repo -- `Telemetry.lean_budget` exists to collect
-    the evidence. A nudge that fired after a real attempt would answer it by
-    assumption, and would spend forty compiles on goals the agent had read
-    correctly. So the condition is the narrow one that was measured: ZERO
-    attempts.
+    It used to assert that ONE attempt was enough to be left alone, on the
+    grounds that "whether stopping early with budget left is good judgement or
+    timidity is an open question in this repo -- `Telemetry.lean_budget`
+    exists to collect the evidence. A nudge that fired after a real attempt
+    would answer it by assumption."
+
+    The evidence arrived. On eval/results/proofnet-20-after-soundness.json,
+    three of five unproved goals stopped after ONE attempt having spent 5%,
+    8% and 12% of their compile budget, with NOT ONE GUARD FIRING on any of
+    them. And 83% of every proof this system has landed arrived within three
+    attempts, so one attempt is well short of the median rather than past it.
+
+    So the line moved from "any attempt" to `ENGAGEMENT_FLOOR` attempts OR
+    half the budget spent -- and this test now guards the case that must
+    still be left alone: an agent that genuinely committed. `exercise_2_5_30`
+    (6 attempts, 68% spent) and `exercise_4_5_22` (7 attempts, 55% spent) ate
+    half of that run's 20.7M input tokens between them, and prodding them
+    would buy nothing.
     """
-    # BOTH proofs are non-generic on purpose. The first draft of this test
-    # used `by norm_num` then `by simp`, and passed even against a harness
-    # widened to prod every agent -- because `_generic_already_failed` refuses
-    # a second bare closer WITHOUT compiling, so the second attempt could
-    # never have left a record whatever the continuation did. The test was
-    # vacuous, and vacuously green.
+    attempts = [
+        ("try_proof", {"proof": p, "statement": STATEMENT}) for p in (
+            "by exact Nat.add_comm 2 2",
+            "by linarith [Nat.zero_le 2]",
+            "by exact absurd rfl (by simp)",
+        )
+    ]
+    model, prompts = scripted(
+        *attempts,
+        "Three real attempts and I am out of ideas.",
+        # Reachable only if the harness prods anyway.
+        ("try_proof", {"proof": "by omega", "statement": STATEMENT}),
+        "done",
+    )
+
+    harness.prove("is 2 + 2 = 4?", model=model, workdir=str(tmp_path))
+
+    assert len(log.records(str(tmp_path), log.PROOF)) == 3, (
+        "the harness prodded an agent that had already reached the "
+        "engagement floor"
+    )
+
+
+def test_a_single_attempt_with_the_budget_untouched_is_prodded(tmp_path,
+                                                               compiler_rejects):
+    """THE new case, and the three goals it was built for. One attempt, almost
+    nothing spent, and previously no guard in the system covered it."""
     model, _ = scripted(
         ("try_proof", {"proof": "by exact Nat.add_comm 2 2",
                        "statement": STATEMENT}),
-        "That did not work and I have no other idea.",
-        # If the harness prods anyway, this fires and a second record appears.
+        "I will stop here.",
+        # Reachable ONLY on a continuation.
         ("try_proof", {"proof": "by linarith [Nat.zero_le 2]",
                        "statement": STATEMENT}),
         "done",
@@ -161,8 +202,53 @@ def test_an_agent_that_did_try_is_left_alone(tmp_path, compiler_rejects):
 
     harness.prove("is 2 + 2 = 4?", model=model, workdir=str(tmp_path))
 
-    assert len(log.records(str(tmp_path), log.PROOF)) == 1, (
-        "the harness prodded an agent that had already attempted the goal"
+    assert len(log.records(str(tmp_path), log.PROOF)) > 1, (
+        "one attempt with the budget untouched was accepted as a finished run"
+    )
+
+
+def test_the_message_says_which_case_it_is(tmp_path, compiler_rejects):
+    """Zero attempts and too-few attempts need different instructions: one
+    turn fell over, the other stopped early. A single wording for both would
+    tell a goal that tried once that it never tried."""
+    model, prompts = scripted(
+        ("try_proof", {"proof": "by exact Nat.add_comm 2 2",
+                       "statement": STATEMENT}),
+        "I will stop here.",
+        "still stopping",
+    )
+
+    harness.prove("is 2 + 2 = 4?", model=model, workdir=str(tmp_path))
+
+    sent = [str(getattr(m, "content", "")) for p in prompts for m in p]
+    nudge = [s for s in sent if "STOP." in s]
+    assert nudge, "no continuation reached the model"
+    assert "stopped after 1 attempt" in nudge[0], nudge[0]
+    assert "without submitting a single attempt" not in nudge[0], (
+        "told an agent that made one attempt that it made none"
+    )
+
+
+def test_a_compiled_refutation_is_a_finished_run(tmp_path, compiler_rejects):
+    """A refutation is a RESULT, not a failure to prove. Prodding a run that
+    compiled the negation back at the goal would spend budget arguing with a
+    statement it has already shown false -- and four of twenty ProofNet
+    statements in the measured run are broken."""
+    from math_v2.core import proving
+
+    async def accepts(source):
+        from verifiers.lean_runner import LeanOutcome, LeanResult
+        return LeanResult(LeanOutcome.COMPILED, "")
+
+    workdir = str(tmp_path)
+    log.clear(workdir)
+    run(proving.check_statement(workdir, STATEMENT, accepts))
+    run(proving.try_refutation(
+        workdir, "theorem mra_goal_refutation : ¬ (2 + 2 = 5)",
+        "by simp", accepts))
+
+    assert harness._stopped_short(workdir) == 0, (
+        "a run that compiled a refutation was treated as having stopped short"
     )
 
 
@@ -213,7 +299,7 @@ def test_no_continuation_without_compiles_to_spend(tmp_path):
     budget.reset(workdir)
     budget.charge_lean(workdir, budget.MAX_LEAN_CALLS)
 
-    assert harness._never_tried_the_goal(workdir) == 0, (
+    assert harness._stopped_short(workdir) == 0, (
         "would have prodded the agent with no compilations left to use"
     )
 
@@ -264,3 +350,39 @@ def test_a_failing_continuation_does_not_cost_the_run_its_result(tmp_path,
     )
     # The work the first pass did is still there.
     assert log.records(str(tmp_path), log.LEMMA), run.trace
+
+
+def test_half_the_budget_spent_is_enough_engagement(tmp_path):
+    """The second half of the condition, independent of attempt count. Past
+    half the compile budget the agent has committed to the goal, and a nudge
+    second-guesses work rather than prompting it."""
+    from math_v2.core import budget
+
+    workdir = str(tmp_path)
+    log.clear(workdir)
+    budget.reset(workdir)
+    log.set_goal(workdir, STATEMENT)
+    run(proving_check(workdir))
+
+    # One attempt only -- below ENGAGEMENT_FLOOR -- but most of the budget
+    # gone, which is the exempting condition.
+    budget.charge_lean(workdir, int(budget.MAX_LEAN_CALLS * 0.6))
+    log.append(workdir, log.Record(kind=log.PROOF, statement=STATEMENT,
+                                   proof="by norm_num", status=log.UNKNOWN,
+                                   detail="rejected"))
+
+    assert harness._stopped_short(workdir) == 0, (
+        "prodded an agent that had spent most of its compile budget"
+    )
+
+
+def proving_check(workdir):
+    """A real statement check, so `declared_goal` is set the only way that
+    counts."""
+    from math_v2.core import proving
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    async def accepts(source):
+        return LeanResult(LeanOutcome.COMPILED, "")
+
+    return proving.check_statement(workdir, STATEMENT, accepts)

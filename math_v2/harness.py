@@ -348,15 +348,71 @@ MAX_CONTINUATIONS = int(os.getenv("MRA_MAX_CONTINUATIONS", "2"))
 # rejected attempt costs one and the repair it suggests costs another.
 CONTINUATION_LEAN_FLOOR = 2
 
+# HOW MANY ATTEMPTS AT THE GOAL COUNT AS HAVING ENGAGED WITH IT, and below how
+# much spent budget a stop is treated as premature.
+#
+# This guard began as "zero attempts", and the repo deliberately declined to go
+# further: whether stopping early with budget left is good judgement or
+# timidity was recorded as an OPEN QUESTION, with `Telemetry.lean_budget` added
+# to collect the evidence. The evidence is now in.
+#
+# MEASURED on eval/results/proofnet-20-after-soundness.json. Of five unproved
+# goals, three stopped after ONE attempt with almost nothing spent:
+#
+#     exercise_3_1    1 attempt   5/40 compiles (12%)
+#     exercise_1_19   1 attempt   3/40 compiles ( 8%)
+#     exercise_5_37   1 attempt   2/40 compiles ( 5%)
+#
+# and NOT ONE GUARD FIRED on any of them -- the decomposition redirect needs
+# three failed attempts, the assembly guard needs three kept lemmas, and this
+# one needed zero. Nothing covered "stopped after one attempt with 92% of the
+# budget left".
+#
+# The other two failures are the opposite case and must stay untouched:
+# `exercise_2_5_30` (6 attempts, 68% spent) and `exercise_4_5_22` (7 attempts,
+# 55% spent) fought hard and lost, and between them ate half the run's 20.7M
+# input tokens. Prodding those buys nothing.
+#
+# THREE, because 83% of every proof this system has landed arrived within three
+# attempts (eval/results/mixed-1-rebuilt.json, 24 proofs: 12 on the first, 20
+# within three). A goal that stops at one has not reached the median; a goal at
+# six is well past it. That distinction is what separates this from "try
+# harder", which the measurement does not support.
+ENGAGEMENT_FLOOR = int(os.getenv("MRA_ENGAGEMENT_FLOOR", "3"))
+
+# Half the compile budget. Above it the agent has committed to the goal
+# whatever its attempt count, and a nudge second-guesses work rather than
+# prompting it.
+ENGAGEMENT_BUDGET_FRACTION = 0.5
+
 CONTINUE = """STOP.
 
-You ended your turn without submitting a single attempt at the goal, and without calling `finish`. The record shows {left} of {total} compilations unused and {searches} searches already spent.
+{what} The record shows {left} of {total} compilations unused and {searches} searches already spent.
 
 This is not a request to search more. Searching is not proving. Call `try_proof` on THE GOAL now, with the best proof you can write from what you already have. An attempt the compiler rejects costs one compilation and tells you exactly where the difficulty is; zero attempts tell you nothing and score nothing. If it then turns out you genuinely cannot proceed, call `finish` and say so."""
 
 
-def _never_tried_the_goal(workdir):
-    """Compiles left if the agent stopped without one attempt at the goal.
+def _why_short(workdir):
+    """The opening sentence of the continuation, naming what the record shows.
+
+    Two cases, because the instruction differs. Zero attempts is a turn that
+    fell out from under the agent -- on `exercise_1_19` it ended with one
+    sentence repeated fifteen times. One or two attempts with the budget
+    untouched is a different thing: it tried, and stopped well short of where
+    attempts stop converting.
+    """
+    attempts = len(log.records(workdir, log.PROOF))
+    if not attempts:
+        return ("You ended your turn without submitting a single attempt at "
+                "the goal, and without calling `finish`.")
+    return (f"You stopped after {attempts} attempt(s) at the goal. Of every "
+            "proof this system has landed, half arrived on the FIRST attempt "
+            "and 83% within three, so this is well short of where attempts "
+            "stop paying rather than past it.")
+
+
+def _stopped_short(workdir):
+    """Compiles left if the agent stopped without engaging the goal.
 
     Read from the RECORD -- `log.PROOF` entries and the budget file -- and
     never from the final message, for the reason the final message is
@@ -372,8 +428,22 @@ def _never_tried_the_goal(workdir):
     Returns 0 when a continuation is not warranted, so the caller reads it as
     "how much room is there", not as two separate questions.
     """
-    if log.records(workdir, log.PROOF):
+    goal = log.declared_goal(workdir)
+    if goal and log.accepted_proof(workdir, goal):
         return 0
+    # A COMPILED REFUTATION IS A RESULT, not a failure to prove, so a run that
+    # produced one is finished and must not be prodded back at the goal.
+    if verdicts.verified_refutation(workdir):
+        return 0
+
+    attempts = len(log.records(workdir, log.PROOF))
+    if attempts >= ENGAGEMENT_FLOOR:
+        return 0
+
+    spent = budget.read(workdir)["lean_calls"]
+    if spent > budget.MAX_LEAN_CALLS * ENGAGEMENT_BUDGET_FRACTION:
+        return 0
+
     left = budget.headroom(workdir)["lean_calls_left"]
     return left if left >= CONTINUATION_LEAN_FLOOR else 0
 
@@ -415,7 +485,7 @@ async def _ainvoke(agent, goal, workdir):
     result = await _one_pass(agent, payload, context)
 
     for _ in range(MAX_CONTINUATIONS):
-        left = _never_tried_the_goal(workdir)
+        left = _stopped_short(workdir)
         if not left:
             break
         messages = list((result or {}).get("messages") or []) \
@@ -430,9 +500,11 @@ async def _ainvoke(agent, goal, workdir):
                           f"{left} compiles left")
         payload = {"messages": messages + [{
             "role": "user",
-            "content": CONTINUE.format(left=left,
-                                       total=budget.MAX_LEAN_CALLS,
-                                       searches=spent.get("searches", 0)),
+            "content": CONTINUE.format(
+                what=_why_short(workdir),
+                left=left,
+                total=budget.MAX_LEAN_CALLS,
+                searches=spent.get("searches", 0)),
         }]}
         try:
             result = await _one_pass(agent, payload, context)
