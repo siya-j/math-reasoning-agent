@@ -26,7 +26,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from domain.proof import ProofRun
 from eval.proof_dataset import Goal, Tier
 from eval.proof_metrics import ProofOutcome, ProofResult, render, result_from, summarize
-from scripts.evaluate_proofs import MARKS, completed, mark_for, save
+from scripts.evaluate_proofs import (
+    MARKS,
+    completed,
+    mark_for,
+    provenance_note,
+    save,
+)
 
 GOAL = Goal(id="exercise_1_13c", area="analysis", goal="q", tier=Tier.PROOFNET)
 
@@ -313,3 +319,112 @@ def test_the_default_dataset_still_works_without_goals(tmp_path, monkeypatch):
 
     assert code != 2
     assert len(seen) == 1
+
+
+# --------------------------------------------- reporting who wrote the goal
+#
+# MEASURED on eval/results/mixed-1-rebuilt.json: headline proof rate 75%,
+# external proof rate 29%. The gap is entirely provenance -- 25 of its 32
+# counted goals are ones we wrote ourselves, and those have proved 141/166
+# across every run on disk. A single blended number reported as "the proof
+# rate" is inflated by exactly the share of itself.
+def _mix(self_authored_proved, self_authored_total, external_proved,
+         external_total):
+    rows = []
+    for i in range(self_authored_total):
+        rows.append(ProofResult(
+            goal_id=f"ours-{i}", area="number theory", tier=Tier.IN_MATHLIB,
+            outcome=(ProofOutcome.PROVED if i < self_authored_proved
+                     else ProofOutcome.EXHAUSTED)))
+    for i in range(external_total):
+        rows.append(ProofResult(
+            goal_id=f"ext-{i}", area="proofnet 1", tier=Tier.PROOFNET,
+            outcome=(ProofOutcome.PROVED if i < external_proved
+                     else ProofOutcome.EXHAUSTED)))
+    return rows
+
+
+def test_the_two_provenances_are_reported_apart():
+    summary = summarize(_mix(10, 10, 2, 10))
+    assert summary["proof_rate_self_authored"] == 1.0
+    assert summary["proof_rate_external"] == 0.2
+    assert summary["n_self_authored"] == 10
+    assert summary["n_external"] == 10
+    # And the blended rate is neither of them, which is the problem.
+    assert summary["proof_rate"] == 0.6
+
+
+def test_a_mixed_run_says_which_number_to_quote():
+    text = render(summarize(_mix(10, 10, 2, 10)))
+    assert "QUOTE THIS ONE" in text
+    assert "canary, not a measurement" in text
+    assert "inflated" in text
+
+
+def test_a_run_of_only_our_own_goals_refuses_to_look_like_a_measurement():
+    """`eval/proofs.json` is the DEFAULT goal file and is 100% self-authored,
+    so this is what a plain `python scripts/evaluate_proofs.py` prints."""
+    text = render(summarize(_mix(9, 10, 0, 0)))
+    assert "EVERY GOAL IN THIS RUN IS ONE WE WROTE OURSELVES" in text
+    assert "NOT a capability" in text
+    assert "proofnet-sharp" in text, "it must name a set worth running"
+
+
+def test_a_tier_rate_never_prints_without_its_n():
+    """`in-mathlib 100%` off six goals and `proofnet 41%` off forty-six read
+    with identical weight when the n is missing."""
+    text = render(summarize(_mix(6, 6, 19, 46)))
+    for line in text.splitlines():
+        if line.strip().startswith(("in-mathlib", "proofnet")):
+            assert "n=" in line, line
+
+
+def test_a_tier_absent_from_the_run_is_not_reported_as_zero():
+    """An empty tier printing `0%` invents a failure that was never
+    attempted -- and with seven tiers, five of those lines are noise."""
+    text = render(summarize(_mix(0, 0, 5, 10)))
+    assert "putnam" not in text
+    assert "in-mathlib" not in text
+    assert "proofnet" in text
+
+
+def test_the_warning_arrives_before_the_run_not_after_it():
+    """`render` warns too, but by then the goals are paid for. The default
+    goal file is 100% self-authored, so a plain `evaluate_proofs.py` is the
+    run that most needs telling, and telling it in the summary is too late."""
+    ours = [Goal(id="g", area="a", goal="q", tier=Tier.IN_MATHLIB)]
+    note = provenance_note(ours)
+    assert note, "a run of only our own goals must be flagged up front"
+    assert "canary" in note
+    assert "proofnet-sharp" in note, "it must name a set worth running"
+
+
+def test_one_external_goal_is_enough_to_silence_the_warning():
+    """The note is about what the run CAN show. A run with external goals in
+    it reports `proof rate | external`, which is a real number, so the
+    warning would be noise."""
+    mixed = [
+        Goal(id="ours", area="a", goal="q", tier=Tier.IN_MATHLIB),
+        Goal(id="ext", area="proofnet 1", goal="q", tier=Tier.PROOFNET),
+    ]
+    assert provenance_note(mixed) == ""
+    assert provenance_note(
+        [Goal(id="p", area="a", goal="q", tier=Tier.PUTNAM)]) == ""
+
+
+def test_every_goal_file_of_ours_triggers_the_warning():
+    """Checked against the real files, so adding a self-authored set later
+    cannot quietly skip the note."""
+    from eval.proof_dataset import load_goals
+
+    root = Path(__file__).resolve().parent.parent
+    for name in ("proofs.json", "proofs-canary.json", "proofs-live.json"):
+        path = root / "eval" / name
+        if not path.exists():
+            continue
+        assert provenance_note(load_goals(path)), name
+    for name in ("proofnet-sharp.json", "putnam.json"):
+        path = root / "eval" / name
+        if path.exists():
+            assert provenance_note(load_goals(path)) == "", name
+

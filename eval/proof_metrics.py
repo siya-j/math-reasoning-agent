@@ -420,6 +420,24 @@ def _total(results: list, field: str):
     return sum(values) if any(values) else None
 
 
+# WHO WROTE THE GOAL, which is a different question from how hard it is.
+#
+# The five tiers below are ones this project authored for itself. MEASURED
+# over every results file on disk: 25 of 25 proved, 100%, in all five. A set
+# that has never once failed cannot register an improvement OR a regression
+# short of catastrophe -- it has no discriminating power left, and a headline
+# rate that blends it with an external benchmark is inflated by exactly the
+# proportion of itself.
+#
+# They are NOT worthless and are not deleted: 25 goals for ~1.1M input tokens
+# is a cheap canary that would still catch the agent breaking badly. But a
+# canary is not a measurement, and the two numbers must be reported apart.
+SELF_AUTHORED = frozenset({
+    Tier.IN_MATHLIB, Tier.NEAR_MATHLIB, Tier.NOVEL, Tier.HARD, Tier.DEEP,
+})
+EXTERNAL = frozenset({Tier.PROOFNET, Tier.PUTNAM})
+
+
 def summarize(results: list[ProofResult]) -> dict:
     counted = [r for r in results if r.counted]
     errors = len(results) - len(counted)
@@ -540,6 +558,19 @@ def summarize(results: list[ProofResult]) -> dict:
         summary[f"proof_rate_{tier.value}"] = _rate(
             sum(1 for r in in_tier if r.outcome is ProofOutcome.PROVED), len(in_tier)
         )
+        # N ALONGSIDE THE RATE. Without it `in-mathlib 100%` off six goals
+        # and `proofnet 41%` off forty-six print with identical weight, and
+        # the reader has no way to tell which of the two the run actually
+        # measured.
+        summary[f"n_{tier.value}"] = len(in_tier)
+
+    # Split by provenance, so a mixed run cannot report one blended rate as
+    # if it were a capability. `proof_rate_external` is the number to quote.
+    for name, tiers in (("self_authored", SELF_AUTHORED), ("external", EXTERNAL)):
+        rows = [r for r in counted if r.tier in tiers]
+        summary[f"proof_rate_{name}"] = _rate(
+            sum(1 for r in rows if r.outcome is ProofOutcome.PROVED), len(rows))
+        summary[f"n_{name}"] = len(rows)
 
     # Per-area breakdown. For our own goals `area` is a topic label; for
     # ProofNet it is `area_of()`'s textbook-chapter grouping, which is the
@@ -606,9 +637,38 @@ def render(summary: dict) -> str:
            else "   <-- the rest returned no transcript; the totals are a FLOOR"),
         "-" * 52,
     ]
+    # PROVENANCE BEFORE TIERS, because it is the line that decides whether
+    # the headline rate above means anything.
+    self_n = summary.get("n_self_authored") or 0
+    ext_n = summary.get("n_external") or 0
+    if self_n and ext_n:
+        lines += [
+            f"  proof rate | external  {_percent(summary['proof_rate_external'])}"
+            f"   over {ext_n} goals   <-- QUOTE THIS ONE",
+            f"  proof rate | our own   "
+            f"{_percent(summary['proof_rate_self_authored'])}"
+            f"   over {self_n} goals   (canary, not a measurement)",
+            "  the blended rate above mixes the two and is inflated.",
+            "-" * 52,
+        ]
+    elif self_n and not ext_n:
+        lines += [
+            "  EVERY GOAL IN THIS RUN IS ONE WE WROTE OURSELVES.",
+            "  Our own tiers have proved 25 of 25 across every run on disk,",
+            "  so this rate is a regression canary and NOT a capability",
+            "  measurement. For a number worth quoting, run against",
+            "  eval/proofnet-sharp.json or eval/putnam.json.",
+            "-" * 52,
+        ]
+
     for tier in Tier:
+        count = summary.get(f"n_{tier.value}") or 0
+        if not count:
+            continue          # a tier absent from the run is noise, not a 0%
+        mark = "  (ours)" if tier in SELF_AUTHORED else ""
         lines.append(
             f"  {tier.value:<22} {_percent(summary[f'proof_rate_{tier.value}'])}"
+            f"   n={count}{mark}"
         )
 
     by_area = summary.get("proof_rate_by_area") or {}

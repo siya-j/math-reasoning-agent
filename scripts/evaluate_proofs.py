@@ -23,6 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import config  # noqa: E402
 from eval.proof_dataset import Tier, load_goals  # noqa: E402
 from eval.proof_metrics import (  # noqa: E402
+    EXTERNAL,
     ProofOutcome,
     ProofResult,
     rehydrate,
@@ -184,6 +185,33 @@ def apply_budget_profile(name: str) -> dict:
     return budget_profile(name)
 
 
+def provenance_note(goals) -> str:
+    """What to say, BEFORE the first model call, about what this run can show.
+
+    `render` says this too, but by then the run is paid for -- and
+    `eval/proofs.json`, the file used when no `--goals` is given, is 100%
+    goals we wrote ourselves. So a plain `python scripts/evaluate_proofs.py`
+    is exactly the case that needs catching, and catching it at the end is
+    catching it too late.
+
+    MEASURED: our own tiers are 141/166 across every results file on disk,
+    and 11 of those 25 goals have a perfect record over four or more runs
+    (scripts/retire_saturated.py). A goal that has never failed cannot show
+    an improvement.
+    """
+    if any(g.tier in EXTERNAL for g in goals):
+        return ""
+    return (
+        "NOTE: every goal here is one we wrote ourselves. Our own tiers are\n"
+        "      141/166 across every run on disk, and 11 of the 25 have never\n"
+        "      once failed -- this is a regression canary, not a capability\n"
+        "      measurement. For a number worth quoting:\n"
+        "        --goals eval/proofnet-sharp.json   (371 goals, corrected)\n"
+        "        --goals eval/proofs-live.json      (the 14 of ours that "
+        "still move)\n"
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -304,6 +332,10 @@ def main() -> int:
     if not goals:
         print("No goals matched.")
         return 2
+
+    note = provenance_note(goals)
+    if note:
+        print(note)
 
     profile: dict = {}
     if args.budget_profile:
