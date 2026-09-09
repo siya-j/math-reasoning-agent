@@ -71,7 +71,20 @@ class Mutation:
 
     def apply(self) -> str:
         target = ROOT / self.path
-        original = target.read_text(encoding="utf-8", newline="")
+        # `open(..., newline=...)` rather than `Path.read_text(newline=...)`:
+        # the keyword only reached the Path methods in Python 3.13, and this
+        # script failed at mutation 1 of 13 on 3.10 -- a checker that cannot
+        # run is a checker that reports nothing. `open` has taken it since
+        # 3.0, and the semantics are identical.
+        #
+        # `newline=""` is load-bearing in BOTH directions and is why the
+        # keyword is here at all: on read it disables universal-newline
+        # translation, so `original` holds the file's real bytes and
+        # `restore` puts them back unchanged rather than silently rewriting
+        # a CRLF file as LF. Anchors are matched against an LF-normalised
+        # copy so a mutation's `old` string need not know which it was.
+        with open(target, encoding="utf-8", newline="") as handle:
+            original = handle.read()
         body = original.replace("\r\n", "\n")
         if body.count(self.old) != 1:
             raise LookupError(
@@ -79,12 +92,14 @@ class Mutation:
                 "expected exactly 1 -- the code moved and this mutation is "
                 "stale, which is itself worth fixing"
             )
-        target.write_text(body.replace(self.old, self.new, 1),
-                          encoding="utf-8", newline="\n")
+        with open(target, "w", encoding="utf-8", newline="\n") as handle:
+            handle.write(body.replace(self.old, self.new, 1))
         return original
 
     def restore(self, original: str) -> None:
-        (ROOT / self.path).write_text(original, encoding="utf-8", newline="")
+        with open(ROOT / self.path, "w", encoding="utf-8",
+                  newline="") as handle:
+            handle.write(original)
 
 
 MUTATIONS = [
