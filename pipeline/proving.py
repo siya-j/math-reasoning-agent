@@ -93,7 +93,15 @@ def environment() -> dict:
             # does: a run with trimming and one without are not comparable,
             # and nothing else in the record would say which this was. Added
             # when trimming was, so no results file is ambiguous about it.
-            return _repl.describe() | harness.context_policy()
+            # THE OUTPUT CEILING, for exactly the reason above. It changes
+            # behaviour measurably -- it cut `exercise_1_18a`'s output per
+            # model call by 73% -- and a whole isolation run was spent
+            # establishing that it was NOT responsible for a lost refutation.
+            # Without it recorded, a results file cannot answer "was this
+            # capped", which is the same ambiguity the trimming line beside it
+            # was added to remove.
+            return (_repl.describe() | harness.context_policy()
+                    | {"max_output_tokens": config.MAX_OUTPUT_TOKENS})
         except Exception:  # noqa: BLE001 - reporting must not break a run
             return {"prover": MATH_V2}
     return {"prover": config.PROVER}

@@ -203,6 +203,18 @@ def rehydrate(row: dict) -> ProofResult:
     return ProofResult(**values)
 
 
+def _did_not_finish(run: ProofRun) -> bool:
+    """Did this run end for a reason other than the agent concluding?
+
+    Matches the same two trace prefixes `classify` reads below, so the three
+    stay in step: a crash writes "agent failed", and a budget or wall-clock
+    stop writes "stopped early".
+    """
+    return any(entry.startswith("agent failed")
+               or entry.startswith("stopped early")
+               for entry in run.trace)
+
+
 def classify(run: ProofRun) -> ProofOutcome:
     """Order matters, and it runs from most to least certain.
 
@@ -214,11 +226,33 @@ def classify(run: ProofRun) -> ProofOutcome:
     if run.proved:
         return ProofOutcome.PROVED
 
-    # A statement Lean cannot elaborate is a FORMALISATION failure, not a
-    # proving failure. Counting it as "not proved" credited the formalizer
-    # with a success it did not have and blamed the prover for a proof that
-    # could never have existed.
-    if not run.statement.strip() or not run.statement_ok:
+    # A statement Lean REJECTED is a FORMALISATION failure, not a proving
+    # failure. Counting it as "not proved" credited the formalizer with a
+    # success it did not have and blamed the prover for a proof that could
+    # never have existed. That holds whatever happened afterwards: the
+    # compiler's verdict on the signature is a fact about the formalisation.
+    if run.statement.strip() and not run.statement_ok:
+        return ProofOutcome.NOT_FORMALIZED
+
+    # NO STATEMENT AT ALL IS A DIFFERENT CLAIM, and treating it the same way
+    # was wrong. "The agent never declared a statement" is only a verdict on
+    # formalisation if the agent HAD THE CHANCE to declare one. A run that
+    # crashed, or that ran out of clock before it got there, has not told you
+    # anything about formalising.
+    #
+    # MEASURED on eval/results/proofnet-60.json, and it cost two goals of
+    # nine. The machine slept mid-run; `budget.elapsed` reads `time.time()`,
+    # which counts sleep (deliberately -- the budget lives in a file and a
+    # monotonic reading is meaningless across processes), so the wall-clock
+    # deadline expired while nothing was running. `exercise_1_27` recorded
+    # ZERO model calls, an empty statement, and "stopped early: wall clock
+    # spent (3780s)" -- and was scored `not_formalized`, putting a sleeping
+    # laptop into the formalisation rate.
+    #
+    # So an empty statement falls through to the crash and clock branches
+    # below, which already know how to report a run that did not finish. It
+    # is only a formalisation failure when the run ended normally.
+    if not run.statement.strip() and not _did_not_finish(run):
         return ProofOutcome.NOT_FORMALIZED
 
     # A COMPILED proof of the negation, so this one is a compiler fact like

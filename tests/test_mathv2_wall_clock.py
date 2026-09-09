@@ -82,9 +82,9 @@ def test_a_stalled_run_is_classified_exhausted_not_error(tmp_path, monkeypatch):
     stop is the same fact read a different way, so no new outcome was added.
 
     The agent formalises FIRST and then stalls, because that is the case the
-    wall clock is about. A run that stalls before producing any statement is
-    NOT_FORMALIZED and rightly so — classify checks that first, and it is the
-    more specific fact. That is what exercise_1_19b actually was.
+    wall clock is about. A run that stalls BEFORE producing any statement is
+    also EXHAUSTED now -- see the test below for why that changed, and for the
+    sleeping laptop that changed it.
     """
     monkeypatch.setattr(budget, "MAX_SECONDS", 0.3)
     monkeypatch.setattr(budget, "WALL_CLOCK_MARGIN", 0.2)
@@ -101,17 +101,46 @@ def test_a_stalled_run_is_classified_exhausted_not_error(tmp_path, monkeypatch):
     assert classify(run) is ProofOutcome.EXHAUSTED
 
 
-def test_a_run_that_stalls_before_formalising_is_not_formalized(tmp_path, monkeypatch):
-    """The other side of the same rule, pinned so the ordering cannot drift.
-    exercise_1_19b stalled AND never elaborated; the statement is the more
-    specific fact and must win."""
+def test_a_run_that_stalls_before_formalising_is_exhausted(tmp_path, monkeypatch):
+    """THIS TEST CHANGED ITS MIND, and the reasoning it used to carry is worth
+    keeping because it was not silly.
+
+    It asserted NOT_FORMALIZED, on the grounds that "the statement is the more
+    specific fact and must win", citing exercise_1_19b, which stalled and
+    never elaborated.
+
+    MEASURED on eval/results/proofnet-60.json, which is what overturned it.
+    The machine slept mid-run. `budget.elapsed` reads `time.time()`, which
+    counts sleep -- deliberately, since the budget lives in a file and a
+    monotonic reading is meaningless across processes -- so the wall-clock
+    deadline expired while nothing was running at all. `exercise_1_27`
+    recorded ZERO model calls, ZERO compilations, an empty statement, and
+    "stopped early: wall clock spent (3780s)". It was scored `not_formalized`,
+    which put a sleeping laptop into the formalisation rate.
+
+    THE RECORD CANNOT TELL THE TWO APART. An agent that had its full clock and
+    spent it without producing a statement, and an agent whose clock was
+    consumed while the machine slept, leave the same evidence: no statement, a
+    wall-clock stop, nothing else. This fixture is that shape too -- the
+    stalling agent declares nothing before it sleeps.
+
+    So the tie has to go somewhere, and it goes to not blaming the agent, for
+    the reason `classify`'s own ERROR branch already gives: "a run that died
+    tells you nothing about proving, and counting it against the prover is the
+    same error the EXHAUSTED branch below already exists to prevent." A run
+    that never started tells you nothing about formalising either.
+
+    A statement Lean actually REJECTED is untouched by this and still wins --
+    that is a compiler fact about the formalisation, and
+    `test_classify_unfinished.py` pins it.
+    """
     monkeypatch.setattr(budget, "MAX_SECONDS", 0.3)
     monkeypatch.setattr(budget, "WALL_CLOCK_MARGIN", 0.2)
 
     run = harness.prove("q", model=object(), workdir=str(tmp_path),
                         agent_factory=build_stalling_agent(30))
 
-    assert classify(run) is ProofOutcome.NOT_FORMALIZED
+    assert classify(run) is ProofOutcome.EXHAUSTED
     assert budget.summary(str(tmp_path))["terminated_early"] is True
 
 
