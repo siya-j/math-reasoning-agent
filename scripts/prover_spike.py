@@ -146,6 +146,45 @@ def _signature_end(text: str, start: int) -> int:
     return -1
 
 
+# Tactic names common enough that a line beginning with one is Lean and not
+# English. Used only to tell code from prose, never to judge a proof.
+_TACTIC_LINE = re.compile(
+    r"(?m)^\s*(?:intro|intros|exact|apply|refine|simp|simpa|rw|rwa|norm_num"
+    r"|ring|ring_nf|linarith|nlinarith|positivity|field_simp|constructor"
+    r"|rcases|obtain|cases|induction|use|omega|decide|aesop|trivial|rfl"
+    r"|have|show|calc|unfold|push_cast|gcongr|bound|convert|specialize"
+    r"|by_cases|contrapose|exfalso|left|right|ext|funext|subst"
+    # `by` ANCHORED AT LINE START, which is the whole difference. `by
+    # trivial` on its own line is a Lean proof body; "divide both sides by
+    # 3" has `by` mid-sentence, and neither real generation has a line that
+    # begins with it.
+    r"|by)\b")
+
+
+def _looks_like_lean(text: str) -> bool:
+    """Did the model get as far as writing code, or is this all prose?
+
+    NOT a judgement of the proof -- only of whether there is one. A reply
+    with no Lean in it is a generation that ran out of tokens before
+    reaching the proof, which is our budget's fault and fixable; scoring it
+    as a failed proof would blame the prover for our cap.
+
+    MEASURED against the two real generations on disk (2577 and 3281 chars
+    of `### Detailed Proof and Analysis`). Of every candidate marker, only a
+    BARE `by` false-positived on them -- because mathematical English is
+    full of it: "divide both sides by 3". No fence, no declaration, no `:=`
+    and no tactic-initial line appeared in either. So bare `by` is excluded
+    and the other four decide.
+    """
+    if "```" in text:
+        return True
+    if re.search(r"\b(theorem|lemma|example)\b", text):
+        return True
+    if ":=" in text:
+        return True
+    return bool(_TACTIC_LINE.search(text))
+
+
 def _extract_proof(text: str) -> tuple:
     """Split a model's answer into (preamble, proof body).
 
@@ -288,9 +327,13 @@ def main(argv=None) -> int:
     parser.add_argument("--url", default="http://localhost:8000/v1")
     parser.add_argument("--model", default="Goedel-LM/Goedel-Prover-V2-8B")
     parser.add_argument(
-        "--max-tokens", type=int, default=1024,
-        help="cap on the generation. A Lean proof is short; 2048 only buys "
-             "the model room to ramble, and on CPU every token is seconds.")
+        "--max-tokens", type=int, default=4096,
+        help="cap on the generation. Goedel-Prover-V2 is a REASONING model: "
+             "it writes a long '### Detailed Proof and Analysis' prose "
+             "section and only then the Lean block. MEASURED at 1024 -- two "
+             "goals returned 2577 and 3281 characters of pure prose, "
+             "truncated mid-sentence, with no Lean in them at all. Cutting "
+             "this to save time measures the cap, not the prover.")
     parser.add_argument(
         "--regenerate", action="store_true",
         help="ignore the cache and ask the prover again. Without it, a goal "
@@ -442,6 +485,7 @@ def main(argv=None) -> int:
     goals = goals[: args.limit] if args.limit else goals
     closed = []
     unreachable = []
+    truncated = []
     store = _cache_read()
     if store:
         print(f"cache: {len(store)} generation(s) on disk, reused for free\n")
@@ -469,6 +513,21 @@ def main(argv=None) -> int:
             store[key] = {"proof": proof, "seconds": elapsed,
                           "model": args.model}
             _cache_write(store)
+        # NO LEAN AT ALL IS NOT A FAILED PROOF.
+        #
+        # MEASURED on the two real generations in the cache: 2577 and 3281
+        # characters of `### Detailed Proof and Analysis` prose, cut off
+        # mid-sentence by --max-tokens, containing no theorem, no tactic and
+        # no code fence. Compiling that would produce a syntax error and be
+        # counted as the prover failing to prove the goal. It is the
+        # generation budget running out, which is our fault and fixable.
+        if not _looks_like_lean(proof):
+            truncated.append((goal["goal_id"], len(proof)))
+            print(f"[{index}/{len(goals)}] {goal['goal_id']:22} "
+                  f"NO LEAN IN REPLY -- not a result "
+                  f"({len(proof)} chars of prose, {elapsed:.0f}s)")
+            continue
+
         # The model restated the theorem; keep OUR statement and its body.
         helper, body = _extract_proof(proof)
         lemmas = list(goal["lemmas"]) + ([helper] if helper else [])
@@ -508,6 +567,14 @@ def main(argv=None) -> int:
             print(f"    {goal_id:22} {why}")
         print("  Those are not misses. Raise --timeout, or serve a smaller")
         print("  quantisation, and run them again.")
+        print()
+    if truncated:
+        print(f"  {len(truncated)} generation(s) CONTAINED NO LEAN:")
+        for goal_id, size in truncated:
+            print(f"    {goal_id:22} {size:>6} chars of prose, no theorem")
+        print("  The reasoning ran past --max-tokens before reaching the")
+        print("  proof. Not misses -- raise --max-tokens and note that at")
+        print("  2.8 tok/s each extra 1000 tokens is ~6 more minutes.")
         print()
     if not closed:
         print("  NOTHING WAS SCORED. No conclusion is available.")

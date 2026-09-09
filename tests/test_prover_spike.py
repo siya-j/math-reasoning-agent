@@ -152,6 +152,32 @@ def test_the_spike_needs_no_api_key():
     assert "urllib" in imported, "the spike does not talk to a local endpoint"
 
 
+@pytest.fixture(autouse=True)
+def never_touch_the_real_cache():
+    """No test may write eval/prover-spike-generations.json.
+
+    MEASURED: an early version of these tests left
+    `exercise_1_11a -> "by trivial"` (3e-06 seconds) in the REAL cache. On
+    the next run that would have been served as Goedel-Prover's answer,
+    compiled, and reported as its result -- a fabricated data point in the
+    one file whose entire purpose is to hold real evidence.
+
+    CHECKED AFTERWARDS RATHER THAN PATCHED. Every `_spike()` call
+    re-executes the module and recomputes CACHE, so monkeypatching one
+    instance leaves every other instance pointing at the real file -- which
+    is exactly how the fake entry got there. Comparing the bytes catches it
+    whichever instance did the writing.
+    """
+    real = ROOT / "eval" / "prover-spike-generations.json"
+    before = real.read_bytes() if real.exists() else None
+    yield
+    after = real.read_bytes() if real.exists() else None
+    if before is None:
+        assert after is None, "a test created the real generation cache"
+    else:
+        assert after == before, "a test wrote into the real generation cache"
+
+
 @pytest.fixture
 def lean_ok(monkeypatch):
     """Satisfy BOTH pre-flight stages, so a test about scoring is not
@@ -520,4 +546,82 @@ def test_an_unavailable_compile_reports_why(tmp_path, monkeypatch, capsys):
     module.main(["--run", "--limit", "1", "--cheapest-first"])
     out = capsys.readouterr().out
     assert "WinError 2" in out, "the cause was swallowed again"
+
+
+# --------------------------------- prose is not a failed proof
+#
+# MEASURED, from the two generations the cache preserved when the compile
+# step failed: 2577 and 3281 characters of "### Detailed Proof and Analysis",
+# cut off mid-sentence by --max-tokens 1024, with NO Lean in either.
+# Goedel-Prover-V2 reasons at length before writing code. Compiling that
+# prose would give a syntax error scored as the prover failing to prove the
+# goal, when what actually ran out was our token budget.
+REAL_GENERATIONS = ROOT / "eval" / "prover-spike-generations.json"
+
+
+def test_the_real_prose_generations_are_not_mistaken_for_proofs():
+    """Driven by the actual bytes the model returned, not a paraphrase."""
+    if not REAL_GENERATIONS.exists():
+        pytest.skip("no cached generations on this machine")
+    saved = json.loads(REAL_GENERATIONS.read_text(encoding="utf-8"))
+    prose = [v["proof"] for v in saved.values()
+             if "```" not in v["proof"] and "theorem" not in v["proof"]]
+    if not prose:
+        pytest.skip("no prose-only generation cached")
+    for text in prose:
+        assert not _spike()._looks_like_lean(text), text[:120]
+
+
+def test_bare_by_does_not_make_english_look_like_lean():
+    """The one marker that false-positived on the real generations.
+    Mathematical English is full of it -- "divide both sides by 3"."""
+    module = _spike()
+    assert not module._looks_like_lean(
+        "We divide both sides by 3 and note the norm is positive.")
+    assert not module._looks_like_lean(
+        "Since `3 - c = 4 - b`, we get `r = 2/3` by scaling.")
+
+
+@pytest.mark.parametrize("text", [
+    "Analysis\n```lean4\ntheorem x : True := by trivial\n```",
+    "intro h\nexact h.trans hx",
+    "theorem foo : True := by trivial",
+    "norm_num",
+    "calc a = b := by ring\n  _ = c := by simp",
+])
+def test_real_lean_is_never_discarded_as_prose(text):
+    """The classifier must not become a way to lose good proofs. A bare
+    tactic body has no declaration and no fence, so it is exactly the case
+    a careless check would throw away."""
+    assert _spike()._looks_like_lean(text)
+
+
+def test_a_prose_only_reply_is_reported_as_truncated_not_as_a_miss(
+        tmp_path, monkeypatch, capsys, lean_ok):
+    """It must not reach the compiler, and it must not reach the score."""
+    module = lean_ok
+    monkeypatch.setattr(module, "CACHE", tmp_path / "gen.json")
+    monkeypatch.setattr(
+        module, "_ask_local",
+        lambda *a, **k: "### Detailed Proof and Analysis\n\nWe divide by 3.")
+
+    compiled = []
+    monkeypatch.setattr(module, "_real_compile",
+                        lambda *a, **k: compiled.append(1))
+
+    code = module.main(["--run", "--limit", "1", "--cheapest-first"])
+    out = capsys.readouterr().out
+    assert not compiled, "prose was sent to the compiler"
+    assert "NO LEAN IN REPLY" in out
+    assert "CONTAINED NO LEAN" in out
+    assert "closed 0 of 1" not in out, "a truncated generation is not a miss"
+    assert code == 1, "nothing was scored"
+
+
+def test_the_token_cap_is_sized_for_a_reasoning_prover():
+    """1024 was measured to be too small: both real generations were cut
+    off mid-sentence before reaching any Lean."""
+    source = (ROOT / "scripts" / "prover_spike.py").read_text(encoding="utf-8")
+    assert '"--max-tokens", type=int, default=4096' in source, (
+        "1024 truncated both real generations before any Lean appeared")
 
