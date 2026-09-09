@@ -1,0 +1,133 @@
+[
+  {
+    "goal_id": "exercise_1_11a",
+    "tier": "proofnet",
+    "statement": "theorem exercise_1_11a (z : ℂ) :\n  ∃ (r : ℝ) (w : ℂ), ‖w‖ = 1 ∧ z = (r : ℂ) * w",
+    "agent_goal_attempts": 0,
+    "agent_lean_calls": 5,
+    "agent_input_tokens": 0,
+    "lemmas": []
+  },
+  {
+    "goal_id": "exercise_1_19",
+    "tier": "proofnet",
+    "statement": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_1_19\n  (n : ℕ)\n  (a b c x : EuclideanSpace ℝ (Fin n))\n  (r : ℝ)\n  (h₁ : r > 0)\n  (h₂ : 3 • c = 4 • b - a)\n  (h₃ : 3 * r = 2 * ‖b - a‖)\n  : ‖x - a‖ = 2 * ‖x - b‖ ↔ ‖x - c‖ = r",
+    "agent_goal_attempts": 1,
+    "agent_lean_calls": 3,
+    "agent_input_tokens": 62049,
+    "lemmas": []
+  },
+  {
+    "goal_id": "exercise_2_5_30",
+    "tier": "proofnet",
+    "statement": "theorem exercise_2_5_30 {G : Type*} [Group G] [Fintype G]\n  {p m : ℕ} (hp : Nat.Prime p) (hp1 : ¬ p ∣ m) (hG : Fintype.card G = p*m)\n  {H : Subgroup G} [Fintype H] [H.Normal] (hH : Fintype.card H = p):\n  Subgroup.Characteristic H",
+    "agent_goal_attempts": 6,
+    "agent_lean_calls": 27,
+    "agent_input_tokens": 5175349,
+    "lemmas": [
+      "lemma helper {p : ℕ} (hp : Nat.Prime p) : Nat.Prime p := by\n  exact hp",
+      "lemma helper2 {p m : ℕ} (hp1 : ¬ p ∣ m) : ¬ p ∣ m := by\n  exact hp1",
+      "lemma helper3 {G : Type*} [Group G] [Fintype G] {p m : ℕ} (hG : Fintype.card G = p * m) : Fintype.card G = p * m := by\n  exact hG",
+      "def subgroup_comap_equiv_3 {G : Type*} [Group G] (H : Subgroup G) (ϕ : G ≃* G) :\n  Subgroup.comap ϕ.toMonoidHom H ≃ H := by\n  fconstructor\n  · intro x\n    exact ⟨ϕ x.1, x.2⟩\n  · intro y\n    refine ⟨ϕ.symm y.1, ?_⟩\n    change ϕ (ϕ.symm y.1) ∈ H\n    rw [ϕ.apply_symm_apply]\n    exact y.2\n  · intro x\n    ext\n    exact ϕ.symm_apply_apply x.1\n  · intro y\n    ext\n    exact ϕ.apply_symm_apply y.1",
+      "lemma card_comap_equiv_6 {G : Type*} [Group G] [Fintype G] (H : Subgroup G) [Fintype H] (ϕ : G ≃* G) [Fintype (Subgroup.comap ϕ.toMonoidHom H)] :\n  Fintype.card (Subgroup.comap ϕ.toMonoidHom H) = Fintype.card H := by\n  exact Fintype.card_congr (subgroup_comap_equiv_3 H ϕ)"
+    ]
+  },
+  {
+    "goal_id": "exercise_3_1",
+    "tier": "proofnet",
+    "statement": "open Real\nopen scoped BigOperators\n\ntheorem exercise_3_1 : Infinite {p : Nat.Primes // p ≡ -1 [ZMOD 6]}",
+    "agent_goal_attempts": 1,
+    "agent_lean_calls": 5,
+    "agent_input_tokens": 416503,
+    "lemmas": [
+      "lemma test : 1 + 1 = 2 := by rfl",
+      "lemma test2 : 2 + 2 = 4 := by rfl"
+    ]
+  },
+  {
+    "goal_id": "exercise_3_3",
+    "tier": "proofnet",
+    "statement": "theorem exercise_3_3 (a : ℝ) (ha : 0 < a) :\n    Filter.Tendsto (λ y => ∫ x in -y..y, Real.cos x / (x ^ 2 + a ^ 2))\n    Filter.atTop (nhds (Real.pi * (Real.exp (-a) / a)))",
+    "agent_goal_attempts": 11,
+    "agent_lean_calls": 32,
+    "agent_input_tokens": 3640687,
+    "lemmas": [
+      "lemma test_exists_7 : True := by\n  have := integral_one_div_one_add_sq (a := 0) (b := 1)\n  trivial"
+    ]
+  },
+  {
+    "goal_id": "exercise_4_24",
+    "tier": "proofnet",
+    "statement": "theorem exercise_4_24 {f : ℝ → ℝ}\n  (hf : Continuous f) (a b : ℝ) (hab : a < b)\n  (h : ∀ x y : ℝ, a < x → x < b → a < y → y < b → f ((x + y) / 2) ≤ (f x + f y) / 2) :\n  ConvexOn ℝ (Set.Ioo a b) f",
+    "agent_goal_attempts": 3,
+    "agent_lean_calls": 4,
+    "agent_input_tokens": 434029,
+    "lemmas": []
+  },
+  {
+    "goal_id": "exercise_4_5_22",
+    "tier": "proofnet",
+    "statement": "theorem exercise_4_5_22 {G : Type*} [Fintype G] [Group G]\n  (hG : Fintype.card G = 132) : ¬ IsSimpleGroup G",
+    "agent_goal_attempts": 7,
+    "agent_lean_calls": 22,
+    "agent_input_tokens": 5165597,
+    "lemmas": [
+      "lemma prime_11 : Nat.Prime 11 := by decide",
+      "lemma prime_3 : Nat.Prime 3 := by decide",
+      "lemma not_prime_132 : ¬ Nat.Prime 132 := by decide",
+      "lemma card_ne_zero : 132 ≠ 0 := by decide",
+      "lemma comm_simple_contradiction {G : Type*} [Fintype G] [CommGroup G] [IsSimpleGroup G]\n  (hG : Fintype.card G = 132) : False := by\n  have h_prime : Nat.Prime (Nat.card G) := IsSimpleGroup.prime_card\n  have h_card_eq : Nat.card G = Fintype.card G := Nat.card_eq_fintype_card\n  rw [h_card_eq, hG] at h_prime\n  exact not_prime_132 h_prime",
+      "lemma isSimpleGroup_of_comm {G : Type*} [Fintype G] [instG : Group G] (hcomm : ∀ x y : G, x * y = y * x) (hsimple : IsSimpleGroup G) :\n  ∀ (comm_inst : CommGroup G), IsSimpleGroup G := by\n  intro comm_inst\n  exact hsimple"
+    ]
+  },
+  {
+    "goal_id": "exercise_5_20",
+    "tier": "proofnet",
+    "statement": "theorem exercise_5_20 {F V : Type*} [AddCommGroup V] [Field F]\n  [Module F V] [FiniteDimensional F V] {S T : Module.End F V}\n  (h1 : Fintype.card (T.Eigenvalues) = Module.finrank F V)\n  (h2 : ∀ v : V, ∃ c : F, v ∈ Module.End.eigenspace S c ↔ ∃ c : F, v ∈ Module.End.eigenspace T c) :\n  S * T = T * S",
+    "agent_goal_attempts": 3,
+    "agent_lean_calls": 13,
+    "agent_input_tokens": 1805735,
+    "lemmas": [
+      "lemma dummy : 1 = 1 := by rfl",
+      "lemma dummy2 : 2 = 2 := by rfl",
+      "lemma dummy3 : 3 = 3 := by rfl",
+      "lemma comm_of_eigenvector {F V : Type*} [AddCommGroup V] [Field F]\n  [Module F V] [FiniteDimensional F V] {S T : Module.End F V}\n  (h2 : ∀ v : V, ∃ c : F, v ∈ Module.End.eigenspace S c ↔ ∃ c : F, v ∈ Module.End.eigenspace T c)\n  (v : V) (hv : ∃ c : F, v ∈ Module.End.eigenspace T c) :\n  S (T v) = T (S v) := by\n  rcases hv with ⟨cT, hcT⟩\n  rcases h2 v with ⟨cS, hcS⟩\n  have h_mem_S : v ∈ Module.End.eigenspace S cS := hcS.mpr ⟨cT, hcT⟩\n  rw [Module.End.mem_eigenspace_iff] at hcT h_mem_S\n  rw [hcT, h_mem_S]\n  rw [map_smul, map_smul]\n  rw [hcT, h_mem_S]\n  rw [smul_smul, smul_smul]\n  rw [mul_comm]"
+    ]
+  },
+  {
+    "goal_id": "exercise_5_37",
+    "tier": "proofnet",
+    "statement": "theorem exercise_5_37 {p q : ℕ} [Fact (p.Prime)] [Fact (q.Prime)] {a : ℤ}\n  (ha : a < 0) (h0 : p ≡ q [ZMOD 4*a]) (h1 : ¬ ((p : ℤ) ∣ a)) :\n  legendreSym p a = legendreSym q a",
+    "agent_goal_attempts": 1,
+    "agent_lean_calls": 2,
+    "agent_input_tokens": 82525,
+    "lemmas": []
+  },
+  {
+    "goal_id": "putnam_1962_a1",
+    "tier": "putnam",
+    "statement": "open MeasureTheory\n\ntheorem putnam_1962_a1\n(S : Set (ℝ × ℝ))\n(hS : S.ncard = 5)\n(hnoncol : ∀ s ⊆ S, s.ncard = 3 → ¬Collinear ℝ s)\n: ∃ T ⊆ S, T.ncard = 4 ∧ ¬∃ t ∈ T, t ∈ convexHull ℝ (T \\ {t})",
+    "agent_goal_attempts": 3,
+    "agent_lean_calls": 5,
+    "agent_input_tokens": 310466,
+    "lemmas": []
+  },
+  {
+    "goal_id": "putnam_1962_a3",
+    "tier": "putnam",
+    "statement": "open MeasureTheory\n\ntheorem putnam_1962_a3\n(A B C A' B' C' P Q R : EuclideanSpace ℝ (Fin 2))\n(k : ℝ)\n(hk : k > 0)\n(hABC : ¬Collinear ℝ {A, B, C})\n(hA' : A' ∈ segment ℝ B C ∧ dist C A' / dist A' B = k)\n(hB' : B' ∈ segment ℝ C A ∧ dist A B' / dist B' C = k)\n(hC' : C' ∈ segment ℝ A B ∧ dist B C' / dist C' A = k)\n(hP : P ∈ segment ℝ B B' ∧ P ∈ segment ℝ C C')\n(hQ : Q ∈ segment ℝ C C' ∧ Q ∈ segment ℝ A A')\n(hR : R ∈ segment ℝ A A' ∧ R ∈ segment ℝ B B')\n: (volume (convexHull ℝ {P, Q, R})).toReal / (volume (convexHull ℝ {A, B, C})).toReal = (k - 1)^2 / (k^2 + k + 1)",
+    "agent_goal_attempts": 1,
+    "agent_lean_calls": 2,
+    "agent_input_tokens": 128071,
+    "lemmas": []
+  },
+  {
+    "goal_id": "putnam_1962_a4",
+    "tier": "putnam",
+    "statement": "theorem putnam_1962_a4\n(f : ℝ → ℝ)\n(a b : ℝ)\n(hdiff : Differentiable ℝ f ∧ (Differentiable ℝ (deriv f)))\n(hfabs : ∀ x ∈ Set.Icc a b, |f x| ≤ 1)\n(hfppabs : ∀ x ∈ Set.Icc a b, |(iteratedDeriv 2 f) x| ≤ 1)\n(hlen2 : b - a ≥ 2)\n: ∀ x ∈ Set.Icc a b, |(iteratedDeriv 1 f) x| ≤ 2",
+    "agent_goal_attempts": 1,
+    "agent_lean_calls": 8,
+    "agent_input_tokens": 1207745,
+    "lemmas": []
+  }
+]
