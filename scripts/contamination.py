@@ -107,6 +107,12 @@ def main(argv=None) -> int:
     parser.add_argument("--results", nargs="*", default=[],
                         help="results files, to split scores by outcome")
     parser.add_argument("--limit", type=int)
+    parser.add_argument(
+        "--decided-only", action="store_true",
+        help="probe only goals that already have a recorded outcome. The "
+             "proved-versus-not comparison is the answerable question, and "
+             "an undecided goal contributes nothing to it -- so this is "
+             "both cheaper and more targeted. Needs --results.")
     parser.add_argument("--run", action="store_true",
                         help="actually call the model. Off by default: this "
                              "spends money, and a dry run costs nothing.")
@@ -114,6 +120,15 @@ def main(argv=None) -> int:
 
     goals = json.loads(Path(args.goals).read_text(encoding="utf-8"))
     goals = [g for g in goals if (g.get("note") or "").strip()]
+    if args.decided_only:
+        if not args.results:
+            print("--decided-only needs --results to know which are decided.")
+            return 2
+        known = outcomes(args.results)
+        goals = [g for g in goals if g["id"] in known]
+        if not goals:
+            print("no goals in this file have a recorded outcome.")
+            return 2
     if args.limit:
         goals = goals[: args.limit]
     decided = outcomes(args.results)
@@ -138,6 +153,7 @@ def main(argv=None) -> int:
     model = get_model()
 
     scored = []
+    answers = {}
     for index, goal in enumerate(goals, 1):
         ref = reference(goal.get("note"))
         try:
@@ -153,6 +169,8 @@ def main(argv=None) -> int:
         declined = said.upper().startswith("UNKNOWN")
         score = 0.0 if declined else jaccard(said, ref)
         scored.append((goal["id"], score, declined, decided.get(goal["id"])))
+        # KEPT so the null baseline below costs nothing extra.
+        answers[goal["id"]] = (said, ref, goal.get("area", ""))
         print(f"[{index}/{len(goals)}] {goal['id']:26} "
               f"{'declined' if declined else f'{score:.3f}'}")
 
@@ -168,6 +186,62 @@ def main(argv=None) -> int:
     if live:
         print(f"  median {statistics.median(live):.3f}   "
               f"max {max(live):.3f}")
+
+    # THE NULL BASELINE, AND WHY IT DECIDES WHETHER ANY OF THIS MEANS
+    # ANYTHING.
+    #
+    # A Jaccard of 0.35 against the reference is uninterpretable on its own.
+    # Lean statements about the same material share a great deal of surface
+    # -- `theorem exercise_`, the binders, `Polynomial`, the arrows -- so a
+    # model that had never seen ProofNet and simply wrote a competent
+    # formalisation of a canonical theorem would still score well above
+    # zero. Without knowing what that floor IS, a high score proves nothing.
+    #
+    # So each answer is also scored against every OTHER goal's reference.
+    # Those pairings are wrong by construction, so their distribution is the
+    # score achievable from shared notation alone. Costs no extra calls: it
+    # is the same answers, re-compared.
+    #
+    # The same-chapter figure is the stricter control -- goals within one
+    # textbook chapter share vocabulary and typeclass setup, so it removes
+    # more of the free similarity than the overall figure does.
+    if len(answers) > 2:
+        off, off_same_area = [], []
+        for goal_id, (said, _ref, area) in answers.items():
+            if said.upper().startswith("UNKNOWN"):
+                continue
+            for other_id, (_s, other_ref, other_area) in answers.items():
+                if other_id == goal_id:
+                    continue
+                value = jaccard(said, other_ref)
+                off.append(value)
+                if area and area == other_area:
+                    off_same_area.append(value)
+        if off and live:
+            print()
+            print("NULL BASELINE -- what shared notation alone is worth")
+            print("-" * 62)
+            on = statistics.median(live)
+            print(f"  matched   (answer vs ITS reference)      median {on:.3f}")
+            print(f"  mismatched(answer vs ANOTHER reference)  median "
+                  f"{statistics.median(off):.3f}   n={len(off)}")
+            if off_same_area:
+                print(f"  mismatched, same chapter                 median "
+                      f"{statistics.median(off_same_area):.3f}   "
+                      f"n={len(off_same_area)}")
+            control = statistics.median(off_same_area or off)
+            lift = on - control
+            print(f"  lift over the control  {lift:+.3f}")
+            if lift < 0.05:
+                print("  The matched score is no better than a deliberately")
+                print("  WRONG pairing. There is no recall signal here at all;")
+                print("  the raw score is shared notation.")
+            elif lift < 0.15:
+                print("  A small lift. Some of the raw score is specific to the")
+                print("  right statement, most of it is notation.")
+            else:
+                print("  The matched score is well above a wrong pairing, so the")
+                print("  model is reproducing THESE formalisations specifically.")
 
     groups = {}
     for goal_id, score, declined, outcome in scored:
