@@ -63,6 +63,8 @@ N = 5
 # counted RAISED exceptions -- the same shape of waste this prevents.
 GIVE_UP_AFTER = 3
 
+from llm.exhaustion import advice, is_hopeless  # noqa: E402
+
 ASK = """State the Lean 4 theorem named `{name}` from {area}.
 
 Reply with the theorem signature only -- no proof, no explanation, no code
@@ -216,6 +218,13 @@ def main(argv=None) -> int:
             # diagnostic.
             print(f"[{index}/{len(goals)}] {goal['id']}: FAILED "
                   f"{type(exc).__name__}: {str(exc)[:400]}")
+            if is_hopeless(exc):
+                # STOP AT ONCE, not after GIVE_UP_AFTER. A spend cap or an
+                # exhausted quota will refuse every remaining goal, so the
+                # only thing more attempts buy is more of the same line.
+                print()
+                print(advice(exc))
+                return 1
             failures += 1
             if failures >= GIVE_UP_AFTER and not scored:
                 # NOTHING has succeeded yet, so this is not a flaky goal --

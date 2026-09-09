@@ -299,3 +299,94 @@ def test_results_for_a_different_goal_set_says_so(tmp_path, capsys):
     assert code == 2
     assert "different sets" in out
 
+
+# ------------------------------------------- exhaustion, said in plain words
+#
+# THE REAL ERROR, verbatim from the run that hit it:
+#   ChatGoogleGenerativeAIError: Error calling model 'gemini-3.5-flash'
+#   (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429,
+#   'message': 'Your project has exceeded its monthly spending cap. ...
+#
+# 429 means BOTH "slow down" and "you are out of money", so only the message
+# separates them -- and the first version of this handler printed the type
+# alone, discarding it.
+CAP = (
+    "Error calling model 'gemini-3.5-flash' (RESOURCE_EXHAUSTED): 429 "
+    "RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'Your project "
+    "has exceeded its monthly spending cap. Please go to AI Studio at "
+    "https://ai.studio/spend to manage your project spend cap.', 'status': "
+    "'RESOURCE_EXHAUSTED'}}"
+)
+
+
+def _one_goal(tmp_path):
+    goals = tmp_path / "g.json"
+    goals.write_text(json.dumps([
+        {"id": f"exercise_1_{i}", "area": "proofnet 1",
+         "note": f"theorem exercise_1_{i} : True := sorry"} for i in range(9)
+    ]), encoding="utf-8")
+    return goals
+
+
+def test_a_spending_cap_stops_on_the_very_first_goal(tmp_path, monkeypatch,
+                                                     capsys):
+    """Not after three. A cap refuses every remaining goal, so more attempts
+    buy nothing but more of the same line -- and this probe was about to
+    print it 48 times."""
+    module = _probe()
+    calls = []
+
+    class FakeModel:
+        def invoke(self, _prompt):
+            calls.append(1)
+            raise RuntimeError(CAP)
+
+    import llm
+    monkeypatch.setattr(llm, "get_model", lambda *a, **k: FakeModel())
+    code = module.main(["--goals", str(_one_goal(tmp_path)), "--run"])
+    out = capsys.readouterr().out
+
+    assert code == 1
+    assert len(calls) == 1, f"it kept going for {len(calls)} goals"
+    assert "SPENDING CAP" in out, "it must name which wall was hit"
+    assert "ai.studio/spend" in out, "and where it is changed"
+    assert "not a bug" in out
+
+
+def test_the_provider_message_is_not_discarded(tmp_path, monkeypatch, capsys):
+    """`FAILED ChatGoogleGenerativeAIError` alone gave nothing to act on."""
+    module = _probe()
+
+    class FakeModel:
+        def invoke(self, _prompt):
+            raise RuntimeError(CAP)
+
+    import llm
+    monkeypatch.setattr(llm, "get_model", lambda *a, **k: FakeModel())
+    module.main(["--goals", str(_one_goal(tmp_path)), "--run"])
+    out = capsys.readouterr().out
+    assert "monthly spending cap" in out, "the message itself must appear"
+
+
+def test_a_transient_failure_does_not_stop_the_sweep(tmp_path, monkeypatch,
+                                                     capsys):
+    """The distinction must hold in BOTH directions. Giving up on a dropped
+    connection would waste a run the same way retrying a cap wastes time."""
+    module = _probe()
+    calls = []
+
+    class FakeModel:
+        def invoke(self, _prompt):
+            calls.append(1)
+            if len(calls) == 1:
+                raise RuntimeError("ReadError: connection reset by peer")
+
+            class Reply:
+                content = "theorem exercise_1_1 : True"
+            return Reply()
+
+    import llm
+    monkeypatch.setattr(llm, "get_model", lambda *a, **k: FakeModel())
+    module.main(["--goals", str(_one_goal(tmp_path)), "--run"])
+    assert len(calls) == 9, f"stopped after {len(calls)} on a transient fault"
+

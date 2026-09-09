@@ -409,20 +409,12 @@ _TRANSIENT = frozenset({
 # only to make a retry FAIL FASTER -- never to decide an outcome. If the
 # wording changes, the behaviour degrades to what it was: a pointless retry,
 # not a wrong answer.
-_HOPELESS = ("spending cap", "billing", "quota exceeded", "exceeded your quota",
-             "insufficient_quota", "payment required")
-
-
-def _is_hopeless(exc) -> bool:
-    """Is this exhaustion that a backoff cannot resolve?"""
-    seen = set()
-    while exc is not None and id(exc) not in seen:
-        seen.add(id(exc))
-        text = str(exc).lower()
-        if any(phrase in text for phrase in _HOPELESS):
-            return True
-        exc = exc.__cause__ or exc.__context__
-    return False
+# MOVED TO `llm/exhaustion.py`, and re-exported here because every script
+# that calls a model needs the same distinction and this project has paid
+# three times for one fact living in two hand-maintained places. The
+# behaviour is unchanged; `tests/test_transient_retry.py` guards it and
+# `tests/test_exhaustion.py` fails if a private copy reappears here.
+from llm.exhaustion import is_hopeless as _is_hopeless  # noqa: E402
 
 
 def _is_transient(exc):
