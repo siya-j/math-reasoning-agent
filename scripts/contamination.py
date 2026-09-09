@@ -57,6 +57,12 @@ sys.path.insert(0, str(ROOT))
 
 N = 5
 
+# Three failures with nothing yet scored means the setup is wrong, not that
+# three goals are awkward. MEASURED elsewhere in this repo: an invalid API
+# key once let 53 goals run and fail identically because the abort only
+# counted RAISED exceptions -- the same shape of waste this prevents.
+GIVE_UP_AFTER = 3
+
 ASK = """State the Lean 4 theorem named `{name}` from {area}.
 
 Reply with the theorem signature only -- no proof, no explanation, no code
@@ -87,10 +93,38 @@ def reference(note: str) -> str:
     return "\n".join(lines).strip()
 
 
+def expand(paths) -> list:
+    """Resolve each argument, expanding a glob the shell did not.
+
+    MEASURED: `--results eval\\results\\*.json` works in bash and does
+    NOT in PowerShell, which passes the pattern through literally. The
+    script then read a file named `*.json`, found nothing, and reported "no
+    goals in this file have a recorded outcome" -- a message about the goals
+    for a problem in the arguments. Expanding here makes the same command
+    work in both shells.
+    """
+    import glob as _glob
+
+    resolved, missing = [], []
+    for path in paths:
+        hits = _glob.glob(str(path))
+        if hits:
+            resolved.extend(sorted(hits))
+        else:
+            missing.append(str(path))
+    for path in missing:
+        # SAID OUT LOUD. `outcomes` catches OSError and returns nothing, so
+        # a path that matches no file is indistinguishable from a file with
+        # no rows in it -- which is exactly how the PowerShell failure came
+        # to look like a fact about the data.
+        print(f"warning: --results {path} matched no file")
+    return resolved
+
+
 def outcomes(paths) -> dict:
     """`{goal_id: outcome}` from results files, so scores can be split by it."""
     found = {}
-    for path in paths:
+    for path in expand(paths):
         try:
             rows = json.loads(Path(path).read_text(encoding="utf-8"))["results"]
         except (ValueError, OSError, KeyError):
@@ -125,9 +159,18 @@ def main(argv=None) -> int:
             print("--decided-only needs --results to know which are decided.")
             return 2
         known = outcomes(args.results)
+        if not known:
+            print("None of the --results files contained a ProofNet row, so")
+            print("there is no outcome to select on. In PowerShell a glob is")
+            print("NOT expanded by the shell -- this script expands it now,")
+            print("so check the path itself:")
+            print("  --results eval\\results\\*.json")
+            return 2
         goals = [g for g in goals if g["id"] in known]
         if not goals:
-            print("no goals in this file have a recorded outcome.")
+            print(f"{len(known)} goals have a recorded outcome, but none of "
+                  f"them are in {args.goals}.")
+            print("The results and the goal file are for different sets.")
             return 2
     if args.limit:
         goals = goals[: args.limit]
@@ -154,6 +197,7 @@ def main(argv=None) -> int:
 
     scored = []
     answers = {}
+    failures = 0
     for index, goal in enumerate(goals, 1):
         ref = reference(goal.get("note"))
         try:
@@ -163,8 +207,27 @@ def main(argv=None) -> int:
             if callable(said):
                 said = said()
         except Exception as exc:  # noqa: BLE001 - one failure must not stop the sweep
-            print(f"[{index}/{len(goals)}] {goal['id']}: FAILED {type(exc).__name__}")
+            # WITH THE MESSAGE. Printing only `type(exc).__name__` gave
+            # `FAILED ChatGoogleGenerativeAIError` and nothing to act on --
+            # the provider puts the reason (a bad model name, an exhausted
+            # quota, a rejected key) in the message, and this threw it away.
+            # The same mistake as reporting "no goals have an outcome" for
+            # an unexpanded glob: a diagnostic that cannot say WHY is not a
+            # diagnostic.
+            print(f"[{index}/{len(goals)}] {goal['id']}: FAILED "
+                  f"{type(exc).__name__}: {str(exc)[:400]}")
+            failures += 1
+            if failures >= GIVE_UP_AFTER and not scored:
+                # NOTHING has succeeded yet, so this is not a flaky goal --
+                # it is the configuration. Grinding through the remaining
+                # goals would produce the same line 45 more times.
+                print(f"\nStopping after {failures} consecutive failures with "
+                      f"nothing scored.")
+                print("This is the model or the key, not the goals. The "
+                      "message above says which.")
+                return 1
             continue
+        failures = 0
         said = str(said).strip()
         declined = said.upper().startswith("UNKNOWN")
         score = 0.0 if declined else jaccard(said, ref)

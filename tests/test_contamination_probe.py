@@ -222,3 +222,80 @@ def test_decided_only_narrows_to_goals_with_an_outcome(tmp_path, capsys):
     out = capsys.readouterr().out
     assert "2 goals would be probed" in out, out[:300]
 
+
+# ------------------------------------------- the shell that does not glob
+#
+# MEASURED, on the user's machine, with a command I gave them:
+#   --results eval\results\*.json
+# works in bash and does NOT in PowerShell, which passes the pattern through
+# literally. The script read a file named `*.json`, found nothing, and
+# printed "no goals in this file have a recorded outcome" -- a claim about
+# the DATA for a fault in the ARGUMENTS. `outcomes` catching OSError is what
+# made the two indistinguishable.
+def test_a_glob_the_shell_did_not_expand_is_expanded_here(tmp_path):
+    """The same command has to work in both shells."""
+    module = _probe()
+    results = tmp_path / "results"
+    results.mkdir()
+    for name in ("a.json", "b.json"):
+        (results / name).write_text(json.dumps({"results": [
+            {"goal_id": f"exercise_{name[0]}", "tier": "proofnet",
+             "outcome": "proved"},
+        ]}), encoding="utf-8")
+
+    found = module.outcomes([str(results / "*.json")])
+    assert set(found) == {"exercise_a", "exercise_b"}, found
+
+
+def test_a_path_matching_nothing_is_reported_not_swallowed(capsys):
+    """Silence here is what turned an argument mistake into a false
+    statement about the goals."""
+    module = _probe()
+    assert module.outcomes(["/definitely/not/here/*.json"]) == {}
+    assert "matched no file" in capsys.readouterr().out
+
+
+def test_an_explicit_path_still_works(tmp_path):
+    """Expanding must not break the ordinary case of naming one file."""
+    module = _probe()
+    path = tmp_path / "r.json"
+    path.write_text(json.dumps({"results": [
+        {"goal_id": "exercise_1_1", "tier": "proofnet", "outcome": "proved"},
+    ]}), encoding="utf-8")
+    assert module.outcomes([str(path)]) == {"exercise_1_1": "proved"}
+
+
+def test_no_matching_results_blames_the_arguments_not_the_data(tmp_path,
+                                                               capsys):
+    """The message must point at the path, because that is what was wrong."""
+    module = _probe()
+    goals = tmp_path / "g.json"
+    goals.write_text(json.dumps([
+        {"id": "exercise_1_1", "area": "a", "note": "theorem x : True := sorry"},
+    ]), encoding="utf-8")
+    code = module.main(["--goals", str(goals), "--decided-only",
+                        "--results", str(tmp_path / "missing-*.json")])
+    out = capsys.readouterr().out
+    assert code == 2
+    assert "matched no file" in out
+    assert "PowerShell" in out, "it must name the shell that does this"
+
+
+def test_results_for_a_different_goal_set_says_so(tmp_path, capsys):
+    """Distinct from 'no results at all' -- outcomes exist, they are just
+    for other goals, and conflating the two hides a real mismatch."""
+    module = _probe()
+    goals = tmp_path / "g.json"
+    goals.write_text(json.dumps([
+        {"id": "exercise_9_9", "area": "a", "note": "theorem x : True := sorry"},
+    ]), encoding="utf-8")
+    results = tmp_path / "r.json"
+    results.write_text(json.dumps({"results": [
+        {"goal_id": "exercise_1_1", "tier": "proofnet", "outcome": "proved"},
+    ]}), encoding="utf-8")
+    code = module.main(["--goals", str(goals), "--decided-only",
+                        "--results", str(results)])
+    out = capsys.readouterr().out
+    assert code == 2
+    assert "different sets" in out
+
