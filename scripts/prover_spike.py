@@ -44,6 +44,7 @@ import asyncio
 import glob
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -53,13 +54,127 @@ sys.path.insert(0, str(ROOT))
 
 CORPUS = ROOT / "eval" / "prover-spike-corpus.json"
 
-ASK = """Prove this Lean 4 theorem using Mathlib.
+# ASKED IN THE MODEL'S OWN FORMAT, NOT OURS.
+#
+# The first version of this prompt said "reply with ONLY the proof term or
+# tactic block ... no restatement of the theorem". Goedel-Prover-V2 declined
+# it on the very first request, returning
+#
+#     theorem lean_workbook_plus_10000 : 1 + 1 = 2 := by norm_num <;> ...
+#
+# -- a complete declaration, under a name from its own training set. That is
+# not disobedience, it is what the model was TRAINED to emit: a whole Lean
+# file. Insisting otherwise would have measured its willingness to follow our
+# formatting instead of its ability to prove theorems, and understated it.
+#
+# So we ask the way it was trained and take the proof apart ourselves in
+# `_extract_proof`. Same lesson this repo keeps relearning: a rule that lives
+# only in prose is a rule the model can decline. The guard is the parser.
+ASK = """Think about and solve the following problem step by step in Lean 4.
 
-{statement}
+# Formal statement:
+```lean4
+{statement} := by
+```
 
-Reply with ONLY the proof term or tactic block that follows `:=`. No
-explanation, no code fence, no restatement of the theorem. Do not use `sorry`,
-`admit`, `native_decide`, or `exact?`/`apply?` -- they are rejected."""
+Do not use `sorry`, `admit`, `native_decide`, or `exact?`/`apply?` -- a proof
+containing any of them is rejected."""
+
+
+# A declaration header, with the modifiers and attributes Lean allows before
+# it. `example` is included because a model told not to restate the theorem
+# sometimes complies by using an anonymous one instead.
+_DECL = re.compile(
+    r"(?:\A|\n)[ \t]*(?:@\[[^\]]*\][ \t]*)*"
+    r"(?:(?:private|protected|noncomputable|nonrec|partial)[ \t]+)*"
+    r"(theorem|lemma|example)\b")
+
+# What may stand in front of the goal, once the prose is gone. A helper lemma
+# is legitimate -- it compiles ahead of the statement, exactly like the
+# agent's own kept lemmas.
+_PREAMBLE_OK = re.compile(
+    r"\A[ \t]*(?:@\[|/-|--|open\b|set_option\b|universe\b|variable\b"
+    r"|section\b|namespace\b|end\b|local\b|attribute\b"
+    r"|(?:private|protected|noncomputable|nonrec|partial)[ \t]"
+    r"|theorem\b|lemma\b|def\b|abbrev\b|instance\b|structure\b"
+    r"|inductive\b|class\b)")
+
+
+def _signature_end(text: str, start: int) -> int:
+    """Index just past the `:=` that ends a declaration's signature.
+
+    Depth-tracked, because `:=` occurs inside a signature too -- in a
+    structure instance `{ carrier := s }` or a binder default -- and taking
+    the first one would cut the statement in half. Returns -1 if there is
+    none, which happens when the model wrote `theorem foo : P := by` across a
+    truncated generation.
+    """
+    depth = 0
+    index = start
+    while index < len(text) - 1:
+        char = text[index]
+        pair = text[index:index + 2]
+        if pair == "--":                                  # line comment
+            index = text.find("\n", index)
+            if index == -1:
+                return -1
+            continue
+        if pair == "/-":                                   # block comment
+            closed = text.find("-/", index)
+            if closed == -1:
+                return -1
+            index = closed + 2
+            continue
+        if char in "([{":
+            depth += 1
+        elif char in ")]}":
+            depth -= 1
+        elif char == "\u27e8":                             # anonymous constructor
+            depth += 1
+        elif char == "\u27e9":
+            depth -= 1
+        elif pair == ":=" and depth <= 0:
+            return index + 2
+        index += 1
+    return -1
+
+
+def _extract_proof(text: str) -> tuple:
+    """Split a model's answer into (preamble, proof body).
+
+    THE STATEMENT IN THE ANSWER IS DISCARDED, ALWAYS. The model restates the
+    theorem under its own name, and sometimes restates it WRONG -- a
+    weakened hypothesis, a dropped quantifier. Compiling what it sent back
+    would let it win by proving something easier, which is the one failure
+    mode that would make this whole spike lie. Only the body after `:=`
+    survives; the goal compiled is ours.
+
+    A helper lemma written before the goal is kept and returned as preamble,
+    because that is a real proof strategy and the agent is allowed it too.
+    """
+    matches = list(_DECL.finditer(text))
+    if not matches:
+        return "", text.strip()          # the model complied; body as sent
+
+    # The LAST declaration is the goal -- anything before it is a helper.
+    final = matches[-1]
+    cut = _signature_end(text, final.end())
+    if cut == -1:
+        return "", text.strip()          # unparseable; let it fail honestly
+
+    body = text[cut:].strip()
+    preamble = text[:final.start()].strip()
+
+    # Drop prose and stray tokens ahead of the first real declaration. The
+    # calibration reply began with a bare "4" before its theorem; left in,
+    # that is a syntax error blamed on the proof.
+    lines = preamble.splitlines()
+    while lines and not _PREAMBLE_OK.match(lines[0]):
+        lines.pop(0)
+    # `import` is legal only at the top of a file and build_source already
+    # supplies the imports.
+    kept = [line for line in lines if not line.lstrip().startswith("import ")]
+    return "\n".join(kept).strip(), body
 
 
 def build_corpus() -> list:
@@ -252,8 +367,11 @@ def main(argv=None) -> int:
             print(f"[{index}/{len(goals)}] {goal['goal_id']:22} SERVER "
                   f"{type(exc).__name__} -- not a result")
             continue
+        # The model restated the theorem; keep OUR statement and its body.
+        helper, body = _extract_proof(proof)
+        lemmas = list(goal["lemmas"]) + ([helper] if helper else [])
         result, verdict = asyncio.run(
-            _compile(goal["statement"], proof, goal["lemmas"]))
+            _compile(goal["statement"], body, lemmas))
         from domain.verdict import VerificationStatus
         ok = verdict.status is VerificationStatus.TRUE
         closed.append((goal["goal_id"], ok, proof))

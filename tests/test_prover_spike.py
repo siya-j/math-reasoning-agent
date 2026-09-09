@@ -180,3 +180,104 @@ def test_cheapest_first_reorders_by_our_own_spend():
     assert spends == sorted(spends)
     assert ordered[0]["agent_input_tokens"] <= corpus[0]["agent_input_tokens"]
 
+
+# ------------------------------------------------ taking the proof apart
+#
+# MEASURED, on the very first request ever sent to a served prover: asked for
+# "ONLY the proof term or tactic block ... no restatement of the theorem",
+# Goedel-Prover-V2 returned
+#
+#     4
+#     theorem lean_workbook_plus_10000 : 1 + 1 = 2 := by norm_num <;> ...
+#
+# `declaration()` wraps anything not starting with `by`/`:=` into
+# `by\n  <text>`, so that answer becomes `by theorem lean_workbook...` -- a
+# parse error. Unfixed, all 12 goals would have failed to parse and the spike
+# would have reported "the prover closed 0 of 12" as a finding about the
+# prover. These tests are what stands between that and a real measurement.
+def test_a_restated_theorem_yields_only_its_body():
+    """The exact reply the live server sent during calibration."""
+    preamble, body = _spike()._extract_proof(
+        "4\ntheorem lean_workbook_plus_10000 : 1 + 1 = 2 := by\n"
+        "  norm_num\n  <;> simp")
+    assert "theorem" not in body, "the restatement must not reach the compiler"
+    assert "lean_workbook" not in body
+    assert body.startswith("by")
+    assert "norm_num" in body
+    assert preamble == "", "a stray `4` is not a helper lemma"
+
+
+def test_the_model_cannot_swap_in_an_easier_theorem():
+    """THE SOUNDNESS PROPERTY OF THE WHOLE SPIKE.
+
+    The prover restates the goal under its own name, and a restatement can
+    be WEAKER than what we asked -- a dropped quantifier, a loosened
+    hypothesis. If its statement reached the compiler it could score by
+    proving something easy, and the spike's headline number would be a lie
+    in the prover's favour.
+    """
+    from verifiers.lean_verifier import build_source
+
+    ours = "theorem hard (n : \u2115) (h : 2 \u2264 n) : \u2203 p, p.Prime \u2227 n < p"
+    theirs = "theorem trivial_instead : True := by\n  trivial"
+
+    _, body = _spike()._extract_proof(theirs)
+    source = build_source(ours, body)
+
+    assert "trivial_instead" not in source, "their name reached the file"
+    assert "True" not in source, "their statement reached the file"
+    assert "\u2203 p, p.Prime" in source, "our goal is what must be compiled"
+    assert "trivial" in source, "their tactic is what should be tried"
+
+
+def test_a_helper_lemma_survives_but_an_import_does_not():
+    """A lemma before the goal is a real strategy and the agent is allowed
+    it too, so it is kept and compiled ahead of the statement. `import` is
+    legal only at the top of a file and build_source already supplies it."""
+    preamble, body = _spike()._extract_proof(
+        "import Mathlib\nopen Real\n\n"
+        "lemma helper (n : \u2115) : 0 \u2264 n := Nat.zero_le n\n\n"
+        "theorem main : True := by\n  exact trivial")
+    assert "import" not in preamble
+    assert "open Real" in preamble
+    assert "helper" in preamble
+    assert body == "by\n  exact trivial"
+
+
+@pytest.mark.parametrize("signature", [
+    "theorem g (f : Foo) (h : f = { carrier := s, ok := m }) : True",
+    "theorem g (n : \u2115 := 3) : n = n",
+])
+def test_a_colon_equals_inside_the_signature_does_not_cut_it(signature):
+    """`:=` occurs inside signatures -- structure instances, binder
+    defaults. Splitting on the first one would hand Lean half a statement
+    and blame the proof for the syntax error."""
+    _, body = _spike()._extract_proof(signature + " := by\n  trivial")
+    assert body == "by\n  trivial"
+
+
+def test_a_compliant_answer_passes_through_untouched():
+    """If a model DOES send a bare tactic block, nothing may be stripped
+    from it -- the extraction must not become a second failure mode."""
+    preamble, body = _spike()._extract_proof("intro h\nexact h.trans hx")
+    assert preamble == ""
+    assert body == "intro h\nexact h.trans hx"
+
+
+def test_a_truncated_generation_fails_honestly():
+    """Cut off mid-signature there is no body to find. Returning the text
+    unchanged makes Lean report a syntax error, which is the truth; inventing
+    a body would score a proof the model never wrote."""
+    _, body = _spike()._extract_proof("theorem h : \u2200 x, x = x")
+    assert "theorem h" in body, "nothing was invented and nothing was hidden"
+
+
+def test_the_prompt_no_longer_forbids_what_the_model_always_does():
+    """Prose that the model declines is worse than no prose: it handicaps a
+    prover trained to emit whole files, and this spike is supposed to
+    measure proving ability, not instruction-following."""
+    ask = _spike().ASK
+    assert "no restatement" not in ask.lower()
+    assert "sorry" in ask, "the cheating prohibitions must remain"
+    assert "native_decide" in ask
+
