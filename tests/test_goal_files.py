@@ -29,7 +29,8 @@ import pytest
 EVAL = Path(__file__).resolve().parent.parent / "eval"
 
 # Files meant to be passed to `--goals`. Result files and samples are not.
-GOAL_FILES = ["mixed-benchmark.json", "proofnet-182.json", "proofnet-4.json",
+GOAL_FILES = ["mixed-benchmark.json", "proofnet-sharp.json",
+              "proofnet-182.json", "proofnet-4.json",
               "proofnet-formal.json", "proofs.json"]
 
 
@@ -105,3 +106,74 @@ def test_it_is_actually_bigger_than_what_it_replaces():
     assert len(_goals(path)) >= before * 5, (
         f"{len(_goals(path))} goals against {before} before"
     )
+
+
+# ==================================================================
+# The corrected benchmark
+# ==================================================================
+# MEASURED against PAug/ProofNetSharp (MIT), the corrected ProofNet from
+# Poiroux et al.: of the 182 statements this project had been running, 67
+# GENUINELY DIFFER from the corrected text, and 18 of those had already been
+# decided in committed results. The differences are not cosmetic:
+#
+#   exercise_11_4_1b  ours: `Polynomial F` with `card F = 2`
+#                     Sharp: `Polynomial ℚ`          -- a different theorem
+#   exercise_1_1_16   ours: one direction
+#                     Sharp: an iff                  -- strictly harder
+#   exercise_1_19b    ours: `i * z / i^2`
+#                     Sharp: `z^(i+1)/(i+1)^2`       -- ours is a typo'd series
+#   exercise_1_19     ours: c and r given
+#                     Sharp: existence AND uniqueness -- much harder
+#
+# Upstream reports mistakes in 118 of ProofNet's 371 entries. This project
+# independently found 17% of the slice it touched to be broken or suspect,
+# with two compiler-verified refutations, which is consistent with that.
+
+def test_the_corrected_set_is_collision_free_by_construction():
+    """ProofNet numbers exercises PER TEXTBOOK, so bare names collide -- 22 of
+    them across the full 371. The hand-patched `proofnet-182.json` found only
+    5 because it held half the data. ProofNetSharp qualifies every id with its
+    source book, so the collision cannot recur."""
+    goals = _goals(EVAL / "proofnet-sharp.json")
+    assert len(goals) == 371, len(goals)
+
+    bare = [g["id"].split("_", 1)[1] for g in goals]
+    assert len(set(bare)) < len(bare), (
+        "no bare-name collisions remain, so this file no longer demonstrates "
+        "why the textbook prefix is needed"
+    )
+    assert len({g["id"] for g in goals}) == len(goals)
+
+
+def test_ids_are_shell_safe():
+    """`--goal Artin|exercise_2_3_2` would be a pipeline. The upstream pipe is
+    replaced by an underscore so an id can be pasted into a command."""
+    for goal in _goals(EVAL / "proofnet-sharp.json"):
+        assert not set(goal["id"]) & set("|&;<>()$`\\\"' \t"), goal["id"]
+
+
+def test_the_area_is_the_textbook_not_a_chapter_number():
+    """`proofnet 3` says nothing. `Rudin` says what kind of mathematics this
+    is, and makes the per-area proof rate readable."""
+    areas = {g["area"] for g in _goals(EVAL / "proofnet-sharp.json")}
+    assert "Rudin" in areas and "Munkres" in areas, sorted(areas)
+    assert not any(a.startswith("proofnet") for a in areas), sorted(areas)
+
+
+def test_the_informal_proof_is_carried_for_later():
+    """369 of 371 entries ship a natural-language proof. Nothing reads it yet;
+    it is what a HILBERT-style informal-reasoning leg would consume, and
+    carrying it means that experiment needs no new download."""
+    goals = _goals(EVAL / "proofnet-sharp.json")
+    withproof = [g for g in goals if (g.get("informal_proof") or "").strip()]
+    assert len(withproof) >= 360, len(withproof)
+    assert all((g.get("informal") or "").strip() for g in goals[:20])
+
+
+def test_the_loader_ignores_the_extra_keys():
+    """`load_goals` reads named keys, so `informal`, `informal_proof`,
+    `source_id` and `split` ride along without breaking anything."""
+    from eval.proof_dataset import load_goals
+    loaded = load_goals(EVAL / "proofnet-sharp.json")
+    assert len(loaded) == 371
+    assert loaded[0].note.strip()
