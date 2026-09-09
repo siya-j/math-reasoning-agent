@@ -53,6 +53,13 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 CORPUS = ROOT / "eval" / "prover-spike-corpus.json"
+# GENERATED PROOFS ARE KEPT, because generating them is the expensive half.
+# MEASURED: three proofs at ~4 minutes each were produced and then discarded
+# when the compile step found no Lean. On this hardware a generation costs
+# minutes and a compile costs seconds, so throwing away the minutes to redo
+# the seconds is the wrong way round. Cached by goal AND model, so serving a
+# different prover does not silently reuse the last one's answers.
+CACHE = ROOT / "eval" / "prover-spike-generations.json"
 
 # ASKED IN THE MODEL'S OWN FORMAT, NOT OURS.
 #
@@ -226,6 +233,21 @@ async def _compile(statement: str, proof: str, lemmas: list):
     return result, interpret(result, statement)
 
 
+def _cache_read() -> dict:
+    try:
+        return json.loads(CACHE.read_text(encoding="utf-8"))
+    except (ValueError, OSError):
+        return {}
+
+
+def _cache_write(store: dict) -> None:
+    try:
+        CACHE.write_text(json.dumps(store, indent=2, ensure_ascii=False) + "\n",
+                         encoding="utf-8")
+    except OSError:
+        pass          # a cache that cannot be written must not end the run
+
+
 def _ask_local(url: str, model: str, statement: str, timeout: float,
                max_tokens: int = 1024) -> str:
     """One completion from an OpenAI-compatible local server (vLLM, llama.cpp).
@@ -270,6 +292,11 @@ def main(argv=None) -> int:
         help="cap on the generation. A Lean proof is short; 2048 only buys "
              "the model room to ramble, and on CPU every token is seconds.")
     parser.add_argument(
+        "--regenerate", action="store_true",
+        help="ignore the cache and ask the prover again. Without it, a goal "
+             "already generated is reused, so re-running after fixing the "
+             "COMPILE side costs seconds instead of minutes.")
+    parser.add_argument(
         "--calibrate", action="store_true",
         help="ask the server for ONE short answer and report how fast it "
              "was. Run this BEFORE --run: it tells you whether a real "
@@ -301,6 +328,65 @@ def main(argv=None) -> int:
         print(f"  {g['goal_id']:20} {g['tier']:9} {g['agent_goal_attempts']:>8} "
               f"{g['agent_lean_calls']:>9} {g['agent_input_tokens']:>12,}")
     print(f"\n  this agent spent {spent:,} input tokens failing these.")
+
+    if args.run or args.calibrate:
+        # PRE-FLIGHT, BEFORE ANY GENERATION.
+        #
+        # MEASURED, third failed attempt at this spike: three proofs were
+        # generated at ~4 minutes each and then every one came back
+        # `unavailable` -- LeanOutcome.UNAVAILABLE, "no Lean on this
+        # machine". The shell had no MRA_LEAN_PROJECT, so there was nothing
+        # to compile against. Eleven minutes of CPU spent to learn an
+        # environment variable was missing, and "0 of 3" printed as though
+        # the prover had been tested.
+        #
+        # Every failure of this experiment so far has had the same shape:
+        # spend first, discover the problem afterwards. So both paths now
+        # check the compiler is reachable BEFORE the first request, and say
+        # exactly what to set.
+        # `_local.lean_available()`, NOT `lean_toolchain_works()`.
+        #
+        # MEASURED, fourth failed attempt: the first version of this check
+        # used `lean_toolchain_works`, which only asks whether `lean
+        # --version` prints a banner. It printed "lean: reachable" and the
+        # very next compile returned UNAVAILABLE -- because the compile goes
+        # through `lake env lean` inside MRA_LEAN_PROJECT, and none of that
+        # is what `lean --version` tests. A pre-flight that checks something
+        # other than what the run needs is a pre-flight that lies.
+        #
+        # `_local.lean_available` was already here, already checks
+        # MRA_LEAN_PROJECT and `lake`, and already returns the reason. Its
+        # own docstring makes this exact argument: "a run that silently
+        # scored 0% would be worse than one that refused to start."
+        from math_v2 import _local
+        from verifiers.lean_runner import LeanOutcome
+        ready, why = _local.lean_available()
+        if not ready:
+            print(f"Lean cannot compile here: {why}\n")
+            print("Nothing this prover returns could be checked, so")
+            print("generating first would throw the results away -- as it")
+            print("has now done twice.\n")
+            print("  $env:MRA_LEAN_PROJECT = "
+                  '"C:\\Users\\SiyaJethliya\\Projects\\lean-workspace"')
+            print("\nThat is the Lake project with Mathlib, toolchain")
+            print("4.33.0. Set it in the SAME shell you run this from.")
+            return 1
+        print(f"lean: {_local.LEAN_PROJECT}")
+
+        # AND ONE REAL COMPILE, because `lake --version` succeeding still
+        # does not prove `import Mathlib` resolves. This is the only check
+        # that tests what every goal in the run will do. Cached, and it is
+        # the cold Mathlib import -- slow once, then free.
+        print("checking `import Mathlib` actually resolves ...", flush=True)
+        probe, _ = asyncio.run(_compile("theorem probe : True", "by trivial", []))
+        if probe.outcome is not LeanOutcome.COMPILED:
+            print(f"  it does not: {probe.outcome.value}")
+            for line in (probe.output or "").splitlines()[:8]:
+                print(f"  {line}")
+            print("\nEvery goal would fail for this reason and none of it")
+            print("would be about the prover. Fix this first.")
+            return 1
+        print("  ok\n")
 
     if args.calibrate:
         # RUN THIS FIRST. A generation that cannot finish inside --timeout
@@ -356,28 +442,60 @@ def main(argv=None) -> int:
     goals = goals[: args.limit] if args.limit else goals
     closed = []
     unreachable = []
+    store = _cache_read()
+    if store:
+        print(f"cache: {len(store)} generation(s) on disk, reused for free\n")
     for index, goal in enumerate(goals, 1):
-        try:
-            started = time.monotonic()
-            proof = _ask_local(args.url, args.model, goal["statement"],
-                               args.timeout, args.max_tokens)
-            elapsed = time.monotonic() - started
-        except Exception as exc:  # noqa: BLE001 - one failure must not stop the sweep
-            unreachable.append((goal["goal_id"], type(exc).__name__))
-            print(f"[{index}/{len(goals)}] {goal['goal_id']:22} SERVER "
-                  f"{type(exc).__name__} -- not a result")
-            continue
+        key = f"{goal['goal_id']}::{args.model}"
+        cached = store.get(key)
+        if cached and not args.regenerate:
+            proof, elapsed = cached["proof"], cached.get("seconds", 0.0)
+            reused = True
+        else:
+            reused = False
+            try:
+                started = time.monotonic()
+                proof = _ask_local(args.url, args.model, goal["statement"],
+                                   args.timeout, args.max_tokens)
+                elapsed = time.monotonic() - started
+            except Exception as exc:  # noqa: BLE001 - one failure must not stop the sweep
+                unreachable.append((goal["goal_id"], type(exc).__name__))
+                print(f"[{index}/{len(goals)}] {goal['goal_id']:22} SERVER "
+                      f"{type(exc).__name__} -- not a result")
+                continue
+            # WRITTEN BEFORE THE COMPILE, not after. The compile is what
+            # failed last time, and a proof only saved on success is a proof
+            # lost exactly when the cache would have helped.
+            store[key] = {"proof": proof, "seconds": elapsed,
+                          "model": args.model}
+            _cache_write(store)
         # The model restated the theorem; keep OUR statement and its body.
         helper, body = _extract_proof(proof)
         lemmas = list(goal["lemmas"]) + ([helper] if helper else [])
         result, verdict = asyncio.run(
             _compile(goal["statement"], body, lemmas))
         from domain.verdict import VerificationStatus
+        from verifiers.lean_runner import LeanOutcome
         ok = verdict.status is VerificationStatus.TRUE
+        if result.outcome is LeanOutcome.UNAVAILABLE:
+            # NOT A MISS, for the same reason a server timeout is not one:
+            # the proof was never judged. The pre-flight should have caught
+            # this, so reaching here means Lean died mid-run.
+            # WITH THE REASON. `_util.lean_runner` catches every exception
+            # into `LeanResult(UNAVAILABLE, f"Lean could not be run: {exc}")`,
+            # so the cause IS carried -- and the first version of this line
+            # printed none of it, which is why a whole run said only
+            # "LEAN UNAVAILABLE" and named nothing to fix.
+            detail = (result.output or "").strip() or "no detail reported"
+            unreachable.append((goal["goal_id"], detail[:200]))
+            print(f"[{index}/{len(goals)}] {goal['goal_id']:22} "
+                  f"LEAN UNAVAILABLE -- not a result")
+            print(f"    {detail[:300]}")
+            continue
         closed.append((goal["goal_id"], ok, proof))
         print(f"[{index}/{len(goals)}] {goal['goal_id']:22} "
               f"{'PROVED' if ok else result.outcome.value}"
-              f"   ({elapsed:.0f}s to generate)")
+              f"   ({elapsed:.0f}s to generate{', cached' if reused else ''})")
 
     won = [g for g, ok, _ in closed if ok]
     print()

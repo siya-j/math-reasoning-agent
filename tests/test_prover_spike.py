@@ -152,12 +152,39 @@ def test_the_spike_needs_no_api_key():
     assert "urllib" in imported, "the spike does not talk to a local endpoint"
 
 
-def test_a_run_that_never_reached_the_prover_is_not_a_score(capsys):
+@pytest.fixture
+def lean_ok(monkeypatch):
+    """Satisfy BOTH pre-flight stages, so a test about scoring is not
+    answered by the pre-flight instead."""
+    from math_v2 import _local
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    monkeypatch.setattr(_local, "lean_available", lambda: (True, ""))
+    monkeypatch.setattr(_local, "LEAN_PROJECT", "/fake/project")
+
+    module = _spike()
+    # The probe always passes; the GOAL compile is whatever a test puts in
+    # `_real_compile`. Overriding `_compile` directly would break the
+    # pre-flight instead of the thing under test.
+    module._real_compile = module._compile
+
+    async def compile_or_probe(statement, proof, lemmas):
+        if statement == "theorem probe : True":
+            return LeanResult(LeanOutcome.COMPILED, ""), None
+        return await module._real_compile(statement, proof, lemmas)
+
+    monkeypatch.setattr(module, "_compile", compile_or_probe)
+    return module
+
+
+def test_a_run_that_never_reached_the_prover_is_not_a_score(capsys, lean_ok):
+    # NOTE: `lean_ok` is the module, not just a flag -- the pre-flight is
+    # patched on that instance, so the test must drive the same one.
     """The FIRST attempt at this spike printed "closed 0 of 0 goals" after
     three timeouts. That reads as a result -- the prover tried and failed --
     and it is not one: nothing was ever generated or compiled. A run whose
     every request errored must refuse to report a rate."""
-    code = _spike().main([
+    code = lean_ok.main([
         "--run", "--url", "http://127.0.0.1:1/v1", "--limit", "2",
         "--timeout", "1",
     ])
@@ -280,4 +307,217 @@ def test_the_prompt_no_longer_forbids_what_the_model_always_does():
     assert "no restatement" not in ask.lower()
     assert "sorry" in ask, "the cheating prohibitions must remain"
     assert "native_decide" in ask
+
+
+# ------------------------------------------------------- the pre-flight
+#
+# THREE ATTEMPTS AT THIS SPIKE, THREE INFRASTRUCTURE FAILURES, NO DATA:
+#   1. --timeout 300 against a model needing ~730s -- three TimeoutErrors.
+#   2. the prompt asked for a bare body, the model sent a whole theorem.
+#   3. MRA_LEAN_PROJECT was unset, so all three proofs came back
+#      LeanOutcome.UNAVAILABLE after ~4 minutes of generation each.
+# Every one had the same shape: spend first, find out afterwards.
+def test_a_run_refuses_to_start_when_lean_cannot_compile(capsys, monkeypatch):
+    """The check that would have saved eleven minutes of CPU. Generating a
+    proof nothing can check is spending the expensive half of the experiment
+    to learn an environment variable is missing."""
+    import verifiers.lean_runner as runner
+    monkeypatch.setattr(runner, "lean_toolchain_works", lambda *a, **k: False)
+
+    called = []
+    module = _spike()
+    monkeypatch.setattr(module, "_ask_local",
+                        lambda *a, **k: called.append(a) or "by trivial")
+    code = module.main(["--run", "--url", "http://127.0.0.1:1/v1", "--limit", "1"])
+
+    out = capsys.readouterr().out
+    assert code == 1
+    assert not called, "it generated a proof it could not possibly check"
+    assert "MRA_LEAN_PROJECT" in out, "it must say what to set"
+    assert "lean-workspace" in out, "and where"
+
+
+def test_no_weak_lean_check_is_used_anywhere():
+    """Two weaker checks exist and BOTH were tried and both lied here.
+    `lean_is_available` only asks whether the binary is on PATH.
+    `lean_toolchain_works` only asks whether `lean --version` prints a
+    banner -- MEASURED on this machine as True while the real compile
+    returned UNAVAILABLE, because the run goes through `lake env lean`
+    inside MRA_LEAN_PROJECT and neither check touches that."""
+    # COMMENTS STRIPPED. Both names are DISCUSSED in the source, in the note
+    # explaining why neither is used -- scanning the raw text would match
+    # that note and pass or fail for the wrong reason.
+    lines = (ROOT / "scripts" / "prover_spike.py").read_text(
+        encoding="utf-8").splitlines()
+    code = "\n".join(line for line in lines
+                     if not line.lstrip().startswith("#"))
+    assert "lean_is_available" not in code
+    assert "lean_toolchain_works" not in code
+
+
+# ------------------------------------------------------- the cache
+def test_a_generation_is_saved_before_it_is_compiled(tmp_path, monkeypatch,
+                                                     lean_ok):
+    """Order matters. The compile is the step that failed, so a proof only
+    written on a successful compile is lost exactly when the cache was
+    supposed to help. On this hardware a generation is minutes and a compile
+    is seconds -- losing the minutes to redo the seconds is backwards."""
+    module = lean_ok
+    monkeypatch.setattr(module, "CACHE", tmp_path / "gen.json")
+    monkeypatch.setattr(module, "_ask_local",
+                        lambda *a, **k: "theorem x : True := by trivial")
+
+    def explode(*a, **k):
+        raise RuntimeError("the compiler fell over")
+    monkeypatch.setattr(module, "_real_compile", explode)
+
+    with pytest.raises(RuntimeError):
+        module.main(["--run", "--limit", "1"])
+
+    saved = json.loads((tmp_path / "gen.json").read_text(encoding="utf-8"))
+    assert saved, "the generation was lost when the compile failed"
+    assert "trivial" in next(iter(saved.values()))["proof"]
+
+
+def test_the_cache_is_keyed_by_model_too(tmp_path, monkeypatch, lean_ok):
+    """Serving a different prover on the same port must not silently reuse
+    the last one's answers and report them as the new model's."""
+    module = lean_ok
+    monkeypatch.setattr(module, "CACHE", tmp_path / "gen.json")
+    cheapest = sorted(module.build_corpus(),
+                      key=lambda g: g["agent_input_tokens"])[0]["goal_id"]
+    # SEEDED UNDER THE GOAL ID ALONE -- the key a model-blind cache would
+    # look up. If the model is part of the key this entry is never found and
+    # the prover is asked; if it is not, this stale answer is served as the
+    # new model's and the test fails. Seeding it under the correct
+    # `goal::model` key instead would pass either way, which is how the
+    # first version of this test came to prove nothing.
+    (tmp_path / "gen.json").write_text(json.dumps({
+        cheapest: {"proof": "by sorry", "seconds": 1.0,
+                   "model": "old-model"},
+    }), encoding="utf-8")
+
+    asked = []
+    monkeypatch.setattr(module, "_ask_local",
+                        lambda *a, **k: asked.append(1) or "by trivial")
+    monkeypatch.setattr(module, "_real_compile",
+                        lambda *a, **k: (_ for _ in ()).throw(
+                            RuntimeError("stop here")))
+    with pytest.raises(RuntimeError):
+        module.main(["--run", "--limit", "1", "--cheapest-first",
+                     "--model", "new-model"])
+    assert asked, ("a stale answer from another model was served as this "
+                   "model's -- the cache key must include the model")
+
+
+def test_lean_dying_mid_run_is_not_counted_as_a_miss(tmp_path, monkeypatch,
+                                                     lean_ok, capsys):
+    """`unavailable` means the proof was never judged. Counting it as a
+    failure is what printed "the prover closed 0 of 3" over three proofs
+    nothing had looked at."""
+    module = lean_ok
+    monkeypatch.setattr(module, "CACHE", tmp_path / "gen.json")
+    monkeypatch.setattr(module, "_ask_local", lambda *a, **k: "by trivial")
+
+    from verifiers.lean_runner import LeanOutcome
+
+    class FakeResult:
+        outcome = LeanOutcome.UNAVAILABLE
+        output = "Lean could not be run: [Errno 2] lake not found"
+
+    class FakeVerdict:
+        status = None
+
+    monkeypatch.setattr(module, "_real_compile",
+                        lambda *a, **k: _done((FakeResult(), FakeVerdict())))
+    code = module.main(["--run", "--limit", "2", "--cheapest-first"])
+    out = capsys.readouterr().out
+    assert "LEAN UNAVAILABLE -- not a result" in out
+    assert "closed 0 of 2" not in out, "an unjudged proof is not a miss"
+    assert "lake not found" in out, "the cause must be shown, not swallowed"
+    assert "NOTHING WAS SCORED" in out
+    assert code == 1, "nothing was judged, so nothing was measured"
+
+
+def _done(value):
+    import asyncio
+
+    async def coro():
+        return value
+    return coro()
+
+
+def test_the_preflight_compiles_something_real_not_just_a_version_banner():
+    """MEASURED, fourth failed attempt: the first pre-flight used
+    `lean_toolchain_works`, which only checks that `lean --version` prints a
+    banner. It said "lean: reachable" and the next compile returned
+    UNAVAILABLE, because the real path is `lake env lean` inside
+    MRA_LEAN_PROJECT and none of that is what `--version` tests.
+
+    A pre-flight must exercise the path the run uses, which for this script
+    means `_compile` -- the same function every goal goes through."""
+    lines = (ROOT / "scripts" / "prover_spike.py").read_text(
+        encoding="utf-8").splitlines()
+    code = "\n".join(line for line in lines
+                     if not line.lstrip().startswith("#"))
+    assert "_local.lean_available()" in code, "the real check must be used"
+    assert "lean_toolchain_works" not in code, "the weak check must be gone"
+    assert "theorem probe : True" in code, "it must compile something real"
+
+
+def test_a_project_that_cannot_import_mathlib_stops_the_run(monkeypatch, capsys):
+    """`lake --version` succeeding does not mean `import Mathlib` resolves.
+    A project without Mathlib built would fail every goal for a reason that
+    has nothing to do with the prover."""
+    from math_v2 import _local
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    module = _spike()
+    monkeypatch.setattr(_local, "lean_available", lambda: (True, ""))
+    monkeypatch.setattr(_local, "LEAN_PROJECT", "/fake/project")
+
+    async def no_mathlib(*a, **k):
+        return LeanResult(LeanOutcome.ERRORS,
+                          "unknown module prefix 'Mathlib'"), None
+    monkeypatch.setattr(module, "_compile", no_mathlib)
+
+    asked = []
+    monkeypatch.setattr(module, "_ask_local",
+                        lambda *a, **k: asked.append(1) or "by trivial")
+
+    code = module.main(["--run", "--limit", "1"])
+    out = capsys.readouterr().out
+    assert code == 1
+    assert not asked, "it generated against a project that cannot compile"
+    assert "unknown module prefix" in out, "it must show what Lean said"
+
+
+def test_an_unavailable_compile_reports_why(tmp_path, monkeypatch, capsys):
+    """`_util.lean_runner` puts the cause in LeanResult.output. The first
+    version of this printed only "LEAN UNAVAILABLE", so a whole run named
+    nothing to fix -- which is how a fourth attempt still ended without a
+    diagnosis."""
+    from math_v2 import _local
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    module = _spike()
+    monkeypatch.setattr(_local, "lean_available", lambda: (True, ""))
+    monkeypatch.setattr(_local, "LEAN_PROJECT", "/fake/project")
+    monkeypatch.setattr(module, "CACHE", tmp_path / "gen.json")
+    monkeypatch.setattr(module, "_ask_local", lambda *a, **k: "by trivial")
+
+    class Verdict:
+        status = None
+
+    async def compile_or_probe(statement, proof, lemmas):
+        if statement == "theorem probe : True":
+            return LeanResult(LeanOutcome.COMPILED, ""), Verdict()
+        return (LeanResult(LeanOutcome.UNAVAILABLE,
+                           "Lean could not be run: [WinError 2] not found"),
+                Verdict())
+    monkeypatch.setattr(module, "_compile", compile_or_probe)
+
+    module.main(["--run", "--limit", "1", "--cheapest-first"])
+    out = capsys.readouterr().out
+    assert "WinError 2" in out, "the cause was swallowed again"
 
