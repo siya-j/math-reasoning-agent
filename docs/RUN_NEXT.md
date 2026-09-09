@@ -1,5 +1,16 @@
 # What to run next — regression, then a held-out number
 
+> **SUPERSEDED — written 2026-08-18, kept for the run recipe only.** The
+> current list of what to run is `docs/HANDOFF.md` §14. Everything below was
+> answered long ago: near-mathlib reached 7/7, the four ProofNet goals turned
+> out to be broken statements rather than proving failures, and the budget
+> block quotes `BENCHMARK_2026_08`, which is narrower than the
+> `--budget-profile hard-reasoning` every recent run used.
+>
+> What is still worth taking from this file: the PowerShell shape of a run,
+> and the discipline of running the near-Mathlib safety net FIRST so a
+> regression is caught before any money is spent on a real measurement.
+
 Two runs, in this order. The first is the safety net; the second tells you
 whether the `goal_state` fix actually changed behaviour.
 

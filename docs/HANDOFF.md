@@ -7,9 +7,29 @@ already knows the project. Nothing important is left implicit.
 **Repo:** `math-reasoning-agent`
 **Mac:** `/Users/siya/Projects/math-reasoning-agent`
 **Windows (where experiments run):** `C:\Users\SiyaJethliya\math-reasoning-agent`
-**Size:** ~9,300 lines of Python, 27 commits, 287 tests (286 pass, 1 skipped)
 **Model in use:** `google_genai:gemini-3.5-flash`
-**Last commit:** `9ce5ffe Budget search separately, and stop the clock overrunning`
+**Prover in use:** `math_v2` — set `MRA_PROVER=math_v2`; the default is still
+the `pipeline` baseline, on purpose (see the comment on `config.PROVER`).
+**Python:** 3.10 or newer. The suite and every script run on 3.10; nothing in
+the repo uses a 3.11+ API.
+
+**Size, as of `b65744e`:** ~20,750 lines of Python outside `tests/` (~42,200
+including them), 184 commits, 77 test files, 1,394 tests passing and 17
+skipped offline.
+
+> These five numbers are the only thing in this file that rots on every
+> commit, and a stale size line is how a reader concludes the rest is stale
+> too. Recompute rather than trust them:
+>
+> ```
+> git rev-list --count HEAD
+> git ls-files '*.py' | grep -v '^tests/' | xargs cat | wc -l
+> python -m pytest -q
+> ```
+>
+> They were last wrong by a wide margin — the line read "~9,300 lines, 27
+> commits, 287 tests" against 184 commits and 1,394 tests, because the body
+> of this file was kept current and the header was not.
 
 ---
 
@@ -133,17 +153,37 @@ pipeline/     router.py      one entry point, classification + fallback
               faithfulness.py  the lint
 eval/         golden.json (109 cases), proofs.json (15 goals),
               metrics.py, proof_metrics.py, runner.py, dataset.py
-scripts/      ask.py, run.py, prove.py, evaluate.py, evaluate_proofs.py,
-              show_proof_run.py, run_experiments.py, search_mathlib.py,
-              variance.py, probe_models.py, probe_lean_model.py, check_model.py
-tests/        287 offline tests — no API key, no Lean, no network required
+scripts/      30 scripts. The ones a newcomer needs first:
+                ask.py, run.py, prove.py            one question, three depths
+                evaluate.py                         the 109-case regression gate
+                evaluate_proofs.py                  THE benchmark runner
+                read_run.py                         read a results file properly
+                verify_results.py                   recompile every claimed proof
+                mutate_guard.py                     break the guard, see if a
+                                                    test notices
+                contamination.py                    did the model memorise the
+                                                    benchmark? (null baseline)
+                variance.py, compare_runs.py        run-to-run movement
+              `python scripts/<name>.py --help`, and each has a docstring
+              whose first line says what it is for.
+tests/        offline — no API key, no Lean, no network required
 config.py     every switch and limit
 docs/architecture.md          the authoritative design document (563 lines)
 docs/consolidation-report.md  historical record
 ```
 
-**Framework independence (Principle 6):** exactly two LangChain imports in
-the whole codebase, both in `llm/` and `pipeline/harness.py`.
+**Framework independence (Principle 6):** LangChain is imported in nine
+files outside `tests/` — `llm/client.py`, `pipeline/harness.py`,
+`math_v2/harness.py`, `math_v2/agent.py`, the four `math_v2/tools/` modules
+(each needs `@tool` and `ToolRuntime`), and `scripts/probe_models.py`. This
+line used to read "exactly two"; that was true before `math_v2` existed. The
+principle still holds where it matters — nothing in `verifiers/`,
+`retrieval/`, `eval/` or `pipeline/guard.py` imports it, so the parts that
+decide what is TRUE remain framework-free. Check with:
+
+```
+grep -rn "^from langchain\|^import langchain" --include=*.py . | grep -v ^./tests
+```
 
 ---
 
@@ -460,33 +500,61 @@ Agents, not because it measured better.
 
 ### Proving
 
+**Do not read proving numbers out of this file.** They were transcribed here
+once, went stale within a few runs, and a reader who trusted them would have
+carried away a proof rate less than half the current one. Every run writes a
+results file to `eval/results/`, and the way to read one is:
+
+```
+python scripts/read_run.py eval/results/<name>.json
+```
+
+which prints the tier gradient, the outcome mix per tier, and the cost — and
+refuses to print a single headline rate, for the reason below.
+
+**The one thing worth stating here, because it is the finding rather than a
+number:** self-authored goals and external ones do not measure the same
+thing, and the gap between them is what the project has learned.
+
+| | self-authored tiers | external (ProofNet) |
+|---|---|---|
+| `mixed-1` (35 goals) | 86–100% | 29% |
+| `proofnet-20-after-soundness` | — | 53% (10 of 20) |
+
+Any single rate that averages those two is not one number badly measured, it
+is two numbers added together. `read_run.py` prints them separately and says
+so in a footer, which is the behaviour to preserve.
+
+**Three caveats that travel with every proving figure this project has:**
+
+- **ProofNet is broken often enough to change the denominator.** Upstream
+  reports mistakes in 118 of its 371 entries; this project independently
+  measured ~17% of the slice it touched as broken or suspect, with two
+  compiler-verified refutations. `eval/proofnet-sharp.json` (ProofNetSharp,
+  the corrected set) is what to run — 67 of the 182 statements previously
+  used differ from the corrected text.
+- **A claimed proof is not a proof until it recompiles.**
+  `scripts/verify_results.py <results.json>` takes the recorded artefact to a
+  fresh compiler with nothing from `math_v2` in between. Exit 0 all
+  recompiled, 1 a soundness failure, 2 could not check.
+- **Cost is quadratic in model calls** (r = 0.966 against calls² over 44
+  goal-runs). The ProofNet-20 run cost ~1.09M input tokens per goal. Context
+  trimming was fixed to clear tool *inputs* as well as results; the size of
+  that saving is UNVERIFIED and needs a paid run.
+
+### Verification (109 golden cases) — the baseline comparison
+
+The `grp-prime-order-cyclic` pair below is the only head-to-head proving data
+point the baseline ever produced, kept because it is the reason the agentic
+path was pursued at all:
+
 | Run | Result |
 |---|---|
 | `grp-prime-order-cyclic`, baseline | not proved, 8 model / 7 lean / 360s |
 | `grp-prime-order-cyclic`, agentic | **PROVED**, 1 model / 1 lean / 60s, 3/3 reproducible |
-| `in-mathlib` tier, agentic | 5/6 (one unresolved: `alg-square-nonneg`) |
-| `near-mathlib` tier, agentic, depth 0 | **57% (4/7)** — see below |
 
-**Latest near-mathlib run, in full. This run PREDATES bugs 20–22 being fixed,
-and all three of its failures were caused by them — treat these numbers as a
-record of the bugs, not as a measurement of the prover:**
-
-```
-num-primes-strictly-above    not proved   1 model,  0 lean, 20 retrieval,  48s
-grp-subgroup-of-cyclic       PROVED       1 model,  2 lean,  5 retrieval,  65s
-ana-continuous-compact-max   PROVED       1 model,  1 lean,  6 retrieval,  46s
-set-reals-uncountable        PROVED       1 model,  4 lean,  1 retrieval, 103s
-lin-vector-space-basis       not proved   1 model,  2 lean, 15 retrieval, 420s
-top-compact-image            PROVED       1 model,  2 lean,  2 retrieval,  87s
-num-sqrt-two-irrational      not proved   1 model,  4 lean,  3 retrieval, 494s
-```
-
-formalisation rate 100% · proof rate 57% · mean attempts 2.14
-
-**Important caveat: 57% has no comparator.** The baseline has never been run
-over the near-mathlib tier — there is exactly one baseline proving data point
-(`grp-prime-order-cyclic`). That number should not go in front of anyone until
-the baseline has run the same 7 goals.
+The baseline has never been run over a full tier, so it is not a comparator
+for anything in the table above.
 
 ---
 
@@ -528,9 +596,20 @@ new way to be confidently wrong.
 
 ---
 
-## 12. Failure log — 19 defects, and how each was found
+## 12. Failure log — 22 defects, and how each was found
 
 **Code review found one of them. Running the system found the rest.**
+
+> The table below stops at 22 and the project has since found more; the
+> commit messages are the complete log and each one states the measurement
+> that exposed the defect. The most consequential later one is worth naming
+> here because it is a soundness failure rather than a behaviour failure:
+> **`sorryAx` was accepted as a proof**, and both independent guard layers
+> were broken at once (see §13). It was found by running the real-Lean tests
+> against a real toolchain for the first time — which is the pattern the
+> whole table records: nearly everything here was found by running the
+> system, and the things it cannot reach are found by running it somewhere
+> new.
 
 | # | Failure | Found by |
 |---|---|---|
@@ -603,7 +682,66 @@ Additional traps found since, worth keeping in mind:
 
 ## 13. Where things stand right now
 
-### Most recent work — the three near-mathlib traces, and what they showed
+> **Everything under "Historical" below was written when it was current and
+> is now roughly 150 commits old.** It is kept because the *reasoning* in it
+> is still the reasoning behind code that is still there, and because §12's
+> failure log refers into it. It is not a description of the present. If the
+> two disagree, this subsection wins.
+
+### Current state, as of `b65744e`
+
+**The prover works and the remaining problem is cost, not capability.**
+ProofNet sits at 53% (10 of 20) after the soundness fix; self-authored tiers
+are at 86–100% and have stopped discriminating, which is why the `hard` and
+`deep` tiers exist. See §10 for how to read the numbers and why there is no
+single headline rate.
+
+**The soundness hole that mattered is closed.** `by exact sorryAx _ false`
+compiled and was reported TRUE — it proves any theorem. Both independent
+guard layers were broken at once: the source regex `\b(sorry|admit)\b` has no
+word boundary between `sorry` and `Ax`, and the output check compared against
+straight quotes while Lean 4.33 emits backticks, so it had silently matched
+nothing for an unknown period. The test that was supposed to cover the second
+layer used a snippet that did not typecheck and had never once exercised its
+own claim. Found by running `tests/test_lean_real.py` against a real
+toolchain for the first time. `scripts/mutate_guard.py` now breaks 13
+soundness-critical decisions on purpose and reports any that no test notices;
+it currently reports no survivors, and it should be run after any change to
+`verdict.py`, `log.py` or the verifier.
+
+**The benchmark itself was part of the problem.** 67 of the 182 ProofNet
+statements this project had been running differ from the corrected text in
+`eval/proofnet-sharp.json`, and 18 of those had already been decided in
+committed results. Run ProofNetSharp.
+
+**Retrieval is measurably not the lever.** Only 34% of the Mathlib
+identifiers cited by *accepted* proofs were ever surfaced by a search (69 of
+202 across 40 proofs), while searches are 46% of all model turns and ~24M of
+the 52.9M input tokens ever spent. Goals that prove search a median of 3
+times; goals that fail search 8. Searching is what the agent does when stuck,
+not what unsticks it. Acting on that finding is open work; the obvious lever
+is spending fewer turns on search, not ranking search better.
+
+**`scripts/prover_spike.py` is parked, deliberately.** It asks whether a
+Lean-specialised prover (Goedel-Prover-V2, served locally) closes the 12
+external goals this agent has failed. The scaffolding, the corpus and the
+tests are all committed and working, and it costs no API tokens to run — but
+it is not on the list in §14 and should not be picked up as "the cheap thing
+to do next". It answers a question about MODEL CHOICE, and the project's
+open questions are about this agent: what its proofs cost, whether its
+benchmark is sound, and whether its numbers are contaminated. A result from
+the spike would not change any of those, and a favourable one would invite a
+rewrite around a different model before the current one is characterised.
+Leave it until the three questions in §14 have answers.
+
+**The open cost question.** Cost is quadratic in model calls. Context
+trimming was clearing tool results while keeping tool inputs — and for this
+agent the inputs *are* the proofs, so at most 22% of the available saving was
+ever reclaimed. `MRA_CONTEXT_TRIM_INPUTS` now defaults on. **The size of the
+saving is unmeasured**, because measuring it needs a paid run and the spend
+cap is exhausted. That is the first thing to run when the cap lifts.
+
+### Historical — the three near-mathlib traces, and what they showed
 
 The traces were read and **all three failures were bugs upstream of the
 agent**. All three are fixed and committed (`661e1c6`, `a1090a7`). See §12
@@ -686,45 +824,55 @@ unattributable. Strategy changes should be a separate, ablatable commit.
 
 ## 14. Immediate next steps, in order
 
-1. **Re-run near-mathlib** with all three fixes in place. This is the next
-   real experiment; every number in §10 predates it.
+The previous version of this section listed six steps, all of which are now
+done — including "much later: a ProofNet adapter", which has since been
+built, run, and superseded by the corrected set. `docs/RUN_NEXT.md` is older
+still; this list supersedes it.
 
-   ```powershell
-   git pull
-   .\.venv\Scripts\python.exe -m pytest -q
-   $env:MRA_PROVER="agentic"
-   .\.venv\Scripts\python.exe scripts\evaluate_proofs.py --tier near-mathlib --depth 0
-   ```
+**The binding constraint is the monthly spending cap, not the code.** So the
+list splits into what can run today and what is waiting on money.
 
-   What to watch, in order of importance:
-   - Does any goal make **more than one `try_proof` call**? Every agentic
-     proof so far has succeeded on the first compile, so the revision loop is
-     still unexercised (see below).
-   - How many goals end in `Stopped early` versus a genuine not-proved.
-   - How many report `NOT FORMALISED` now that bug 22 is caught — that number
-     moves out of the proof rate and into the formalisation rate, so the
-     headline proof rate is **not** comparable to the old 57%.
-   - Any `statement repaired` line in a trace. Read the before/after by hand
-     and check the mathematics was not quietly changed.
+### Runnable now — costs no API tokens
 
-2. **Re-run in-mathlib** too. Bug 21 (the name collision) hit that tier
-   hardest, so 5/6 may improve for reasons unrelated to proving skill.
+1. **`python scripts/verify_results.py eval/results/*.json --all`** — an
+   independent recompile of every claimed proof on record. Exit 1 is the
+   loudest signal this repo can produce.
 
-3. **Run the baseline over both tiers** so the agentic numbers have a
-   comparator. There is still exactly one baseline proving data point.
+2. **`python scripts/retire_saturated.py`** — the self-authored tiers are at
+   86–100% and mostly no longer teach anything. Decide which goals to stop
+   paying for before the next paid run, not after.
 
-4. **Diagnose `alg-square-nonneg`** (in-mathlib scored 5/6 with one unknown).
+3. **`python scripts/mutate_guard.py`** after any change under
+   `math_v2/core/` or `verifiers/`. 13 mutations, currently no survivors.
 
-5. Only after the above: strategy work, and only as separate ablatable
-   commits. The system prompt is still deliberately untouched.
+**Not on this list, on purpose: the prover spike.** It is runnable and free,
+which is exactly why it needs saying — see §13. It is a question about model
+choice, and nothing below depends on the answer.
 
-6. Much later: a ProofNet adapter, with the formalizer-bypass caveat stated
-   explicitly whenever those numbers are quoted.
+### Waiting on the spending cap
 
-**Open question worth flagging in any status report:** every agentic proof so
-far has succeeded on its *first* `try_proof` call. The revision loop — read a
-failed goal state, change approach — is still essentially unexercised.
-near-mathlib is where that gets tested.
+4. **Measure the context-trimming saving.** This is the highest-value paid
+   run and the cheapest to interpret: same goals, `MRA_CONTEXT_TRIM_INPUTS=1`
+   against `=0`, compare input tokens per goal. The mechanism is tested and
+   the effect is not; it shipped as a switchable default precisely so this
+   comparison is one variable.
+
+5. **Re-establish the ProofNet number on `eval/proofnet-sharp.json`.** 67 of
+   the 182 statements previously run differ from the corrected text, so the
+   53% is measured against a set that is partly wrong. Until this runs, quote
+   the 53% with that caveat attached or not at all.
+
+6. **Run the contamination probe with `--decided-only`.** It needs one model
+   call per goal and reports the lift of the matched-reference score over a
+   null baseline built from mismatched pairings. Below 0.05 lift means the
+   raw similarity is shared notation and nothing more. Until this number
+   exists, "the model may have memorised ProofNet" is neither confirmed nor
+   ruled out, and that is a real hole in any result quoted externally.
+
+**Open question worth flagging in any status report:** step 6. Every external
+number this project has rests on a benchmark the model may have seen, and the
+probe that would settle it has been built and not run. That is the one gap
+an outside reader will find first.
 
 ---
 
@@ -747,7 +895,7 @@ useless, answer).
 ### Commands
 
 ```bash
-pytest                                              # 287 tests, no key needed
+pytest                                              # offline, no key needed
 python scripts/ask.py "Is 561 a prime number?" --trace
 python scripts/run.py "Is 7919 prime?"              # verify only
 python scripts/prove.py "..." --dry-run             # prove only
@@ -793,13 +941,22 @@ copy-pasteable commands.
   accuracy is unmeasured.**
 - **Coverage.** SymPy cannot touch topology, group theory or set theory. Lean
   can, but needs a model that writes Mathlib well.
-- **Proving is demonstrated, not characterised.** One tier at 57%, one at 5/6,
-  no baseline comparator for either.
+- **Proving is characterised on self-authored goals and thinly on external
+  ones.** The self-authored tiers sit at 86–100% and have stopped
+  discriminating; the external number rests on 20 ProofNet goals, and 67 of
+  the 182 statements in the set previously used were wrong.
+- **Contamination is unmeasured.** The probe exists, with a null baseline, and
+  has not been run on the decided goals. Until it has, no ProofNet number
+  from this project should be quoted externally without that caveat.
 - **Results are confounded.** Architecture and model size have changed
-  together across runs.
+  together across runs. `scripts/compare_runs.py` and the `run` block in each
+  results file exist to limit this; they do not eliminate it.
 - **Retrieval ranking is syntactic.** Loogle is not semantic search; LeanDojo's
-  learned retriever would rank better.
-- **The agent's revision loop is unexercised** (see §14).
+  learned retriever would rank better. But retrieval is measurably not the
+  binding constraint (§13), so improving it is unlikely to move the number.
+- **Cost per goal is the practical ceiling** — ~1.09M input tokens per
+  ProofNet goal, growing quadratically in model calls. The trimming fix is
+  shipped and its effect is unverified.
 
 ---
 
@@ -810,11 +967,18 @@ check* and deterministic systems — SymPy for computation, Lean 4 + Mathlib for
 proof — decide *what is true*. Verdicts are computed from recorded tool
 executions, never from model prose, so the model cannot assert its way to a
 verified answer. Verification runs at 97% on 109 cases with 100% soundness.
-The proving path formalises at 100% and currently proves 57% of the
-near-Mathlib tier, using an experimental agentic prover that holds one
-conversation with search and compile tools — an architecture adopted after the
-stateless baseline was measured repeating byte-identical failed proposals. The
-agent loop is bounded in wall clock, compiles and tool calls, with termination
-guaranteed in code rather than requested in a prompt. Nineteen defects have
-been found and documented; eighteen were found by running the system rather
-than by reading it.
+The proving path proves 53% of a 20-goal ProofNet slice and 86–100% of the
+self-authored tiers, on `gemini-3.5-flash`; those two figures are reported
+separately on purpose, because averaging them would hide the only interesting
+thing about them. It uses an agentic prover that holds one conversation with
+search and compile tools — an architecture adopted after the stateless
+baseline was measured repeating byte-identical failed proposals. The agent
+loop is bounded in wall clock, compiles and tool calls, with termination
+guaranteed in code rather than requested in a prompt, and every claimed proof
+can be independently recompiled from the results file. Defects are found by
+running the system rather than by reading it: the most serious to date, a
+`sorryAx` term that compiled and proved anything, survived because both
+independent guard layers were broken at once and was caught only when the
+tests were first run against a real Lean toolchain. Two things are known and
+unmeasured: whether the model has memorised the benchmark, and how much the
+context-trimming fix actually saves.
