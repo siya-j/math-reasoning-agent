@@ -997,6 +997,28 @@ async def try_lemma(workdir, statement, proof, run_lean, limit=None):
     if has_placeholder(proof):
         return _placeholder_refusal()
 
+    # THE SAME LINT `check_statement`, `try_proof` AND `try_skeleton` ALREADY
+    # RUN, and the only one of the four entry points that never had it.
+    #
+    # MEASURED, in the preserved workdirs: six kept lemmas across four runs
+    # have `True` as their whole conclusion --- `lemma dummy : True`,
+    # `dummy2`, `dummy3`, `true_lemma`, `test_exists_7`. Each compiled, each
+    # was KEPT, and a kept lemma is not inert. It counts toward
+    # `MAX_KEPT_LEMMAS`, it is offered back by name as something to cite, and
+    # --- the reason this matters most --- it counts toward `ASSEMBLE_AFTER`,
+    # so three of them arm `_lemmas_without_assembly` and spend a real
+    # compilation telling the agent to go assemble nothing.
+    #
+    # `worth_proving` already refuses a `True` claim, which is why this looked
+    # covered: but that runs on the SKELETON-HOLE path, deciding which holes
+    # become lemmas. A direct `try_lemma` call never passes through it. The
+    # collapse this guards is the same one `says_nothing` was written for on
+    # `exercise_1_19b` --- a claim weakened until Lean accepts it --- one
+    # level down, where it is harder to see because the goal still looks
+    # untouched.
+    if says_nothing(statement):
+        return _says_nothing_refusal(statement)
+
     # MEASURED, PutnamBench `putnam_1962_a4`: ten of thirty-five attempts were
     # byte-identical to an earlier one. `try_proof` and `try_skeleton` have
     # both guarded this since `exercise_1_26`; `try_lemma` never did, and a

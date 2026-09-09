@@ -89,7 +89,7 @@ def test_the_model_never_writes_the_lean_file(workdir):
 # ---------------------------------------------------------------- try_lemma
 def test_a_kept_lemma_is_cited_by_later_attempts(workdir):
     compiler = lean(LeanOutcome.COMPILED)
-    run(proving.try_lemma(workdir, "lemma helper : True", "trivial", compiler))
+    run(proving.try_lemma(workdir, "lemma helper : 1 = 1", "rfl", compiler))
     run(proving.try_proof(workdir, STATEMENT, "exact helper", compiler))
 
     assert "lemma helper" in compiler.seen[-1], "the goal compiled without the lemma"
@@ -98,7 +98,7 @@ def test_a_kept_lemma_is_cited_by_later_attempts(workdir):
 
 def test_proving_a_lemma_does_not_prove_the_goal(workdir):
     """THE constraint, at the level the tool body owns."""
-    run(proving.try_lemma(workdir, "lemma helper : True", "trivial",
+    run(proving.try_lemma(workdir, "lemma helper : 1 = 1", "rfl",
                           lean(LeanOutcome.COMPILED)))
 
     assert log.kept_lemmas(workdir)
@@ -115,9 +115,57 @@ def test_a_rejected_lemma_is_not_kept(workdir):
 def test_kept_lemmas_are_bounded(workdir):
     compiler = lean(LeanOutcome.COMPILED)
     for index in range(5):
-        run(proving.try_lemma(workdir, f"lemma h{index} : True", "trivial",
+        run(proving.try_lemma(workdir, f"lemma h{index} : {index} = {index}", "rfl",
                               compiler, limit=2))
     assert len(log.kept_lemmas(workdir)) == 2
+
+
+def test_a_lemma_whose_conclusion_is_True_is_refused_without_compiling(workdir):
+    """MEASURED in the preserved workdirs: six kept lemmas across four runs
+    are `dummy : True`, `dummy2`, `dummy3`, `true_lemma`, `test_exists_7`.
+
+    A kept lemma is not inert, which is why this is a real defect and not
+    untidiness. It counts toward `MAX_KEPT_LEMMAS`, it is handed back to the
+    model by name as something to cite, and three of them arm
+    `_lemmas_without_assembly` -- so a run could spend a real compilation
+    being told to go and assemble nothing.
+
+    `check_statement`, `try_proof` and `try_skeleton` have all refused this
+    since `exercise_1_19b`. `try_lemma` was the fourth door and never did.
+    """
+    compiler = lean(LeanOutcome.COMPILED)
+
+    result = run(proving.try_lemma(workdir, "lemma dummy : True", "trivial",
+                                   compiler))
+
+    assert result["error"] == "trivial_conclusion"
+    assert compiler.seen == [], "a lemma saying nothing reached the compiler"
+    assert log.kept_lemmas(workdir) == []
+
+
+def test_worth_proving_is_not_the_thing_that_covers_this(workdir):
+    """Why the lint had to go in `try_lemma` itself rather than being left to
+    `worth_proving`: that runs on the SKELETON-HOLE path, deciding which holes
+    become lemmas. A direct `try_lemma` call never passes through it, and a
+    direct call is how all six recorded `True` lemmas got in."""
+    assert proving.worth_proving("True", STATEMENT, workdir) is False
+
+    result = run(proving.try_lemma(workdir, "lemma dummy : True", "trivial",
+                                   lean(LeanOutcome.COMPILED)))
+
+    assert result["error"] == "trivial_conclusion"
+
+
+def test_a_real_lemma_is_untouched_by_the_lint(workdir):
+    """The lint must block collapse, not block work."""
+    compiler = lean(LeanOutcome.COMPILED)
+
+    result = run(proving.try_lemma(workdir, "lemma helper : 1 = 1", "rfl",
+                                   compiler))
+
+    assert result["outputs"]["accepted"] is True
+    assert len(compiler.seen) == 1
+    assert log.kept_lemmas(workdir)
 
 
 # -------------------------------------------------------------- try_skeleton

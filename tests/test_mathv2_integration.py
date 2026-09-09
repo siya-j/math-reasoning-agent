@@ -163,7 +163,7 @@ def test_a_lemma_is_not_converted_into_a_proof_of_the_goal(tmp_path,
         workdir=str(tmp_path),
         agent_factory=scripted([
             ("check_statement", {"statement": STATEMENT}),
-            ("try_lemma", {"statement": "lemma helper : True", "proof": "trivial"}),
+            ("try_lemma", {"statement": "lemma helper : 1 = 1", "proof": "rfl"}),
         ]),
     )
 
