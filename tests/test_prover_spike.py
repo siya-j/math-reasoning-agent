@@ -150,3 +150,33 @@ def test_the_spike_needs_no_api_key():
     assert "llm" not in imported, "the spike imports the API model client"
     assert "get_model" not in imported, "the spike imports get_model"
     assert "urllib" in imported, "the spike does not talk to a local endpoint"
+
+
+def test_a_run_that_never_reached_the_prover_is_not_a_score(capsys):
+    """The FIRST attempt at this spike printed "closed 0 of 0 goals" after
+    three timeouts. That reads as a result -- the prover tried and failed --
+    and it is not one: nothing was ever generated or compiled. A run whose
+    every request errored must refuse to report a rate."""
+    code = _spike().main([
+        "--run", "--url", "http://127.0.0.1:1/v1", "--limit", "2",
+        "--timeout", "1",
+    ])
+    out = capsys.readouterr().out
+    assert "NOTHING WAS SCORED" in out
+    assert "NEVER REACHED THE PROVER" in out
+    assert "closed 0 of 0" not in out, "a timeout is not a miss"
+    assert code == 1, "an unmeasured run must not exit successfully"
+
+
+def test_cheapest_first_reorders_by_our_own_spend():
+    """--limit alone takes whatever sorts first, which on this corpus put a
+    5.1M-token goal third. On hardware where one generation costs minutes the
+    first goals should be the ones most likely to finish."""
+    corpus = _spike().build_corpus()
+    if len(corpus) < 3:
+        pytest.skip("needs a corpus of at least three goals")
+    ordered = sorted(corpus, key=lambda g: g["agent_input_tokens"])
+    spends = [g["agent_input_tokens"] for g in ordered]
+    assert spends == sorted(spends)
+    assert ordered[0]["agent_input_tokens"] <= corpus[0]["agent_input_tokens"]
+
