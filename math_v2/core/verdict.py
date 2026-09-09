@@ -306,3 +306,107 @@ def suspect_refusal(workdir: str) -> str:
             "what is not allowed is not having tried."
         )
     return ""
+
+
+# How many kept lemmas make an unassembled exit worth one more compilation.
+# THE SAME NUMBER AS `proving.ASSEMBLE_AFTER` AND NOT AN INDEPENDENT KNOB --
+# it is read from there rather than restated, because two hand-maintained
+# copies of one threshold is a defect this project has already paid for three
+# times (the display map that covered three of six outcomes, `completed()`
+# rebuilding a results file without its telemetry, `budget._FIELDS` as three
+# duplicate literals).
+def _assemble_after():
+    from math_v2.core import proving
+
+    return proving.ASSEMBLE_AFTER
+
+
+# Written to the trace when the ask below fires, and read back to keep it to
+# once. A note rather than a new field: `log.read` already carries `trace`,
+# every results file already retains it, and adding a field would mean every
+# workdir written before today is missing it.
+_ASKED = "asked to assemble kept lemmas before finishing"
+
+
+def unassembled_refusal(workdir: str) -> str:
+    """Why `not_proved` is not yet allowed: proved lemmas nothing ever cited.
+
+    MEASURED across the 141 preserved workdirs in `eval/evidence/`. Of the 31
+    runs that failed with a statement that DID elaborate -- the real proving
+    failures -- twenty ended holding at least one compiler-accepted lemma and
+    reported no proof anyway. Seventy-six proved lemmas, stranded.
+
+    AND NONE OF THE TWENTY RAN OUT OF ANYTHING. Every one has an empty
+    `reason` in its budget file: they spent 5 to 32 of 40 compilations and
+    stopped voluntarily. Four of them held four or more proved lemmas and had
+    put a proof to the goal exactly once.
+
+    `proving._lemmas_without_assembly` already refuses this exact situation,
+    with the deadlock argument worked out and tested -- but it is reachable
+    only from `try_lemma`. It fires when the agent asks for ANOTHER LEMMA. The
+    path those twenty runs took was "prove some lemmas, then call `finish`",
+    and nothing sits on that path. So the guard was written, tested, correct,
+    and installed on the door nobody used.
+
+    The rule is the same one `suspect_refusal` applies above, for the same
+    reason: an exit that costs nothing competes with proving, and quitting
+    should never be the cheap move. One attempt at the goal AFTER the lemmas
+    exist is enough to pass -- rejected is fine. The requirement is that the
+    assets reached the compiler together, not that they closed the goal.
+
+    Deliberately narrower than `_lemmas_without_assembly` in one way: that one
+    refuses when no goal attempt FOLLOWS the last kept lemma. Here the
+    threshold is the same but the ask is made once and never repeats, because
+    `finish` refused twice with nothing new in between would be a loop rather
+    than a nudge -- `log.note` records that it fired.
+    """
+    from math_v2.core import proving
+
+    kept = log.kept_lemmas(workdir)
+    if len(kept) < _assemble_after():
+        return ""
+
+    goal = log.declared_goal(workdir)
+    if not goal or log.accepted_proof(workdir, goal):
+        return ""
+
+    # A COMPILED REFUTATION IS A RESULT. Same carve-out as `_stopped_short`:
+    # a run that refuted its goal is finished, and pushing it back at a
+    # statement it has just shown to be false is worse than useless.
+    if verified_refutation(workdir):
+        return ""
+
+    # ASKED ONCE, EVER. `finish` refused a second time with nothing new in
+    # between is a loop, not a nudge -- and the agent's own next move after a
+    # refusal may legitimately be to try and fail again.
+    if any(_ASKED in entry for entry in log.read(workdir).get("trace", [])):
+        return ""
+
+    # THE SAME "SINCE THE LAST KEPT LEMMA" TEST `_lemmas_without_assembly`
+    # USES, so the two guards agree about what counts as having assembled.
+    # A goal attempt made BEFORE the lemmas existed could not have cited
+    # them, which is the whole point.
+    records = log.records(workdir)
+    last_kept = -1
+    for index, record in enumerate(records):
+        if (record.get("kind") == log.LEMMA
+                and record.get("status") == log.TRUE):
+            last_kept = index
+    for later in records[last_kept + 1:]:
+        if later.get("kind") == log.PROOF:
+            return ""
+
+    names = ", ".join(
+        proving._declared_name(entry) or "?" for entry in kept)
+    log.note(workdir, _ASKED)
+    return (
+        f"You are reporting no proof while holding {len(kept)} lemmas the "
+        "compiler ACCEPTED, and nothing has cited them since the last one "
+        f"was proved.\n\nAvailable to cite by name: {names}.\n\n"
+        "A lemma is not progress until something uses it. Call `try_proof` "
+        "on the goal citing these, once, before you finish. If the assembled "
+        "proof is rejected the goal state names the step that is still "
+        "missing — which is a far more useful thing to report than a bare "
+        "'not proved', and you may then finish either way. This is asked "
+        "once."
+    )

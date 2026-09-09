@@ -265,3 +265,133 @@ def test_the_seed_clears_both_measured_cold_imports():
     machine has been measured — so it must clear the higher of the two, not
     just the lower. A seed at the old value (60) failed this by nearly half."""
     assert budget.LEAN_RESERVE_SECONDS >= 116.0
+
+
+# ------------------------------- 3. the not_proved exit, when lemmas are held
+#
+# MEASURED across the 141 preserved workdirs in `eval/evidence/`. Of the 31
+# runs that failed with a statement that DID elaborate, TWENTY ended holding
+# at least one compiler-accepted lemma and reported no proof anyway --- 76
+# proved lemmas, stranded --- and not one of the twenty had hit a budget
+# limit. Every one has an empty `reason`: they spent 5 to 32 of 40
+# compilations and stopped voluntarily.
+#
+# `proving._lemmas_without_assembly` already refused exactly this, and was
+# reachable only from `try_lemma`. It fires when the agent asks for another
+# LEMMA. Those twenty runs went "prove some lemmas, then `finish`", and
+# nothing sat on that path.
+def keep(workdir, name, conclusion="1 = 1"):
+    """A lemma the compiler accepted, recorded the way `try_lemma` records it."""
+    declaration = f"lemma {name} : {conclusion}"
+    log.append(str(workdir), log.Record(kind=log.LEMMA, statement=declaration,
+                                        proof="rfl", status=log.TRUE))
+    log.keep_lemma(str(workdir), declaration)
+
+
+def declare(workdir):
+    log.append(str(workdir), log.Record(kind=log.STATEMENT_CHECK,
+                                        statement=STATEMENT, status=log.TRUE))
+
+
+def test_finishing_with_stranded_lemmas_is_refused_once(tmp_path):
+    """THE fix. Three kept lemmas, no attempt at the goal since, `finish`."""
+    declare(tmp_path)
+    for name in ("one", "two", "three"):
+        keep(tmp_path, name)
+
+    result = call_finish(tmp_path, outcome="not_proved")
+
+    assert result["accepted"] is False
+    assert result["error"] == "lemmas_unassembled"
+    assert "one, two, three" in result["message"], "the names were not handed over"
+    assert "try_proof" in result["message"]
+
+
+def test_it_is_asked_once_and_then_the_exit_is_allowed(tmp_path):
+    """A second refusal with nothing new in between is a loop, not a nudge --
+    and the agent's legitimate next move may be to try, fail, and finish."""
+    declare(tmp_path)
+    for name in ("one", "two", "three"):
+        keep(tmp_path, name)
+
+    assert call_finish(tmp_path, outcome="not_proved")["accepted"] is False
+    assert call_finish(tmp_path, outcome="not_proved").get("error") != "lemmas_unassembled"
+
+
+def test_an_attempt_after_the_lemmas_lifts_it(tmp_path):
+    """Rejected is fine. The requirement is that the assets reached the
+    compiler together, never that they closed the goal."""
+    declare(tmp_path)
+    for name in ("one", "two", "three"):
+        keep(tmp_path, name)
+    record_attempt(tmp_path, proof="exact one", status=log.FALSE)
+
+    assert call_finish(tmp_path, outcome="not_proved").get("error") != "lemmas_unassembled"
+
+
+def test_an_attempt_made_BEFORE_the_lemmas_does_not_lift_it(tmp_path):
+    """The distinction the guard turns on: a proof written before the lemmas
+    existed could not have cited them, so it is not evidence of assembly."""
+    declare(tmp_path)
+    record_attempt(tmp_path, proof="by aesop", status=log.FALSE)
+    for name in ("one", "two", "three"):
+        keep(tmp_path, name)
+
+    assert call_finish(tmp_path, outcome="not_proved")["error"] == "lemmas_unassembled"
+
+
+def test_below_the_threshold_nothing_fires(tmp_path):
+    """Two kept lemmas is not over-decomposition, and a nudge there second-
+    guesses work rather than prompting it."""
+    declare(tmp_path)
+    keep(tmp_path, "one")
+    keep(tmp_path, "two")
+
+    assert call_finish(tmp_path, outcome="not_proved").get("error") != "lemmas_unassembled"
+
+
+def test_the_threshold_is_read_from_proving_not_restated(tmp_path):
+    """Two hand-maintained copies of one number is a defect this project has
+    already paid for three times."""
+    from math_v2.core import proving
+
+    assert verdict._assemble_after() == proving.ASSEMBLE_AFTER
+
+
+def test_a_verified_refutation_is_never_prodded(tmp_path):
+    """A run that refuted its goal is FINISHED. Pushing it back at a statement
+    it has just shown to be false is worse than useless -- the same carve-out
+    `harness._stopped_short` makes."""
+    declare(tmp_path)
+    for name in ("one", "two", "three"):
+        keep(tmp_path, name)
+    log.append(str(tmp_path), log.Record(
+        kind=log.REFUTATION, statement="theorem mra_goal_refutation : ¬ (2 + 2 = 4)",
+        proof="by decide", status=log.TRUE))
+
+    assert call_finish(tmp_path, outcome="not_proved").get("error") != "lemmas_unassembled"
+
+
+def test_the_other_outcomes_are_not_touched(tmp_path):
+    """`not_formalized` has no elaborating goal to assemble against, and
+    `statement_suspect` has its own gate and its own evidence. Prodding either
+    would be the "try harder" the measurement does not support."""
+    declare(tmp_path)
+    for name in ("one", "two", "three"):
+        keep(tmp_path, name)
+
+    for outcome in ("not_formalized", "statement_suspect"):
+        result = call_finish(tmp_path, outcome=outcome)
+        assert result.get("error") != "lemmas_unassembled", outcome
+
+
+def test_a_proved_goal_is_never_refused(tmp_path):
+    """The guard asks about lemmas nothing cited. A goal that is PROVED has
+    cited whatever it needed, whether or not it named these."""
+    declare(tmp_path)
+    for name in ("one", "two", "three"):
+        keep(tmp_path, name)
+    log.append(str(tmp_path), log.Record(kind=log.PROOF, statement=STATEMENT,
+                                         proof="by decide", status=log.TRUE))
+
+    assert verdict.unassembled_refusal(str(tmp_path)) == ""

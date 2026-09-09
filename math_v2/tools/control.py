@@ -107,6 +107,29 @@ async def finish(
         else:
             log.note(workdir, f"suspect statement: {summary[:300]}")
 
+    # THE MIRROR OF THE SUSPECT GATE ABOVE, on the other cheap exit. Reporting
+    # no proof while holding proved lemmas nothing ever cited is the single
+    # most common way a run on record ended: 20 of the 31 real proving
+    # failures in `eval/evidence/`, 76 stranded lemmas, and NOT ONE of those
+    # runs had hit a budget limit. See `verdict.unassembled_refusal`.
+    #
+    # NOT_PROVED only. `not_formalized` means the signature never elaborated,
+    # so there is no goal to assemble against; `statement_suspect` has its own
+    # gate and its own evidence; and a verified refutation is a result. Each
+    # of those would be a different conversation, and prodding them would be
+    # the "try harder" this project keeps declining to ship.
+    if outcome == verdict.NOT_PROVED:
+        unassembled = verdict.unassembled_refusal(workdir)
+        if unassembled:
+            return {
+                "ok": True,
+                "accepted": False,
+                "outcome": verdict.NOT_PROVED,
+                "error": "lemmas_unassembled",
+                "message": "REFUSED, and nothing was compiled. " + unassembled,
+                "budget": budget.summary(workdir),
+            }
+
     if outcome == verdict.PROVED and not statement.strip():
         return {
             "ok": False,
