@@ -41,3 +41,12 @@ GIT_HISTORY.txt
 # and it is a scratch proof log, never evidence. The evidence that matters
 # lives in eval/evidence/, copied there deliberately.
 /math/
+
+# Scratch workdirs from scripts/replay_sources.py. It recompiles sources that
+# results files already hold, so these are ~105 near-empty proof_logs with no
+# records in them -- regenerable for free and noise in history. The RESULTS
+# they were derived from are tracked, which is the durable part.
+eval/replay/
+
+# The scratch file `git commit -F` reads. Superseded on every commit.
+commit_msg.txt

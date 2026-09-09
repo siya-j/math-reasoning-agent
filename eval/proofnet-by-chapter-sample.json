@@ -1,0 +1,366 @@
+[
+  {
+    "id": "exercise_1_1_34",
+    "area": "proofnet 1",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_1_34 {G : Type*} [Group G] {x : G}\n  (hx_inf : orderOf x = 0) (n m : ℤ) :\n  x ^ n ≠ x ^ m:= sorry\n\nIt formalises the following claim: If $x$ is an element of infinite order in $G$, prove that the elements $x^{n}, n \\in \\mathbb{Z}$ are all distinct.",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_1_34 {G : Type*} [Group G] {x : G}\n  (hx_inf : orderOf x = 0) (n m : ℤ) :\n  x ^ n ≠ x ^ m:= sorry"
+  },
+  {
+    "id": "exercise_1_6_17",
+    "area": "proofnet 1",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_6_17 {G : Type*} [Group G] (f : G → G)\n  (hf : f = λ g => g⁻¹) :\n  ∀ x y : G, f x * f y = f (x*y) ↔ ∀ x y : G, x*y = y*x:= sorry\n\nIt formalises the following claim: Let $G$ be any group. Prove that the map from $G$ to itself defined by $g \\mapsto g^{-1}$ is a homomorphism if and only if $G$ is abelian.",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_1_6_17 {G : Type*} [Group G] (f : G → G)\n  (hf : f = λ g => g⁻¹) :\n  ∀ x y : G, f x * f y = f (x*y) ↔ ∀ x y : G, x*y = y*x:= sorry"
+  },
+  {
+    "id": "exercise_10_2_4",
+    "area": "proofnet 10",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Function Fintype Subgroup Ideal Polynomial Submodule Zsqrtd\nopen scoped BigOperators\n\ntheorem exercise_10_2_4 :\n  span ({2} : Set $ Polynomial ℤ) ⊓ (span {X}) =\n  span ({2 * X} : Set $ Polynomial ℤ):= sorry\n\nIt formalises the following claim: Prove that in the ring $\\mathbb{Z}[x],(2) \\cap(x)=(2 x)$.",
+    "tier": "proofnet",
+    "note": "open Function Fintype Subgroup Ideal Polynomial Submodule Zsqrtd\nopen scoped BigOperators\n\ntheorem exercise_10_2_4 :\n  span ({2} : Set $ Polynomial ℤ) ⊓ (span {X}) =\n  span ({2 * X} : Set $ Polynomial ℤ):= sorry"
+  },
+  {
+    "id": "exercise_10_7_10",
+    "area": "proofnet 10",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Function Fintype Subgroup Ideal Polynomial Submodule Zsqrtd\nopen scoped BigOperators\n\ntheorem exercise_10_7_10 {R : Type*} [Ring R]\n  (M : Ideal R) (hM : ∀ (x : R), x ∉ M → IsUnit x)\n  (hProper : ∃ x : R, x ∉ M) :\n  IsMaximal M ∧ ∀ (N : Ideal R), IsMaximal N → N = M:= sorry\n\nIt formalises the following claim: Let $R$ be a ring, with $M$ an ideal of $R$. Suppose that every element of $R$ which is not in $M$ is a unit of $R$. Prove that $M$ is a maximal ideal and that moreover it is the only maximal ideal of $R$.",
+    "tier": "proofnet",
+    "note": "open Function Fintype Subgroup Ideal Polynomial Submodule Zsqrtd\nopen scoped BigOperators\n\ntheorem exercise_10_7_10 {R : Type*} [Ring R]\n  (M : Ideal R) (hM : ∀ (x : R), x ∉ M → IsUnit x)\n  (hProper : ∃ x : R, x ∉ M) :\n  IsMaximal M ∧ ∀ (N : Ideal R), IsMaximal N → N = M:= sorry"
+  },
+  {
+    "id": "exercise_11_4_1b",
+    "area": "proofnet 11",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Function Fintype Subgroup Ideal Polynomial Submodule Zsqrtd\nopen scoped BigOperators\n\ntheorem exercise_11_4_1b {F : Type*} [Field F] [Fintype F] (hF : card F = 2) :\n  Irreducible (12 + 6 * X + X ^ 3 : Polynomial F):= sorry\n\nIt formalises the following claim: Prove that $x^3 + 6x + 12$ is irreducible in $\\mathbb{Q}$.",
+    "tier": "proofnet",
+    "note": "open Function Fintype Subgroup Ideal Polynomial Submodule Zsqrtd\nopen scoped BigOperators\n\ntheorem exercise_11_4_1b {F : Type*} [Field F] [Fintype F] (hF : card F = 2) :\n  Irreducible (12 + 6 * X + X ^ 3 : Polynomial F):= sorry"
+  },
+  {
+    "id": "exercise_11_4_6b",
+    "area": "proofnet 11",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Function Fintype Subgroup Ideal Polynomial Submodule Zsqrtd\nopen scoped BigOperators\n\ntheorem exercise_11_4_6b {F : Type*} [Field F] [Fintype F] (hF : card F = 31) :\n  Irreducible (X ^ 3 - 9 : Polynomial F):= sorry\n\nIt formalises the following claim: Prove that $x^2+1$ is irreducible in $\\mathbb{F}_7$",
+    "tier": "proofnet",
+    "note": "open Function Fintype Subgroup Ideal Polynomial Submodule Zsqrtd\nopen scoped BigOperators\n\ntheorem exercise_11_4_6b {F : Type*} [Field F] [Fintype F] (hF : card F = 31) :\n  Irreducible (X ^ 3 - 9 : Polynomial F):= sorry"
+  },
+  {
+    "id": "exercise_13_5a",
+    "area": "proofnet 13",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ ∈ T ∧\n  (∀ s t, s ∈ T → t ∈ T → s ∩ t ∈ T) ∧\n  (∀s, (∀t ∈ s, t ∈ T) → sUnion s ∈ T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T ∧ A ⊆ T}):= sorry\n\nIt formalises the following claim: Show that if $\\mathcal{A}$ is a basis for a topology on $X$, then the topology generated by $\\mathcal{A}$ equals the intersection of all topologies on $X$ that contain $\\mathcal{A}$.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ ∈ T ∧\n  (∀ s t, s ∈ T → t ∈ T → s ∩ t ∈ T) ∧\n  (∀s, (∀t ∈ s, t ∈ T) → sUnion s ∈ T)\n\ntheorem exercise_13_5a {X : Type*}\n  [TopologicalSpace X] (A : Set (Set X)) (hA : IsTopologicalBasis A) :\n  generateFrom A = generateFrom (sInter {T | is_topology X T ∧ A ⊆ T}):= sorry"
+  },
+  {
+    "id": "exercise_13_4a1",
+    "area": "proofnet 13",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ ∈ T ∧\n  (∀ s t, s ∈ T → t ∈ T → s ∩ t ∈ T) ∧\n  (∀s, (∀t ∈ s, t ∈ T) → sUnion s ∈ T)\n\ntheorem exercise_13_4a1 (X I : Type*) (T : I → Set (Set X)) (h : ∀ i, is_topology X (T i)) :\n  is_topology X (⋂ i : I, T i):= sorry\n\nIt formalises the following claim: If $\\mathcal{T}_\\alpha$ is a family of topologies on $X$, show that $\\bigcap \\mathcal{T}_\\alpha$ is a topology on $X$.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\ndef is_topology (X : Type*) (T : Set (Set X)) :=\n  univ ∈ T ∧\n  (∀ s t, s ∈ T → t ∈ T → s ∩ t ∈ T) ∧\n  (∀s, (∀t ∈ s, t ∈ T) → sUnion s ∈ T)\n\ntheorem exercise_13_4a1 (X I : Type*) (T : I → Set (Set X)) (h : ∀ i, is_topology X (T i)) :\n  is_topology X (⋂ i : I, T i):= sorry"
+  },
+  {
+    "id": "exercise_16_4",
+    "area": "proofnet 16",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_16_4 {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]\n  (π₁ : X × Y → X)\n  (π₂ : X × Y → Y)\n  (h₁ : π₁ = Prod.fst)\n  (h₂ : π₂ = Prod.snd) :\n  IsOpenMap π₁ ∧ IsOpenMap π₂:= sorry\n\nIt formalises the following claim: A map $f: X \\rightarrow Y$ is said to be an open map if for every open set $U$ of $X$, the set $f(U)$ is open in $Y$. Show that $\\pi_{1}: X \\times Y \\rightarrow X$ and $\\pi_{2}: X \\times Y \\rightarrow Y$ are open maps.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_16_4 {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]\n  (π₁ : X × Y → X)\n  (π₂ : X × Y → Y)\n  (h₁ : π₁ = Prod.fst)\n  (h₂ : π₂ = Prod.snd) :\n  IsOpenMap π₁ ∧ IsOpenMap π₂:= sorry"
+  },
+  {
+    "id": "exercise_17_4",
+    "area": "proofnet 17",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_17_4 {X : Type*} [TopologicalSpace X]\n  (U A : Set X) (hU : IsOpen U) (hA : IsClosed A) :\n  IsOpen (U \\ A) ∧ IsClosed (A \\ U):= sorry\n\nIt formalises the following claim: Show that if $U$ is open in $X$ and $A$ is closed in $X$, then $U-A$ is open in $X$, and $A-U$ is closed in $X$.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_17_4 {X : Type*} [TopologicalSpace X]\n  (U A : Set X) (hU : IsOpen U) (hA : IsClosed A) :\n  IsOpen (U \\ A) ∧ IsClosed (A \\ U):= sorry"
+  },
+  {
+    "id": "exercise_18_8b",
+    "area": "proofnet 18",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_18_8b {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]\n  [LinearOrder Y] [OrderTopology Y] {f g : X → Y}\n  (hf : Continuous f) (hg : Continuous g) :\n  Continuous (λ x => min (f x) (g x)):= sorry\n\nIt formalises the following claim: Let $Y$ be an ordered set in the order topology. Let $f, g: X \\rightarrow Y$ be continuous. Let $h: X \\rightarrow Y$ be the function $h(x)=\\min \\{f(x), g(x)\\}.$ Show that $h$ is continuous.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_18_8b {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]\n  [LinearOrder Y] [OrderTopology Y] {f g : X → Y}\n  (hf : Continuous f) (hg : Continuous g) :\n  Continuous (λ x => min (f x) (g x)):= sorry"
+  },
+  {
+    "id": "exercise_18_4",
+    "area": "proofnet 18",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Real\nopen scoped BigOperators\n\ntheorem exercise_18_4 {n : ℕ} (hn : ∃ x y z w : ℤ,\n  x^3 + y^3 = n ∧ z^3 + w^3 = n ∧ x ≠ z ∧ x ≠ w ∧ y ≠ z ∧ y ≠ w) :\n  n ≥ 1729:= sorry\n\nIt formalises the following claim: Show that 1729 is the smallest positive integer expressible as the sum of two different integral cubes in two ways.",
+    "tier": "proofnet",
+    "note": "open Real\nopen scoped BigOperators\n\ntheorem exercise_18_4 {n : ℕ} (hn : ∃ x y z w : ℤ,\n  x^3 + y^3 = n ∧ z^3 + w^3 = n ∧ x ≠ z ∧ x ≠ w ∧ y ≠ z ∧ y ≠ w) :\n  n ≥ 1729:= sorry"
+  },
+  {
+    "id": "exercise_19_6a",
+    "area": "proofnet 19",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_19_6a\n  {n : ℕ}\n  {f : Fin n → Type*} {x : ℕ → Πa, f a}\n  (y : Πi, f i)\n  [Πa, TopologicalSpace (f a)] :\n  Tendsto x atTop (𝓝 y) ↔ ∀ i, Tendsto (λ j => (x j) i) atTop (𝓝 (y i)):= sorry\n\nIt formalises the following claim: Let $\\mathbf{x}_1, \\mathbf{x}_2, \\ldots$ be a sequence of the points of the product space $\\prod X_\\alpha$. Show that this sequence converges to the point $\\mathbf{x}$ if and only if the sequence $\\pi_\\alpha(\\mathbf{x}_i)$ converges to $\\pi_\\alpha(\\mathbf{x})$ for each $\\alpha$.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_19_6a\n  {n : ℕ}\n  {f : Fin n → Type*} {x : ℕ → Πa, f a}\n  (y : Πi, f i)\n  [Πa, TopologicalSpace (f a)] :\n  Tendsto x atTop (𝓝 y) ↔ ∀ i, Tendsto (λ j => (x j) i) atTop (𝓝 (y i)):= sorry"
+  },
+  {
+    "id": "exercise_1998_a3",
+    "area": "proofnet 1998",
+    "goal": "Prove this Lean 4 theorem.\n\nopen scoped BigOperators\n\ntheorem exercise_1998_a3 (f : ℝ → ℝ) (hf : ContDiff ℝ 3 f) :\n  ∃ a : ℝ, (f a) * (deriv f a) * (iteratedDeriv 2 f a) * (iteratedDeriv 3 f a) ≥ 0:= sorry\n\nIt formalises the following claim: Let $f$ be a real function on the real line with continuous third derivative. Prove that there exists a point $a$ such that",
+    "tier": "proofnet",
+    "note": "open scoped BigOperators\n\ntheorem exercise_1998_a3 (f : ℝ → ℝ) (hf : ContDiff ℝ 3 f) :\n  ∃ a : ℝ, (f a) * (deriv f a) * (iteratedDeriv 2 f a) * (iteratedDeriv 3 f a) ≥ 0:= sorry"
+  },
+  {
+    "id": "exercise_2_28",
+    "area": "proofnet 2",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_2_28 (X : Type*) [MetricSpace X] [SeparableSpace X]\n  (A : Set X) (hA : IsClosed A) :\n  ∃ P₁ P₂ : Set X, A = P₁ ∪ P₂ ∧\n  IsClosed P₁ ∧ P₁ = {x | ClusterPt x (𝓟 P₁)} ∧\n  Set.Countable P₂:= sorry\n\nIt formalises the following claim: Prove that every closed set in a separable metric space is the union of a (possibly empty) perfect set and a set which is at most countable.",
+    "tier": "proofnet",
+    "note": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_2_28 (X : Type*) [MetricSpace X] [SeparableSpace X]\n  (A : Set X) (hA : IsClosed A) :\n  ∃ P₁ P₂ : Set X, A = P₁ ∪ P₂ ∧\n  IsClosed P₁ ∧ P₁ = {x | ClusterPt x (𝓟 P₁)} ∧\n  Set.Countable P₂:= sorry"
+  },
+  {
+    "id": "exercise_2_1_21",
+    "area": "proofnet 2",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Set Real Ideal Polynomial\nopen scoped BigOperators\n\ndef exercise_2_1_21 (G : Type*) [Group G] [Fintype G]\n  (hG : card G = 5) :\n  CommGroup G:= sorry\n\nIt formalises the following claim: Show that a group of order 5 must be abelian.",
+    "tier": "proofnet",
+    "note": "open Fintype Set Real Ideal Polynomial\nopen scoped BigOperators\n\ndef exercise_2_1_21 (G : Type*) [Group G] [Fintype G]\n  (hG : card G = 5) :\n  CommGroup G:= sorry"
+  },
+  {
+    "id": "exercise_2000_a2",
+    "area": "proofnet 2000",
+    "goal": "Prove this Lean 4 theorem.\n\nopen scoped BigOperators\n\ntheorem exercise_2000_a2 :\n  ∀ N : ℕ, ∃ n : ℕ, n > N ∧ ∃ i : Fin 6 → ℕ, n = (i 0)^2 + (i 1)^2 ∧\n  n + 1 = (i 2)^2 + (i 3)^2 ∧ n + 2 = (i 4)^2 + (i 5)^2:= sorry\n\nIt formalises the following claim: Prove that there exist infinitely many integers $n$ such that $n, n+1, n+2$ are each the sum of the squares of two integers.",
+    "tier": "proofnet",
+    "note": "open scoped BigOperators\n\ntheorem exercise_2000_a2 :\n  ∀ N : ℕ, ∃ n : ℕ, n > N ∧ ∃ i : Fin 6 → ℕ, n = (i 0)^2 + (i 1)^2 ∧\n  n + 1 = (i 2)^2 + (i 3)^2 ∧ n + 2 = (i 4)^2 + (i 5)^2:= sorry"
+  },
+  {
+    "id": "exercise_2010_a4",
+    "area": "proofnet 2010",
+    "goal": "Prove this Lean 4 theorem.\n\nopen scoped BigOperators\n\ntheorem exercise_2010_a4 (n : ℕ) :\n  ¬ Nat.Prime (10^10^10^n + 10^10^n + 10^n - 1):= sorry\n\nIt formalises the following claim: Prove that for each positive integer $n$, the number $10^{10^{10^n}}+10^{10^n}+10^n-1$ is not prime.",
+    "tier": "proofnet",
+    "note": "open scoped BigOperators\n\ntheorem exercise_2010_a4 (n : ℕ) :\n  ¬ Nat.Prime (10^10^10^n + 10^10^n + 10^n - 1):= sorry"
+  },
+  {
+    "id": "exercise_2017_b3",
+    "area": "proofnet 2017",
+    "goal": "Prove this Lean 4 theorem.\n\nopen scoped BigOperators\n\ntheorem exercise_2017_b3 (f : ℝ → ℝ) (c : ℕ → ℝ)\n  (hf : f = λ x => (∑' (i : ℕ), (c i) * x^i))\n  (hc : ∀ n, c n = 0 ∨ c n = 1)\n  (hf1 : f (2/3) = 3/2) :\n  Irrational (f (1/2)):= sorry\n\nIt formalises the following claim: Suppose that $f(x)=\\sum_{i=0}^{\\infty} c_{i} x^{i}$ is a power series for which each coefficient $c_{i}$ is 0 or 1 . Show that if $f(2 / 3)=3 / 2$, then $f(1 / 2)$ must be irrational.",
+    "tier": "proofnet",
+    "note": "open scoped BigOperators\n\ntheorem exercise_2017_b3 (f : ℝ → ℝ) (c : ℕ → ℝ)\n  (hf : f = λ x => (∑' (i : ℕ), (c i) * x^i))\n  (hc : ∀ n, c n = 0 ∨ c n = 1)\n  (hf1 : f (2/3) = 3/2) :\n  Irrational (f (1/2)):= sorry"
+  },
+  {
+    "id": "exercise_2018_b2",
+    "area": "proofnet 2018",
+    "goal": "Prove this Lean 4 theorem.\n\nopen scoped BigOperators\n\ntheorem exercise_2018_b2 (n : ℕ) (hn : n > 0) (f : ℕ → ℂ → ℂ)\n  (hf : ∀ n : ℕ, f n = λ (z : ℂ) => (∑ i : Fin n, (n-i)* z^(i : ℕ))) :\n  ¬ (∃ z : ℂ, ‖z‖ ≤ 1 ∧ f n z = 0):= sorry\n\nIt formalises the following claim: Let $n$ be a positive integer, and let $f_{n}(z)=n+(n-1) z+$ $(n-2) z^{2}+\\cdots+z^{n-1}$. Prove that $f_{n}$ has no roots in the closed unit disk $\\{z \\in \\mathbb{C}:|z| \\leq 1\\}$.",
+    "tier": "proofnet",
+    "note": "open scoped BigOperators\n\ntheorem exercise_2018_b2 (n : ℕ) (hn : n > 0) (f : ℕ → ℂ → ℂ)\n  (hf : ∀ n : ℕ, f n = λ (z : ℂ) => (∑ i : Fin n, (n-i)* z^(i : ℕ))) :\n  ¬ (∃ z : ℂ, ‖z‖ ≤ 1 ∧ f n z = 0):= sorry"
+  },
+  {
+    "id": "exercise_2020_b5",
+    "area": "proofnet 2020",
+    "goal": "Prove this Lean 4 theorem.\n\nopen scoped BigOperators\nopen scoped BigOperators\n\ntheorem exercise_2020_b5 (z : Fin 4 → ℂ) (hz0 : ∀ n, ‖z n‖ < 1)\n  (hz1 : ∀ n : Fin 4, z n ≠ 1) :\n  3 - z 0 - z 1 - z 2 - z 3 + (z 0) * (z 1) * (z 2) * (z 3) ≠ 0:= sorry\n\nIt formalises the following claim: For $j \\in\\{1,2,3,4\\}$, let $z_{j}$ be a complex number with $\\left|z_{j}\\right|=1$ and $z_{j} \\neq 1$. Prove that $3-z_{1}-z_{2}-z_{3}-z_{4}+z_{1} z_{2} z_{3} z_{4} \\neq 0 .$",
+    "tier": "proofnet",
+    "note": "open scoped BigOperators\nopen scoped BigOperators\n\ntheorem exercise_2020_b5 (z : Fin 4 → ℂ) (hz0 : ∀ n, ‖z n‖ < 1)\n  (hz1 : ∀ n : Fin 4, z n ≠ 1) :\n  3 - z 0 - z 1 - z 2 - z 3 + (z 0) * (z 1) * (z 2) * (z 3) ≠ 0:= sorry"
+  },
+  {
+    "id": "exercise_21_8",
+    "area": "proofnet 21",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_21_8\n  {X : Type*} [TopologicalSpace X] {Y : Type*} [MetricSpace Y]\n  {f : ℕ → X → Y} {x : ℕ → X}\n  (hf : ∀ n, Continuous (f n))\n  (x₀ : X)\n  (hx : Tendsto x atTop (𝓝 x₀))\n  (f₀ : X → Y)\n  (hh : TendstoUniformly f f₀ atTop) :\n  Tendsto (λ n => f n (x n)) atTop (𝓝 (f₀ x₀)):= sorry\n\nIt formalises the following claim: Let $X$ be a topological space and let $Y$ be a metric space. Let $f_{n}: X \\rightarrow Y$ be a sequence of continuous functions. Let $x_{n}$ be a sequence of points of $X$ converging to $x$. Show that if the sequence $\\left(f_{n}\\right)$ converges uniformly to $f$, then $\\left(f_{n}\\left(x_{n}\\right)\\right)$ converges to $f(x)$.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_21_8\n  {X : Type*} [TopologicalSpace X] {Y : Type*} [MetricSpace Y]\n  {f : ℕ → X → Y} {x : ℕ → X}\n  (hf : ∀ n, Continuous (f n))\n  (x₀ : X)\n  (hx : Tendsto x atTop (𝓝 x₀))\n  (f₀ : X → Y)\n  (hh : TendstoUniformly f f₀ atTop) :\n  Tendsto (λ n => f n (x n)) atTop (𝓝 (f₀ x₀)):= sorry"
+  },
+  {
+    "id": "exercise_21_6a",
+    "area": "proofnet 21",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\nabbrev I : Set ℝ := Icc 0 1\n\ntheorem exercise_21_6a\n  (f : ℕ → I → ℝ )\n  (h : ∀ x n, f n x = x ^ n) :\n  ∀ x, ∃ y, Tendsto (λ n => f n x) atTop (𝓝 y):= sorry\n\nIt formalises the following claim: Define $f_{n}:[0,1] \\rightarrow \\mathbb{R}$ by the equation $f_{n}(x)=x^{n}$. Show that the sequence $\\left(f_{n}(x)\\right)$ converges for each $x \\in[0,1]$.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\nabbrev I : Set ℝ := Icc 0 1\n\ntheorem exercise_21_6a\n  (f : ℕ → I → ℝ )\n  (h : ∀ x n, f n x = x ^ n) :\n  ∀ x, ∃ y, Tendsto (λ n => f n x) atTop (𝓝 y):= sorry"
+  },
+  {
+    "id": "exercise_23_9",
+    "area": "proofnet 23",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_23_9 {X Y : Type*}\n  [TopologicalSpace X] [TopologicalSpace Y]\n  (A₁ A₂ : Set X)\n  (B₁ B₂ : Set Y)\n  (hA : A₁ ⊂ A₂)\n  (hB : B₁ ⊂ B₂)\n  (hA : IsConnected A₂)\n  (hB : IsConnected B₂) :\n  IsConnected ({x | ∃ a b, x = (a, b) ∧ a ∈ A₂ ∧ b ∈ B₂} \\\n      {x | ∃ a b, x = (a, b) ∧ a ∈ A₁ ∧ b ∈ B₁}):= sorry\n\nIt formalises the following claim: Let $A$ be a proper subset of $X$, and let $B$ be a proper subset of $Y$. If $X$ and $Y$ are connected, show that $(X \\times Y)-(A \\times B)$ is connected.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_23_9 {X Y : Type*}\n  [TopologicalSpace X] [TopologicalSpace Y]\n  (A₁ A₂ : Set X)\n  (B₁ B₂ : Set Y)\n  (hA : A₁ ⊂ A₂)\n  (hB : B₁ ⊂ B₂)\n  (hA : IsConnected A₂)\n  (hB : IsConnected B₂) :\n  IsConnected ({x | ∃ a b, x = (a, b) ∧ a ∈ A₂ ∧ b ∈ B₂} \\\n      {x | ∃ a b, x = (a, b) ∧ a ∈ A₁ ∧ b ∈ B₁}):= sorry"
+  },
+  {
+    "id": "exercise_23_2",
+    "area": "proofnet 23",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_23_2 {X : Type*}\n  [TopologicalSpace X] {A : ℕ → Set X} (hA : ∀ n, IsConnected (A n))\n  (hAn : ∀ n, A n ∩ A (n + 1) ≠ ∅) :\n  IsConnected (⋃ n, A n):= sorry\n\nIt formalises the following claim: Let $\\left\\{A_{n}\\right\\}$ be a sequence of connected subspaces of $X$, such that $A_{n} \\cap A_{n+1} \\neq \\varnothing$ for all $n$. Show that $\\bigcup A_{n}$ is connected.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_23_2 {X : Type*}\n  [TopologicalSpace X] {A : ℕ → Set X} (hA : ∀ n, IsConnected (A n))\n  (hAn : ∀ n, A n ∩ A (n + 1) ≠ ∅) :\n  IsConnected (⋃ n, A n):= sorry"
+  },
+  {
+    "id": "exercise_24_2",
+    "area": "proofnet 24",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_24_2 {f : (Metric.sphere 0 1 : Set ℝ) → ℝ}\n  (hf : Continuous f) : ∃ x, f x = f (-x):= sorry\n\nIt formalises the following claim: Let $f: S^{1} \\rightarrow \\mathbb{R}$ be a continuous map. Show there exists a point $x$ of $S^{1}$ such that $f(x)=f(-x)$.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_24_2 {f : (Metric.sphere 0 1 : Set ℝ) → ℝ}\n  (hf : Continuous f) : ∃ x, f x = f (-x):= sorry"
+  },
+  {
+    "id": "exercise_25_4",
+    "area": "proofnet 25",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_25_4 {X : Type*} [TopologicalSpace X]\n  [LocPathConnectedSpace X] (U : Set X) (hU : IsOpen U)\n  (hcU : IsConnected U) : IsPathConnected U:= sorry\n\nIt formalises the following claim: Let $X$ be locally path connected. Show that every connected open set in $X$ is path connected.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_25_4 {X : Type*} [TopologicalSpace X]\n  [LocPathConnectedSpace X] (U : Set X) (hU : IsOpen U)\n  (hcU : IsConnected U) : IsPathConnected U:= sorry"
+  },
+  {
+    "id": "exercise_26_11",
+    "area": "proofnet 26",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_26_11\n  {X : Type*} [TopologicalSpace X] [CompactSpace X] [T2Space X]\n  (A : Set (Set X)) (hA : ∀ (a b : Set X), a ∈ A → b ∈ A → a ⊆ b ∨ b ⊆ a)\n  (hA' : ∀ a ∈ A, IsClosed a) (hA'' : ∀ a ∈ A, IsConnected a) :\n  IsConnected (⋂₀ A):= sorry\n\nIt formalises the following claim: Let $X$ be a compact Hausdorff space. Let $\\mathcal{A}$ be a collection of closed connected subsets of $X$ that is simply ordered by proper inclusion. Then $Y=\\bigcap_{A \\in \\mathcal{A}} A$ is connected.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_26_11\n  {X : Type*} [TopologicalSpace X] [CompactSpace X] [T2Space X]\n  (A : Set (Set X)) (hA : ∀ (a b : Set X), a ∈ A → b ∈ A → a ⊆ b ∨ b ⊆ a)\n  (hA' : ∀ a ∈ A, IsClosed a) (hA'' : ∀ a ∈ A, IsConnected a) :\n  IsConnected (⋂₀ A):= sorry"
+  },
+  {
+    "id": "exercise_27_4",
+    "area": "proofnet 27",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_27_4\n  {X : Type*} [MetricSpace X] [ConnectedSpace X] (hX : ∃ x y : X, x ≠ y) :\n  ¬ Countable (univ : Set X):= sorry\n\nIt formalises the following claim: Show that a connected metric space having more than one point is uncountable.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_27_4\n  {X : Type*} [MetricSpace X] [ConnectedSpace X] (hX : ∃ x y : X, x ≠ y) :\n  ¬ Countable (univ : Set X):= sorry"
+  },
+  {
+    "id": "exercise_28_5",
+    "area": "proofnet 28",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\ndef countably_compact (X : Type*) [TopologicalSpace X] :=\n  ∀ U : ℕ → Set X,\n  (∀ i, IsOpen (U i)) ∧ ((univ : Set X) ⊆ ⋃ i, U i) →\n  (∃ t : Finset ℕ, (univ : Set X) ⊆ ⋃ i ∈ t, U i)\n\ntheorem exercise_28_5\n  (X : Type*) [TopologicalSpace X] :\n  countably_compact X ↔ ∀ (C : ℕ → Set X), (∀ n, IsClosed (C n)) ∧\n  (∀ n, C n ≠ ∅) ∧ (∀ n, C n ⊆ C (n + 1)) → ∃ x, ∀ n, x ∈ C n:= sorry\n\nIt formalises the following claim: Show that X is countably compact if and only if every nested sequence $C_1 \\supset C_2 \\supset \\cdots$ of closed nonempty sets of X has a nonempty intersection.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\ndef countably_compact (X : Type*) [TopologicalSpace X] :=\n  ∀ U : ℕ → Set X,\n  (∀ i, IsOpen (U i)) ∧ ((univ : Set X) ⊆ ⋃ i, U i) →\n  (∃ t : Finset ℕ, (univ : Set X) ⊆ ⋃ i ∈ t, U i)\n\ntheorem exercise_28_5\n  (X : Type*) [TopologicalSpace X] :\n  countably_compact X ↔ ∀ (C : ℕ → Set X), (∀ n, IsClosed (C n)) ∧\n  (∀ n, C n ≠ ∅) ∧ (∀ n, C n ⊆ C (n + 1)) → ∃ x, ∀ n, x ∈ C n:= sorry"
+  },
+  {
+    "id": "exercise_29_10",
+    "area": "proofnet 29",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_29_10 {X : Type*}\n  [TopologicalSpace X] [T2Space X] (x : X)\n  (hx : ∃ U : Set X, x ∈ U ∧ IsOpen U ∧ (∃ K : Set X, U ⊂ K ∧ IsCompact K))\n  (U : Set X) (hU : IsOpen U) (hxU : x ∈ U) :\n  ∃ (V : Set X), IsOpen V ∧ x ∈ V ∧ IsCompact (closure V) ∧ closure V ⊆ U:= sorry\n\nIt formalises the following claim: Show that if $X$ is a Hausdorff space that is locally compact at the point $x$, then for each neighborhood $U$ of $x$, there is a neighborhood $V$ of $x$ such that $\\bar{V}$ is compact and $\\bar{V} \\subset U$.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_29_10 {X : Type*}\n  [TopologicalSpace X] [T2Space X] (x : X)\n  (hx : ∃ U : Set X, x ∈ U ∧ IsOpen U ∧ (∃ K : Set X, U ⊂ K ∧ IsCompact K))\n  (U : Set X) (hU : IsOpen U) (hxU : x ∈ U) :\n  ∃ (V : Set X), IsOpen V ∧ x ∈ V ∧ IsCompact (closure V) ∧ closure V ⊆ U:= sorry"
+  },
+  {
+    "id": "exercise_29_1",
+    "area": "proofnet 29",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_29_1 : ¬ LocallyCompactSpace ℚ:= sorry\n\nIt formalises the following claim: Show that the rationals $\\mathbb{Q}$ are not locally compact.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_29_1 : ¬ LocallyCompactSpace ℚ:= sorry"
+  },
+  {
+    "id": "exercise_3_1_22b",
+    "area": "proofnet 3",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_3_1_22b {G : Type*} [Group G] (I : Type*)\n  (H : I → Subgroup G) (hH : ∀ i : I, Normal (H i)) :\n  Normal (⨅ (i : I), H i):= sorry\n\nIt formalises the following claim: Prove that the intersection of an arbitrary nonempty collection of normal subgroups of a group is a normal subgroup (do not assume the collection is countable).",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_3_1_22b {G : Type*} [Group G] (I : Type*)\n  (H : I → Subgroup G) (hH : ∀ i : I, Normal (H i)) :\n  Normal (⨅ (i : I), H i):= sorry"
+  },
+  {
+    "id": "exercise_3_2_11",
+    "area": "proofnet 3",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_3_2_11 {G : Type*} [Group G] {H K : Subgroup G}\n  (hHK : H ≤ K) :\n  H.index = K.index * H.relindex K:= sorry\n\nIt formalises the following claim: Let $H \\leq K \\leq G$. Prove that $|G: H|=|G: K| \\cdot|K: H|$ (do not assume $G$ is finite).",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_3_2_11 {G : Type*} [Group G] {H K : Subgroup G}\n  (hHK : H ≤ K) :\n  H.index = K.index * H.relindex K:= sorry"
+  },
+  {
+    "id": "exercise_30_13",
+    "area": "proofnet 30",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_30_13 {X : Type*} [TopologicalSpace X]\n  (h : ∃ (s : Set X), Countable s ∧ Dense s) (U : Set (Set X))\n  (hU : ∀ (x y : Set X), x ∈ U → y ∈ U → x ≠ y → x ∩ y = ∅) :\n  Countable U:= sorry\n\nIt formalises the following claim: Show that if $X$ has a countable dense subset, every collection of disjoint open sets in $X$ is countable.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_30_13 {X : Type*} [TopologicalSpace X]\n  (h : ∃ (s : Set X), Countable s ∧ Dense s) (U : Set (Set X))\n  (hU : ∀ (x y : Set X), x ∈ U → y ∈ U → x ≠ y → x ∩ y = ∅) :\n  Countable U:= sorry"
+  },
+  {
+    "id": "exercise_31_2",
+    "area": "proofnet 31",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_31_2 {X : Type*}\n  [TopologicalSpace X] [NormalSpace X] {A B : Set X}\n  (hA : IsClosed A) (hB : IsClosed B) (hAB : Disjoint A B) :\n  ∃ (U V : Set X), IsOpen U ∧ IsOpen V ∧ A ⊆ U ∧ B ⊆ V ∧ closure U ∩ closure V = ∅:= sorry\n\nIt formalises the following claim: Show that if $X$ is normal, every pair of disjoint closed sets have neighborhoods whose closures are disjoint.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_31_2 {X : Type*}\n  [TopologicalSpace X] [NormalSpace X] {A B : Set X}\n  (hA : IsClosed A) (hB : IsClosed B) (hAB : Disjoint A B) :\n  ∃ (U V : Set X), IsOpen U ∧ IsOpen V ∧ A ⊆ U ∧ B ⊆ V ∧ closure U ∩ closure V = ∅:= sorry"
+  },
+  {
+    "id": "exercise_32_1",
+    "area": "proofnet 32",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_32_1 {X : Type*} [TopologicalSpace X]\n  (hX : NormalSpace X) (A : Set X) (hA : IsClosed A) :\n  NormalSpace {x // x ∈ A}:= sorry\n\nIt formalises the following claim: Show that a closed subspace of a normal space is normal.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_32_1 {X : Type*} [TopologicalSpace X]\n  (hX : NormalSpace X) (A : Set X) (hA : IsClosed A) :\n  NormalSpace {x // x ∈ A}:= sorry"
+  },
+  {
+    "id": "exercise_32_2b",
+    "area": "proofnet 32",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_32_2b\n  {ι : Type*} {X : ι → Type*} [∀ i, TopologicalSpace (X i)]\n  (h : ∀ i, Nonempty (X i)) (h2 : RegularSpace (Π i, X i)) :\n  ∀ i, RegularSpace (X i):= sorry\n\nIt formalises the following claim: Show that if $\\prod X_\\alpha$ is regular, then so is $X_\\alpha$. Assume that each $X_\\alpha$ is nonempty.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\n\ntheorem exercise_32_2b\n  {ι : Type*} {X : ι → Type*} [∀ i, TopologicalSpace (X i)]\n  (h : ∀ i, Nonempty (X i)) (h2 : RegularSpace (Π i, X i)) :\n  ∀ i, RegularSpace (X i):= sorry"
+  },
+  {
+    "id": "exercise_33_8",
+    "area": "proofnet 33",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\nabbrev I : Set ℝ := Icc 0 1\n\ntheorem exercise_33_8\n  (X : Type*) [TopologicalSpace X] [RegularSpace X]\n  (h : ∀ x A, IsClosed A ∧ ¬ x ∈ A →\n  ∃ (f : X → I), Continuous f ∧ f x = (1 : I) ∧ f '' A = {0})\n  (A B : Set X) (hA : IsClosed A) (hB : IsClosed B)\n  (hAB : Disjoint A B)\n  (hAc : IsCompact A) :\n  ∃ (f : X → I), Continuous f ∧ f '' A = {0} ∧ f '' B = {1}:= sorry\n\nIt formalises the following claim: Let $X$ be completely regular, let $A$ and $B$ be disjoint closed subsets of $X$. Show that if $A$ is compact, there is a continuous function $f \\colon X \\rightarrow [0, 1]$ such that $f(A) = \\{0\\}$ and $f(B) = \\{1\\}$.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\nabbrev I : Set ℝ := Icc 0 1\n\ntheorem exercise_33_8\n  (X : Type*) [TopologicalSpace X] [RegularSpace X]\n  (h : ∀ x A, IsClosed A ∧ ¬ x ∈ A →\n  ∃ (f : X → I), Continuous f ∧ f x = (1 : I) ∧ f '' A = {0})\n  (A B : Set X) (hA : IsClosed A) (hB : IsClosed B)\n  (hAB : Disjoint A B)\n  (hAc : IsCompact A) :\n  ∃ (f : X → I), Continuous f ∧ f '' A = {0} ∧ f '' B = {1}:= sorry"
+  },
+  {
+    "id": "exercise_38_6",
+    "area": "proofnet 38",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Filter Set TopologicalSpace\nopen scoped Topology\nabbrev I : Set ℝ := Icc 0 1\n\ntheorem exercise_38_6 {X : Type*}\n  (X : Type*) [TopologicalSpace X] [RegularSpace X]\n  (h : ∀ x A, IsClosed A ∧ ¬ x ∈ A →\n  ∃ (f : X → I), Continuous f ∧ f x = (1 : I) ∧ f '' A = {0}) :\n  IsConnected (univ : Set X) ↔ IsConnected (univ : Set (StoneCech X)):= sorry\n\nIt formalises the following claim: Let $X$ be completely regular. Show that $X$ is connected if and only if the Stone-Čech compactification of $X$ is connected.",
+    "tier": "proofnet",
+    "note": "open Filter Set TopologicalSpace\nopen scoped Topology\nabbrev I : Set ℝ := Icc 0 1\n\ntheorem exercise_38_6 {X : Type*}\n  (X : Type*) [TopologicalSpace X] [RegularSpace X]\n  (h : ∀ x A, IsClosed A ∧ ¬ x ∈ A →\n  ∃ (f : X → I), Continuous f ∧ f x = (1 : I) ∧ f '' A = {0}) :\n  IsConnected (univ : Set X) ↔ IsConnected (univ : Set (StoneCech X)):= sorry"
+  },
+  {
+    "id": "exercise_4_12",
+    "area": "proofnet 4",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_4_12\n  {α β γ : Type*} [UniformSpace α] [UniformSpace β] [UniformSpace γ]\n  {f : α → β} {g : β → γ}\n  (hf : UniformContinuous f) (hg : UniformContinuous g) :\n  UniformContinuous (g ∘ f):= sorry\n\nIt formalises the following claim: A uniformly continuous function of a uniformly continuous function is uniformly continuous.",
+    "tier": "proofnet",
+    "note": "open Topology Filter Real Complex TopologicalSpace Finset\nopen scoped BigOperators\n\ntheorem exercise_4_12\n  {α β γ : Type*} [UniformSpace α] [UniformSpace β] [UniformSpace γ]\n  {f : α → β} {g : β → γ}\n  (hf : UniformContinuous f) (hg : UniformContinuous g) :\n  UniformContinuous (g ∘ f):= sorry"
+  },
+  {
+    "id": "exercise_4_5_1a",
+    "area": "proofnet 4",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_4_5_1a {p : ℕ} {G : Type*} [Group G]\n  {P : Subgroup G} (hP : IsPGroup p P) (H : Subgroup G)\n  (hH : P ≤ H) : IsPGroup p H:= sorry\n\nIt formalises the following claim: Prove that if $P \\in \\operatorname{Syl}_{p}(G)$ and $H$ is a subgroup of $G$ containing $P$ then $P \\in \\operatorname{Syl}_{p}(H)$.",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_4_5_1a {p : ℕ} {G : Type*} [Group G]\n  {P : Subgroup G} (hP : IsPGroup p P) (H : Subgroup G)\n  (hH : P ≤ H) : IsPGroup p H:= sorry"
+  },
+  {
+    "id": "exercise_5_4",
+    "area": "proofnet 5",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Complex Polynomial LinearMap FiniteDimensional Module Module.End\nopen scoped BigOperators\n\ntheorem exercise_5_4 {F V : Type*} [AddCommGroup V] [Field F]\n  [Module F V] (S T : V →ₗ[F] V) (hST : S ∘ T = T ∘ S) (c : F):\n  Submodule.map S (ker (T - c • LinearMap.id)) = ker (T - c • LinearMap.id):= sorry\n\nIt formalises the following claim: Suppose that $S, T \\in \\mathcal{L}(V)$ are such that $S T=T S$. Prove that $\\operatorname{null} (T-\\lambda I)$ is invariant under $S$ for every $\\lambda \\in \\mathbf{F}$.",
+    "tier": "proofnet",
+    "note": "open Fintype Complex Polynomial LinearMap FiniteDimensional Module Module.End\nopen scoped BigOperators\n\ntheorem exercise_5_4 {F V : Type*} [AddCommGroup V] [Field F]\n  [Module F V] (S T : V →ₗ[F] V) (hST : S ∘ T = T ∘ S) (c : F):\n  Submodule.map S (ker (T - c • LinearMap.id)) = ker (T - c • LinearMap.id):= sorry"
+  },
+  {
+    "id": "exercise_5_3_10",
+    "area": "proofnet 5",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Set Real Ideal Polynomial\nopen scoped BigOperators\n\ntheorem exercise_5_3_10 : IsAlgebraic ℚ (cos (Real.pi / 180)):= sorry\n\nIt formalises the following claim: Prove that $\\cos 1^{\\circ}$ is algebraic over $\\mathbb{Q}$.",
+    "tier": "proofnet",
+    "note": "open Fintype Set Real Ideal Polynomial\nopen scoped BigOperators\n\ntheorem exercise_5_3_10 : IsAlgebraic ℚ (cos (Real.pi / 180)):= sorry"
+  },
+  {
+    "id": "exercise_6_16",
+    "area": "proofnet 6",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Complex Polynomial LinearMap FiniteDimensional Module Module.End\nopen scoped BigOperators\n\ntheorem exercise_6_16 {K V : Type*} [RCLike K] [NormedAddCommGroup V] [InnerProductSpace K V]\n  {U : Submodule K V} :\n  U.orthogonal = ⊥  ↔ U = ⊤:= sorry\n\nIt formalises the following claim: Suppose $U$ is a subspace of $V$. Prove that $U^{\\perp}=\\{0\\}$ if and only if $U=V$",
+    "tier": "proofnet",
+    "note": "open Fintype Complex Polynomial LinearMap FiniteDimensional Module Module.End\nopen scoped BigOperators\n\ntheorem exercise_6_16 {K V : Type*} [RCLike K] [NormedAddCommGroup V] [InnerProductSpace K V]\n  {U : Submodule K V} :\n  U.orthogonal = ⊥  ↔ U = ⊤:= sorry"
+  },
+  {
+    "id": "exercise_6_1_14",
+    "area": "proofnet 6",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Function Fintype Subgroup Ideal Polynomial Submodule Zsqrtd\nopen scoped BigOperators\n\ntheorem exercise_6_1_14 (G : Type*) [Group G]\n  (hG : IsCyclic $ G ⧸ (center G)) :\n  center G = ⊤:= sorry\n\nIt formalises the following claim: Let $Z$ be the center of a group $G$. Prove that if $G / Z$ is a cyclic group, then $G$ is abelian and hence $G=Z$.",
+    "tier": "proofnet",
+    "note": "open Function Fintype Subgroup Ideal Polynomial Submodule Zsqrtd\nopen scoped BigOperators\n\ntheorem exercise_6_1_14 (G : Type*) [Group G]\n  (hG : IsCyclic $ G ⧸ (center G)) :\n  center G = ⊤:= sorry"
+  },
+  {
+    "id": "exercise_7_14",
+    "area": "proofnet 7",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Complex Polynomial LinearMap FiniteDimensional Module Module.End\nopen scoped BigOperators\n\ntheorem exercise_7_14 {𝕜 V : Type*} [RCLike 𝕜] [NormedAddCommGroup V]\n  [InnerProductSpace 𝕜 V] [FiniteDimensional 𝕜 V]\n  {T : Module.End 𝕜 V} (hT : IsSelfAdjoint T)\n  {l : 𝕜} {ε : ℝ} (he : ε > 0) : ∃ v : V, ‖v‖= 1 ∧ (‖T v - l • v‖ < ε →\n  (∃ l' : T.Eigenvalues, ‖l - l'‖ < ε)):= sorry\n\nIt formalises the following claim: Suppose $T \\in \\mathcal{L}(V)$ is self-adjoint, $\\lambda \\in \\mathbf{F}$, and $\\epsilon>0$. Prove that if there exists $v \\in V$ such that $\\|v\\|=1$ and $\\|T v-\\lambda v\\|<\\epsilon,$ then $T$ has an eigenvalue $\\lambda^{\\prime}$ such that $\\left|\\lambda-\\lambda^{\\prime}\\right|<\\epsilon$.",
+    "tier": "proofnet",
+    "note": "open Fintype Complex Polynomial LinearMap FiniteDimensional Module Module.End\nopen scoped BigOperators\n\ntheorem exercise_7_14 {𝕜 V : Type*} [RCLike 𝕜] [NormedAddCommGroup V]\n  [InnerProductSpace 𝕜 V] [FiniteDimensional 𝕜 V]\n  {T : Module.End 𝕜 V} (hT : IsSelfAdjoint T)\n  {l : 𝕜} {ε : ℝ} (he : ε > 0) : ∃ v : V, ‖v‖= 1 ∧ (‖T v - l • v‖ < ε →\n  (∃ l' : T.Eigenvalues, ‖l - l'‖ < ε)):= sorry"
+  },
+  {
+    "id": "exercise_7_2_12",
+    "area": "proofnet 7",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_7_2_12 {R G : Type*} [Ring R] [Group G] [Fintype G] :\n  ∑ g : G, MonoidAlgebra.of R G g ∈ center (MonoidAlgebra R G):= sorry\n\nIt formalises the following claim: Let $G=\\left\\{g_{1}, \\ldots, g_{n}\\right\\}$ be a finite group. Prove that the element $N=g_{1}+g_{2}+\\ldots+g_{n}$ is in the center of the group ring $R G$.",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_7_2_12 {R G : Type*} [Ring R] [Group G] [Fintype G] :\n  ∑ g : G, MonoidAlgebra.of R G g ∈ center (MonoidAlgebra R G):= sorry"
+  },
+  {
+    "id": "exercise_8_3_4",
+    "area": "proofnet 8",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_8_3_4 {R : Type*} {n : ℤ} {r s : ℚ}\n  (h : r^2 + s^2 = n) :\n  ∃ a b : ℤ, a^2 + b^2 = n:= sorry\n\nIt formalises the following claim: Prove that if an integer is the sum of two rational squares, then it is the sum of two integer squares.",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_8_3_4 {R : Type*} {n : ℤ} {r s : ℚ}\n  (h : r^2 + s^2 = n) :\n  ∃ a b : ℤ, a^2 + b^2 = n:= sorry"
+  },
+  {
+    "id": "exercise_8_3_6a",
+    "area": "proofnet 8",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_8_3_6a {R : Type} [Ring R]\n  (hR : R = (GaussianInt ⧸ span ({⟨0, 1⟩} : Set GaussianInt))) :\n  IsField R ∧ ∃ finR : Fintype R, @card R finR = 2:= sorry\n\nIt formalises the following claim: Prove that the quotient ring $\\mathbb{Z}[i] /(1+i)$ is a field of order 2.",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_8_3_6a {R : Type} [Ring R]\n  (hR : R = (GaussianInt ⧸ span ({⟨0, 1⟩} : Set GaussianInt))) :\n  IsField R ∧ ∃ finR : Fintype R, @card R finR = 2:= sorry"
+  },
+  {
+    "id": "exercise_9_1_6",
+    "area": "proofnet 9",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_9_1_6 : ¬ Submodule.IsPrincipal\n  (span ({MvPolynomial.X 0, MvPolynomial.X 1} : Set (MvPolynomial (Fin 2) ℚ))):= sorry\n\nIt formalises the following claim: Prove that $(x, y)$ is not a principal ideal in $\\mathbb{Q}[x, y]$.",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_9_1_6 : ¬ Submodule.IsPrincipal\n  (span ({MvPolynomial.X 0, MvPolynomial.X 1} : Set (MvPolynomial (Fin 2) ℚ))):= sorry"
+  },
+  {
+    "id": "exercise_9_4_2d",
+    "area": "proofnet 9",
+    "goal": "Prove this Lean 4 theorem.\n\nopen Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_9_4_2d {p : ℕ} (hp : p.Prime ∧ p > 2)\n  {f : Polynomial ℤ} (hf : f = (X + 2)^p):\n  Irreducible (∑ n in (f.support \\ {0}), (f.coeff n : Polynomial ℤ) * X ^ (n-1) :\n  Polynomial ℤ):= sorry\n\nIt formalises the following claim: Prove that $\\frac{(x+2)^p-2^p}{x}$, where $p$ is an odd prime, is irreducible in $\\mathbb{Z}[x]$.",
+    "tier": "proofnet",
+    "note": "open Fintype Subgroup Set Polynomial Ideal\nopen scoped BigOperators\n\ntheorem exercise_9_4_2d {p : ℕ} (hp : p.Prime ∧ p > 2)\n  {f : Polynomial ℤ} (hf : f = (X + 2)^p):\n  Irreducible (∑ n in (f.support \\ {0}), (f.coeff n : Polynomial ℤ) * X ^ (n-1) :\n  Polynomial ℤ):= sorry"
+  }
+]

@@ -1,0 +1,519 @@
+{
+  "run": {
+    "model": "google_genai:gemini-3.5-flash",
+    "prover": "math_v2",
+    "goals_file": "eval\\mixed-benchmark.json",
+    "budget_profile": "hard-reasoning",
+    "budget": {
+      "MRA_MAX_AGENT_SECONDS": "3600",
+      "MRA_MAX_AGENT_LEAN": "40",
+      "MRA_MAX_AGENT_STEPS": "120",
+      "MRA_MAX_AGENT_SEARCHES": "40",
+      "MRA_MAX_CONSECUTIVE_SEARCHES": "3"
+    },
+    "limit": 10,
+    "tier": "",
+    "single_goal": "",
+    "commit": "af9e82bd525943127f5c1ba50f69dfe2e8237f5a",
+    "started": "2026-09-07T08:33:58+00:00"
+  },
+  "environment": {
+    "lean_backend": "repl",
+    "execution_mode": "local",
+    "lean_project": "C:\\Users\\SiyaJethliya\\Projects\\lean-workspace",
+    "lean_toolchain": "4.33.0",
+    "repl_binary": "C:\\Users\\SiyaJethliya\\Projects\\repl\\.lake\\build\\bin\\repl.exe",
+    "repl_version": "4.33.0",
+    "repl_max_commands": 2000,
+    "context_trimming": true,
+    "context_trim_trigger": 24000,
+    "context_trim_keep": 3
+  },
+  "summary": {
+    "total": 10,
+    "errors": 0,
+    "attempted": 10,
+    "formalization_rate": 1.0,
+    "proof_rate": 1.0,
+    "proof_rate_of_formalized": 1.0,
+    "proof_rate_of_tested": 1.0,
+    "not_formalized": 0,
+    "exhausted": 0,
+    "refuted": 0,
+    "suspect_unverified": 0,
+    "suspect_statements": 0,
+    "genuinely_tested": 10,
+    "valid_proof_targets": 10,
+    "lemma_yield": null,
+    "mean_attempts": 1.6,
+    "mean_goal_attempts": 1.6,
+    "input_tokens": 741694,
+    "output_tokens": 14763,
+    "cost_measured_on": 10,
+    "unproved_left_most_of_the_budget": 0,
+    "unproved_with_a_budget_recorded": 0,
+    "proof_rate_in-mathlib": 1.0,
+    "proof_rate_near-mathlib": 1.0,
+    "proof_rate_novel": null,
+    "proof_rate_hard": null,
+    "proof_rate_deep": null,
+    "proof_rate_proofnet": null,
+    "proof_rate_putnam": null,
+    "proof_rate_by_area": {
+      "algebra": {
+        "rate": 1.0,
+        "n": 1
+      },
+      "analysis": {
+        "rate": 1.0,
+        "n": 1
+      },
+      "arithmetic": {
+        "rate": 1.0,
+        "n": 2
+      },
+      "group theory": {
+        "rate": 1.0,
+        "n": 2
+      },
+      "number theory": {
+        "rate": 1.0,
+        "n": 3
+      },
+      "set theory": {
+        "rate": 1.0,
+        "n": 1
+      }
+    }
+  },
+  "results": [
+    {
+      "goal_id": "num-infinitude-of-primes",
+      "area": "number theory",
+      "tier": "in-mathlib",
+      "outcome": "proved",
+      "statement": "theorem exists_prime_ge (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n \u2264 p",
+      "attempts": 2,
+      "goal_attempts": 2,
+      "lemma_attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem exists_prime_ge (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n \u2264 p",
+      "model_calls": 6,
+      "lean_calls": 3,
+      "retrieval_calls": 1,
+      "symbolic_calls": 0,
+      "seconds": 49.0,
+      "input_tokens": 50667,
+      "output_tokens": 1137,
+      "cost_complete": true,
+      "lean_budget": 40,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"exists_infinite_primes\"' -> Nat.exists_infinite_primes",
+        "seeded from goal shape -> Nat.exists_prime_and_dvd, exists_prime_addEquiv_ZMod, IsPrimePow.exists_ordCompl_eq_one, FiniteField.card, Nat.bertrand, Nat.exists_prime_lt_and_le_two_mul, Nat.exists_prime_lt_and_le_two_mul_eventually, Nat.exists_prime_lt_and_le_two_mul_succ",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.exists_infinite_primes\n    | exact Nat.exists_infinite_primes _\n    | apply Nat.exists_infinite_primes\n    | simpa using Nat.exists_infinite_primes\n    | exact \u27e8_, Nat.exists_infinite_primes\u27e9\n    | exact Nat.exists_infinite_primes (by assumption)\n    | exact Nat.exists_infinite_primes \u2039_\u203a\n    | apply Nat.exists_infinite_primes <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.exists_infinite_",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:55: error: unsolved goals\nn : \u2115\n\u22a2 \u2203 p, Nat.Prime p \u2227 n \u2264 p\n\nStill to prove:\n\u22a2 \u2203 p, Nat.Prime p \u2227 n \u2264 p"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  obtain \u27e8p, hn, hp\u27e9 := Nat.exists_infinite_primes n\n  exact \u27e8p, hp, hn\u27e9",
+          "errors": "Lean accepted a complete proof of: theorem exists_prime_ge (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n \u2264 p"
+        }
+      ],
+      "proof": "by\n  obtain \u27e8p, hn, hp\u27e9 := Nat.exists_infinite_primes n\n  exact \u27e8p, hp, hn\u27e9",
+      "lemmas": []
+    },
+    {
+      "goal_id": "num-primes-strictly-above",
+      "area": "number theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "attempts": 1,
+      "goal_attempts": 1,
+      "lemma_attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p",
+      "model_calls": 5,
+      "lean_calls": 2,
+      "retrieval_calls": 1,
+      "symbolic_calls": 0,
+      "seconds": 13.3,
+      "input_tokens": 41595,
+      "output_tokens": 1182,
+      "cost_complete": true,
+      "lean_budget": 40,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"exists_infinite_primes\"' -> Nat.exists_infinite_primes",
+        "seeded from goal shape -> Nat.exists_prime_and_dvd, exists_prime_addEquiv_ZMod, IsPrimePow.exists_ordCompl_eq_one, FiniteField.card, Nat.bertrand, Nat.exists_prime_lt_and_le_two_mul, Nat.exists_prime_lt_and_le_two_mul_eventually, Nat.exists_prime_lt_and_le_two_mul_succ",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  rcases Nat.exists_infinite_primes (n + 1) with \u27e8p, hp1, hp2\u27e9\n  exact \u27e8p, hp2, hp1\u27e9",
+          "errors": "Lean accepted a complete proof of: theorem exists_prime_gt (n : \u2115) : \u2203 p, Nat.Prime p \u2227 n < p"
+        }
+      ],
+      "proof": "by\n  rcases Nat.exists_infinite_primes (n + 1) with \u27e8p, hp1, hp2\u27e9\n  exact \u27e8p, hp2, hp1\u27e9",
+      "lemmas": []
+    },
+    {
+      "goal_id": "grp-prime-order-cyclic",
+      "area": "group theory",
+      "tier": "in-mathlib",
+      "outcome": "proved",
+      "statement": "theorem finite_group_prime_order_cyclic (G : Type*) [Group G] [Fintype G] (p : \u2115) [hp : Fact (Nat.Prime p)] (h : Fintype.card G = p) : IsCyclic G",
+      "attempts": 3,
+      "goal_attempts": 3,
+      "lemma_attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem finite_group_prime_order_cyclic (G : Type*) [Group G] [Fintype G] (p : \u2115) [hp : Fact (Nat.Prime p)] (h : Fintype.card G = p) : IsCyclic G",
+      "model_calls": 9,
+      "lean_calls": 4,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 26.2,
+      "input_tokens": 84825,
+      "output_tokens": 1636,
+      "cost_complete": true,
+      "lean_budget": 40,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"is_cyclic\"' -> nothing",
+        "search: '\"IsCyclic\"' -> IsCyclic.exists_zpow_surjective, IsCyclic.mk, not_isCyclic_of_denselyOrdered, FreeGroup.instIsCyclicOfUnique, isCyclic_of_subsingleton, IsCyclic.commGroup, Nontrivial.of_not_isCyclic, isCyclic_of_prime_card",
+        "search: 'Nat.card_eq_fintype_card' -> Nat.card_eq_fintype_card",
+        "seeded from goal shape -> IsCyclic.mk, FreeGroup.instIsCyclicOfUnique, isCyclic_of_subsingleton, isCyclic_of_prime_card, isCyclic_of_card_dvd_prime, isCyclic_multiplicative, isCyclic_of_orderOf_eq_card, isCyclic_of_card_le_orderOf",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact IsCyclic.exists_zpow_surjective\n    | exact IsCyclic.exists_zpow_surjective _\n    | apply IsCyclic.exists_zpow_surjective\n    | simpa using IsCyclic.exists_zpow_surjective\n    | exact \u27e8_, IsCyclic.exists_zpow_surjective\u27e9\n    | exact IsCyclic.exists_zpow_surjective (by assumption)\n    | exact IsCyclic.exists_zpow_surjective \u2039_\u203a\n    | apply IsCyclic.exists_zpow_surjective <;> assumption\n    | (haveI := Fact.mk (by",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:126: error: unsolved goals\nG : Type u_1\ninst\u271d\u00b9 : Group G\ninst\u271d : Fintype G\np : \u2115\nhp : Fact (Nat.Prime p)\nh : Fintype.card G = p\n\u22a2 IsCyclic G\n\nStill to prove:\n\u22a2 IsCyclic G"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  apply isCyclic_of_prime_card\n  rw [Nat.card_eq_fintype_card, h]",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n2:2: error: failed to synthesize\n  Fact (Nat.Prime ?p)\n\nHint: Additional diagnostic information may be available using the `set_option diagnostics true` command."
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  apply isCyclic_of_prime_card (p := p)\n  rw [Nat.card_eq_fintype_card, h]",
+          "errors": "Lean accepted a complete proof of: theorem finite_group_prime_order_cyclic (G : Type*) [Group G] [Fintype G] (p : \u2115) [hp : Fact (Nat.Prime p)] (h : Fintype.card G = p) : IsCyclic G"
+        }
+      ],
+      "proof": "by\n  apply isCyclic_of_prime_card (p := p)\n  rw [Nat.card_eq_fintype_card, h]",
+      "lemmas": []
+    },
+    {
+      "goal_id": "num-two-plus-two",
+      "area": "arithmetic",
+      "tier": "in-mathlib",
+      "outcome": "proved",
+      "statement": "theorem two_add_two : 2 + 2 = 4",
+      "attempts": 1,
+      "goal_attempts": 1,
+      "lemma_attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem two_add_two : 2 + 2 = 4",
+      "model_calls": 6,
+      "lean_calls": 2,
+      "retrieval_calls": 0,
+      "symbolic_calls": 1,
+      "seconds": 18.4,
+      "input_tokens": 47123,
+      "output_tokens": 902,
+      "cost_complete": true,
+      "lean_budget": 40,
+      "trace": [
+        "statement check: elaborates",
+        "seeded from goal shape -> two_add_two_eq_four",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "rfl",
+          "errors": "Lean accepted a complete proof of: theorem two_add_two : 2 + 2 = 4"
+        }
+      ],
+      "proof": "rfl",
+      "lemmas": []
+    },
+    {
+      "goal_id": "num-add-zero",
+      "area": "arithmetic",
+      "tier": "in-mathlib",
+      "outcome": "proved",
+      "statement": "theorem nat_add_zero (n : Nat) : n + 0 = n",
+      "attempts": 1,
+      "goal_attempts": 1,
+      "lemma_attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem nat_add_zero (n : Nat) : n + 0 = n",
+      "model_calls": 5,
+      "lean_calls": 2,
+      "retrieval_calls": 0,
+      "symbolic_calls": 0,
+      "seconds": 26.4,
+      "input_tokens": 38135,
+      "output_tokens": 522,
+      "cost_complete": true,
+      "lean_budget": 40,
+      "trace": [
+        "statement check: elaborates",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop",
+          "errors": "Lean accepted a complete proof of: theorem nat_add_zero (n : Nat) : n + 0 = n"
+        }
+      ],
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop",
+      "lemmas": []
+    },
+    {
+      "goal_id": "num-seven-prime",
+      "area": "number theory",
+      "tier": "in-mathlib",
+      "outcome": "proved",
+      "statement": "theorem seven_prime : Nat.Prime 7",
+      "attempts": 1,
+      "goal_attempts": 1,
+      "lemma_attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem seven_prime : Nat.Prime 7",
+      "model_calls": 7,
+      "lean_calls": 2,
+      "retrieval_calls": 1,
+      "symbolic_calls": 1,
+      "seconds": 15.5,
+      "input_tokens": 57507,
+      "output_tokens": 783,
+      "cost_complete": true,
+      "lean_budget": 40,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"Nat.Prime\"' -> Nat.Primes.inhabitedPrimes, Nat.Primes.instRepr, Nat.Primes.coeNat, Nat.prime_eleven, Nat.prime_five, Nat.prime_seven, Nat.prime_three, Nat.prime_two",
+        "seeded from goal shape -> Nat.prime_seven, Nat.prime_eleven, Nat.prime_five, Nat.prime_three, Nat.prime_two, Prime.nat_prime, Nat.minFac_prime, Nat.prime_of_coprime",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact Nat.prime_seven",
+          "errors": "Lean accepted a complete proof of: theorem seven_prime : Nat.Prime 7"
+        }
+      ],
+      "proof": "exact Nat.prime_seven",
+      "lemmas": []
+    },
+    {
+      "goal_id": "alg-square-nonneg",
+      "area": "algebra",
+      "tier": "in-mathlib",
+      "outcome": "proved",
+      "statement": "theorem real_sq_nonneg (x : \u211d) : x * x \u2265 0",
+      "attempts": 3,
+      "goal_attempts": 3,
+      "lemma_attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem real_sq_nonneg (x : \u211d) : x * x \u2265 0",
+      "model_calls": 15,
+      "lean_calls": 5,
+      "retrieval_calls": 4,
+      "symbolic_calls": 1,
+      "seconds": 43.9,
+      "input_tokens": 176265,
+      "output_tokens": 4603,
+      "cost_complete": true,
+      "lean_budget": 40,
+      "trace": [
+        "statement check: elaborates",
+        "statement check: elaborates",
+        "search: '\"sq_nonneg\"' -> sq_nonneg, one_add_mul_le_pow_of_sq_nonneg, Commute.pow_add_mul_le_add_pow_of_sq_nonneg, pow_add_mul_le_add_pow_of_sq_nonneg, IsSelfAdjoint.sq_nonneg, Quaternion.normSq_nonneg, Complex.normSq_nonneg, Complex.sq_nonneg_iff",
+        "search: '\"mul_self_nonneg\"' -> mul_self_nonneg, star_mul_self_nonneg, IsSelfAdjoint.mul_self_nonneg, spectrum_star_mul_self_nonneg, LinearMap.re_inner_adjoint_mul_self_nonneg, Matrix.eigenvalues_conjTranspose_mul_self_nonneg",
+        "search: '\"Nonneg\"' -> Int.NonNeg, Int.NonNeg.mk, Int.decNonneg, Int.nonneg_or_nonneg_neg, Int.natCast_nonneg, Int.negSucc_not_nonneg, Int.ofNat_nonneg, Int.one_nonneg",
+        "search: '\"Nonneg\"' -> Int.NonNeg, Int.NonNeg.mk, Int.decNonneg, Int.nonneg_or_nonneg_neg, Int.natCast_nonneg, Int.negSucc_not_nonneg, Int.ofNat_nonneg, Int.one_nonneg",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact sq_nonneg\n    | exact sq_nonneg _\n    | apply sq_nonneg\n    | simpa using sq_nonneg\n    | exact \u27e8_, sq_nonneg\u27e9\n    | exact sq_nonneg (by assumption)\n    | exact sq_nonneg \u2039_\u203a\n    | apply sq_nonneg <;> assumption\n    | (haveI := Fact.mk (by assumption); exact sq_nonneg (by assumption))\n    | exact one_add_mul_le_pow_of_sq_nonneg\n    | exact one_add_mul_le_pow_of_sq_nonneg _\n    | apply one_add_mul_le_pow_of_sq_no",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:40: error: unsolved goals\nx : \u211d\n\u22a2 0 \u2264 x ^ 2\n\nStill to prove:\n\u22a2 0 \u2264 x ^ 2"
+        },
+        {
+          "stage": "direct",
+          "proof": "exact sq_nonneg x",
+          "errors": "Lean accepted a complete proof of: theorem real_sq_nonneg (x : \u211d) : x ^ 2 \u2265 0"
+        },
+        {
+          "stage": "direct",
+          "proof": "exact mul_self_nonneg x",
+          "errors": "Lean accepted a complete proof of: theorem real_sq_nonneg (x : \u211d) : x * x \u2265 0"
+        }
+      ],
+      "proof": "exact mul_self_nonneg x",
+      "lemmas": []
+    },
+    {
+      "goal_id": "grp-subgroup-of-cyclic",
+      "area": "group theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem subgroup_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H",
+      "attempts": 1,
+      "goal_attempts": 1,
+      "lemma_attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem subgroup_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H",
+      "model_calls": 8,
+      "lean_calls": 2,
+      "retrieval_calls": 4,
+      "symbolic_calls": 0,
+      "seconds": 23.2,
+      "input_tokens": 78309,
+      "output_tokens": 1221,
+      "cost_complete": true,
+      "lean_budget": 40,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"IsCyclic\"' -> IsCyclic.exists_zpow_surjective, IsCyclic.mk, not_isCyclic_of_denselyOrdered, FreeGroup.instIsCyclicOfUnique, isCyclic_of_subsingleton, IsCyclic.commGroup, Nontrivial.of_not_isCyclic, isCyclic_of_prime_card",
+        "search: '\"subgroup\" \"IsCyclic\"' -> nothing",
+        "search: '\"subgroup\"' -> AddSubgroup.instPartialOrder, Subgroup.instPartialOrder, AddSubgroup.instSetLike, AddSubgroup.normalizer, AddSubgroup.setNormalizer, Subgroup.instSetLike, Subgroup.normalizer, Subgroup.setNormalizer",
+        "seeded from goal shape -> isCyclic_iff_exists_zpowers_eq_top, Subgroup.isCyclic_zpowers, IsCyclic.exists_generator, Bot.isCyclic, Subgroup.isCyclic, Subgroup.isCyclic_iff_exists_zpowers_eq_top, Subgroup.isCyclic_of_le, commGroupOfCyclicCenterQuotient",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact Subgroup.isCyclic H",
+          "errors": "Lean accepted a complete proof of: theorem subgroup_cyclic {G : Type*} [Group G] [IsCyclic G] (H : Subgroup G) : IsCyclic H"
+        }
+      ],
+      "proof": "exact Subgroup.isCyclic H",
+      "lemmas": []
+    },
+    {
+      "goal_id": "ana-continuous-compact-max",
+      "area": "analysis",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+      "attempts": 2,
+      "goal_attempts": 2,
+      "lemma_attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x",
+      "model_calls": 8,
+      "lean_calls": 3,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 27.1,
+      "input_tokens": 101522,
+      "output_tokens": 2178,
+      "cost_complete": true,
+      "lean_budget": 40,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"exists_forall_ge\"' -> exists_forall_ge_and, Filter.Tendsto.exists_forall_ge, Continuous.exists_forall_ge_of_hasCompactMulSupport, Continuous.exists_forall_ge_of_hasCompactSupport, Continuous.exists_forall_ge, Continuous.exists_forall_ge', Continuous.exists_forall_ge_of_isBounded",
+        "search: '\"IsCompact.exists\"' -> IsCompact.exists_clusterPt_of_frequently, IsCompact.exists_clusterPt, IsCompact.exists_mapClusterPt_of_frequently, IsCompact.exists_mapClusterPt, IsCompact.exists_isOpen_closure_subset, IsCompact.exists_isGreatest, IsCompact.exists_isLeast, IsCompact.exists_isGLB",
+        "search: 'IsMaxOn' -> isMaxOn_const, IsMaxOn.isExtr, isMaxOn_univ_iff, IsMaxOn.bddAbove, IsMaxOn.inter, IsMaxOn.on_subset, IsExtrOn.elim, isMaxOn_iff",
+        "seeded from goal shape -> TopologicalSpace.mk, TopologicalSpace.ofClosed, WithTopology.instTopologicalSpace, TopologicalSpace.coinduced, TopologicalSpace.induced, instTopologicalSpaceSubtype, instTopologicalSpaceBool, instTopologicalSpaceEmpty",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact exists_forall_ge_and\n    | exact exists_forall_ge_and _\n    | apply exists_forall_ge_and\n    | simpa using exists_forall_ge_and\n    | exact \u27e8_, exists_forall_ge_and\u27e9\n    | exact exists_forall_ge_and (by assumption)\n    | exact exists_forall_ge_and \u2039_\u203a\n    | apply exists_forall_ge_and <;> assumption\n    | (haveI := Fact.mk (by assumption); exact exists_forall_ge_and (by assumption))\n    | exact Filter.Tendsto.exi",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:35: error: unsolved goals\nX : Type u_1\ninst\u271d : TopologicalSpace X\ns : Set X\nhs : IsCompact s\nhne : s.Nonempty\nf : X \u2192 \u211d\nhf : ContinuousOn f s\n\u22a2 \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x\n\nStill to prove:\n\u22a2 \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  obtain \u27e8x, hx, hmax\u27e9 := hs.exists_isMaxOn hne hf\n  use x, hx\n  exact isMaxOn_iff.mp hmax",
+          "errors": "Lean accepted a complete proof of: theorem extreme_value_theorem {X : Type*} [TopologicalSpace X] {s : Set X}\n    (hs : IsCompact s) (hne : s.Nonempty) {f : X \u2192 \u211d} (hf : ContinuousOn f s) :\n    \u2203 x \u2208 s, \u2200 y \u2208 s, f y \u2264 f x"
+        }
+      ],
+      "proof": "by\n  obtain \u27e8x, hx, hmax\u27e9 := hs.exists_isMaxOn hne hf\n  use x, hx\n  exact isMaxOn_iff.mp hmax",
+      "lemmas": []
+    },
+    {
+      "goal_id": "set-reals-uncountable",
+      "area": "set theory",
+      "tier": "near-mathlib",
+      "outcome": "proved",
+      "statement": "theorem real_uncountable : Uncountable \u211d",
+      "attempts": 1,
+      "goal_attempts": 1,
+      "lemma_attempts": 0,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "Lean accepted a complete proof of: theorem real_uncountable : Uncountable \u211d",
+      "model_calls": 7,
+      "lean_calls": 2,
+      "retrieval_calls": 3,
+      "symbolic_calls": 0,
+      "seconds": 15.9,
+      "input_tokens": 65746,
+      "output_tokens": 599,
+      "cost_complete": true,
+      "lean_budget": 40,
+      "trace": [
+        "statement check: elaborates",
+        "search: '\"uncountable\"' -> instInfiniteOfUncountable, instUncountablePLift, instUncountableULift, not_uncountable, Uncountable.mk, Uncountable.not_countable, not_uncountable_iff, uncountable_iff_not_countable",
+        "search: '\"Real\"' -> IO.RealWorld.nonemptyType, IO.RealWorld.instNonempty, IO.FS.realPath, IO.instMonadLiftSTRealWorldBaseIO, Batteries.BinomialHeap.Imp.Heap.realSize, Batteries.BinomialHeap.Imp.HeapNode.realSize, Batteries.BinomialHeap.Imp.HeapNode.realSize_toHeap, Batteries.BinomialHeap.Imp.Heap.realSize_tail",
+        "search: '|- Uncountable \u211d' -> Cardinal.instUncountableReal",
+        "seeded from goal shape -> Cardinal.instUncountableReal, instUncountablePLift, instUncountableULift, Uncountable.mk, Uncountable.of_equiv, Function.Injective.uncountable, Function.Surjective.uncountable, Uncountable.of_not_small",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "exact Cardinal.instUncountableReal",
+          "errors": "Lean accepted a complete proof of: theorem real_uncountable : Uncountable \u211d"
+        }
+      ],
+      "proof": "exact Cardinal.instUncountableReal",
+      "lemmas": []
+    }
+  ]
+}
