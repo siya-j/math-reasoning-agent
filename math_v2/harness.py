@@ -162,6 +162,37 @@ CONTEXT_TRIM_KEEP_TOOLS = ("proof_state", "check_statement")
 # the model is working from is in the last one or two.
 CONTEXT_TRIM_KEEP = int(os.getenv("MRA_CONTEXT_TRIM_KEEP", "3"))
 
+# WHETHER THE MODEL'S OWN SUBMISSIONS ARE CLEARED TOO, and the measurement
+# that changed this from False to True.
+#
+# `ClearToolUsesEdit` clears tool RESULTS. With `clear_tool_inputs=False` the
+# ARGUMENTS survive -- and for this agent the arguments are the proofs. Over
+# 81 surviving workdirs:
+#
+#     tool inputs  (statement + proof, KEPT)     700,997 chars  ~175k tokens
+#     tool results (Lean's reply, CLEARED)       192,526 chars   ~48k tokens
+#
+# So trimming could only ever reclaim 22% of the tool traffic; the other 78%
+# accumulated untouched. That is why trigger=24,000 still produced 69,805
+# input tokens PER CALL on `exercise_4_5_22` and 174,637 on `exercise_3_22`
+# -- 2.9x and 7.3x the trigger it was supposed to hold.
+#
+# WHY CLEARING THEM IS NOT FORGETTING. `proof_state` reports "the attempts
+# the compiler rejected and why", costs no compile, and is in
+# CONTEXT_TRIM_KEEP_TOOLS -- so it is never cleared. The submissions move
+# from riding in every call to being available on request, which is what the
+# prompt already tells the model to do after a rejection.
+#
+# The cost of the model forgetting anyway is bounded: a resubmitted proof is
+# refused by byte-equality repeat detection, and refusals are free (they
+# refund the Lean call). A wasted turn, not a wasted compile.
+#
+# An env var, not a literal, because the SAVING is unverified -- it needs a
+# paid run to measure, and a run with this on is not comparable to one
+# without. `context_policy()` records it.
+CONTEXT_TRIM_INPUTS = os.getenv("MRA_CONTEXT_TRIM_INPUTS", "1") not in (
+    "0", "false", "False", "no", "")
+
 
 def context_policy() -> dict:
     """What context management was in force, for the results file.
@@ -174,6 +205,7 @@ def context_policy() -> dict:
         "context_trimming": bool(CONTEXT_TRIM_TRIGGER),
         "context_trim_trigger": CONTEXT_TRIM_TRIGGER,
         "context_trim_keep": CONTEXT_TRIM_KEEP,
+        "context_trim_inputs": CONTEXT_TRIM_INPUTS,
     }
 
 
@@ -191,10 +223,12 @@ def build_agent(model, tools, system_prompt):
         middleware.append(ContextEditingMiddleware(edits=[ClearToolUsesEdit(
             trigger=CONTEXT_TRIM_TRIGGER,
             keep=CONTEXT_TRIM_KEEP,
-            # The CALL stays, only its result goes: the model still sees that
-            # it searched for something and got an answer it no longer holds,
-            # which is less disorienting than the call vanishing.
-            clear_tool_inputs=False,
+            # The ARGUMENTS go too, by default. Keeping them capped what
+            # trimming could reclaim at 22% of the tool traffic, because the
+            # arguments here are the proofs -- see CONTEXT_TRIM_INPUTS.
+            # `proof_state` is excluded from clearing and reports the
+            # rejected attempts, so this is recoverable rather than lost.
+            clear_tool_inputs=CONTEXT_TRIM_INPUTS,
             exclude_tools=CONTEXT_TRIM_KEEP_TOOLS,
         )]))
 

@@ -116,3 +116,86 @@ def test_the_policy_is_recorded_in_the_environment(monkeypatch):
     assert recorded["context_trim_trigger"] == harness.CONTEXT_TRIM_TRIGGER
     # and the backend is still there
     assert "lean_backend" in recorded
+
+
+# ------------------------------------- trimming the half that is actually big
+#
+# MEASURED over 81 surviving workdirs, split by what `ClearToolUsesEdit` can
+# and cannot touch:
+#
+#     tool inputs  (statement + proof)   700,997 chars  ~175k tokens
+#     tool results (Lean's reply)        192,526 chars   ~48k tokens
+#
+# With `clear_tool_inputs=False` only the results went, so trimming could
+# reclaim at most 22% of the tool traffic. That is why trigger=24,000 still
+# produced 69,805 input tokens PER CALL on `exercise_4_5_22` and 174,637 on
+# `exercise_3_22` -- 2.9x and 7.3x the threshold -- and why cost on this
+# project's own data is quadratic in model calls (correlation 0.966 against
+# calls^2, 0.933 against calls).
+#
+# For this agent the tool ARGUMENTS are the proofs. Clearing results while
+# keeping arguments trims the small half.
+def test_the_model_s_own_submissions_are_cleared_too():
+    """The default has to be the one that reclaims the large half."""
+    assert harness.CONTEXT_TRIM_INPUTS is True
+
+
+def test_clearing_inputs_reaches_the_middleware(monkeypatch):
+    """Producer-side again. A constant that is set and never passed through
+    is the exact shape of bug this project has shipped three times."""
+    captured = {}
+
+    def fake_create_agent(**kwargs):
+        captured.update(kwargs)
+        return object()
+
+    import langchain.agents as agents_module
+    monkeypatch.setattr(agents_module, "create_agent", fake_create_agent)
+
+    harness.build_agent(model=None, tools=[], system_prompt="x")
+
+    edit = captured["middleware"][0].edits[0]
+    assert edit.clear_tool_inputs is True, (
+        "the arguments survive, so trimming reclaims only the 22% that is "
+        "Lean's replies")
+
+
+def test_clearing_the_submissions_is_recoverable_not_amnesia():
+    """THE SAFETY ARGUMENT, and the thing that would silently invalidate it.
+
+    Dropping the submissions from context is only acceptable because
+    `proof_state` reports "the attempts the compiler rejected and why",
+    compiles nothing, and is excluded from clearing. If that tool ever stops
+    reporting them, clearing inputs becomes real forgetting while every
+    other test here still passes.
+    """
+    from pathlib import Path
+
+    assert "proof_state" in harness.CONTEXT_TRIM_KEEP_TOOLS
+    source = (Path(harness.__file__).parent / "tools" / "proving.py").read_text(
+        encoding="utf-8")
+    body = source[source.index("async def proof_state"):]
+    body = body[:body.index("async def", 20)]
+    assert "rejected" in body, "proof_state no longer offers the way back"
+
+
+def test_clearing_inputs_can_be_turned_off_for_a_comparison(monkeypatch):
+    """The SAVING is unverified -- measuring it needs a paid run, and a run
+    with this on is not comparable to one without."""
+    import importlib
+
+    monkeypatch.setenv("MRA_CONTEXT_TRIM_INPUTS", "0")
+    reloaded = importlib.reload(harness)
+    try:
+        assert reloaded.CONTEXT_TRIM_INPUTS is False
+    finally:
+        monkeypatch.delenv("MRA_CONTEXT_TRIM_INPUTS", raising=False)
+        importlib.reload(harness)
+
+
+def test_the_input_policy_is_recorded_too():
+    """Two runs differing only in this are not comparable, so the record has
+    to name it."""
+    policy = harness.context_policy()
+    assert policy["context_trim_inputs"] is harness.CONTEXT_TRIM_INPUTS
+
