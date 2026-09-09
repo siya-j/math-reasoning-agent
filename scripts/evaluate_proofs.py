@@ -16,6 +16,7 @@ import random
 import subprocess
 import sys
 import time
+from concurrent.futures import as_completed
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -185,6 +186,42 @@ def apply_budget_profile(name: str) -> dict:
     return budget_profile(name)
 
 
+def _attempt(goal, args, reviewer, index, total, emit):
+    """One goal, start to finish. Returns `(ProofResult, ProofRun | None)`.
+
+    Extracted so the sequential and concurrent paths run the SAME code.
+    This file has already been broken once by a hand-maintained parallel
+    structure -- `MARKS` covered three of six outcomes and killed a live run
+    on its first goal -- and two run loops that must stay in step is the
+    same shape of bug waiting to happen.
+
+    Output goes through `emit` rather than `print`, because concurrent goals
+    printing directly interleave into unreadable soup.
+    """
+    emit(f"[{index}/{total}] {goal.id}")
+    started = time.monotonic()
+
+    def show(stage: str, _start=started) -> None:
+        emit(f"          {time.monotonic() - _start:5.0f}s  {stage}")
+
+    try:
+        run = prove(goal.goal, depth=args.depth, progress=show,
+                    reviewer=reviewer)
+    except Exception as exc:  # noqa: BLE001 - one goal must not end the run
+        # Show enough of the error to act on. Truncating to 50 characters
+        # turned a diagnosable API fault into "INVALID_AR...".
+        emit(f"          ERROR  {str(exc)[:400]}")
+        return ProofResult(goal_id=goal.id, area=goal.area, tier=goal.tier,
+                           outcome=ProofOutcome.ERROR, detail=str(exc)), None
+
+    result = result_from(goal, run)
+    mark = mark_for(result.outcome)
+    extra = (f"  ({result.lemmas_proved}/{result.lemmas_total} lemmas)"
+             if result.lemmas_total else "")
+    emit(f"          ----- {mark}{extra}  [{run.telemetry.summary()}]\n")
+    return result, run
+
+
 def provenance_note(goals) -> str:
     """What to say, BEFORE the first model call, about what this run can show.
 
@@ -221,6 +258,15 @@ def main() -> int:
         "touched by this.",
     )
     parser.add_argument("--tier", choices=[t.value for t in Tier])
+    parser.add_argument(
+        "--workers", type=int, default=1,
+        help="how many goals to run at once. Default 1, which is the "
+             "sequential path unchanged. MEASURED: ~80%% of wall clock is "
+             "waiting on the model and only 2-13%% is Lean, so this is the "
+             "axis that pays. It does NOT reduce token cost -- the same "
+             "goals are run, just sooner, so a spending cap arrives faster "
+             "too. Start at 2-4; the one Mathlib session serialises every "
+             "compile behind a lock, and every worker shares it.")
     parser.add_argument("--area")
     parser.add_argument(
         "--goal",
@@ -333,6 +379,18 @@ def main() -> int:
         print("No goals matched.")
         return 2
 
+    if args.workers < 1:
+        print("--workers must be at least 1.")
+        return 2
+    if args.workers > 1 and args.pace:
+        # `--pace` sleeps BETWEEN goals to stay under a rate limit; running
+        # goals concurrently is the opposite intention. Silently honouring
+        # one would make the other a lie.
+        print("--pace and --workers are contradictory: one spaces goals out "
+              "to respect a rate limit, the other runs them together. "
+              "Choose one.")
+        return 2
+
     note = provenance_note(goals)
     if note:
         print(note)
@@ -377,72 +435,36 @@ def main() -> int:
 
     consecutive_errors = 0
 
-    for index, goal in enumerate(goals, start=1):
-        # BEFORE the goal, not after -- applies regardless of whether the
-        # previous goal errored, and `index` is already 1-based over the
-        # post-`--resume`-filtering list, so this is exactly "not the first
-        # goal THIS invocation runs" without tracking anything separately.
-        if args.pace and index > 1:
-            time.sleep(args.pace)
-        print(f"[{index}/{len(goals)}] {goal.id}")
-        started = time.monotonic()
+    def _record(result):
+        """Append, persist, and decide whether the run should stop.
 
-        def show(stage: str, _start=started) -> None:
-            print(f"          {time.monotonic() - _start:5.0f}s  {stage}", flush=True)
-
-        try:
-            run = prove(
-                goal.goal, depth=args.depth, progress=show, reviewer=reviewer
-            )
-        except Exception as exc:
-            consecutive_errors += 1
-            results.append(
-                ProofResult(
-                    goal_id=goal.id,
-                    area=goal.area,
-                    tier=goal.tier,
-                    outcome=ProofOutcome.ERROR,
-                    detail=str(exc),
-                )
-            )
-            # Show enough of the error to act on. Truncating to 50 characters
-            # turned a diagnosable API fault into "INVALID_AR...".
-            print(f"          ERROR  {str(exc)[:400]}")
-            if consecutive_errors >= CONSECUTIVE_ERROR_LIMIT:
-                print(
-                    f"\nAborting: {CONSECUTIVE_ERROR_LIMIT} consecutive errors. "
-                    "Nothing is reaching the model."
-                )
-                break
-            continue
-
-        result = result_from(goal, run)
+        Returns True when the abort threshold is reached. Called only from
+        the main thread, which is what makes `results.append` and `save`
+        safe without a lock of their own.
+        """
+        nonlocal consecutive_errors
         results.append(result)
-        save(results, summarize(results), out, run_info)  # survive an abort later
-
-        mark = mark_for(result.outcome)
-        extra = f"  ({result.lemmas_proved}/{result.lemmas_total} lemmas)" if result.lemmas_total else ""
-        print(f"          ----- {mark}{extra}  [{run.telemetry.summary()}]\n")
+        save(results, summarize(results), out, run_info)  # survive an abort
 
         # A RETURNED ERROR COUNTS TOO, and until now it did not.
         #
-        # This guard only saw exceptions that `prove()` RAISED. A prover may
-        # catch its own -- "a crash must not lose the record" is a reasonable
-        # thing for one to do -- and return a ProofRun whose trace says the
-        # agent failed. `prove()` then returns normally, and the counter above
-        # was reset on every goal.
+        # The original guard only saw exceptions that `prove()` RAISED. A
+        # prover may catch its own -- "a crash must not lose the record" is
+        # a reasonable thing for one to do -- and return a ProofRun whose
+        # trace says the agent failed. `prove()` then returns normally, and
+        # the counter was reset on every goal.
         #
         # Deliberately phrased without naming a prover: this file drives
         # whichever one is configured, and
-        # `test_evaluate_proofs_never_imports_a_prover_directly` fails if that
-        # slips -- as it did on the first draft of this comment.
+        # `test_evaluate_proofs_never_imports_a_prover_directly` fails if
+        # that slips -- as it did on the first draft of this comment.
         #
-        # MEASURED on eval/results/proofnet-60.json: an INVALID (not missing)
-        # API key let the model BUILD and then failed at call time, inside the
-        # harness's catch. All 53 remaining goals ran and errored identically
-        # in zero seconds. The first time this happened the key was ABSENT,
-        # `get_model()` raised at build time, and the abort worked as intended
-        # -- which is why the hole went unnoticed.
+        # MEASURED on eval/results/proofnet-60.json: an INVALID (not
+        # missing) API key let the model BUILD and then failed at call time,
+        # inside the harness's catch. All 53 remaining goals ran and errored
+        # identically in zero seconds. The first time this happened the key
+        # was ABSENT, `get_model()` raised at build time, and the abort
+        # worked as intended -- which is why the hole went unnoticed.
         #
         # Nothing was billed that time because no call succeeded. A quota or
         # auth failure part-way through a paid run is the case that would
@@ -452,9 +474,80 @@ def main() -> int:
             if consecutive_errors >= CONSECUTIVE_ERROR_LIMIT:
                 print(f"\nAborting: {CONSECUTIVE_ERROR_LIMIT} consecutive "
                       "errors. Nothing is reaching the model.")
-                break
+                return True
         else:
             consecutive_errors = 0
+        return False
+
+    if args.workers > 1:
+        # CONCURRENT ACROSS GOALS, AND ONLY ACROSS GOALS.
+        #
+        # WHY THIS IS THE RIGHT AXIS, MEASURED over 59 goal-runs carrying
+        # both wall clock and call counts:
+        #   * 1,454 model calls at a median 4.7s each account for ~80% of
+        #     8,486s of wall clock.
+        #   * 540 Lean calls account for 2-13% of it. `slowest_lean` across
+        #     76 surviving budget states has a MEDIAN of 0.3s, because the
+        #     REPL imports Mathlib once and every compile after is warm.
+        # So the clock is bought by waiting on the model, which is I/O and
+        # parallelises; compiling is not where it goes.
+        #
+        # THREADS, NOT PROCESSES, and that is forced rather than chosen.
+        # `_repl.release_for_subprocess` records the measurement: "TWO LEAN
+        # PROCESSES CANNOT BOTH HOLD MATHLIB" -- the session memory-maps the
+        # whole library and a second one fails to map the same .olean files,
+        # a sharing violation on Windows or simply two ~5GB environments not
+        # fitting at once. Threads share the one session, whose own
+        # `_session_lock` already serialises access, so compiles queue
+        # behind each other exactly as they must. At ~6% of wall clock a
+        # single Lean session is nowhere near saturated by a handful of
+        # workers.
+        #
+        # Per-goal state is already isolated: `harness.prove` takes a fresh
+        # `mkdtemp` workdir, `_util._memo` is keyed by it, and the budget is
+        # a file inside it.
+        from concurrent.futures import ThreadPoolExecutor
+
+        print(f"running {args.workers} goals at a time. Output is buffered "
+              f"per goal, so it arrives in blocks and out of order.\n")
+        pending = {}
+        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+            for index, goal in enumerate(goals, start=1):
+                lines: list = []
+                pending[pool.submit(_attempt, goal, args, reviewer, index,
+                                    len(goals), lines.append)] = lines
+
+            stop = False
+            for future in as_completed(pending):
+                for line in pending[future]:
+                    print(line, flush=True)
+                if stop:
+                    continue          # drain output, record nothing further
+                try:
+                    result, _run = future.result()
+                except Exception as exc:  # noqa: BLE001
+                    print(f"          ERROR  {str(exc)[:400]}")
+                    continue
+                if _record(result):
+                    stop = True
+                    # Cancel whatever has not started. Running goals cannot
+                    # be interrupted, but their results are dropped above --
+                    # the point of the abort is to stop PAYING for more.
+                    for other in pending:
+                        other.cancel()
+    else:
+        for index, goal in enumerate(goals, start=1):
+            # BEFORE the goal, not after -- applies regardless of whether the
+            # previous goal errored, and `index` is already 1-based over the
+            # post-`--resume`-filtering list, so this is exactly "not the
+            # first goal THIS invocation runs" without tracking anything
+            # separately.
+            if args.pace and index > 1:
+                time.sleep(args.pace)
+            result, _run = _attempt(goal, args, reviewer, index, len(goals),
+                                    lambda line: print(line, flush=True))
+            if _record(result):
+                break
 
     summary = summarize(results)
     print()
