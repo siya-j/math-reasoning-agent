@@ -625,3 +625,111 @@ def test_the_token_cap_is_sized_for_a_reasoning_prover():
     assert '"--max-tokens", type=int, default=4096' in source, (
         "1024 truncated both real generations before any Lean appeared")
 
+
+# ------------------------------------------------- calibrating honestly
+#
+# THE ARITHMETIC WAS WRONG. The first calibrator timed ONE 64-token answer
+# and divided: 22s / 64 = 2.8 tok/s. llama-server's own log for a real
+# request says otherwise:
+#
+#   prompt eval time =   5969.85 ms /  132 tokens (22.11 tok/s)
+#          eval time = 212422.03 ms / 1024 tokens ( 4.82 tok/s)
+#
+# Generation is 4.82 tok/s with a ~6s FIXED cost in front of it. Amortising
+# that fixed cost over 64 tokens understated the rate by 42%, and every time
+# estimate built on it was 1.7x too pessimistic -- 4.9h for the corpus
+# instead of 2.8h. Two points of different lengths cancel the fixed cost.
+def _timed_server(port, fixed, rate):
+    """A stub with a fixed cost plus a per-token cost, like a real one."""
+    import json as _json
+    import threading
+    import time as _time
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_POST(self):
+            body = _json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+            _time.sleep(fixed + body["max_tokens"] / rate)
+            out = _json.dumps({"choices": [
+                {"message": {"content": "by norm_num"}}]}).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(out)))
+            self.end_headers()
+            self.wfile.write(out)
+
+        def log_message(self, *a):
+            pass
+
+    server = HTTPServer(("127.0.0.1", port), Handler)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    return server
+
+
+def test_calibration_separates_the_fixed_cost_from_the_token_rate(capsys):
+    """Driven by a stub carrying the REAL server's measured profile, so the
+    numbers it must recover are known: 4.82 tok/s and ~6s of overhead."""
+    server = _timed_server(8971, fixed=2.0, rate=20.0)
+    try:
+        code = _spike().main([
+            "--calibrate", "--url", "http://127.0.0.1:8971/v1",
+            "--timeout", "600", "--max-tokens", "1000",
+        ])
+    finally:
+        server.shutdown()
+    out = capsys.readouterr().out
+    assert code == 0
+    # 20 tok/s, not the ~9 tok/s that dividing the short request would give.
+    import re
+    rate = float(re.search(r"([\d.]+) tok/s generation", out).group(1))
+    assert 17 <= rate <= 23, f"recovered {rate} tok/s, expected ~20"
+    fixed = float(re.search(r"([\d.]+)s fixed", out).group(1))
+    assert fixed <= 4, f"recovered {fixed}s fixed, expected ~2"
+
+
+def test_calibration_does_not_require_lean(capsys, monkeypatch):
+    """It compiles nothing and spends under a minute, so checking a server's
+    speed before Lean is configured is legitimate. An earlier version
+    refused, making --calibrate depend on something it does not use."""
+    from math_v2 import _local
+    monkeypatch.setattr(_local, "lean_available",
+                        lambda: (False, "MRA_LEAN_PROJECT is not set"))
+    server = _timed_server(8973, fixed=0.05, rate=500.0)
+    try:
+        code = _spike().main([
+            "--calibrate", "--url", "http://127.0.0.1:8973/v1",
+            "--timeout", "600", "--max-tokens", "100",
+        ])
+    finally:
+        server.shutdown()
+    out = capsys.readouterr().out
+    assert code == 0, "calibration was refused for lack of Lean"
+    assert "Calibrating anyway" in out
+    assert "tok/s" in out
+
+
+def test_a_run_still_requires_lean_even_though_calibration_does_not(
+        capsys, monkeypatch):
+    """The split must not leak: --run compiles, so it still refuses."""
+    from math_v2 import _local
+    monkeypatch.setattr(_local, "lean_available",
+                        lambda: (False, "MRA_LEAN_PROJECT is not set"))
+    module = _spike()
+    asked = []
+    monkeypatch.setattr(module, "_ask_local",
+                        lambda *a, **k: asked.append(1) or "by trivial")
+    assert module.main(["--run", "--limit", "1"]) == 1
+    assert not asked
+    assert "MRA_LEAN_PROJECT" in capsys.readouterr().out
+
+
+def test_the_prompt_eval_claim_was_corrected_in_the_source():
+    """A false MEASURED claim in a comment is worse than no comment. The
+    original said an 8B model on CPU spends MINUTES on prompt evaluation;
+    the server's log shows six seconds, running 4.5x faster per token than
+    generation."""
+    source = (ROOT / "scripts" / "prover_spike.py").read_text(encoding="utf-8")
+    assert "spends minutes on PROMPT EVALUATION" not in source
+    assert "prompt eval time" in source, "the real figures must be recorded"
+    assert "4.82 tokens per second" in source
+
