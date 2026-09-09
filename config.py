@@ -121,9 +121,34 @@ SKELETON_STEPS = 4
 MAX_HOLES = 6
 
 # Which prover runs: "pipeline" (the measured baseline, a fixed sequence of
-# stateless calls) or "agentic" (one conversation with tools and persistent
-# state). A switch, not a replacement — the baseline stays default until the
-# comparison says otherwise.
+# stateless calls), "agentic" (one conversation with tools and persistent
+# state), or "math_v2" (the blueprint agent). A switch, not a replacement.
+#
+# THE DEFAULT IS STILL THE BASELINE, DELIBERATELY, AND THAT IS NOT AN
+# OVERSIGHT — the sentence that used to be here ("the baseline stays default
+# until the comparison says otherwise") had gone stale, because the
+# comparison HAS been made: every results file in `eval/results/` records
+# `run.prover`, and every one of them says `math_v2`. Development moved.
+#
+# The default did not move with it, for two reasons that are about reading
+# the record rather than about which prover is better:
+#
+#   1. `tests/conftest.py` clears MRA_* and reloads this module so the suite
+#      runs against declared defaults. Its docstring names this exact
+#      variable: a shell with `MRA_PROVER=math_v2` still exported made
+#      "the baseline is the default" false and six tests failed only on that
+#      machine. Flipping the default here makes that statement false
+#      permanently, in the one file whose job is to keep the suite
+#      independent of whoever's shell is running it.
+#
+#   2. Nothing depends on the default in practice. `scripts/evaluate_proofs`
+#      records `run.prover` in the results file and prints it at the top of
+#      the run, so a results file can never be ambiguous about which prover
+#      produced it — which is the property that actually matters, and it
+#      holds whichever way this line reads.
+#
+# So: set MRA_PROVER=math_v2 to run the current agent. That is what every
+# recorded run did.
 PROVER = os.getenv("MRA_PROVER", "pipeline")
 
 # Bounds on the agentic prover. Without them a goal can loop indefinitely —
@@ -132,15 +157,44 @@ PROVER = os.getenv("MRA_PROVER", "pipeline")
 #
 # Lean calls are budgeted separately because they are the expensive ones:
 # each is roughly twenty seconds of Mathlib loading.
-MAX_AGENT_STEPS = int(os.getenv("MRA_MAX_AGENT_STEPS", "20"))
-MAX_AGENT_LEAN_CALLS = int(os.getenv("MRA_MAX_AGENT_LEAN", "8"))
-MAX_AGENT_SECONDS = float(os.getenv("MRA_MAX_AGENT_SECONDS", "300"))
+#
+# THE NAMES ARE `MRA_AGENTIC_*`, AND THE `MRA_MAX_AGENT_*` FALLBACK IS
+# COMPATIBILITY, NOT THE INTENT. These four used to read the bare
+# `MRA_MAX_AGENT_*` names — which `math_v2/core/budget.py` ALSO reads, with
+# DIFFERENT defaults, because the two provers want different bounds:
+#
+#     env var                   agentic (here)   math_v2 (budget.py)
+#     MRA_MAX_AGENT_STEPS            20                  40
+#     MRA_MAX_AGENT_LEAN              8                  12
+#     MRA_MAX_AGENT_SEARCHES          8                  12
+#     MRA_MAX_AGENT_SECONDS         300                 900
+#
+# Only one prover runs per process, so this was never a live miscount. It was
+# a reading hazard, and it had already misled the codebase in writing:
+# `tests/test_budget_profile_flag.py` states that those names are "math_v2's
+# own env var names -- no other configured prover reads them", which was not
+# true while these lines read them. Distinct names make that claim true.
+#
+# The fallback is kept because exporting `MRA_MAX_AGENT_LEAN` to bound an
+# agentic run is a thing that has been done, and silently ignoring it would
+# be a worse failure than the ambiguity being fixed. `--budget-profile` is
+# not affected either way: `pipeline.proving.budget_profile` returns {}
+# unless the math_v2 prover is selected, so it has never set these.
+MAX_AGENT_STEPS = int(
+    os.getenv("MRA_AGENTIC_STEPS") or os.getenv("MRA_MAX_AGENT_STEPS", "20"))
+MAX_AGENT_LEAN_CALLS = int(
+    os.getenv("MRA_AGENTIC_LEAN") or os.getenv("MRA_MAX_AGENT_LEAN", "8"))
+MAX_AGENT_SECONDS = float(
+    os.getenv("MRA_AGENTIC_SECONDS")
+    or os.getenv("MRA_MAX_AGENT_SECONDS", "300"))
 
 # Search needs its own ceiling, not just a share of the total. Measured on
 # near-mathlib: `num-primes-strictly-above` spent all 20 tool calls on search
 # and never compiled once. The run terminated correctly and proved nothing —
 # the bound worked, the allocation did not.
-MAX_AGENT_SEARCHES = int(os.getenv("MRA_MAX_AGENT_SEARCHES", "8"))
+MAX_AGENT_SEARCHES = int(
+    os.getenv("MRA_AGENTIC_SEARCHES")
+    or os.getenv("MRA_MAX_AGENT_SEARCHES", "8"))
 
 # Auxiliary lemmas the agent may keep. Each one is a Lean compile and grows
 # the file every later attempt must recompile, so this is not free.

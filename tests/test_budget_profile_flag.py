@@ -21,6 +21,15 @@ profile only applies when `config.PROVER == "math_v2"` — its env var names
 configured prover, so `budget_profile` returns `{}` and touches nothing on
 purpose in that case, rather than silently setting variables nobody reads.
 
+That last sentence was FALSE when it was written, which is why it is now
+pinned by a test below. `config.py` read the same four `MRA_MAX_AGENT_*`
+names for the AGENTIC prover, with different defaults (8 vs 12 Lean calls,
+20 vs 40 steps, 8 vs 12 searches, 300 vs 900 seconds). Nothing miscounted —
+one prover runs per process and `budget_profile` never applied under the
+agentic one — but the claim above was not true of the codebase. The agentic
+bounds now read `MRA_AGENTIC_*` first and fall back to the old names, so the
+claim holds and an existing export still does what it always did.
+
 THE VALUES LIVE IN `pipeline.proving`, NOT `math_v2.core.budget`, DESPITE
 BEING MATH_V2-SPECIFIC. MEASURED FAILURE, shipped and caught on a real run:
 `budget_profile` used to do `from math_v2.core import budget` to read the
@@ -40,6 +49,8 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+
+import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
@@ -104,6 +115,79 @@ def test_the_profile_applies_nothing_under_a_different_prover(monkeypatch):
     assert applied == {}
     for key in HARD_REASONING:
         assert key not in os.environ
+
+
+def test_the_agentic_bounds_do_not_read_math_v2s_env_var_names():
+    """The claim in this module's docstring, checked against the source
+    rather than trusted. `MRA_MAX_AGENT_*` may appear in `config.py` ONLY as
+    a fallback beside an `MRA_AGENTIC_*` name -- never as the sole reader,
+    which is what made the claim false before."""
+    source = (ROOT / "config.py").read_text(encoding="utf-8")
+
+    for suffix, agentic in (("STEPS", "MRA_AGENTIC_STEPS"),
+                            ("LEAN", "MRA_AGENTIC_LEAN"),
+                            ("SEARCHES", "MRA_AGENTIC_SEARCHES"),
+                            ("SECONDS", "MRA_AGENTIC_SECONDS")):
+        shared = f"MRA_MAX_AGENT_{suffix}"
+        for line_no, line in enumerate(source.splitlines()):
+            if f'os.getenv("{shared}"' not in line:
+                continue
+            window = "\n".join(source.splitlines()[max(0, line_no - 3):line_no + 1])
+            assert f'os.getenv("{agentic}")' in window, (
+                f"{shared} is read in config.py without {agentic} in front "
+                "of it -- the two provers share a name again"
+            )
+
+
+@pytest.fixture
+def reloaded_config(monkeypatch):
+    """`config.py` reads its bounds at IMPORT time, so seeing an env var take
+    effect means reloading the module -- and reloading it MUTATES the shared
+    module object every later test holds. `conftest` restores the environment
+    between tests but not the modules it reloaded once at `pytest_configure`,
+    so without the teardown below the next test to read `config` gets
+    whatever the last one set. That is precisely the cross-test leak conftest
+    exists to prevent.
+    """
+    import importlib
+
+    def reload(**environment):
+        for key in ("MRA_AGENTIC_LEAN", "MRA_MAX_AGENT_LEAN"):
+            monkeypatch.delenv(key, raising=False)
+        for key, value in environment.items():
+            monkeypatch.setenv(key, value)
+        return importlib.reload(config)
+
+    yield reload
+
+    for key in ("MRA_AGENTIC_LEAN", "MRA_MAX_AGENT_LEAN"):
+        monkeypatch.delenv(key, raising=False)
+    importlib.reload(config)
+
+
+def test_an_agentic_specific_bound_wins_over_the_shared_name(reloaded_config):
+    reloaded = reloaded_config(MRA_MAX_AGENT_LEAN="40", MRA_AGENTIC_LEAN="5")
+
+    assert reloaded.MAX_AGENT_LEAN_CALLS == 5
+
+
+def test_the_old_shared_name_still_bounds_an_agentic_run(reloaded_config):
+    """Compatibility is the whole reason the fallback exists. Exporting
+    `MRA_MAX_AGENT_LEAN` to bound an agentic run is a thing that has been
+    done, and ignoring it would be a worse failure than the ambiguity."""
+    reloaded = reloaded_config(MRA_MAX_AGENT_LEAN="40")
+
+    assert reloaded.MAX_AGENT_LEAN_CALLS == 40
+
+
+def test_the_two_provers_defaults_still_differ_as_designed(reloaded_config):
+    """Not a tidy-up: the defaults are meant to differ, which is exactly why
+    one env var could not serve both. If they ever converge, the fallback
+    above stops being a compromise and this test should be deleted."""
+    from math_v2.core import budget
+
+    assert reloaded_config().MAX_AGENT_LEAN_CALLS == 8
+    assert budget.MAX_LEAN_CALLS == 12
 
 
 def test_the_budget_profile_flag_is_wired_into_the_parser():
