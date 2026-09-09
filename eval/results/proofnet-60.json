@@ -16,8 +16,8 @@
     "seed": 20260101,
     "tier": "proofnet",
     "single_goal": "",
-    "commit": "ab60e54a2fb97ff8e8387a46e67856db3efa0a92",
-    "started": "2026-09-08T12:53:46+00:00"
+    "commit": "e245efe3d9385c2a744834b3ea2b084634322869",
+    "started": "2026-09-09T04:28:06+00:00"
   },
   "environment": {
     "lean_backend": "repl",
@@ -25,21 +25,22 @@
     "lean_project": "C:\\Users\\SiyaJethliya\\Projects\\lean-workspace",
     "lean_toolchain": "4.33.0",
     "repl_binary": "C:\\Users\\SiyaJethliya\\Projects\\repl\\.lake\\build\\bin\\repl.exe",
-    "repl_version": "4.33.0",
+    "repl_version": "",
     "repl_max_commands": 2000,
     "context_trimming": true,
     "context_trim_trigger": 24000,
-    "context_trim_keep": 3
+    "context_trim_keep": 3,
+    "max_output_tokens": 4096
   },
   "summary": {
-    "total": 9,
-    "errors": 0,
-    "attempted": 9,
-    "formalization_rate": 0.778,
-    "proof_rate": 0.556,
+    "total": 60,
+    "errors": 53,
+    "attempted": 7,
+    "formalization_rate": 1.0,
+    "proof_rate": 0.714,
     "proof_rate_of_formalized": 0.714,
     "proof_rate_of_tested": 0.833,
-    "not_formalized": 2,
+    "not_formalized": 0,
     "exhausted": 0,
     "refuted": 1,
     "suspect_unverified": 0,
@@ -47,25 +48,21 @@
     "genuinely_tested": 7,
     "valid_proof_targets": 6,
     "lemma_yield": 0.75,
-    "mean_attempts": 8.0,
-    "mean_goal_attempts": 2.44,
+    "mean_attempts": 10.29,
+    "mean_goal_attempts": 3.14,
     "input_tokens": 7113684,
     "output_tokens": 121757,
     "cost_measured_on": 7,
-    "unproved_left_most_of_the_budget": 4,
-    "unproved_with_a_budget_recorded": 4,
+    "unproved_left_most_of_the_budget": 2,
+    "unproved_with_a_budget_recorded": 2,
     "proof_rate_in-mathlib": null,
     "proof_rate_near-mathlib": null,
     "proof_rate_novel": null,
     "proof_rate_hard": null,
     "proof_rate_deep": null,
-    "proof_rate_proofnet": 0.556,
+    "proof_rate_proofnet": 0.714,
     "proof_rate_putnam": null,
     "proof_rate_by_area": {
-      "proofnet 1": {
-        "rate": 0.0,
-        "n": 1
-      },
       "proofnet 3": {
         "rate": 1.0,
         "n": 2
@@ -73,10 +70,6 @@
       "proofnet 4": {
         "rate": 0.0,
         "n": 2
-      },
-      "proofnet 5": {
-        "rate": 0.0,
-        "n": 1
       },
       "proofnet 6": {
         "rate": 1.0,
@@ -854,22 +847,5 @@
       "refutation_statement": "",
       "refusals": {}
     }
-  ],
-  "dropped_clock_casualties": {
-    "why": "the machine slept mid-run; budget.elapsed uses time.time(), which counts sleep, so these burned a 3780s budget without the agent running. Recorded as not_formalized, which blames the formalizer for a clock failure. Removed so --resume re-runs them.",
-    "goals": [
-      {
-        "goal_id": "exercise_5_20",
-        "outcome": "not_formalized",
-        "seconds": 34991.7,
-        "model_calls": 0
-      },
-      {
-        "goal_id": "exercise_1_27",
-        "outcome": "not_formalized",
-        "seconds": 18576.5,
-        "model_calls": 0
-      }
-    ]
-  }
+  ]
 }

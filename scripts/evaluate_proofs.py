@@ -384,7 +384,6 @@ def main() -> int:
                 break
             continue
 
-        consecutive_errors = 0
         result = result_from(goal, run)
         results.append(result)
         save(results, summarize(results), out, run_info)  # survive an abort later
@@ -392,6 +391,38 @@ def main() -> int:
         mark = mark_for(result.outcome)
         extra = f"  ({result.lemmas_proved}/{result.lemmas_total} lemmas)" if result.lemmas_total else ""
         print(f"          ----- {mark}{extra}  [{run.telemetry.summary()}]\n")
+
+        # A RETURNED ERROR COUNTS TOO, and until now it did not.
+        #
+        # This guard only saw exceptions that `prove()` RAISED. A prover may
+        # catch its own -- "a crash must not lose the record" is a reasonable
+        # thing for one to do -- and return a ProofRun whose trace says the
+        # agent failed. `prove()` then returns normally, and the counter above
+        # was reset on every goal.
+        #
+        # Deliberately phrased without naming a prover: this file drives
+        # whichever one is configured, and
+        # `test_evaluate_proofs_never_imports_a_prover_directly` fails if that
+        # slips -- as it did on the first draft of this comment.
+        #
+        # MEASURED on eval/results/proofnet-60.json: an INVALID (not missing)
+        # API key let the model BUILD and then failed at call time, inside the
+        # harness's catch. All 53 remaining goals ran and errored identically
+        # in zero seconds. The first time this happened the key was ABSENT,
+        # `get_model()` raised at build time, and the abort worked as intended
+        # -- which is why the hole went unnoticed.
+        #
+        # Nothing was billed that time because no call succeeded. A quota or
+        # auth failure part-way through a paid run is the case that would
+        # cost: the counter is what stops it.
+        if result.outcome is ProofOutcome.ERROR:
+            consecutive_errors += 1
+            if consecutive_errors >= CONSECUTIVE_ERROR_LIMIT:
+                print(f"\nAborting: {CONSECUTIVE_ERROR_LIMIT} consecutive "
+                      "errors. Nothing is reaching the model.")
+                break
+        else:
+            consecutive_errors = 0
 
     summary = summarize(results)
     print()
