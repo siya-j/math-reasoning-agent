@@ -1,0 +1,1002 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_7_2_12 {R G : Type*} [Ring R] [Group G] [Fintype G] :\n  \u2211 g : G, MonoidAlgebra.of R G g \u2208 Subsemiring.center (MonoidAlgebra R G)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788872253.6734958,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_7_2_12 {R G : Type*} [Ring R] [Group G] [Fintype G] :\n  \u2211 g : G, MonoidAlgebra.of R G g \u2208 Subsemiring.center (MonoidAlgebra R G)",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact CommRing.toRing\n    | exact CommRing.toRing _\n    | apply CommRing.toRing\n    | simpa using CommRing.toRing\n    | exact \u27e8_, CommRing.toRing\u27e9\n    | exact CommRing.toRing (by assumption)\n    | exact CommRing.toRing \u2039_\u203a\n    | apply CommRing.toRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CommRing.toRing (by assumption))\n    | exact IsUnital.toRing\n    | exact IsUnital.toRing _\n    | apply IsUnital.toRing\n    | simpa using IsUnital.toRing\n    | exact \u27e8_, IsUnital.toRing\u27e9\n    | exact IsUnital.toRing (by assumption)\n    | exact IsUnital.toRing \u2039_\u203a\n    | apply IsUnital.toRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsUnital.toRing (by assumption))\n    | exact Ring.mk\n    | exact Ring.mk _\n    | apply Ring.mk\n    | simpa using Ring.mk\n    | exact \u27e8_, Ring.mk\u27e9\n    | exact Ring.mk (by assumption)\n    | exact Ring.mk \u2039_\u203a\n    | apply Ring.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ring.mk (by assumption))\n    | exact Int.instRing\n    | exact Int.instRing _\n    | apply Int.instRing\n    | simpa using Int.instRing\n    | exact \u27e8_, Int.instRing\u27e9\n    | exact Int.instRing (by assumption)\n    | exact Int.instRing \u2039_\u203a\n    | apply Int.instRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Int.instRing (by assumption))\n    | exact Function.Injective.ring\n    | exact Function.Injective.ring _\n    | apply Function.Injective.ring\n    | simpa using Function.Injective.ring\n    | exact \u27e8_, Function.Injective.ring\u27e9\n    | exact Function.Injective.ring (by assumption)\n    | exact Function.Injective.ring \u2039_\u203a\n    | apply Function.Injective.ring <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Injective.ring (by assumption))\n    | exact Function.Surjective.ring\n    | exact Function.Surjective.ring _\n    | apply Function.Surjective.ring\n    | simpa using Function.Surjective.ring\n    | exact \u27e8_, Function.Surjective.ring\u27e9\n    | exact Function.Surjective.ring (by assumption)\n    | exact Function.Surjective.ring \u2039_\u203a\n    | apply Function.Surjective.ring <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Surjective.ring (by assumption))\n    | exact DivisionRing.toRing\n    | exact DivisionRing.toRing _\n    | apply DivisionRing.toRing\n    | simpa using DivisionRing.toRing\n    | exact \u27e8_, DivisionRing.toRing\u27e9\n    | exact DivisionRing.toRing (by assumption)\n    | exact DivisionRing.toRing \u2039_\u203a\n    | apply DivisionRing.toRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact DivisionRing.toRing (by assumption))\n    | exact Lex.instRing\n    | exact Lex.instRing _\n    | apply Lex.instRing\n    | simpa using Lex.instRing\n    | exact \u27e8_, Lex.instRing\u27e9\n    | exact Lex.instRing (by assumption)\n    | exact Lex.instRing \u2039_\u203a\n    | apply Lex.instRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Lex.instRing (by assumption))\n    | exact OrderDual.instRing\n    | exact OrderDual.instRing _\n    | apply OrderDual.instRing\n    | simpa using OrderDual.instRing\n    | exact \u27e8_, OrderDual.instRing\u27e9\n    | exact OrderDual.instRing (by assumption)\n    | exact OrderDual.instRing \u2039_\u203a\n    | apply OrderDual.instRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact OrderDual.instRing (by assumption))\n    | exact FreeAbelianGroup.ring\n    | exact FreeAbelianGroup.ring _\n    | apply FreeAbelianGroup.ring\n    | simpa using FreeAbelianGroup.ring\n    | exact \u27e8_, FreeAbelianGroup.ring\u27e9\n    | exact FreeAbelianGroup.ring (by assumption)\n    | exact FreeAbelianGroup.ring \u2039_\u203a\n    | apply FreeAbelianGroup.ring <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeAbelianGroup.ring (by assumption))\n    | exact MulActionHom.instRing\n    | exact MulActionHom.instRing _\n    | apply MulActionHom.instRing\n    | simpa using MulActionHom.instRing\n    | exact \u27e8_, MulActionHom.instRing\u27e9\n    | exact MulActionHom.instRing (by assumption)\n    | exact MulActionHom.instRing \u2039_\u203a\n    | apply MulActionHom.instRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact MulActionHom.instRing (by assumption))\n    | exact AddMonoid.End.instRing\n    | exact AddMonoid.End.instRing _\n    | apply AddMonoid.End.instRing\n    | simpa using AddMonoid.End.instRing\n    | exact \u27e8_, AddMonoid.End.instRing\u27e9\n    | exact AddMonoid.End.instRing (by assumption)\n    | exact AddMonoid.End.instRing \u2039_\u203a\n    | apply AddMonoid.End.instRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact AddMonoid.End.instRing (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n2:78: error: unsolved goals\nR : Type u_1\nG : Type u_2\ninst\u271d\u00b2 : Ring R\ninst\u271d\u00b9 : Group G\ninst\u271d : Fintype G\n\u22a2 \u2211 x, MonoidAlgebra.single x 1 \u2208 Subsemiring.center (MonoidAlgebra R G)\n\nStill to prove:\n\u22a2 \u2211 x, MonoidAlgebra.single x 1 \u2208 Subsemiring.center (MonoidAlgebra R G)",
+      "at": 1788872269.4019701,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_7_2_12 {R G : Type*} [Ring R] [Group G] [Fintype G] :\n  \u2211 g : G, MonoidAlgebra.of R G g \u2208 Subsemiring.center (MonoidAlgebra R G)",
+      "proof": "have h1 : \u2200 (x : MonoidAlgebra R G), x * (\u2211 g : G, MonoidAlgebra.of R G g) = (\u2211 g : G, MonoidAlgebra.of R G g) * x := by\n  intro x\n  induction x using MonoidAlgebra.induction_on with\n  | of m => sorry\n  | add x y hx hy => sorry\n  | smul r x hx => sorry\nrw [Subsemiring.mem_center_iff]\nexact h1",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788872285.8445463,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_1 {R G : Type*} [Ring R] [Group G] [Fintype G] : \u2200 (x : MonoidAlgebra R G), x * (\u2211 g : G, MonoidAlgebra.of R G g) = (\u2211 g : G, MonoidAlgebra.of R G g) * x",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact CommRing.toRing\n    | exact CommRing.toRing _\n    | apply CommRing.toRing\n    | simpa using CommRing.toRing\n    | exact \u27e8_, CommRing.toRing\u27e9\n    | exact CommRing.toRing (by assumption)\n    | exact CommRing.toRing \u2039_\u203a\n    | apply CommRing.toRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CommRing.toRing (by assumption))\n    | exact IsUnital.toRing\n    | exact IsUnital.toRing _\n    | apply IsUnital.toRing\n    | simpa using IsUnital.toRing\n    | exact \u27e8_, IsUnital.toRing\u27e9\n    | exact IsUnital.toRing (by assumption)\n    | exact IsUnital.toRing \u2039_\u203a\n    | apply IsUnital.toRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsUnital.toRing (by assumption))\n    | exact Ring.mk\n    | exact Ring.mk _\n    | apply Ring.mk\n    | simpa using Ring.mk\n    | exact \u27e8_, Ring.mk\u27e9\n    | exact Ring.mk (by assumption)\n    | exact Ring.mk \u2039_\u203a\n    | apply Ring.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ring.mk (by assumption))\n    | exact Int.instRing\n    | exact Int.instRing _\n    | apply Int.instRing\n    | simpa using Int.instRing\n    | exact \u27e8_, Int.instRing\u27e9\n    | exact Int.instRing (by assumption)\n    | exact Int.instRing \u2039_\u203a\n    | apply Int.instRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Int.instRing (by assumption))\n    | exact Function.Injective.ring\n    | exact Function.Injective.ring _\n    | apply Function.Injective.ring\n    | simpa using Function.Injective.ring\n    | exact \u27e8_, Function.Injective.ring\u27e9\n    | exact Function.Injective.ring (by assumption)\n    | exact Function.Injective.ring \u2039_\u203a\n    | apply Function.Injective.ring <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Injective.ring (by assumption))\n    | exact Function.Surjective.ring\n    | exact Function.Surjective.ring _\n    | apply Function.Surjective.ring\n    | simpa using Function.Surjective.ring\n    | exact \u27e8_, Function.Surjective.ring\u27e9\n    | exact Function.Surjective.ring (by assumption)\n    | exact Function.Surjective.ring \u2039_\u203a\n    | apply Function.Surjective.ring <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Surjective.ring (by assumption))\n    | exact DivisionRing.toRing\n    | exact DivisionRing.toRing _\n    | apply DivisionRing.toRing\n    | simpa using DivisionRing.toRing\n    | exact \u27e8_, DivisionRing.toRing\u27e9\n    | exact DivisionRing.toRing (by assumption)\n    | exact DivisionRing.toRing \u2039_\u203a\n    | apply DivisionRing.toRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact DivisionRing.toRing (by assumption))\n    | exact Lex.instRing\n    | exact Lex.instRing _\n    | apply Lex.instRing\n    | simpa using Lex.instRing\n    | exact \u27e8_, Lex.instRing\u27e9\n    | exact Lex.instRing (by assumption)\n    | exact Lex.instRing \u2039_\u203a\n    | apply Lex.instRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Lex.instRing (by assumption))\n    | exact OrderDual.instRing\n    | exact OrderDual.instRing _\n    | apply OrderDual.instRing\n    | simpa using OrderDual.instRing\n    | exact \u27e8_, OrderDual.instRing\u27e9\n    | exact OrderDual.instRing (by assumption)\n    | exact OrderDual.instRing \u2039_\u203a\n    | apply OrderDual.instRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact OrderDual.instRing (by assumption))\n    | exact FreeAbelianGroup.ring\n    | exact FreeAbelianGroup.ring _\n    | apply FreeAbelianGroup.ring\n    | simpa using FreeAbelianGroup.ring\n    | exact \u27e8_, FreeAbelianGroup.ring\u27e9\n    | exact FreeAbelianGroup.ring (by assumption)\n    | exact FreeAbelianGroup.ring \u2039_\u203a\n    | apply FreeAbelianGroup.ring <;> assumption\n    | (haveI := Fact.mk (by assumption); exact FreeAbelianGroup.ring (by assumption))\n    | exact MulActionHom.instRing\n    | exact MulActionHom.instRing _\n    | apply MulActionHom.instRing\n    | simpa using MulActionHom.instRing\n    | exact \u27e8_, MulActionHom.instRing\u27e9\n    | exact MulActionHom.instRing (by assumption)\n    | exact MulActionHom.instRing \u2039_\u203a\n    | apply MulActionHom.instRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact MulActionHom.instRing (by assumption))\n    | exact AddMonoid.End.instRing\n    | exact AddMonoid.End.instRing _\n    | apply AddMonoid.End.instRing\n    | simpa using AddMonoid.End.instRing\n    | exact \u27e8_, AddMonoid.End.instRing\u27e9\n    | exact AddMonoid.End.instRing (by assumption)\n    | exact AddMonoid.End.instRing \u2039_\u203a\n    | apply AddMonoid.End.instRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact AddMonoid.End.instRing (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:172: error: unsolved goals\nR : Type u_1\nG : Type u_2\ninst\u271d\u00b2 : Ring R\ninst\u271d\u00b9 : Group G\ninst\u271d : Fintype G\n\u22a2 \u2200 (x : MonoidAlgebra R G), x * \u2211 x, MonoidAlgebra.single x 1 = (\u2211 x, MonoidAlgebra.single x 1) * x\n\nStill to prove:\n\u22a2 \u2200 (x : MonoidAlgebra R G), x * \u2211 x, MonoidAlgebra.single x 1 = (\u2211 x, MonoidAlgebra.single x 1) * x",
+      "at": 1788872286.014379,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma helper_of {R G : Type*} [Ring R] [Group G] [Fintype G] (m : G) :\n  MonoidAlgebra.of R G m * (\u2211 g : G, MonoidAlgebra.of R G g) = (\u2211 g : G, MonoidAlgebra.of R G g) * MonoidAlgebra.of R G m",
+      "proof": "by\n  rw [Finset.mul_sum, Finset.sum_mul]\n  simp_rw [\u2190 map_mul]\n  have hL : (\u2211 x : G, MonoidAlgebra.of R G (m * x)) = \u2211 x : G, MonoidAlgebra.of R G x := by\n    exact Equiv.sum_comp (Equiv.mulLeft m) (MonoidAlgebra.of R G)\n  have hR : (\u2211 x : G, MonoidAlgebra.of R G (x * m)) = \u2211 x : G, MonoidAlgebra.of R G x := by\n    exact Equiv.sum_comp (Equiv.mulRight m) (MonoidAlgebra.of R G)\n  rw [hL, hR]",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma helper_of {R G : Type*} [Ring R] [Group G] [Fintype G] (m : G) :\n  MonoidAlgebra.of R G m * (\u2211 g : G, MonoidAlgebra.of R G g) = (\u2211 g : G, MonoidAlgebra.of R G g) * MonoidAlgebra.of R G m",
+      "at": 1788872318.5439646,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_7_2_12 {R G : Type*} [Ring R] [Group G] [Fintype G] :\n  \u2211 g : G, MonoidAlgebra.of R G g \u2208 Subsemiring.center (MonoidAlgebra R G)",
+      "proof": "by\n  rw [Subsemiring.mem_center_iff]\n  intro x\n  induction x using MonoidAlgebra.induction_on with\n  | of m => exact helper_of m\n  | add x y hx hy => rw [add_mul, mul_add, hx, hy]\n  | smul r x hx => rw [smul_mul_assoc, mul_smul_comm, hx]",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n18:39: error: failed to synthesize instance of type class\n  SMulCommClass R (MonoidAlgebra R G) (MonoidAlgebra R G)\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.\n18:16: error: unsolved goals\nR : Type u_1\nG : Type u_2\ninst\u271d\u00b2 : Ring R\ninst\u271d\u00b9 : Group G\ninst\u271d : Fintype G\nr : R\nx : MonoidAlgebra R G\nhx : x * \u2211 g, (MonoidAlgebra.of R G) g = (\u2211 g, (MonoidAlgebra.of R G) g) * x\n\u22a2 SMulCommClass R (MonoidAlgebra R G) (MonoidAlgebra R G)\n\nStill to prove:\n\u22a2 SMulCommClass R (MonoidAlgebra R G) (MonoidAlgebra R G)",
+      "at": 1788872321.4276185,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma smul_eq_single_one_mul {R G : Type*} [Ring R] [Group G] (r : R) (x : MonoidAlgebra R G) :\n  r \u2022 x = MonoidAlgebra.single 1 r * x",
+      "proof": "by\n  ext g\n  rw [Finsupp.smul_apply, MonoidAlgebra.single_one_mul_apply]\n  rfl",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n14:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  (?b \u2022 ?v) ?a\nin the target expression\n  (r \u2022 x).coeff g = (MonoidAlgebra.single 1 r * x).coeff g\n\nR : Type u_1\nG : Type u_2\ninst\u271d\u00b9 : Ring R\ninst\u271d : Group G\nr : R\nx : MonoidAlgebra R G\ng : G\n\u22a2 (r \u2022 x).coeff g = (MonoidAlgebra.single 1 r * x).coeff g\n\nStill to prove:\n\u22a2 (r \u2022 x).coeff g = (MonoidAlgebra.single 1 r * x).coeff g",
+      "at": 1788872335.6516387,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma smul_eq_single_one_mul {R G : Type*} [Ring R] [Group G] (r : R) (x : MonoidAlgebra R G) :\n  r \u2022 x = MonoidAlgebra.single 1 r * x",
+      "proof": "by\n  ext g\n  rw [MonoidAlgebra.coeff_smul_apply, MonoidAlgebra.single_one_mul_apply]\n  rfl",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma smul_eq_single_one_mul {R G : Type*} [Ring R] [Group G] (r : R) (x : MonoidAlgebra R G) :\n  r \u2022 x = MonoidAlgebra.single 1 r * x",
+      "at": 1788872340.6565232,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma single_one_comm {R G : Type*} [Ring R] [Group G] [Fintype G] (r : R) :\n  MonoidAlgebra.single 1 r * (\u2211 g : G, MonoidAlgebra.of R G g) = (\u2211 g : G, MonoidAlgebra.of R G g) * MonoidAlgebra.single 1 r",
+      "proof": "by\n  rw [Finset.mul_sum, Finset.sum_mul]\n  simp_rw [MonoidAlgebra.single_mul_single]\n  simp",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n20:11: error: `simp` made no progress",
+      "at": 1788872353.668795,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma single_one_comm {R G : Type*} [Ring R] [Group G] [Fintype G] (r : R) :\n  MonoidAlgebra.single 1 r * (\u2211 g : G, MonoidAlgebra.of R G g) = (\u2211 g : G, MonoidAlgebra.of R G g) * MonoidAlgebra.single 1 r",
+      "proof": "by\n  rw [Finset.mul_sum, Finset.sum_mul]\n  have h1 : \u2200 g : G, MonoidAlgebra.single 1 r * MonoidAlgebra.of R G g = MonoidAlgebra.single g r := by\n    intro g\n    change MonoidAlgebra.single 1 r * MonoidAlgebra.single g 1 = MonoidAlgebra.single g r\n    rw [MonoidAlgebra.single_mul_single, one_mul, mul_one]\n  have h2 : \u2200 g : G, MonoidAlgebra.of R G g * MonoidAlgebra.single 1 r = MonoidAlgebra.single g r := by\n    intro g\n    change MonoidAlgebra.single g 1 * MonoidAlgebra.single 1 r = MonoidAlgebra.single g r\n    rw [MonoidAlgebra.single_mul_single, mul_one, one_mul]\n  simp_rw [h1, h2]",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma single_one_comm {R G : Type*} [Ring R] [Group G] [Fintype G] (r : R) :\n  MonoidAlgebra.single 1 r * (\u2211 g : G, MonoidAlgebra.of R G g) = (\u2211 g : G, MonoidAlgebra.of R G g) * MonoidAlgebra.single 1 r",
+      "at": 1788872358.2291465,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_7_2_12 {R G : Type*} [Ring R] [Group G] [Fintype G] :\n  \u2211 g : G, MonoidAlgebra.of R G g \u2208 Subsemiring.center (MonoidAlgebra R G)",
+      "proof": "by\n  rw [Subsemiring.mem_center_iff]\n  intro x\n  induction x using MonoidAlgebra.induction_on with\n  | of m => exact helper_of m\n  | add x y hx hy => rw [add_mul, mul_add, hx, hy]\n  | smul r x hx =>\n    rw [smul_eq_single_one_mul, mul_assoc, hx, \u2190 mul_assoc, single_one_comm, mul_assoc, \u2190 smul_eq_single_one_mul]",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_7_2_12 {R G : Type*} [Ring R] [Group G] [Fintype G] :\n  \u2211 g : G, MonoidAlgebra.of R G g \u2208 Subsemiring.center (MonoidAlgebra R G)",
+      "at": 1788872364.678266,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma helper_of {R G : Type*} [Ring R] [Group G] [Fintype G] (m : G) :\n  MonoidAlgebra.of R G m * (\u2211 g : G, MonoidAlgebra.of R G g) = (\u2211 g : G, MonoidAlgebra.of R G g) * MonoidAlgebra.of R G m := by\n  rw [Finset.mul_sum, Finset.sum_mul]\n  simp_rw [\u2190 map_mul]\n  have hL : (\u2211 x : G, MonoidAlgebra.of R G (m * x)) = \u2211 x : G, MonoidAlgebra.of R G x := by\n    exact Equiv.sum_comp (Equiv.mulLeft m) (MonoidAlgebra.of R G)\n  have hR : (\u2211 x : G, MonoidAlgebra.of R G (x * m)) = \u2211 x : G, MonoidAlgebra.of R G x := by\n    exact Equiv.sum_comp (Equiv.mulRight m) (MonoidAlgebra.of R G)\n  rw [hL, hR]",
+    "lemma smul_eq_single_one_mul {R G : Type*} [Ring R] [Group G] (r : R) (x : MonoidAlgebra R G) :\n  r \u2022 x = MonoidAlgebra.single 1 r * x := by\n  ext g\n  rw [MonoidAlgebra.coeff_smul_apply, MonoidAlgebra.single_one_mul_apply]\n  rfl",
+    "lemma single_one_comm {R G : Type*} [Ring R] [Group G] [Fintype G] (r : R) :\n  MonoidAlgebra.single 1 r * (\u2211 g : G, MonoidAlgebra.of R G g) = (\u2211 g : G, MonoidAlgebra.of R G g) * MonoidAlgebra.single 1 r := by\n  rw [Finset.mul_sum, Finset.sum_mul]\n  have h1 : \u2200 g : G, MonoidAlgebra.single 1 r * MonoidAlgebra.of R G g = MonoidAlgebra.single g r := by\n    intro g\n    change MonoidAlgebra.single 1 r * MonoidAlgebra.single g 1 = MonoidAlgebra.single g r\n    rw [MonoidAlgebra.single_mul_single, one_mul, mul_one]\n  have h2 : \u2200 g : G, MonoidAlgebra.of R G g * MonoidAlgebra.single 1 r = MonoidAlgebra.single g r := by\n    intro g\n    change MonoidAlgebra.single g 1 * MonoidAlgebra.single 1 r = MonoidAlgebra.single g r\n    rw [MonoidAlgebra.single_mul_single, mul_one, one_mul]\n  simp_rw [h1, h2]"
+  ],
+  "premises": [
+    {
+      "name": "CommRing.toRing",
+      "type": " {\u03b1 : Type u} [self : CommRing \u03b1] : Ring \u03b1",
+      "module": "Mathlib.Algebra.Ring.Defs",
+      "doc": ""
+    },
+    {
+      "name": "IsUnital.toRing",
+      "type": " {A : Type u_1} [NonUnitalRing A] [IsUnital A] : Ring A",
+      "module": "Mathlib.Algebra.Ring.Defs",
+      "doc": "A unital non-unital ring is a ring.\n\nThis constructor is primarily intended to be used within proofs since it creates bad definitional\nequalities. "
+    },
+    {
+      "name": "Ring.mk",
+      "type": " {R : Type u} [toSemiring : Semiring R] [toNeg : Neg R] [toSub : Sub R] [toZSMul : ZSMul R] (sub_eq_add_neg : \u2200 (a b : R), a - b = a + -b := by intros; rfl) (zsmul_zero' : \u2200 (a : R), 0 \u2022 a = 0 := by intros; rfl) (zsmul_succ' : \u2200 (n : \u2115) (a : R), \u2191n.succ \u2022 a = \u2191n \u2022 a + a := by intros; rfl) (zsmul_neg' : \u2200 (n : \u2115) (a : R), Int.negSucc n \u2022 a = -(\u2191n.succ \u2022 a) := by intros; rfl) (neg_add_cancel : \u2200 (a : R), -a + a = 0) [toIntCast : IntCast R] (intCast_ofNat : \u2200 (n : \u2115), IntCast.intCast \u2191n = \u2191n := by intros; rfl) (intCast_negSucc : \u2200 (n : \u2115), IntCast.intCast (Int.negSucc n) = -\u2191(n + 1) := by intros; rfl) : Ring R",
+      "module": "Mathlib.Algebra.Ring.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Int.instRing",
+      "type": " : Ring \u2124",
+      "module": "Mathlib.Algebra.Ring.Int.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.ring",
+      "type": " {R : Type u_1} {S : Type u_2} (f : S \u2192 R) (hf : Function.Injective f) [Add S] [Mul S] [Zero S] [One S] [Neg S] [Sub S] [SMul \u2115 S] [SMul \u2124 S] [Pow S \u2115] [NatCast S] [IntCast S] [Ring R] (zero : f 0 = 0) (one : f 1 = 1) (add : \u2200 (x y : S), f (x + y) = f x + f y) (mul : \u2200 (x y : S), f (x * y) = f x * f y) (neg : \u2200 (x : S), f (-x) = -f x) (sub : \u2200 (x y : S), f (x - y) = f x - f y) (nsmul : \u2200 (n : \u2115) (x : S), f (n \u2022 x) = n \u2022 f x) (zsmul : \u2200 (n : \u2124) (x : S), f (n \u2022 x) = n \u2022 f x) (npow : \u2200 (x : S) (n : \u2115), f (x ^ n) = f x ^ n) (natCast : \u2200 (n : \u2115), f \u2191n = \u2191n) (intCast : \u2200 (n : \u2124), f \u2191n = \u2191n) : Ring S",
+      "module": "Mathlib.Algebra.Ring.InjSurj",
+      "doc": "Pullback a `Ring` instance along an injective function. "
+    },
+    {
+      "name": "Function.Surjective.ring",
+      "type": " {R : Type u_1} {S : Type u_2} (f : R \u2192 S) (hf : Function.Surjective f) [Add S] [Mul S] [Zero S] [One S] [Neg S] [Sub S] [SMul \u2115 S] [SMul \u2124 S] [Pow S \u2115] [NatCast S] [IntCast S] [Ring R] (zero : f 0 = 0) (one : f 1 = 1) (add : \u2200 (x y : R), f (x + y) = f x + f y) (mul : \u2200 (x y : R), f (x * y) = f x * f y) (neg : \u2200 (x : R), f (-x) = -f x) (sub : \u2200 (x y : R), f (x - y) = f x - f y) (nsmul : \u2200 (n : \u2115) (x : R), f (n \u2022 x) = n \u2022 f x) (zsmul : \u2200 (n : \u2124) (x : R), f (n \u2022 x) = n \u2022 f x) (npow : \u2200 (x : R) (n : \u2115), f (x ^ n) = f x ^ n) (natCast : \u2200 (n : \u2115), f \u2191n = \u2191n) (intCast : \u2200 (n : \u2124), f \u2191n = \u2191n) : Ring S",
+      "module": "Mathlib.Algebra.Ring.InjSurj",
+      "doc": "Pushforward a `Ring` instance along a surjective function. "
+    },
+    {
+      "name": "DivisionRing.toRing",
+      "type": " {K : Type u_2} [self : DivisionRing K] : Ring K",
+      "module": "Mathlib.Algebra.Field.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Lex.instRing",
+      "type": " {R : Type u_1} [Ring R] : Ring (Lex R)",
+      "module": "Mathlib.Algebra.Order.Ring.Synonym",
+      "doc": ""
+    },
+    {
+      "name": "OrderDual.instRing",
+      "type": " {R : Type u_1} [Ring R] : Ring R\u1d52\u1d48",
+      "module": "Mathlib.Algebra.Order.Ring.Synonym",
+      "doc": ""
+    },
+    {
+      "name": "FreeAbelianGroup.ring",
+      "type": " (\u03b1 : Type u) [Monoid \u03b1] : Ring (FreeAbelianGroup \u03b1)",
+      "module": "Mathlib.GroupTheory.FreeAbelianGroup",
+      "doc": ""
+    },
+    {
+      "name": "MulActionHom.instRing",
+      "type": " {M : Type u_2} {N : Type u_3} {X : Type u_4} {Y : Type u_5} {\u03c3 : M \u2192 N} [SMul M X] [Monoid N] [Ring Y] [MulSemiringAction N Y] : Ring (X \u2192\u2091[\u03c3] Y)",
+      "module": "Mathlib.GroupTheory.GroupAction.Hom",
+      "doc": ""
+    },
+    {
+      "name": "AddMonoid.End.instRing",
+      "type": " {M : Type uM} [AddCommGroup M] : Ring (AddMonoid.End M)",
+      "module": "Mathlib.Algebra.Group.Hom.End",
+      "doc": ""
+    },
+    {
+      "name": "CommGroup.toGroup",
+      "type": " {G : Type u_2} [self : CommGroup G] : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.mk",
+      "type": " {G : Type u_2} [toDivInvMonoid : DivInvMonoid G] (inv_mul_cancel : \u2200 (a : G), a\u207b\u00b9 * a = 1) : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Pi.group",
+      "type": " {I : Type u} {f : I \u2192 Type v\u2081} [(i : I) \u2192 Group (f i)] : Group ((i : I) \u2192 f i)",
+      "module": "Mathlib.Algebra.Group.Pi.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative.group",
+      "type": " {\u03b1 : Type u} [AddGroup \u03b1] : Group (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2081] [One M\u2081] [Pow M\u2081 \u2115] [Inv M\u2081] [Div M\u2081] [Pow M\u2081 \u2124] [Group M\u2082] (f : M\u2081 \u2192 M\u2082) (hf : Function.Injective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2081",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits an injective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "Function.Surjective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2082] [One M\u2082] [Pow M\u2082 \u2115] [Inv M\u2082] [Div M\u2082] [Pow M\u2082 \u2124] [Group M\u2081] (f : M\u2081 \u2192 M\u2082) (hf : Function.Surjective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2082",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits a surjective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "AddOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "Units.instGroup",
+      "type": " {\u03b1 : Type u} [Monoid \u03b1] : Group \u03b1\u02e3",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Units of a monoid form a group. "
+    },
+    {
+      "name": "groupOfIsUnit",
+      "type": " {M : Type u_1} [hM : Monoid M] (h : \u2200 (a : M), IsUnit a) : Group M",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Constructs a `Group` structure on a `Monoid` consisting only of units. "
+    },
+    {
+      "name": "Prod.instGroup",
+      "type": " {G : Type u_1} {H : Type u_2} [Group G] [Group H] : Group (G \u00d7 H)",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.Perm.permGroup",
+      "type": " {\u03b1 : Type u_4} : Group (Equiv.Perm \u03b1)",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "ConjClasses.noncenter",
+      "type": " (G : Type u_5) [Monoid G] : Set (ConjClasses G)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "The conjugacy classes that are not trivial. "
+    },
+    {
+      "name": "ConjClasses.mem_noncenter",
+      "type": " {G : Type u_5} [Monoid G] (g : ConjClasses G) : g \u2208 ConjClasses.noncenter G \u2194 g.carrier.Nontrivial",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Set.addCenter",
+      "type": " (M : Type u_1) [Add M] : Set M",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": "The center of an additive magma. "
+    },
+    {
+      "name": "Set.center",
+      "type": " (M : Type u_1) [Mul M] : Set M",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": "The center of a magma. "
+    },
+    {
+      "name": "Set.addCenter_eq_univ",
+      "type": " (M : Type u_1) [AddCommSemigroup M] : Set.addCenter M = Set.univ",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": ""
+    },
+    {
+      "name": "Set.center_eq_univ",
+      "type": " (M : Type u_1) [CommSemigroup M] : Set.center M = Set.univ",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": ""
+    },
+    {
+      "name": "Set.addCenter_subset_addCentralizer",
+      "type": " {M : Type u_1} [Add M] (S : Set M) : Set.addCenter M \u2286 S.addCentralizer",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": ""
+    },
+    {
+      "name": "Set.center_subset_centralizer",
+      "type": " {M : Type u_1} [Mul M] (S : Set M) : Set.center M \u2286 S.centralizer",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": ""
+    },
+    {
+      "name": "Set.mem_addCenter_iff",
+      "type": " {M : Type u_1} [Add M] {z : M} : z \u2208 Set.addCenter M \u2194 IsAddCentral z",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": ""
+    },
+    {
+      "name": "Set.mem_center_iff",
+      "type": " {M : Type u_1} [Mul M] {z : M} : z \u2208 Set.center M \u2194 IsMulCentral z",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": ""
+    },
+    {
+      "name": "Set.one_mem_center",
+      "type": " {M : Type u_1} [MulOneClass M] : 1 \u2208 Set.center M",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": ""
+    },
+    {
+      "name": "Set.zero_mem_addCenter",
+      "type": " {M : Type u_1} [AddZeroClass M] : 0 \u2208 Set.addCenter M",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalSubring.center",
+      "type": " (R : Type u) [NonUnitalNonAssocRing R] : NonUnitalSubring R",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": "The center of a ring `R` is the set of elements that commute with everything in `R` "
+    },
+    {
+      "name": "NonUnitalSubring.center_toNonUnitalSubsemiring",
+      "type": " (R : Type u) [NonUnitalNonAssocRing R] : (NonUnitalSubring.center R).toNonUnitalSubsemiring = NonUnitalSubsemiring.center R",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalSubring.center.instNonUnitalCommRing",
+      "type": " (R : Type u) [NonUnitalNonAssocRing R] : NonUnitalCommRing \u21a5(NonUnitalSubring.center R)",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": "The center is commutative and associative. "
+    },
+    {
+      "name": "NonUnitalSubring.center_eq_top",
+      "type": " (R : Type u_1) [NonUnitalCommRing R] : NonUnitalSubring.center R = \u22a4",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalSubring.center_prod",
+      "type": " {R : Type u} {S : Type v} [NonUnitalNonAssocRing R] [NonUnitalNonAssocRing S] : NonUnitalSubring.center (R \u00d7 S) = (NonUnitalSubring.center R).prod (NonUnitalSubring.center S)",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalSubring.center_le_centralizer",
+      "type": " {R : Type u_1} [NonUnitalRing R] (s : Set R) : NonUnitalSubring.center R \u2264 NonUnitalSubring.centralizer s",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalSubring.centerCongr",
+      "type": " {R : Type u} [NonUnitalNonAssocRing R] {S : Type u_1} [NonUnitalNonAssocRing S] (e : R \u2243+* S) : \u21a5(NonUnitalSubring.center R) \u2243+* \u21a5(NonUnitalSubring.center S)",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": "The center of isomorphic (not necessarily unital or associative) rings are isomorphic. "
+    },
+    {
+      "name": "NonUnitalSubring.centerToMulOpposite",
+      "type": " {R : Type u} [NonUnitalNonAssocRing R] : \u21a5(NonUnitalSubring.center R) \u2243+* \u21a5(NonUnitalSubring.center R\u1d50\u1d52\u1d56)",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": "The center of a (not necessarily unital or associative) ring\nis isomorphic to the center of its opposite. "
+    },
+    {
+      "name": "NonUnitalSubring.centerCongr_apply_coe",
+      "type": " {R : Type u} [NonUnitalNonAssocRing R] {S : Type u_1} [NonUnitalNonAssocRing S] (e : R \u2243+* S) (r : \u21a5(Subsemigroup.center R)) : \u2191((NonUnitalSubring.centerCongr e) r) = e \u2191r",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalSubring.centerToMulOpposite_apply_coe",
+      "type": " {R : Type u} [NonUnitalNonAssocRing R] (r : \u21a5(Subsemigroup.center R)) : \u2191(NonUnitalSubring.centerToMulOpposite r) = MulOpposite.op \u2191r",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalSubring.centerCongr_symm_apply_coe",
+      "type": " {R : Type u} [NonUnitalNonAssocRing R] {S : Type u_1} [NonUnitalNonAssocRing S] (e : R \u2243+* S) (s : \u21a5(Subsemigroup.center S)) : \u2191((NonUnitalSubring.centerCongr e).symm s) = e.symm \u2191s",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalSubring.centerToMulOpposite_symm_apply_coe",
+      "type": " {R : Type u} [NonUnitalNonAssocRing R] (r : \u21a5(Subsemigroup.center R\u1d50\u1d52\u1d56)) : \u2191(NonUnitalSubring.centerToMulOpposite.symm r) = MulOpposite.unop \u2191r",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSemigroup.mem_center_iff",
+      "type": " {M : Type u_1} [AddSemigroup M] {z : M} : z \u2208 Set.addCenter M \u2194 \u2200 (g : M), g + z = z + g",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": ""
+    },
+    {
+      "name": "Semigroup.mem_center_iff",
+      "type": " {M : Type u_1} [Semigroup M] {z : M} : z \u2208 Set.center M \u2194 \u2200 (g : M), g * z = z * g",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": ""
+    },
+    {
+      "name": "AddEquivClass.apply_mem_center_iff",
+      "type": " {M : Type u_1} {N : Type u_2} [Add M] [Add N] {F : Type u_3} [EquivLike F M N] [AddEquivClass F M N] (f : F) {x : M} : f x \u2208 Set.addCenter N \u2194 x \u2208 Set.addCenter M",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": ""
+    },
+    {
+      "name": "MulEquivClass.apply_mem_center_iff",
+      "type": " {M : Type u_1} {N : Type u_2} [Mul M] [Mul N] {F : Type u_3} [EquivLike F M N] [MulEquivClass F M N] (f : F) {x : M} : f x \u2208 Set.center N \u2194 x \u2208 Set.center M",
+      "module": "Mathlib.Algebra.Group.Center",
+      "doc": ""
+    },
+    {
+      "name": "AddSubsemigroup.mem_center_iff",
+      "type": " {M : Type u_1} [AddSemigroup M] {z : M} : z \u2208 AddSubsemigroup.center M \u2194 \u2200 (g : M), g + z = z + g",
+      "module": "Mathlib.GroupTheory.Subsemigroup.Center",
+      "doc": ""
+    },
+    {
+      "name": "Subsemigroup.mem_center_iff",
+      "type": " {M : Type u_1} [Semigroup M] {z : M} : z \u2208 Subsemigroup.center M \u2194 \u2200 (g : M), g * z = z * g",
+      "module": "Mathlib.GroupTheory.Subsemigroup.Center",
+      "doc": ""
+    },
+    {
+      "name": "AddOpposite.op_mem_center_iff",
+      "type": " {M : Type u_2} [Add M] {x : M} : AddOpposite.op x \u2208 Set.addCenter M\u1d43\u1d52\u1d56 \u2194 x \u2208 Set.addCenter M",
+      "module": "Mathlib.GroupTheory.Submonoid.Center",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.op_mem_center_iff",
+      "type": " {M : Type u_2} [Mul M] {x : M} : MulOpposite.op x \u2208 Set.center M\u1d50\u1d52\u1d56 \u2194 x \u2208 Set.center M",
+      "module": "Mathlib.GroupTheory.Submonoid.Center",
+      "doc": ""
+    },
+    {
+      "name": "AddOpposite.unop_mem_center_iff",
+      "type": " {M : Type u_2} [Add M] {x : M\u1d43\u1d52\u1d56} : AddOpposite.unop x \u2208 Set.addCenter M \u2194 x \u2208 Set.addCenter M\u1d43\u1d52\u1d56",
+      "module": "Mathlib.GroupTheory.Submonoid.Center",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.unop_mem_center_iff",
+      "type": " {M : Type u_2} [Mul M] {x : M\u1d50\u1d52\u1d56} : MulOpposite.unop x \u2208 Set.center M \u2194 x \u2208 Set.center M\u1d50\u1d52\u1d56",
+      "module": "Mathlib.GroupTheory.Submonoid.Center",
+      "doc": ""
+    },
+    {
+      "name": "AddSubmonoid.mem_center_iff",
+      "type": " {M : Type u_1} [AddMonoid M] {z : M} : z \u2208 AddSubmonoid.center M \u2194 \u2200 (g : M), g + z = z + g",
+      "module": "Mathlib.GroupTheory.Submonoid.Center",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalSubsemiring.mem_center_iff",
+      "type": " {R : Type u_1} [NonUnitalSemiring R] {z : R} : z \u2208 NonUnitalSubsemiring.center R \u2194 \u2200 (g : R), g * z = z * g",
+      "module": "Mathlib.RingTheory.NonUnitalSubsemiring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subsemiring.mem_center_iff",
+      "type": " {R : Type u_1} [Semiring R] {z : R} : z \u2208 Subsemiring.center R \u2194 \u2200 (g : R), g * z = z * g",
+      "module": "Mathlib.Algebra.Ring.Subsemiring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "MonoidAlgebra.induction_on",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] [Monoid M] {motive : MonoidAlgebra R M \u2192 Prop} (x : MonoidAlgebra R M) (of : \u2200 (m : M), motive ((MonoidAlgebra.of R M) m)) (add : \u2200 (x y : MonoidAlgebra R M), motive x \u2192 motive y \u2192 motive (x + y)) (smul : \u2200 (r : R) (x : MonoidAlgebra R M), motive x \u2192 motive (r \u2022 x)) : motive x",
+      "module": "Mathlib.Algebra.MonoidAlgebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddMonoidAlgebra.induction_on",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] [AddMonoid M] {motive : AddMonoidAlgebra R M \u2192 Prop} (x : AddMonoidAlgebra R M) (of : \u2200 (m : M), motive ((AddMonoidAlgebra.of R M) (Multiplicative.ofAdd m))) (add : \u2200 (x y : AddMonoidAlgebra R M), motive x \u2192 motive y \u2192 motive (x + y)) (smul : \u2200 (r : R) (x : AddMonoidAlgebra R M), motive x \u2192 motive (r \u2022 x)) : motive x",
+      "module": "Mathlib.Algebra.MonoidAlgebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "SkewMonoidAlgebra.induction_on'",
+      "type": " {k : Type u_1} {G : Type u_2} [AddCommMonoid k] [instNonempty : Nonempty G] {p : SkewMonoidAlgebra k G \u2192 Prop} (f : SkewMonoidAlgebra k G) (single : \u2200 (g : G) (a : k), p (SkewMonoidAlgebra.single g a)) (add : \u2200 (f g : SkewMonoidAlgebra k G), p f \u2192 p g \u2192 p (f + g)) : p f",
+      "module": "Mathlib.Algebra.SkewMonoidAlgebra.Basic",
+      "doc": "Slightly less general but more convenient version of `SkewMonoidAlgebra.induction_on`. "
+    },
+    {
+      "name": "SkewMonoidAlgebra.induction_on",
+      "type": " {k : Type u_1} {G : Type u_2} [AddCommMonoid k] {p : SkewMonoidAlgebra k G \u2192 Prop} (f : SkewMonoidAlgebra k G) (zero : p 0) (single : \u2200 (g : G) (a : k), p (SkewMonoidAlgebra.single g a)) (add : \u2200 (f g : SkewMonoidAlgebra k G), p f \u2192 p g \u2192 p (f + g)) : p f",
+      "module": "Mathlib.Algebra.SkewMonoidAlgebra.Basic",
+      "doc": ""
+    },
+    {
+      "name": "smul_mul_assoc",
+      "type": " {\u03b1 : Type u_5} {\u03b2 : Type u_6} [Mul \u03b2] [SMul \u03b1 \u03b2] [IsScalarTower \u03b1 \u03b2 \u03b2] (r : \u03b1) (x y : \u03b2) : r \u2022 x * y = r \u2022 (x * y)",
+      "module": "Mathlib.Algebra.Group.Action.Defs",
+      "doc": "Note that the `IsScalarTower \u03b1 \u03b2 \u03b2` typeclass argument is usually satisfied by `Algebra \u03b1 \u03b2`. "
+    },
+    {
+      "name": "mul_smul_mul_comm",
+      "type": " {\u03b1 : Type u_5} {\u03b2 : Type u_6} [Mul \u03b1] [Mul \u03b2] [SMul \u03b1 \u03b2] [IsScalarTower \u03b1 \u03b2 \u03b2] [IsScalarTower \u03b1 \u03b1 \u03b2] [SMulCommClass \u03b1 \u03b2 \u03b2] (a b : \u03b1) (c d : \u03b2) : (a * b) \u2022 (c * d) = a \u2022 c * b \u2022 d",
+      "module": "Mathlib.Algebra.Group.Action.Defs",
+      "doc": "Note that the `IsScalarTower \u03b1 \u03b2 \u03b2` and `SMulCommClass \u03b1 \u03b2 \u03b2` typeclass arguments are usually\nsatisfied by `Algebra \u03b1 \u03b2`. "
+    },
+    {
+      "name": "smul_mul_smul",
+      "type": " {\u03b1 : Type u_5} {\u03b2 : Type u_6} [Mul \u03b1] [Mul \u03b2] [SMul \u03b1 \u03b2] [IsScalarTower \u03b1 \u03b2 \u03b2] [IsScalarTower \u03b1 \u03b1 \u03b2] [SMulCommClass \u03b1 \u03b2 \u03b2] (a : \u03b1) (b : \u03b2) (c : \u03b1) (d : \u03b2) : a \u2022 b * c \u2022 d = (a * c) \u2022 (b * d)",
+      "module": "Mathlib.Algebra.Group.Action.Defs",
+      "doc": "**Alias** of `smul_mul_smul_comm`.\n\n---\n\nNote that the `IsScalarTower \u03b1 \u03b2 \u03b2` and `SMulCommClass \u03b1 \u03b2 \u03b2` typeclass arguments are usually\nsatisfied by `Algebra \u03b1 \u03b2`. "
+    },
+    {
+      "name": "smul_mul_smul_comm",
+      "type": " {\u03b1 : Type u_5} {\u03b2 : Type u_6} [Mul \u03b1] [Mul \u03b2] [SMul \u03b1 \u03b2] [IsScalarTower \u03b1 \u03b2 \u03b2] [IsScalarTower \u03b1 \u03b1 \u03b2] [SMulCommClass \u03b1 \u03b2 \u03b2] (a : \u03b1) (b : \u03b2) (c : \u03b1) (d : \u03b2) : a \u2022 b * c \u2022 d = (a * c) \u2022 (b * d)",
+      "module": "Mathlib.Algebra.Group.Action.Defs",
+      "doc": "Note that the `IsScalarTower \u03b1 \u03b2 \u03b2` and `SMulCommClass \u03b1 \u03b2 \u03b2` typeclass arguments are usually\nsatisfied by `Algebra \u03b1 \u03b2`. "
+    },
+    {
+      "name": "smul_mul'",
+      "type": " {M : Type u_1} {N : Type u_2} [Monoid M] [Monoid N] [MulDistribMulAction M N] (a : M) (b\u2081 b\u2082 : N) : a \u2022 (b\u2081 * b\u2082) = a \u2022 b\u2081 * a \u2022 b\u2082",
+      "module": "Mathlib.Algebra.Group.Action.Defs",
+      "doc": ""
+    },
+    {
+      "name": "MulDistribMulAction.smul_mul",
+      "type": " {M : Type u_9} {N : Type u_10} {inst\u271d : Monoid M} {inst\u271d\u00b9 : Monoid N} [self : MulDistribMulAction M N] (r : M) (x y : N) : r \u2022 (x * y) = r \u2022 x * r \u2022 y",
+      "module": "Mathlib.Algebra.Group.Action.Defs",
+      "doc": "Distributivity of `\u2022` across `*` "
+    },
+    {
+      "name": "op_smul_mul",
+      "type": " {\u03b1 : Type u_3} {\u03b2 : Type u_4} [Monoid \u03b1] [MulAction \u03b1\u1d50\u1d52\u1d56 \u03b2] (b : \u03b2) (a\u2081 a\u2082 : \u03b1) : MulOpposite.op (a\u2081 * a\u2082) \u2022 b = MulOpposite.op a\u2082 \u2022 MulOpposite.op a\u2081 \u2022 b",
+      "module": "Mathlib.Algebra.Group.Action.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.constSMul_mul",
+      "type": " {G : Type u_1} (P : Type u_2) [Group G] [Torsor G P] (v\u2081 v\u2082 : G) : Equiv.constSMul P (v\u2081 * v\u2082) = Equiv.constSMul P v\u2081 * Equiv.constSMul P v\u2082",
+      "module": "Mathlib.Algebra.Torsor.Basic",
+      "doc": ""
+    },
+    {
+      "name": "MulSemiringAction.smul_mul",
+      "type": " {M : Type u} {R : Type v} {inst\u271d : Monoid M} {inst\u271d\u00b9 : Semiring R} [self : MulSemiringAction M R] (g : M) (x y : R) : g \u2022 (x * y) = g \u2022 x * g \u2022 y",
+      "module": "Mathlib.Algebra.Ring.Action.Basic",
+      "doc": "Scalar multiplication distributes across multiplication "
+    },
+    {
+      "name": "Algebra.smul_mul_assoc",
+      "type": " {R : Type u} {A : Type w} [CommSemiring R] [Semiring A] [Algebra R A] (r : R) (x y : A) : r \u2022 x * y = r \u2022 (x * y)",
+      "module": "Mathlib.Algebra.Algebra.Defs",
+      "doc": "This is just a special case of the global `smul_mul_assoc` lemma that requires less typeclass\nsearch (and was here first). "
+    },
+    {
+      "name": "LinearMap.lift_lsmul_mul_eq_lsmul_lift_lsmul",
+      "type": " {R : Type u_1} [CommSemiring R] {M : Type u_4} [AddCommMonoid M] [Module R M] {r : R} : TensorProduct.lift (LinearMap.lsmul R M \u2218\u2097 (LinearMap.mul R R) r) = (LinearMap.lsmul R M) r \u2218\u2097 TensorProduct.lift (LinearMap.lsmul R M)",
+      "module": "Mathlib.Algebra.Algebra.Bilinear",
+      "doc": ""
+    },
+    {
+      "name": "Submodule.mul_smul_mul_eq_smul_mul_smul",
+      "type": " {R : Type u} [CommSemiring R] {A : Type v} [Semiring A] [Algebra R A] (M N : Submodule R A) (x y : R) : (x * y) \u2022 (M * N) = x \u2022 M * y \u2022 N",
+      "module": "Mathlib.Algebra.Algebra.Operations",
+      "doc": ""
+    },
+    {
+      "name": "mul_smul_comm",
+      "type": " {\u03b1 : Type u_5} {\u03b2 : Type u_6} [Mul \u03b2] [SMul \u03b1 \u03b2] [SMulCommClass \u03b1 \u03b2 \u03b2] (s : \u03b1) (x y : \u03b2) : x * s \u2022 y = s \u2022 (x * y)",
+      "module": "Mathlib.Algebra.Group.Action.Defs",
+      "doc": "Note that the `SMulCommClass \u03b1 \u03b2 \u03b2` typeclass argument is usually satisfied by `Algebra \u03b1 \u03b2`. "
+    },
+    {
+      "name": "smul_smul_smul_comm",
+      "type": " {\u03b1 : Type u_5} {\u03b2 : Type u_6} {\u03b3 : Type u_7} {\u03b4 : Type u_8} [SMul \u03b1 \u03b2] [SMul \u03b1 \u03b3] [SMul \u03b2 \u03b4] [SMul \u03b1 \u03b4] [SMul \u03b3 \u03b4] [IsScalarTower \u03b1 \u03b2 \u03b4] [IsScalarTower \u03b1 \u03b3 \u03b4] [SMulCommClass \u03b2 \u03b3 \u03b4] (a : \u03b1) (b : \u03b2) (c : \u03b3) (d : \u03b4) : (a \u2022 b) \u2022 c \u2022 d = (a \u2022 c) \u2022 b \u2022 d",
+      "module": "Mathlib.Algebra.Group.Action.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Algebra.mul_smul_comm",
+      "type": " {R : Type u} {A : Type w} [CommSemiring R] [Semiring A] [Algebra R A] (s : R) (x y : A) : x * s \u2022 y = s \u2022 (x * y)",
+      "module": "Mathlib.Algebra.Algebra.Defs",
+      "doc": "This is just a special case of the global `mul_smul_comm` lemma that requires less typeclass\nsearch (and was here first). "
+    },
+    {
+      "name": "toMul_sum",
+      "type": " {\u03b9 : Type u_1} {M : Type u_3} [CommMonoid M] (s : Finset \u03b9) (f : \u03b9 \u2192 Additive M) : Additive.toMul (\u2211 i \u2208 s, f i) = \u220f i \u2208 s, Additive.toMul (f i)",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.mul_sum",
+      "type": " {\u03b9 : Type u_1} {R : Type u_4} [NonUnitalNonAssocSemiring R] (s : Finset \u03b9) (f : \u03b9 \u2192 R) (a : R) : a * \u2211 i \u2208 s, f i = \u2211 i \u2208 s, a * f i",
+      "module": "Mathlib.Algebra.BigOperators.Ring.Finset",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_mul_sum",
+      "type": " {\u03b9 : Type u_1} {\u03ba : Type u_2} {R : Type u_4} [NonUnitalNonAssocSemiring R] (s : Finset \u03b9) (t : Finset \u03ba) (f : \u03b9 \u2192 R) (g : \u03ba \u2192 R) : (\u2211 i \u2208 s, f i) * \u2211 j \u2208 t, g j = \u2211 i \u2208 s, \u2211 j \u2208 t, f i * g j",
+      "module": "Mathlib.Algebra.BigOperators.Ring.Finset",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.sum_mul_sum",
+      "type": " {\u03b9 : Type u_1} {\u03ba : Type u_2} {R : Type u_4} [NonUnitalNonAssocSemiring R] [Fintype \u03b9] [Fintype \u03ba] (f : \u03b9 \u2192 R) (g : \u03ba \u2192 R) : (\u2211 i, f i) * \u2211 j, g j = \u2211 i, \u2211 j, f i * g j",
+      "module": "Mathlib.Algebra.BigOperators.Ring.Finset",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_range_succ_mul_sum_range_succ",
+      "type": " {R : Type u_4} [NonUnitalNonAssocSemiring R] (m n : \u2115) (f g : \u2115 \u2192 R) : (\u2211 i \u2208 Finset.range (m + 1), f i) * \u2211 i \u2208 Finset.range (n + 1), g i = (\u2211 i \u2208 Finset.range m, f i) * \u2211 i \u2208 Finset.range n, g i + f m * \u2211 i \u2208 Finset.range n, g i + (\u2211 i \u2208 Finset.range m, f i) * g n + f m * g n",
+      "module": "Mathlib.Algebra.BigOperators.Ring.Finset",
+      "doc": ""
+    },
+    {
+      "name": "Finsupp.mul_sum",
+      "type": " {\u03b1 : Type u_1} {M : Type u_8} {S : Type u_15} [Zero M] [NonUnitalNonAssocSemiring S] (b : S) (s : \u03b1 \u2192\u2080 M) {f : \u03b1 \u2192 M \u2192 S} : b * s.sum f = s.sum fun a c => b * f a c",
+      "module": "Mathlib.Algebra.BigOperators.Finsupp.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_sq_le_sum_mul_sum_of_sq_eq_mul",
+      "type": " {\u03b9 : Type u_1} {R : Type u_2} [CommSemiring R] [LinearOrder R] [IsStrictOrderedRing R] [ExistsAddOfLE R] (s : Finset \u03b9) {r f g : \u03b9 \u2192 R} (hf : \u2200 i \u2208 s, 0 \u2264 f i) (hg : \u2200 i \u2208 s, 0 \u2264 g i) (ht : \u2200 i \u2208 s, r i ^ 2 = f i * g i) : (\u2211 i \u2208 s, r i) ^ 2 \u2264 (\u2211 i \u2208 s, f i) * \u2211 i \u2208 s, g i",
+      "module": "Mathlib.Algebra.Order.BigOperators.Ring.Finset",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_sq_le_sum_mul_sum_of_sq_le_mul",
+      "type": " {\u03b9 : Type u_1} {R : Type u_2} [CommSemiring R] [LinearOrder R] [IsStrictOrderedRing R] [ExistsAddOfLE R] (s : Finset \u03b9) {r f g : \u03b9 \u2192 R} (hf : \u2200 i \u2208 s, 0 \u2264 f i) (hg : \u2200 i \u2208 s, 0 \u2264 g i) (ht : \u2200 i \u2208 s, r i ^ 2 \u2264 f i * g i) : (\u2211 i \u2208 s, r i) ^ 2 \u2264 (\u2211 i \u2208 s, f i) * \u2211 i \u2208 s, g i",
+      "module": "Mathlib.Algebra.Order.BigOperators.Ring.Finset",
+      "doc": "**Cauchy-Schwarz inequality** for finsets.\n\nThis is written in terms of sequences `f`, `g`, and `r`, where `r` is usually a stand-in for\n`\u221a(f i * g i)`. See `sum_mul_sq_le_sq_mul_sq` for the more usual form in terms of squared\nsequences. "
+    },
+    {
+      "name": "Multiset.smul_sum",
+      "type": " {M : Type u_1} {N : Type u_2} [AddCommMonoid N] [DistribSMul M N] {r : M} {s : Multiset N} : r \u2022 s.sum = (Multiset.map (fun x => r \u2022 x) s).sum",
+      "module": "Mathlib.Algebra.BigOperators.GroupWithZero.Action",
+      "doc": ""
+    },
+    {
+      "name": "Finset.smul_sum",
+      "type": " {M : Type u_1} {N : Type u_2} {\u03b3 : Type u_3} [AddCommMonoid N] [DistribSMul M N] {r : M} {f : \u03b3 \u2192 N} {s : Finset \u03b3} : r \u2022 \u2211 x \u2208 s, f x = \u2211 x \u2208 s, r \u2022 f x",
+      "module": "Mathlib.Algebra.BigOperators.GroupWithZero.Action",
+      "doc": ""
+    },
+    {
+      "name": "List.smul_sum",
+      "type": " {M : Type u_1} {N : Type u_2} [AddMonoid N] [DistribSMul M N] {r : M} {l : List N} : r \u2022 l.sum = (List.map (fun x => r \u2022 x) l).sum",
+      "module": "Mathlib.Algebra.BigOperators.GroupWithZero.Action",
+      "doc": ""
+    },
+    {
+      "name": "Finsupp.smul_sum",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {R : Type u_3} {M : Type u_5} [Zero \u03b2] [AddCommMonoid M] [DistribSMul R M] {v : \u03b1 \u2192\u2080 \u03b2} {c : R} {h : \u03b1 \u2192 \u03b2 \u2192 M} : c \u2022 v.sum h = v.sum fun a b => c \u2022 h a b",
+      "module": "Mathlib.LinearAlgebra.Finsupp.LSum",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.sumIsLeft",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} : { x // x.isLeft = true } \u2243 \u03b1",
+      "module": "Mathlib.Logic.Equiv.Defs",
+      "doc": "The left summand of `\u03b1 \u2295 \u03b2` is equivalent to `\u03b1`. "
+    },
+    {
+      "name": "Equiv.sumIsRight",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} : { x // x.isRight = true } \u2243 \u03b2",
+      "module": "Mathlib.Logic.Equiv.Defs",
+      "doc": "The right summand of `\u03b1 \u2295 \u03b2` is equivalent to `\u03b2`. "
+    },
+    {
+      "name": "Equiv.sumIsLeft_symm_apply_coe",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (a : \u03b1) : \u2191(Equiv.sumIsLeft.symm a) = Sum.inl a",
+      "module": "Mathlib.Logic.Equiv.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.sumIsRight_symm_apply_coe",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (b : \u03b2) : \u2191(Equiv.sumIsRight.symm b) = Sum.inr b",
+      "module": "Mathlib.Logic.Equiv.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.sumIsLeft_apply",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (x : { x // x.isLeft = true }) : Equiv.sumIsLeft x = (\u2191x).getLeft \u22ef",
+      "module": "Mathlib.Logic.Equiv.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.sumIsRight_apply",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (x : { x // x.isRight = true }) : Equiv.sumIsRight x = (\u2191x).getRight \u22ef",
+      "module": "Mathlib.Logic.Equiv.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.sumArrowEquivProdArrow",
+      "type": " (\u03b1 : Type u_9) (\u03b2 : Type u_10) (\u03b3 : Type u_11) : (\u03b1 \u2295 \u03b2 \u2192 \u03b3) \u2243 (\u03b1 \u2192 \u03b3) \u00d7 (\u03b2 \u2192 \u03b3)",
+      "module": "Mathlib.Logic.Equiv.Prod",
+      "doc": "The type of functions on a sum type `\u03b1 \u2295 \u03b2` is equivalent to the type of pairs of functions\non `\u03b1` and on `\u03b2`. "
+    },
+    {
+      "name": "Equiv.sumProdDistrib",
+      "type": " (\u03b1 : Type u_9) (\u03b2 : Type u_10) (\u03b3 : Type u_11) : (\u03b1 \u2295 \u03b2) \u00d7 \u03b3 \u2243 \u03b1 \u00d7 \u03b3 \u2295 \u03b2 \u00d7 \u03b3",
+      "module": "Mathlib.Logic.Equiv.Prod",
+      "doc": "Type product is right distributive with respect to type sum up to an equivalence. "
+    },
+    {
+      "name": "Equiv.sumPiEquivProdPi",
+      "type": " {\u03b9 : Type u_10} {\u03b9' : Type u_11} (\u03c0 : \u03b9 \u2295 \u03b9' \u2192 Type u_9) : ((i : \u03b9 \u2295 \u03b9') \u2192 \u03c0 i) \u2243 ((i : \u03b9) \u2192 \u03c0 (Sum.inl i)) \u00d7 ((i' : \u03b9') \u2192 \u03c0 (Sum.inr i'))",
+      "module": "Mathlib.Logic.Equiv.Prod",
+      "doc": "The type of dependent functions on a sum type `\u03b9 \u2295 \u03b9'` is equivalent to the type of pairs of\nfunctions on `\u03b9` and on `\u03b9'`. This is a dependent version of `Equiv.sumArrowEquivProdArrow`. "
+    },
+    {
+      "name": "Equiv.sumArrowEquivProdArrow_apply_fst",
+      "type": " {\u03b1 : Type u_9} {\u03b2 : Type u_10} {\u03b3 : Type u_11} (f : \u03b1 \u2295 \u03b2 \u2192 \u03b3) (a : \u03b1) : ((Equiv.sumArrowEquivProdArrow \u03b1 \u03b2 \u03b3) f).1 a = f (Sum.inl a)",
+      "module": "Mathlib.Logic.Equiv.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.sumArrowEquivProdArrow_apply_snd",
+      "type": " {\u03b1 : Type u_9} {\u03b2 : Type u_10} {\u03b3 : Type u_11} (f : \u03b1 \u2295 \u03b2 \u2192 \u03b3) (b : \u03b2) : ((Equiv.sumArrowEquivProdArrow \u03b1 \u03b2 \u03b3) f).2 b = f (Sum.inr b)",
+      "module": "Mathlib.Logic.Equiv.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.sumArrowEquivProdArrow_symm_apply_inl",
+      "type": " {\u03b1 : Type u_9} {\u03b2 : Type u_10} {\u03b3 : Type u_11} (f : \u03b1 \u2192 \u03b3) (g : \u03b2 \u2192 \u03b3) (a : \u03b1) : (Equiv.sumArrowEquivProdArrow \u03b1 \u03b2 \u03b3).symm (f, g) (Sum.inl a) = f a",
+      "module": "Mathlib.Logic.Equiv.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.sum_comp",
+      "type": " {\u03b9 : Type u_1} {\u03ba : Type u_2} {M : Type u_3} [Fintype \u03b9] [Fintype \u03ba] [AddCommMonoid M] (e : \u03b9 \u2243 \u03ba) (g : \u03ba \u2192 M) : \u2211 i, g (e i) = \u2211 i, g i",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.mulLeft",
+      "type": " {G : Type u_5} [Group G] (a : G) : Equiv.Perm G",
+      "module": "Mathlib.Algebra.Group.Units.Equiv",
+      "doc": "Left multiplication in a `Group` is a permutation of the underlying type. "
+    },
+    {
+      "name": "Equiv.mulLeft_symm",
+      "type": " {G : Type u_5} [Group G] (a : G) : Equiv.symm (Equiv.mulLeft a) = Equiv.mulLeft a\u207b\u00b9",
+      "module": "Mathlib.Algebra.Group.Units.Equiv",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.mulLeft_symm_apply",
+      "type": " {G : Type u_5} [Group G] (a : G) : \u21d1(Equiv.symm (Equiv.mulLeft a)) = fun x => a\u207b\u00b9 * x",
+      "module": "Mathlib.Algebra.Group.Units.Equiv",
+      "doc": "Extra simp lemma that `dsimp` can use. `simp` will never use this. "
+    },
+    {
+      "name": "Equiv.mulLeft_one",
+      "type": " {\u03b1 : Type u_4} [Group \u03b1] : Equiv.mulLeft 1 = 1",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.mulLeft_mul",
+      "type": " {\u03b1 : Type u_4} [Group \u03b1] (a b : \u03b1) : Equiv.mulLeft (a * b) = Equiv.mulLeft a * Equiv.mulLeft b",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.mulLeft\u2080",
+      "type": " {G\u2080 : Type u_1} [GroupWithZero G\u2080] (a : G\u2080) (ha : a \u2260 0) : Equiv.Perm G\u2080",
+      "module": "Mathlib.Algebra.GroupWithZero.Units.Equiv",
+      "doc": "Left multiplication by a nonzero element in a `GroupWithZero` is a permutation of the\nunderlying type. "
+    },
+    {
+      "name": "Equiv.mulLeft\u2080_apply",
+      "type": " {G\u2080 : Type u_1} [GroupWithZero G\u2080] (a : G\u2080) (ha : a \u2260 0) : \u21d1(Equiv.mulLeft\u2080 a ha) = fun x => a * x",
+      "module": "Mathlib.Algebra.GroupWithZero.Units.Equiv",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.mulLeft\u2080_symm_apply",
+      "type": " {G\u2080 : Type u_1} [GroupWithZero G\u2080] (a : G\u2080) (ha : a \u2260 0) : \u21d1(Equiv.symm (Equiv.mulLeft\u2080 a ha)) = fun x => a\u207b\u00b9 * x",
+      "module": "Mathlib.Algebra.GroupWithZero.Units.Equiv",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousAddEquiv.mulLeft",
+      "type": " {R : Type u_1} [TopologicalSpace R] [Semiring R] [IsTopologicalSemiring R] (r : R\u02e3) : R \u2243\u209c+ R",
+      "module": "Mathlib.Topology.Algebra.Ring.Basic",
+      "doc": "The additive homeomorphism from a topological ring to itself,\ninduced by left multiplication by a unit. "
+    },
+    {
+      "name": "ContinuousAddEquiv.mulLeft_apply",
+      "type": " {R : Type u_1} [TopologicalSpace R] [Semiring R] [IsTopologicalSemiring R] (r : R\u02e3) (x : R) : (ContinuousAddEquiv.mulLeft r) x = \u2191r * x",
+      "module": "Mathlib.Topology.Algebra.Ring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsometryEquiv.mulLeft",
+      "type": " {G : Type v} [Group G] [PseudoEMetricSpace G] [IsIsometricSMul G G] (c : G) : G \u2243\u1d62 G",
+      "module": "Mathlib.Topology.MetricSpace.IsometricSMul",
+      "doc": "Multiplication `y \u21a6 x * y` as an `IsometryEquiv`. "
+    },
+    {
+      "name": "IsometryEquiv.mulLeft_toEquiv",
+      "type": " {G : Type v} [Group G] [PseudoEMetricSpace G] [IsIsometricSMul G G] (c : G) : (IsometryEquiv.mulLeft c).toEquiv = Equiv.mulLeft c",
+      "module": "Mathlib.Topology.MetricSpace.IsometricSMul",
+      "doc": ""
+    },
+    {
+      "name": "MonoidAlgebra.coeff_single_one_mul",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] [MulOneClass M] (x : MonoidAlgebra R M) (r : R) (m : M) : (MonoidAlgebra.single 1 r * x).coeff m = r * x.coeff m",
+      "module": "Mathlib.Algebra.MonoidAlgebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "MonoidAlgebra.single_one_mul_apply",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] [MulOneClass M] (x : MonoidAlgebra R M) (r : R) (m : M) : (MonoidAlgebra.single 1 r * x).coeff m = r * x.coeff m",
+      "module": "Mathlib.Algebra.MonoidAlgebra.Defs",
+      "doc": "**Alias** of `MonoidAlgebra.coeff_single_one_mul`."
+    },
+    {
+      "name": "SkewMonoidAlgebra.coeff_single_one_mul",
+      "type": " {k : Type u_1} {G : Type u_2} [Semiring k] [Monoid G] [MulSemiringAction G k] (f : SkewMonoidAlgebra k G) (r : k) (x : G) : (SkewMonoidAlgebra.single 1 r * f).coeff x = r * f.coeff x",
+      "module": "Mathlib.Algebra.SkewMonoidAlgebra.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finsupp.smul_apply",
+      "type": " {\u03b1 : Type u_1} {M : Type u_2} {R : Type u_4} [Zero M] [SMulZeroClass R M] (b : R) (v : \u03b1 \u2192\u2080 M) (a : \u03b1) : (b \u2022 v) a = b \u2022 v a",
+      "module": "Mathlib.Data.Finsupp.SMulWithZero",
+      "doc": ""
+    },
+    {
+      "name": "DFinsupp.smul_apply",
+      "type": " {\u03b9 : Type u} {\u03b3 : Type w} {\u03b2 : \u03b9 \u2192 Type v} [(i : \u03b9) \u2192 Zero (\u03b2 i)] [(i : \u03b9) \u2192 SMulZeroClass \u03b3 (\u03b2 i)] (b : \u03b3) (v : \u03a0\u2080 (i : \u03b9), \u03b2 i) (i : \u03b9) : (b \u2022 v) i = b \u2022 v i",
+      "module": "Mathlib.Data.DFinsupp.Module",
+      "doc": ""
+    },
+    {
+      "name": "FreeAbelianGroup.eq_sum_support_coeff_smul_of",
+      "type": " {X : Type u_1} (a : FreeAbelianGroup X) : a = \u2211 x \u2208 a.support, (FreeAbelianGroup.coeff x) a \u2022 FreeAbelianGroup.of x",
+      "module": "Mathlib.Algebra.FreeAbelianGroup.Finsupp",
+      "doc": ""
+    },
+    {
+      "name": "AddMonoidAlgebra.coeff_smul_apply",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] {A : Type u_8} [SMulZeroClass A R] (a : A) (x : AddMonoidAlgebra R M) (m : M) : (a \u2022 x).coeff m = a \u2022 x.coeff m",
+      "module": "Mathlib.Algebra.MonoidAlgebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "MonoidAlgebra.coeff_smul_apply",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] {A : Type u_8} [SMulZeroClass A R] (a : A) (x : MonoidAlgebra R M) (m : M) : (a \u2022 x).coeff m = a \u2022 x.coeff m",
+      "module": "Mathlib.Algebra.MonoidAlgebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddMonoidAlgebra.coeff_smul",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] {A : Type u_8} [SMulZeroClass A R] (a : A) (x : AddMonoidAlgebra R M) : (a \u2022 x).coeff = a \u2022 x.coeff",
+      "module": "Mathlib.Algebra.MonoidAlgebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddMonoidAlgebra.ofCoeff_smul",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] {A : Type u_8} [SMulZeroClass A R] (a : A) (x : M \u2192\u2080 R) : AddMonoidAlgebra.ofCoeff (a \u2022 x) = a \u2022 AddMonoidAlgebra.ofCoeff x",
+      "module": "Mathlib.Algebra.MonoidAlgebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "MonoidAlgebra.coeff_smul",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] {A : Type u_8} [SMulZeroClass A R] (a : A) (x : MonoidAlgebra R M) : (a \u2022 x).coeff = a \u2022 x.coeff",
+      "module": "Mathlib.Algebra.MonoidAlgebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "MonoidAlgebra.ofCoeff_smul",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] {A : Type u_8} [SMulZeroClass A R] (a : A) (x : M \u2192\u2080 R) : MonoidAlgebra.ofCoeff (a \u2022 x) = a \u2022 MonoidAlgebra.ofCoeff x",
+      "module": "Mathlib.Algebra.MonoidAlgebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.coeff_smul",
+      "type": " {R : Type u} {S : Type v} [Semiring R] [SMulZeroClass S R] (r : S) (p : Polynomial R) (n : \u2115) : (r \u2022 p).coeff n = r \u2022 p.coeff n",
+      "module": "Mathlib.Algebra.Polynomial.Coeff",
+      "doc": ""
+    },
+    {
+      "name": "MvPolynomial.coeff_smul",
+      "type": " {R : Type u} {\u03c3 : Type u_1} [CommSemiring R] {S\u2081 : Type u_2} [SMulZeroClass S\u2081 R] (m : \u03c3 \u2192\u2080 \u2115) (C : S\u2081) (p : MvPolynomial \u03c3 R) : (C \u2022 p).coeff m = C \u2022 p.coeff m",
+      "module": "Mathlib.Algebra.MvPolynomial.Basic",
+      "doc": ""
+    },
+    {
+      "name": "MvPolynomial.constantCoeff_smul",
+      "type": " {S\u2081 : Type v} {\u03c3 : Type u_1} [CommSemiring S\u2081] {R : Type u_2} [SMulZeroClass R S\u2081] (a : R) (f : MvPolynomial \u03c3 S\u2081) : MvPolynomial.constantCoeff (a \u2022 f) = a \u2022 MvPolynomial.constantCoeff f",
+      "module": "Mathlib.Algebra.MvPolynomial.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.leadingCoeff_smul_of_smul_regular",
+      "type": " {R : Type u} [Semiring R] {S : Type u_1} [SMulZeroClass S R] {k : S} (p : Polynomial R) (h : IsSMulRegular R k) : (k \u2022 p).leadingCoeff = k \u2022 p.leadingCoeff",
+      "module": "Mathlib.Algebra.Polynomial.Monic",
+      "doc": ""
+    },
+    {
+      "name": "AddMonoidAlgebra.single_mul_single",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] [Add M] (m\u2081 m\u2082 : M) (r\u2081 r\u2082 : R) : AddMonoidAlgebra.single m\u2081 r\u2081 * AddMonoidAlgebra.single m\u2082 r\u2082 = AddMonoidAlgebra.single (m\u2081 + m\u2082) (r\u2081 * r\u2082)",
+      "module": "Mathlib.Algebra.MonoidAlgebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "MonoidAlgebra.single_mul_single",
+      "type": " {R : Type u_1} {M : Type u_4} [Semiring R] [Mul M] (m\u2081 m\u2082 : M) (r\u2081 r\u2082 : R) : MonoidAlgebra.single m\u2081 r\u2081 * MonoidAlgebra.single m\u2082 r\u2082 = MonoidAlgebra.single (m\u2081 * m\u2082) (r\u2081 * r\u2082)",
+      "module": "Mathlib.Algebra.MonoidAlgebra.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.single_mul_single_of_ne",
+      "type": " {l : Type u_1} {m : Type u_2} {n : Type u_3} {\u03b1 : Type u_7} [DecidableEq l] [DecidableEq m] [DecidableEq n] [Fintype m] [NonUnitalNonAssocSemiring \u03b1] (c : \u03b1) (i : l) (j k : m) {l\u271d : n} (h : j \u2260 k) (d : \u03b1) : Matrix.single i j c * Matrix.single k l\u271d d = 0",
+      "module": "Mathlib.Data.Matrix.Basis",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.single_mul_single_same",
+      "type": " {l : Type u_1} {m : Type u_2} {n : Type u_3} {\u03b1 : Type u_7} [DecidableEq l] [DecidableEq m] [DecidableEq n] [Fintype m] [NonUnitalNonAssocSemiring \u03b1] (c : \u03b1) (i : l) (j : m) (k : n) (d : \u03b1) : Matrix.single i j c * Matrix.single j k d = Matrix.single i k (c * d)",
+      "module": "Mathlib.Data.Matrix.Basis",
+      "doc": ""
+    },
+    {
+      "name": "HahnSeries.single_mul_single",
+      "type": " {\u0393 : Type u_1} {R : Type u_3} [AddCommMonoid \u0393] [PartialOrder \u0393] [IsOrderedCancelAddMonoid \u0393] [NonUnitalNonAssocSemiring R] {a b : \u0393} {r s : R} : (HahnSeries.single a) r * (HahnSeries.single b) s = (HahnSeries.single (a + b)) (r * s)",
+      "module": "Mathlib.RingTheory.HahnSeries.Multiplication",
+      "doc": ""
+    },
+    {
+      "name": "SkewMonoidAlgebra.single_mul_single",
+      "type": " {k : Type u_1} {G : Type u_2} [Semiring k] [Monoid G] [MulSemiringAction G k] {a\u2081 a\u2082 : G} {b\u2081 b\u2082 : k} : SkewMonoidAlgebra.single a\u2081 b\u2081 * SkewMonoidAlgebra.single a\u2082 b\u2082 = SkewMonoidAlgebra.single (a\u2081 * a\u2082) (b\u2081 * a\u2081 \u2022 b\u2082)",
+      "module": "Mathlib.Algebra.SkewMonoidAlgebra.Basic",
+      "doc": ""
+    },
+    {
+      "name": "PEquiv.single_mul_single",
+      "type": " {k : Type u_1} {m : Type u_3} {n : Type u_4} {\u03b1 : Type u_5} [Fintype n] [DecidableEq k] [DecidableEq m] [DecidableEq n] [NonAssocSemiring \u03b1] (a : m) (b : n) (c : k) : (PEquiv.single a b).toMatrix * (PEquiv.single b c).toMatrix = (PEquiv.single a c).toMatrix",
+      "module": "Mathlib.Data.Matrix.PEquiv",
+      "doc": ""
+    },
+    {
+      "name": "PEquiv.single_mul_single_of_ne",
+      "type": " {k : Type u_1} {m : Type u_3} {n : Type u_4} {\u03b1 : Type u_5} [Fintype n] [DecidableEq n] [DecidableEq k] [DecidableEq m] [NonAssocSemiring \u03b1] {b\u2081 b\u2082 : n} (hb : b\u2081 \u2260 b\u2082) (a : m) (c : k) : (PEquiv.single a b\u2081).toMatrix * (PEquiv.single b\u2082 c).toMatrix = 0",
+      "module": "Mathlib.Data.Matrix.PEquiv",
+      "doc": ""
+    },
+    {
+      "name": "PEquiv.single_mul_single_right",
+      "type": " {k : Type u_1} {l : Type u_2} {m : Type u_3} {n : Type u_4} {\u03b1 : Type u_5} [Fintype n] [Fintype k] [DecidableEq n] [DecidableEq k] [DecidableEq m] [Semiring \u03b1] (a : m) (b : n) (c : k) (M : Matrix k l \u03b1) : (PEquiv.single a b).toMatrix * ((PEquiv.single b c).toMatrix * M) = (PEquiv.single a c).toMatrix * M",
+      "module": "Mathlib.Data.Matrix.PEquiv",
+      "doc": "Restatement of `single_mul_single`, which will simplify expressions in `simp` normal form,\nwhen associativity may otherwise need to be carefully applied. "
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> CommRing.toRing, IsUnital.toRing, Ring.mk, Int.instRing, Function.Injective.ring, Function.Surjective.ring, DivisionRing.toRing, Lex.instRing",
+    "search: '\"center\"' -> ConjClasses.noncenter, ConjClasses.mem_noncenter, Set.addCenter, Set.center, Set.addCenter_eq_univ, Set.center_eq_univ, Set.addCenter_subset_addCentralizer, Set.center_subset_centralizer",
+    "search: '\"Subring.center\"' -> NonUnitalSubring.center, NonUnitalSubring.center_toNonUnitalSubsemiring, NonUnitalSubring.center.instNonUnitalCommRing, NonUnitalSubring.center_eq_top, NonUnitalSubring.center_prod, NonUnitalSubring.center_le_centralizer, NonUnitalSubring.centerCongr, NonUnitalSubring.centerToMulOpposite",
+    "search: '\"Subring.center\"' -> NonUnitalSubring.center, NonUnitalSubring.center_toNonUnitalSubsemiring, NonUnitalSubring.center.instNonUnitalCommRing, NonUnitalSubring.center_eq_top, NonUnitalSubring.center_prod, NonUnitalSubring.center_le_centralizer, NonUnitalSubring.centerCongr, NonUnitalSubring.centerToMulOpposite",
+    "search: '\"mem_center_iff\"' -> Set.mem_center_iff, AddSemigroup.mem_center_iff, Semigroup.mem_center_iff, AddEquivClass.apply_mem_center_iff, MulEquivClass.apply_mem_center_iff, AddSubsemigroup.mem_center_iff, Subsemigroup.mem_center_iff, AddOpposite.op_mem_center_iff",
+    "search: '\"Subsemiring.mem_center_iff\"' -> NonUnitalSubsemiring.mem_center_iff, Subsemiring.mem_center_iff",
+    "search: '\"MonoidAlgebra.induction_on\"' -> MonoidAlgebra.induction_on, AddMonoidAlgebra.induction_on, SkewMonoidAlgebra.induction_on', SkewMonoidAlgebra.induction_on",
+    "search: '\"smul_mul\"' -> smul_mul_assoc, mul_smul_mul_comm, smul_mul_smul, smul_mul_smul_comm, smul_mul', MulDistribMulAction.smul_mul, op_smul_mul, Equiv.constSMul_mul",
+    "search: '\"mul_smul_comm\"' -> mul_smul_comm, smul_mul_smul_comm, smul_smul_smul_comm, Algebra.mul_smul_comm",
+    "search: '\"mul_sum\"' -> toMul_sum, Finset.mul_sum, Finset.sum_mul_sum, Fintype.sum_mul_sum, Finset.sum_range_succ_mul_sum_range_succ, Finsupp.mul_sum, Finset.sum_sq_le_sum_mul_sum_of_sq_eq_mul, Finset.sum_sq_le_sum_mul_sum_of_sq_le_mul",
+    "search: '\"Equiv.sum\"' -> Equiv.sumIsLeft, Equiv.sumIsRight, Equiv.sumIsLeft_symm_apply_coe, Equiv.sumIsRight_symm_apply_coe, Equiv.sumIsLeft_apply, Equiv.sumIsRight_apply, Equiv.sumArrowEquivProdArrow, Equiv.sumProdDistrib",
+    "search: '\"Equiv.sum_comp\"' -> Equiv.sum_comp",
+    "search: '\"Equiv.mulLeft\"' -> Equiv.mulLeft, Equiv.mulLeft_symm, Equiv.mulLeft_symm_apply, Equiv.mulLeft_one, Equiv.mulLeft_mul, Equiv.mulLeft\u2080, Equiv.mulLeft\u2080_apply, Equiv.mulLeft\u2080_symm_apply",
+    "search: '\"single_one_mul\"' -> MonoidAlgebra.coeff_single_one_mul, MonoidAlgebra.single_one_mul_apply, SkewMonoidAlgebra.coeff_single_one_mul",
+    "search: '\"MonoidAlgebra.single_one_mul\"' -> MonoidAlgebra.single_one_mul_apply",
+    "search: '\"Finsupp.smul_apply\"' -> Finsupp.smul_apply, DFinsupp.smul_apply",
+    "search: '\"coeff_smul\"' -> FreeAbelianGroup.eq_sum_support_coeff_smul_of, AddMonoidAlgebra.coeff_smul_apply, MonoidAlgebra.coeff_smul_apply, AddMonoidAlgebra.coeff_smul, AddMonoidAlgebra.ofCoeff_smul, MonoidAlgebra.coeff_smul, MonoidAlgebra.ofCoeff_smul, Polynomial.coeff_smul",
+    "search: '\"single_mul_single\"' -> AddMonoidAlgebra.single_mul_single, MonoidAlgebra.single_mul_single, Matrix.single_mul_single_of_ne, Matrix.single_mul_single_same, HahnSeries.single_mul_single, SkewMonoidAlgebra.single_mul_single, PEquiv.single_mul_single, PEquiv.single_mul_single_of_ne",
+    "search: '\"MonoidAlgebra.of_eq_single\"' -> nothing",
+    "search: '\"MonoidAlgebra.of_eq_single\"' -> nothing; goal shape -> CommRing.toRing, IsUnital.toRing, Ring.mk, Int.instRing, Function.Injective.ring, Function.Surjective.ring, DivisionRing.toRing, Lex.instRing"
+  ],
+  "budget": {
+    "tool_calls": 34,
+    "lean_calls": 11,
+    "searches": 22,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788872251.8160887,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.7,
+    "statement_checks": 1,
+    "refusals": {
+      "placeholder_proof": 1,
+      "not_the_goal": 1
+    }
+  },
+  "goal": "lemma helper_of {R G : Type*} [Ring R] [Group G] [Fintype G] (m : G) :\n  MonoidAlgebra.of R G m * (\u2211 g : G, MonoidAlgebra.of R G g) = (\u2211 g : G, MonoidAlgebra.of R G g) * MonoidAlgebra.of R G m"
+}

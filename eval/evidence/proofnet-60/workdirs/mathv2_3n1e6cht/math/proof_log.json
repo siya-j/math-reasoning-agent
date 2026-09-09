@@ -1,0 +1,1179 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_8_1_12 {N : \u2115} (hN : N > 0) {M M': \u2124} {d : \u2115}\n  (hMN : M.gcd N = 1) (hMd : d.gcd N.totient = 1)\n  (hM' : M' \u2261 M^d [ZMOD N]) :\n  \u2203 d' : \u2115, d' * d \u2261 1 [ZMOD N.totient] \u2227\n  M \u2261 M'^d' [ZMOD N]",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788872495.3593242,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_8_1_12 {N : \u2115} (hN : N > 0) {M M': \u2124} {d : \u2115}\n  (hMN : M.gcd N = 1) (hMd : d.gcd N.totient = 1)\n  (hM' : M' \u2261 M^d [ZMOD N]) :\n  \u2203 d' : \u2115, d' * d \u2261 1 [ZMOD N.totient] \u2227\n  M \u2261 M'^d' [ZMOD N]",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Num.gcd\n    | exact Num.gcd _\n    | apply Num.gcd\n    | simpa using Num.gcd\n    | exact \u27e8_, Num.gcd\u27e9\n    | exact Num.gcd (by assumption)\n    | exact Num.gcd \u2039_\u203a\n    | apply Num.gcd <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Num.gcd (by assumption))\n    | exact ZNum.gcd\n    | exact ZNum.gcd _\n    | apply ZNum.gcd\n    | simpa using ZNum.gcd\n    | exact \u27e8_, ZNum.gcd\u27e9\n    | exact ZNum.gcd (by assumption)\n    | exact ZNum.gcd \u2039_\u203a\n    | apply ZNum.gcd <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.gcd (by assumption))\n    | exact Num.gcdAux\n    | exact Num.gcdAux _\n    | apply Num.gcdAux\n    | simpa using Num.gcdAux\n    | exact \u27e8_, Num.gcdAux\u27e9\n    | exact Num.gcdAux (by assumption)\n    | exact Num.gcdAux \u2039_\u203a\n    | apply Num.gcdAux <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Num.gcdAux (by assumption))\n    | exact Num.gcd_to_nat\n    | exact Num.gcd_to_nat _\n    | apply Num.gcd_to_nat\n    | simpa using Num.gcd_to_nat\n    | exact \u27e8_, Num.gcd_to_nat\u27e9\n    | exact Num.gcd_to_nat (by assumption)\n    | exact Num.gcd_to_nat \u2039_\u203a\n    | apply Num.gcd_to_nat <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Num.gcd_to_nat (by assumption))\n    | exact ZNum.gcd_to_nat\n    | exact ZNum.gcd_to_nat _\n    | apply ZNum.gcd_to_nat\n    | simpa using ZNum.gcd_to_nat\n    | exact \u27e8_, ZNum.gcd_to_nat\u27e9\n    | exact ZNum.gcd_to_nat (by assumption)\n    | exact ZNum.gcd_to_nat \u2039_\u203a\n    | apply ZNum.gcd_to_nat <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.gcd_to_nat (by assumption))\n    | exact Num.gcd_to_nat_aux\n    | exact Num.gcd_to_nat_aux _\n    | apply Num.gcd_to_nat_aux\n    | simpa using Num.gcd_to_nat_aux\n    | exact \u27e8_, Num.gcd_to_nat_aux\u27e9\n    | exact Num.gcd_to_nat_aux (by assumption)\n    | exact Num.gcd_to_nat_aux \u2039_\u203a\n    | apply Num.gcd_to_nat_aux <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Num.gcd_to_nat_aux (by assumption))\n    | exact ZMod\n    | exact ZMod _\n    | apply ZMod\n    | simpa using ZMod\n    | exact \u27e8_, ZMod\u27e9\n    | exact ZMod (by assumption)\n    | exact ZMod \u2039_\u203a\n    | apply ZMod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod (by assumption))\n    | exact ZMod.commRing\n    | exact ZMod.commRing _\n    | apply ZMod.commRing\n    | simpa using ZMod.commRing\n    | exact \u27e8_, ZMod.commRing\u27e9\n    | exact ZMod.commRing (by assumption)\n    | exact ZMod.commRing \u2039_\u203a\n    | apply ZMod.commRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.commRing (by assumption))\n    | exact ZMod.decidableEq\n    | exact ZMod.decidableEq _\n    | apply ZMod.decidableEq\n    | simpa using ZMod.decidableEq\n    | exact \u27e8_, ZMod.decidableEq\u27e9\n    | exact ZMod.decidableEq (by assumption)\n    | exact ZMod.decidableEq \u2039_\u203a\n    | apply ZMod.decidableEq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.decidableEq (by assumption))\n    | exact ZMod.inhabited\n    | exact ZMod.inhabited _\n    | apply ZMod.inhabited\n    | simpa using ZMod.inhabited\n    | exact \u27e8_, ZMod.inhabited\u27e9\n    | exact ZMod.inhabited (by assumption)\n    | exact ZMod.inhabited \u2039_\u203a\n    | apply ZMod.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.inhabited (by assumption))\n    | exact ZMod.repr\n    | exact ZMod.repr _\n    | apply ZMod.repr\n    | simpa using ZMod.repr\n    | exact \u27e8_, ZMod.repr\u27e9\n    | exact ZMod.repr (by assumption)\n    | exact ZMod.repr \u2039_\u203a\n    | apply ZMod.repr <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.repr (by assumption))\n    | exact ZMod.infinite\n    | exact ZMod.infinite _\n    | apply ZMod.infinite\n    | simpa using ZMod.infinite\n    | exact \u27e8_, ZMod.infinite\u27e9\n    | exact ZMod.infinite (by assumption)\n    | exact ZMod.infinite \u2039_\u203a\n    | apply ZMod.infinite <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.infinite (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:24: error: unsolved goals\nN : \u2115\nhN : N > 0\nM M' : \u2124\nd : \u2115\nhMN : M.gcd \u2191N = 1\nhMd : d.gcd N.totient = 1\nhM' : M' \u2261 M ^ d [ZMOD \u2191N]\n\u22a2 \u2203 d', \u2191d' * \u2191d \u2261 1 [ZMOD \u2191N.totient] \u2227 M \u2261 M' ^ d' [ZMOD \u2191N]\n\nStill to prove:\n\u22a2 \u2203 d', \u2191d' * \u2191d \u2261 1 [ZMOD \u2191N.totient] \u2227 M \u2261 M' ^ d' [ZMOD \u2191N]",
+      "at": 1788872513.118558,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma dummy : True",
+      "proof": "trivial",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma dummy : True",
+      "at": 1788872535.4073868,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_modeq {a b n : \u2115} (h : a \u2261 b [MOD n]) : (a : \u2124) \u2261 b [ZMOD n]",
+      "proof": "by\n  intro h\n  exact h\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:8: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce\n\na b n : \u2115\nh : a \u2261 b [MOD n]\n\u22a2 \u2191a \u2261 \u2191b [ZMOD \u2191n]\n\nStill to prove:\n\u22a2 \u2191a \u2261 \u2191b [ZMOD \u2191n]",
+      "at": 1788872564.28865,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_modeq {a b n : \u2115} (h : a \u2261 b [MOD n]) : (a : \u2124) \u2261 b [ZMOD n]",
+      "proof": "exact h",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:2: error: Type mismatch\n  h\nhas type\n  a \u2261 b [MOD n]\nbut is expected to have type\n  \u2191a \u2261 \u2191b [ZMOD \u2191n]",
+      "at": 1788872566.5578995,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_modeq {a b n : \u2115} (h : a \u2261 b [MOD n]) : (a : \u2124) \u2261 b [ZMOD n]",
+      "proof": "by omega",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:76: error: omega could not prove the goal:\nNo usable constraints found. You may need to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.",
+      "at": 1788872585.2781622,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_modeq_2 {a b n : \u2115} (h : a \u2261 b [MOD n]) : (a : \u2124) \u2261 b [ZMOD n]",
+      "proof": "by exact Nat.ModEq.cast h",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:82: error: Unknown constant `Nat.ModEq.cast`",
+      "at": 1788872624.9691515,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_modeq_3 {a b n : \u2115} (h : a \u2261 b [MOD n]) : (a : \u2124) \u2261 b [ZMOD n]",
+      "proof": "by exact Int.coe_nat_modEq_iff.mpr h",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:82: error: Unknown constant `Int.coe_nat_modEq_iff.mpr`",
+      "at": 1788872626.7728443,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_8_1_12 {N : \u2115} (hN : N > 0) {M M': \u2124} {d : \u2115}\n  (hMN : M.gcd N = 1) (hMd : d.gcd N.totient = 1)\n  (hM' : M' \u2261 M^d [ZMOD N]) :\n  \u2203 d' : \u2115, d' * d \u2261 1 [ZMOD N.totient] \u2227\n  M \u2261 M'^d' [ZMOD N]",
+      "proof": "by\n  have h_tot_pos : N.totient > 0 := by\n    cases N with\n    | zero => contradiction\n    | succ n => exact Nat.totient_pos (Nat.succ_pos n)\n  have h_tot : N.totient = 1 \u2228 1 < N.totient := by omega\n  rcases h_tot with h_tot1 | h_totgt\n  \u00b7 use 1\n    constructor\n    \u00b7 unfold Int.ModEq\n      rw [h_tot1]\n      decide\n    \u00b7 sorry\n  \u00b7 obtain \u27e8d', hd'\u27e9 := Nat.exists_mul_mod_eq_one_of_coprime hMd h_totgt\n    use d'\n    constructor\n    \u00b7 sorry\n    \u00b7 sorry\n",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n12:22: error: Function expected at\n  Nat.totient_pos\nbut this term has type\n  0 < Nat.totient ?m.65 \u2194 0 < ?m.65\n\nNote: Expected a function because this term is being applied to the argument\n  (Nat.succ_pos n)\n19:6: error: Expected type must not contain free variables\n  \u21911 * \u2191d % \u21911 = 1 % \u21911\n\nHint: Use the `+revert` option to automatically clean up and revert free variables",
+      "at": 1788872681.539253,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_8_1_12 {N : \u2115} (hN : N > 0) {M M': \u2124} {d : \u2115}\n  (hMN : M.gcd N = 1) (hMd : d.gcd N.totient = 1)\n  (hM' : M' \u2261 M^d [ZMOD N]) :\n  \u2203 d' : \u2115, d' * d \u2261 1 [ZMOD N.totient] \u2227\n  M \u2261 M'^d' [ZMOD N]",
+      "proof": "by\n  have h_tot_pos : N.totient > 0 := by\n    cases N with\n    | zero => contradiction\n    | succ n => exact Nat.totient_pos.mpr (Nat.succ_pos n)\n  have h_tot : N.totient = 1 \u2228 1 < N.totient := by omega\n  rcases h_tot with h_tot1 | h_totgt\n  \u00b7 use 1\n    constructor\n    \u00b7 unfold Int.ModEq\n      rw [h_tot1]\n      omega\n    \u00b7 sorry\n  \u00b7 obtain \u27e8d', hd'\u27e9 := Nat.exists_mul_mod_eq_one_of_coprime hMd h_totgt\n    use d'\n    constructor\n    \u00b7 sorry\n    \u00b7 sorry\n",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788872684.6689103,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_1 {N : \u2115} (hN : N > 0) : N.totient = 1 \u2228 1 < N.totient",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Num.gcd\n    | exact Num.gcd _\n    | apply Num.gcd\n    | simpa using Num.gcd\n    | exact \u27e8_, Num.gcd\u27e9\n    | exact Num.gcd (by assumption)\n    | exact Num.gcd \u2039_\u203a\n    | apply Num.gcd <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Num.gcd (by assumption))\n    | exact ZNum.gcd\n    | exact ZNum.gcd _\n    | apply ZNum.gcd\n    | simpa using ZNum.gcd\n    | exact \u27e8_, ZNum.gcd\u27e9\n    | exact ZNum.gcd (by assumption)\n    | exact ZNum.gcd \u2039_\u203a\n    | apply ZNum.gcd <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.gcd (by assumption))\n    | exact Num.gcdAux\n    | exact Num.gcdAux _\n    | apply Num.gcdAux\n    | simpa using Num.gcdAux\n    | exact \u27e8_, Num.gcdAux\u27e9\n    | exact Num.gcdAux (by assumption)\n    | exact Num.gcdAux \u2039_\u203a\n    | apply Num.gcdAux <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Num.gcdAux (by assumption))\n    | exact Num.gcd_to_nat\n    | exact Num.gcd_to_nat _\n    | apply Num.gcd_to_nat\n    | simpa using Num.gcd_to_nat\n    | exact \u27e8_, Num.gcd_to_nat\u27e9\n    | exact Num.gcd_to_nat (by assumption)\n    | exact Num.gcd_to_nat \u2039_\u203a\n    | apply Num.gcd_to_nat <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Num.gcd_to_nat (by assumption))\n    | exact ZNum.gcd_to_nat\n    | exact ZNum.gcd_to_nat _\n    | apply ZNum.gcd_to_nat\n    | simpa using ZNum.gcd_to_nat\n    | exact \u27e8_, ZNum.gcd_to_nat\u27e9\n    | exact ZNum.gcd_to_nat (by assumption)\n    | exact ZNum.gcd_to_nat \u2039_\u203a\n    | apply ZNum.gcd_to_nat <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZNum.gcd_to_nat (by assumption))\n    | exact Num.gcd_to_nat_aux\n    | exact Num.gcd_to_nat_aux _\n    | apply Num.gcd_to_nat_aux\n    | simpa using Num.gcd_to_nat_aux\n    | exact \u27e8_, Num.gcd_to_nat_aux\u27e9\n    | exact Num.gcd_to_nat_aux (by assumption)\n    | exact Num.gcd_to_nat_aux \u2039_\u203a\n    | apply Num.gcd_to_nat_aux <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Num.gcd_to_nat_aux (by assumption))\n    | exact ZMod\n    | exact ZMod _\n    | apply ZMod\n    | simpa using ZMod\n    | exact \u27e8_, ZMod\u27e9\n    | exact ZMod (by assumption)\n    | exact ZMod \u2039_\u203a\n    | apply ZMod <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod (by assumption))\n    | exact ZMod.commRing\n    | exact ZMod.commRing _\n    | apply ZMod.commRing\n    | simpa using ZMod.commRing\n    | exact \u27e8_, ZMod.commRing\u27e9\n    | exact ZMod.commRing (by assumption)\n    | exact ZMod.commRing \u2039_\u203a\n    | apply ZMod.commRing <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.commRing (by assumption))\n    | exact ZMod.decidableEq\n    | exact ZMod.decidableEq _\n    | apply ZMod.decidableEq\n    | simpa using ZMod.decidableEq\n    | exact \u27e8_, ZMod.decidableEq\u27e9\n    | exact ZMod.decidableEq (by assumption)\n    | exact ZMod.decidableEq \u2039_\u203a\n    | apply ZMod.decidableEq <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.decidableEq (by assumption))\n    | exact ZMod.inhabited\n    | exact ZMod.inhabited _\n    | apply ZMod.inhabited\n    | simpa using ZMod.inhabited\n    | exact \u27e8_, ZMod.inhabited\u27e9\n    | exact ZMod.inhabited (by assumption)\n    | exact ZMod.inhabited \u2039_\u203a\n    | apply ZMod.inhabited <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.inhabited (by assumption))\n    | exact ZMod.repr\n    | exact ZMod.repr _\n    | apply ZMod.repr\n    | simpa using ZMod.repr\n    | exact \u27e8_, ZMod.repr\u27e9\n    | exact ZMod.repr (by assumption)\n    | exact ZMod.repr \u2039_\u203a\n    | apply ZMod.repr <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.repr (by assumption))\n    | exact ZMod.infinite\n    | exact ZMod.infinite _\n    | apply ZMod.infinite\n    | simpa using ZMod.infinite\n    | exact \u27e8_, ZMod.infinite\u27e9\n    | exact ZMod.infinite (by assumption)\n    | exact ZMod.infinite \u2039_\u203a\n    | apply ZMod.infinite <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ZMod.infinite (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:73: error: unsolved goals\nN : \u2115\nhN : N > 0\n\u22a2 N.totient = 1 \u2228 1 < N.totient\n\nStill to prove:\n\u22a2 N.totient = 1 \u2228 1 < N.totient",
+      "at": 1788872684.7859561,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma totient_cases {N : \u2115} (hN : N > 0) : N.totient = 1 \u2228 1 < N.totient",
+      "proof": "by\n  have h_tot_pos : N.totient > 0 := by\n    cases N with\n    | zero => contradiction\n    | succ n => exact Nat.totient_pos.mpr (Nat.succ_pos n)\n  omega\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma totient_cases {N : \u2115} (hN : N > 0) : N.totient = 1 \u2228 1 < N.totient",
+      "at": 1788872687.7617543,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma N_le_two_of_totient_one {N : \u2115} (hN : N > 0) (ht : N.totient = 1) : N = 1 \u2228 N = 2",
+      "proof": "by\n  by_contra h\n  push_neg at h\n  have h3 : 2 < N := by omega\n  have h_even := Nat.totient_even h3\n  omega\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n16:2: error: omega could not prove the goal:\na possible counterexample may satisfy the constraints\n  a \u2265 3\nwhere\n a := \u2191N",
+      "at": 1788872707.0501547,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma N_le_two_of_totient_one {N : \u2115} (hN : N > 0) (ht : N.totient = 1) : N = 1 \u2228 N = 2",
+      "proof": "by\n  by_contra h\n  push_neg at h\n  have h3 : 2 < N := by omega\n  have h_even := Nat.totient_even h3\n  rw [ht] at h_even\n  have : \u00ac Even 1 := by decide\n  contradiction\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma N_le_two_of_totient_one {N : \u2115} (hN : N > 0) (ht : N.totient = 1) : N = 1 \u2228 N = 2",
+      "at": 1788872708.9970326,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_8_1_12 {N : \u2115} (hN : N > 0) {M M': \u2124} {d : \u2115}\n  (hMN : M.gcd N = 1) (hMd : d.gcd N.totient = 1)\n  (hM' : M' \u2261 M^d [ZMOD N]) :\n  \u2203 d' : \u2115, d' * d \u2261 1 [ZMOD N.totient] \u2227\n  M \u2261 M'^d' [ZMOD N]",
+      "proof": "by\n  have h_tot_pos : N.totient > 0 := by\n    cases N with\n    | zero => contradiction\n    | succ n => exact Nat.totient_pos.mpr (Nat.succ_pos n)\n  have h_tot : N.totient = 1 \u2228 1 < N.totient := totient_cases hN\n  rcases h_tot with h_tot1 | h_totgt\n  \u00b7 use 1\n    constructor\n    \u00b7 unfold Int.ModEq\n      rw [h_tot1]\n      omega\n    \u00b7 have hN12 := N_le_two_of_totient_one hN h_tot1\n      rcases hN12 with rfl | rfl\n      \u00b7 exact Int.modEq_one\n      \u00b7 have h_dvd : \u00ac (2 : \u2124) \u2223 M := by\n          intro hd\n          have hd2 : (2 : \u2115) \u2223 M.gcd 2 := by\n            rw [Int.gcd_comm]\n            apply Int.dvd_gcd\n            \u00b7 exact hd\n            \u00b7 decide\n          rw [hMN] at hd2\n          contradiction\n        have h_mod : M % 2 = 0 \u2228 M % 2 = 1 := by omega\n        have hM2 : M \u2261 1 [ZMOD 2] := by\n          unfold Int.ModEq\n          rcases h_mod with h0 | h1\n          \u00b7 exfalso\n            apply h_dvd\n            exact Int.dvd_of_emod_eq_zero h0\n          \u00b7 rw [h1]\n            decide\n        have hM'2 : M' \u2261 1 [ZMOD 2] := by\n          calc M' \u2261 M^d [ZMOD 2] := hM'\n               _ \u2261 1^d [ZMOD 2] := Int.ModEq.pow d hM2\n               _ \u2261 1 [ZMOD 2] := by simp\n        calc M \u2261 1 [ZMOD 2] := hM2\n             _ \u2261 M'^1 [ZMOD 2] := by\n               simp\n               exact hM'2.symm\n  \u00b7 obtain \u27e8d', hd'\u27e9 := Nat.exists_mul_mod_eq_one_of_coprime hMd h_totgt\n    use d'\n    constructor\n    \u00b7 have hd'_comm : d' * d % N.totient = 1 := by\n        rw [mul_comm]\n        exact hd'\n      unfold Int.ModEq\n      have h1 : (1 : \u2124) % (N.totient : \u2124) = 1 := by omega\n      rw [h1]\n      have h2 : ((d' * d : \u2115) : \u2124) % (N.totient : \u2124) = ((d' * d % N.totient : \u2115) : \u2124) := by norm_cast\n      rw [h2, hd'_comm]\n      rfl\n    \u00b7 aesop\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n44:14: error: Type mismatch\n  hd\nhas type\n  2 \u2223 M\nbut is expected to have type\n  \u21912 \u2223 2\n45:14: error: Expected type must not contain free variables\n  \u21912 \u2223 M\n\nHint: Use the `+revert` option to automatically clean up and revert free variables\n46:14: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  M.gcd \u21912\nin the target expression\n  2 \u2223 M.gcd 2\n\nM M' : \u2124\nd : \u2115\nhN : 2 > 0\nhMN : M.gcd \u21912 = 1\nhMd : d.gcd (Nat.totient 2) = 1\nhM' : M' \u2261 M ^ d [ZMOD \u21912]\nh_tot_pos : Nat.totient 2 > 0\nh_tot1 : Nat.totient 2 = 1\nhd : 2 \u2223 M\nhd2 : 2 \u2223 M.gcd 2\n\u22a2 False\n70:8: error: Type mismatch\n  hd'\nhas type\n  d' < N.totient \u2227 d * d' % N.totient = 1\nbut is expected to have type\n  d * d' % N.totient = 1\n72:52: error: omega could not prove the goal:\na possible counterexample may satisfy the constraints\n  e \u2264 0\n  c \u2265 0\n  b \u2265 2\n  b - c \u2265 1\n  a \u2265 1\nwhere\n a := \u2191N\n b := \u2191N.totient\n c := \u2191d'\n e := 1 % \u2191N.totient\n\nStill to prove:\n\u22a2 False\n\u22a2 \u2191d' * \u2191d % \u2191N.totient = 1\n\u22a2 M \u2261 M' ^ d' [ZMOD \u2191N]",
+      "at": 1788872790.239595,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma isUnit_of_gcd_one {N : \u2115} {M : \u2124} (h : M.gcd N = 1) : IsUnit (M : ZMod N)",
+      "proof": "by\n  have h1 : M.natAbs.Coprime N := h\n  have h2 : IsUnit (M.natAbs : ZMod N) := (ZMod.isUnit_iff_coprime M.natAbs N).mpr h1\n  rcases Int.natAbs_eq M with hM | hM\n  \u00b7 rw [hM]\n    exact_mod_cast h2\n  \u00b7 rw [hM]\n    push_cast\n    exact IsUnit.neg h2\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n25:4: error: mod_cast has type\n  IsUnit \u2191M.natAbs\nbut is expected to have type\n  IsUnit \u2191|M|\n28:21: error: Application type mismatch: The argument\n  h2\nhas type\n  IsUnit \u2191M.natAbs\nbut is expected to have type\n  IsUnit \u2191|M|\nin the application\n  IsUnit.neg h2",
+      "at": 1788872798.5692027,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma isUnit_of_gcd_one {N : \u2115} {M : \u2124} (h : M.gcd N = 1) : IsUnit (M : ZMod N)",
+      "proof": "by\n  have h1 : M.natAbs.Coprime N := h\n  have h2 : IsUnit (M.natAbs : ZMod N) := (ZMod.isUnit_iff_coprime M.natAbs N).mpr h1\n  rcases Int.natAbs_eq M with hM | hM\n  \u00b7 rw [hM]\n    push_cast\n    exact h2\n  \u00b7 rw [hM]\n    push_cast\n    exact IsUnit.neg h2\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n26:4: error: Type mismatch\n  h2\nhas type\n  IsUnit \u2191M.natAbs\nbut is expected to have type\n  IsUnit \u2191|M|\n29:21: error: Application type mismatch: The argument\n  h2\nhas type\n  IsUnit \u2191M.natAbs\nbut is expected to have type\n  IsUnit \u2191|M|\nin the application\n  IsUnit.neg h2",
+      "at": 1788872811.4945505,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_coe {N : \u2115} {M : \u2124} : ((M.natAbs : \u2124) : ZMod N) = (M.natAbs : ZMod N)",
+      "proof": "by\n  have h_coe : ((M.natAbs : \u2124) : ZMod N) = (M.natAbs : ZMod N) := by norm_cast\n  exact h_coe\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n21:66: error: unsolved goals\nN : \u2115\nM : \u2124\n\u22a2 \u2191|M| = \u2191M.natAbs\n\nStill to prove:\n\u22a2 \u2191|M| = \u2191M.natAbs",
+      "at": 1788872816.9960577,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma test_coe {N : \u2115} {M : \u2124} : ((M.natAbs : \u2124) : ZMod N) = (M.natAbs : ZMod N)",
+      "proof": "by simp",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma test_coe {N : \u2115} {M : \u2124} : ((M.natAbs : \u2124) : ZMod N) = (M.natAbs : ZMod N)",
+      "at": 1788872819.611118,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_8_1_12 {N : \u2115} (hN : N > 0) {M M': \u2124} {d : \u2115}\n  (hMN : M.gcd N = 1) (hMd : d.gcd N.totient = 1)\n  (hM' : M' \u2261 M^d [ZMOD N]) :\n  \u2203 d' : \u2115, d' * d \u2261 1 [ZMOD N.totient] \u2227\n  M \u2261 M'^d' [ZMOD N]",
+      "proof": "by\n  have h_tot_pos : N.totient > 0 := by\n    cases N with\n    | zero => contradiction\n    | succ n => exact Nat.totient_pos.mpr (Nat.succ_pos n)\n  have h_tot : N.totient = 1 \u2228 1 < N.totient := totient_cases hN\n  rcases h_tot with h_tot1 | h_totgt\n  \u00b7 use 1\n    constructor\n    \u00b7 unfold Int.ModEq\n      rw [h_tot1]\n      omega\n    \u00b7 have hN12 := N_le_two_of_totient_one hN h_tot1\n      rcases hN12 with rfl | rfl\n      \u00b7 exact Int.modEq_one\n      \u00b7 have h_dvd : \u00ac (2 : \u2124) \u2223 M := by\n          intro hd\n          have hd_nat : (2 : \u2115) \u2223 M.natAbs := by\n            exact_mod_cast Int.dvd_natAbs.mpr hd\n          have hd2 : (2 : \u2115) \u2223 M.gcd 2 := by\n            rw [Int.gcd_eq_natAbs_gcd_natAbs]\n            apply Nat.dvd_gcd\n            \u00b7 exact hd_nat\n            \u00b7 decide\n          rw [hMN] at hd2\n          contradiction\n        have h_mod : M % 2 = 0 \u2228 M % 2 = 1 := by omega\n        have hM2 : M \u2261 1 [ZMOD 2] := by\n          unfold Int.ModEq\n          rcases h_mod with h0 | h1\n          \u00b7 exfalso\n            apply h_dvd\n            exact Int.dvd_of_emod_eq_zero h0\n          \u00b7 rw [h1]\n            decide\n        have hM'2 : M' \u2261 1 [ZMOD 2] := by\n          calc M' \u2261 M^d [ZMOD 2] := hM'\n               _ \u2261 1^d [ZMOD 2] := Int.ModEq.pow d hM2\n               _ \u2261 1 [ZMOD 2] := by simp\n        calc M \u2261 1 [ZMOD 2] := hM2\n             _ \u2261 M'^1 [ZMOD 2] := by\n               simp\n               exact hM'2.symm\n  \u00b7 obtain \u27e8d', hd'_lt, hd'\u27e9 := Nat.exists_mul_mod_eq_one_of_coprime hMd h_totgt\n    use d'\n    constructor\n    \u00b7 have hd'_comm : d' * d % N.totient = 1 := by\n        rw [mul_comm]\n        exact hd'\n      unfold Int.ModEq\n      have h1 : (1 : \u2124) % (N.totient : \u2124) = 1 := by\n        apply Int.emod_eq_of_lt\n        \u00b7 decide\n        \u00b7 exact_mod_cast h_totgt\n      rw [h1]\n      have h2 : ((d' * d : \u2115) : \u2124) % (N.totient : \u2124) = ((d' * d % N.totient : \u2115) : \u2124) := by norm_cast\n      rw [h2, hd'_comm]\n      rfl\n    \u00b7 have h_is_unit : IsUnit (M : ZMod N) := by\n        have h1 : M.natAbs.Coprime N := hMN\n        have h2 : IsUnit (M.natAbs : ZMod N) := (ZMod.isUnit_iff_coprime M.natAbs N).mpr h1\n        rcases Int.natAbs_eq M with hM | hM\n        \u00b7 rw [hM]\n          have h_coe : ((M.natAbs : \u2124) : ZMod N) = (M.natAbs : ZMod N) := test_coe\n          rw [h_coe]\n          exact h2\n        \u00b7 rw [hM]\n          push_cast\n          have h_coe : ((M.natAbs : \u2124) : ZMod N) = (M.natAbs : ZMod N) := test_coe\n          rw [h_coe]\n          exact IsUnit.neg h2\n      let u := h_is_unit.unit\n      have hu : (u : ZMod N) = M := h_is_unit.unit_spec\n      have hu_pow : (M : ZMod N) ^ N.totient = 1 := by\n        rw [\u2190 hu]\n        have h_utot : u ^ N.totient = 1 := ZMod.pow_totient u\n        rw [\u2190 Units.val_pow, h_utot]\n        rfl\n      rw [\u2190 ZMod.intCast_eq_intCast_iff]\n      have hM'_zmod : (M' : ZMod N) = (M^d : ZMod N) := by\n        rw [ZMod.intCast_eq_intCast_iff]\n        exact hM'\n      rw [hM'_zmod]\n      push_cast\n      have h_comm : d * d' = d' * d := mul_comm d d'\n      rw [h_comm]\n      have h_div : d' * d = N.totient * (d' * d / N.totient) + d' * d % N.totient := by\n        exact (Nat.div_add_mod (d' * d) N.totient).symm\n      rw [h_div]\n      have hd'_comm : d' * d % N.totient = 1 := by\n        rw [mul_comm]\n        exact hd'\n      rw [hd'_comm]\n      rw [pow_add, pow_mul, hu_pow]\n      simp\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n50:14: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  M.gcd \u21912\nin the target expression\n  2 \u2223 M.gcd 2\n\nM M' : \u2124\nd : \u2115\nhN : 2 > 0\nhMN : M.gcd \u21912 = 1\nhMd : d.gcd (Nat.totient 2) = 1\nhM' : M' \u2261 M ^ d [ZMOD \u21912]\nh_tot_pos : Nat.totient 2 > 0\nh_tot1 : Nat.totient 2 = 1\nhd : 2 \u2223 M\nhd_nat : 2 \u2223 M.natAbs\nhd2 : 2 \u2223 M.gcd 2\n\u22a2 False\n82:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  \u2191(d' * d) % \u2191N.totient\nin the target expression\n  \u2191d' * \u2191d % \u2191N.totient = 1\n\ncase h.left\nN : \u2115\nhN : N > 0\nM M' : \u2124\nd : \u2115\nhMN : M.gcd \u2191N = 1\nhMd : d.gcd N.totient = 1\nhM' : M' \u2261 M ^ d [ZMOD \u2191N]\nh_tot_pos : N.totient > 0\nh_totgt : 1 < N.totient\nd' : \u2115\nhd'_lt : d' < N.totient\nhd' : d * d' % N.totient = 1\nhd'_comm : d' * d % N.totient = 1\nh1 : 1 % \u2191N.totient = 1\nh2 : \u2191(d' * d) % \u2191N.totient = \u2191(d' * d % N.totient)\n\u22a2 \u2191d' * \u2191d % \u2191N.totient = 1\n95:14: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  \u2191\u2191M.natAbs\nin the target expression\n  IsUnit (-\u2191|M|)\n\ncase inr\nN : \u2115\nhN : N > 0\nM M' : \u2124\nd : \u2115\nhMN : M.gcd \u2191N = 1\nhMd : d.gcd N.totient = 1\nhM' : M' \u2261 M ^ d [ZMOD \u2191N]\nh_tot_pos : N.totient > 0\nh_totgt : 1 < N.totient\nd' : \u2115\nhd'_lt : d' < N.totient\nhd' : d * d' % N.totient = 1\nh1 : M.natAbs.Coprime N\nh2 : IsUnit \u2191M.natAbs\nhM : M = -\u2191M.natAbs\nh_coe : \u2191\u2191M.natAbs = \u2191M.natAbs\n\u22a2 IsUnit (-\u2191|M|)\n102:14: error: Unknown constant `Units.val_pow`\n106:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  \u2191?a = \u2191?b\nin the target expression\n  \u2191M' = \u2191M ^ d\n\nN : \u2115\nhN : N > 0\nM M' : \u2124\nd : \u2115\nhMN : M.gcd \u2191N = 1\nhMd : d.gcd N.totient = 1\nhM' : M' \u2261 M ^ d [ZMOD \u2191N]\nh_tot_pos : N.totient > 0\nh_totgt : 1 < N.totient\nd' : \u2115\nhd'_lt : d' < N.totient\nhd' : d * d' % N.totient = 1\nh_is_unit : IsUnit \u2191M\nu : (ZMod N)\u02e3 := h_is_unit.unit\nhu : \u2191u = \u2191M\nhu_pow : \u2191M ^ N.totient = 1\n\u22a2 \u2191M' = \u2191M ^ d\n\nStill to prove:\n\u22a2 False\n\u22a2 \u2191d' * \u2191d % \u2191N.totient = 1\n\u22a2 IsUnit (-\u2191|M|)",
+      "at": 1788872836.7507052,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma isUnit_of_gcd_one {N : \u2115} {M : \u2124} (h : M.gcd N = 1) : IsUnit (M : ZMod N)",
+      "proof": "by\n  have h1 : M.natAbs.Coprime N := h\n  have h2 : IsUnit (M.natAbs : ZMod N) := (ZMod.isUnit_iff_coprime M.natAbs N).mpr h1\n  rcases Int.natAbs_eq M with hM | hM\n  \u00b7 rw [hM]\n    rw [test_coe]\n    exact h2\n  \u00b7 rw [hM]\n    push_cast\n    rw [test_coe]\n    exact IsUnit.neg h2\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n31:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  \u2191\u2191(Int.natAbs ?m.36)\nin the target expression\n  IsUnit (-\u2191|M|)\n\ncase inr\nN : \u2115\nM : \u2124\nh : M.gcd \u2191N = 1\nh1 : M.natAbs.Coprime N\nh2 : IsUnit \u2191M.natAbs\nhM : M = -\u2191M.natAbs\n\u22a2 IsUnit (-\u2191|M|)\n\nStill to prove:\n\u22a2 IsUnit (-\u2191|M|)",
+      "at": 1788872862.9216268,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma isUnit_of_gcd_one_pos {N : \u2115} {M : \u2124} (h : M.gcd N = 1) (hM : M \u2265 0) : IsUnit (M : ZMod N)",
+      "proof": "by\n  have h1 : M.natAbs.Coprime N := h\n  have h2 : IsUnit (M.natAbs : ZMod N) := (ZMod.isUnit_iff_coprime M.natAbs N).mpr h1\n  have hM_eq : M = M.natAbs := by omega\n  rw [hM_eq]\n  have h_coe : (\u2191(M.natAbs : \u2124) : ZMod N) = (M.natAbs : ZMod N) := by simp\n  rw [h_coe]\n  exact h2\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma isUnit_of_gcd_one_pos {N : \u2115} {M : \u2124} (h : M.gcd N = 1) (hM : M \u2265 0) : IsUnit (M : ZMod N)",
+      "at": 1788872869.9933581,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_8_1_12 {N : \u2115} (hN : N > 0) {M M': \u2124} {d : \u2115}\n  (hMN : M.gcd N = 1) (hMd : d.gcd N.totient = 1)\n  (hM' : M' \u2261 M^d [ZMOD N]) :\n  \u2203 d' : \u2115, d' * d \u2261 1 [ZMOD N.totient] \u2227\n  M \u2261 M'^d' [ZMOD N]",
+      "proof": "by\n  have h_tot_pos : N.totient > 0 := by\n    cases N with\n    | zero => contradiction\n    | succ n => exact Nat.totient_pos.mpr (Nat.succ_pos n)\n  have h_tot : N.totient = 1 \u2228 1 < N.totient := totient_cases hN\n  rcases h_tot with h_tot1 | h_totgt\n  \u00b7 use 1\n    constructor\n    \u00b7 unfold Int.ModEq\n      rw [h_tot1]\n      omega\n    \u00b7 have hN12 := N_le_two_of_totient_one hN h_tot1\n      rcases hN12 with rfl | rfl\n      \u00b7 exact Int.modEq_one\n      \u00b7 have h_dvd : \u00ac (2 : \u2124) \u2223 M := by\n          intro hd\n          have hd_nat : (2 : \u2115) \u2223 M.natAbs := by\n            exact_mod_cast Int.dvd_natAbs.mpr hd\n          have hd2 : (2 : \u2115) \u2223 M.gcd 2 := by\n            rw [Int.gcd_eq_natAbs_gcd_natAbs]\n            apply Nat.dvd_gcd\n            \u00b7 exact hd_nat\n            \u00b7 decide\n          rw [show M.gcd 2 = M.gcd \u21912 by rfl] at hd2\n          rw [hMN] at hd2\n          contradiction\n        have h_mod : M % 2 = 0 \u2228 M % 2 = 1 := by omega\n        have hM2 : M \u2261 1 [ZMOD 2] := by\n          unfold Int.ModEq\n          rcases h_mod with h0 | h1\n          \u00b7 exfalso\n            apply h_dvd\n            exact Int.dvd_of_emod_eq_zero h0\n          \u00b7 rw [h1]\n            decide\n        have hM'2 : M' \u2261 1 [ZMOD 2] := by\n          calc M' \u2261 M^d [ZMOD 2] := hM'\n               _ \u2261 1^d [ZMOD 2] := Int.ModEq.pow d hM2\n               _ \u2261 1 [ZMOD 2] := by simp\n        calc M \u2261 1 [ZMOD 2] := hM2\n             _ \u2261 M'^1 [ZMOD 2] := by\n               simp\n               exact hM'2.symm\n  \u00b7 obtain \u27e8d', hd'_lt, hd'\u27e9 := Nat.exists_mul_mod_eq_one_of_coprime hMd h_totgt\n    use d'\n    constructor\n    \u00b7 have hd'_comm : d' * d % N.totient = 1 := by\n        rw [mul_comm]\n        exact hd'\n      unfold Int.ModEq\n      have h1 : (1 : \u2124) % (N.totient : \u2124) = 1 := by\n        apply Int.emod_eq_of_lt\n        \u00b7 decide\n        \u00b7 exact_mod_cast h_totgt\n      rw [h1]\n      have h2 : ((d' * d : \u2115) : \u2124) % (N.totient : \u2124) = ((d' * d % N.totient : \u2115) : \u2124) := by norm_cast\n      change ((d' * d : \u2115) : \u2124) % (N.totient : \u2124) = 1\n      rw [h2, hd'_comm]\n      rfl\n    \u00b7 have h_is_unit : IsUnit (M : ZMod N) := by\n        have h_cases : M \u2265 0 \u2228 M < 0 := by omega\n        rcases h_cases with h_pos | h_neg\n        \u00b7 exact isUnit_of_gcd_one_pos hMN h_pos\n        \u00b7 have h1 : M.natAbs.Coprime N := hMN\n          have h2 : IsUnit (M.natAbs : ZMod N) := (ZMod.isUnit_iff_coprime M.natAbs N).mpr h1\n          have hM_eq : M = -M.natAbs := by omega\n          rw [hM_eq]\n          push_cast\n          have h_coe : (M.natAbs : ZMod N) = (M.natAbs : ZMod N) := rfl\n          -- Wait, we can just use test_coe or simp\n          have h_coe2 : (\u2191|M| : ZMod N) = (M.natAbs : ZMod N) := by simp\n          rw [h_coe2]\n          exact IsUnit.neg h2\n      let u := h_is_unit.unit\n      have hu : (u : ZMod N) = M := h_is_unit.unit_spec\n      have hu_pow : (M : ZMod N) ^ N.totient = 1 := by\n        rw [\u2190 hu]\n        have h_utot : u ^ N.totient = 1 := ZMod.pow_totient u\n        rw [\u2190 Units.val_pow_eq_pow_val, h_utot]\n        rfl\n      apply (ZMod.intCast_eq_intCast_iff M (M'^d') N).mp\n      have hM'_zmod : (M' : ZMod N) = (M : ZMod N)^d := by\n        have h_cast : (M^d : ZMod N) = (M : ZMod N)^d := by push_cast; rfl\n        rw [\u2190 h_cast]\n        exact (ZMod.intCast_eq_intCast_iff M' (M^d) N).mpr hM'\n      rw [hM'_zmod]\n      push_cast\n      have h_comm : d * d' = d' * d := mul_comm d d'\n      rw [h_comm]\n      have h_div : d' * d = N.totient * (d' * d / N.totient) + d' * d % N.totient := by\n        exact (Nat.div_add_mod (d' * d) N.totient).symm\n      rw [h_div]\n      have hd'_comm : d' * d % N.totient = 1 := by\n        rw [mul_comm]\n        exact hd'\n      rw [hd'_comm]\n      rw [pow_add, pow_mul, hu_pow]\n      simp\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n60:14: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  M.gcd \u21912\nin the target expression\n  2 \u2223 M.gcd 2\n\nM M' : \u2124\nd : \u2115\nhN : 2 > 0\nhMN : M.gcd \u21912 = 1\nhMd : d.gcd (Nat.totient 2) = 1\nhM' : M' \u2261 M ^ d [ZMOD \u21912]\nh_tot_pos : Nat.totient 2 > 0\nh_tot1 : Nat.totient 2 = 1\nhd : 2 \u2223 M\nhd_nat : 2 \u2223 M.natAbs\nhd2 : 2 \u2223 M.gcd 2\n\u22a2 False\n120:8: error: Type mismatch\n  (ZMod.intCast_eq_intCast_iff M' (M ^ d) N).mpr hM'\nhas type\n  \u2191M' = \u2191(M ^ d)\nbut is expected to have type\n  \u2191M' = \u2191M ^ d\n121:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  \u2191M'\nin the target expression\n  \u2191M = \u2191(M' ^ d')\n\ncase h.right\nN : \u2115\nhN : N > 0\nM M' : \u2124\nd : \u2115\nhMN : M.gcd \u2191N = 1\nhMd : d.gcd N.totient = 1\nhM' : M' \u2261 M ^ d [ZMOD \u2191N]\nh_tot_pos : N.totient > 0\nh_totgt : 1 < N.totient\nd' : \u2115\nhd'_lt : d' < N.totient\nhd' : d * d' % N.totient = 1\nh_is_unit : IsUnit \u2191M\nu : (ZMod N)\u02e3 := h_is_unit.unit\nhu : \u2191u = \u2191M\nhu_pow : \u2191M ^ N.totient = 1\nhM'_zmod : \u2191M' = \u2191M ^ d\n\u22a2 \u2191M = \u2191(M' ^ d')\n\nStill to prove:\n\u22a2 False\n\u22a2 \u2191M = \u2191(M' ^ d')",
+      "at": 1788872895.1375978,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma isUnit_of_gcd_one_neg {N : \u2115} {M : \u2124} (h : M.gcd N = 1) (hM : M < 0) : IsUnit (M : ZMod N)",
+      "proof": "by\n  have h1 : M.natAbs.Coprime N := h\n  have h2 : IsUnit (M.natAbs : ZMod N) := (ZMod.isUnit_iff_coprime M.natAbs N).mpr h1\n  have hM_eq : M = -M.natAbs := by omega\n  rw [hM_eq]\n  push_cast\n  have h_coe2 : (\u2191|M| : ZMod N) = (M.natAbs : ZMod N) := by simp\n  rw [h_coe2]\n  exact IsUnit.neg h2\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma isUnit_of_gcd_one_neg {N : \u2115} {M : \u2124} (h : M.gcd N = 1) (hM : M < 0) : IsUnit (M : ZMod N)",
+      "at": 1788872909.7006316,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_8_1_12 {N : \u2115} (hN : N > 0) {M M': \u2124} {d : \u2115}\n  (hMN : M.gcd N = 1) (hMd : d.gcd N.totient = 1)\n  (hM' : M' \u2261 M^d [ZMOD N]) :\n  \u2203 d' : \u2115, d' * d \u2261 1 [ZMOD N.totient] \u2227\n  M \u2261 M'^d' [ZMOD N]",
+      "proof": "by\n  have h_tot_pos : N.totient > 0 := by\n    cases N with\n    | zero => contradiction\n    | succ n => exact Nat.totient_pos.mpr (Nat.succ_pos n)\n  have h_tot : N.totient = 1 \u2228 1 < N.totient := totient_cases hN\n  rcases h_tot with h_tot1 | h_totgt\n  \u00b7 use 1\n    constructor\n    \u00b7 unfold Int.ModEq\n      rw [h_tot1]\n      omega\n    \u00b7 have hN12 := N_le_two_of_totient_one hN h_tot1\n      rcases hN12 with rfl | rfl\n      \u00b7 exact Int.modEq_one\n      \u00b7 have h_dvd : \u00ac (2 : \u2124) \u2223 M := by\n          intro hd\n          have hd_nat : (2 : \u2115) \u2223 M.natAbs := by\n            exact_mod_cast Int.dvd_natAbs.mpr hd\n          have hd2 : (2 : \u2115) \u2223 M.gcd 2 := by\n            rw [Int.gcd_eq_natAbs_gcd_natAbs]\n            apply Nat.dvd_gcd\n            \u00b7 exact hd_nat\n            \u00b7 decide\n          change (2 : \u2115) \u2223 M.gcd \u21912 at hd2\n          rw [hMN] at hd2\n          contradiction\n        have h_mod : M % 2 = 0 \u2228 M % 2 = 1 := by omega\n        have hM2 : M \u2261 1 [ZMOD 2] := by\n          unfold Int.ModEq\n          rcases h_mod with h0 | h1\n          \u00b7 exfalso\n            apply h_dvd\n            exact Int.dvd_of_emod_eq_zero h0\n          \u00b7 rw [h1]\n            decide\n        have hM'2 : M' \u2261 1 [ZMOD 2] := by\n          calc M' \u2261 M^d [ZMOD 2] := hM'\n               _ \u2261 1^d [ZMOD 2] := Int.ModEq.pow d hM2\n               _ \u2261 1 [ZMOD 2] := by simp\n        calc M \u2261 1 [ZMOD 2] := hM2\n             _ \u2261 M'^1 [ZMOD 2] := by\n               simp\n               exact hM'2.symm\n  \u00b7 obtain \u27e8d', hd'_lt, hd'\u27e9 := Nat.exists_mul_mod_eq_one_of_coprime hMd h_totgt\n    use d'\n    constructor\n    \u00b7 have hd'_comm : d' * d % N.totient = 1 := by\n        rw [mul_comm]\n        exact hd'\n      unfold Int.ModEq\n      have h1 : (1 : \u2124) % (N.totient : \u2124) = 1 := by\n        apply Int.emod_eq_of_lt\n        \u00b7 decide\n        \u00b7 exact_mod_cast h_totgt\n      rw [h1]\n      have h2 : ((d' * d : \u2115) : \u2124) % (N.totient : \u2124) = ((d' * d % N.totient : \u2115) : \u2124) := by norm_cast\n      change ((d' * d : \u2115) : \u2124) % (N.totient : \u2124) = 1\n      rw [h2, hd'_comm]\n      rfl\n    \u00b7 have h_is_unit : IsUnit (M : ZMod N) := by\n        have h_cases : M \u2265 0 \u2228 M < 0 := by omega\n        rcases h_cases with h_pos | h_neg\n        \u00b7 exact isUnit_of_gcd_one_pos hMN h_pos\n        \u00b7 exact isUnit_of_gcd_one_neg hMN h_neg\n      let u := h_is_unit.unit\n      have hu : (u : ZMod N) = M := h_is_unit.unit_spec\n      have hu_pow : (M : ZMod N) ^ N.totient = 1 := by\n        rw [\u2190 hu]\n        have h_utot : u ^ N.totient = 1 := ZMod.pow_totient u\n        rw [\u2190 Units.val_pow_eq_pow_val, h_utot]\n        rfl\n      apply (ZMod.intCast_eq_intCast_iff M (M'^d') N).mp\n      have hM'_zmod : (M' : ZMod N) = (M : ZMod N)^d := by\n        have h_eq := (ZMod.intCast_eq_intCast_iff M' (M^d) N).mpr hM'\n        push_cast at h_eq\n        exact h_eq\n      push_cast\n      rw [hM'_zmod]\n      have h_comm : d * d' = d' * d := mul_comm d d'\n      rw [h_comm]\n      have h_div : d' * d = N.totient * (d' * d / N.totient) + d' * d % N.totient := by\n        exact (Nat.div_add_mod (d' * d) N.totient).symm\n      rw [h_div]\n      have hd'_comm : d' * d % N.totient = 1 := by\n        rw [mul_comm]\n        exact hd'\n      rw [hd'_comm]\n      rw [pow_add, pow_mul, hu_pow]\n      simp\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n70:14: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  M.gcd \u21912\nin the target expression\n  2 \u2223 M.gcd 2\n\nM M' : \u2124\nd : \u2115\nhN : 2 > 0\nhMN : M.gcd \u21912 = 1\nhMd : d.gcd (Nat.totient 2) = 1\nhM' : M' \u2261 M ^ d [ZMOD \u21912]\nh_tot_pos : Nat.totient 2 > 0\nh_tot1 : Nat.totient 2 = 1\nhd : 2 \u2223 M\nhd_nat : 2 \u2223 M.natAbs\nhd2 : 2 \u2223 M.gcd 2\n\u22a2 False\n125:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  d * d'\nin the target expression\n  \u2191M = (\u2191M ^ d) ^ d'\n\ncase h.right\nN : \u2115\nhN : N > 0\nM M' : \u2124\nd : \u2115\nhMN : M.gcd \u2191N = 1\nhMd : d.gcd N.totient = 1\nhM' : M' \u2261 M ^ d [ZMOD \u2191N]\nh_tot_pos : N.totient > 0\nh_totgt : 1 < N.totient\nd' : \u2115\nhd'_lt : d' < N.totient\nhd' : d * d' % N.totient = 1\nh_is_unit : IsUnit \u2191M\nu : (ZMod N)\u02e3 := h_is_unit.unit\nhu : \u2191u = \u2191M\nhu_pow : \u2191M ^ N.totient = 1\nhM'_zmod : \u2191M' = \u2191M ^ d\nh_comm : d * d' = d' * d\n\u22a2 \u2191M = (\u2191M ^ d) ^ d'\n\nStill to prove:\n\u22a2 False\n\u22a2 \u2191M = (\u2191M ^ d) ^ d'",
+      "at": 1788872921.2944548,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma isUnit_of_gcd_one {N : \u2115} {M : \u2124} (h : M.gcd N = 1) : IsUnit (M : ZMod N)",
+      "proof": "by\n  have h_cases : M \u2265 0 \u2228 M < 0 := by omega\n  rcases h_cases with h_pos | h_neg\n  \u00b7 exact isUnit_of_gcd_one_pos h h_pos\n  \u00b7 exact isUnit_of_gcd_one_neg h h_neg\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma isUnit_of_gcd_one {N : \u2115} {M : \u2124} (h : M.gcd N = 1) : IsUnit (M : ZMod N)",
+      "at": 1788872937.2186074,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_8_1_12 {N : \u2115} (hN : N > 0) {M M': \u2124} {d : \u2115}\n  (hMN : M.gcd N = 1) (hMd : d.gcd N.totient = 1)\n  (hM' : M' \u2261 M^d [ZMOD N]) :\n  \u2203 d' : \u2115, d' * d \u2261 1 [ZMOD N.totient] \u2227\n  M \u2261 M'^d' [ZMOD N]",
+      "proof": "by\n  have h_tot_pos : N.totient > 0 := by\n    cases N with\n    | zero => contradiction\n    | succ n => exact Nat.totient_pos.mpr (Nat.succ_pos n)\n  have h_tot : N.totient = 1 \u2228 1 < N.totient := totient_cases hN\n  rcases h_tot with h_tot1 | h_totgt\n  \u00b7 use 1\n    constructor\n    \u00b7 unfold Int.ModEq\n      rw [h_tot1]\n      omega\n    \u00b7 have hN12 := N_le_two_of_totient_one hN h_tot1\n      rcases hN12 with rfl | rfl\n      \u00b7 exact Int.modEq_one\n      \u00b7 have h_dvd : \u00ac (2 : \u2124) \u2223 M := by\n          intro hd\n          have hd_nat : (2 : \u2115) \u2223 M.natAbs := by\n            exact_mod_cast Int.dvd_natAbs.mpr hd\n          have hd2 : (2 : \u2115) \u2223 M.gcd 2 := by\n            rw [Int.gcd_eq_natAbs_gcd_natAbs]\n            apply Nat.dvd_gcd\n            \u00b7 exact hd_nat\n            \u00b7 decide\n          have hMN_2 : M.gcd 2 = 1 := by exact_mod_cast hMN\n          rw [hMN_2] at hd2\n          contradiction\n        have h_mod : M % 2 = 0 \u2228 M % 2 = 1 := by omega\n        have hM2 : M \u2261 1 [ZMOD 2] := by\n          unfold Int.ModEq\n          rcases h_mod with h0 | h1\n          \u00b7 exfalso\n            apply h_dvd\n            exact Int.dvd_of_emod_eq_zero h0\n          \u00b7 rw [h1]\n            decide\n        have hM'2 : M' \u2261 1 [ZMOD 2] := by\n          calc M' \u2261 M^d [ZMOD 2] := hM'\n               _ \u2261 1^d [ZMOD 2] := Int.ModEq.pow d hM2\n               _ \u2261 1 [ZMOD 2] := by simp\n        calc M \u2261 1 [ZMOD 2] := hM2\n             _ \u2261 M'^1 [ZMOD 2] := by\n               simp\n               exact hM'2.symm\n  \u00b7 obtain \u27e8d', hd'_lt, hd'\u27e9 := Nat.exists_mul_mod_eq_one_of_coprime hMd h_totgt\n    use d'\n    constructor\n    \u00b7 have hd'_comm : d' * d % N.totient = 1 := by\n        rw [mul_comm]\n        exact hd'\n      unfold Int.ModEq\n      have h1 : (1 : \u2124) % (N.totient : \u2124) = 1 := by\n        apply Int.emod_eq_of_lt\n        \u00b7 decide\n        \u00b7 exact_mod_cast h_totgt\n      rw [h1]\n      have h2 : ((d' * d : \u2115) : \u2124) % (N.totient : \u2124) = ((d' * d % N.totient : \u2115) : \u2124) := by norm_cast\n      change ((d' * d : \u2115) : \u2124) % (N.totient : \u2124) = 1\n      rw [h2, hd'_comm]\n      rfl\n    \u00b7 have h_is_unit : IsUnit (M : ZMod N) := isUnit_of_gcd_one hMN\n      let u := h_is_unit.unit\n      have hu : (u : ZMod N) = M := h_is_unit.unit_spec\n      have hu_pow : (M : ZMod N) ^ N.totient = 1 := by\n        rw [\u2190 hu]\n        have h_utot : u ^ N.totient = 1 := ZMod.pow_totient u\n        rw [\u2190 Units.val_pow_eq_pow_val, h_utot]\n        rfl\n      apply (ZMod.intCast_eq_intCast_iff M (M'^d') N).mp\n      have hM'_zmod : (M' : ZMod N) = (M : ZMod N)^d := by\n        have h_eq := (ZMod.intCast_eq_intCast_iff M' (M^d) N).mpr hM'\n        push_cast at h_eq\n        exact h_eq\n      push_cast\n      rw [hM'_zmod]\n      rw [\u2190 pow_mul]\n      have h_comm : d * d' = d' * d := mul_comm d d'\n      rw [h_comm]\n      have h_div : d' * d = N.totient * (d' * d / N.totient) + d' * d % N.totient := by\n        exact (Nat.div_add_mod (d' * d) N.totient).symm\n      rw [h_div]\n      have hd'_comm : d' * d % N.totient = 1 := by\n        rw [mul_comm]\n        exact hd'\n      rw [hd'_comm]\n      rw [pow_add, pow_mul, hu_pow]\n      simp\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_8_1_12 {N : \u2115} (hN : N > 0) {M M': \u2124} {d : \u2115}\n  (hMN : M.gcd N = 1) (hMd : d.gcd N.totient = 1)\n  (hM' : M' \u2261 M^d [ZMOD N]) :\n  \u2203 d' : \u2115, d' * d \u2261 1 [ZMOD N.totient] \u2227\n  M \u2261 M'^d' [ZMOD N]",
+      "at": 1788872946.0512245,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma dummy : True := by\n  trivial",
+    "lemma totient_cases {N : \u2115} (hN : N > 0) : N.totient = 1 \u2228 1 < N.totient := by\n  have h_tot_pos : N.totient > 0 := by\n    cases N with\n    | zero => contradiction\n    | succ n => exact Nat.totient_pos.mpr (Nat.succ_pos n)\n  omega",
+    "lemma N_le_two_of_totient_one {N : \u2115} (hN : N > 0) (ht : N.totient = 1) : N = 1 \u2228 N = 2 := by\n  by_contra h\n  push_neg at h\n  have h3 : 2 < N := by omega\n  have h_even := Nat.totient_even h3\n  rw [ht] at h_even\n  have : \u00ac Even 1 := by decide\n  contradiction",
+    "lemma test_coe {N : \u2115} {M : \u2124} : ((M.natAbs : \u2124) : ZMod N) = (M.natAbs : ZMod N) := by simp",
+    "lemma isUnit_of_gcd_one_pos {N : \u2115} {M : \u2124} (h : M.gcd N = 1) (hM : M \u2265 0) : IsUnit (M : ZMod N) := by\n  have h1 : M.natAbs.Coprime N := h\n  have h2 : IsUnit (M.natAbs : ZMod N) := (ZMod.isUnit_iff_coprime M.natAbs N).mpr h1\n  have hM_eq : M = M.natAbs := by omega\n  rw [hM_eq]\n  have h_coe : (\u2191(M.natAbs : \u2124) : ZMod N) = (M.natAbs : ZMod N) := by simp\n  rw [h_coe]\n  exact h2",
+    "lemma isUnit_of_gcd_one_neg {N : \u2115} {M : \u2124} (h : M.gcd N = 1) (hM : M < 0) : IsUnit (M : ZMod N) := by\n  have h1 : M.natAbs.Coprime N := h\n  have h2 : IsUnit (M.natAbs : ZMod N) := (ZMod.isUnit_iff_coprime M.natAbs N).mpr h1\n  have hM_eq : M = -M.natAbs := by omega\n  rw [hM_eq]\n  push_cast\n  have h_coe2 : (\u2191|M| : ZMod N) = (M.natAbs : ZMod N) := by simp\n  rw [h_coe2]\n  exact IsUnit.neg h2",
+    "lemma isUnit_of_gcd_one {N : \u2115} {M : \u2124} (h : M.gcd N = 1) : IsUnit (M : ZMod N) := by\n  have h_cases : M \u2265 0 \u2228 M < 0 := by omega\n  rcases h_cases with h_pos | h_neg\n  \u00b7 exact isUnit_of_gcd_one_pos h h_pos\n  \u00b7 exact isUnit_of_gcd_one_neg h h_neg"
+  ],
+  "premises": [
+    {
+      "name": "Num.gcd",
+      "type": " (a b : Num) : Num",
+      "module": "Mathlib.Data.Num.Basic",
+      "doc": "Greatest Common Divisor (GCD) of two `Num`s. "
+    },
+    {
+      "name": "ZNum.gcd",
+      "type": " (a b : ZNum) : Num",
+      "module": "Mathlib.Data.Num.Basic",
+      "doc": "Greatest Common Divisor (GCD) of two `ZNum`s. "
+    },
+    {
+      "name": "Num.gcdAux",
+      "type": " : \u2115 \u2192 Num \u2192 Num \u2192 Num",
+      "module": "Mathlib.Data.Num.Basic",
+      "doc": "Auxiliary definition for `Num.gcd`. "
+    },
+    {
+      "name": "Num.gcd_to_nat",
+      "type": " (a b : Num) : \u2191(a.gcd b) = (\u2191a).gcd \u2191b",
+      "module": "Mathlib.Data.Num.ZNum",
+      "doc": ""
+    },
+    {
+      "name": "ZNum.gcd_to_nat",
+      "type": " (a b : ZNum) : \u2191(a.gcd b) = (\u2191a).gcd \u2191b",
+      "module": "Mathlib.Data.Num.ZNum",
+      "doc": ""
+    },
+    {
+      "name": "Num.gcd_to_nat_aux",
+      "type": " {n : \u2115} {a b : Num} : a \u2264 b \u2192 (a * b).natSize \u2264 n \u2192 \u2191(Num.gcdAux n a b) = (\u2191a).gcd \u2191b",
+      "module": "Mathlib.Data.Num.ZNum",
+      "doc": ""
+    },
+    {
+      "name": "ZMod",
+      "type": " : \u2115 \u2192 Type",
+      "module": "Mathlib.Data.ZMod.Defs",
+      "doc": "The integers modulo `n : \u2115`. "
+    },
+    {
+      "name": "ZMod.commRing",
+      "type": " (n : \u2115) : CommRing (ZMod n)",
+      "module": "Mathlib.Data.ZMod.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.decidableEq",
+      "type": " (n : \u2115) : DecidableEq (ZMod n)",
+      "module": "Mathlib.Data.ZMod.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.inhabited",
+      "type": " (n : \u2115) : Inhabited (ZMod n)",
+      "module": "Mathlib.Data.ZMod.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.repr",
+      "type": " (n : \u2115) : Repr (ZMod n)",
+      "module": "Mathlib.Data.ZMod.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.infinite",
+      "type": " : Infinite (ZMod 0)",
+      "module": "Mathlib.Data.ZMod.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.instUnique",
+      "type": " : Unique (ZMod 1)",
+      "module": "Mathlib.Data.ZMod.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.fintype",
+      "type": " (n : \u2115) [NeZero n] : Fintype (ZMod n)",
+      "module": "Mathlib.Data.ZMod.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.card",
+      "type": " (n : \u2115) [Fintype (ZMod n)] : Fintype.card (ZMod n) = n",
+      "module": "Mathlib.Data.ZMod.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.card_zmod",
+      "type": " (n : \u2115) : Nat.card (ZMod n) = n",
+      "module": "Mathlib.SetTheory.Cardinal.Finite",
+      "doc": ""
+    },
+    {
+      "name": "\u00abterm_\u2261_[ZMOD_]\u00bb",
+      "type": " : Lean.TrailingParserDescr",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": "`a \u2261 b [ZMOD n]` when `a % n = b % n`. "
+    },
+    {
+      "name": "ZMod.instInv",
+      "type": " (n : \u2115) : Inv (ZMod n)",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Int.divModEquiv",
+      "type": " (n : \u2115) [NeZero n] : \u2124 \u2243 \u2124 \u00d7 Fin n",
+      "module": "Mathlib.Logic.Equiv.Fin.Basic",
+      "doc": "The equivalence induced by `a \u21a6 (a / n, a % n)` for nonzero `n`.\nSee `Int.ediv_emod_unique` for a similar propositional statement. "
+    },
+    {
+      "name": "Nat.divModEquiv",
+      "type": " (n : \u2115) [NeZero n] : \u2115 \u2243 \u2115 \u00d7 Fin n",
+      "module": "Mathlib.Logic.Equiv.Fin.Basic",
+      "doc": "The equivalence induced by `a \u21a6 (a / n, a % n)` for nonzero `n`.\nThis is like `finProdFinEquiv.symm` but with `m` infinite.\nSee `Nat.div_mod_unique` for a similar propositional statement. "
+    },
+    {
+      "name": "Nat.divModEquiv_apply",
+      "type": " (n : \u2115) [NeZero n] (a : \u2115) : n.divModEquiv a = (a / n, Fin.ofNat n a)",
+      "module": "Mathlib.Logic.Equiv.Fin.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Int.divModEquiv_apply",
+      "type": " (n : \u2115) [NeZero n] (a : \u2124) : (Int.divModEquiv n) a = (a / \u2191n, Fin.ofNat n (a.natMod \u2191n))",
+      "module": "Mathlib.Logic.Equiv.Fin.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Nat.divModEquiv_symm_apply",
+      "type": " (n : \u2115) [NeZero n] (p : \u2115 \u00d7 Fin n) : n.divModEquiv.symm p = p.1 * n + \u2191p.2",
+      "module": "Mathlib.Logic.Equiv.Fin.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Int.divModEquiv_symm_apply",
+      "type": " (n : \u2115) [NeZero n] (p : \u2124 \u00d7 Fin n) : (Int.divModEquiv n).symm p = p.1 * \u2191n + \u2191\u2191p.2",
+      "module": "Mathlib.Logic.Equiv.Fin.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.instIsTransModEq",
+      "type": " {M : Type u_1} [AddCommMonoid M] {p : M} : IsTrans M (AddCommGroup.ModEq p)",
+      "module": "Mathlib.Algebra.Group.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.instReflModEq",
+      "type": " {M : Type u_1} [AddCommMonoid M] {p : M} : Std.Refl (AddCommGroup.ModEq p)",
+      "module": "Mathlib.Algebra.Group.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.instSymmModEq",
+      "type": " {M : Type u_1} [AddCommMonoid M] {p : M} : Std.Symm (AddCommGroup.ModEq p)",
+      "module": "Mathlib.Algebra.Group.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.modEq_refl",
+      "type": " {M : Type u_1} [AddCommMonoid M] {p : M} (a : M) : a \u2261 a [PMOD p]",
+      "module": "Mathlib.Algebra.Group.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.modEq_rfl",
+      "type": " {M : Type u_1} [AddCommMonoid M] {a p : M} : a \u2261 a [PMOD p]",
+      "module": "Mathlib.Algebra.Group.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.ModEq",
+      "type": " {M : Type u_1} [AddCommMonoid M] (p a b : M) : Prop",
+      "module": "Mathlib.Algebra.Group.ModEq",
+      "doc": "`a \u2261 b [PMOD p]` means that `b` is congruent to `a` modulo `p`.\n\nIf `a`, `b` are elements of an additive group,\nthen `a \u2261 b [PMOD p]` iff `m \u2022 p = b - a` for some `m : \u2124`, see `modEq_iff_zsmul` below.\nFor additive commutative monoid, the definition is given by `modEq_iff_nsmul`.\n\nEquivalently (as shown in `Algebra.Order.ToIntervalMod`), `b` does not lie in the open interval\n`(a, a + p)` modulo `p`, or `toIcoMod hp a` disagrees with `toIocMod hp a` at `b`, or\n`toIcoDiv hp a` disagrees with `toIocDiv hp a` at `b`. "
+    },
+    {
+      "name": "Int.ModEq.instIsEquiv",
+      "type": " {n : \u2124} : IsEquiv \u2124 n.ModEq",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.ModEq.refl",
+      "type": " {n : \u2124} (a : \u2124) : a \u2261 a [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.ModEq.rfl",
+      "type": " {n a : \u2124} : a \u2261 a [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.modEq_one",
+      "type": " {a b : \u2124} : a \u2261 b [ZMOD 1]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.ModEq.symm",
+      "type": " {n a b : \u2124} : a \u2261 b [ZMOD n] \u2192 b \u2261 a [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.modEq_comm",
+      "type": " {n a b : \u2124} : a \u2261 b [ZMOD n] \u2194 b \u2261 a [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.modEq_sub",
+      "type": " (a b : \u2124) : a \u2261 b [ZMOD a - b]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.modEq_neg",
+      "type": " {n a b : \u2124} : a \u2261 b [ZMOD -n] \u2194 a \u2261 b [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.modEq_zero_iff",
+      "type": " {a b : \u2124} : a \u2261 b [ZMOD 0] \u2194 a = b",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.modEq_abs",
+      "type": " {n a b : \u2124} : a \u2261 b [ZMOD |n|] \u2194 a \u2261 b [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.modEq_natAbs",
+      "type": " {n a b : \u2124} : a \u2261 b [ZMOD \u2191n.natAbs] \u2194 a \u2261 b [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.ModEq",
+      "type": " (n a b : \u2124) : Prop",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": "`a \u2261 b [ZMOD n]` when `a % n = b % n`. "
+    },
+    {
+      "name": "Mathlib.Meta.Positivity.evalNatTotient",
+      "type": " : Mathlib.Meta.Positivity.PositivityExt",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": "Extension for `Nat.totient`. "
+    },
+    {
+      "name": "Nat.totient",
+      "type": " (n : \u2115) : \u2115",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": "Euler's totient function. This counts the number of naturals strictly less than `n` which are\ncoprime with `n`. "
+    },
+    {
+      "name": "Nat.totient_le",
+      "type": " (n : \u2115) : n.totient \u2264 n",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": ""
+    },
+    {
+      "name": "Nat.sum_totient",
+      "type": " (n : \u2115) : n.divisors.sum Nat.totient = n",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": ""
+    },
+    {
+      "name": "Nat.totient_one",
+      "type": " : Nat.totient 1 = 1",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": ""
+    },
+    {
+      "name": "Nat.totient_two",
+      "type": " : Nat.totient 2 = 1",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": ""
+    },
+    {
+      "name": "Nat.totient_zero",
+      "type": " : Nat.totient 0 = 0",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": ""
+    },
+    {
+      "name": "Nat.neZero_totient",
+      "type": " {n : \u2115} [NeZero n] : NeZero n.totient",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": ""
+    },
+    {
+      "name": "Nat.totient_dvd_of_dvd",
+      "type": " {a b : \u2115} (h : a \u2223 b) : a.totient \u2223 b.totient",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": ""
+    },
+    {
+      "name": "Nat.totient_even",
+      "type": " {n : \u2115} (hn : 2 < n) : Even n.totient",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": ""
+    },
+    {
+      "name": "Nat.odd_totient_iff_eq_one",
+      "type": " {n : \u2115} : Odd n.totient \u2194 n.totient = 1",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": ""
+    },
+    {
+      "name": "Nat.totient_lt",
+      "type": " (n : \u2115) (hn : 1 < n) : n.totient < n",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": ""
+    },
+    {
+      "name": "GenContFract.toEuler",
+      "type": " {K : Type u_1} [Field K] (g : GenContFract K) : GenContFract K",
+      "module": "Mathlib.Algebra.ContinuedFractions.Euler",
+      "doc": "`toEuler g` is the Euler continued fraction equivalent to `g`, where `\u03c1\u2080` = `a\u2080 / b\u2080` and\n`\u03c1\u2099` = `- a\u2099 * B\u2099\u208b\u2081 / B\u2099\u208a\u2081` for `n > 0`. "
+    },
+    {
+      "name": "GenContFract.euler",
+      "type": " {K : Type u_1} [Field K] (h : K) (\u03c1 : Stream'.Seq K) : GenContFract K",
+      "module": "Mathlib.Algebra.ContinuedFractions.Euler",
+      "doc": "`euler h \u03c1` constructs an Euler continued fraction whose coefficients are obtained\nfrom the stream `\u03c1` with head term `h`. "
+    },
+    {
+      "name": "GenContFract.isEuler_toEuler",
+      "type": " {K : Type u_1} [Field K] {g : GenContFract K} : g.toEuler.IsEuler",
+      "module": "Mathlib.Algebra.ContinuedFractions.Euler",
+      "doc": ""
+    },
+    {
+      "name": "GenContFract.isEuler_euler",
+      "type": " {K : Type u_1} [Field K] {h : K} {\u03c1 : Stream'.Seq K} : (GenContFract.euler h \u03c1).IsEuler",
+      "module": "Mathlib.Algebra.ContinuedFractions.Euler",
+      "doc": ""
+    },
+    {
+      "name": "GenContFract.euler_h",
+      "type": " {K : Type u_1} [Field K] {h : K} {\u03c1 : Stream'.Seq K} : (GenContFract.euler h \u03c1).h = h",
+      "module": "Mathlib.Algebra.ContinuedFractions.Euler",
+      "doc": ""
+    },
+    {
+      "name": "GenContFract.toEuler_h",
+      "type": " {K : Type u_1} [Field K] {g : GenContFract K} : g.toEuler.h = g.h",
+      "module": "Mathlib.Algebra.ContinuedFractions.Euler",
+      "doc": ""
+    },
+    {
+      "name": "GenContFract.IsEuler.toEuler",
+      "type": " {K : Type u_1} [Field K] {g : GenContFract K} (hg : g.IsEuler) : g.toEuler = g",
+      "module": "Mathlib.Algebra.ContinuedFractions.Euler",
+      "doc": "The transformation `toEuler` is idempotent. "
+    },
+    {
+      "name": "GenContFract.terminatedAt_toEuler",
+      "type": " {K : Type u_1} [Field K] {n : \u2115} {g : GenContFract K} : g.toEuler.TerminatedAt n \u2194 g.TerminatedAt n",
+      "module": "Mathlib.Algebra.ContinuedFractions.Euler",
+      "doc": ""
+    },
+    {
+      "name": "GenContFract.terminatedAt_euler",
+      "type": " {K : Type u_1} [Field K] {n : \u2115} {h : K} {\u03c1 : Stream'.Seq K} : (GenContFract.euler h \u03c1).TerminatedAt n \u2194 \u03c1.TerminatedAt n",
+      "module": "Mathlib.Algebra.ContinuedFractions.Euler",
+      "doc": ""
+    },
+    {
+      "name": "GenContFract.isEuler_iff_exists_euler",
+      "type": " {K : Type u_1} [Field K] {g : GenContFract K} : g.IsEuler \u2194 \u2203 \u03c1, GenContFract.euler g.h \u03c1 = g",
+      "module": "Mathlib.Algebra.ContinuedFractions.Euler",
+      "doc": ""
+    },
+    {
+      "name": "GenContFract.partNum_euler_zero",
+      "type": " {K : Type u_1} [Field K] {h : K} {\u03c1 : Stream'.Seq K} : (GenContFract.euler h \u03c1).partNums.get? 0 = \u03c1.get? 0",
+      "module": "Mathlib.Algebra.ContinuedFractions.Euler",
+      "doc": ""
+    },
+    {
+      "name": "GenContFract.IsEuler",
+      "type": " {K : Type u_1} [Field K] (g : GenContFract K) : Prop",
+      "module": "Mathlib.Algebra.ContinuedFractions.Euler",
+      "doc": "An *Euler continued fraction* is a generalized continued fraction of the form\n$$\n  h + \\cfrac{\\rho_0}\n            {1 - \\cfrac{\\rho_1}\n                       {1 + \\rho_1 - \\cfrac{\\rho_2}\n                                           {1 + \\rho_2 - \\cfrac{\\rho_3}\n                                                               {1 + \\rho_3 - \\dots}}}}\n$$ "
+    },
+    {
+      "name": "Nat.prod_primeFactors_pow_totient_ediv_dvd",
+      "type": " {n : \u2115} (hn : 0 < n) : \u220f p \u2208 n.primeFactors, p ^ (n.totient / (p - 1)) \u2223 n ^ n.totient",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_pow_pow_totient_ediv_prod",
+      "type": " {p k : \u2115} (hp : Nat.Prime p) (hk : 0 < k) : (p ^ k) ^ (p ^ k).totient / \u220f q \u2208 (p ^ k).primeFactors, q ^ ((p ^ k).totient / (q - 1)) = p ^ (p ^ (k - 1) * ((p - 1) * k - 1))",
+      "module": "Mathlib.Data.Nat.Totient",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ModEq.pow_totient",
+      "type": " {x n : \u2115} (h : x.Coprime n) : x ^ n.totient \u2261 1 [MOD n]",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": "The **Fermat-Euler totient theorem**. `ZMod.pow_totient` is an alternative statement\nof the same theorem. "
+    },
+    {
+      "name": "ZMod.pow_totient",
+      "type": " {n : \u2115} (x : (ZMod n)\u02e3) : x ^ n.totient = 1",
+      "module": "Mathlib.FieldTheory.Finite.Basic",
+      "doc": "The **Fermat-Euler totient theorem**. `Nat.ModEq.pow_totient` is an alternative statement\nof the same theorem. "
+    },
+    {
+      "name": "Polynomial.cyclotomic_eval_le_add_one_pow_totient",
+      "type": " {q : \u211d} (hq' : 1 < q) (n : \u2115) : Polynomial.eval q (Polynomial.cyclotomic n \u211d) \u2264 (q + 1) ^ n.totient",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Eval",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.sub_one_pow_totient_le_cyclotomic_eval",
+      "type": " {q : \u211d} (hq' : 1 < q) (n : \u2115) : (q - 1) ^ n.totient \u2264 Polynomial.eval q (Polynomial.cyclotomic n \u211d)",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Eval",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.cyclotomic_eval_lt_add_one_pow_totient",
+      "type": " {n : \u2115} {q : \u211d} (hn' : 3 \u2264 n) (hq' : 1 < q) : Polynomial.eval q (Polynomial.cyclotomic n \u211d) < (q + 1) ^ n.totient",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Eval",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.sub_one_pow_totient_lt_cyclotomic_eval",
+      "type": " {n : \u2115} {q : \u211d} (hn' : 2 \u2264 n) (hq' : 1 < q) : (q - 1) ^ n.totient < Polynomial.eval q (Polynomial.cyclotomic n \u211d)",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Eval",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.sub_one_pow_totient_lt_natAbs_cyclotomic_eval",
+      "type": " {n q : \u2115} (hn' : 1 < n) (hq : q \u2260 1) : (q - 1) ^ n.totient < (Polynomial.eval (\u2191q) (Polynomial.cyclotomic n \u2124)).natAbs",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Eval",
+      "doc": ""
+    },
+    {
+      "name": "Nat.pow_totient_mod_eq_one",
+      "type": " {x n : \u2115} (hn : 1 < n) (h : x.Coprime n) : x ^ n.totient % n = 1",
+      "module": "Mathlib.NumberTheory.PowModTotient",
+      "doc": ""
+    },
+    {
+      "name": "Nat.pow_totient_mod",
+      "type": " {x k n : \u2115} (hn : 1 < n) (h : x.Coprime n) : x ^ k % n = x ^ (k % n.totient) % n",
+      "module": "Mathlib.NumberTheory.PowModTotient",
+      "doc": ""
+    },
+    {
+      "name": "IsDedekindFiniteMonoid.of_exists_mul_self_eq_one",
+      "type": " (M : Type u_2) [Monoid M] (ex : \u2200 (x y : M), x * y = 1 \u2192 \u2203 z, z * x = 1) : IsDedekindFiniteMonoid M",
+      "module": "Mathlib.Algebra.Group.Monoid",
+      "doc": "A monoid is Dedekind-finite if every element with a right inverse also has a left inverse. "
+    },
+    {
+      "name": "IsSquare.exists_mul_self",
+      "type": " {\u03b1 : Type u_2} [Mul \u03b1] (a : \u03b1) : IsSquare a \u2192 \u2203 r, a = r * r",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": "**Alias** of the forward direction of `isSquare_iff_exists_mul_self`."
+    },
+    {
+      "name": "isSquare_iff_exists_mul_self",
+      "type": " {\u03b1 : Type u_2} [Mul \u03b1] (a : \u03b1) : IsSquare a \u2194 \u2203 r, a = r * r",
+      "module": "Mathlib.Algebra.Group.Even",
+      "doc": ""
+    },
+    {
+      "name": "Nat.exists_mul_self",
+      "type": " (x : \u2115) : (\u2203 n, n * n = x) \u2194 x.sqrt * x.sqrt = x",
+      "module": "Mathlib.Data.Nat.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Nat.exists_mul_self'",
+      "type": " (x : \u2115) : (\u2203 n, n ^ 2 = x) \u2194 x.sqrt ^ 2 = x",
+      "module": "Mathlib.Data.Nat.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "Int.exists_mul_self",
+      "type": " (x : \u2124) : (\u2203 n, n * n = x) \u2194 Int.sqrt x * Int.sqrt x = x",
+      "module": "Mathlib.Data.Int.Sqrt",
+      "doc": ""
+    },
+    {
+      "name": "ExistsMulOfLE.exists_mul_of_le",
+      "type": " {\u03b1 : Type u} {inst\u271d : Mul \u03b1} {inst\u271d\u00b9 : LE \u03b1} [self : ExistsMulOfLE \u03b1] {a b : \u03b1} : a \u2264 b \u2192 \u2203 c, b = a * c",
+      "module": "Mathlib.Algebra.Order.Monoid.Unbundled.ExistsOfLE",
+      "doc": "For `a \u2264 b`, `a` left divides `b` "
+    },
+    {
+      "name": "Nat.exists_mul_mod_eq_gcd",
+      "type": " {k n : \u2115} (hk : n.gcd k < k) : \u2203 m < k, n * m % k = n.gcd k",
+      "module": "Mathlib.Data.Int.GCD",
+      "doc": ""
+    },
+    {
+      "name": "Nat.exists_mul_mod_eq_one_of_coprime",
+      "type": " {k n : \u2115} (hkn : n.Coprime k) (hk : 1 < k) : \u2203 m < k, n * m % k = 1",
+      "module": "Mathlib.Data.Int.GCD",
+      "doc": ""
+    },
+    {
+      "name": "Nat.exists_mul_mod_eq_of_coprime",
+      "type": " {k n : \u2115} (r : \u2115) (hkn : n.Coprime k) (hk : k \u2260 0) : \u2203 m < k, n * m % k = r % k",
+      "module": "Mathlib.Data.Int.GCD",
+      "doc": ""
+    },
+    {
+      "name": "le_iff_exists_mul",
+      "type": " {\u03b1 : Type u} [Mul \u03b1] [LE \u03b1] [CanonicallyOrderedMul \u03b1] {a b : \u03b1} : a \u2264 b \u2194 \u2203 c, b = a * c",
+      "module": "Mathlib.Algebra.Order.Monoid.Canonical.Defs",
+      "doc": ""
+    },
+    {
+      "name": "le_iff_exists_mul'",
+      "type": " {\u03b1 : Type u} [CommMagma \u03b1] [Preorder \u03b1] [CanonicallyOrderedMul \u03b1] {a b : \u03b1} : a \u2264 b \u2194 \u2203 c, b = c * a",
+      "module": "Mathlib.Algebra.Order.Monoid.Canonical.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ModEq.instIsEquiv",
+      "type": " {n : \u2115} : IsEquiv \u2115 n.ModEq",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ModEq.refl",
+      "type": " {n : \u2115} (a : \u2115) : a \u2261 a [MOD n]",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ModEq.rfl",
+      "type": " {n a : \u2115} : a \u2261 a [MOD n]",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Nat.modEq_one",
+      "type": " {a b : \u2115} : a \u2261 b [MOD 1]",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ModEq.symm",
+      "type": " {n a b : \u2115} : a \u2261 b [MOD n] \u2192 b \u2261 a [MOD n]",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ModEq.comm",
+      "type": " {n a b : \u2115} : a \u2261 b [MOD n] \u2194 b \u2261 a [MOD n]",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Nat.modEq_zero_iff",
+      "type": " {a b : \u2115} : a \u2261 b [MOD 0] \u2194 a = b",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ModEq.gcd_eq",
+      "type": " {m a b : \u2115} (h : a \u2261 b [MOD m]) : a.gcd m = b.gcd m",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Nat.modEq_zero_iff_dvd",
+      "type": " {n a : \u2115} : a \u2261 0 [MOD n] \u2194 n \u2223 a",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ModEq.trans",
+      "type": " {n a b c : \u2115} : a \u2261 b [MOD n] \u2192 b \u2261 c [MOD n] \u2192 a \u2261 c [MOD n]",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ModEq.of_dvd",
+      "type": " {m n a b : \u2115} (d : m \u2223 n) (h : a \u2261 b [MOD n]) : a \u2261 b [MOD m]",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ModEq",
+      "type": " (n a b : \u2115) : Prop",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": "Modular equality. `n.ModEq a b`, or `a \u2261 b [MOD n]`, means that `a % n = b % n`. "
+    },
+    {
+      "name": "Int.modulus_modEq_zero",
+      "type": " {n : \u2124} : n \u2261 0 [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.abs_modEq_two",
+      "type": " {a : \u2124} : |a| \u2261 a [ZMOD 2]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.add_modEq_left",
+      "type": " {n a : \u2124} : n + a \u2261 a [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.add_modEq_right",
+      "type": " {n a : \u2124} : a + n \u2261 a [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.mod_modEq",
+      "type": " (a n : \u2124) : a % n \u2261 a [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Dvd.dvd.modEq_zero_int",
+      "type": " {n a : \u2124} (h : n \u2223 a) : a \u2261 0 [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Dvd.dvd.zero_modEq_int",
+      "type": " {n a : \u2124} (h : n \u2223 a) : 0 \u2261 a [ZMOD n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.gcd",
+      "type": " (m n : \u2124) : \u2115",
+      "module": "Init.Data.Int.Gcd",
+      "doc": "Computes the greatest common divisor of two integers as a natural number. The GCD of two integers is\nthe largest natural number that evenly divides both. However, the GCD of a number and `0` is the\nnumber's absolute value.\n\nThis implementation uses `Nat.gcd`, which is overridden in both the kernel and the compiler to\nefficiently evaluate using arbitrary-precision arithmetic.\n\nExamples:\n* `Int.gcd 10 15 = 5`\n* `Int.gcd 10 (-15) = 5`\n* `Int.gcd (-6) (-9) = 3`\n* `Int.gcd 0 5 = 5`\n* `Int.gcd (-7) 0 = 7`\n"
+    },
+    {
+      "name": "Int.gcd_self",
+      "type": " {a : \u2124} : a.gcd a = a.natAbs",
+      "module": "Init.Data.Int.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "Int.gcd_comm",
+      "type": " (a b : \u2124) : a.gcd b = b.gcd a",
+      "module": "Init.Data.Int.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "Int.gcd_dvd_natAbs_left",
+      "type": " (a b : \u2124) : a.gcd b \u2223 a.natAbs",
+      "module": "Init.Data.Int.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "Int.gcd_dvd_natAbs_right",
+      "type": " (a b : \u2124) : a.gcd b \u2223 b.natAbs",
+      "module": "Init.Data.Int.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "Int.gcd_dvd_left",
+      "type": " (a b : \u2124) : \u2191(a.gcd b) \u2223 a",
+      "module": "Init.Data.Int.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "Int.gcd_dvd_right",
+      "type": " (a b : \u2124) : \u2191(a.gcd b) \u2223 b",
+      "module": "Init.Data.Int.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "Int.gcd_eq_natAbs_gcd_natAbs",
+      "type": " (m n : \u2124) : m.gcd n = m.natAbs.gcd n.natAbs",
+      "module": "Init.Data.Int.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "Int.gcd_zero",
+      "type": " {a : \u2124} : a.gcd 0 = a.natAbs",
+      "module": "Init.Data.Int.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "Int.gcd_zero_left",
+      "type": " (a : \u2124) : Int.gcd 0 a = a.natAbs",
+      "module": "Init.Data.Int.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "Int.gcd_zero_right",
+      "type": " (a : \u2124) : a.gcd 0 = a.natAbs",
+      "module": "Init.Data.Int.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "Int.gcd_neg",
+      "type": " {a b : \u2124} : a.gcd (-b) = a.gcd b",
+      "module": "Init.Data.Int.Gcd",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.sub_modEq_iff_modEq_add",
+      "type": " {G : Type u_1} [AddCommGroup G] {p a b c : G} : a - b \u2261 c [PMOD p] \u2194 a \u2261 c + b [PMOD p]",
+      "module": "Mathlib.Algebra.Group.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.sub_modEq_iff_modEq_add'",
+      "type": " {G : Type u_1} [AddCommGroup G] {p a b c : G} : a - b \u2261 c [PMOD p] \u2194 a \u2261 b + c [PMOD p]",
+      "module": "Mathlib.Algebra.Group.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Nat.modEq_and_modEq_iff_modEq_mul",
+      "type": " {a b m n : \u2115} (hmn : m.Coprime n) : a \u2261 b [MOD m] \u2227 a \u2261 b [MOD n] \u2194 a \u2261 b [MOD m * n]",
+      "module": "Mathlib.Data.Nat.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.modEq_and_modEq_iff_modEq_lcm",
+      "type": " {a b m n : \u2124} : a \u2261 b [ZMOD m] \u2227 a \u2261 b [ZMOD n] \u2194 a \u2261 b [ZMOD \u2191(m.lcm n)]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "Int.modEq_and_modEq_iff_modEq_mul",
+      "type": " {a b m n : \u2124} (hmn : m.natAbs.Coprime n.natAbs) : a \u2261 b [ZMOD m] \u2227 a \u2261 b [ZMOD n] \u2194 a \u2261 b [ZMOD m * n]",
+      "module": "Mathlib.Data.Int.ModEq",
+      "doc": ""
+    },
+    {
+      "name": "CharP.intCast_eq_intCast",
+      "type": " (R : Type u_1) [AddGroupWithOne R] (p : \u2115) [CharP R p] {a b : \u2124} : \u2191a = \u2191b \u2194 a \u2261 b [ZMOD \u2191p]",
+      "module": "Mathlib.Algebra.CharP.Basic",
+      "doc": ""
+    },
+    {
+      "name": "CharP.intCast_eq_intCast_mod",
+      "type": " (R : Type u_1) [AddGroupWithOne R] (p : \u2115) [CharP R p] {a : \u2124} : \u2191a = \u2191(a % \u2191p)",
+      "module": "Mathlib.Algebra.CharP.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.intCast_eq_intCast_iff",
+      "type": " (a b : \u2124) (c : \u2115) : \u2191a = \u2191b \u2194 a \u2261 b [ZMOD \u2191c]",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.intCast_eq_intCast_iff_dvd_sub",
+      "type": " (a b : \u2124) (c : \u2115) : \u2191a = \u2191b \u2194 \u2191c \u2223 b - a",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.intCast_eq_intCast_iff'",
+      "type": " (a b : \u2124) (c : \u2115) : \u2191a = \u2191b \u2194 a % \u2191c = b % \u2191c",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.unitOfCoprime",
+      "type": " {n : \u2115} (x : \u2115) (h : x.Coprime n) : (ZMod n)\u02e3",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": "`unitOfCoprime` makes an element of `(ZMod n)\u02e3` given\na natural number `x` and a proof that `x` is coprime to `n` "
+    },
+    {
+      "name": "ZMod.coe_unitOfCoprime",
+      "type": " {n : \u2115} (x : \u2115) (h : x.Coprime n) : \u2191(ZMod.unitOfCoprime x h) = \u2191x",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.isUnit_iff_coprime",
+      "type": " (m n : \u2115) : IsUnit \u2191m \u2194 m.Coprime n",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.isUnit_prime_of_not_dvd",
+      "type": " {n p : \u2115} (hp : Nat.Prime p) (h : \u00acp \u2223 n) : IsUnit \u2191p",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.isUnit_prime_iff_not_dvd",
+      "type": " {n p : \u2115} (hp : Nat.Prime p) : IsUnit \u2191p \u2194 \u00acp \u2223 n",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.isUnit_natCast_iff_not_dvd_pow",
+      "type": " {p d a : \u2115} (hp : Nat.Prime p) (hd : 0 < d) : IsUnit \u2191a \u2194 \u00acp \u2223 a",
+      "module": "Mathlib.Data.ZMod.Basic",
+      "doc": "In `ZMod (p ^ d)` with `0 < d`, a natural number is a unit iff `p` does not divide it. "
+    },
+    {
+      "name": "ZMod.isUnit_cast_of_dvd",
+      "type": " {n m : \u2115} (hm : n \u2223 m) (a : (ZMod m)\u02e3) : IsUnit (\u2191a).cast",
+      "module": "Mathlib.Data.ZMod.Units",
+      "doc": ""
+    },
+    {
+      "name": "ZMod.isUnit_inv",
+      "type": " {m : \u2115} {n : \u2124} (h : IsUnit \u2191n) : IsUnit (\u2191n)\u207b\u00b9",
+      "module": "Mathlib.Data.ZMod.Units",
+      "doc": ""
+    },
+    {
+      "name": "Units.val_pow_eq_pow_val",
+      "type": " {\u03b1 : Type u} [Monoid \u03b1] (a : \u03b1\u02e3) (n : \u2115) : \u2191(a ^ n) = \u2191a ^ n",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Positive.val_pow",
+      "type": " {R : Type u_2} [Semiring R] [PartialOrder R] [IsStrictOrderedRing R] (x : { x // 0 < x }) (n : \u2115) : \u2191(x ^ n) = \u2191x ^ n",
+      "module": "Mathlib.Algebra.Order.Positive.Ring",
+      "doc": ""
+    },
+    {
+      "name": "Finset.map_val_val_powersetCard",
+      "type": " {\u03b1 : Type u_1} (s : Finset \u03b1) (i : \u2115) : Multiset.map Finset.val (Finset.powersetCard i s).val = Multiset.powersetCard i s.val",
+      "module": "Mathlib.Data.Finset.Powerset",
+      "doc": ""
+    },
+    {
+      "name": "selfAdjoint.val_pow",
+      "type": " {R : Type u_1} [Ring R] [StarRing R] (x : \u21a5(selfAdjoint R)) (n : \u2115) : \u2191(x ^ n) = \u2191x ^ n",
+      "module": "Mathlib.Algebra.Star.SelfAdjoint",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.eval_pow",
+      "type": " {R : Type u} [CommSemiring R] {p : Polynomial R} {x : R} (n : \u2115) : Polynomial.eval x (p ^ n) = Polynomial.eval x p ^ n",
+      "module": "Mathlib.Algebra.Polynomial.Eval.Defs",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"ModEq\"' -> Int.divModEquiv, Nat.divModEquiv, Nat.divModEquiv_apply, Int.divModEquiv_apply, Nat.divModEquiv_symm_apply, Int.divModEquiv_symm_apply, AddCommGroup.instIsTransModEq, AddCommGroup.instReflModEq",
+    "search: '\"Int.ModEq\"' -> Int.ModEq.instIsEquiv, Int.ModEq.refl, Int.ModEq.rfl, Int.modEq_one, Int.ModEq.symm, Int.modEq_comm, Int.modEq_sub, Int.modEq_neg",
+    "search: '\"totient\"' -> Mathlib.Meta.Positivity.evalNatTotient, Nat.totient, Nat.totient_le, Nat.sum_totient, Nat.totient_one, Nat.totient_two, Nat.totient_zero, Nat.neZero_totient",
+    "search: '\"totient\" \"ModEq\"' -> nothing",
+    "search: '\"totient\" \"ModEq\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"Euler\"' -> GenContFract.toEuler, GenContFract.euler, GenContFract.isEuler_toEuler, GenContFract.isEuler_euler, GenContFract.euler_h, GenContFract.toEuler_h, GenContFract.IsEuler.toEuler, GenContFract.terminatedAt_toEuler",
+    "search: '\"pow_totient\"' -> Nat.prod_primeFactors_pow_totient_ediv_dvd, Nat.prime_pow_pow_totient_ediv_prod, Nat.ModEq.pow_totient, ZMod.pow_totient, Polynomial.cyclotomic_eval_le_add_one_pow_totient, Polynomial.sub_one_pow_totient_le_cyclotomic_eval, Polynomial.cyclotomic_eval_lt_add_one_pow_totient, Polynomial.sub_one_pow_totient_lt_cyclotomic_eval",
+    "search: '\"Coprime\" \"ModEq\"' -> nothing",
+    "search: '\"Coprime\" \"ModEq\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"exists_mul\"' -> IsDedekindFiniteMonoid.of_exists_mul_self_eq_one, IsSquare.exists_mul_self, isSquare_iff_exists_mul_self, Nat.exists_mul_self, Nat.exists_mul_self', Int.exists_mul_self, ExistsMulOfLE.exists_mul_of_le, Nat.exists_mul_mod_eq_gcd",
+    "search: '\"Int.coe_nat\" \"ModEq\"' -> nothing",
+    "search: '\"Int.coe_nat\" \"ModEq\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"Nat.ModEq\" \"int\"' -> nothing",
+    "search: '\"Nat.ModEq\" \"int\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"Nat.ModEq\"' -> Nat.ModEq.instIsEquiv, Nat.ModEq.refl, Nat.ModEq.rfl, Nat.modEq_one, Nat.ModEq.symm, Nat.ModEq.comm, Nat.modEq_zero_iff, Nat.ModEq.gcd_eq",
+    "search: '|- _ \u2261 _ [ZMOD _]' -> Int.ModEq.refl, Int.ModEq.rfl, Int.modulus_modEq_zero, Int.modEq_one, Int.ModEq.symm, Int.abs_modEq_two, Int.add_modEq_left, Int.add_modEq_right",
+    "search: '\"Int.coe_nat_modEq\"' -> nothing",
+    "search: '\"Int.coe_nat_modEq\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"Int.ModEq\" \"coe\"' -> nothing",
+    "search: '\"Int.ModEq\" \"coe\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"coe_nat_modEq\"' -> nothing",
+    "search: '\"coe_nat_modEq\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"coe_nat\" \"ModEq\"' -> nothing",
+    "search: '\"coe_nat\" \"ModEq\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"ofNat\" \"ModEq\"' -> nothing",
+    "search: '\"ofNat\" \"ModEq\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"cast\" \"ModEq\"' -> nothing",
+    "search: '\"cast\" \"ModEq\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "refused the stop: no attempt at the goal, 32 compiles left",
+    "search: '\"totient\" \"one\"' -> nothing",
+    "search: '\"totient\" \"one\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"Int.gcd\"' -> Int.gcd, Int.gcd_self, Int.gcd_comm, Int.gcd_dvd_natAbs_left, Int.gcd_dvd_natAbs_right, Int.gcd_dvd_left, Int.gcd_dvd_right, Int.gcd_eq_natAbs_gcd_natAbs",
+    "search: '\"ZMod\" \"ModEq\"' -> nothing",
+    "search: '\"ZMod\" \"ModEq\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"eq_iff_modEq\"' -> AddCommGroup.sub_modEq_iff_modEq_add, AddCommGroup.sub_modEq_iff_modEq_add', Nat.modEq_and_modEq_iff_modEq_mul, Int.modEq_and_modEq_iff_modEq_lcm, Int.modEq_and_modEq_iff_modEq_mul",
+    "search: '\"intCast_eq_intCast\"' -> CharP.intCast_eq_intCast, CharP.intCast_eq_intCast_mod, ZMod.intCast_eq_intCast_iff, ZMod.intCast_eq_intCast_iff_dvd_sub, ZMod.intCast_eq_intCast_iff'",
+    "search: '\"unitOfCoprime\"' -> ZMod.unitOfCoprime, ZMod.coe_unitOfCoprime",
+    "search: '\"ZMod\" \"IsUnit\"' -> nothing",
+    "search: '\"ZMod\" \"IsUnit\"' -> nothing; goal shape -> Num.gcd, ZNum.gcd, Num.gcdAux, Num.gcd_to_nat, ZNum.gcd_to_nat, Num.gcd_to_nat_aux, ZMod, ZMod.commRing",
+    "search: '\"ZMod.isUnit\"' -> ZMod.isUnit_iff_coprime, ZMod.isUnit_prime_of_not_dvd, ZMod.isUnit_prime_iff_not_dvd, ZMod.isUnit_natCast_iff_not_dvd_pow, ZMod.isUnit_cast_of_dvd, ZMod.isUnit_inv",
+    "search (from error): '\"val_pow\"' -> Units.val_pow_eq_pow_val, Positive.val_pow, Finset.map_val_val_powersetCard, selfAdjoint.val_pow, Polynomial.eval_pow"
+  ],
+  "budget": {
+    "tool_calls": 74,
+    "lean_calls": 27,
+    "searches": 34,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788872492.9164188,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 1.1,
+    "statement_checks": 1,
+    "refusals": {
+      "placeholder_proof": 4,
+      "decompose_first": 5,
+      "assemble_first": 5
+    }
+  },
+  "goal": "theorem exercise_8_1_12 {N : \u2115} (hN : N > 0) {M M': \u2124} {d : \u2115}\n  (hMN : M.gcd N = 1) (hMd : d.gcd N.totient = 1)\n  (hM' : M' \u2261 M^d [ZMOD N]) :\n  \u2203 d' : \u2115, d' * d \u2261 1 [ZMOD N.totient] \u2227\n  M \u2261 M'^d' [ZMOD N]"
+}

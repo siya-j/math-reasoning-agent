@@ -1,0 +1,654 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_6_8_1 {G : Type*} [Group G]\n  (a b : G) : closure ({a, b} : Set G) = Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n2:14: error: failed to synthesize instance of type class\n  TopologicalSpace G\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.",
+      "at": 1788872126.0483081,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_6_8_1 {G : Type*} [Group G]\n  (a b : G) : Subgroup.closure ({a, b} : Set G) = Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788872129.7567163,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_6_8_1 {G : Type*} [Group G]\n  (a b : G) : Subgroup.closure ({a, b} : Set G) = Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact CommGroup.toGroup\n    | exact CommGroup.toGroup _\n    | apply CommGroup.toGroup\n    | simpa using CommGroup.toGroup\n    | exact \u27e8_, CommGroup.toGroup\u27e9\n    | exact CommGroup.toGroup (by assumption)\n    | exact CommGroup.toGroup \u2039_\u203a\n    | apply CommGroup.toGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CommGroup.toGroup (by assumption))\n    | exact Group.mk\n    | exact Group.mk _\n    | apply Group.mk\n    | simpa using Group.mk\n    | exact \u27e8_, Group.mk\u27e9\n    | exact Group.mk (by assumption)\n    | exact Group.mk \u2039_\u203a\n    | apply Group.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Group.mk (by assumption))\n    | exact Pi.group\n    | exact Pi.group _\n    | apply Pi.group\n    | simpa using Pi.group\n    | exact \u27e8_, Pi.group\u27e9\n    | exact Pi.group (by assumption)\n    | exact Pi.group \u2039_\u203a\n    | apply Pi.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Pi.group (by assumption))\n    | exact Multiplicative.group\n    | exact Multiplicative.group _\n    | apply Multiplicative.group\n    | simpa using Multiplicative.group\n    | exact \u27e8_, Multiplicative.group\u27e9\n    | exact Multiplicative.group (by assumption)\n    | exact Multiplicative.group \u2039_\u203a\n    | apply Multiplicative.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Multiplicative.group (by assumption))\n    | exact Function.Injective.group\n    | exact Function.Injective.group _\n    | apply Function.Injective.group\n    | simpa using Function.Injective.group\n    | exact \u27e8_, Function.Injective.group\u27e9\n    | exact Function.Injective.group (by assumption)\n    | exact Function.Injective.group \u2039_\u203a\n    | apply Function.Injective.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Injective.group (by assumption))\n    | exact Function.Surjective.group\n    | exact Function.Surjective.group _\n    | apply Function.Surjective.group\n    | simpa using Function.Surjective.group\n    | exact \u27e8_, Function.Surjective.group\u27e9\n    | exact Function.Surjective.group (by assumption)\n    | exact Function.Surjective.group \u2039_\u203a\n    | apply Function.Surjective.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Surjective.group (by assumption))\n    | exact AddOpposite.instGroup\n    | exact AddOpposite.instGroup _\n    | apply AddOpposite.instGroup\n    | simpa using AddOpposite.instGroup\n    | exact \u27e8_, AddOpposite.instGroup\u27e9\n    | exact AddOpposite.instGroup (by assumption)\n    | exact AddOpposite.instGroup \u2039_\u203a\n    | apply AddOpposite.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact AddOpposite.instGroup (by assumption))\n    | exact MulOpposite.instGroup\n    | exact MulOpposite.instGroup _\n    | apply MulOpposite.instGroup\n    | simpa using MulOpposite.instGroup\n    | exact \u27e8_, MulOpposite.instGroup\u27e9\n    | exact MulOpposite.instGroup (by assumption)\n    | exact MulOpposite.instGroup \u2039_\u203a\n    | apply MulOpposite.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact MulOpposite.instGroup (by assumption))\n    | exact Units.instGroup\n    | exact Units.instGroup _\n    | apply Units.instGroup\n    | simpa using Units.instGroup\n    | exact \u27e8_, Units.instGroup\u27e9\n    | exact Units.instGroup (by assumption)\n    | exact Units.instGroup \u2039_\u203a\n    | apply Units.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Units.instGroup (by assumption))\n    | exact groupOfIsUnit\n    | exact groupOfIsUnit _\n    | apply groupOfIsUnit\n    | simpa using groupOfIsUnit\n    | exact \u27e8_, groupOfIsUnit\u27e9\n    | exact groupOfIsUnit (by assumption)\n    | exact groupOfIsUnit \u2039_\u203a\n    | apply groupOfIsUnit <;> assumption\n    | (haveI := Fact.mk (by assumption); exact groupOfIsUnit (by assumption))\n    | exact Prod.instGroup\n    | exact Prod.instGroup _\n    | apply Prod.instGroup\n    | simpa using Prod.instGroup\n    | exact \u27e8_, Prod.instGroup\u27e9\n    | exact Prod.instGroup (by assumption)\n    | exact Prod.instGroup \u2039_\u203a\n    | apply Prod.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Prod.instGroup (by assumption))\n    | exact Equiv.Perm.permGroup\n    | exact Equiv.Perm.permGroup _\n    | apply Equiv.Perm.permGroup\n    | simpa using Equiv.Perm.permGroup\n    | exact \u27e8_, Equiv.Perm.permGroup\u27e9\n    | exact Equiv.Perm.permGroup (by assumption)\n    | exact Equiv.Perm.permGroup \u2039_\u203a\n    | apply Equiv.Perm.permGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Equiv.Perm.permGroup (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n2:89: error: unsolved goals\nG : Type u_1\ninst\u271d : Group G\na b : G\n\u22a2 Subgroup.closure {a, b} = Subgroup.closure {b * a * b ^ 2, b * a * b ^ 3}\n\nStill to prove:\n\u22a2 Subgroup.closure {a, b} = Subgroup.closure {b * a * b ^ 2, b * a * b ^ 3}",
+      "at": 1788872144.2847815,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_6_8_1 {G : Type*} [Group G]\n  (a b : G) : Subgroup.closure ({a, b} : Set G) = Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "have h1 : Subgroup.closure ({a, b} : Set G) \u2264 Subgroup.closure {b*a*b^2, b*a*b^3} := by sorry\nhave h2 : Subgroup.closure {b*a*b^2, b*a*b^3} \u2264 Subgroup.closure ({a, b} : Set G) := by sorry\nexact le_antisymm h1 h2",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788872159.673737,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_1 {G : Type*} [Group G] (a b : G) : Subgroup.closure ({a, b} : Set G) \u2264 Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact CommGroup.toGroup\n    | exact CommGroup.toGroup _\n    | apply CommGroup.toGroup\n    | simpa using CommGroup.toGroup\n    | exact \u27e8_, CommGroup.toGroup\u27e9\n    | exact CommGroup.toGroup (by assumption)\n    | exact CommGroup.toGroup \u2039_\u203a\n    | apply CommGroup.toGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CommGroup.toGroup (by assumption))\n    | exact Group.mk\n    | exact Group.mk _\n    | apply Group.mk\n    | simpa using Group.mk\n    | exact \u27e8_, Group.mk\u27e9\n    | exact Group.mk (by assumption)\n    | exact Group.mk \u2039_\u203a\n    | apply Group.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Group.mk (by assumption))\n    | exact Pi.group\n    | exact Pi.group _\n    | apply Pi.group\n    | simpa using Pi.group\n    | exact \u27e8_, Pi.group\u27e9\n    | exact Pi.group (by assumption)\n    | exact Pi.group \u2039_\u203a\n    | apply Pi.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Pi.group (by assumption))\n    | exact Multiplicative.group\n    | exact Multiplicative.group _\n    | apply Multiplicative.group\n    | simpa using Multiplicative.group\n    | exact \u27e8_, Multiplicative.group\u27e9\n    | exact Multiplicative.group (by assumption)\n    | exact Multiplicative.group \u2039_\u203a\n    | apply Multiplicative.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Multiplicative.group (by assumption))\n    | exact Function.Injective.group\n    | exact Function.Injective.group _\n    | apply Function.Injective.group\n    | simpa using Function.Injective.group\n    | exact \u27e8_, Function.Injective.group\u27e9\n    | exact Function.Injective.group (by assumption)\n    | exact Function.Injective.group \u2039_\u203a\n    | apply Function.Injective.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Injective.group (by assumption))\n    | exact Function.Surjective.group\n    | exact Function.Surjective.group _\n    | apply Function.Surjective.group\n    | simpa using Function.Surjective.group\n    | exact \u27e8_, Function.Surjective.group\u27e9\n    | exact Function.Surjective.group (by assumption)\n    | exact Function.Surjective.group \u2039_\u203a\n    | apply Function.Surjective.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Surjective.group (by assumption))\n    | exact AddOpposite.instGroup\n    | exact AddOpposite.instGroup _\n    | apply AddOpposite.instGroup\n    | simpa using AddOpposite.instGroup\n    | exact \u27e8_, AddOpposite.instGroup\u27e9\n    | exact AddOpposite.instGroup (by assumption)\n    | exact AddOpposite.instGroup \u2039_\u203a\n    | apply AddOpposite.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact AddOpposite.instGroup (by assumption))\n    | exact MulOpposite.instGroup\n    | exact MulOpposite.instGroup _\n    | apply MulOpposite.instGroup\n    | simpa using MulOpposite.instGroup\n    | exact \u27e8_, MulOpposite.instGroup\u27e9\n    | exact MulOpposite.instGroup (by assumption)\n    | exact MulOpposite.instGroup \u2039_\u203a\n    | apply MulOpposite.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact MulOpposite.instGroup (by assumption))\n    | exact Units.instGroup\n    | exact Units.instGroup _\n    | apply Units.instGroup\n    | simpa using Units.instGroup\n    | exact \u27e8_, Units.instGroup\u27e9\n    | exact Units.instGroup (by assumption)\n    | exact Units.instGroup \u2039_\u203a\n    | apply Units.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Units.instGroup (by assumption))\n    | exact groupOfIsUnit\n    | exact groupOfIsUnit _\n    | apply groupOfIsUnit\n    | simpa using groupOfIsUnit\n    | exact \u27e8_, groupOfIsUnit\u27e9\n    | exact groupOfIsUnit (by assumption)\n    | exact groupOfIsUnit \u2039_\u203a\n    | apply groupOfIsUnit <;> assumption\n    | (haveI := Fact.mk (by assumption); exact groupOfIsUnit (by assumption))\n    | exact Prod.instGroup\n    | exact Prod.instGroup _\n    | apply Prod.instGroup\n    | simpa using Prod.instGroup\n    | exact \u27e8_, Prod.instGroup\u27e9\n    | exact Prod.instGroup (by assumption)\n    | exact Prod.instGroup \u2039_\u203a\n    | apply Prod.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Prod.instGroup (by assumption))\n    | exact Equiv.Perm.permGroup\n    | exact Equiv.Perm.permGroup _\n    | apply Equiv.Perm.permGroup\n    | simpa using Equiv.Perm.permGroup\n    | exact \u27e8_, Equiv.Perm.permGroup\u27e9\n    | exact Equiv.Perm.permGroup (by assumption)\n    | exact Equiv.Perm.permGroup \u2039_\u203a\n    | apply Equiv.Perm.permGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Equiv.Perm.permGroup (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:126: error: unsolved goals\nG : Type u_1\ninst\u271d : Group G\na b : G\n\u22a2 {a, b} \u2286 \u2191(Subgroup.closure {b * a * b ^ 2, b * a * b ^ 3})\n\nStill to prove:\n\u22a2 {a, b} \u2286 \u2191(Subgroup.closure {b * a * b ^ 2, b * a * b ^ 3})",
+      "at": 1788872159.8720036,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "theorem mra_lemma_2 {G : Type*} [Group G] (a b : G) : Subgroup.closure {b*a*b^2, b*a*b^3} \u2264 Subgroup.closure ({a, b} : Set G)",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact CommGroup.toGroup\n    | exact CommGroup.toGroup _\n    | apply CommGroup.toGroup\n    | simpa using CommGroup.toGroup\n    | exact \u27e8_, CommGroup.toGroup\u27e9\n    | exact CommGroup.toGroup (by assumption)\n    | exact CommGroup.toGroup \u2039_\u203a\n    | apply CommGroup.toGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CommGroup.toGroup (by assumption))\n    | exact Group.mk\n    | exact Group.mk _\n    | apply Group.mk\n    | simpa using Group.mk\n    | exact \u27e8_, Group.mk\u27e9\n    | exact Group.mk (by assumption)\n    | exact Group.mk \u2039_\u203a\n    | apply Group.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Group.mk (by assumption))\n    | exact Pi.group\n    | exact Pi.group _\n    | apply Pi.group\n    | simpa using Pi.group\n    | exact \u27e8_, Pi.group\u27e9\n    | exact Pi.group (by assumption)\n    | exact Pi.group \u2039_\u203a\n    | apply Pi.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Pi.group (by assumption))\n    | exact Multiplicative.group\n    | exact Multiplicative.group _\n    | apply Multiplicative.group\n    | simpa using Multiplicative.group\n    | exact \u27e8_, Multiplicative.group\u27e9\n    | exact Multiplicative.group (by assumption)\n    | exact Multiplicative.group \u2039_\u203a\n    | apply Multiplicative.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Multiplicative.group (by assumption))\n    | exact Function.Injective.group\n    | exact Function.Injective.group _\n    | apply Function.Injective.group\n    | simpa using Function.Injective.group\n    | exact \u27e8_, Function.Injective.group\u27e9\n    | exact Function.Injective.group (by assumption)\n    | exact Function.Injective.group \u2039_\u203a\n    | apply Function.Injective.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Injective.group (by assumption))\n    | exact Function.Surjective.group\n    | exact Function.Surjective.group _\n    | apply Function.Surjective.group\n    | simpa using Function.Surjective.group\n    | exact \u27e8_, Function.Surjective.group\u27e9\n    | exact Function.Surjective.group (by assumption)\n    | exact Function.Surjective.group \u2039_\u203a\n    | apply Function.Surjective.group <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Function.Surjective.group (by assumption))\n    | exact AddOpposite.instGroup\n    | exact AddOpposite.instGroup _\n    | apply AddOpposite.instGroup\n    | simpa using AddOpposite.instGroup\n    | exact \u27e8_, AddOpposite.instGroup\u27e9\n    | exact AddOpposite.instGroup (by assumption)\n    | exact AddOpposite.instGroup \u2039_\u203a\n    | apply AddOpposite.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact AddOpposite.instGroup (by assumption))\n    | exact MulOpposite.instGroup\n    | exact MulOpposite.instGroup _\n    | apply MulOpposite.instGroup\n    | simpa using MulOpposite.instGroup\n    | exact \u27e8_, MulOpposite.instGroup\u27e9\n    | exact MulOpposite.instGroup (by assumption)\n    | exact MulOpposite.instGroup \u2039_\u203a\n    | apply MulOpposite.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact MulOpposite.instGroup (by assumption))\n    | exact Units.instGroup\n    | exact Units.instGroup _\n    | apply Units.instGroup\n    | simpa using Units.instGroup\n    | exact \u27e8_, Units.instGroup\u27e9\n    | exact Units.instGroup (by assumption)\n    | exact Units.instGroup \u2039_\u203a\n    | apply Units.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Units.instGroup (by assumption))\n    | exact groupOfIsUnit\n    | exact groupOfIsUnit _\n    | apply groupOfIsUnit\n    | simpa using groupOfIsUnit\n    | exact \u27e8_, groupOfIsUnit\u27e9\n    | exact groupOfIsUnit (by assumption)\n    | exact groupOfIsUnit \u2039_\u203a\n    | apply groupOfIsUnit <;> assumption\n    | (haveI := Fact.mk (by assumption); exact groupOfIsUnit (by assumption))\n    | exact Prod.instGroup\n    | exact Prod.instGroup _\n    | apply Prod.instGroup\n    | simpa using Prod.instGroup\n    | exact \u27e8_, Prod.instGroup\u27e9\n    | exact Prod.instGroup (by assumption)\n    | exact Prod.instGroup \u2039_\u203a\n    | apply Prod.instGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Prod.instGroup (by assumption))\n    | exact Equiv.Perm.permGroup\n    | exact Equiv.Perm.permGroup _\n    | apply Equiv.Perm.permGroup\n    | simpa using Equiv.Perm.permGroup\n    | exact \u27e8_, Equiv.Perm.permGroup\u27e9\n    | exact Equiv.Perm.permGroup (by assumption)\n    | exact Equiv.Perm.permGroup \u2039_\u203a\n    | apply Equiv.Perm.permGroup <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Equiv.Perm.permGroup (by assumption))",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:126: error: unsolved goals\nG : Type u_1\ninst\u271d : Group G\na b : G\n\u22a2 {b * a * b ^ 2, b * a * b ^ 3} \u2286 \u2191(Subgroup.closure {a, b})\n\nStill to prove:\n\u22a2 {b * a * b ^ 2, b * a * b ^ 3} \u2286 \u2191(Subgroup.closure {a, b})",
+      "at": 1788872160.0611181,
+      "auto": true
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lemma2 {G : Type*} [Group G] (a b : G) :\n  Subgroup.closure {b*a*b^2, b*a*b^3} \u2264 Subgroup.closure ({a, b} : Set G)",
+      "proof": "by\n  rw [Subgroup.closure_le]\n  have ha : a \u2208 Subgroup.closure ({a, b} : Set G) := Subgroup.subset_closure (by simp)\n  have hb : b \u2208 Subgroup.closure ({a, b} : Set G) := Subgroup.subset_closure (by simp)\n  rintro x (rfl | (rfl : x = b*a*b^3))\n  \u00b7 aesop\n  \u00b7 aesop",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma lemma2 {G : Type*} [Group G] (a b : G) :\n  Subgroup.closure {b*a*b^2, b*a*b^3} \u2264 Subgroup.closure ({a, b} : Set G)",
+      "at": 1788872172.1444259,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma b_eq_inv_mul {G : Type*} [Group G] (a b : G) : b = (b * a * b^2)\u207b\u00b9 * (b * a * b^3)",
+      "proof": "by group",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma b_eq_inv_mul {G : Type*} [Group G] (a b : G) : b = (b * a * b^2)\u207b\u00b9 * (b * a * b^3)",
+      "at": 1788872176.6931973,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma b_mem {G : Type*} [Group G] (a b : G) : b \u2208 Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  have hx : b*a*b^2 \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := Subgroup.subset_closure (by simp)\n  have hy : b*a*b^3 \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := Subgroup.subset_closure (by simp)\n  rw [b_eq_inv_mul a b]\n  exact Subgroup.mul_mem _ (Subgroup.inv_mem _ hx) hy",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n16:47: error: Application type mismatch: The argument\n  hx\nhas type\n  b * a * b ^ 2 \u2208 Subgroup.closure {b * a * b ^ 2, b * a * b ^ 3}\nbut is expected to have type\n  b * a * b ^ 2 \u2208\n    Subgroup.closure\n      {(b * a * b ^ 2)\u207b\u00b9 * (b * a * b ^ 3) * a * ((b * a * b ^ 2)\u207b\u00b9 * (b * a * b ^ 3)) ^ 2,\n        (b * a * b ^ 2)\u207b\u00b9 * (b * a * b ^ 3) * a * ((b * a * b ^ 2)\u207b\u00b9 * (b * a * b ^ 3)) ^ 3}\nin the application\n  Subgroup.inv_mem\n    (Subgroup.closure\n      {(b * a * b ^ 2)\u207b\u00b9 * (b * a * b ^ 3) * a * ((b * a * b ^ 2)\u207b\u00b9 * (b * a * b ^ 3)) ^ 2,\n        (b * a * b ^ 2)\u207b\u00b9 * (b * a * b ^ 3) * a * ((b * a * b ^ 2)\u207b\u00b9 * (b * a * b ^ 3)) ^ 3})\n    hx",
+      "at": 1788872180.8137326,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma b_mem {G : Type*} [Group G] (a b : G) : b \u2208 Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  have hx : b*a*b^2 \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := Subgroup.subset_closure (by simp)\n  have hy : b*a*b^3 \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := Subgroup.subset_closure (by simp)\n  have h : (b*a*b^2)\u207b\u00b9 * (b*a*b^3) \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := Subgroup.mul_mem _ (Subgroup.inv_mem _ hx) hy\n  rw [\u2190 b_eq_inv_mul a b] at h\n  exact h",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma b_mem {G : Type*} [Group G] (a b : G) : b \u2208 Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "at": 1788872187.0790436,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_6_8_1 {G : Type*} [Group G]\n  (a b : G) : Subgroup.closure ({a, b} : Set G) = Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  have h2 := lemma2 a b\n  exact h2",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n22:2: error: Type mismatch\n  h2\nhas type\n  Subgroup.closure {b * a * b ^ 2, b * a * b ^ 3} \u2264 Subgroup.closure {a, b}\nbut is expected to have type\n  Subgroup.closure {a, b} = Subgroup.closure {b * a * b ^ 2, b * a * b ^ 3}",
+      "at": 1788872195.5037034,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma a_eq_expr {G : Type*} [Group G] (a b : G) : a = b\u207b\u00b9 * (b * a * b^2) * (b^2)\u207b\u00b9",
+      "proof": "by group",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma a_eq_expr {G : Type*} [Group G] (a b : G) : a = b\u207b\u00b9 * (b * a * b^2) * (b^2)\u207b\u00b9",
+      "at": 1788872197.9514577,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_6_8_1 {G : Type*} [Group G]\n  (a b : G) : Subgroup.closure ({a, b} : Set G) = Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  have h := a_eq_expr a b\n  exact lemma2 a b",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n24:2: error: Type mismatch\n  lemma2 a b\nhas type\n  Subgroup.closure {b * a * b ^ 2, b * a * b ^ 3} \u2264 Subgroup.closure {a, b}\nbut is expected to have type\n  Subgroup.closure {a, b} = Subgroup.closure {b * a * b ^ 2, b * a * b ^ 3}",
+      "at": 1788872203.459255,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma a_mem {G : Type*} [Group G] (a b : G) : a \u2208 Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  have hx : b*a*b^2 \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := Subgroup.subset_closure (by simp)\n  have hb : b \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := b_mem a b\n  have h : b\u207b\u00b9 * (b * a * b^2) * (b^2)\u207b\u00b9 \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := by aesop\n  rw [\u2190 a_eq_expr a b] at h\n  exact h",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma a_mem {G : Type*} [Group G] (a b : G) : a \u2208 Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "at": 1788872207.4062335,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_6_8_1 {G : Type*} [Group G]\n  (a b : G) : Subgroup.closure ({a, b} : Set G) = Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  have h1 := a_mem a b\n  have h2 := b_mem a b\n  exact lemma2 a b",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n32:2: error: Type mismatch\n  lemma2 a b\nhas type\n  Subgroup.closure {b * a * b ^ 2, b * a * b ^ 3} \u2264 Subgroup.closure {a, b}\nbut is expected to have type\n  Subgroup.closure {a, b} = Subgroup.closure {b * a * b ^ 2, b * a * b ^ 3}",
+      "at": 1788872213.7395046,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lemma1 {G : Type*} [Group G] (a b : G) :\n  Subgroup.closure ({a, b} : Set G) \u2264 Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  rw [Subgroup.closure_le]\n  rintro x (rfl | (rfl : x = b))\n  \u00b7 exact a_mem a b\n  \u00b7 exact b_mem a b",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n32:16: error: Unknown identifier `a`\n33:18: error: Unknown identifier `b`",
+      "at": 1788872217.311887,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lemma1 {G : Type*} [Group G] (a b : G) :\n  Subgroup.closure ({a, b} : Set G) \u2264 Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  rw [Subgroup.closure_le]\n  rintro x (rfl | hx)\n  \u00b7 exact a_mem a b\n  \u00b7 rw [Set.mem_singleton_iff] at hx\n    subst hx\n    exact b_mem a b",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n32:16: error: Unknown identifier `a`\n35:18: error: Unknown identifier `b`",
+      "at": 1788872222.260231,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lemma1 {G : Type*} [Group G] (a b : G) :\n  Subgroup.closure ({a, b} : Set G) \u2264 Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  rw [Subgroup.closure_le]\n  intro x hx\n  rcases hx with (rfl | hx)\n  \u00b7 exact a_mem a b\n  \u00b7 rw [Set.mem_singleton_iff] at hx\n    subst hx\n    exact b_mem a b",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n33:16: error: Unknown identifier `a`\n36:18: error: Unknown identifier `b`",
+      "at": 1788872228.363302,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma lemma1_alt {G : Type*} [Group G] (a b : G) :\n  Subgroup.closure ({a, b} : Set G) \u2264 Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  rw [Subgroup.closure_le]\n  intro x hx\n  rcases hx with (h | h)\n  \u00b7 rw [h]\n    exact a_mem a b\n  \u00b7 rw [Set.mem_singleton_iff] at h\n    rw [h]\n    exact b_mem a b",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma lemma1_alt {G : Type*} [Group G] (a b : G) :\n  Subgroup.closure ({a, b} : Set G) \u2264 Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "at": 1788872239.1476777,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_6_8_1 {G : Type*} [Group G]\n  (a b : G) : Subgroup.closure ({a, b} : Set G) = Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "proof": "by\n  exact le_antisymm (lemma1_alt a b) (lemma2 a b)",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_6_8_1 {G : Type*} [Group G]\n  (a b : G) : Subgroup.closure ({a, b} : Set G) = Subgroup.closure {b*a*b^2, b*a*b^3}",
+      "at": 1788872243.3526528,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma lemma2 {G : Type*} [Group G] (a b : G) :\n  Subgroup.closure {b*a*b^2, b*a*b^3} \u2264 Subgroup.closure ({a, b} : Set G) := by\n  rw [Subgroup.closure_le]\n  have ha : a \u2208 Subgroup.closure ({a, b} : Set G) := Subgroup.subset_closure (by simp)\n  have hb : b \u2208 Subgroup.closure ({a, b} : Set G) := Subgroup.subset_closure (by simp)\n  rintro x (rfl | (rfl : x = b*a*b^3))\n  \u00b7 aesop\n  \u00b7 aesop",
+    "lemma b_eq_inv_mul {G : Type*} [Group G] (a b : G) : b = (b * a * b^2)\u207b\u00b9 * (b * a * b^3) := by group",
+    "lemma b_mem {G : Type*} [Group G] (a b : G) : b \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := by\n  have hx : b*a*b^2 \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := Subgroup.subset_closure (by simp)\n  have hy : b*a*b^3 \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := Subgroup.subset_closure (by simp)\n  have h : (b*a*b^2)\u207b\u00b9 * (b*a*b^3) \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := Subgroup.mul_mem _ (Subgroup.inv_mem _ hx) hy\n  rw [\u2190 b_eq_inv_mul a b] at h\n  exact h",
+    "lemma a_eq_expr {G : Type*} [Group G] (a b : G) : a = b\u207b\u00b9 * (b * a * b^2) * (b^2)\u207b\u00b9 := by group",
+    "lemma a_mem {G : Type*} [Group G] (a b : G) : a \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := by\n  have hx : b*a*b^2 \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := Subgroup.subset_closure (by simp)\n  have hb : b \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := b_mem a b\n  have h : b\u207b\u00b9 * (b * a * b^2) * (b^2)\u207b\u00b9 \u2208 Subgroup.closure {b*a*b^2, b*a*b^3} := by aesop\n  rw [\u2190 a_eq_expr a b] at h\n  exact h",
+    "lemma lemma1_alt {G : Type*} [Group G] (a b : G) :\n  Subgroup.closure ({a, b} : Set G) \u2264 Subgroup.closure {b*a*b^2, b*a*b^3} := by\n  rw [Subgroup.closure_le]\n  intro x hx\n  rcases hx with (h | h)\n  \u00b7 rw [h]\n    exact a_mem a b\n  \u00b7 rw [Set.mem_singleton_iff] at h\n    rw [h]\n    exact b_mem a b"
+  ],
+  "premises": [
+    {
+      "name": "CommGroup.toGroup",
+      "type": " {G : Type u_2} [self : CommGroup G] : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.mk",
+      "type": " {G : Type u_2} [toDivInvMonoid : DivInvMonoid G] (inv_mul_cancel : \u2200 (a : G), a\u207b\u00b9 * a = 1) : Group G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Pi.group",
+      "type": " {I : Type u} {f : I \u2192 Type v\u2081} [(i : I) \u2192 Group (f i)] : Group ((i : I) \u2192 f i)",
+      "module": "Mathlib.Algebra.Group.Pi.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Multiplicative.group",
+      "type": " {\u03b1 : Type u} [AddGroup \u03b1] : Group (Multiplicative \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2081] [One M\u2081] [Pow M\u2081 \u2115] [Inv M\u2081] [Div M\u2081] [Pow M\u2081 \u2124] [Group M\u2082] (f : M\u2081 \u2192 M\u2082) (hf : Function.Injective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2081",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits an injective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "Function.Surjective.group",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Mul M\u2082] [One M\u2082] [Pow M\u2082 \u2115] [Inv M\u2082] [Div M\u2082] [Pow M\u2082 \u2124] [Group M\u2081] (f : M\u2081 \u2192 M\u2082) (hf : Function.Surjective f) (one : f 1 = 1) (mul : \u2200 (x y : M\u2081), f (x * y) = f x * f y) (inv : \u2200 (x : M\u2081), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : M\u2081), f (x / y) = f x / f y) (npow : \u2200 (x : M\u2081) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : M\u2081) (n : \u2124), f (x ^ n) = f x ^ n) : Group M\u2082",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `1`, `*` and `\u207b\u00b9` is a group, if it admits a surjective map that preserves\n`1`, `*` and `\u207b\u00b9` to a group. See note [reducible non-instances]. "
+    },
+    {
+      "name": "AddOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instGroup",
+      "type": " {\u03b1 : Type u_1} [Group \u03b1] : Group \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "Units.instGroup",
+      "type": " {\u03b1 : Type u} [Monoid \u03b1] : Group \u03b1\u02e3",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Units of a monoid form a group. "
+    },
+    {
+      "name": "groupOfIsUnit",
+      "type": " {M : Type u_1} [hM : Monoid M] (h : \u2200 (a : M), IsUnit a) : Group M",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Constructs a `Group` structure on a `Monoid` consisting only of units. "
+    },
+    {
+      "name": "Prod.instGroup",
+      "type": " {G : Type u_1} {H : Type u_2} [Group G] [Group H] : Group (G \u00d7 H)",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.Perm.permGroup",
+      "type": " {\u03b1 : Type u_4} : Group (Equiv.Perm \u03b1)",
+      "module": "Mathlib.Algebra.Group.End",
+      "doc": ""
+    },
+    {
+      "name": "Group",
+      "type": " (G : Type u_2) : Type u_2",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": "A `Group` is a `Monoid` with an operation `\u207b\u00b9` satisfying `a\u207b\u00b9 * a = 1`.\n\nThere is also a division operation `/` such that `a / b = a * b\u207b\u00b9`,\nwith a default so that `a / b = a * b\u207b\u00b9` holds by definition.\n\nUse `Group.ofLeftAxioms` or `Group.ofRightAxioms` to define a group structure\non a type with the minimum proof obligations.\n\n\n[Wikidata Q83478](https://www.wikidata.org/wiki/Q83478)"
+    },
+    {
+      "name": "Group.toCancelMonoid",
+      "type": " {G : Type u_1} [Group G] : CancelMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.toDivInvMonoid",
+      "type": " {G : Type u_2} [self : Group G] : DivInvMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.toDivisionMonoid",
+      "type": " {G : Type u_1} [Group G] : DivisionMonoid G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "div_self'",
+      "type": " {G : Type u_1} [Group G] (a : G) : a / a = 1",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "div_mul_cancel",
+      "type": " {G : Type u_1} [Group G] (a b : G) : a / b * b = a",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "mul_div_cancel_right",
+      "type": " {G : Type u_1} [Group G] (a b : G) : a * b / b = a",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CommGroup.mk",
+      "type": " {G : Type u_2} [toGroup : Group G] (mul_comm : \u2200 (a b : G), a * b = b * a) : CommGroup G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Group.inv_mul_cancel",
+      "type": " {G : Type u_2} [self : Group G] (a : G) : a\u207b\u00b9 * a = 1",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "inv_mul_cancel",
+      "type": " {G : Type u_1} [Group G] (a : G) : a\u207b\u00b9 * a = 1",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.closure",
+      "type": " {G : Type u_1} [Group G] (k : Set G) : Subgroup G",
+      "module": "Mathlib.Algebra.Group.Subgroup.Lattice",
+      "doc": "The `Subgroup` generated by a set. "
+    },
+    {
+      "name": "Subgroup.closure_univ",
+      "type": " {G : Type u_1} [Group G] : Subgroup.closure Set.univ = \u22a4",
+      "module": "Mathlib.Algebra.Group.Subgroup.Lattice",
+      "doc": ""
+    },
+    {
+      "name": "AddSubsemigroup.closure_le",
+      "type": " {M : Type u_1} [Add M] {s : Set M} {S : AddSubsemigroup M} : AddSubsemigroup.closure s \u2264 S \u2194 s \u2286 \u2191S",
+      "module": "Mathlib.Algebra.Group.Subsemigroup.Basic",
+      "doc": "An additive subsemigroup `S` includes `closure s` if and only if it includes `s` "
+    },
+    {
+      "name": "Subsemigroup.closure_le",
+      "type": " {M : Type u_1} [Mul M] {s : Set M} {S : Subsemigroup M} : Subsemigroup.closure s \u2264 S \u2194 s \u2286 \u2191S",
+      "module": "Mathlib.Algebra.Group.Subsemigroup.Basic",
+      "doc": "A subsemigroup `S` includes `closure s` if and only if it includes `s`. "
+    },
+    {
+      "name": "AddSubmonoid.closure_le",
+      "type": " {M : Type u_1} [AddZeroClass M] {s : Set M} {S : AddSubmonoid M} : AddSubmonoid.closure s \u2264 S \u2194 s \u2286 \u2191S",
+      "module": "Mathlib.Algebra.Group.Submonoid.Basic",
+      "doc": "An additive submonoid `S` includes `closure s` if and only if it includes `s`. "
+    },
+    {
+      "name": "Submonoid.closure_le",
+      "type": " {M : Type u_1} [MulOneClass M] {s : Set M} {S : Submonoid M} : Submonoid.closure s \u2264 S \u2194 s \u2286 \u2191S",
+      "module": "Mathlib.Algebra.Group.Submonoid.Basic",
+      "doc": "A submonoid `S` includes `closure s` if and only if it includes `s`. "
+    },
+    {
+      "name": "AddSubgroup.closure_le",
+      "type": " {G : Type u_1} [AddGroup G] (K : AddSubgroup G) {k : Set G} : AddSubgroup.closure k \u2264 K \u2194 k \u2286 \u2191K",
+      "module": "Mathlib.Algebra.Group.Subgroup.Lattice",
+      "doc": "An additive subgroup `K` includes `closure k` if and only if it includes `k` "
+    },
+    {
+      "name": "Subgroup.closure_le",
+      "type": " {G : Type u_1} [Group G] (K : Subgroup G) {k : Set G} : Subgroup.closure k \u2264 K \u2194 k \u2286 \u2191K",
+      "module": "Mathlib.Algebra.Group.Subgroup.Lattice",
+      "doc": "A subgroup `K` includes `closure k` if and only if it includes `k`. "
+    },
+    {
+      "name": "AddSubgroup.closure_le_normalClosure",
+      "type": " {G : Type u_1} [AddGroup G] {s : Set G} : AddSubgroup.closure s \u2264 AddSubgroup.normalClosure s",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.closure_le_normalClosure",
+      "type": " {G : Type u_1} [Group G] {s : Set G} : Subgroup.closure s \u2264 Subgroup.normalClosure s",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.normalClosure_le_normal",
+      "type": " {G : Type u_1} [AddGroup G] {s : Set G} {N : AddSubgroup G} [N.Normal] (h : s \u2286 \u2191N) : AddSubgroup.normalClosure s \u2264 N",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "The normal closure of `s` is the smallest normal additive subgroup containing`s`.\n"
+    },
+    {
+      "name": "Subgroup.normalClosure_le_normal",
+      "type": " {G : Type u_1} [Group G] {s : Set G} {N : Subgroup G} [N.Normal] (h : s \u2286 \u2191N) : Subgroup.normalClosure s \u2264 N",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": "The normal closure of `s` is the smallest normal subgroup containing `s`. "
+    },
+    {
+      "name": "AddSubgroup.map_normalClosure_le",
+      "type": " {G : Type u_1} [AddGroup G] {N : Type u_4} [AddGroup N] (s : Set G) (f : G \u2192+ N) : AddSubgroup.map f (AddSubgroup.normalClosure s) \u2264 AddSubgroup.normalClosure (\u21d1f '' s)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.map_normalClosure_le",
+      "type": " {G : Type u_1} [Group G] {N : Type u_4} [Group N] (s : Set G) (f : G \u2192* N) : Subgroup.map f (Subgroup.normalClosure s) \u2264 Subgroup.normalClosure (\u21d1f '' s)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddSubsemigroup.closure_mono",
+      "type": " {M : Type u_1} [Add M] \u2983s t : Set M\u2984 (h : s \u2286 t) : AddSubsemigroup.closure s \u2264 AddSubsemigroup.closure t",
+      "module": "Mathlib.Algebra.Group.Subsemigroup.Basic",
+      "doc": "Additive subsemigroup closure of a set is monotone in its\nargument: if `s \u2286 t`, then `closure s \u2264 closure t` "
+    },
+    {
+      "name": "Subsemigroup.closure_mono",
+      "type": " {M : Type u_1} [Mul M] \u2983s t : Set M\u2984 (h : s \u2286 t) : Subsemigroup.closure s \u2264 Subsemigroup.closure t",
+      "module": "Mathlib.Algebra.Group.Subsemigroup.Basic",
+      "doc": "subsemigroup closure of a set is monotone in its argument: if `s \u2286 t`,\nthen `closure s \u2264 closure t`. "
+    },
+    {
+      "name": "AddSubmonoid.closure_mono",
+      "type": " {M : Type u_1} [AddZeroClass M] \u2983s t : Set M\u2984 (h : s \u2286 t) : AddSubmonoid.closure s \u2264 AddSubmonoid.closure t",
+      "module": "Mathlib.Algebra.Group.Submonoid.Basic",
+      "doc": "Additive submonoid closure of a set is monotone in its argument: if `s \u2286 t`,\nthen `closure s \u2264 closure t`. "
+    },
+    {
+      "name": "Submonoid.closure_mono",
+      "type": " {M : Type u_1} [MulOneClass M] \u2983s t : Set M\u2984 (h : s \u2286 t) : Submonoid.closure s \u2264 Submonoid.closure t",
+      "module": "Mathlib.Algebra.Group.Submonoid.Basic",
+      "doc": "Submonoid closure of a set is monotone in its argument: if `s \u2286 t`,\nthen `closure s \u2264 closure t`. "
+    },
+    {
+      "name": "AddSubgroup.closure_mono",
+      "type": " {G : Type u_1} [AddGroup G] \u2983h k : Set G\u2984 (h' : h \u2286 k) : AddSubgroup.closure h \u2264 AddSubgroup.closure k",
+      "module": "Mathlib.Algebra.Group.Subgroup.Lattice",
+      "doc": "Additive subgroup closure of a set is monotone in its argument: if `h \u2286 k`,\nthen `closure h \u2264 closure k` "
+    },
+    {
+      "name": "Subgroup.closure_mono",
+      "type": " {G : Type u_1} [Group G] \u2983h k : Set G\u2984 (h' : h \u2286 k) : Subgroup.closure h \u2264 Subgroup.closure k",
+      "module": "Mathlib.Algebra.Group.Subgroup.Lattice",
+      "doc": "Subgroup closure of a set is monotone in its argument: if `h \u2286 k`,\nthen `closure h \u2264 closure k`. "
+    },
+    {
+      "name": "AddSubgroup.normalClosure_mono",
+      "type": " {G : Type u_1} [AddGroup G] {s t : Set G} (h : s \u2286 t) : AddSubgroup.normalClosure s \u2264 AddSubgroup.normalClosure t",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.normalClosure_mono",
+      "type": " {G : Type u_1} [Group G] {s t : Set G} (h : s \u2286 t) : Subgroup.normalClosure s \u2264 Subgroup.normalClosure t",
+      "module": "Mathlib.Algebra.Group.Subgroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalSubsemiring.closure_mono",
+      "type": " {R : Type u} [NonUnitalNonAssocSemiring R] \u2983s t : Set R\u2984 (h : s \u2286 t) : NonUnitalSubsemiring.closure s \u2264 NonUnitalSubsemiring.closure t",
+      "module": "Mathlib.RingTheory.NonUnitalSubsemiring.Basic",
+      "doc": "Subsemiring closure of a set is monotone in its argument: if `s \u2286 t`,\nthen `closure s \u2264 closure t`. "
+    },
+    {
+      "name": "Subsemiring.closure_mono",
+      "type": " {R : Type u} [NonAssocSemiring R] \u2983s t : Set R\u2984 (h : s \u2286 t) : Subsemiring.closure s \u2264 Subsemiring.closure t",
+      "module": "Mathlib.Algebra.Ring.Subsemiring.Basic",
+      "doc": "Subsemiring closure of a set is monotone in its argument: if `s \u2286 t`,\nthen `closure s \u2264 closure t`. "
+    },
+    {
+      "name": "NonUnitalSubring.closure_mono",
+      "type": " {R : Type u} [NonUnitalNonAssocRing R] \u2983s t : Set R\u2984 (h : s \u2286 t) : NonUnitalSubring.closure s \u2264 NonUnitalSubring.closure t",
+      "module": "Mathlib.RingTheory.NonUnitalSubring.Basic",
+      "doc": "`NonUnitalSubring` closure of a set is monotone in its argument: if `s \u2286 t`,\nthen `closure s \u2264 closure t`. "
+    },
+    {
+      "name": "Subring.closure_mono",
+      "type": " {R : Type u} [NonAssocRing R] \u2983s t : Set R\u2984 (h : s \u2286 t) : Subring.closure s \u2264 Subring.closure t",
+      "module": "Mathlib.Algebra.Ring.Subring.Basic",
+      "doc": "Subring closure of a set is monotone in its argument: if `s \u2286 t`,\nthen `closure s \u2264 closure t`. "
+    },
+    {
+      "name": "AddSubsemigroup.subset_closure",
+      "type": " {M : Type u_1} [Add M] {s : Set M} : s \u2286 \u2191(AddSubsemigroup.closure s)",
+      "module": "Mathlib.Algebra.Group.Subsemigroup.Basic",
+      "doc": "The `AddSubsemigroup` generated by a set includes the set. "
+    },
+    {
+      "name": "Subsemigroup.subset_closure",
+      "type": " {M : Type u_1} [Mul M] {s : Set M} : s \u2286 \u2191(Subsemigroup.closure s)",
+      "module": "Mathlib.Algebra.Group.Subsemigroup.Basic",
+      "doc": "The subsemigroup generated by a set includes the set. "
+    },
+    {
+      "name": "AddSubmonoid.subset_closure",
+      "type": " {M : Type u_1} [AddZeroClass M] {s : Set M} : s \u2286 \u2191(AddSubmonoid.closure s)",
+      "module": "Mathlib.Algebra.Group.Submonoid.Basic",
+      "doc": "The `AddSubmonoid` generated by a set includes the set. "
+    },
+    {
+      "name": "Submonoid.subset_closure",
+      "type": " {M : Type u_1} [MulOneClass M] {s : Set M} : s \u2286 \u2191(Submonoid.closure s)",
+      "module": "Mathlib.Algebra.Group.Submonoid.Basic",
+      "doc": "The submonoid generated by a set includes the set. "
+    },
+    {
+      "name": "AddSubgroup.subset_closure",
+      "type": " {G : Type u_1} [AddGroup G] {k : Set G} : k \u2286 \u2191(AddSubgroup.closure k)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Lattice",
+      "doc": "The `AddSubgroup` generated by a set includes the set. "
+    },
+    {
+      "name": "Subgroup.subset_closure",
+      "type": " {G : Type u_1} [Group G] {k : Set G} : k \u2286 \u2191(Subgroup.closure k)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Lattice",
+      "doc": "The subgroup generated by a set includes the set. "
+    },
+    {
+      "name": "AddSubmonoid.add_subset_closure",
+      "type": " {M : Type u_3} [AddMonoid M] {s t u : Set M} (hs : s \u2286 u) (ht : t \u2286 u) : s + t \u2286 \u2191(AddSubmonoid.closure u)",
+      "module": "Mathlib.Algebra.Group.Submonoid.Pointwise",
+      "doc": ""
+    },
+    {
+      "name": "Submonoid.mul_subset_closure",
+      "type": " {M : Type u_3} [Monoid M] {s t u : Set M} (hs : s \u2286 u) (ht : t \u2286 u) : s * t \u2286 \u2191(Submonoid.closure u)",
+      "module": "Mathlib.Algebra.Group.Submonoid.Pointwise",
+      "doc": ""
+    },
+    {
+      "name": "AddSubgroup.neg_subset_closure",
+      "type": " {G : Type u_2} [AddGroup G] (S : Set G) : -S \u2286 \u2191(AddSubgroup.closure S)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Pointwise",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.inv_subset_closure",
+      "type": " {G : Type u_2} [Group G] (S : Set G) : S\u207b\u00b9 \u2286 \u2191(Subgroup.closure S)",
+      "module": "Mathlib.Algebra.Group.Subgroup.Pointwise",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalSubsemiring.subset_closure",
+      "type": " {R : Type u} [NonUnitalNonAssocSemiring R] {s : Set R} : s \u2286 \u2191(NonUnitalSubsemiring.closure s)",
+      "module": "Mathlib.RingTheory.NonUnitalSubsemiring.Basic",
+      "doc": "The non-unital subsemiring generated by a set includes the set. "
+    },
+    {
+      "name": "Subsemiring.subset_closure",
+      "type": " {R : Type u} [NonAssocSemiring R] {s : Set R} : s \u2286 \u2191(Subsemiring.closure s)",
+      "module": "Mathlib.Algebra.Ring.Subsemiring.Basic",
+      "doc": "The subsemiring generated by a set includes the set. "
+    },
+    {
+      "name": "Set.insert_subset_iff",
+      "type": " {\u03b1 : Type u_1} {s t : Set \u03b1} {a : \u03b1} : insert a s \u2286 t \u2194 a \u2208 t \u2227 s \u2286 t",
+      "module": "Mathlib.Data.Set.Insert",
+      "doc": ""
+    },
+    {
+      "name": "Finset.insert_subset_iff",
+      "type": " {\u03b1 : Type u_1} [DecidableEq \u03b1] {s t : Finset \u03b1} {a : \u03b1} : insert a s \u2286 t \u2194 a \u2208 t \u2227 s \u2286 t",
+      "module": "Mathlib.Data.Finset.Insert",
+      "doc": ""
+    },
+    {
+      "name": "Set.singleton_subset_iff",
+      "type": " {\u03b1 : Type u_1} {a : \u03b1} {s : Set \u03b1} : {a} \u2286 s \u2194 a \u2208 s",
+      "module": "Mathlib.Data.Set.Insert",
+      "doc": ""
+    },
+    {
+      "name": "Set.diff_singleton_subset_iff",
+      "type": " {\u03b1 : Type u_1} {s t : Set \u03b1} {a : \u03b1} : s \\ {a} \u2286 t \u2194 s \u2286 insert a t",
+      "module": "Mathlib.Order.BooleanAlgebra.Set",
+      "doc": "**Alias** of `Set.sdiff_singleton_subset_iff`."
+    },
+    {
+      "name": "Set.sdiff_singleton_subset_iff",
+      "type": " {\u03b1 : Type u_1} {s t : Set \u03b1} {a : \u03b1} : s \\ {a} \u2286 t \u2194 s \u2286 insert a t",
+      "module": "Mathlib.Order.BooleanAlgebra.Set",
+      "doc": ""
+    },
+    {
+      "name": "Finset.singleton_subset_iff",
+      "type": " {\u03b1 : Type u_1} {s : Finset \u03b1} {a : \u03b1} : {a} \u2286 s \u2194 a \u2208 s",
+      "module": "Mathlib.Data.Finset.Insert",
+      "doc": ""
+    },
+    {
+      "name": "nhdsKer_singleton_subset_iff_mem_nhds",
+      "type": " {\u03b1 : Type u_3} [TopologicalSpace \u03b1] [AlexandrovDiscrete \u03b1] {t : Set \u03b1} {a : \u03b1} : nhdsKer {a} \u2286 t \u2194 t \u2208 nhds a",
+      "module": "Mathlib.Topology.AlexandrovDiscrete",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.mul_mem",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) {x y : G} : x \u2208 H \u2192 y \u2208 H \u2192 x * y \u2208 H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": "A subgroup is closed under multiplication. "
+    },
+    {
+      "name": "Subgroup.mul_mem_cancel_left",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) {x y : G} (h : x \u2208 H) : x * y \u2208 H \u2194 y \u2208 H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.mul_mem_cancel_right",
+      "type": " {G : Type u_1} [Group G] (H : Subgroup G) {x y : G} (h : x \u2208 H) : y * x \u2208 H \u2194 y \u2208 H",
+      "module": "Mathlib.Algebra.Group.Subgroup.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.mul_mem_sup",
+      "type": " {G : Type u_1} [Group G] {S T : Subgroup G} {x y : G} (hx : x \u2208 S) (hy : y \u2208 T) : x * y \u2208 S \u2294 T",
+      "module": "Mathlib.Algebra.Group.Subgroup.Lattice",
+      "doc": ""
+    },
+    {
+      "name": "Subgroup.mul_mem_iff_of_index_two",
+      "type": " {G : Type u_1} [Group G] {H : Subgroup G} (h : H.index = 2) {a b : G} : a * b \u2208 H \u2194 (a \u2208 H \u2194 b \u2208 H)",
+      "module": "Mathlib.GroupTheory.Index",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> CommGroup.toGroup, Group.mk, Pi.group, Multiplicative.group, Function.Injective.group, Function.Surjective.group, AddOpposite.instGroup, MulOpposite.instGroup",
+    "search: '\"closure_le\"' -> AddSubsemigroup.closure_le, Subsemigroup.closure_le, AddSubmonoid.closure_le, Submonoid.closure_le, AddSubgroup.closure_le, Subgroup.closure_le, AddSubgroup.closure_le_normalClosure, Subgroup.closure_le_normalClosure",
+    "search: '\"closure_mono\"' -> AddSubsemigroup.closure_mono, Subsemigroup.closure_mono, AddSubmonoid.closure_mono, Submonoid.closure_mono, AddSubgroup.closure_mono, Subgroup.closure_mono, AddSubgroup.normalClosure_mono, Subgroup.normalClosure_mono",
+    "search: '\"subset_closure\"' -> AddSubsemigroup.subset_closure, Subsemigroup.subset_closure, AddSubmonoid.subset_closure, Submonoid.subset_closure, AddSubgroup.subset_closure, Subgroup.subset_closure, AddSubmonoid.add_subset_closure, Submonoid.mul_subset_closure",
+    "search: '\"insert_subset_iff\"' -> Set.insert_subset_iff, Finset.insert_subset_iff",
+    "search: '\"singleton_subset_iff\"' -> Set.singleton_subset_iff, Set.diff_singleton_subset_iff, Set.sdiff_singleton_subset_iff, Finset.singleton_subset_iff, nhdsKer_singleton_subset_iff_mem_nhds",
+    "search: '\"Subgroup.mul_mem\"' -> Subgroup.mul_mem, Subgroup.mul_mem_cancel_left, Subgroup.mul_mem_cancel_right, Subgroup.mul_mem_sup, Subgroup.mul_mem_iff_of_index_two"
+  ],
+  "budget": {
+    "tool_calls": 31,
+    "lean_calls": 20,
+    "searches": 7,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788872026.6854823,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 2.2,
+    "statement_checks": 2,
+    "refusals": {
+      "placeholder_proof": 2,
+      "assemble_first": 3,
+      "decompose_first": 1
+    }
+  },
+  "goal": "theorem exercise_6_8_1 {G : Type*} [Group G]\n  (a b : G) : Subgroup.closure ({a, b} : Set G) = Subgroup.closure {b*a*b^2, b*a*b^3}"
+}

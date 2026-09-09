@@ -1,0 +1,310 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "open Fintype Set Real Ideal Polynomial\nopen scoped BigOperators\n\ntheorem exercise_5_5_2 : Irreducible (X^3 - 3*X - 1 : Polynomial \u211a)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788930189.1885576,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "example : (X^3 - 3*X - 1 : Polynomial \u211a).natDegree = 3 := by decide",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Bool.fintype\n    | exact Bool.fintype _\n    | apply Bool.fintype\n    | simpa using Bool.fintype\n    | exact \u27e8_, Bool.fintype\u27e9\n    | exact Bool.fintype (by assumption)\n    | exact Bool.fintype \u2039_\u203a\n    | apply Bool.fintype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Bool.fintype (by assumption))\n    | exact Ordering.fintype\n    | exact Ordering.fintype _\n    | apply Ordering.fintype\n    | simpa using Ordering.fintype\n    | exact \u27e8_, Ordering.fintype\u27e9\n    | exact Ordering.fintype (by assumption)\n    | exact Ordering.fintype \u2039_\u203a\n    | apply Ordering.fintype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Ordering.fintype (by assumption))\n    | exact Lex.fintype\n    | exact Lex.fintype _\n    | apply Lex.fintype\n    | simpa using Lex.fintype\n    | exact \u27e8_, Lex.fintype\u27e9\n    | exact Lex.fintype (by assumption)\n    | exact Lex.fintype \u2039_\u203a\n    | apply Lex.fintype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Lex.fintype (by assumption))\n    | exact OrderDual.fintype\n    | exact OrderDual.fintype _\n    | apply OrderDual.fintype\n    | simpa using OrderDual.fintype\n    | exact \u27e8_, OrderDual.fintype\u27e9\n    | exact OrderDual.fintype (by assumption)\n    | exact OrderDual.fintype \u2039_\u203a\n    | apply OrderDual.fintype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact OrderDual.fintype (by assumption))\n    | exact Fintype.mk\n    | exact Fintype.mk _\n    | apply Fintype.mk\n    | simpa using Fintype.mk\n    | exact \u27e8_, Fintype.mk\u27e9\n    | exact Fintype.mk (by assumption)\n    | exact Fintype.mk \u2039_\u203a\n    | apply Fintype.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.mk (by assumption))\n    | exact Fintype.subtype\n    | exact Fintype.subtype _\n    | apply Fintype.subtype\n    | simpa using Fintype.subtype\n    | exact \u27e8_, Fintype.subtype\u27e9\n    | exact Fintype.subtype (by assumption)\n    | exact Fintype.subtype \u2039_\u203a\n    | apply Fintype.subtype <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.subtype (by assumption))\n    | exact Fintype.ofFinset\n    | exact Fintype.ofFinset _\n    | apply Fintype.ofFinset\n    | simpa using Fintype.ofFinset\n    | exact \u27e8_, Fintype.ofFinset\u27e9\n    | exact Fintype.ofFinset (by assumption)\n    | exact Fintype.ofFinset \u2039_\u203a\n    | apply Fintype.ofFinset <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.ofFinset (by assumption))\n    | exact Fintype.instEmpty\n    | exact Fintype.instEmpty _\n    | apply Fintype.instEmpty\n    | simpa using Fintype.instEmpty\n    | exact \u27e8_, Fintype.instEmpty\u27e9\n    | exact Fintype.instEmpty (by assumption)\n    | exact Fintype.instEmpty \u2039_\u203a\n    | apply Fintype.instEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.instEmpty (by assumption))\n    | exact Fintype.instPEmpty\n    | exact Fintype.instPEmpty _\n    | apply Fintype.instPEmpty\n    | simpa using Fintype.instPEmpty\n    | exact \u27e8_, Fintype.instPEmpty\u27e9\n    | exact Fintype.instPEmpty (by assumption)\n    | exact Fintype.instPEmpty \u2039_\u203a\n    | apply Fintype.instPEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.instPEmpty (by assumption))\n    | exact Fintype.ofIsEmpty\n    | exact Fintype.ofIsEmpty _\n    | apply Fintype.ofIsEmpty\n    | simpa using Fintype.ofIsEmpty\n    | exact \u27e8_, Fintype.ofIsEmpty\u27e9\n    | exact Fintype.ofIsEmpty (by assumption)\n    | exact Fintype.ofIsEmpty \u2039_\u203a\n    | apply Fintype.ofIsEmpty <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.ofIsEmpty (by assumption))\n    | exact Fintype.ofSubsingleton\n    | exact Fintype.ofSubsingleton _\n    | apply Fintype.ofSubsingleton\n    | simpa using Fintype.ofSubsingleton\n    | exact \u27e8_, Fintype.ofSubsingleton\u27e9\n    | exact Fintype.ofSubsingleton (by assumption)\n    | exact Fintype.ofSubsingleton \u2039_\u203a\n    | apply Fintype.ofSubsingleton <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.ofSubsingleton (by assumption))\n    | exact Fintype.ofEquiv\n    | exact Fintype.ofEquiv _\n    | apply Fintype.ofEquiv\n    | simpa using Fintype.ofEquiv\n    | exact \u27e8_, Fintype.ofEquiv\u27e9\n    | exact Fintype.ofEquiv (by assumption)\n    | exact Fintype.ofEquiv \u2039_\u203a\n    | apply Fintype.ofEquiv <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Fintype.ofEquiv (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:61: error: Expected type must not contain free variables\n  (X ^ 3 - 3 * X - 1).natDegree = 3\n\nHint: Use the `+revert` option to automatically clean up and revert free variables\n1:68: error: unexpected token ':='; expected command",
+      "at": 1788930207.7972054,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma deg_eq : (X^3 - 3*X - 1 : Polynomial \u211a).natDegree = 3",
+      "proof": "by decide",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:68: error: Expected type must not contain free variables\n  (X ^ 3 - 3 * X - 1).natDegree = 3\n\nHint: Use the `+revert` option to automatically clean up and revert free variables",
+      "at": 1788930209.747649,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma deg_eq : (Polynomial.X^3 - 3*Polynomial.X - 1 : Polynomial \u211a).natDegree = 3",
+      "proof": "by decide",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n1:90: error: Tactic `decide` failed for proposition\n  (Polynomial.X ^ 3 - 3 * Polynomial.X - 1).natDegree = 3\nbecause its `Decidable` instance\n  instDecidableEqNat (Polynomial.X ^ 3 - 3 * Polynomial.X - 1).natDegree 3\ndid not reduce to `isTrue` or `isFalse`.\n\nAfter unfolding the instances `instDecidableEqNat`, `Classical.decEq`, `Classical.propDecidable`, and `Nat.decEq`, reduction got stuck at the `Decidable` instance\n  match h : (Polynomial.X ^ 3 - 3 * Polynomial.X - 1).natDegree.beq 3 with\n  | true => isTrue \u22ef\n  | false => isFalse \u22ef",
+      "at": 1788930211.8708346,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Bool.fintype",
+      "type": " : Fintype Bool",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Ordering.fintype",
+      "type": " : Fintype Ordering",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Lex.fintype",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype (Lex \u03b1)",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "OrderDual.fintype",
+      "type": " (\u03b1 : Type u_3) [Fintype \u03b1] : Fintype \u03b1\u1d52\u1d48",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.mk",
+      "type": " {\u03b1 : Type u_3} (elems : Finset \u03b1) (complete : \u2200 (x : \u03b1), x \u2208 elems) : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.subtype",
+      "type": " {\u03b1 : Type u_1} {p : \u03b1 \u2192 Prop} (s : Finset \u03b1) (H : \u2200 (x : \u03b1), x \u2208 s \u2194 p x) : Fintype { x // p x }",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": "Given a predicate that can be represented by a finset, the subtype\nassociated to the predicate is a fintype. "
+    },
+    {
+      "name": "Fintype.ofFinset",
+      "type": " {\u03b1 : Type u_1} {p : Set \u03b1} (s : Finset \u03b1) (H : \u2200 (x : \u03b1), x \u2208 s \u2194 x \u2208 p) : Fintype \u2191p",
+      "module": "Mathlib.Data.Fintype.Defs",
+      "doc": "Construct a fintype from a finset with the same elements. "
+    },
+    {
+      "name": "Fintype.instEmpty",
+      "type": " : Fintype Empty",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.instPEmpty",
+      "type": " : Fintype PEmpty.{u_3 + 1}",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": ""
+    },
+    {
+      "name": "Fintype.ofIsEmpty",
+      "type": " {\u03b1 : Type u_1} [IsEmpty \u03b1] : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "An empty type is a fintype. Not registered as an instance, to make sure that there aren't two\nconflicting `Fintype \u03b9` instances around when casing over whether a fintype `\u03b9` is empty or not. "
+    },
+    {
+      "name": "Fintype.ofSubsingleton",
+      "type": " {\u03b1 : Type u_1} (a : \u03b1) [Subsingleton \u03b1] : Fintype \u03b1",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "Any subsingleton type with a witness is a fintype (with one term). "
+    },
+    {
+      "name": "Fintype.ofEquiv",
+      "type": " {\u03b2 : Type u_2} (\u03b1 : Type u_3) [Fintype \u03b1] (f : \u03b1 \u2243 \u03b2) : Fintype \u03b2",
+      "module": "Mathlib.Data.Fintype.OfMap",
+      "doc": "If `f : \u03b1 \u2243 \u03b2` and `\u03b1` is a fintype, then `\u03b2` is also a fintype. "
+    },
+    {
+      "name": "Module.eqIdeal",
+      "type": " (R : Type u_1) {M : Type u_2} [Semiring R] [AddCommMonoid M] [Module R M] (m m' : M) : Ideal R",
+      "module": "Mathlib.RingTheory.Ideal.Defs",
+      "doc": "For two elements `m` and `m'` in an `R`-module `M`, the set of elements `r : R` with\nequal scalar product with `m` and `m'` is an ideal of `R`. If `M` is a group, this coincides\nwith the kernel of `LinearMap.toSpanSingleton R M (m - m')`. "
+    },
+    {
+      "name": "Ideal.span",
+      "type": " {\u03b1 : Type u} [Semiring \u03b1] (s : Set \u03b1) : Ideal \u03b1",
+      "module": "Mathlib.RingTheory.Ideal.Span",
+      "doc": "The ideal generated by a subset of a ring "
+    },
+    {
+      "name": "Ideal.ofRel",
+      "type": " {\u03b1 : Type u} [Semiring \u03b1] (r : \u03b1 \u2192 \u03b1 \u2192 Prop) : Ideal \u03b1",
+      "module": "Mathlib.RingTheory.Ideal.Span",
+      "doc": "The ideal generated by an arbitrary binary relation. "
+    },
+    {
+      "name": "Ideal.pi",
+      "type": " {\u03b9 : Type u_1} {R : \u03b9 \u2192 Type u_4} [(i : \u03b9) \u2192 Semiring (R i)] (I : (i : \u03b9) \u2192 Ideal (R i)) : Ideal ((i : \u03b9) \u2192 R i)",
+      "module": "Mathlib.RingTheory.Ideal.Basic",
+      "doc": "`\u03a0\u1d62 I\u1d62` as an ideal of `\u03a0\u1d62 R\u1d62`. "
+    },
+    {
+      "name": "Ideal.radical",
+      "type": " {R : Type u} [CommSemiring R] (I : Ideal R) : Ideal R",
+      "module": "Mathlib.RingTheory.Ideal.Operations",
+      "doc": "The radical of an ideal `I` consists of the elements `r` such that `r ^ n \u2208 I` for some `n`. "
+    },
+    {
+      "name": "Module.annihilator",
+      "type": " (R : Type u_1) (M : Type u_2) [Semiring R] [AddCommMonoid M] [Module R M] : Ideal R",
+      "module": "Mathlib.RingTheory.Ideal.Maps",
+      "doc": "`Module.annihilator R M` is the ideal of all elements `r : R` such that `r \u2022 M = 0`. "
+    },
+    {
+      "name": "Ideal.map",
+      "type": " {R : Type u} {S : Type v} {F : Type u_1} [Semiring R] [Semiring S] [FunLike F R S] (f : F) (I : Ideal R) : Ideal S",
+      "module": "Mathlib.RingTheory.Ideal.Maps",
+      "doc": "`I.map f` is the span of the image of the ideal `I` under `f`, which may be bigger than\nthe image itself. "
+    },
+    {
+      "name": "Submodule.annihilator",
+      "type": " {R : Type u_1} {M : Type u_2} [Semiring R] [AddCommMonoid M] [Module R M] (N : Submodule R M) : Ideal R",
+      "module": "Mathlib.RingTheory.Ideal.Maps",
+      "doc": "`N.annihilator` is the ideal of all elements `r : R` such that `r \u2022 N = 0`. "
+    },
+    {
+      "name": "RingHom.ker",
+      "type": " {R : Type u} {S : Type v} {F : Type u_1} [Semiring R] [Semiring S] [FunLike F R S] [rcf : RingHomClass F R S] (f : F) : Ideal R",
+      "module": "Mathlib.RingTheory.Ideal.Maps",
+      "doc": "Kernel of a ring homomorphism as an ideal of the domain. "
+    },
+    {
+      "name": "Ideal.comap",
+      "type": " {R : Type u} {S : Type v} {F : Type u_1} [Semiring R] [Semiring S] [FunLike F R S] (f : F) [RingHomClass F R S] (I : Ideal S) : Ideal R",
+      "module": "Mathlib.RingTheory.Ideal.Maps",
+      "doc": "`I.comap f` is the preimage of `I` under `f`. "
+    },
+    {
+      "name": "Ideal.prod",
+      "type": " {R : Type u} {S : Type v} [Semiring R] [Semiring S] (I : Ideal R) (J : Ideal S) : Ideal (R \u00d7 S)",
+      "module": "Mathlib.RingTheory.Ideal.Prod",
+      "doc": "`I \u00d7 J` as an ideal of `R \u00d7 S`. "
+    },
+    {
+      "name": "Ideal.leadingCoeff",
+      "type": " {R : Type u} [Semiring R] (I : Ideal (Polynomial R)) : Ideal R",
+      "module": "Mathlib.RingTheory.Polynomial.Basic",
+      "doc": "Given an ideal `I` in `R[X]`, make the ideal in `R` of the\nleading coefficients in `I`. "
+    },
+    {
+      "name": "FreeAddGroup.Red.red_iff_addIrreducible",
+      "type": " {\u03b1 : Type u} {L : List (\u03b1 \u00d7 Bool)} {x1 : \u03b1} {b1 : Bool} {x2 : \u03b1} {b2 : Bool} (h : (x1, b1) \u2260 (x2, b2)) : FreeAddGroup.Red [(x1, !b1), (x2, b2)] L \u2194 L = [(x1, !b1), (x2, b2)]",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "FreeGroup.Red.red_iff_irreducible",
+      "type": " {\u03b1 : Type u} {L : List (\u03b1 \u00d7 Bool)} {x1 : \u03b1} {b1 : Bool} {x2 : \u03b1} {b2 : Bool} (h : (x1, b1) \u2260 (x2, b2)) : FreeGroup.Red [(x1, !b1), (x2, b2)] L \u2194 L = [(x1, !b1), (x2, b2)]",
+      "module": "Mathlib.GroupTheory.FreeGroup.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddIrreducible.not_isAddUnit",
+      "type": " {M : Type u_1} [AddMonoid M] {p : M} (self : AddIrreducible p) : \u00acIsAddUnit p",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": "An irreducible element is not an additive unit. "
+    },
+    {
+      "name": "Irreducible.not_isUnit",
+      "type": " {M : Type u_1} [Monoid M] {p : M} (self : Irreducible p) : \u00acIsUnit p",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": "An irreducible element is not a unit. "
+    },
+    {
+      "name": "not_addIrreducible_zero",
+      "type": " {M : Type u_1} [AddMonoid M] : \u00acAddIrreducible 0",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": ""
+    },
+    {
+      "name": "not_irreducible_one",
+      "type": " {M : Type u_1} [Monoid M] : \u00acIrreducible 1",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddIrreducible.ne_zero",
+      "type": " {M : Type u_1} [AddMonoid M] {p : M} (hp : AddIrreducible p) : p \u2260 0",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Irreducible.ne_one",
+      "type": " {M : Type u_1} [Monoid M] {p : M} (hp : Irreducible p) : p \u2260 1",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": ""
+    },
+    {
+      "name": "of_addIrreducible_add",
+      "type": " {M : Type u_1} [AddMonoid M] {a b : M} : AddIrreducible (a + b) \u2192 IsAddUnit a \u2228 IsAddUnit b",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": ""
+    },
+    {
+      "name": "of_irreducible_mul",
+      "type": " {M : Type u_1} [Monoid M] {a b : M} : Irreducible (a * b) \u2192 IsUnit a \u2228 IsUnit b",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": ""
+    },
+    {
+      "name": "AddIrreducible",
+      "type": " {M : Type u_1} [AddMonoid M] (p : M) : Prop",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": "`AddIrreducible p` states that `p` is not an additive unit and cannot be written as a sum of\nadditive non-units. \n\n[Wikidata Q2989575](https://www.wikidata.org/wiki/Q2989575)"
+    },
+    {
+      "name": "Irreducible",
+      "type": " {M : Type u_1} [Monoid M] (p : M) : Prop",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": "`Irreducible p` states that `p` is non-unit and only factors into units.\n\nWe explicitly avoid stating that `p` is non-zero, this would require a semiring. Assuming only a\nmonoid allows us to reuse irreducible for associated elements. \n\n[Wikidata Q2989575](https://www.wikidata.org/wiki/Q2989575)"
+    },
+    {
+      "name": "Polynomial.Monic.irreducible_of_degree_eq_one",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] {p : Polynomial R} (hp1 : p.degree = 1) (hm : p.Monic) : Irreducible p",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.irreducible_of_degree_eq_one_of_isRelPrime_coeff",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] {p : Polynomial R} (hp : p.degree = 1) (hc : IsRelPrime (p.coeff 0) (p.coeff 1)) : Irreducible p",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": "A degree 1 polynomial `C a * X + C b` is irreducible\nif `a, b` are relatively prime. "
+    },
+    {
+      "name": "Polynomial.irreducible_of_degree_eq_one",
+      "type": " {R : Type u} [Field R] {p : Polynomial R} (hp1 : p.degree = 1) : Irreducible p",
+      "module": "Mathlib.Algebra.Polynomial.FieldDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.exists_irreducible_of_degree_pos",
+      "type": " {R : Type u_1} [CommSemiring R] [NoZeroDivisors R] [WfDvdMonoid R] {f : Polynomial R} [Nontrivial R] (hf : 0 < f.degree) : \u2203 g, Irreducible g \u2227 g \u2223 f",
+      "module": "Mathlib.RingTheory.Polynomial.UniqueFactorization",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.irreducible_of_degree_le_three_of_not_isRoot",
+      "type": " {K : Type u_1} [Field K] {p : Polynomial K} (hdeg : p.natDegree \u2208 Finset.Icc 1 3) (hnot : \u2200 (x : K), \u00acp.IsRoot x) : Irreducible p",
+      "module": "Mathlib.Algebra.Polynomial.SpecificDegree",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Bool.fintype, Ordering.fintype, Lex.fintype, OrderDual.fintype, Fintype.mk, Fintype.subtype, Fintype.ofFinset, Fintype.instEmpty",
+    "search: '\"irreducible\"' -> FreeAddGroup.Red.red_iff_addIrreducible, FreeGroup.Red.red_iff_irreducible, AddIrreducible.not_isAddUnit, Irreducible.not_isUnit, not_addIrreducible_zero, not_irreducible_one, AddIrreducible.ne_zero, Irreducible.ne_one",
+    "search: '\"irreducible_of_degree\"' -> Polynomial.Monic.irreducible_of_degree_eq_one, Polynomial.irreducible_of_degree_eq_one_of_isRelPrime_coeff, Polynomial.irreducible_of_degree_eq_one, Polynomial.exists_irreducible_of_degree_pos, Polynomial.irreducible_of_degree_le_three_of_not_isRoot",
+    "agent failed: ChatGoogleGenerativeAIError: Error calling model 'gemini-3.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ', 'status': 'RESOURCE_EXHAUSTED'}}"
+  ],
+  "budget": {
+    "tool_calls": 6,
+    "lean_calls": 4,
+    "searches": 2,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788930187.479014,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 1,
+    "refusals": {}
+  },
+  "goal": "example : (X^3 - 3*X - 1 : Polynomial \u211a).natDegree = 3 := by decide"
+}

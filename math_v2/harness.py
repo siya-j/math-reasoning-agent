@@ -393,6 +393,37 @@ _TRANSIENT = frozenset({
     "TooManyRequests", "Overloaded", "APIConnectionError", "APITimeoutError",
 })
 
+# EXHAUSTION THAT WAITING CANNOT FIX, matched in the message rather than the
+# type because the provider reports it with the same class and status as an
+# ordinary rate limit.
+#
+# MEASURED on eval/results/proofnet-60.json: a monthly spending cap arrives as
+# `ChatGoogleGenerativeAIError ... (RESOURCE_EXHAUSTED): 429`, identical in
+# type to a per-minute limit. `ResourceExhausted` is in the set above because
+# a per-minute limit IS worth a backoff -- but a billing cap will not clear in
+# five seconds, and retrying it twice per goal spent 132 seconds across three
+# goals achieving nothing. Deep in a long run that is minutes of waiting for
+# a wall that is not moving.
+#
+# A substring match on someone else's message is fragile, and it is used here
+# only to make a retry FAIL FASTER -- never to decide an outcome. If the
+# wording changes, the behaviour degrades to what it was: a pointless retry,
+# not a wrong answer.
+_HOPELESS = ("spending cap", "billing", "quota exceeded", "exceeded your quota",
+             "insufficient_quota", "payment required")
+
+
+def _is_hopeless(exc) -> bool:
+    """Is this exhaustion that a backoff cannot resolve?"""
+    seen = set()
+    while exc is not None and id(exc) not in seen:
+        seen.add(id(exc))
+        text = str(exc).lower()
+        if any(phrase in text for phrase in _HOPELESS):
+            return True
+        exc = exc.__cause__ or exc.__context__
+    return False
+
 
 def _is_transient(exc):
     """Is this a transport or server fault rather than a bug?
@@ -555,7 +586,7 @@ async def _with_retries(agent, payload, context, workdir):
             return await _one_pass(agent, payload, context)
         except Exception as exc:  # noqa: BLE001 - re-raised below unless transient
             last = attempt >= MAX_TRANSIENT_RETRIES
-            if not _is_transient(exc) or last:
+            if not _is_transient(exc) or _is_hopeless(exc) or last:
                 raise
             log.note(workdir,
                      f"retried after transient failure: {type(exc).__name__}"

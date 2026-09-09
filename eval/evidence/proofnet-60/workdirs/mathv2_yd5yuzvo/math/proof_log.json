@@ -1,0 +1,336 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_3_1 {F V : Type*}\n  [AddCommGroup V] [Field F] [Module F V] [FiniteDimensional F V]\n  (T : V \u2192\u2097[F] V) (hT : finrank F V = 1) :\n  \u2203 c : F, \u2200 v : V, T v = c \u2022 v",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:24: error: Function expected at\n  finrank\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  F\n\nHint: The identifier `finrank` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.",
+      "at": 1788873203.2689116,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_3_1 {F V : Type*}\n  [AddCommGroup V] [Field F] [Module F V] [FiniteDimensional F V]\n  (T : V \u2192\u2097[F] V) (hT : Module.finrank F V = 1) :\n  \u2203 c : F, \u2200 v : V, T v = c \u2022 v",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788873211.3293097,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_3_1 {F V : Type*}\n  [AddCommGroup V] [Field F] [Module F V] [FiniteDimensional F V]\n  (T : V \u2192\u2097[F] V) (hT : Module.finrank F V = 1) :\n  \u2203 c : F, \u2200 v : V, T v = c \u2022 v",
+      "proof": "by\n  obtain \u27e8c, hc, -\u27e9 := LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one hT T\n  use c\n  intro v\n  rw [hc]\n  simp",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_3_1 {F V : Type*}\n  [AddCommGroup V] [Field F] [Module F V] [FiniteDimensional F V]\n  (T : V \u2192\u2097[F] V) (hT : Module.finrank F V = 1) :\n  \u2203 c : F, \u2200 v : V, T v = c \u2022 v",
+      "at": 1788873223.0060449,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Module.finrank",
+      "type": " (R : Type u_1) (M : Type u_2) [Semiring R] [AddCommMonoid M] [Module R M] : \u2115",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finrank",
+      "doc": "The rank of a module as a natural number.\n\nFor a finite-dimensional vector space `V` over a field `k`, `Module.finrank k V` is equal to\nthe dimension of `V` over `k`.\n\nFor a general module `M` over a ring `R`, `Module.finrank R M` is defined to be the supremum of the\ncardinalities of the `R`-linearly independent subsets of `M`, if this supremum is finite. It is\ndefined by convention to be `0` if this supremum is infinite. See `Module.rank` for a\ncardinal-valued version where infinite rank modules have rank an infinite cardinal.\n\nNote that if `R` is not a field then there can exist modules `M` with `\u00ac(Module.Finite R M)` but\n`finrank R M \u2260 0`. For example `\u211a` has `finrank` equal to `1` over `\u2124`, because the nonempty\n`\u2124`-linearly independent subsets of `\u211a` are precisely the nonzero singletons. "
+    },
+    {
+      "name": "CommSemiring.finrank_self",
+      "type": " (R : Type u_1) [CommSemiring R] : Module.finrank R R = 1",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finrank",
+      "doc": ""
+    },
+    {
+      "name": "Module.finrank_subsingleton",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] [Subsingleton R] : Module.finrank R M = 1",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finrank",
+      "doc": ""
+    },
+    {
+      "name": "Module.finrank_eq_of_rank_eq",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] {n : \u2115} (h : Module.rank R M = \u2191n) : Module.finrank R M = n",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finrank",
+      "doc": ""
+    },
+    {
+      "name": "Module.finrank_le_of_rank_le",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] {n : \u2115} (h : Module.rank R M \u2264 \u2191n) : Module.finrank R M \u2264 n",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finrank",
+      "doc": ""
+    },
+    {
+      "name": "Module.finrank_lt_of_rank_lt",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] {n : \u2115} (h : Module.rank R M < \u2191n) : Module.finrank R M < n",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finrank",
+      "doc": ""
+    },
+    {
+      "name": "Module.lt_rank_of_lt_finrank",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] {n : \u2115} (h : n < Module.finrank R M) : \u2191n < Module.rank R M",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finrank",
+      "doc": ""
+    },
+    {
+      "name": "Module.rank_eq_one_iff_finrank_eq_one",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] : Module.rank R M = 1 \u2194 Module.finrank R M = 1",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finrank",
+      "doc": ""
+    },
+    {
+      "name": "Module.one_lt_rank_of_one_lt_finrank",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] (h : 1 < Module.finrank R M) : 1 < Module.rank R M",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finrank",
+      "doc": ""
+    },
+    {
+      "name": "Module.rank_eq_ofNat_iff_finrank_eq_ofNat",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] (n : \u2115) [n.AtLeastTwo] : Module.rank R M = OfNat.ofNat n \u2194 Module.finrank R M = OfNat.ofNat n",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finrank",
+      "doc": "This is like `rank_eq_one_iff_finrank_eq_one` but works for `2`, `3`, `4`, ... "
+    },
+    {
+      "name": "LinearEquiv.finrank_eq",
+      "type": " {R : Type u} {M : Type v} {N : Type w} [Semiring R] [AddCommMonoid M] [Module R M] [AddCommMonoid N] [Module R N] (f : M \u2243\u2097[R] N) : Module.finrank R M = Module.finrank R N",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finrank",
+      "doc": "The dimension of a finite-dimensional space is preserved under linear equivalence. "
+    },
+    {
+      "name": "Module.finrank_le_finrank_of_rank_le_rank",
+      "type": " {R : Type u} {M : Type v} {N : Type w} [Semiring R] [AddCommMonoid M] [Module R M] [AddCommMonoid N] [Module R N] (h : Cardinal.lift.{w, v} (Module.rank R M) \u2264 Cardinal.lift.{v, w} (Module.rank R N)) (h' : Module.rank R N < Cardinal.aleph0) : Module.finrank R M \u2264 Module.finrank R N",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finrank",
+      "doc": ""
+    },
+    {
+      "name": "AddCommGroup.mk",
+      "type": " {G : Type u_2} [toAddGroup : AddGroup G] (add_comm : \u2200 (a b : G), a + b = b + a) : AddCommGroup G",
+      "module": "Mathlib.Algebra.Group.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Pi.addCommGroup",
+      "type": " {I : Type u} {f : I \u2192 Type v\u2081} [(i : I) \u2192 AddCommGroup (f i)] : AddCommGroup ((i : I) \u2192 f i)",
+      "module": "Mathlib.Algebra.Group.Pi.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Additive.addCommGroup",
+      "type": " {\u03b1 : Type u} [CommGroup \u03b1] : AddCommGroup (Additive \u03b1)",
+      "module": "Mathlib.Algebra.Group.TypeTags.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Function.Injective.addCommGroup",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Add M\u2081] [Zero M\u2081] [SMul \u2115 M\u2081] [Neg M\u2081] [Sub M\u2081] [SMul \u2124 M\u2081] [AddCommGroup M\u2082] (f : M\u2081 \u2192 M\u2082) (hf : Function.Injective f) (zero : f 0 = 0) (add : \u2200 (x y : M\u2081), f (x + y) = f x + f y) (neg : \u2200 (x : M\u2081), f (-x) = -f x) (sub : \u2200 (x y : M\u2081), f (x - y) = f x - f y) (nsmul : \u2200 (x : M\u2081) (n : \u2115), f (n \u2022 x) = n \u2022 f x) (zsmul : \u2200 (x : M\u2081) (n : \u2124), f (n \u2022 x) = n \u2022 f x) : AddCommGroup M\u2081",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `0` and `+` is an additive commutative group, if it\nadmits an injective map that preserves `0` and `+` to an additive commutative group. "
+    },
+    {
+      "name": "Function.Surjective.addCommGroup",
+      "type": " {M\u2081 : Type u_1} {M\u2082 : Type u_2} [Add M\u2082] [Zero M\u2082] [SMul \u2115 M\u2082] [Neg M\u2082] [Sub M\u2082] [SMul \u2124 M\u2082] [AddCommGroup M\u2081] (f : M\u2081 \u2192 M\u2082) (hf : Function.Surjective f) (zero : f 0 = 0) (add : \u2200 (x y : M\u2081), f (x + y) = f x + f y) (neg : \u2200 (x : M\u2081), f (-x) = -f x) (sub : \u2200 (x y : M\u2081), f (x - y) = f x - f y) (nsmul : \u2200 (x : M\u2081) (n : \u2115), f (n \u2022 x) = n \u2022 f x) (zsmul : \u2200 (x : M\u2081) (n : \u2124), f (n \u2022 x) = n \u2022 f x) : AddCommGroup M\u2082",
+      "module": "Mathlib.Algebra.Group.InjSurj",
+      "doc": "A type endowed with `0` and `+` is an additive commutative group, if it\nadmits a surjective map that preserves `0` and `+` to an additive commutative group. "
+    },
+    {
+      "name": "AddOpposite.instAddCommGroup",
+      "type": " {\u03b1 : Type u_1} [AddCommGroup \u03b1] : AddCommGroup \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instAddCommGroup",
+      "type": " {\u03b1 : Type u_1} [AddCommGroup \u03b1] : AddCommGroup \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Group.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "AddUnits.instAddCommGroupAddUnits",
+      "type": " {\u03b1 : Type u_1} [AddCommMonoid \u03b1] : AddCommGroup (AddUnits \u03b1)",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": "Additive units of an additive commutative monoid form\nan additive commutative group. "
+    },
+    {
+      "name": "Prod.instAddCommGroup",
+      "type": " {G : Type u_1} {H : Type u_2} [AddCommGroup G] [AddCommGroup H] : AddCommGroup (G \u00d7 H)",
+      "module": "Mathlib.Algebra.Group.Prod",
+      "doc": ""
+    },
+    {
+      "name": "IsAddCommutative.instAddCommGroup",
+      "type": " {G : Type u_2} [AddGroup G] [IsAddCommutative G] : AddCommGroup G",
+      "module": "Mathlib.Algebra.Group.IsCommutative",
+      "doc": "An `AddGroup` which `IsMulCommutative` is a `AddCommGroup`.\n\nThis is primarily used to deduce the bundled version from the unbundled one for commutative\nsubobjects in a noncommutative ambient type. As such this is only available inside the\n`IsMulCommutative` scope so as to avoid deleterious effects to type class synthesis for bundled\ncommutativity.\n\nSee note [commutative subobjects]. "
+    },
+    {
+      "name": "AddCommGroupWithOne.toAddCommGroup",
+      "type": " {R : Type u} [self : AddCommGroupWithOne R] : AddCommGroup R",
+      "module": "Mathlib.Data.Int.Cast.Defs",
+      "doc": ""
+    },
+    {
+      "name": "NonUnitalNonAssocRing.toAddCommGroup",
+      "type": " {\u03b1 : Type u} [self : NonUnitalNonAssocRing \u03b1] : AddCommGroup \u03b1",
+      "module": "Mathlib.Algebra.Ring.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Field.mk",
+      "type": " {K : Type u} [toCommRing : CommRing K] [toInv : Inv K] [toDiv : Div K] [toZPow : ZPow K] (div_eq_mul_inv : \u2200 (a b : K), a / b = a * b\u207b\u00b9 := by intros; rfl) (zpow_zero' : \u2200 (a : K), a ^ 0 = 1 := by intros; rfl) (zpow_succ' : \u2200 (n : \u2115) (a : K), a ^ \u2191n.succ = a ^ \u2191n * a := by intros; rfl) (zpow_neg' : \u2200 (n : \u2115) (a : K), a ^ Int.negSucc n = (a ^ \u2191n.succ)\u207b\u00b9 := by intros; rfl) [toNontrivial : Nontrivial K] [toNNRatCast : NNRatCast K] [toRatCast : RatCast K] (mul_inv_cancel : \u2200 (a : K), a \u2260 0 \u2192 a * a\u207b\u00b9 = 1) (inv_zero : 0\u207b\u00b9 = 0) (nnratCast_def : \u2200 (q : \u211a\u22650), \u2191q = \u2191q.num / \u2191q.den := by intros; rfl) (nnqsmul : \u211a\u22650 \u2192 K \u2192 K) (nnqsmul_def : \u2200 (q : \u211a\u22650) (a : K), nnqsmul q a = \u2191q * a := by intros; rfl) (ratCast_def : \u2200 (q : \u211a), \u2191q = \u2191q.num / \u2191q.den := by intros; rfl) (qsmul : \u211a \u2192 K \u2192 K) (qsmul_def : \u2200 (a : \u211a) (x : K), qsmul a x = \u2191a * x := by intros; rfl) : Field K",
+      "module": "Mathlib.Algebra.Field.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Lex.instField",
+      "type": " {K : Type u_1} [Field K] : Field (Lex K)",
+      "module": "Mathlib.Algebra.Field.Basic",
+      "doc": ""
+    },
+    {
+      "name": "OrderDual.instField",
+      "type": " {K : Type u_1} [Field K] : Field K\u1d52\u1d48",
+      "module": "Mathlib.Algebra.Field.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Field.ofIsUnitOrEqZero",
+      "type": " {R : Type u_3} [Nontrivial R] [CommRing R] (h : \u2200 (a : R), IsUnit a \u2228 a = 0) : Field R",
+      "module": "Mathlib.Algebra.Field.Basic",
+      "doc": "Constructs a `Field` structure on a `CommRing` consisting only of units and 0. "
+    },
+    {
+      "name": "Function.Injective.field",
+      "type": " {K : Type u_1} {L : Type u_2} [Zero K] [Add K] [Neg K] [Sub K] [One K] [Mul K] [Inv K] [Div K] [SMul \u2115 K] [SMul \u2124 K] [SMul \u211a\u22650 K] [SMul \u211a K] [Pow K \u2115] [Pow K \u2124] [NatCast K] [IntCast K] [NNRatCast K] [RatCast K] (f : K \u2192 L) (hf : Function.Injective f) [Field L] (zero : f 0 = 0) (one : f 1 = 1) (add : \u2200 (x y : K), f (x + y) = f x + f y) (mul : \u2200 (x y : K), f (x * y) = f x * f y) (neg : \u2200 (x : K), f (-x) = -f x) (sub : \u2200 (x y : K), f (x - y) = f x - f y) (inv : \u2200 (x : K), f x\u207b\u00b9 = (f x)\u207b\u00b9) (div : \u2200 (x y : K), f (x / y) = f x / f y) (nsmul : \u2200 (n : \u2115) (x : K), f (n \u2022 x) = n \u2022 f x) (zsmul : \u2200 (n : \u2124) (x : K), f (n \u2022 x) = n \u2022 f x) (nnqsmul : \u2200 (q : \u211a\u22650) (x : K), f (q \u2022 x) = q \u2022 f x) (qsmul : \u2200 (q : \u211a) (x : K), f (q \u2022 x) = q \u2022 f x) (npow : \u2200 (x : K) (n : \u2115), f (x ^ n) = f x ^ n) (zpow : \u2200 (x : K) (n : \u2124), f (x ^ n) = f x ^ n) (natCast : \u2200 (n : \u2115), f \u2191n = \u2191n) (intCast : \u2200 (n : \u2124), f \u2191n = \u2191n) (nnratCast : \u2200 (q : \u211a\u22650), f \u2191q = \u2191q) (ratCast : \u2200 (q : \u211a), f \u2191q = \u2191q) : Field K",
+      "module": "Mathlib.Algebra.Field.Basic",
+      "doc": "Pullback a `Field` along an injective function. "
+    },
+    {
+      "name": "Rat.instField",
+      "type": " : Field \u211a",
+      "module": "Mathlib.Algebra.Field.Rat",
+      "doc": ""
+    },
+    {
+      "name": "Subring.instField",
+      "type": " {K : Type u} [DivisionRing K] : Field \u21a5(Subring.center K)",
+      "module": "Mathlib.Algebra.Ring.Subring.Basic",
+      "doc": ""
+    },
+    {
+      "name": "IsField.toField",
+      "type": " {R : Type u} [Ring R] (h : IsField R) : Field R",
+      "module": "Mathlib.Algebra.Field.IsField",
+      "doc": "Transferring from `IsField` to `Field`. "
+    },
+    {
+      "name": "Ideal.Quotient.field",
+      "type": " {R : Type u_4} [CommRing R] (I : Ideal R) [I.IsMaximal] : Field (R \u29f8 I)",
+      "module": "Mathlib.RingTheory.Ideal.Quotient.Basic",
+      "doc": "The quotient of a commutative ring by a maximal ideal is a field.\nThis is a `def` rather than `instance`, since users\nwill have computable inverses (and `qsmul`, `ratCast`) in some applications.\n\nSee note [reducible non-instances]. "
+    },
+    {
+      "name": "AddOpposite.instField",
+      "type": " {\u03b1 : Type u_1} [Field \u03b1] : Field \u03b1\u1d43\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Field.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "MulOpposite.instField",
+      "type": " {\u03b1 : Type u_1} [Field \u03b1] : Field \u03b1\u1d50\u1d52\u1d56",
+      "module": "Mathlib.Algebra.Field.Opposite",
+      "doc": ""
+    },
+    {
+      "name": "selfAdjoint.instField",
+      "type": " {R : Type u_1} [Field R] [StarRing R] : Field \u21a5(selfAdjoint R)",
+      "module": "Mathlib.Algebra.Star.SelfAdjoint",
+      "doc": ""
+    },
+    {
+      "name": "Module.Basis.nonempty_unique_index_of_finrank_eq_one",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] [Module.Free R M] [StrongRankCondition R] {\u03b9 : Type u_2} (b : Module.Basis \u03b9 R M) (d1 : Module.finrank R M = 1) : Nonempty (Unique \u03b9)",
+      "module": "Mathlib.LinearAlgebra.Dimension.Free",
+      "doc": "If a finite module of `finrank 1` has a basis, then this basis has a unique element. "
+    },
+    {
+      "name": "Module.nonempty_linearEquiv_of_finrank_eq_one",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] [Module.Free R M] [StrongRankCondition R] : Module.finrank R M = 1 \u2192 Nonempty (R \u2243\u2097[R] M)",
+      "module": "Mathlib.LinearAlgebra.Dimension.Free",
+      "doc": "**Alias** of the reverse direction of `Module.nonempty_linearEquiv_iff_finrank_eq_one`.\n\n---\n\nSee also `finrank_eq_one_iff` "
+    },
+    {
+      "name": "Module.nonempty_linearEquiv_iff_finrank_eq_one",
+      "type": " {R : Type u} {M : Type v} [Semiring R] [AddCommMonoid M] [Module R M] [Module.Free R M] [StrongRankCondition R] : Nonempty (R \u2243\u2097[R] M) \u2194 Module.finrank R M = 1",
+      "module": "Mathlib.LinearAlgebra.Dimension.Free",
+      "doc": "See also `finrank_eq_one_iff` "
+    },
+    {
+      "name": "Module.nonempty_algEquiv_iff_finrank_eq_one",
+      "type": " {R : Type u_2} {S : Type u_3} [CommSemiring R] [StrongRankCondition R] [Semiring S] [Algebra R S] [Module.Free R S] : Nonempty (R \u2243\u2090[R] S) \u2194 Module.finrank R S = 1",
+      "module": "Mathlib.LinearAlgebra.Dimension.Free",
+      "doc": ""
+    },
+    {
+      "name": "LinearEquiv.smul_id_of_finrank_eq_one",
+      "type": " {R : Type u_2} [CommSemiring R] [StrongRankCondition R] {M : Type u_3} [AddCommMonoid M] [Module R M] [Module.Free R M] (d1 : Module.finrank R M = 1) : R \u2243\u2097[R] M \u2192\u2097[R] M",
+      "module": "Mathlib.LinearAlgebra.Dimension.Free",
+      "doc": "Endomorphisms of a free module of rank one are homotheties. "
+    },
+    {
+      "name": "LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one",
+      "type": " {R : Type u_2} [CommSemiring R] [StrongRankCondition R] {M : Type u_3} [AddCommMonoid M] [Module R M] [Module.Free R M] (d1 : Module.finrank R M = 1) (u : M \u2192\u2097[R] M) : \u2203! c, u = c \u2022 LinearMap.id",
+      "module": "Mathlib.LinearAlgebra.Dimension.Free",
+      "doc": ""
+    },
+    {
+      "name": "LinearEquiv.smul_id_of_finrank_eq_one_apply",
+      "type": " {R : Type u_2} [CommSemiring R] [StrongRankCondition R] {M : Type u_3} [AddCommMonoid M] [Module R M] [Module.Free R M] (d1 : Module.finrank R M = 1) (c : R) : (LinearEquiv.smul_id_of_finrank_eq_one d1) c = c \u2022 LinearMap.id",
+      "module": "Mathlib.LinearAlgebra.Dimension.Free",
+      "doc": ""
+    },
+    {
+      "name": "finrank_eq_one",
+      "type": " {R : Type u} {M : Type v} [Ring R] [AddCommGroup M] [Module R M] [IsDomain R] [Module.IsTorsionFree R M] [StrongRankCondition R] (v : M) (n : v \u2260 0) (h : \u2200 (w : M), \u2203 c, c \u2022 v = w) : Module.finrank R M = 1",
+      "module": "Mathlib.LinearAlgebra.Dimension.Finite",
+      "doc": "If there is a nonzero vector and every other vector is a multiple of it,\nthen the module has dimension one. "
+    },
+    {
+      "name": "finrank_eq_one_iff_of_nonzero",
+      "type": " {K : Type u} {V : Type v} [DivisionRing K] [AddCommGroup V] [Module K V] (v : V) (nz : v \u2260 0) : Module.finrank K V = 1 \u2194 K \u2219 v = \u22a4",
+      "module": "Mathlib.LinearAlgebra.FiniteDimensional.Basic",
+      "doc": "A vector space with a nonzero vector `v` has dimension 1 iff `v` spans.\n"
+    },
+    {
+      "name": "exists_smul_eq_of_finrank_eq_one",
+      "type": " {K : Type u} {V : Type v} [DivisionRing K] [AddCommGroup V] [Module K V] (h : Module.finrank K V = 1) {x : V} (hx : x \u2260 0) (y : V) : \u2203 c, c \u2022 x = y",
+      "module": "Mathlib.LinearAlgebra.FiniteDimensional.Basic",
+      "doc": "In a one-dimensional space, any vector is a multiple of any nonzero vector "
+    },
+    {
+      "name": "finrank_eq_one_iff_of_nonzero'",
+      "type": " {K : Type u} {V : Type v} [DivisionRing K] [AddCommGroup V] [Module K V] (v : V) (nz : v \u2260 0) : Module.finrank K V = 1 \u2194 \u2200 (w : V), \u2203 c, c \u2022 v = w",
+      "module": "Mathlib.LinearAlgebra.FiniteDimensional.Basic",
+      "doc": "A module with a nonzero vector `v` has dimension 1 iff every vector is a multiple of `v`.\n"
+    }
+  ],
+  "trace": [
+    "search: '\"finrank\"' -> Module.finrank, CommSemiring.finrank_self, Module.finrank_subsingleton, Module.finrank_eq_of_rank_eq, Module.finrank_le_of_rank_le, Module.finrank_lt_of_rank_lt, Module.lt_rank_of_lt_finrank, Module.rank_eq_one_iff_finrank_eq_one",
+    "seeded from goal shape -> AddCommGroup.mk, Pi.addCommGroup, Additive.addCommGroup, Function.Injective.addCommGroup, Function.Surjective.addCommGroup, AddOpposite.instAddCommGroup, MulOpposite.instAddCommGroup, AddUnits.instAddCommGroupAddUnits",
+    "search: '\"finrank_eq_one\"' -> Module.rank_eq_one_iff_finrank_eq_one, Module.Basis.nonempty_unique_index_of_finrank_eq_one, Module.nonempty_linearEquiv_of_finrank_eq_one, Module.nonempty_linearEquiv_iff_finrank_eq_one, Module.nonempty_algEquiv_iff_finrank_eq_one, LinearEquiv.smul_id_of_finrank_eq_one, LinearMap.existsUnique_eq_smul_id_of_finrank_eq_one, LinearEquiv.smul_id_of_finrank_eq_one_apply"
+  ],
+  "budget": {
+    "tool_calls": 5,
+    "lean_calls": 3,
+    "searches": 2,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788873201.5345743,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.5,
+    "statement_checks": 2,
+    "refusals": {}
+  },
+  "goal": "theorem exercise_3_1 {F V : Type*}\n  [AddCommGroup V] [Field F] [Module F V] [FiniteDimensional F V]\n  (T : V \u2192\u2097[F] V) (hT : Module.finrank F V = 1) :\n  \u2203 c : F, \u2200 v : V, T v = c \u2022 v"
+}

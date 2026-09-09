@@ -1,0 +1,23 @@
+{
+  "records": [],
+  "lemmas": [],
+  "premises": [],
+  "trace": [
+    "retried after transient failure: ConnectError (attempt 1 of 2)",
+    "stopped: wall clock spent (3780s) \u2014 the agent loop was abandoned"
+  ],
+  "budget": {
+    "tool_calls": 0,
+    "lean_calls": 0,
+    "searches": 0,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788908227.9061925,
+    "reason": "wall clock spent (3780s)",
+    "terminated": true,
+    "slowest_lean": 0.0,
+    "statement_checks": 0,
+    "refusals": {}
+  }
+}

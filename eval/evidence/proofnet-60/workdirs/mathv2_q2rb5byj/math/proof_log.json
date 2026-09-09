@@ -1,0 +1,206 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_1_27 {n : \u2115} (hn : Odd n) : 8 \u2223 (n^2 - 1)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788929677.4715714,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_1_27 {n : \u2115} (hn : Odd n) : 8 \u2223 (n^2 - 1)",
+      "proof": "exact Nat.eight_dvd_sq_sub_one_of_odd hn",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_1_27 {n : \u2115} (hn : Odd n) : 8 \u2223 (n^2 - 1)",
+      "at": 1788929683.2010036,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem eight_dvd_sq_sub_one_of_odd {n : \u2115} (hn : Odd n) : 8 \u2223 (n^2 - 1)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788929687.9076228,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem eight_dvd_sq_sub_one_of_odd {n : \u2115} (hn : Odd n) : 8 \u2223 (n^2 - 1)",
+      "proof": "exact Nat.eight_dvd_sq_sub_one_of_odd hn",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem eight_dvd_sq_sub_one_of_odd {n : \u2115} (hn : Odd n) : 8 \u2223 (n^2 - 1)",
+      "at": 1788929693.172508,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Nat.eight_dvd_sq_sub_one_of_odd",
+      "type": " {k : \u2115} (hk : Odd k) : 8 \u2223 k ^ 2 - 1",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Int.eight_dvd_sq_sub_one_of_odd",
+      "type": " {k : \u2124} (hk : Odd k) : 8 \u2223 k ^ 2 - 1",
+      "module": "Mathlib.Algebra.Ring.Int.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Odd.of_mul_left",
+      "type": " {m n : \u2115} (h : Odd (m * n)) : Odd m",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Odd.of_mul_right",
+      "type": " {m n : \u2115} (h : Odd (m * n)) : Odd n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "odd_one",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] : Odd 1",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.natCast",
+      "type": " {R : Type u_4} [Semiring R] {n : \u2115} (hn : Odd n) : Odd \u2191n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Even.sub_odd",
+      "type": " {m n : \u2115} (h : n \u2264 m) (hm : Even m) (hn : Odd n) : Odd (m - n)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.Odd.sub_even",
+      "type": " {m n : \u2115} (h : n \u2264 m) (hm : Odd m) (hn : Even n) : Odd (m - n)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.pow",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a : \u03b1} {n : \u2115} (ha : Odd a) : Odd (a ^ n)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.mul",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a b : \u03b1} : Odd a \u2192 Odd b \u2192 Odd (a * b)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.neg",
+      "type": " {\u03b1 : Type u_2} [Ring \u03b1] {a : \u03b1} (hp : Odd a) : Odd (-a)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Even.add_odd",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a b : \u03b1} : Even a \u2192 Odd b \u2192 Odd (a + b)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Even.odd_add",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a b : \u03b1} (ha : Even a) (hb : Odd b) : Odd (b + a)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.add_even",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] {a b : \u03b1} (ha : Odd a) (hb : Even b) : Odd (a + b)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd",
+      "type": " {\u03b1 : Type u_2} [Semiring \u03b1] (a : \u03b1) : Prop",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": "An element `a` of a semiring is odd if there exists `k` such `a = 2*k + 1`. "
+    },
+    {
+      "name": "Nat.instDecidablePredOdd",
+      "type": " : DecidablePred Odd",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_odd_zero",
+      "type": " : \u00acOdd 0",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.even_or_odd",
+      "type": " (n : \u2115) : Even n \u2228 Odd n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.even_xor_odd",
+      "type": " (n : \u2115) : Xor (Even n) (Odd n)",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_even_iff_odd",
+      "type": " {n : \u2115} : \u00acEven n \u2194 Odd n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.not_odd_iff_even",
+      "type": " {n : \u2115} : \u00acOdd n \u2194 Even n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Odd.not_two_dvd_nat",
+      "type": " {n : \u2115} (h : Odd n) : \u00ac2 \u2223 n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Nat.ne_of_odd_add",
+      "type": " {m n : \u2115} (h : Odd (m + n)) : m \u2260 n",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    },
+    {
+      "name": "Function.Involutive.iterate_odd",
+      "type": " {\u03b1 : Type u_4} {f : \u03b1 \u2192 \u03b1} {n : \u2115} (hf : Function.Involutive f) (hn : Odd n) : f^[n] = f",
+      "module": "Mathlib.Algebra.Ring.Parity",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Nat.eight_dvd_sq_sub_one_of_odd, Int.eight_dvd_sq_sub_one_of_odd, Nat.Odd.of_mul_left, Nat.Odd.of_mul_right, odd_one, Odd.natCast, Nat.Even.sub_odd, Nat.Odd.sub_even",
+    "seeded from goal shape -> Nat.eight_dvd_sq_sub_one_of_odd, Int.eight_dvd_sq_sub_one_of_odd, Nat.Odd.of_mul_left, Nat.Odd.of_mul_right, odd_one, Odd.natCast, Nat.Even.sub_odd, Nat.Odd.sub_even"
+  ],
+  "budget": {
+    "tool_calls": 4,
+    "lean_calls": 4,
+    "searches": 0,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788929675.7207146,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 2,
+    "refusals": {}
+  },
+  "goal": "theorem eight_dvd_sq_sub_one_of_odd {n : \u2115} (hn : Odd n) : 8 \u2223 (n^2 - 1)"
+}

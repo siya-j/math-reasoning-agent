@@ -1,0 +1,593 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_4_24 {f : \u211d \u2192 \u211d}\n  (hf : Continuous f) (a b : \u211d) (hab : a < b)\n  (h : \u2200 x y : \u211d, a < x \u2192 x < b \u2192 a < y \u2192 y < b \u2192 f ((x + y) / 2) \u2264 (f x + f y) / 2) :\n  ConvexOn \u211d (Set.Ioo a b) f",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788872384.2947423,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_24 {f : \u211d \u2192 \u211d}\n  (hf : Continuous f) (a b : \u211d) (hab : a < b)\n  (h : \u2200 x y : \u211d, a < x \u2192 x < b \u2192 a < y \u2192 y < b \u2192 f ((x + y) / 2) \u2264 (f x + f y) / 2) :\n  ConvexOn \u211d (Set.Ioo a b) f",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact IsOpenQuotientMap.continuous\n    | exact IsOpenQuotientMap.continuous _\n    | apply IsOpenQuotientMap.continuous\n    | simpa using IsOpenQuotientMap.continuous\n    | exact \u27e8_, IsOpenQuotientMap.continuous\u27e9\n    | exact IsOpenQuotientMap.continuous (by assumption)\n    | exact IsOpenQuotientMap.continuous \u2039_\u203a\n    | apply IsOpenQuotientMap.continuous <;> assumption\n    | (haveI := Fact.mk (by assumption); exact IsOpenQuotientMap.continuous (by assumption))\n    | exact Continuous.mk\n    | exact Continuous.mk _\n    | apply Continuous.mk\n    | simpa using Continuous.mk\n    | exact \u27e8_, Continuous.mk\u27e9\n    | exact Continuous.mk (by assumption)\n    | exact Continuous.mk \u2039_\u203a\n    | apply Continuous.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Continuous.mk (by assumption))\n    | exact ContinuousMap.continuous_toFun\n    | exact ContinuousMap.continuous_toFun _\n    | apply ContinuousMap.continuous_toFun\n    | simpa using ContinuousMap.continuous_toFun\n    | exact \u27e8_, ContinuousMap.continuous_toFun\u27e9\n    | exact ContinuousMap.continuous_toFun (by assumption)\n    | exact ContinuousMap.continuous_toFun \u2039_\u203a\n    | apply ContinuousMap.continuous_toFun <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ContinuousMap.continuous_toFun (by assumption))\n    | exact ContinuousMap.continuous\n    | exact ContinuousMap.continuous _\n    | apply ContinuousMap.continuous\n    | simpa using ContinuousMap.continuous\n    | exact \u27e8_, ContinuousMap.continuous\u27e9\n    | exact ContinuousMap.continuous (by assumption)\n    | exact ContinuousMap.continuous \u2039_\u203a\n    | apply ContinuousMap.continuous <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ContinuousMap.continuous (by assumption))\n    | exact ContinuousMapClass.map_continuous\n    | exact ContinuousMapClass.map_continuous _\n    | apply ContinuousMapClass.map_continuous\n    | simpa using ContinuousMapClass.map_continuous\n    | exact \u27e8_, ContinuousMapClass.map_continuous\u27e9\n    | exact ContinuousMapClass.map_continuous (by assumption)\n    | exact ContinuousMapClass.map_continuous \u2039_\u203a\n    | apply ContinuousMapClass.map_continuous <;> assumption\n    | (haveI := Fact.mk (by assumption); exact ContinuousMapClass.map_continuous (by assumption))\n    | exact continuous_id\n    | exact continuous_id _\n    | apply continuous_id\n    | simpa using continuous_id\n    | exact \u27e8_, continuous_id\u27e9\n    | exact continuous_id (by assumption)\n    | exact continuous_id \u2039_\u203a\n    | apply continuous_id <;> assumption\n    | (haveI := Fact.mk (by assumption); exact continuous_id (by assumption))\n    | exact continuous_id'\n    | exact continuous_id' _\n    | apply continuous_id'\n    | simpa using continuous_id'\n    | exact \u27e8_, continuous_id'\u27e9\n    | exact continuous_id' (by assumption)\n    | exact continuous_id' \u2039_\u203a\n    | apply continuous_id' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact continuous_id' (by assumption))\n    | exact continuous_const\n    | exact continuous_const _\n    | apply continuous_const\n    | simpa using continuous_const\n    | exact \u27e8_, continuous_const\u27e9\n    | exact continuous_const (by assumption)\n    | exact continuous_const \u2039_\u203a\n    | apply continuous_const <;> assumption\n    | (haveI := Fact.mk (by assumption); exact continuous_const (by assumption))\n    | exact Continuous.iterate\n    | exact Continuous.iterate _\n    | apply Continuous.iterate\n    | simpa using Continuous.iterate\n    | exact \u27e8_, Continuous.iterate\u27e9\n    | exact Continuous.iterate (by assumption)\n    | exact Continuous.iterate \u2039_\u203a\n    | apply Continuous.iterate <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Continuous.iterate (by assumption))\n    | exact continuous_of_const\n    | exact continuous_of_const _\n    | apply continuous_of_const\n    | simpa using continuous_of_const\n    | exact \u27e8_, continuous_of_const\u27e9\n    | exact continuous_of_const (by assumption)\n    | exact continuous_of_const \u2039_\u203a\n    | apply continuous_of_const <;> assumption\n    | (haveI := Fact.mk (by assumption); exact continuous_of_const (by assumption))\n    | exact Continuous.congr\n    | exact Continuous.congr _\n    | apply Continuous.congr\n    | simpa using Continuous.congr\n    | exact \u27e8_, Continuous.congr\u27e9\n    | exact Continuous.congr (by assumption)\n    | exact Continuous.congr \u2039_\u203a\n    | apply Continuous.congr <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Continuous.congr (by assumption))\n    | exact Continuous.comp'\n    | exact Continuous.comp' _\n    | apply Continuous.comp'\n    | simpa using Continuous.comp'\n    | exact \u27e8_, Continuous.comp'\u27e9\n    | exact Continuous.comp' (by assumption)\n    | exact Continuous.comp' \u2039_\u203a\n    | apply Continuous.comp' <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Continuous.comp' (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:32: error: unsolved goals\nf : \u211d \u2192 \u211d\nhf : Continuous f\na b : \u211d\nhab : a < b\nh : \u2200 (x y : \u211d), a < x \u2192 x < b \u2192 a < y \u2192 y < b \u2192 f ((x + y) / 2) \u2264 (f x + f y) / 2\n\u22a2 ConvexOn \u211d (Set.Ioo a b) f\n\nStill to prove:\n\u22a2 ConvexOn \u211d (Set.Ioo a b) f",
+      "at": 1788872403.2478695,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_24 {f : \u211d \u2192 \u211d}\n  (hf : Continuous f) (a b : \u211d) (hab : a < b)\n  (h : \u2200 x y : \u211d, a < x \u2192 x < b \u2192 a < y \u2192 y < b \u2192 f ((x + y) / 2) \u2264 (f x + f y) / 2) :\n  ConvexOn \u211d (Set.Ioo a b) f",
+      "proof": "by\n  intro x\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:8: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce\n\nf : \u211d \u2192 \u211d\nhf : Continuous f\na b : \u211d\nhab : a < b\nh : \u2200 (x y : \u211d), a < x \u2192 x < b \u2192 a < y \u2192 y < b \u2192 f ((x + y) / 2) \u2264 (f x + f y) / 2\n\u22a2 ConvexOn \u211d (Set.Ioo a b) f\n\nStill to prove:\n\u22a2 ConvexOn \u211d (Set.Ioo a b) f",
+      "at": 1788872427.9427662,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_24 {f : \u211d \u2192 \u211d}\n  (hf : Continuous f) (a b : \u211d) (hab : a < b)\n  (h : \u2200 x y : \u211d, a < x \u2192 x < b \u2192 a < y \u2192 y < b \u2192 f ((x + y) / 2) \u2264 (f x + f y) / 2) :\n  ConvexOn \u211d (Set.Ioo a b) f",
+      "proof": "by\n  have : True := trivial\n  exact?\n",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n6:2: error: `exact?` could not close the goal. Try `apply?` to see partial suggestions.",
+      "at": 1788872475.6274374,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "IsOpenQuotientMap.continuous",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] {f : X \u2192 Y} (self : IsOpenQuotientMap f) : Continuous f",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": "An open quotient map is continuous. "
+    },
+    {
+      "name": "Continuous.mk",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] {f : X \u2192 Y} (isOpen_preimage : \u2200 (s : Set Y), IsOpen s \u2192 IsOpen (f \u207b\u00b9' s)) : Continuous f",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousMap.continuous_toFun",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] (self : C(X, Y)) : Continuous self.toFun",
+      "module": "Mathlib.Topology.ContinuousMap.Defs",
+      "doc": "Proposition that `toFun` is continuous "
+    },
+    {
+      "name": "ContinuousMap.continuous",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] (f : C(X, Y)) : Continuous \u21d1f",
+      "module": "Mathlib.Topology.ContinuousMap.Defs",
+      "doc": "Deprecated. Use `map_continuous` instead. "
+    },
+    {
+      "name": "ContinuousMapClass.map_continuous",
+      "type": " {F : Type u_1} {X : outParam (Type u_2)} {Y : outParam (Type u_3)} {inst\u271d : TopologicalSpace X} {inst\u271d\u00b9 : TopologicalSpace Y} {inst\u271d\u00b2 : FunLike F X Y} [self : ContinuousMapClass F X Y] (f : F) : Continuous \u21d1f",
+      "module": "Mathlib.Topology.ContinuousMap.Defs",
+      "doc": "Continuity "
+    },
+    {
+      "name": "continuous_id",
+      "type": " {X : Type u_1} [TopologicalSpace X] : Continuous id",
+      "module": "Mathlib.Topology.Continuous",
+      "doc": ""
+    },
+    {
+      "name": "continuous_id'",
+      "type": " {X : Type u_1} [TopologicalSpace X] : Continuous fun x => x",
+      "module": "Mathlib.Topology.Continuous",
+      "doc": ""
+    },
+    {
+      "name": "continuous_const",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] {y : Y} : Continuous fun x => y",
+      "module": "Mathlib.Topology.Continuous",
+      "doc": ""
+    },
+    {
+      "name": "Continuous.iterate",
+      "type": " {X : Type u_1} [TopologicalSpace X] {f : X \u2192 X} (h : Continuous f) (n : \u2115) : Continuous f^[n]",
+      "module": "Mathlib.Topology.Continuous",
+      "doc": ""
+    },
+    {
+      "name": "continuous_of_const",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] {f : X \u2192 Y} (h : \u2200 (x y : X), f x = f y) : Continuous f",
+      "module": "Mathlib.Topology.Continuous",
+      "doc": ""
+    },
+    {
+      "name": "Continuous.congr",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] {f g : X \u2192 Y} (h : Continuous f) (h' : \u2200 (x : X), f x = g x) : Continuous g",
+      "module": "Mathlib.Topology.Continuous",
+      "doc": ""
+    },
+    {
+      "name": "Continuous.comp'",
+      "type": " {X : Type u_1} {Y : Type u_2} {Z : Type u_3} [TopologicalSpace X] [TopologicalSpace Y] [TopologicalSpace Z] {f : X \u2192 Y} {g : Y \u2192 Z} (hg : Continuous g) (hf : Continuous f) : Continuous fun x => g (f x)",
+      "module": "Mathlib.Topology.Continuous",
+      "doc": ""
+    },
+    {
+      "name": "Continuous",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] (f : X \u2192 Y) : Prop",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": "A function between topological spaces is continuous if the preimage\nof every open set is open. Registered as a structure to make sure it is not unfolded by Lean. "
+    },
+    {
+      "name": "Continuous.isOpen_preimage",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] {f : X \u2192 Y} (self : Continuous f) (s : Set Y) : IsOpen s \u2192 IsOpen (f \u207b\u00b9' s)",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": "The preimage of an open set under a continuous function is an open set. Use `IsOpen.preimage`\ninstead. "
+    },
+    {
+      "name": "IsOpenQuotientMap.mk",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] {f : X \u2192 Y} (surjective : Function.Surjective f) (continuous : Continuous f) (isOpenMap : IsOpenMap f) : IsOpenQuotientMap f",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    },
+    {
+      "name": "isOpenQuotientMap_iff",
+      "type": " {X : Type u} {Y : Type v} [TopologicalSpace X] [TopologicalSpace Y] (f : X \u2192 Y) : IsOpenQuotientMap f \u2194 Function.Surjective f \u2227 Continuous f \u2227 IsOpenMap f",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousMap.mk",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] (toFun : X \u2192 Y) (continuous_toFun : Continuous toFun := by fun_prop) : C(X, Y)",
+      "module": "Mathlib.Topology.ContinuousMap.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousMap.instCanLiftForallCoeContinuous",
+      "type": " {X : Type u_1} {Y : Type u_2} [TopologicalSpace X] [TopologicalSpace Y] : CanLift (X \u2192 Y) C(X, Y) DFunLike.coe Continuous",
+      "module": "Mathlib.Topology.ContinuousMap.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ContinuousMapClass.mk",
+      "type": " {F : Type u_1} {X : outParam (Type u_2)} {Y : outParam (Type u_3)} [TopologicalSpace X] [TopologicalSpace Y] [FunLike F X Y] (map_continuous : \u2200 (f : F), Continuous \u21d1f) : ContinuousMapClass F X Y",
+      "module": "Mathlib.Topology.ContinuousMap.Defs",
+      "doc": ""
+    },
+    {
+      "name": "ConvexOn",
+      "type": " (\ud835\udd5c : Type u_1) {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b2] (s : Set E) (f : E \u2192 \u03b2) : Prop",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": "Convexity of functions "
+    },
+    {
+      "name": "convexOn_id",
+      "type": " {\ud835\udd5c : Type u_1} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c \u03b2] {s : Set \u03b2} (hs : Convex \ud835\udd5c s) : ConvexOn \ud835\udd5c s id",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "ConvexOn.congr",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b2] {s : Set E} {f g : E \u2192 \u03b2} (hf : ConvexOn \ud835\udd5c s f) (hfg : Set.EqOn f g s) : ConvexOn \ud835\udd5c s g",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "ConvexOn.subset",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} {t : Set E} (hf : ConvexOn \ud835\udd5c t f) (hst : s \u2286 t) (hs : Convex \ud835\udd5c s) : ConvexOn \ud835\udd5c s f",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "convexOn_const",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [Module \ud835\udd5c \u03b2] {s : Set E} (c : \u03b2) (hs : Convex \ud835\udd5c s) : ConvexOn \ud835\udd5c s fun x => c",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "midpoint",
+      "type": " (R : Type u_1) {V : Type u_2} {P : Type u_4} [Ring R] [Invertible 2] [AddCommGroup V] [Module R V] [AddTorsor V P] (x y : P) : P",
+      "module": "Mathlib.LinearAlgebra.AffineSpace.Midpoint",
+      "doc": "`midpoint x y` is the midpoint of the segment `[x, y]`. "
+    },
+    {
+      "name": "midpoint_self",
+      "type": " (R : Type u_1) {V : Type u_2} {P : Type u_4} [Ring R] [Invertible 2] [AddCommGroup V] [Module R V] [AddTorsor V P] (x : P) : midpoint R x x = x",
+      "module": "Mathlib.LinearAlgebra.AffineSpace.Midpoint",
+      "doc": ""
+    },
+    {
+      "name": "left_eq_midpoint_iff",
+      "type": " (R : Type u_1) {V : Type u_2} {P : Type u_4} [Ring R] [Invertible 2] [AddCommGroup V] [Module R V] [AddTorsor V P] {x y : P} : x = midpoint R x y \u2194 x = y",
+      "module": "Mathlib.LinearAlgebra.AffineSpace.Midpoint",
+      "doc": ""
+    },
+    {
+      "name": "midpoint_eq_left_iff",
+      "type": " (R : Type u_1) {V : Type u_2} {P : Type u_4} [Ring R] [Invertible 2] [AddCommGroup V] [Module R V] [AddTorsor V P] {x y : P} : midpoint R x y = x \u2194 x = y",
+      "module": "Mathlib.LinearAlgebra.AffineSpace.Midpoint",
+      "doc": ""
+    },
+    {
+      "name": "midpoint_eq_right_iff",
+      "type": " (R : Type u_1) {V : Type u_2} {P : Type u_4} [Ring R] [Invertible 2] [AddCommGroup V] [Module R V] [AddTorsor V P] {x y : P} : midpoint R x y = y \u2194 x = y",
+      "module": "Mathlib.LinearAlgebra.AffineSpace.Midpoint",
+      "doc": ""
+    },
+    {
+      "name": "right_eq_midpoint_iff",
+      "type": " (R : Type u_1) {V : Type u_2} {P : Type u_4} [Ring R] [Invertible 2] [AddCommGroup V] [Module R V] [AddTorsor V P] {x y : P} : y = midpoint R x y \u2194 x = y",
+      "module": "Mathlib.LinearAlgebra.AffineSpace.Midpoint",
+      "doc": ""
+    },
+    {
+      "name": "midpoint_comm",
+      "type": " {R : Type u_1} {V : Type u_2} {P : Type u_4} [Ring R] [Invertible 2] [AddCommGroup V] [Module R V] [AddTorsor V P] (x y : P) : midpoint R x y = midpoint R y x",
+      "module": "Mathlib.LinearAlgebra.AffineSpace.Midpoint",
+      "doc": ""
+    },
+    {
+      "name": "midpoint_pointReflection_left",
+      "type": " {R : Type u_1} {V : Type u_2} {P : Type u_4} [Ring R] [Invertible 2] [AddCommGroup V] [Module R V] [AddTorsor V P] (x y : P) : midpoint R ((Equiv.pointReflection x) y) y = x",
+      "module": "Mathlib.LinearAlgebra.AffineSpace.Midpoint",
+      "doc": ""
+    },
+    {
+      "name": "midpoint_pointReflection_right",
+      "type": " {R : Type u_1} {V : Type u_2} {P : Type u_4} [Ring R] [Invertible 2] [AddCommGroup V] [Module R V] [AddTorsor V P] (x y : P) : midpoint R y ((Equiv.pointReflection x) y) = x",
+      "module": "Mathlib.LinearAlgebra.AffineSpace.Midpoint",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.pointReflection_midpoint_left",
+      "type": " {R : Type u_1} {V : Type u_2} {P : Type u_4} [Ring R] [Invertible 2] [AddCommGroup V] [Module R V] [AddTorsor V P] (x y : P) : (Equiv.pointReflection (midpoint R x y)) x = y",
+      "module": "Mathlib.LinearAlgebra.AffineSpace.Midpoint",
+      "doc": ""
+    },
+    {
+      "name": "Equiv.pointReflection_midpoint_right",
+      "type": " {R : Type u_1} {V : Type u_2} {P : Type u_4} [Ring R] [Invertible 2] [AddCommGroup V] [Module R V] [AddTorsor V P] (x y : P) : (Equiv.pointReflection (midpoint R x y)) y = x",
+      "module": "Mathlib.LinearAlgebra.AffineSpace.Midpoint",
+      "doc": ""
+    },
+    {
+      "name": "midpoint_neg_self",
+      "type": " (R : Type u_1) {V : Type u_2} [Ring R] [Invertible 2] [AddCommGroup V] [Module R V] (x : V) : midpoint R (-x) x = 0",
+      "module": "Mathlib.LinearAlgebra.AffineSpace.Midpoint",
+      "doc": ""
+    },
+    {
+      "name": "StrictConvexOn.congr",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b2] {s : Set E} {f g : E \u2192 \u03b2} (hf : StrictConvexOn \ud835\udd5c s f) (hfg : Set.EqOn f g s) : StrictConvexOn \ud835\udd5c s g",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "StrictConvexOn.subset",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} {t : Set E} (hf : StrictConvexOn \ud835\udd5c t f) (hst : s \u2286 t) (hs : Convex \ud835\udd5c s) : StrictConvexOn \ud835\udd5c s f",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "ConvexOn.dual",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} (hf : ConvexOn \ud835\udd5c s f) : ConcaveOn \ud835\udd5c s (\u21d1OrderDual.toDual \u2218 f)",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "StrictConvexOn.dual",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} (hf : StrictConvexOn \ud835\udd5c s f) : StrictConcaveOn \ud835\udd5c s (\u21d1OrderDual.toDual \u2218 f)",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "ConcaveOn.comp_convexOn",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b1 : Type u_4} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b1] [PartialOrder \u03b1] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b1] [SMul \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} {g : \u03b2 \u2192 \u03b1} (hg : ConcaveOn \ud835\udd5c (f '' s) g) (hf : ConvexOn \ud835\udd5c s f) (hg' : AntitoneOn g (f '' s)) : ConcaveOn \ud835\udd5c s (g \u2218 f)",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "ConcaveOn.comp_strictConvexOn",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b1 : Type u_4} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b1] [PartialOrder \u03b1] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b1] [SMul \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} {g : \u03b2 \u2192 \u03b1} (hg : ConcaveOn \ud835\udd5c (f '' s) g) (hf : StrictConvexOn \ud835\udd5c s f) (hg' : StrictAntiOn g (f '' s)) : StrictConcaveOn \ud835\udd5c s (g \u2218 f)",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "StrictConvexOn",
+      "type": " (\ud835\udd5c : Type u_1) {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b2] (s : Set E) (f : E \u2192 \u03b2) : Prop",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": "Strict convexity of functions "
+    },
+    {
+      "name": "convexOn_of_convex_epigraph",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [Module \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} (h : Convex \ud835\udd5c {p | p.1 \u2208 s \u2227 f p.1 \u2264 p.2}) : ConvexOn \ud835\udd5c s f",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "LinearOrder.convexOn_of_lt",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [Module \ud835\udd5c E] [Module \ud835\udd5c \u03b2] [LinearOrder E] {s : Set E} {f : E \u2192 \u03b2} (hs : Convex \ud835\udd5c s) (hf : \u2200 \u2983x : E\u2984, x \u2208 s \u2192 \u2200 \u2983y : E\u2984, y \u2208 s \u2192 x < y \u2192 \u2200 \u2983a b : \ud835\udd5c\u2984, 0 < a \u2192 0 < b \u2192 a + b = 1 \u2192 f (a \u2022 x + b \u2022 y) \u2264 a \u2022 f x + b \u2022 f y) : ConvexOn \ud835\udd5c s f",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": "For a function on a convex set in a linearly ordered space (where the order and the algebraic\nstructures aren't necessarily compatible), in order to prove that it is convex, it suffices to\nverify the inequality `f (a \u2022 x + b \u2022 y) \u2264 a \u2022 f x + b \u2022 f y` only for `x < y` and positive `a`,\n`b`. The main use case is `E = \ud835\udd5c` however one can apply it, e.g., to `\ud835\udd5c^n` with lexicographic order.\n"
+    },
+    {
+      "name": "LinearOrder.strictConvexOn_of_lt",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [Module \ud835\udd5c E] [Module \ud835\udd5c \u03b2] [LinearOrder E] {s : Set E} {f : E \u2192 \u03b2} (hs : Convex \ud835\udd5c s) (hf : \u2200 \u2983x : E\u2984, x \u2208 s \u2192 \u2200 \u2983y : E\u2984, y \u2208 s \u2192 x < y \u2192 \u2200 \u2983a b : \ud835\udd5c\u2984, 0 < a \u2192 0 < b \u2192 a + b = 1 \u2192 f (a \u2022 x + b \u2022 y) < a \u2022 f x + b \u2022 f y) : StrictConvexOn \ud835\udd5c s f",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": "For a function on a convex set in a linearly ordered space (where the order and the algebraic\nstructures aren't necessarily compatible), in order to prove that it is strictly convex, it suffices\nto verify the inequality `f (a \u2022 x + b \u2022 y) < a \u2022 f x + b \u2022 f y` for `x < y` and positive `a`, `b`.\nThe main use case is `E = \ud835\udd5c` however one can apply it, e.g., to `\ud835\udd5c^n` with lexicographic order. "
+    },
+    {
+      "name": "convexOn_of_slope_mono_adjacent",
+      "type": " {\ud835\udd5c : Type u_1} [Field \ud835\udd5c] [LinearOrder \ud835\udd5c] [IsStrictOrderedRing \ud835\udd5c] {s : Set \ud835\udd5c} {f : \ud835\udd5c \u2192 \ud835\udd5c} (hs : Convex \ud835\udd5c s) (hf : \u2200 {x y z : \ud835\udd5c}, x \u2208 s \u2192 z \u2208 s \u2192 x < y \u2192 y < z \u2192 (f y - f x) / (y - x) \u2264 (f z - f y) / (z - y)) : ConvexOn \ud835\udd5c s f",
+      "module": "Mathlib.Analysis.Convex.Slope",
+      "doc": "If for any three points `x < y < z`, the slope of the secant line of `f : \ud835\udd5c \u2192 \ud835\udd5c` on `[x, y]` is\nless than the slope of the secant line of `f` on `[y, z]`, then `f` is convex. "
+    },
+    {
+      "name": "strictConvexOn_of_slope_strict_mono_adjacent",
+      "type": " {\ud835\udd5c : Type u_1} [Field \ud835\udd5c] [LinearOrder \ud835\udd5c] [IsStrictOrderedRing \ud835\udd5c] {s : Set \ud835\udd5c} {f : \ud835\udd5c \u2192 \ud835\udd5c} (hs : Convex \ud835\udd5c s) (hf : \u2200 {x y z : \ud835\udd5c}, x \u2208 s \u2192 z \u2208 s \u2192 x < y \u2192 y < z \u2192 (f y - f x) / (y - x) < (f z - f y) / (z - y)) : StrictConvexOn \ud835\udd5c s f",
+      "module": "Mathlib.Analysis.Convex.Slope",
+      "doc": "If for any three points `x < y < z`, the slope of the secant line of `f : \ud835\udd5c \u2192 \ud835\udd5c` on `[x, y]` is\nstrictly less than the slope of the secant line of `f` on `[y, z]`, then `f` is strictly convex. "
+    },
+    {
+      "name": "MeasureTheory.integral_convexOn_of_integrand_ae",
+      "type": " {\u03b1 : Type u_1} {E : Type u_2} [NormedAddCommGroup E] [NormedSpace \u211d E] {m : MeasurableSpace \u03b1} {\u03bc : MeasureTheory.Measure \u03b1} [PartialOrder E] [IsOrderedAddMonoid E] [IsOrderedModule \u211d E] [ClosedIciTopology E] {\u03b2 : Type u_6} [AddCommMonoid \u03b2] [Module \u211d \u03b2] {f : \u03b1 \u2192 \u03b2 \u2192 E} {s : Set \u03b2} (hs : Convex \u211d s) (hf_conv : \u2200\u1d50 (x : \u03b1) \u2202\u03bc, ConvexOn \u211d s (f x)) (hf_int : \u2200 a \u2208 s, MeasureTheory.Integrable (fun x => f x a) \u03bc) : ConvexOn \u211d s fun b => \u222b (x : \u03b1), f x b \u2202\u03bc",
+      "module": "Mathlib.MeasureTheory.Integral.Bochner.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Unitization.convexOn_of_convexOn_inr_comp",
+      "type": " {A : Type u_1} [NonUnitalCStarAlgebra A] [PartialOrder A] [StarOrderedRing A] {f : A \u2192 A} {s : Set A} (hf : ConvexOn \u211d s (Unitization.inr \u2218 f)) : ConvexOn \u211d s f",
+      "module": "Mathlib.Analysis.CStarAlgebra.ContinuousFunctionalCalculus.Order",
+      "doc": ""
+    },
+    {
+      "name": "StrictMonoOn.strictConvexOn_of_deriv",
+      "type": " {D : Set \u211d} (hD : Convex \u211d D) {f : \u211d \u2192 \u211d} (hf : ContinuousOn f D) (hf' : StrictMonoOn (deriv f) (interior D)) : StrictConvexOn \u211d D f",
+      "module": "Mathlib.Analysis.Convex.Deriv",
+      "doc": "If a function `f` is continuous on a convex set `D \u2286 \u211d`, and `f'` is strictly monotone on the\ninterior, then `f` is strictly convex on `D`.\nNote that we don't require differentiability, since it is guaranteed at all but at most\none point by the strict monotonicity of `f'`. "
+    },
+    {
+      "name": "strictConvexOn_of_deriv2_pos'",
+      "type": " {D : Set \u211d} (hD : Convex \u211d D) {f : \u211d \u2192 \u211d} (hf : ContinuousOn f D) (hf'' : \u2200 x \u2208 D, 0 < deriv^[2] f x) : StrictConvexOn \u211d D f",
+      "module": "Mathlib.Analysis.Convex.Deriv",
+      "doc": "If a function `f` is continuous on a convex set `D \u2286 \u211d` and `f''` is strictly positive on `D`,\nthen `f` is strictly convex on `D`.\nNote that we don't require twice differentiability explicitly as it is already implied by the second\nderivative being strictly positive, except at at most one point. "
+    },
+    {
+      "name": "strictConvexOn_of_deriv2_pos",
+      "type": " {D : Set \u211d} (hD : Convex \u211d D) {f : \u211d \u2192 \u211d} (hf : ContinuousOn f D) (hf'' : \u2200 x \u2208 interior D, 0 < deriv^[2] f x) : StrictConvexOn \u211d D f",
+      "module": "Mathlib.Analysis.Convex.Deriv",
+      "doc": "If a function `f` is continuous on a convex set `D \u2286 \u211d` and `f''` is strictly positive on the\ninterior, then `f` is strictly convex on `D`.\nNote that we don't require twice differentiability explicitly as it is already implied by the second\nderivative being strictly positive, except at at most one point. "
+    },
+    {
+      "name": "MonotoneOn.convexOn_of_deriv",
+      "type": " {D : Set \u211d} (hD : Convex \u211d D) {f : \u211d \u2192 \u211d} (hf : ContinuousOn f D) (hf' : DifferentiableOn \u211d f (interior D)) (hf'_mono : MonotoneOn (deriv f) (interior D)) : ConvexOn \u211d D f",
+      "module": "Mathlib.Analysis.Convex.Deriv",
+      "doc": "If a function `f` is continuous on a convex set `D \u2286 \u211d`, is differentiable on its interior,\nand `f'` is monotone on the interior, then `f` is convex on `D`. "
+    },
+    {
+      "name": "convexOn_of_deriv2_nonneg'",
+      "type": " {D : Set \u211d} (hD : Convex \u211d D) {f : \u211d \u2192 \u211d} (hf' : DifferentiableOn \u211d f D) (hf'' : DifferentiableOn \u211d (deriv f) D) (hf''_nonneg : \u2200 x \u2208 D, 0 \u2264 deriv^[2] f x) : ConvexOn \u211d D f",
+      "module": "Mathlib.Analysis.Convex.Deriv",
+      "doc": "If a function `f` is twice differentiable on an open convex set `D \u2286 \u211d` and\n`f''` is nonnegative on `D`, then `f` is convex on `D`. "
+    },
+    {
+      "name": "Convex.combo_self",
+      "type": " {R : Type u_1} {M : Type u_2} [Semiring R] [AddCommMonoid M] [Module R M] {a b : R} (h : a + b = 1) (x : M) : a \u2022 x + b \u2022 x = x",
+      "module": "Mathlib.Algebra.Module.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Convex.combo_eq_smul_sub_add",
+      "type": " {R : Type u_1} {M : Type u_2} [Semiring R] [AddCommGroup M] [Module R M] {x y : M} {a b : R} (h : a + b = 1) : a \u2022 x + b \u2022 y = b \u2022 (y - x) + x",
+      "module": "Mathlib.Algebra.Module.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Set.Icc.convexComb_assoc_coeff\u2081",
+      "type": " (s t : \u2191unitInterval) : \u2191unitInterval",
+      "module": "Mathlib.Topology.UnitInterval",
+      "doc": "Helper definition for `convexComb_assoc`, giving one of the coefficients appearing\nwhen we reassociate a convex combination.\n"
+    },
+    {
+      "name": "Set.Icc.convexComb_assoc_coeff\u2081'",
+      "type": " (s t : \u2191unitInterval) : \u2191unitInterval",
+      "module": "Mathlib.Topology.UnitInterval",
+      "doc": "Helper definition for `convexComb_assoc'`, giving one of the coefficients appearing\nwhen we reassociate a convex combination in the reverse direction.\n"
+    },
+    {
+      "name": "Set.Icc.convexComb_assoc_coeff\u2082",
+      "type": " (s t : \u2191unitInterval) : \u2191unitInterval",
+      "module": "Mathlib.Topology.UnitInterval",
+      "doc": "Helper definition for `convexComb_assoc`, giving one of the coefficients appearing\nwhen we reassociate a convex combination.\n"
+    },
+    {
+      "name": "Set.Icc.convexComb_assoc_coeff\u2082'",
+      "type": " (s t : \u2191unitInterval) : \u2191unitInterval",
+      "module": "Mathlib.Topology.UnitInterval",
+      "doc": "Helper definition for `convexComb_assoc'`, giving one of the coefficients appearing\nwhen we reassociate a convex combination in the reverse direction.\n"
+    },
+    {
+      "name": "Set.Icc.convexComb",
+      "type": " {a b : \u211d} (x y : \u2191(Set.Icc a b)) (t : \u2191unitInterval) : \u2191(Set.Icc a b)",
+      "module": "Mathlib.Topology.UnitInterval",
+      "doc": "Form a convex linear combination of two points in a closed interval.\n\nThis should be removed once a general theory of convex spaces is available in Mathlib.\n"
+    },
+    {
+      "name": "Set.Icc.convexComb_eq",
+      "type": " {a b : \u211d} (x : \u2191(Set.Icc a b)) (t : \u2191unitInterval) : Set.Icc.convexComb x x t = x",
+      "module": "Mathlib.Topology.UnitInterval",
+      "doc": ""
+    },
+    {
+      "name": "Set.Icc.convexComb_symm",
+      "type": " {a b : \u211d} (x y : \u2191(Set.Icc a b)) (t : \u2191unitInterval) : Set.Icc.convexComb x y (unitInterval.symm t) = Set.Icc.convexComb y x t",
+      "module": "Mathlib.Topology.UnitInterval",
+      "doc": ""
+    },
+    {
+      "name": "Set.Icc.convexComb_one",
+      "type": " {a b : \u211d} (x y : \u2191(Set.Icc a b)) : Set.Icc.convexComb x y 1 = y",
+      "module": "Mathlib.Topology.UnitInterval",
+      "doc": ""
+    },
+    {
+      "name": "Set.Icc.convexComb_zero",
+      "type": " {a b : \u211d} (x y : \u2191(Set.Icc a b)) : Set.Icc.convexComb x y 0 = x",
+      "module": "Mathlib.Topology.UnitInterval",
+      "doc": ""
+    },
+    {
+      "name": "Set.Icc.convexComb_assoc",
+      "type": " {a b : \u211d} (x y z : \u2191(Set.Icc a b)) (s t : \u2191unitInterval) : Set.Icc.convexComb x (Set.Icc.convexComb y z t) s = Set.Icc.convexComb (Set.Icc.convexComb x y (Set.Icc.convexComb_assoc_coeff\u2081 s t)) z (Set.Icc.convexComb_assoc_coeff\u2082 s t)",
+      "module": "Mathlib.Topology.UnitInterval",
+      "doc": ""
+    },
+    {
+      "name": "ConcaveOn.dual",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} (hf : ConcaveOn \ud835\udd5c s f) : ConvexOn \ud835\udd5c s (\u21d1OrderDual.toDual \u2218 f)",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "ConvexOn.comp",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b1 : Type u_4} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b1] [PartialOrder \u03b1] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b1] [SMul \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} {g : \u03b2 \u2192 \u03b1} (hg : ConvexOn \ud835\udd5c (f '' s) g) (hf : ConvexOn \ud835\udd5c s f) (hg' : MonotoneOn g (f '' s)) : ConvexOn \ud835\udd5c s (g \u2218 f)",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "ConvexOn.comp_concaveOn",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b1 : Type u_4} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b1] [PartialOrder \u03b1] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [SMul \ud835\udd5c \u03b1] [SMul \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} {g : \u03b2 \u2192 \u03b1} (hg : ConvexOn \ud835\udd5c (f '' s) g) (hf : ConcaveOn \ud835\udd5c s f) (hg' : AntitoneOn g (f '' s)) : ConvexOn \ud835\udd5c s (g \u2218 f)",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "OrderIso.convexOn_symm",
+      "type": " {\ud835\udd5c : Type u_1} {\u03b1 : Type u_4} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid \u03b1] [PartialOrder \u03b1] [SMul \ud835\udd5c \u03b1] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c \u03b2] (f : \u03b1 \u2243o \u03b2) (hf : ConcaveOn \ud835\udd5c Set.univ \u21d1f) : ConvexOn \ud835\udd5c Set.univ \u21d1f.symm",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "ConvexOn.add_const",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [SMul \ud835\udd5c E] [Module \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} [IsOrderedAddMonoid \u03b2] (hf : ConvexOn \ud835\udd5c s f) (b : \u03b2) : ConvexOn \ud835\udd5c s (f + fun x => b)",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": ""
+    },
+    {
+      "name": "ConvexOn.translate_left",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [Module \ud835\udd5c E] [SMul \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} (hf : ConvexOn \ud835\udd5c s f) (c : E) : ConvexOn \ud835\udd5c ((fun z => c + z) \u207b\u00b9' s) (f \u2218 fun z => z + c)",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": "Left translation preserves convexity. "
+    },
+    {
+      "name": "ConvexOn.translate_right",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} {\u03b2 : Type u_5} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [AddCommMonoid \u03b2] [PartialOrder \u03b2] [Module \ud835\udd5c E] [SMul \ud835\udd5c \u03b2] {s : Set E} {f : E \u2192 \u03b2} (hf : ConvexOn \ud835\udd5c s f) (c : E) : ConvexOn \ud835\udd5c ((fun z => c + z) \u207b\u00b9' s) (f \u2218 fun z => c + z)",
+      "module": "Mathlib.Analysis.Convex.Function",
+      "doc": "Right translation preserves convexity. "
+    },
+    {
+      "name": "Set.OrdConnected.convex_of_chain",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [AddCommMonoid E] [PartialOrder E] [IsOrderedAddMonoid E] [Module \ud835\udd5c E] [PosSMulMono \ud835\udd5c E] {s : Set E} (hs : s.OrdConnected) (h : IsChain (fun x1 x2 => x1 \u2264 x2) s) : Convex \ud835\udd5c s",
+      "module": "Mathlib.Analysis.Convex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "convex_of_nonneg_surjective_algebraMap",
+      "type": " {R : Type u_5} [CommSemiring R] (A : Type u_6) [Semiring A] [Algebra R A] {M : Type u_7} [AddCommMonoid M] [Module A M] [Module R M] [IsScalarTower R A M] [PartialOrder R] [PartialOrder A] [FaithfulSMul R A] {s : Set M} (halg : Set.Ici 0 \u2286 \u21d1(algebraMap R A) '' Set.Ici 0) (hs : Convex R s) : Convex A s",
+      "module": "Mathlib.Analysis.Convex.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Convex.strictConvex_of_isOpen",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_3} [Semiring \ud835\udd5c] [PartialOrder \ud835\udd5c] [TopologicalSpace E] [AddCommMonoid E] [Module \ud835\udd5c E] {s : Set E} (h : IsOpen s) (hs : Convex \ud835\udd5c s) : StrictConvex \ud835\udd5c s",
+      "module": "Mathlib.Analysis.Convex.Strict",
+      "doc": "An open convex set is strictly convex. "
+    },
+    {
+      "name": "exists_open_convex_of_notMem",
+      "type": " {\ud835\udd5c : Type u_1} {E : Type u_2} [Field \ud835\udd5c] [PartialOrder \ud835\udd5c] [ZeroLEOneClass \ud835\udd5c] [AddCommGroup E] [Module \ud835\udd5c E] [TopologicalSpace E] [IsTopologicalAddGroup E] [ContinuousConstSMul \ud835\udd5c E] [LocallyConvexSpace \ud835\udd5c E] {s : Set E} {x : E} (hx : x \u2209 s) (hsconv : Convex \ud835\udd5c s) (hsclosed : IsClosed s) : \u2203 U V, IsOpen U \u2227 IsOpen V \u2227 Convex \ud835\udd5c U \u2227 Convex \ud835\udd5c V \u2227 x \u2208 U \u2227 s \u2286 V \u2227 Disjoint U V",
+      "module": "Mathlib.Topology.Algebra.Module.LocallyConvex",
+      "doc": "In a locally convex space, every point `x` and closed convex set `s \u220c x` admit disjoint convex\nopen neighborhoods. "
+    },
+    {
+      "name": "Complex.starConvex_ofReal_slitPlane",
+      "type": " {x : \u211d} (hx : 0 < x) : StarConvex \u211d (\u2191x) Complex.slitPlane",
+      "module": "Mathlib.Analysis.Complex.Convex",
+      "doc": "The slit plane is star-shaped at a positive real number. "
+    },
+    {
+      "name": "uniqueDiffOn_convex_of_isRCLikeNormedField",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] [h\ud835\udd5c : IsRCLikeNormedField \ud835\udd5c] {E : Type u_2} [NormedAddCommGroup E] [NormedSpace \ud835\udd5c E] [NormedSpace \u211d E] {s : Set E} (conv : Convex \u211d s) (hs : (interior s).Nonempty) : UniqueDiffOn \ud835\udd5c s",
+      "module": "Mathlib.Analysis.RCLike.TangentCone",
+      "doc": "In a real or complex vector space, a convex set with nonempty interior is a set of unique\ndifferentiability. "
+    },
+    {
+      "name": "uniqueDiffWithinAt_convex_of_isRCLikeNormedField",
+      "type": " {\ud835\udd5c : Type u_1} [NontriviallyNormedField \ud835\udd5c] [h\ud835\udd5c : IsRCLikeNormedField \ud835\udd5c] {E : Type u_2} [NormedAddCommGroup E] [NormedSpace \ud835\udd5c E] [NormedSpace \u211d E] {s : Set E} {x : E} (conv : Convex \u211d s) (hs : (interior s).Nonempty) (hx : x \u2208 closure s) : UniqueDiffWithinAt \ud835\udd5c s x",
+      "module": "Mathlib.Analysis.RCLike.TangentCone",
+      "doc": "In a real or complex vector space, a convex set with nonempty interior is a set of unique\ndifferentiability. "
+    },
+    {
+      "name": "exists_continuous_forall_mem_convex_of_local_const",
+      "type": " {X : Type u_2} {E : Type u_3} [TopologicalSpace X] [AddCommGroup E] [Module \u211d E] [NormalSpace X] [ParacompactSpace X] [TopologicalSpace E] [ContinuousAdd E] [ContinuousSMul \u211d E] {t : X \u2192 Set E} (ht : \u2200 (x : X), Convex \u211d (t x)) (H : \u2200 (x : X), \u2203 c, \u2200\u1da0 (y : X) in nhds x, c \u2208 t y) : \u2203 g, \u2200 (x : X), g x \u2208 t x",
+      "module": "Mathlib.Analysis.Convex.PartitionOfUnity",
+      "doc": "Let `X` be a normal paracompact topological space (e.g., any extended metric space). Let `E` be\na topological real vector space. Let `t : X \u2192 Set E` be a family of convex sets. Suppose that for\neach point `x : X`, there exists a vector `c : E` that belongs to `t y` for all `y` in a\nneighborhood of `x`. Then there exists a continuous map `g : C(X, E)` such that `g x \u2208 t x` for all\n`x`. See also `exists_continuous_forall_mem_convex_of_local`. "
+    },
+    {
+      "name": "exists_continuous_forall_mem_convex_of_local",
+      "type": " {X : Type u_2} {E : Type u_3} [TopologicalSpace X] [AddCommGroup E] [Module \u211d E] [NormalSpace X] [ParacompactSpace X] [TopologicalSpace E] [ContinuousAdd E] [ContinuousSMul \u211d E] {t : X \u2192 Set E} (ht : \u2200 (x : X), Convex \u211d (t x)) (H : \u2200 (x : X), \u2203 U \u2208 nhds x, \u2203 g, ContinuousOn g U \u2227 \u2200 y \u2208 U, g y \u2208 t y) : \u2203 g, \u2200 (x : X), g x \u2208 t x",
+      "module": "Mathlib.Analysis.Convex.PartitionOfUnity",
+      "doc": "Let `X` be a normal paracompact topological space (e.g., any extended metric space). Let `E` be\na topological real vector space. Let `t : X \u2192 Set E` be a family of convex sets. Suppose that for\neach point `x : X`, there exists a neighborhood `U \u2208 \ud835\udcdd X` and a function `g : X \u2192 E` that is\ncontinuous on `U` and sends each `y \u2208 U` to a point of `t y`. Then there exists a continuous map\n`g : C(X, E)` such that `g x \u2208 t x` for all `x`. See also\n`exists_continuous_forall_mem_convex_of_local_const`. "
+    },
+    {
+      "name": "exists_contMDiffMap_forall_mem_convex_of_local_const",
+      "type": " {E : Type uE} [NormedAddCommGroup E] [NormedSpace \u211d E] {F : Type uF} [NormedAddCommGroup F] [NormedSpace \u211d F] {H : Type uH} [TopologicalSpace H] (I : ModelWithCorners \u211d E H) {M : Type uM} [TopologicalSpace M] [ChartedSpace H M] [FiniteDimensional \u211d E] [IsManifold I (\u2191\u22a4) M] [SigmaCompactSpace M] [T2Space M] {t : M \u2192 Set F} {n : \u2115\u221e} (ht : \u2200 (x : M), Convex \u211d (t x)) (Hloc : \u2200 (x : M), \u2203 c, \u2200\u1da0 (y : M) in nhds x, c \u2208 t y) : \u2203 g, \u2200 (x : M), g x \u2208 t x",
+      "module": "Mathlib.Geometry.Manifold.PartitionOfUnity",
+      "doc": "Let `M` be a \u03c3-compact Hausdorff finite-dimensional topological manifold. Let `t : M \u2192 Set F` be\na family of convex sets. Suppose that for each point `x : M` there exists a vector `c : F` such that\nfor all `y` in a neighborhood of `x` we have `c \u2208 t y`. Then there exists a smooth function\n`g : C^n\u27eeI, M; \ud835\udcd8(\u211d, F), F\u27ef` such that `g x \u2208 t x` for all `x`. See also\n`exists_contMDiffMap_forall_mem_convex_of_local`. "
+    },
+    {
+      "name": "exists_contMDiffMap_forall_mem_convex_of_local",
+      "type": " {E : Type uE} [NormedAddCommGroup E] [NormedSpace \u211d E] {F : Type uF} [NormedAddCommGroup F] [NormedSpace \u211d F] {H : Type uH} [TopologicalSpace H] (I : ModelWithCorners \u211d E H) {M : Type uM} [TopologicalSpace M] [ChartedSpace H M] [FiniteDimensional \u211d E] [IsManifold I (\u2191\u22a4) M] [SigmaCompactSpace M] [T2Space M] {t : M \u2192 Set F} {n : \u2115\u221e} (ht : \u2200 (x : M), Convex \u211d (t x)) (Hloc : \u2200 (x : M), \u2203 U \u2208 nhds x, \u2203 g, ContMDiffOn I (modelWithCornersSelf \u211d F) (\u2191n) g U \u2227 \u2200 y \u2208 U, g y \u2208 t y) : \u2203 g, \u2200 (x : M), g x \u2208 t x",
+      "module": "Mathlib.Geometry.Manifold.PartitionOfUnity",
+      "doc": "Let `M` be a \u03c3-compact Hausdorff finite-dimensional topological manifold. Let `t : M \u2192 Set F`\nbe a family of convex sets. Suppose that for each point `x : M` there exists a neighborhood\n`U \u2208 \ud835\udcdd x` and a function `g : M \u2192 F` such that `g` is $C^n$ smooth on `U` and `g y \u2208 t y` for all\n`y \u2208 U`. Then there exists a $C^n$ smooth function `g : C^n\u27eeI, M; \ud835\udcd8(\u211d, F), F\u27ef` such that `g x \u2208 t x`\nfor all `x`.\n\nThis is a special case of `exists_contMDiffSection_forall_mem_convex_of_local` where `V` is the\ntrivial bundle. See also `exists_contMDiffMap_mem_convex_of_local_const`. "
+    },
+    {
+      "name": "exists_contMDiffSection_forall_mem_convex_of_local",
+      "type": " {E : Type uE} [NormedAddCommGroup E] [NormedSpace \u211d E] {H : Type uH} [TopologicalSpace H] (I : ModelWithCorners \u211d E H) {M : Type uM} [TopologicalSpace M] [ChartedSpace H M] [FiniteDimensional \u211d E] [IsManifold I (\u2191\u22a4) M] [SigmaCompactSpace M] [T2Space M] {n : \u2115\u221e} {F_fiber : Type u_1} [NormedAddCommGroup F_fiber] [NormedSpace \u211d F_fiber] (V : M \u2192 Type u_2) [(x : M) \u2192 AddCommGroup (V x)] [(x : M) \u2192 TopologicalSpace (V x)] [(x : M) \u2192 Module \u211d (V x)] [TopologicalSpace (Bundle.TotalSpace F_fiber V)] [FiberBundle F_fiber V] [VectorBundle \u211d F_fiber V] (t : (x : M) \u2192 Set (V x)) (ht_conv : \u2200 (x : M), Convex \u211d (t x)) (Hloc : \u2200 (x\u2080 : M), \u2203 U_x\u2080 \u2208 nhds x\u2080, \u2203 s_loc, ContMDiffOn I (I.prod (modelWithCornersSelf \u211d F_fiber)) (\u2191n) (fun x => \u27e8x, s_loc x\u27e9) U_x\u2080 \u2227 \u2200 y \u2208 U_x\u2080, s_loc y \u2208 t y) : \u2203 s, \u2200 (x : M), s x \u2208 t x",
+      "module": "Mathlib.Geometry.Manifold.PartitionOfUnity",
+      "doc": "Let `V` be a vector bundle over a \u03c3-compact Hausdorff finite-dimensional topological manifold\n`M`. Let `t : M \u2192 Set (V x)` be a family of convex sets in the fibers of `V`.\nSuppose that for each point `x\u2080 : M` there exists a neighborhood `U_x\u2080` of `x\u2080` and a local\nsection `s_loc : M \u2192 V x` such that `s_loc` is $C^n$ smooth on `U_x\u2080` (when viewed as a map to\nthe total space of the bundle) and `s_loc y \u2208 t y` for all `y \u2208 U_x\u2080`.\nThen there exists a global $C^n$ smooth section `s : C\u209b^n\u27eeI_M; F_fiber, V\u27ef` such that\n`s x \u2208 t x` for all `x : M`.\n"
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> IsOpenQuotientMap.continuous, Continuous.mk, ContinuousMap.continuous_toFun, ContinuousMap.continuous, ContinuousMapClass.map_continuous, continuous_id, continuous_id', continuous_const",
+    "search: '\"midpoint\"' -> midpoint, midpoint_self, left_eq_midpoint_iff, midpoint_eq_left_iff, midpoint_eq_right_iff, right_eq_midpoint_iff, midpoint_comm, midpoint_pointReflection_left",
+    "search: '\"ConvexOn\"' -> convexOn_id, ConvexOn.congr, StrictConvexOn.congr, ConvexOn.subset, StrictConvexOn.subset, convexOn_const, ConvexOn.dual, StrictConvexOn.dual",
+    "search: '\"convexOn_of\"' -> convexOn_of_convex_epigraph, LinearOrder.convexOn_of_lt, LinearOrder.strictConvexOn_of_lt, convexOn_of_slope_mono_adjacent, strictConvexOn_of_slope_strict_mono_adjacent, MeasureTheory.integral_convexOn_of_integrand_ae, Unitization.convexOn_of_convexOn_inr_comp, StrictMonoOn.strictConvexOn_of_deriv",
+    "search: '\"MidpointConvex\"' -> nothing",
+    "search: '\"MidpointConvex\"' -> nothing; goal shape -> IsOpenQuotientMap.continuous, Continuous.mk, ContinuousMap.continuous_toFun, ContinuousMap.continuous, ContinuousMapClass.map_continuous, continuous_id, continuous_id', continuous_const",
+    "search: '\"convex\"' -> Convex.combo_self, Convex.combo_eq_smul_sub_add, Set.Icc.convexComb_assoc_coeff\u2081, Set.Icc.convexComb_assoc_coeff\u2081', Set.Icc.convexComb_assoc_coeff\u2082, Set.Icc.convexComb_assoc_coeff\u2082', Set.Icc.convexComb, Set.Icc.convexComb_eq",
+    "search: '\"convexOn\"' -> convexOn_id, ConvexOn.congr, StrictConvexOn.congr, ConvexOn.subset, StrictConvexOn.subset, convexOn_const, ConvexOn.dual, StrictConvexOn.dual",
+    "search: '|- ConvexOn _ _ _' -> convexOn_id, ConvexOn.congr, ConvexOn.subset, convexOn_const, ConcaveOn.dual, ConvexOn.comp, ConvexOn.comp_concaveOn, OrderIso.convexOn_symm",
+    "search: '\"midpoint_convex\"' -> nothing",
+    "search: '\"midpoint_convex\"' -> nothing; goal shape -> IsOpenQuotientMap.continuous, Continuous.mk, ContinuousMap.continuous_toFun, ContinuousMap.continuous, ContinuousMapClass.map_continuous, continuous_id, continuous_id', continuous_const",
+    "search: '\"of_midpoint\"' -> nothing",
+    "search: '\"of_midpoint\"' -> nothing; goal shape -> IsOpenQuotientMap.continuous, Continuous.mk, ContinuousMap.continuous_toFun, ContinuousMap.continuous, ContinuousMapClass.map_continuous, continuous_id, continuous_id', continuous_const",
+    "search: '\"convex_of\"' -> Set.OrdConnected.convex_of_chain, convex_of_nonneg_surjective_algebraMap, Convex.strictConvex_of_isOpen, exists_open_convex_of_notMem, Complex.starConvex_ofReal_slitPlane, uniqueDiffOn_convex_of_isRCLikeNormedField, uniqueDiffWithinAt_convex_of_isRCLikeNormedField, exists_continuous_forall_mem_convex_of_local_const"
+  ],
+  "budget": {
+    "tool_calls": 19,
+    "lean_calls": 4,
+    "searches": 13,
+    "symbolic_calls": 0,
+    "searches_since_compile": 1,
+    "grace": 3,
+    "started": 1788872382.4329357,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 14.5,
+    "statement_checks": 1,
+    "refusals": {
+      "placeholder_proof": 1,
+      "generic_exhausted": 1
+    }
+  },
+  "goal": "theorem exercise_4_24 {f : \u211d \u2192 \u211d}\n  (hf : Continuous f) (a b : \u211d) (hab : a < b)\n  (h : \u2200 x y : \u211d, a < x \u2192 x < b \u2192 a < y \u2192 y < b \u2192 f ((x + y) / 2) \u2264 (f x + f y) / 2) :\n  ConvexOn \u211d (Set.Ioo a b) f"
+}

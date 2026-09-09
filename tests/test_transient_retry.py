@@ -43,6 +43,8 @@ def _agent(failures, exc=ReadError, on_call=None):
             if on_call:
                 on_call(context)
             if state["calls"] <= failures:
+                # `exc` may be a class or a factory taking the message, so a
+                # test can supply a realistic provider message.
                 raise exc("connection dropped")
             return {"messages": [type("M", (), {"text": "done"})()]}
 
@@ -206,3 +208,60 @@ def test_a_retry_and_a_continuation_compose(tmp_path, monkeypatch):
     )
     assert any("retried after transient failure" in e for e in run.trace)
     assert any("refused the stop" in e for e in run.trace), run.trace
+
+
+# ==================================================================
+# Exhaustion that waiting cannot fix must not be waited on
+# ==================================================================
+class ResourceExhausted(Exception):
+    """The provider's class for BOTH a per-minute rate limit and a monthly
+    spending cap. Identical type, identical 429 status."""
+
+
+def test_a_spending_cap_is_not_retried(tmp_path):
+    """MEASURED on eval/results/proofnet-60.json. A monthly billing cap
+    arrives as `(RESOURCE_EXHAUSTED): 429`, the same class and status as an
+    ordinary rate limit -- so the retry backed off twice per goal and spent
+    132 seconds across three goals waiting for a wall that was not moving."""
+    agent, state = _agent(
+        failures=99,
+        exc=lambda msg: ResourceExhausted(
+            "429 RESOURCE_EXHAUSTED. Your project has exceeded its monthly "
+            "spending cap. Please go to..."))
+
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=lambda *a, **k: agent)
+
+    assert state["calls"] == 1, (
+        f"waited {state['calls'] - 1} times for a billing cap to clear"
+    )
+
+
+def test_an_ordinary_rate_limit_is_still_retried(tmp_path):
+    """The line this must not cross. A per-minute limit DOES clear, and it is
+    the reason `ResourceExhausted` is in the transient set at all."""
+    agent, state = _agent(
+        failures=1,
+        exc=lambda msg: ResourceExhausted(
+            "429 RESOURCE_EXHAUSTED. Rate limit exceeded, retry shortly."))
+
+    harness.prove("q", model=object(), workdir=str(tmp_path),
+                  agent_factory=lambda *a, **k: agent)
+
+    assert state["calls"] == 2, "a transient rate limit was not retried"
+
+
+def test_the_message_match_only_makes_failure_faster(tmp_path):
+    """A substring match on someone else's wording is fragile, so it is used
+    ONLY to skip a backoff -- never to decide an outcome. If the provider
+    reworded it tomorrow, the behaviour degrades to a pointless retry rather
+    than to a wrong answer."""
+    agent, _ = _agent(
+        failures=99,
+        exc=lambda msg: ResourceExhausted("429 exceeded your quota"))
+
+    run = harness.prove("q", model=object(), workdir=str(tmp_path),
+                        agent_factory=lambda *a, **k: agent)
+
+    # Still an error, exactly as an un-matched exhaustion would be.
+    assert any(e.startswith("agent failed") for e in run.trace), run.trace

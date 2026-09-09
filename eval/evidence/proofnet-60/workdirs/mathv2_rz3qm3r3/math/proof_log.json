@@ -1,0 +1,367 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_3_1a\n  (f : \u2115 \u2192 \u211d)\n  (h : \u2203 (a : \u211d), Tendsto (\u03bb (n : \u2115) => f n) atTop (\ud835\udcdd a))\n  : \u2203 (a : \u211d), Tendsto (\u03bb (n : \u2115) => |f n|) atTop (\ud835\udcdd a)",
+      "proof": "",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:18: error: Function expected at\n  Tendsto\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  (\u03bb (n : \u2115) => f n)\n\nHint: The identifier `Tendsto` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.\n4:15: error: Function expected at\n  Tendsto\nbut this term has type\n  ?m.1\n\nNote: Expected a function because this term is being applied to the argument\n  (\u03bb (n : \u2115) => |f n|)\n\nHint: The identifier `Tendsto` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.",
+      "at": 1788872971.6484501,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_3_1a\n  (f : \u2115 \u2192 \u211d)\n  (h : \u2203 (a : \u211d), Filter.Tendsto (\u03bb (n : \u2115) => f n) Filter.atTop (nhds a))\n  : \u2203 (a : \u211d), Filter.Tendsto (\u03bb (n : \u2115) => |f n|) Filter.atTop (nhds a)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788872982.8684967,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_3_1a\n  (f : \u2115 \u2192 \u211d)\n  (h : \u2203 (a : \u211d), Filter.Tendsto (\u03bb (n : \u2115) => f n) Filter.atTop (nhds a))\n  : \u2203 (a : \u211d), Filter.Tendsto (\u03bb (n : \u2115) => |f n|) Filter.atTop (nhds a)",
+      "proof": "rcases h with \u27e8a, ha\u27e9\nuse |a|\nexact Filter.Tendsto.abs ha",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_3_1a\n  (f : \u2115 \u2192 \u211d)\n  (h : \u2203 (a : \u211d), Filter.Tendsto (\u03bb (n : \u2115) => f n) Filter.atTop (nhds a))\n  : \u2203 (a : \u211d), Filter.Tendsto (\u03bb (n : \u2115) => |f n|) Filter.atTop (nhds a)",
+      "at": 1788872994.760579,
+      "auto": false
+    },
+    {
+      "kind": "statement",
+      "statement": "open Topology Filter Real Complex TopologicalSpace Finset in\ntheorem exercise_3_1a\n  (f : \u2115 \u2192 \u211d)\n  (h : \u2203 (a : \u211d), Tendsto (\u03bb (n : \u2115) => f n) atTop (\ud835\udcdd a))\n  : \u2203 (a : \u211d), Tendsto (\u03bb (n : \u2115) => |f n|) atTop (\ud835\udcdd a)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788873003.4864233,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "open Topology Filter Real Complex TopologicalSpace Finset in\ntheorem exercise_3_1a\n  (f : \u2115 \u2192 \u211d)\n  (h : \u2203 (a : \u211d), Tendsto (\u03bb (n : \u2115) => f n) atTop (\ud835\udcdd a))\n  : \u2203 (a : \u211d), Tendsto (\u03bb (n : \u2115) => |f n|) atTop (\ud835\udcdd a)",
+      "proof": "rcases h with \u27e8a, ha\u27e9\nuse |a|\nexact Filter.Tendsto.abs ha",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: open Topology Filter Real Complex TopologicalSpace Finset in\ntheorem exercise_3_1a\n  (f : \u2115 \u2192 \u211d)\n  (h : \u2203 (a : \u211d), Tendsto (\u03bb (n : \u2115) => f n) atTop (\ud835\udcdd a))\n  : \u2203 (a : \u211d), Tendsto (\u03bb (n : \u2115) => |f n|) atTop (\ud835\udcdd a)",
+      "at": 1788873013.6439424,
+      "auto": false
+    }
+  ],
+  "lemmas": [],
+  "premises": [
+    {
+      "name": "Filter.Tendsto.basis_right",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b9' : Sort u_4} {la : Filter \u03b1} {lb : Filter \u03b2} {pb : \u03b9' \u2192 Prop} {sb : \u03b9' \u2192 Set \u03b2} {f : \u03b1 \u2192 \u03b2} (H : Filter.Tendsto f la lb) (hlb : lb.HasBasis pb sb) (i : \u03b9') : pb i \u2192 \u2200\u1da0 (x : \u03b1) in la, f x \u2208 sb i",
+      "module": "Mathlib.Order.Filter.Bases.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Filter.HasBasis.tendsto_right_iff",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b9' : Sort u_4} {la : Filter \u03b1} {lb : Filter \u03b2} {pb : \u03b9' \u2192 Prop} {sb : \u03b9' \u2192 Set \u03b2} {f : \u03b1 \u2192 \u03b2} (hlb : lb.HasBasis pb sb) : Filter.Tendsto f la lb \u2194 \u2200 (i : \u03b9'), pb i \u2192 \u2200\u1da0 (x : \u03b1) in la, f x \u2208 sb i",
+      "module": "Mathlib.Order.Filter.Bases.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Filter.Tendsto.basis_left",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b9 : Sort u_3} {la : Filter \u03b1} {pa : \u03b9 \u2192 Prop} {sa : \u03b9 \u2192 Set \u03b1} {lb : Filter \u03b2} {f : \u03b1 \u2192 \u03b2} (H : Filter.Tendsto f la lb) (hla : la.HasBasis pa sa) (t : Set \u03b2) : t \u2208 lb \u2192 \u2203 i, pa i \u2227 Set.MapsTo f (sa i) t",
+      "module": "Mathlib.Order.Filter.Bases.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Filter.HasBasis.tendsto_left_iff",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b9 : Sort u_3} {la : Filter \u03b1} {pa : \u03b9 \u2192 Prop} {sa : \u03b9 \u2192 Set \u03b1} {lb : Filter \u03b2} {f : \u03b1 \u2192 \u03b2} (hla : la.HasBasis pa sa) : Filter.Tendsto f la lb \u2194 \u2200 t \u2208 lb, \u2203 i, pa i \u2227 Set.MapsTo f (sa i) t",
+      "module": "Mathlib.Order.Filter.Bases.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Filter.Tendsto.basis_both",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b9 : Sort u_3} {\u03b9' : Sort u_4} {la : Filter \u03b1} {pa : \u03b9 \u2192 Prop} {sa : \u03b9 \u2192 Set \u03b1} {lb : Filter \u03b2} {pb : \u03b9' \u2192 Prop} {sb : \u03b9' \u2192 Set \u03b2} {f : \u03b1 \u2192 \u03b2} (H : Filter.Tendsto f la lb) (hla : la.HasBasis pa sa) (hlb : lb.HasBasis pb sb) (ib : \u03b9') : pb ib \u2192 \u2203 ia, pa ia \u2227 Set.MapsTo f (sa ia) (sb ib)",
+      "module": "Mathlib.Order.Filter.Bases.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Filter.HasBasis.tendsto_iff",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {\u03b9 : Sort u_3} {\u03b9' : Sort u_4} {la : Filter \u03b1} {pa : \u03b9 \u2192 Prop} {sa : \u03b9 \u2192 Set \u03b1} {lb : Filter \u03b2} {pb : \u03b9' \u2192 Prop} {sb : \u03b9' \u2192 Set \u03b2} {f : \u03b1 \u2192 \u03b2} (hla : la.HasBasis pa sa) (hlb : lb.HasBasis pb sb) : Filter.Tendsto f la lb \u2194 \u2200 (ib : \u03b9'), pb ib \u2192 \u2203 ia, pa ia \u2227 \u2200 x \u2208 sa ia, f x \u2208 sb ib",
+      "module": "Mathlib.Order.Filter.Bases.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Filter.tendsto_id",
+      "type": " {\u03b1 : Type u_1} {x : Filter \u03b1} : Filter.Tendsto id x x",
+      "module": "Mathlib.Order.Filter.Tendsto",
+      "doc": ""
+    },
+    {
+      "name": "Filter.tendsto_bot",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {f : \u03b1 \u2192 \u03b2} {l : Filter \u03b2} : Filter.Tendsto f \u22a5 l",
+      "module": "Mathlib.Order.Filter.Tendsto",
+      "doc": ""
+    },
+    {
+      "name": "Filter.tendsto_comap",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {f : \u03b1 \u2192 \u03b2} {x : Filter \u03b2} : Filter.Tendsto f (Filter.comap f x) x",
+      "module": "Mathlib.Order.Filter.Tendsto",
+      "doc": ""
+    },
+    {
+      "name": "Filter.tendsto_const_pure",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {a : Filter \u03b1} {b : \u03b2} : Filter.Tendsto (fun x => b) a (pure b)",
+      "module": "Mathlib.Order.Filter.Tendsto",
+      "doc": ""
+    },
+    {
+      "name": "Filter.tendsto_map",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} {f : \u03b1 \u2192 \u03b2} {x : Filter \u03b1} : Filter.Tendsto f x (Filter.map f x)",
+      "module": "Mathlib.Order.Filter.Tendsto",
+      "doc": ""
+    },
+    {
+      "name": "Filter.Tendsto",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : \u03b1 \u2192 \u03b2) (l\u2081 : Filter \u03b1) (l\u2082 : Filter \u03b2) : Prop",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "`Filter.Tendsto` is the generic \"limit of a function\" predicate.\n`Tendsto f l\u2081 l\u2082` asserts that for every `l\u2082` neighborhood `a`,\nthe `f`-preimage of `a` is an `l\u2081` neighborhood. "
+    },
+    {
+      "name": "Filter.atTop",
+      "type": " {\u03b1 : Type u_2} [Preorder \u03b1] : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.AtTopBot.Defs",
+      "doc": "`atTop` is the filter representing the limit `\u2192 \u221e` on an ordered set.\nIt is generated by the collection of up-sets `{b | a \u2264 b}`.\n(The preorder need not have a top element for this to be well defined,\nand indeed is trivial when a top element `x` exists, i.e., it coincides with `pure x`.) "
+    },
+    {
+      "name": "Filter.eventually_ge_atTop",
+      "type": " {\u03b1 : Type u_2} [Preorder \u03b1] (a : \u03b1) : \u2200\u1da0 (x : \u03b1) in Filter.atTop, a \u2264 x",
+      "module": "Mathlib.Order.Filter.AtTopBot.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Filter.Ici_mem_atTop",
+      "type": " {\u03b1 : Type u_2} [Preorder \u03b1] (a : \u03b1) : Set.Ici a \u2208 Filter.atTop",
+      "module": "Mathlib.Order.Filter.AtTopBot.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Filter.atTop_eq_generate_Ici",
+      "type": " {\u03b1 : Type u_2} [Preorder \u03b1] : Filter.atTop = Filter.generate (Set.range Set.Ici)",
+      "module": "Mathlib.Order.Filter.AtTopBot.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Filter.eventually_ne_atTop",
+      "type": " {\u03b1 : Type u_2} [Preorder \u03b1] [NoTopOrder \u03b1] (a : \u03b1) : \u2200\u1da0 (x : \u03b1) in Filter.atTop, x \u2260 a",
+      "module": "Mathlib.Order.Filter.AtTopBot.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Filter.eventually_gt_atTop",
+      "type": " {\u03b1 : Type u_2} [Preorder \u03b1] [NoTopOrder \u03b1] (a : \u03b1) : \u2200\u1da0 (x : \u03b1) in Filter.atTop, a < x",
+      "module": "Mathlib.Order.Filter.AtTopBot.Defs",
+      "doc": ""
+    },
+    {
+      "name": "IsTop.atTop_eq",
+      "type": " {\u03b1 : Type u_2} [Preorder \u03b1] {a : \u03b1} (ha : IsTop a) : Filter.atTop = Filter.principal (Set.Ici a)",
+      "module": "Mathlib.Order.Filter.AtTopBot.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Filter.Ioi_mem_atTop",
+      "type": " {\u03b1 : Type u_2} [Preorder \u03b1] [NoTopOrder \u03b1] (x : \u03b1) : Set.Ioi x \u2208 Filter.atTop",
+      "module": "Mathlib.Order.Filter.AtTopBot.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Filter.mem_atTop",
+      "type": " {\u03b1 : Type u_2} [Preorder \u03b1] (a : \u03b1) : {b | a \u2264 b} \u2208 Filter.atTop",
+      "module": "Mathlib.Order.Filter.AtTopBot.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Filter.Frequently.forall_exists_of_atTop",
+      "type": " {\u03b1 : Type u_2} [Preorder \u03b1] {p : \u03b1 \u2192 Prop} (h : \u2203\u1da0 (x : \u03b1) in Filter.atTop, p x) (a : \u03b1) : \u2203 b, a \u2264 b \u2227 p b",
+      "module": "Mathlib.Order.Filter.AtTopBot.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Filter.atTop_eq_generate_of_forall_exists_le",
+      "type": " {\u03b1 : Type u_2} [Preorder \u03b1] {s : Set \u03b1} (hs : \u2200 (x : \u03b1), \u2203 y \u2208 s, x \u2264 y) : Filter.atTop = Filter.generate (Set.Ici '' s)",
+      "module": "Mathlib.Order.Filter.AtTopBot.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Filter.atTop_eq_generate_of_not_bddAbove",
+      "type": " {\u03b1 : Type u_2} [LinearOrder \u03b1] {s : Set \u03b1} (hs : \u00acBddAbove s) : Filter.atTop = Filter.generate (Set.Ici '' s)",
+      "module": "Mathlib.Order.Filter.AtTopBot.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Filter.Tendsto.abs",
+      "type": " {G : Type u_1} [TopologicalSpace G] [AddCommGroup G] [LinearOrder G] [IsOrderedAddMonoid G] [OrderTopology G] {\u03b1 : Type u_2} {l : Filter \u03b1} {f : \u03b1 \u2192 G} {a : G} (h : Filter.Tendsto f l (nhds a)) : Filter.Tendsto (fun x => |f x|) l (nhds |a|)",
+      "module": "Mathlib.Topology.Algebra.Order.Group",
+      "doc": ""
+    },
+    {
+      "name": "Filter.principal",
+      "type": " {\u03b1 : Type u_1} (s : Set \u03b1) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The principal filter of `s` is the collection of all supersets of `s`. "
+    },
+    {
+      "name": "Filter.join",
+      "type": " {\u03b1 : Type u_1} (f : Filter (Filter \u03b1)) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The join of a filter of filters is defined by the relation `s \u2208 join f \u2194 {t | s \u2208 t} \u2208 f`. "
+    },
+    {
+      "name": "Filter.sInf",
+      "type": " {\u03b1 : Type u_1} (s : Set (Filter \u03b1)) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "Infimum of a set of filters.\nThis definition is marked as irreducible\nso that Lean doesn't try to unfold it when unifying expressions. "
+    },
+    {
+      "name": "Filter.comap",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (m : \u03b1 \u2192 \u03b2) (f : Filter \u03b2) : Filter \u03b1",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The inverse map of a filter. A set `s` belongs to `Filter.comap m f` if either of the following\nequivalent conditions hold.\n\n1. There exists a set `t \u2208 f` such that `m \u207b\u00b9' t \u2286 s`. This is used as a definition.\n2. The set `kernImage m s = {y | \u2200 x, m x = y \u2192 x \u2208 s}` belongs to `f`, see `Filter.mem_comap'`.\n3. The set `(m '' s\u1d9c)\u1d9c` belongs to `f`, see `Filter.mem_comap_iff_compl` and\n   `Filter.compl_mem_comap`.\n"
+    },
+    {
+      "name": "Filter.map",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (m : \u03b1 \u2192 \u03b2) (f : Filter \u03b1) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The forward map of a filter "
+    },
+    {
+      "name": "Filter.bind",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (m : \u03b1 \u2192 Filter \u03b2) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The monadic bind operation on filter is defined the usual way in terms of `map` and `join`.\n\nUnfortunately, this `bind` does not result in the expected applicative. See `Filter.seq` for the\napplicative instance. "
+    },
+    {
+      "name": "Filter.seq",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter (\u03b1 \u2192 \u03b2)) (g : Filter \u03b1) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The applicative sequentiation operation. This is not induced by the bind operation. "
+    },
+    {
+      "name": "Filter.coprod",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (g : Filter \u03b2) : Filter (\u03b1 \u00d7 \u03b2)",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "Coproduct of filters. "
+    },
+    {
+      "name": "Filter.curry",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (g : Filter \u03b2) : Filter (\u03b1 \u00d7 \u03b2)",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "This filter is characterized by `Filter.eventually_curry_iff`:\n`(\u2200\u1da0 (x : \u03b1 \u00d7 \u03b2) in f.curry g, p x) \u2194 \u2200\u1da0 (x : \u03b1) in f, \u2200\u1da0 (y : \u03b2) in g, p (x, y)`. Useful\nin adding quantifiers to the middle of `Tendsto`s. See\n`hasFDerivAt_of_tendstoUniformlyOnFilter`. "
+    },
+    {
+      "name": "Filter.lift",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (g : Set \u03b1 \u2192 Filter \u03b2) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "A variant on `bind` using a function `g` taking a set instead of a member of `\u03b1`.\nThis is essentially a push-forward along a function mapping each set to a filter. "
+    },
+    {
+      "name": "Filter.lift'",
+      "type": " {\u03b1 : Type u_1} {\u03b2 : Type u_2} (f : Filter \u03b1) (h : Set \u03b1 \u2192 Set \u03b2) : Filter \u03b2",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "Specialize `lift` to functions `Set \u03b1 \u2192 Set \u03b2`. This can be viewed as a generalization of `map`.\nThis is essentially a push-forward along a function mapping each set to a set. "
+    },
+    {
+      "name": "Filter.pi",
+      "type": " {\u03b9 : Type u_3} {\u03b1 : \u03b9 \u2192 Type u_4} (f : (i : \u03b9) \u2192 Filter (\u03b1 i)) : Filter ((i : \u03b9) \u2192 \u03b1 i)",
+      "module": "Mathlib.Order.Filter.Defs",
+      "doc": "The product of an indexed family of filters. "
+    },
+    {
+      "name": "TopologicalSpace.mk",
+      "type": " {X : Type u} (IsOpen : Set X \u2192 Prop) (isOpen_univ : IsOpen Set.univ) (isOpen_inter : \u2200 (s t : Set X), IsOpen s \u2192 IsOpen t \u2192 IsOpen (s \u2229 t)) (isOpen_sUnion : \u2200 (s : Set (Set X)), (\u2200 t \u2208 s, IsOpen t) \u2192 IsOpen (\u22c3\u2080 s)) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Defs.Basic",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.ofClosed",
+      "type": " {X : Type u} (T : Set (Set X)) (empty_mem : \u2205 \u2208 T) (sInter_mem : \u2200 A \u2286 T, \u22c2\u2080 A \u2208 T) (union_mem : \u2200 A \u2208 T, \u2200 B \u2208 T, A \u222a B \u2208 T) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Basic",
+      "doc": "A constructor for topologies by specifying the closed sets,\nand showing that they satisfy the appropriate conditions. "
+    },
+    {
+      "name": "WithTopology.instTopologicalSpace",
+      "type": " (X : Type u_1) (t : TopologicalSpace X) : TopologicalSpace (WithTopology X t)",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "TopologicalSpace.coinduced",
+      "type": " {X : Type u_1} {Y : Type u_2} (f : X \u2192 Y) (t : TopologicalSpace X) : TopologicalSpace Y",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "Given `f : X \u2192 Y` and a topology on `X`,\nthe coinduced topology on `Y` is defined such that\n`s : Set Y` is open if the preimage of `s` is open.\nThis is the finest topology that makes `f` continuous. "
+    },
+    {
+      "name": "TopologicalSpace.induced",
+      "type": " {X : Type u_1} {Y : Type u_2} (f : X \u2192 Y) (t : TopologicalSpace Y) : TopologicalSpace X",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": "Given `f : X \u2192 Y` and a topology on `Y`,\nthe induced topology on `X` is the collection of sets\nthat are preimages of some open set in `Y`.\nThis is the coarsest topology that makes `f` continuous. "
+    },
+    {
+      "name": "instTopologicalSpaceSubtype",
+      "type": " {X : Type u_1} {p : X \u2192 Prop} [t : TopologicalSpace X] : TopologicalSpace (Subtype p)",
+      "module": "Mathlib.Topology.Defs.Induced",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceBool",
+      "type": " : TopologicalSpace Bool",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceEmpty",
+      "type": " : TopologicalSpace Empty",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceInt",
+      "type": " : TopologicalSpace \u2124",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpaceNat",
+      "type": " : TopologicalSpace \u2115",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpacePEmpty",
+      "type": " : TopologicalSpace PEmpty.{u_1 + 1}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    },
+    {
+      "name": "instTopologicalSpacePUnit",
+      "type": " : TopologicalSpace PUnit.{u_1 + 1}",
+      "module": "Mathlib.Topology.Order",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "search: '\"tendsto\"' -> Filter.Tendsto.basis_right, Filter.HasBasis.tendsto_right_iff, Filter.Tendsto.basis_left, Filter.HasBasis.tendsto_left_iff, Filter.Tendsto.basis_both, Filter.HasBasis.tendsto_iff, Filter.tendsto_id, Filter.tendsto_bot",
+    "seeded from goal shape -> Filter.Tendsto, Filter.Tendsto.basis_right, Filter.HasBasis.tendsto_right_iff, Filter.Tendsto.basis_left, Filter.HasBasis.tendsto_left_iff, Filter.Tendsto.basis_both, Filter.HasBasis.tendsto_iff, Filter.tendsto_id",
+    "search: '\"Tendsto.abs\"' -> Filter.Tendsto.abs",
+    "seeded from goal shape -> Filter.principal, Filter.join, Filter.sInf, Filter.comap, Filter.map, Filter.bind, Filter.seq, Filter.coprod"
+  ],
+  "budget": {
+    "tool_calls": 7,
+    "lean_calls": 5,
+    "searches": 2,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788872969.9776242,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.1,
+    "statement_checks": 3,
+    "refusals": {}
+  },
+  "goal": "open Topology Filter Real Complex TopologicalSpace Finset in\ntheorem exercise_3_1a\n  (f : \u2115 \u2192 \u211d)\n  (h : \u2203 (a : \u211d), Tendsto (\u03bb (n : \u2115) => f n) atTop (\ud835\udcdd a))\n  : \u2203 (a : \u211d), Tendsto (\u03bb (n : \u2115) => |f n|) atTop (\ud835\udcdd a)"
+}

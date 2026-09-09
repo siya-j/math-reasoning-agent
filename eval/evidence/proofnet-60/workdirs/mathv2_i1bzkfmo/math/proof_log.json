@@ -1,0 +1,22 @@
+{
+  "records": [],
+  "lemmas": [],
+  "premises": [],
+  "trace": [
+    "agent failed: ChatGoogleGenerativeAIError: Error calling model 'gemini-3.5-flash' (RESOURCE_EXHAUSTED): 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'Your project has exceeded its monthly spending cap. Please go to AI Studio at https://ai.studio/spend to manage your project spend cap. Learn more at https://ai.google.dev/gemini-api/docs/billing#project-spend-caps. ', 'status': 'RESOURCE_EXHAUSTED'}}"
+  ],
+  "budget": {
+    "tool_calls": 0,
+    "lean_calls": 0,
+    "searches": 0,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788930284.6369607,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.0,
+    "statement_checks": 0,
+    "refusals": {}
+  }
+}

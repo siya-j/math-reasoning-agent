@@ -1,0 +1,791 @@
+{
+  "records": [
+    {
+      "kind": "statement",
+      "statement": "theorem exercise_4_5_25 {p : \u2115} (hp : Nat.Prime p) :\n  Irreducible (\u2211 i : Finset.range p, X ^ p : Polynomial \u211a)",
+      "proof": "",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788873024.5859168,
+      "auto": false
+    },
+    {
+      "kind": "skeleton",
+      "statement": "theorem exercise_4_5_25 {p : \u2115} (hp : Nat.Prime p) :\n  Irreducible (\u2211 i : Finset.range p, X ^ p : Polynomial \u211a)",
+      "proof": "by sorry",
+      "status": "true",
+      "detail": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument.",
+      "at": 1788873051.1657238,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_4_5_25_refutation : \u00ac (\u2200 {p : \u2115} (hp : Nat.Prime p), Irreducible (\u2211 i : Finset.range p, X ^ p : Polynomial \u211a))",
+      "proof": "by\n  intro h\n  have h2 : Irreducible (\u2211 i : Finset.range 2, X ^ 2 : Polynomial \u211a) := h Nat.prime_two\n  revert h2\n  decide",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:2: error: Expected type must not contain free variables\n  Irreducible (\u2211 i, X ^ 2) \u2192 False\n\nHint: Use the `+revert` option to automatically clean up and revert free variables",
+      "at": 1788873072.8966002,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma sum_two : (\u2211 i : Finset.range 2, X ^ 2 : Polynomial \u211a) = 2 * X ^ 2",
+      "proof": "by\n  simp\n",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma sum_two : (\u2211 i : Finset.range 2, X ^ 2 : Polynomial \u211a) = 2 * X ^ 2",
+      "at": 1788873076.0915062,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma not_isUnit_two_mul_X : \u00ac IsUnit (2 * X : Polynomial \u211a)",
+      "proof": "by\n  rw [(Commute.all (2 : Polynomial \u211a) X).isUnit_mul_iff]\n  push_neg\n  intro _\n  exact Polynomial.not_isUnit_X",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n8:8: error: typeclass instance problem is stuck\n  Nontrivial ?m.25\n\nNote: Lean will not try to resolve this typeclass instance problem because the type argument to `Nontrivial` is a metavariable. This argument must be fully determined before Lean will try to resolve the typeclass.\n\nHint: Adding type annotations and supplying implicit arguments to functions can give Lean more information for typeclass resolution. For example, if you have a variable `x` that you intend to be a `Nat`, but Lean reports it as having an unresolved type like `?m`, replacing `x` with `(x : Nat)` can get typeclass resolution un-stuck.",
+      "at": 1788873104.7654946,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma not_isUnit_two_mul_X : \u00ac IsUnit (2 * X : Polynomial \u211a)",
+      "proof": "by\n  rw [(Commute.all (2 : Polynomial \u211a) X).isUnit_mul_iff]\n  push_neg\n  intro _\n  exact (Polynomial.not_isUnit_X : \u00ac IsUnit (X : Polynomial \u211a))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n8:8: error: Type mismatch\n  Polynomial.not_isUnit_X\nhas type\n  \u00acIsUnit Polynomial.X\nbut is expected to have type\n  \u00acIsUnit X",
+      "at": 1788873107.103587,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma not_isUnit_two_mul_X : \u00ac IsUnit (2 * X : Polynomial \u211a)",
+      "proof": "by\n  rw [(Commute.all (2 : Polynomial \u211a) X).isUnit_mul_iff]\n  push_neg\n  intro _\n  exact Polynomial.not_isUnit_X (R := \u211a)",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n8:2: error: Type mismatch\n  Polynomial.not_isUnit_X\nhas type\n  \u00acIsUnit Polynomial.X\nbut is expected to have type\n  \u00acIsUnit X",
+      "at": 1788873112.2550843,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma not_isUnit_two_mul_X : \u00ac IsUnit (2 * Polynomial.X : Polynomial \u211a)",
+      "proof": "by\n  rw [(Commute.all (2 : Polynomial \u211a) Polynomial.X).isUnit_mul_iff]\n  push_neg\n  intro _\n  exact Polynomial.not_isUnit_X (R := \u211a)",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma not_isUnit_two_mul_X : \u00ac IsUnit (2 * Polynomial.X : Polynomial \u211a)",
+      "at": 1788873116.6814067,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma not_irreducible_two_mul_X_sq : \u00ac Irreducible (2 * Polynomial.X ^ 2 : Polynomial \u211a)",
+      "proof": "by\n  intro h\n  have eq : (2 * Polynomial.X ^ 2 : Polynomial \u211a) = (2 * Polynomial.X) * Polynomial.X := by ring\n  have h_or := h.isUnit_or_isUnit eq\n  rcases h_or with h1 | h2\n  \u00b7 exact not_isUnit_two_mul_X h1\n  \u00b7 exact Polynomial.not_isUnit_X (R := \u211a) h2",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma not_irreducible_two_mul_X_sq : \u00ac Irreducible (2 * Polynomial.X ^ 2 : Polynomial \u211a)",
+      "at": 1788873124.4425602,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_4_5_25_refutation : \u00ac (\u2200 {p : \u2115} (hp : Nat.Prime p), Irreducible (\u2211 i : Finset.range p, X ^ p : Polynomial \u211a))",
+      "proof": "by\n  intro h\n  have h2 : Irreducible (\u2211 i : Finset.range 2, Polynomial.X ^ 2 : Polynomial \u211a) := h Nat.prime_two\n  rw [sum_two Polynomial.X] at h2\n  exact not_irreducible_two_mul_X_sq h2",
+      "status": "false",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n20:83: error: Type mismatch\n  h Nat.prime_two\nhas type\n  Irreducible (\u2211 i, X ^ 2)\nbut is expected to have type\n  Irreducible (\u2211 i, Polynomial.X ^ 2)\n21:6: error: Function expected at\n  sum_two\nbut this term has type\n  \u2211 i, ?m.55 ^ 2 = 2 * ?m.55 ^ 2\n\nNote: Expected a function because this term is being applied to the argument\n  Polynomial.X\n18:113: error: unsolved goals\nX : Polynomial \u211a\nh : \u2200 {p : \u2115}, Nat.Prime p \u2192 Irreducible (\u2211 i, X ^ p)\nh2 : Irreducible (\u2211 i, Polynomial.X ^ 2)\n\u22a2 False\n\nStill to prove:\n\u22a2 False",
+      "at": 1788873131.9500592,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_5_25 {p : \u2115} (hp : Nat.Prime p) :\n  Irreducible (\u2211 i : Finset.range p, X ^ p : Polynomial \u211a)",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.prime_eleven\n    | exact Nat.prime_eleven _\n    | apply Nat.prime_eleven\n    | simpa using Nat.prime_eleven\n    | exact \u27e8_, Nat.prime_eleven\u27e9\n    | exact Nat.prime_eleven (by assumption)\n    | exact Nat.prime_eleven \u2039_\u203a\n    | apply Nat.prime_eleven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_eleven (by assumption))\n    | exact Nat.prime_five\n    | exact Nat.prime_five _\n    | apply Nat.prime_five\n    | simpa using Nat.prime_five\n    | exact \u27e8_, Nat.prime_five\u27e9\n    | exact Nat.prime_five (by assumption)\n    | exact Nat.prime_five \u2039_\u203a\n    | apply Nat.prime_five <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_five (by assumption))\n    | exact Nat.prime_seven\n    | exact Nat.prime_seven _\n    | apply Nat.prime_seven\n    | simpa using Nat.prime_seven\n    | exact \u27e8_, Nat.prime_seven\u27e9\n    | exact Nat.prime_seven (by assumption)\n    | exact Nat.prime_seven \u2039_\u203a\n    | apply Nat.prime_seven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_seven (by assumption))\n    | exact Nat.prime_three\n    | exact Nat.prime_three _\n    | apply Nat.prime_three\n    | simpa using Nat.prime_three\n    | exact \u27e8_, Nat.prime_three\u27e9\n    | exact Nat.prime_three (by assumption)\n    | exact Nat.prime_three \u2039_\u203a\n    | apply Nat.prime_three <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_three (by assumption))\n    | exact Nat.prime_two\n    | exact Nat.prime_two _\n    | apply Nat.prime_two\n    | simpa using Nat.prime_two\n    | exact \u27e8_, Nat.prime_two\u27e9\n    | exact Nat.prime_two (by assumption)\n    | exact Nat.prime_two \u2039_\u203a\n    | apply Nat.prime_two <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_two (by assumption))\n    | exact Prime.nat_prime\n    | exact Prime.nat_prime _\n    | apply Prime.nat_prime\n    | simpa using Prime.nat_prime\n    | exact \u27e8_, Prime.nat_prime\u27e9\n    | exact Prime.nat_prime (by assumption)\n    | exact Prime.nat_prime \u2039_\u203a\n    | apply Prime.nat_prime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Prime.nat_prime (by assumption))\n    | exact Nat.minFac_prime\n    | exact Nat.minFac_prime _\n    | apply Nat.minFac_prime\n    | simpa using Nat.minFac_prime\n    | exact \u27e8_, Nat.minFac_prime\u27e9\n    | exact Nat.minFac_prime (by assumption)\n    | exact Nat.minFac_prime \u2039_\u203a\n    | apply Nat.minFac_prime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.minFac_prime (by assumption))\n    | exact Nat.prime_of_coprime\n    | exact Nat.prime_of_coprime _\n    | apply Nat.prime_of_coprime\n    | simpa using Nat.prime_of_coprime\n    | exact \u27e8_, Nat.prime_of_coprime\u27e9\n    | exact Nat.prime_of_coprime (by assumption)\n    | exact Nat.prime_of_coprime \u2039_\u203a\n    | apply Nat.prime_of_coprime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_of_coprime (by assumption))\n    | exact CharP.char_is_prime_of_two_le\n    | exact CharP.char_is_prime_of_two_le _\n    | apply CharP.char_is_prime_of_two_le\n    | simpa using CharP.char_is_prime_of_two_le\n    | exact \u27e8_, CharP.char_is_prime_of_two_le\u27e9\n    | exact CharP.char_is_prime_of_two_le (by assumption)\n    | exact CharP.char_is_prime_of_two_le \u2039_\u203a\n    | apply CharP.char_is_prime_of_two_le <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CharP.char_is_prime_of_two_le (by assumption))\n    | exact CharP.char_prime_of_ne_zero\n    | exact CharP.char_prime_of_ne_zero _\n    | apply CharP.char_prime_of_ne_zero\n    | simpa using CharP.char_prime_of_ne_zero\n    | exact \u27e8_, CharP.char_prime_of_ne_zero\u27e9\n    | exact CharP.char_prime_of_ne_zero (by assumption)\n    | exact CharP.char_prime_of_ne_zero \u2039_\u203a\n    | apply CharP.char_prime_of_ne_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CharP.char_prime_of_ne_zero (by assumption))\n    | exact Nat.prime_of_mem_primeFactorsList\n    | exact Nat.prime_of_mem_primeFactorsList _\n    | apply Nat.prime_of_mem_primeFactorsList\n    | simpa using Nat.prime_of_mem_primeFactorsList\n    | exact \u27e8_, Nat.prime_of_mem_primeFactorsList\u27e9\n    | exact Nat.prime_of_mem_primeFactorsList (by assumption)\n    | exact Nat.prime_of_mem_primeFactorsList \u2039_\u203a\n    | apply Nat.prime_of_mem_primeFactorsList <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_of_mem_primeFactorsList (by assumption))\n    | exact Nat.prime_of_mem_primeFactors\n    | exact Nat.prime_of_mem_primeFactors _\n    | apply Nat.prime_of_mem_primeFactors\n    | simpa using Nat.prime_of_mem_primeFactors\n    | exact \u27e8_, Nat.prime_of_mem_primeFactors\u27e9\n    | exact Nat.prime_of_mem_primeFactors (by assumption)\n    | exact Nat.prime_of_mem_primeFactors \u2039_\u203a\n    | apply Nat.prime_of_mem_primeFactors <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_of_mem_primeFactors (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n19:62: error: unsolved goals\nX : Polynomial \u211a\np : \u2115\nhp : Nat.Prime p\n\u22a2 Irreducible (\u2191p * X ^ p)\n\nStill to prove:\n\u22a2 Irreducible (\u2191p * X ^ p)",
+      "at": 1788873162.8208792,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma isUnit_two : IsUnit (2 : Polynomial \u211a)",
+      "proof": "by\n  have hC : (2 : Polynomial \u211a) = Polynomial.C 2 := by simp\n  rw [hC, Polynomial.isUnit_C]\n  rw [isUnit_iff_ne_zero]\n  norm_num",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n19:54: error: `simp` made no progress",
+      "at": 1788873173.0074942,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma isUnit_two : IsUnit (2 : Polynomial \u211a)",
+      "proof": "by\n  have hC : Polynomial.C 2 = (2 : Polynomial \u211a) := map_ofNat Polynomial.C 2\n  rw [\u2190 hC, Polynomial.isUnit_C]\n  rw [isUnit_iff_ne_zero]\n  norm_num",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma isUnit_two : IsUnit (2 : Polynomial \u211a)",
+      "at": 1788873178.9019983,
+      "auto": false
+    },
+    {
+      "kind": "proof",
+      "statement": "theorem exercise_4_5_25 {p : \u2115} (hp : Nat.Prime p) :\n  Irreducible (\u2211 i : Finset.range p, X ^ p : Polynomial \u211a)",
+      "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.prime_eleven\n    | exact Nat.prime_eleven _\n    | apply Nat.prime_eleven\n    | simpa using Nat.prime_eleven\n    | exact \u27e8_, Nat.prime_eleven\u27e9\n    | exact Nat.prime_eleven (by assumption)\n    | exact Nat.prime_eleven \u2039_\u203a\n    | apply Nat.prime_eleven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_eleven (by assumption))\n    | exact Nat.prime_five\n    | exact Nat.prime_five _\n    | apply Nat.prime_five\n    | simpa using Nat.prime_five\n    | exact \u27e8_, Nat.prime_five\u27e9\n    | exact Nat.prime_five (by assumption)\n    | exact Nat.prime_five \u2039_\u203a\n    | apply Nat.prime_five <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_five (by assumption))\n    | exact Nat.prime_seven\n    | exact Nat.prime_seven _\n    | apply Nat.prime_seven\n    | simpa using Nat.prime_seven\n    | exact \u27e8_, Nat.prime_seven\u27e9\n    | exact Nat.prime_seven (by assumption)\n    | exact Nat.prime_seven \u2039_\u203a\n    | apply Nat.prime_seven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_seven (by assumption))\n    | exact Nat.prime_three\n    | exact Nat.prime_three _\n    | apply Nat.prime_three\n    | simpa using Nat.prime_three\n    | exact \u27e8_, Nat.prime_three\u27e9\n    | exact Nat.prime_three (by assumption)\n    | exact Nat.prime_three \u2039_\u203a\n    | apply Nat.prime_three <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_three (by assumption))\n    | exact Nat.prime_two\n    | exact Nat.prime_two _\n    | apply Nat.prime_two\n    | simpa using Nat.prime_two\n    | exact \u27e8_, Nat.prime_two\u27e9\n    | exact Nat.prime_two (by assumption)\n    | exact Nat.prime_two \u2039_\u203a\n    | apply Nat.prime_two <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_two (by assumption))\n    | exact Prime.nat_prime\n    | exact Prime.nat_prime _\n    | apply Prime.nat_prime\n    | simpa using Prime.nat_prime\n    | exact \u27e8_, Prime.nat_prime\u27e9\n    | exact Prime.nat_prime (by assumption)\n    | exact Prime.nat_prime \u2039_\u203a\n    | apply Prime.nat_prime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Prime.nat_prime (by assumption))\n    | exact Nat.minFac_prime\n    | exact Nat.minFac_prime _\n    | apply Nat.minFac_prime\n    | simpa using Nat.minFac_prime\n    | exact \u27e8_, Nat.minFac_prime\u27e9\n    | exact Nat.minFac_prime (by assumption)\n    | exact Nat.minFac_prime \u2039_\u203a\n    | apply Nat.minFac_prime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.minFac_prime (by assumption))\n    | exact Nat.prime_of_coprime\n    | exact Nat.prime_of_coprime _\n    | apply Nat.prime_of_coprime\n    | simpa using Nat.prime_of_coprime\n    | exact \u27e8_, Nat.prime_of_coprime\u27e9\n    | exact Nat.prime_of_coprime (by assumption)\n    | exact Nat.prime_of_coprime \u2039_\u203a\n    | apply Nat.prime_of_coprime <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_of_coprime (by assumption))\n    | exact CharP.char_is_prime_of_two_le\n    | exact CharP.char_is_prime_of_two_le _\n    | apply CharP.char_is_prime_of_two_le\n    | simpa using CharP.char_is_prime_of_two_le\n    | exact \u27e8_, CharP.char_is_prime_of_two_le\u27e9\n    | exact CharP.char_is_prime_of_two_le (by assumption)\n    | exact CharP.char_is_prime_of_two_le \u2039_\u203a\n    | apply CharP.char_is_prime_of_two_le <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CharP.char_is_prime_of_two_le (by assumption))\n    | exact CharP.char_prime_of_ne_zero\n    | exact CharP.char_prime_of_ne_zero _\n    | apply CharP.char_prime_of_ne_zero\n    | simpa using CharP.char_prime_of_ne_zero\n    | exact \u27e8_, CharP.char_prime_of_ne_zero\u27e9\n    | exact CharP.char_prime_of_ne_zero (by assumption)\n    | exact CharP.char_prime_of_ne_zero \u2039_\u203a\n    | apply CharP.char_prime_of_ne_zero <;> assumption\n    | (haveI := Fact.mk (by assumption); exact CharP.char_prime_of_ne_zero (by assumption))\n    | exact Nat.prime_of_mem_primeFactorsList\n    | exact Nat.prime_of_mem_primeFactorsList _\n    | apply Nat.prime_of_mem_primeFactorsList\n    | simpa using Nat.prime_of_mem_primeFactorsList\n    | exact \u27e8_, Nat.prime_of_mem_primeFactorsList\u27e9\n    | exact Nat.prime_of_mem_primeFactorsList (by assumption)\n    | exact Nat.prime_of_mem_primeFactorsList \u2039_\u203a\n    | apply Nat.prime_of_mem_primeFactorsList <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_of_mem_primeFactorsList (by assumption))\n    | exact Nat.prime_of_mem_primeFactors\n    | exact Nat.prime_of_mem_primeFactors _\n    | apply Nat.prime_of_mem_primeFactors\n    | simpa using Nat.prime_of_mem_primeFactors\n    | exact \u27e8_, Nat.prime_of_mem_primeFactors\u27e9\n    | exact Nat.prime_of_mem_primeFactors (by assumption)\n    | exact Nat.prime_of_mem_primeFactors \u2039_\u203a\n    | apply Nat.prime_of_mem_primeFactors <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_of_mem_primeFactors (by assumption))",
+      "status": "unknown",
+      "detail": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n25:62: error: unsolved goals\nX : Polynomial \u211a\np : \u2115\nhp : Nat.Prime p\n\u22a2 Irreducible (\u2191p * X ^ p)\n\nStill to prove:\n\u22a2 Irreducible (\u2191p * X ^ p)",
+      "at": 1788873186.697788,
+      "auto": false
+    },
+    {
+      "kind": "lemma",
+      "statement": "lemma not_irreducible_two_mul_X_sq_general : \u00ac Irreducible (2 * X ^ 2 : Polynomial \u211a)",
+      "proof": "by\n  intro h\n  by_cases hX : IsUnit X\n  \u00b7 have h_unit : IsUnit (2 * X ^ 2 : Polynomial \u211a) := by\n      have hX2 : IsUnit (X ^ 2) := IsUnit.pow 2 hX\n      exact IsUnit.mul isUnit_two hX2\n    exact h.not_isUnit h_unit\n  \u00b7 have eq : (2 * X ^ 2 : Polynomial \u211a) = (2 * X) * X := by ring\n    have h_or := h.isUnit_or_isUnit eq\n    rcases h_or with h1 | h2\n    \u00b7 have hX_unit : IsUnit X := by\n        rw [(Commute.all (2 : Polynomial \u211a) X).isUnit_mul_iff] at h1\n        exact h1.2\n      exact hX hX_unit\n    \u00b7 exact hX h2",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: lemma not_irreducible_two_mul_X_sq_general : \u00ac Irreducible (2 * X ^ 2 : Polynomial \u211a)",
+      "at": 1788873189.724177,
+      "auto": false
+    },
+    {
+      "kind": "refutation",
+      "statement": "theorem exercise_4_5_25_refutation : \u00ac (\u2200 {p : \u2115} (hp : Nat.Prime p), Irreducible (\u2211 i : Finset.range p, X ^ p : Polynomial \u211a))",
+      "proof": "by\n  intro h\n  have h2 : Irreducible (\u2211 i : Finset.range 2, X ^ 2 : Polynomial \u211a) := h Nat.prime_two\n  rw [sum_two] at h2\n  exact not_irreducible_two_mul_X_sq_general h2",
+      "status": "true",
+      "detail": "Lean accepted a complete proof of: theorem exercise_4_5_25_refutation : \u00ac (\u2200 {p : \u2115} (hp : Nat.Prime p), Irreducible (\u2211 i : Finset.range p, X ^ p : Polynomial \u211a))",
+      "at": 1788873193.5669663,
+      "auto": false
+    }
+  ],
+  "lemmas": [
+    "lemma sum_two : (\u2211 i : Finset.range 2, X ^ 2 : Polynomial \u211a) = 2 * X ^ 2 := by\n  simp",
+    "lemma not_isUnit_two_mul_X : \u00ac IsUnit (2 * Polynomial.X : Polynomial \u211a) := by\n  rw [(Commute.all (2 : Polynomial \u211a) Polynomial.X).isUnit_mul_iff]\n  push_neg\n  intro _\n  exact Polynomial.not_isUnit_X (R := \u211a)",
+    "lemma not_irreducible_two_mul_X_sq : \u00ac Irreducible (2 * Polynomial.X ^ 2 : Polynomial \u211a) := by\n  intro h\n  have eq : (2 * Polynomial.X ^ 2 : Polynomial \u211a) = (2 * Polynomial.X) * Polynomial.X := by ring\n  have h_or := h.isUnit_or_isUnit eq\n  rcases h_or with h1 | h2\n  \u00b7 exact not_isUnit_two_mul_X h1\n  \u00b7 exact Polynomial.not_isUnit_X (R := \u211a) h2",
+    "lemma isUnit_two : IsUnit (2 : Polynomial \u211a) := by\n  have hC : Polynomial.C 2 = (2 : Polynomial \u211a) := map_ofNat Polynomial.C 2\n  rw [\u2190 hC, Polynomial.isUnit_C]\n  rw [isUnit_iff_ne_zero]\n  norm_num",
+    "lemma not_irreducible_two_mul_X_sq_general : \u00ac Irreducible (2 * X ^ 2 : Polynomial \u211a) := by\n  intro h\n  by_cases hX : IsUnit X\n  \u00b7 have h_unit : IsUnit (2 * X ^ 2 : Polynomial \u211a) := by\n      have hX2 : IsUnit (X ^ 2) := IsUnit.pow 2 hX\n      exact IsUnit.mul isUnit_two hX2\n    exact h.not_isUnit h_unit\n  \u00b7 have eq : (2 * X ^ 2 : Polynomial \u211a) = (2 * X) * X := by ring\n    have h_or := h.isUnit_or_isUnit eq\n    rcases h_or with h1 | h2\n    \u00b7 have hX_unit : IsUnit X := by\n        rw [(Commute.all (2 : Polynomial \u211a) X).isUnit_mul_iff] at h1\n        exact h1.2\n      exact hX hX_unit\n    \u00b7 exact hX h2"
+  ],
+  "premises": [
+    {
+      "name": "Nat.prime_eleven",
+      "type": " : Nat.Prime 11",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_five",
+      "type": " : Nat.Prime 5",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_seven",
+      "type": " : Nat.Prime 7",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_three",
+      "type": " : Nat.Prime 3",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_two",
+      "type": " : Nat.Prime 2",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Prime.nat_prime",
+      "type": " {p : \u2115} : Prime p \u2192 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": "**Alias** of the reverse direction of `Nat.prime_iff`."
+    },
+    {
+      "name": "Nat.minFac_prime",
+      "type": " {n : \u2115} (n1 : n \u2260 1) : Nat.Prime n.minFac",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_of_coprime",
+      "type": " (n : \u2115) (h1 : 1 < n) (h : \u2200 m < n, m \u2260 0 \u2192 n.Coprime m) : Nat.Prime n",
+      "module": "Mathlib.Data.Nat.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_is_prime_of_two_le",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] (p : \u2115) [CharP R p] (hp : 2 \u2264 p) : Nat.Prime p",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": ""
+    },
+    {
+      "name": "CharP.char_prime_of_ne_zero",
+      "type": " (R : Type u_1) [NonAssocSemiring R] [NoZeroDivisors R] [Nontrivial R] {p : \u2115} [CharP R p] (hp : p \u2260 0) : Nat.Prime p",
+      "module": "Mathlib.Algebra.CharP.Defs",
+      "doc": "The characteristic is prime if it is non-zero. "
+    },
+    {
+      "name": "Nat.prime_of_mem_primeFactorsList",
+      "type": " {n p : \u2115} : p \u2208 n.primeFactorsList \u2192 Nat.Prime p",
+      "module": "Mathlib.Data.Nat.Factors",
+      "doc": ""
+    },
+    {
+      "name": "Nat.prime_of_mem_primeFactors",
+      "type": " {n p : \u2115} (hp : p \u2208 n.primeFactors) : Nat.Prime p",
+      "module": "Mathlib.Data.Nat.PrimeFin",
+      "doc": ""
+    },
+    {
+      "name": "Irreducible.mk",
+      "type": " {M : Type u_1} [Monoid M] {p : M} (not_isUnit : \u00acIsUnit p) (isUnit_or_isUnit : \u2200 \u2983a b : M\u2984, p = a * b \u2192 IsUnit a \u2228 IsUnit b) : Irreducible p",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Irreducible.map",
+      "type": " {F : Type u_1} {M : Type u_2} {N : Type u_3} [Monoid M] [Monoid N] {x : M} [EquivLike F M N] [MulEquivClass F M N] (f : F) : Irreducible x \u2192 Irreducible (f x)",
+      "module": "Mathlib.Algebra.Group.Irreducible.Lemmas",
+      "doc": "Irreducibility is preserved by multiplicative equivalences.\n\nNote that surjective + local hom is not enough. Consider the additive monoids `M = \u2115 \u2295 \u2115`, `N = \u2115`,\nwith x surjective local (additive) hom `f : M \u2192+ N` sending `(m, n)` to `2m + n`.\nIt is local because the only add unit in `N` is `0`, with preimage `{(0, 0)}` also an add unit.\nThen `x = (1, 0)` is irreducible in `M`, but `f x = 2 = 1 + 1` is not irreducible in `N`. "
+    },
+    {
+      "name": "Irreducible.of_map",
+      "type": " {F : Type u_1} {M : Type u_2} {N : Type u_3} [Monoid M] [Monoid N] {f : F} {x : M} [FunLike F M N] [MonoidHomClass F M N] [IsLocalHom f] (hfx : Irreducible (f x)) : Irreducible x",
+      "module": "Mathlib.Algebra.Group.Irreducible.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "Prime.irreducible",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] [IsCancelMulZero M] {p : M} (hp : Prime p) : Irreducible p",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Associated.irreducible",
+      "type": " {M : Type u_1} [Monoid M] {p q : M} (h : Associated p q) (hp : Irreducible p) : Irreducible q",
+      "module": "Mathlib.Algebra.GroupWithZero.Associated",
+      "doc": ""
+    },
+    {
+      "name": "Ideal.irreducible_of_isMaximal_span_singleton",
+      "type": " {\u03b1 : Type u} [CommSemiring \u03b1] [IsDomain \u03b1] {a : \u03b1} (ha : a \u2260 0) (max : (Ideal.span {a}).IsMaximal) : Irreducible a",
+      "module": "Mathlib.RingTheory.Ideal.Maximal",
+      "doc": ""
+    },
+    {
+      "name": "Ideal.irreducible_of_isMaximal_of_eq_span_singleton_of_not_isIdempotentElem",
+      "type": " {\u03b1 : Type u} [CommSemiring \u03b1] {a : \u03b1} (max : (Ideal.span {a}).IsMaximal) (idem : \u2200 (x : \u03b1), Ideal.span {a} = Ideal.span {x} \u2192 \u00acIsIdempotentElem x) : Irreducible a",
+      "module": "Mathlib.RingTheory.Ideal.Maximal",
+      "doc": "If a maximal principal ideal is not generated by an idempotent,\nthen every generator is irreducible. "
+    },
+    {
+      "name": "UniqueFactorizationMonoid.irreducible_of_factor",
+      "type": " {\u03b1 : Type u_1} [CommMonoidWithZero \u03b1] [UniqueFactorizationMonoid \u03b1] {a : \u03b1} (x : \u03b1) : x \u2208 UniqueFactorizationMonoid.factors a \u2192 Irreducible x",
+      "module": "Mathlib.RingTheory.UniqueFactorizationDomain.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.irreducible_X",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] : Irreducible Polynomial.X",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.Monic.irreducible_of_degree_eq_one",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] {p : Polynomial R} (hp1 : p.degree = 1) (hm : p.Monic) : Irreducible p",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.irreducible_of_degree_eq_one_of_isRelPrime_coeff",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] {p : Polynomial R} (hp : p.degree = 1) (hc : IsRelPrime (p.coeff 0) (p.coeff 1)) : Irreducible p",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": "A degree 1 polynomial `C a * X + C b` is irreducible\nif `a, b` are relatively prime. "
+    },
+    {
+      "name": "Polynomial.irreducible_X_sub_C",
+      "type": " {R : Type u} [CommRing R] [IsDomain R] (r : R) : Irreducible (Polynomial.X - Polynomial.C r)",
+      "module": "Mathlib.Algebra.Polynomial.RingDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.cyclotomic",
+      "type": " (n : \u2115) (R : Type u_1) [Ring R] : Polynomial R",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Basic",
+      "doc": "The `n`-th cyclotomic polynomial with coefficients in `R`. "
+    },
+    {
+      "name": "Polynomial.cyclotomic.monic",
+      "type": " (n : \u2115) (R : Type u_1) [Ring R] : (Polynomial.cyclotomic n R).Monic",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Basic",
+      "doc": "`cyclotomic n` is monic. "
+    },
+    {
+      "name": "Polynomial.cyclotomic.isPrimitive",
+      "type": " (n : \u2115) (R : Type u_1) [CommRing R] : (Polynomial.cyclotomic n R).IsPrimitive",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Basic",
+      "doc": "`cyclotomic n` is primitive. "
+    },
+    {
+      "name": "Polynomial.cyclotomic'",
+      "type": " (n : \u2115) (R : Type u_2) [CommRing R] [IsDomain R] : Polynomial R",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Basic",
+      "doc": "The modified `n`-th cyclotomic polynomial with coefficients in `R`, it is the usual cyclotomic\npolynomial if there is a primitive `n`-th root of unity in `R`. "
+    },
+    {
+      "name": "Polynomial.natDegree_cyclotomic_le",
+      "type": " {R : Type u_1} [Ring R] {n : \u2115} : (Polynomial.cyclotomic n R).natDegree \u2264 n.totient",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Basic",
+      "doc": "The natural degree of `cyclotomic n` is at most `totient n`.\n\nIf the base ring is nontrivial, then the degree is exactly `\u03c6 n`,\notherwise it's zero. "
+    },
+    {
+      "name": "Polynomial.natDegree_cyclotomic",
+      "type": " (n : \u2115) (R : Type u_1) [Ring R] [Nontrivial R] : (Polynomial.cyclotomic n R).natDegree = n.totient",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Basic",
+      "doc": "The natural degree of `cyclotomic n` is `totient n`. "
+    },
+    {
+      "name": "Polynomial.cyclotomic'.monic",
+      "type": " (n : \u2115) (R : Type u_2) [CommRing R] [IsDomain R] : (Polynomial.cyclotomic' n R).Monic",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Basic",
+      "doc": "`cyclotomic' n R` is monic. "
+    },
+    {
+      "name": "Polynomial.cyclotomic'_splits",
+      "type": " {K : Type u_1} [Field K] (n : \u2115) : (Polynomial.cyclotomic' n K).Splits",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Basic",
+      "doc": "`cyclotomic' n K` splits. "
+    },
+    {
+      "name": "Polynomial.degree_cyclotomic",
+      "type": " (n : \u2115) (R : Type u_1) [Ring R] [Nontrivial R] : (Polynomial.cyclotomic n R).degree = \u2191n.totient",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Basic",
+      "doc": "The degree of `cyclotomic n` is `totient n`. "
+    },
+    {
+      "name": "Polynomial.cyclotomic.eval_apply_ofReal",
+      "type": " (q : \u211d) (n : \u2115) : Polynomial.eval (\u2191q) (Polynomial.cyclotomic n \u2102) = \u2191(Polynomial.eval q (Polynomial.cyclotomic n \u211d))",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.map_cyclotomic_int",
+      "type": " (n : \u2115) (R : Type u_1) [Ring R] : Polynomial.map (Int.castRingHom R) (Polynomial.cyclotomic n \u2124) = Polynomial.cyclotomic n R",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Basic",
+      "doc": "`cyclotomic n R` comes from `cyclotomic n \u2124`. "
+    },
+    {
+      "name": "Polynomial.roots_of_cyclotomic",
+      "type": " (n : \u2115) (R : Type u_2) [CommRing R] [IsDomain R] : (Polynomial.cyclotomic' n R).roots = (primitiveRoots n R).val",
+      "module": "Mathlib.RingTheory.Polynomial.Cyclotomic.Basic",
+      "doc": "The roots of `cyclotomic' n R` are the primitive `n`-th roots of unity. "
+    },
+    {
+      "name": "not_irreducible_one",
+      "type": " {M : Type u_1} [Monoid M] : \u00acIrreducible 1",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": ""
+    },
+    {
+      "name": "IsSquare.not_irreducible",
+      "type": " {M : Type u_2} [Monoid M] {x : M} (ha : IsSquare x) : \u00acIrreducible x",
+      "module": "Mathlib.Algebra.Group.Irreducible.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "not_irreducible_pow",
+      "type": " {M : Type u_2} [Monoid M] {x : M} {n : \u2115} : n \u2260 1 \u2192 \u00acIrreducible (x ^ n)",
+      "module": "Mathlib.Algebra.Group.Irreducible.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "not_irreducible_zero",
+      "type": " {M : Type u_1} [MonoidWithZero M] : \u00acIrreducible 0",
+      "module": "Mathlib.Algebra.Prime.Defs",
+      "doc": ""
+    },
+    {
+      "name": "not_irreducible_of_not_isUnit_of_dvdNotUnit",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p q : M} (hp : \u00acIsUnit p) (h : DvdNotUnit p q) : \u00acIrreducible q",
+      "module": "Mathlib.Algebra.Prime.Lemmas",
+      "doc": ""
+    },
+    {
+      "name": "not_irreducible_of_not_unit_dvdNotUnit",
+      "type": " {M : Type u_1} [CommMonoidWithZero M] {p q : M} (hp : \u00acIsUnit p) (h : DvdNotUnit p q) : \u00acIrreducible q",
+      "module": "Mathlib.Algebra.Prime.Lemmas",
+      "doc": "**Alias** of `not_irreducible_of_not_isUnit_of_dvdNotUnit`."
+    },
+    {
+      "name": "Polynomial.Monic.not_irreducible_iff_exists_add_mul_eq_coeff",
+      "type": " {R : Type u} [CommSemiring R] [NoZeroDivisors R] {p : Polynomial R} (hm : p.Monic) (hnd : p.natDegree = 2) : \u00acIrreducible p \u2194 \u2203 c\u2081 c\u2082, p.coeff 0 = c\u2081 * c\u2082 \u2227 p.coeff 1 = c\u2081 + c\u2082",
+      "module": "Mathlib.Algebra.Polynomial.Monic",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.not_irreducible_C",
+      "type": " {R : Type u} [Field R] (x : R) : \u00acIrreducible (Polynomial.C x)",
+      "module": "Mathlib.Algebra.Polynomial.FieldDivision",
+      "doc": ""
+    },
+    {
+      "name": "not_irreducible_expand",
+      "type": " (R : Type u_2) (p : \u2115) [CommSemiring R] [Fact (Nat.Prime p)] [CharP R p] [PerfectRing R p] (f : Polynomial R) : \u00acIrreducible ((Polynomial.expand R p) f)",
+      "module": "Mathlib.FieldTheory.Perfect",
+      "doc": ""
+    },
+    {
+      "name": "Cardinal.not_irreducible_of_aleph0_le",
+      "type": " {a : Cardinal.{u}} (ha : Cardinal.aleph0 \u2264 a) : \u00acIrreducible a",
+      "module": "Mathlib.SetTheory.Cardinal.Divisibility",
+      "doc": ""
+    },
+    {
+      "name": "GaussianInt.sq_add_sq_of_nat_prime_of_not_irreducible",
+      "type": " (p : \u2115) [hp : Fact (Nat.Prime p)] (hpi : \u00acIrreducible \u2191p) : \u2203 a b, a ^ 2 + b ^ 2 = p",
+      "module": "Mathlib.NumberTheory.Zsqrtd.GaussianInt",
+      "doc": ""
+    },
+    {
+      "name": "List.sum_range_succ",
+      "type": " {M : Type u_4} [AddMonoid M] (f : \u2115 \u2192 M) (n : \u2115) : (List.map f (List.range n.succ)).sum = (List.map f (List.range n)).sum + f n",
+      "module": "Mathlib.Algebra.BigOperators.Group.List.Basic",
+      "doc": ""
+    },
+    {
+      "name": "List.sum_range_succ'",
+      "type": " {M : Type u_4} [AddMonoid M] (f : \u2115 \u2192 M) (n : \u2115) : (List.map f (List.range n.succ)).sum = f 0 + (List.map (fun i => f i.succ) (List.range n)).sum",
+      "module": "Mathlib.Algebra.BigOperators.Group.List.Basic",
+      "doc": "A variant of `sum_range_succ` which pulls off the first term in the sum rather\nthan the last. "
+    },
+    {
+      "name": "List.sum_range_sub'",
+      "type": " {G : Type u_7} [AddGroup G] (n : \u2115) (f : \u2115 \u2192 G) : (List.map (fun k => f k - f (k + 1)) (List.range n)).sum = f 0 - f n",
+      "module": "Mathlib.Algebra.BigOperators.Group.List.Basic",
+      "doc": "Cancellation of a telescoping sum. "
+    },
+    {
+      "name": "List.sum_range_sub",
+      "type": " {G : Type u_7} [AddCommGroup G] (n : \u2115) (f : \u2115 \u2192 G) : (List.map (fun k => f (k + 1) - f k) (List.range n)).sum = f n - f 0",
+      "module": "Mathlib.Algebra.BigOperators.Group.List.Basic",
+      "doc": "Cancellation of a telescoping sum. "
+    },
+    {
+      "name": "Finset.sum_range_zero",
+      "type": " {M : Type u_3} [AddCommMonoid M] (f : \u2115 \u2192 M) : \u2211 k \u2208 Finset.range 0, f k = 0",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_range_one",
+      "type": " {M : Type u_4} [AddCommMonoid M] (f : \u2115 \u2192 M) : \u2211 k \u2208 Finset.range 1, f k = f 0",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_range_succ",
+      "type": " {M : Type u_4} [AddCommMonoid M] (f : \u2115 \u2192 M) (n : \u2115) : \u2211 x \u2208 Finset.range (n + 1), f x = \u2211 x \u2208 Finset.range n, f x + f n",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_range_succ_comm",
+      "type": " {M : Type u_4} [AddCommMonoid M] (f : \u2115 \u2192 M) (n : \u2115) : \u2211 x \u2208 Finset.range (n + 1), f x = f n + \u2211 x \u2208 Finset.range n, f x",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_range_add",
+      "type": " {M : Type u_4} [AddCommMonoid M] (f : \u2115 \u2192 M) (n m : \u2115) : \u2211 x \u2208 Finset.range (n + m), f x = \u2211 x \u2208 Finset.range n, f x + \u2211 x \u2208 Finset.range m, f (n + x)",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.sum_range_sub",
+      "type": " {G : Type u_3} [AddCommGroup G] (f : \u2115 \u2192 G) (n : \u2115) : \u2211 i \u2208 Finset.range n, (f (i + 1) - f i) = f n - f 0",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": "A telescoping sum along `{0, ..., n - 1}` of a function valued in a commutative\nadditive group reduces to the difference of the last and first terms. "
+    },
+    {
+      "name": "Finset.sum_range_sub'",
+      "type": " {G : Type u_3} [AddCommGroup G] (f : \u2115 \u2192 G) (n : \u2115) : \u2211 i \u2208 Finset.range n, (f i - f (i + 1)) = f 0 - f n",
+      "module": "Mathlib.Algebra.BigOperators.Group.Finset.Basic",
+      "doc": "A reversed telescoping sum along `{0, ..., n - 1}` of a function valued in a\ncommutative additive group reduces to the difference of the first and last terms. "
+    },
+    {
+      "name": "Polynomial.isUnit_iff",
+      "type": " {R : Type u} [Semiring R] [NoZeroDivisors R] {p : Polynomial R} : IsUnit p \u2194 \u2203 r, IsUnit r \u2227 Polynomial.C r = p",
+      "module": "Mathlib.Algebra.Polynomial.Degree.Units",
+      "doc": "Characterization of a unit of a polynomial ring over an integral domain `R`.\nSee `Polynomial.isUnit_iff_coeff_isUnit_isNilpotent` when `R` is a commutative ring. "
+    },
+    {
+      "name": "Polynomial.isUnit_iff_degree_eq_zero",
+      "type": " {R : Type u} [Field R] {p : Polynomial R} : IsUnit p \u2194 p.degree = 0",
+      "module": "Mathlib.Algebra.Polynomial.FieldDivision",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.isUnit_iff'",
+      "type": " {R : Type u_1} [CommRing R] {P : Polynomial R} : IsUnit P \u2194 IsUnit (Polynomial.eval 0 P) \u2227 IsNilpotent (P /\u2098 Polynomial.X)",
+      "module": "Mathlib.RingTheory.Polynomial.Nilpotent",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.isUnit_iff_coeff_isUnit_isNilpotent",
+      "type": " {R : Type u_1} [CommRing R] {P : Polynomial R} : IsUnit P \u2194 IsUnit (P.coeff 0) \u2227 \u2200 (i : \u2115), i \u2260 0 \u2192 IsNilpotent (P.coeff i)",
+      "module": "Mathlib.RingTheory.Polynomial.Nilpotent",
+      "doc": "Let `P` be a polynomial over `R`. `P` is a unit if and only if all its coefficients are\nnilpotent, except its constant term which is a unit.\n\nSee also `Polynomial.isUnit_iff'`. "
+    },
+    {
+      "name": "MvPolynomial.isUnit_iff_eq_C_of_isReduced",
+      "type": " {\u03c3 : Type u_1} {R : Type u_2} [CommRing R] {P : MvPolynomial \u03c3 R} [IsReduced R] : IsUnit P \u2194 \u2203 r, IsUnit r \u2227 P = MvPolynomial.C r",
+      "module": "Mathlib.Algebra.MvPolynomial.Nilpotent",
+      "doc": ""
+    },
+    {
+      "name": "MvPolynomial.isUnit_iff_totalDegree_of_isReduced",
+      "type": " {\u03c3 : Type u_1} {R : Type u_2} [CommRing R] {P : MvPolynomial \u03c3 R} [IsReduced R] : IsUnit P \u2194 IsUnit (P.coeff 0) \u2227 P.totalDegree = 0",
+      "module": "Mathlib.Algebra.MvPolynomial.Nilpotent",
+      "doc": ""
+    },
+    {
+      "name": "MvPolynomial.isUnit_iff",
+      "type": " {\u03c3 : Type u_1} {R : Type u_2} [CommRing R] {P : MvPolynomial \u03c3 R} : IsUnit P \u2194 IsUnit (P.coeff 0) \u2227 \u2200 (i : \u03c3 \u2192\u2080 \u2115), i \u2260 0 \u2192 IsNilpotent (P.coeff i)",
+      "module": "Mathlib.Algebra.MvPolynomial.Nilpotent",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.not_isUnit_X",
+      "type": " {R : Type u} [Semiring R] [Nontrivial R] : \u00acIsUnit Polynomial.X",
+      "module": "Mathlib.Algebra.Polynomial.Degree.Operations",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.not_isUnit_X_sub_C",
+      "type": " {R : Type u} [Ring R] [Nontrivial R] (r : R) : \u00acIsUnit (Polynomial.X - Polynomial.C r)",
+      "module": "Mathlib.Algebra.Polynomial.AlgebraMap",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.not_isUnit_X_add_C",
+      "type": " {R : Type u} [Semiring R] [Nontrivial R] (a : R) : \u00acIsUnit (Polynomial.X + Polynomial.C a)",
+      "module": "Mathlib.Algebra.Polynomial.Monic",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.not_isUnit_X_pow_sub_one",
+      "type": " (R : Type u_1) [Ring R] [Nontrivial R] (n : \u2115) : \u00acIsUnit (Polynomial.X ^ n - 1)",
+      "module": "Mathlib.Algebra.Polynomial.Monic",
+      "doc": ""
+    },
+    {
+      "name": "WeierstrassCurve.Jacobian.isUnit_X_of_Z_eq_zero",
+      "type": " {F : Type u} [Field F] {W : WeierstrassCurve.Jacobian F} {P : Fin 3 \u2192 F} (hP : W.Nonsingular P) (hPz : P 2 = 0) : IsUnit (P 0)",
+      "module": "Mathlib.AlgebraicGeometry.EllipticCurve.Jacobian.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Commute.isUnit_mul_iff",
+      "type": " {M : Type u_1} [Monoid M] {a b : M} (h : Commute a b) : IsUnit (a * b) \u2194 IsUnit a \u2227 IsUnit b",
+      "module": "Mathlib.Algebra.Group.Commute.Units",
+      "doc": ""
+    },
+    {
+      "name": "Irreducible.isUnit_or_isUnit",
+      "type": " {M : Type u_1} [Monoid M] {p : M} (self : Irreducible p) \u2983a b : M\u2984 : p = a * b \u2192 IsUnit a \u2228 IsUnit b",
+      "module": "Mathlib.Algebra.Group.Irreducible.Defs",
+      "doc": "If an irreducible element factors, then one factor is a unit. "
+    },
+    {
+      "name": "Submonoid.LocalizationMap.isUnit_comp",
+      "type": " {M : Type u_1} [CommMonoid M] {S : Submonoid M} {N : Type u_2} [CommMonoid N] {P : Type u_3} [CommMonoid P] (f : S.LocalizationMap N) (j : N \u2192* P) (y : \u21a5S) : IsUnit ((j.comp f.toMonoidHom) \u2191y)",
+      "module": "Mathlib.GroupTheory.MonoidLocalization.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Finset.isUnit_coe",
+      "type": " {\u03b1 : Type u_2} [DecidableEq \u03b1] [DivisionMonoid \u03b1] {s : Finset \u03b1} : IsUnit \u2191s \u2194 IsUnit s",
+      "module": "Mathlib.Algebra.Group.Pointwise.Finset.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.isUnit_comp_iff",
+      "type": " (I : Type u_1) (J : Type u_2) (R : Type u_5) [Semiring R] [Fintype I] [Fintype J] [DecidableEq I] [DecidableEq J] {M : Matrix I I (Matrix J J R)} : IsUnit ((Matrix.comp I I J J R) M) \u2194 IsUnit M",
+      "module": "Mathlib.Data.Matrix.Composition",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.isUnit_comp_symm_iff",
+      "type": " (I : Type u_1) (J : Type u_2) (R : Type u_5) [Semiring R] [Fintype I] [Fintype J] [DecidableEq I] [DecidableEq J] {M : Matrix (I \u00d7 J) (I \u00d7 J) R} : IsUnit ((Matrix.comp I I J J R).symm M) \u2194 IsUnit M",
+      "module": "Mathlib.Data.Matrix.Composition",
+      "doc": ""
+    },
+    {
+      "name": "IsLocalization.isUnit_comp",
+      "type": " {R : Type u_1} [CommSemiring R] (M : Submonoid R) {S : Type u_2} [CommSemiring S] [Algebra R S] {P : Type u_3} [CommSemiring P] [IsLocalization M S] (j : S \u2192+* P) (y : \u21a5M) : IsUnit ((j.comp (algebraMap R S)) \u2191y)",
+      "module": "Mathlib.RingTheory.Localization.Defs",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.isUnit_C",
+      "type": " {R : Type u} [Semiring R] {x : R} : IsUnit (Polynomial.C x) \u2194 IsUnit x",
+      "module": "Mathlib.Algebra.Polynomial.Coeff",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.isUnit_conjTranspose",
+      "type": " {n : Type u_2} {\u03b1 : Type u_3} [Fintype n] [DecidableEq n] [Semiring \u03b1] [StarRing \u03b1] (A : Matrix n n \u03b1) : IsUnit A.conjTranspose \u2194 IsUnit A",
+      "module": "Mathlib.LinearAlgebra.Matrix.Invertible",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.isUnit_C_add_X_mul_iff",
+      "type": " {R : Type u_1} {r : R} [CommRing R] {P : Polynomial R} : IsUnit (Polynomial.C r + Polynomial.X * P) \u2194 IsUnit r \u2227 IsNilpotent P",
+      "module": "Mathlib.RingTheory.Polynomial.Nilpotent",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.isUnit_charpolyRev_of_isNilpotent",
+      "type": " {R : Type u} [CommRing R] {n : Type v} [DecidableEq n] [Fintype n] {M : Matrix n n R} (hM : IsNilpotent M) : IsUnit M.charpolyRev",
+      "module": "Mathlib.LinearAlgebra.Matrix.Charpoly.Coeff",
+      "doc": ""
+    },
+    {
+      "name": "ClassGroup.isPrincipal_of_isUnit_coeIdeal",
+      "type": " {R : Type u_1} {K : Type u_2} [CommRing R] [Field K] [Algebra R K] [IsFractionRing R K] [IsDomain R] [Subsingleton (ClassGroup R)] (I : Ideal R) (hI : IsUnit \u2191I) : Submodule.IsPrincipal I",
+      "module": "Mathlib.RingTheory.ClassGroup.Basic",
+      "doc": "If the class group is trivial, any integral ideal that is a unit as a fractional ideal\nis principal. "
+    },
+    {
+      "name": "Unitary.isUnit_coe",
+      "type": " {R : Type u_1} [Monoid R] [StarMul R] {U : \u21a5(unitary R)} : IsUnit \u2191U",
+      "module": "Mathlib.Algebra.Star.Unitary",
+      "doc": ""
+    },
+    {
+      "name": "MvPowerSeries.isUnit_constantCoeff",
+      "type": " {\u03c3 : Type u_1} {R : Type u_2} [Semiring R] (\u03c6 : MvPowerSeries \u03c3 R) (h : IsUnit \u03c6) : IsUnit (MvPowerSeries.constantCoeff \u03c6)",
+      "module": "Mathlib.RingTheory.MvPowerSeries.Basic",
+      "doc": "If a multivariate formal power series is invertible,\nthen so is its constant coefficient. "
+    },
+    {
+      "name": "isUnit_iff_ne_zero",
+      "type": " {G\u2080 : Type u_3} [GroupWithZero G\u2080] {a : G\u2080} : IsUnit a \u2194 a \u2260 0",
+      "module": "Mathlib.Algebra.GroupWithZero.Units.Basic",
+      "doc": ""
+    },
+    {
+      "name": "isUnit_of_mul_isUnit_left",
+      "type": " {M : Type u_1} [Monoid M] [IsDedekindFiniteMonoid M] {x y : M} (hu : IsUnit (x * y)) : IsUnit x",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": ""
+    },
+    {
+      "name": "isUnit_of_mul_isUnit_right",
+      "type": " {M : Type u_1} [Monoid M] [IsDedekindFiniteMonoid M] {x y : M} (hu : IsUnit (x * y)) : IsUnit y",
+      "module": "Mathlib.Algebra.Group.Units.Defs",
+      "doc": ""
+    },
+    {
+      "name": "map_ofNat",
+      "type": " {R : Type u_3} {S : Type u_4} {F : Type u_5} [NonAssocSemiring R] [NonAssocSemiring S] [FunLike F R S] [RingHomClass F R S] (f : F) (n : \u2115) [n.AtLeastTwo] : f (OfNat.ofNat n) = OfNat.ofNat n",
+      "module": "Mathlib.Data.Nat.Cast.Basic",
+      "doc": "This lemma is not marked `@[simp]` lemma because its `#discr_tree_key` (for the LHS) would just\nbe `DFunLike.coe _ _`, due to the `ofNat` that https://github.com/leanprover/lean4/issues/2867\nforces us to include, and therefore it would negatively impact performance.\n\nIf that issue is resolved, this can be marked `@[simp]`. "
+    },
+    {
+      "name": "map_ofNat'",
+      "type": " {B : Type u_4} {F : Type u_5} [AddMonoidWithOne B] {A : Type u_6} [AddMonoidWithOne A] [FunLike F A B] [AddMonoidHomClass F A B] (f : F) (h : f 1 = 1) (n : \u2115) [n.AtLeastTwo] : f (OfNat.ofNat n) = OfNat.ofNat n",
+      "module": "Mathlib.Data.Nat.Cast.Basic",
+      "doc": ""
+    },
+    {
+      "name": "WithBot.map_ofNat",
+      "type": " {\u03b1 : Type u} {\u03b2 : Type v} [AddMonoidWithOne \u03b1] {f : \u03b1 \u2192 \u03b2} (n : \u2115) [n.AtLeastTwo] : WithBot.map f (OfNat.ofNat n) = \u2191(f (OfNat.ofNat n))",
+      "module": "Mathlib.Algebra.Order.Monoid.Unbundled.WithTop",
+      "doc": ""
+    },
+    {
+      "name": "WithTop.map_ofNat",
+      "type": " {\u03b1 : Type u} {\u03b2 : Type v} [AddMonoidWithOne \u03b1] {f : \u03b1 \u2192 \u03b2} (n : \u2115) [n.AtLeastTwo] : WithTop.map f (OfNat.ofNat n) = \u2191(f (OfNat.ofNat n))",
+      "module": "Mathlib.Algebra.Order.Monoid.Unbundled.WithTop",
+      "doc": ""
+    },
+    {
+      "name": "AddConstMapClass.map_ofNat'",
+      "type": " {F : Type u_1} {G : Type u_2} {H : Type u_3} [FunLike F G H] {b : H} [AddMonoidWithOne G] [AddMonoid H] [AddConstMapClass F G H 1 b] (f : F) (n : \u2115) [n.AtLeastTwo] : f (OfNat.ofNat n) = f 0 + OfNat.ofNat n \u2022 b",
+      "module": "Mathlib.Algebra.AddConstMap.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddConstMapClass.map_ofNat",
+      "type": " {F : Type u_1} {G : Type u_2} {H : Type u_3} [FunLike F G H] [AddMonoidWithOne G] [AddMonoidWithOne H] [AddConstMapClass F G H 1 1] (f : F) (n : \u2115) [n.AtLeastTwo] : f (OfNat.ofNat n) = f 0 + OfNat.ofNat n",
+      "module": "Mathlib.Algebra.AddConstMap.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddConstMapClass.map_ofNat_add'",
+      "type": " {F : Type u_1} {G : Type u_2} {H : Type u_3} [FunLike F G H] {b : H} [AddCommMonoidWithOne G] [AddMonoid H] [AddConstMapClass F G H 1 b] (f : F) (n : \u2115) [n.AtLeastTwo] (x : G) : f (OfNat.ofNat n + x) = f x + OfNat.ofNat n \u2022 b",
+      "module": "Mathlib.Algebra.AddConstMap.Basic",
+      "doc": ""
+    },
+    {
+      "name": "AddConstMapClass.map_ofNat_add",
+      "type": " {F : Type u_1} {G : Type u_2} {H : Type u_3} [FunLike F G H] [AddCommMonoidWithOne G] [AddMonoidWithOne H] [AddConstMapClass F G H 1 1] (f : F) (n : \u2115) [n.AtLeastTwo] (x : G) : f (OfNat.ofNat n + x) = f x + OfNat.ofNat n",
+      "module": "Mathlib.Algebra.AddConstMap.Basic",
+      "doc": ""
+    },
+    {
+      "name": "ENat.map_ofNat",
+      "type": " {\u03b1 : Type u_1} (f : \u2115 \u2192 \u03b1) (n : \u2115) [n.AtLeastTwo] : ENat.map f (OfNat.ofNat n) = \u2191(f n)",
+      "module": "Mathlib.Data.ENat.Basic",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.map_ofNat",
+      "type": " {n : Type u_3} {\u03b1 : Type v} {\u03b2 : Type w} [DecidableEq n] [AddMonoidWithOne \u03b1] [Zero \u03b2] {f : \u03b1 \u2192 \u03b2} (h : f 0 = 0) (d : \u2115) [d.AtLeastTwo] : (OfNat.ofNat d).map f = Matrix.diagonal fun x => f (OfNat.ofNat d)",
+      "module": "Mathlib.Data.Matrix.Diagonal",
+      "doc": ""
+    },
+    {
+      "name": "Matrix.map_ofNat_star",
+      "type": " {n : Type u_3} {\u03b1 : Type v} [DecidableEq n] [NonAssocSemiring \u03b1] [StarRing \u03b1] (d : \u2115) [d.AtLeastTwo] : (OfNat.ofNat d).map star = OfNat.ofNat d",
+      "module": "Mathlib.LinearAlgebra.Matrix.ConjTranspose",
+      "doc": ""
+    },
+    {
+      "name": "Polynomial.map_ofNat",
+      "type": " {R : Type u} {S : Type v} [Semiring R] [Semiring S] (f : R \u2192+* S) (n : \u2115) [n.AtLeastTwo] : Polynomial.map f (OfNat.ofNat n) = OfNat.ofNat n",
+      "module": "Mathlib.Algebra.Polynomial.Eval.Defs",
+      "doc": ""
+    }
+  ],
+  "trace": [
+    "seeded from goal shape -> Nat.prime_eleven, Nat.prime_five, Nat.prime_seven, Nat.prime_three, Nat.prime_two, Prime.nat_prime, Nat.minFac_prime, Nat.prime_of_coprime",
+    "search: '\"cyclotomic\"' -> Polynomial.cyclotomic, Polynomial.cyclotomic.monic, Polynomial.cyclotomic.isPrimitive, Polynomial.cyclotomic', Polynomial.natDegree_cyclotomic_le, Polynomial.natDegree_cyclotomic, Polynomial.cyclotomic'.monic, Polynomial.cyclotomic'_splits",
+    "search: '\"cyclotomic\" \"irreducible\"' -> nothing",
+    "search: '\"cyclotomic\" \"irreducible\"' -> nothing; goal shape -> Nat.prime_eleven, Nat.prime_five, Nat.prime_seven, Nat.prime_three, Nat.prime_two, Prime.nat_prime, Nat.minFac_prime, Nat.prime_of_coprime",
+    "search: '\"cyclotomic\" \"Irreducible\"' -> nothing",
+    "search: '\"cyclotomic\" \"Irreducible\"' -> nothing; goal shape -> Nat.prime_eleven, Nat.prime_five, Nat.prime_seven, Nat.prime_three, Nat.prime_two, Prime.nat_prime, Nat.minFac_prime, Nat.prime_of_coprime",
+    "search: '\"not_irreducible\"' -> not_irreducible_one, IsSquare.not_irreducible, not_irreducible_pow, not_irreducible_zero, not_irreducible_of_not_isUnit_of_dvdNotUnit, not_irreducible_of_not_unit_dvdNotUnit, Polynomial.Monic.not_irreducible_iff_exists_add_mul_eq_coeff, Polynomial.not_irreducible_C",
+    "search: '\"sum_range\"' -> List.sum_range_succ, List.sum_range_succ', List.sum_range_sub', List.sum_range_sub, Finset.sum_range_zero, Finset.sum_range_one, Finset.sum_range_succ, Finset.sum_range_succ_comm",
+    "search: '\"isUnit\" \"Polynomial\"' -> nothing",
+    "search: '\"isUnit\" \"Polynomial\"' -> nothing; goal shape -> Nat.prime_eleven, Nat.prime_five, Nat.prime_seven, Nat.prime_three, Nat.prime_two, Prime.nat_prime, Nat.minFac_prime, Nat.prime_of_coprime",
+    "search: '\"Polynomial.isUnit_iff\"' -> Polynomial.isUnit_iff, Polynomial.isUnit_iff_degree_eq_zero, Polynomial.isUnit_iff', Polynomial.isUnit_iff_coeff_isUnit_isNilpotent, MvPolynomial.isUnit_iff_eq_C_of_isReduced, MvPolynomial.isUnit_iff_totalDegree_of_isReduced, MvPolynomial.isUnit_iff",
+    "search: '\"isUnit_X\"' -> Polynomial.not_isUnit_X, Polynomial.not_isUnit_X_sub_C, Polynomial.not_isUnit_X_add_C, Polynomial.not_isUnit_X_pow_sub_one, WeierstrassCurve.Jacobian.isUnit_X_of_Z_eq_zero",
+    "search: '\"isUnit_mul_iff\"' -> Commute.isUnit_mul_iff",
+    "search: '\"Irreducible.isUnit_or_isUnit\"' -> Irreducible.isUnit_or_isUnit",
+    "search: '\"isUnit_C\"' -> Submonoid.LocalizationMap.isUnit_comp, Finset.isUnit_coe, Matrix.isUnit_comp_iff, Matrix.isUnit_comp_symm_iff, IsLocalization.isUnit_comp, Polynomial.isUnit_C, Matrix.isUnit_conjTranspose, Polynomial.isUnit_C_add_X_mul_iff",
+    "search: '\"isUnit_iff_ne_zero\"' -> isUnit_iff_ne_zero",
+    "search: '\"isUnit_of_mul\"' -> isUnit_of_mul_isUnit_left, isUnit_of_mul_isUnit_right",
+    "search: '\"map_ofNat\"' -> map_ofNat, map_ofNat', WithBot.map_ofNat, WithTop.map_ofNat, AddConstMapClass.map_ofNat', AddConstMapClass.map_ofNat, AddConstMapClass.map_ofNat_add', AddConstMapClass.map_ofNat_add",
+    "refuted statement: The Lean 4 theorem statement provided in the prompt has a typo: it uses `X ^ p` instead of `X ^ i` inside the sum `\u2211 i : Finset.range p, X ^ p`. This makes the polynomial equal to `p * X ^ p`, which is reducible for any prime `p` (since `p \u2265 2`). We have formally proved the negation of this theorem "
+  ],
+  "budget": {
+    "tool_calls": 38,
+    "lean_calls": 16,
+    "searches": 16,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788873021.8593297,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 2.9,
+    "statement_checks": 1,
+    "refusals": {
+      "placeholder_proof": 3,
+      "duplicate_attempt": 1,
+      "assemble_first": 2
+    }
+  },
+  "goal": "theorem exercise_4_5_25 {p : \u2115} (hp : Nat.Prime p) :\n  Irreducible (\u2211 i : Finset.range p, X ^ p : Polynomial \u211a)"
+}

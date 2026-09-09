@@ -1,0 +1,22 @@
+{
+  "records": [],
+  "lemmas": [],
+  "premises": [],
+  "trace": [
+    "agent failed: ChatGoogleGenerativeAIError: Error calling model 'gemini-3.5-flash' (INVALID_ARGUMENT): 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key not valid. Please pass a valid API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key not valid. Please pass a valid API key.'}]}}"
+  ],
+  "budget": {
+    "tool_calls": 0,
+    "lean_calls": 0,
+    "searches": 0,
+    "symbolic_calls": 0,
+    "searches_since_compile": 0,
+    "grace": 3,
+    "started": 1788928099.0504344,
+    "reason": "",
+    "terminated": false,
+    "slowest_lean": 0.0,
+    "statement_checks": 0,
+    "refusals": {}
+  }
+}
