@@ -43,12 +43,34 @@ alarm anywhere else in this repo.
 from __future__ import annotations
 
 import argparse
+import json
+import os
 import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+
+# WHERE THE ORIGINAL LIVES WHILE A MUTATION IS ON DISK.
+#
+# MEASURED, and it is the reason this file exists at all made into a bug: this
+# script was killed by a wall-clock timeout partway through mutation 5, and
+# `math_v2/core/log.py` was left holding the mutation --- `declared_goal`
+# reading the FIRST statement check instead of the last. Two tests started
+# failing and the cause looked like whatever had been edited most recently,
+# which is the worst possible place for the search to start.
+#
+# `try/finally` was already there and is not enough. It does not run on
+# SIGKILL, which is what a timeout sends, and it does not run on a power cut.
+# So the original goes to a file BEFORE the mutation is written, and is
+# recovered on the next start.
+#
+# IT IS SILENT WITHOUT THIS, WHICH IS THE DANGEROUS PART. A left-behind
+# mutation is a live soundness hole in the working tree, and on a repo whose
+# files are CRLF the whole file shows as modified in `git status` --- so it
+# reads as a line-ending artefact rather than as an injected bug.
+PENDING = ROOT / ".mutate_guard_pending.json"
 
 # The test files that cover the guard, for the fast pass.
 FAST = [
@@ -60,6 +82,43 @@ FAST = [
     "tests/test_lean_verifier.py",
     "tests/test_guard.py",
 ]
+
+
+def _remember(path: str, original: str) -> None:
+    """Stash the untouched file where a later run can find it."""
+    PENDING.write_text(
+        json.dumps({"path": path, "original": original}), encoding="utf-8")
+
+
+def _forget() -> None:
+    try:
+        os.remove(PENDING)
+    except OSError:
+        pass
+
+
+def recover() -> str:
+    """Put back a mutation a killed run left behind. The file it fixed, or "".
+
+    Called before anything else, on every run. Deliberately NOT a check that
+    refuses to proceed: the repair is unambiguous -- these are the exact bytes
+    read moments before the mutation was written -- and a checker that halts
+    telling you to fix the repo yourself is a checker people stop running.
+    """
+    try:
+        stash = json.loads(PENDING.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return ""
+
+    path, original = stash.get("path", ""), stash.get("original", "")
+    if not path or not isinstance(original, str):
+        _forget()
+        return ""
+
+    with open(ROOT / path, "w", encoding="utf-8", newline="") as handle:
+        handle.write(original)
+    _forget()
+    return path
 
 
 @dataclass
@@ -92,6 +151,11 @@ class Mutation:
                 "expected exactly 1 -- the code moved and this mutation is "
                 "stale, which is itself worth fixing"
             )
+        # THE SIDECAR IS WRITTEN BEFORE THE MUTATION, never after. If the
+        # process dies between these two statements the sidecar describes a
+        # file that was never changed, and restoring it is a no-op -- which is
+        # the safe direction to fail in.
+        _remember(self.path, original)
         with open(target, "w", encoding="utf-8", newline="\n") as handle:
             handle.write(body.replace(self.old, self.new, 1))
         return original
@@ -100,6 +164,7 @@ class Mutation:
         with open(ROOT / self.path, "w", encoding="utf-8",
                   newline="") as handle:
             handle.write(original)
+        _forget()
 
 
 MUTATIONS = [
@@ -177,10 +242,19 @@ MUTATIONS = [
     ),
     Mutation(
         "math_v2/core/proving.py",
+        # THE TRAILING COMMENT LINE IS THE DISAMBIGUATOR, not decoration:
+        # `try_proof` opens with a byte-identical placeholder check, so the
+        # two lines alone match twice and the anchor is rejected as ambiguous.
+        # It follows that this anchor breaks whenever the comment BELOW
+        # try_lemma's placeholder check is edited -- which is how it went
+        # stale once, when the `says_nothing` lint was added between them.
+        # That is working as intended: a stale anchor is reported loudly and
+        # is cheap to repoint, where a silently-still-matching anchor on
+        # relocated code would test nothing and say nothing.
         "    if has_placeholder(proof):\n        return _placeholder_refusal()\n\n"
-        "    # MEASURED, PutnamBench `putnam_1962_a4`",
+        "    # THE SAME LINT `check_statement`, `try_proof` AND `try_skeleton`",
         "    if False:\n        return _placeholder_refusal()\n\n"
-        "    # MEASURED, PutnamBench `putnam_1962_a4`",
+        "    # THE SAME LINT `check_statement`, `try_proof` AND `try_skeleton`",
         "try_lemma accepts a proof containing `sorry`",
     ),
     Mutation(
@@ -206,6 +280,14 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--list", action="store_true", help="show, do not run")
     args = parser.parse_args(argv)
+
+    # BEFORE `--list`, not after: someone reaching for `--list` to work out
+    # what this script does is exactly the person whose tree may be holding a
+    # mutation from the run that died.
+    recovered = recover()
+    if recovered:
+        print(f"RECOVERED {recovered} — a previous run was killed before it "
+              f"could restore this file, and it was left mutated.\n")
 
     if args.list:
         for index, mutation in enumerate(MUTATIONS, 1):

@@ -50,3 +50,8 @@ eval/replay/
 
 # The scratch file `git commit -F` reads. Superseded on every commit.
 commit_msg.txt
+
+# Written by scripts/mutate_guard.py while a mutation is on disk, so a run
+# killed mid-mutation can put the file back on the next start. Never committed:
+# its presence means the tree is currently broken on purpose.
+.mutate_guard_pending.json
