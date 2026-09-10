@@ -332,6 +332,19 @@ def main(argv=None) -> int:
 
     fast, how = compiler()
     print(f"compiling via: {how}")
+    # SAID BEFORE THE SILENCE, not after it. The REPL session starts lazily,
+    # on the FIRST file that has a proof to compile -- which on this corpus
+    # is several files in, after a screen of `??` rows have scrolled past.
+    # It then imports Mathlib with no output: `_repl` measures that at 40.5s
+    # steady-state and 116s cold on Windows.
+    #
+    # MEASURED: a real run was interrupted with Ctrl+C at exactly that
+    # point, because a checker that goes quiet for two minutes after
+    # printing a list of skips is indistinguishable from one that has hung.
+    # The cold import is also once per run, not once per proof.
+    print("the first proof to compile starts Lean and imports Mathlib: "
+          "expect up to ~2 minutes\nof silence there, once for the whole "
+          "run. Every compile after it is sub-second.", flush=True)
     runner = fast or (
         lambda source: run_lean(source, timeout=config.LEAN_COLD_TIMEOUT))
 
