@@ -99,7 +99,13 @@ def test_trimming_can_be_turned_off_for_a_comparison(monkeypatch):
 
     harness.build_agent(model=None, tools=[], system_prompt="x")
 
-    assert not (captured.get("middleware") or [])
+    # NO TRIMMING MIDDLEWARE -- not "no middleware at all". This asserted the
+    # list was empty, which was true when trimming was the only entry and
+    # became wrong the moment `ModelCallLimitMiddleware` was added. The
+    # invariant is about TRIMMING being switchable; the model-call cap is a
+    # separate budget with its own switch and its own test.
+    installed = [type(m).__name__ for m in (captured.get("middleware") or [])]
+    assert not any("ContextEditing" in name for name in installed), installed
 
 
 def test_the_policy_is_recorded_in_the_environment(monkeypatch):

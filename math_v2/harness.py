@@ -194,6 +194,49 @@ CONTEXT_TRIM_INPUTS = os.getenv("MRA_CONTEXT_TRIM_INPUTS", "1") not in (
     "0", "false", "False", "no", "")
 
 
+# A CEILING ON MODEL CALLS, WHICH IS THE ONLY THING THAT BOUNDS SPEND.
+#
+# Every other budget here counts ACTIONS -- compiles, searches, tool calls,
+# wall clock. None of them counts the thing that is billed. MEASURED over 226
+# goal-runs: model calls run at a median 1.3x the counted tool calls and up to
+# 5x, so a goal can sit inside every existing limit and still make 83 model
+# calls, which `exercise_2_5_30` did.
+#
+# AND THE COST IS QUADRATIC, because this path re-sends the whole history on
+# every call (`harness`'s own docstring: no summarisation middleware). Fitted
+# over the 70 goal-runs that carry both numbers:
+#
+#     input_tokens ~ 809.5 * model_calls^2
+#     sanity: 83 calls -> 5,576,642 predicted against 5,175,349 actual
+#
+# So halving the calls quarters the cost, and a cap is worth far more than its
+# call count suggests.
+#
+# FORTY, DERIVED RATHER THAN CHOSEN. Model calls by outcome:
+#
+#                  n   median   p90   p95   p99   max
+#     PROVED     111        8    27    40    60    79
+#     failed      71       20    37    57    83    83
+#
+#     cap 25 -> loses 12 of 111 proofs
+#     cap 30 -> loses  9
+#     cap 40 -> loses  4        <- p95 of proved
+#     cap 50 -> loses  4        strictly worse: same proofs, 65 more wasted calls
+#     cap 60 -> loses  1
+#
+# Forty is p95 of the proved distribution, and 50 is dominated by it -- the
+# same four proofs lost for less saving. Applied to the failed runs above it,
+# the estimated saving is 14.8M input tokens, 28% of everything this project
+# has spent, for 3.6% of its proofs.
+#
+# `thread_limit`, NOT `run_limit`: `_continuation_allowance` re-drives the
+# agent, so a per-invocation limit would reset on every continuation and bound
+# nothing. `exit_behavior="end"` because the verdict is derived from the
+# record -- ending leaves an honest partial result exactly as the wall-clock
+# budget does, where `error` would lose the goal to an exception.
+MAX_MODEL_CALLS = int(os.getenv("MRA_MAX_MODEL_CALLS", "40"))
+
+
 def context_policy() -> dict:
     """What context management was in force, for the results file.
 
@@ -206,6 +249,10 @@ def context_policy() -> dict:
         "context_trim_trigger": CONTEXT_TRIM_TRIGGER,
         "context_trim_keep": CONTEXT_TRIM_KEEP,
         "context_trim_inputs": CONTEXT_TRIM_INPUTS,
+        # Recorded for the same reason as the trimming policy: a run bounded
+        # at 40 model calls and one unbounded are not comparable, and nothing
+        # else in the record would say which this was.
+        "max_model_calls": MAX_MODEL_CALLS,
     }
 
 
@@ -231,6 +278,12 @@ def build_agent(model, tools, system_prompt):
             clear_tool_inputs=CONTEXT_TRIM_INPUTS,
             exclude_tools=CONTEXT_TRIM_KEEP_TOOLS,
         )]))
+
+    if MAX_MODEL_CALLS > 0:
+        from langchain.agents.middleware import ModelCallLimitMiddleware
+
+        middleware.append(ModelCallLimitMiddleware(
+            thread_limit=MAX_MODEL_CALLS, exit_behavior="end"))
 
     return create_agent(model=model, tools=tools, system_prompt=system_prompt,
                         context_schema=MathContext, middleware=middleware)
