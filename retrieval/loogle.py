@@ -251,6 +251,72 @@ def conclusion_patterns(statement: str) -> list[str]:
     return patterns
 
 
+# Two quoted string literals with only whitespace between them. Loogle's
+# query language IS Lean, so `"Sylow" "card"` elaborates as a String applied
+# to a String and is rejected outright:
+#
+#     ?q="Sylow" "card"
+#       {"error": "Function expected at\n  \"Sylow\"\nbut this term has
+#                  type\n  String"}
+#
+# The separator Loogle wants is a comma, and with one the same query is
+# exactly right:
+#
+#     ?q="Sylow", "card"
+#       28 hits: not_dvd_card_sylow, card_sylow_modEq_one, Sylow.card_dvd_index
+_ADJACENT_LITERALS = re.compile(r'("(?:[^"\\]|\\.)*")\s+(?=")')
+
+
+def comma_separated(query: str) -> str:
+    """Insert the separator between adjacent quoted terms. Otherwise a no-op.
+
+    MEASURED over the 911 searches recorded in `eval/evidence/`: 425 returned
+    nothing, and 291 of those -- 68% of every empty search, 32% of ALL
+    searches -- were this form. Not one of them ever returned a result,
+    because none of them could. Replayed against live Loogle with the comma
+    inserted, 9 of the first 12 return hits, and the right ones:
+
+        "Sylow" "subsingleton"   ->  Sylow.characteristic_of_subsingleton
+        "Sylow" "normal"         ->  Sylow.normal_of_subsingleton
+        "Characteristic" "map"   ->  AddSubgroup.characteristic_iff_comap
+
+    SAFE BY CONSTRUCTION, which is the whole argument for doing it here.
+    The rewrite fires only on adjacent STRING LITERALS, and that is always a
+    type error in Loogle -- so it can only ever change a query that was
+    guaranteed to fail. A type pattern (`|- ‖_‖ = ‖_‖`), a type application
+    (`Multiplicative ℝ`) and an already-correct `"a", "b"` are all left
+    exactly as they are, because in none of them do two literals sit
+    adjacent.
+
+    HERE RATHER THAN IN THE PROMPT. The prompt can be told to use commas and
+    this codebase has measured, repeatedly, that a rule living only in prose
+    is one the model can decline. `search_with_suggestions` already
+    normalises queries on the way out -- it retries an unknown identifier
+    with Loogle's own suggestion -- so this is the established seam. That
+    retry cannot cover this case: it fires on `unknown identifier`, which
+    carries suggestions, and this is a type error, which carries none.
+    """
+    # BOUNDED, and the bound is load-bearing rather than defensive.
+    #
+    # The loop terminates only because `_ADJACENT_LITERALS` cannot match its
+    # own output: it requires a `"` immediately after the whitespace, and the
+    # substitution puts a comma there. Nothing in the language enforces that
+    # invariant, and a mutation loosening the pattern to `(\S+)\s+(?=\S)`
+    # DIVERGED -- every pass inserted `", "`, whose space the looser pattern
+    # matched again. It did not fail a test; it hung the run until the
+    # timeout killed it, which is the worse failure.
+    #
+    # One pass per pair of terms is the most that can be needed, so the query
+    # length is a generous ceiling.
+    current = query
+    for _ in range(len(query) + 1):
+        rewritten = _ADJACENT_LITERALS.sub(r"\1, ", current)
+        if rewritten == current:
+            return current
+        current = rewritten
+    return current
+
+
 def extract_queries(statement: str, limit: int) -> list[str]:
     """Which Mathlib names to look up, given a formal statement.
 
@@ -320,7 +386,7 @@ class LoogleSearch:
         if not query.strip():
             return [], []
 
-        url = f"{self._url}?q={urllib.parse.quote(query)}"
+        url = f"{self._url}?q={urllib.parse.quote(comma_separated(query))}"
         try:
             payload = json.loads(self._fetch(url))
         except (urllib.error.URLError, OSError, ValueError, TimeoutError):
