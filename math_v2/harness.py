@@ -92,7 +92,7 @@ from domain.proof import Lemma, ProofAttempt, ProofRun, ProofStage, Telemetry
 from domain.verdict import Verdict, VerificationStatus
 
 from math_v2.context import MathContext
-from math_v2.core import budget, log, verdict as verdicts
+from math_v2.core import budget, preamble, log, verdict as verdicts
 from math_v2.prompt import system_prompt
 from math_v2.tools import _util, create_math_v2_tools
 
@@ -258,6 +258,15 @@ def prove(
     budget.reset(workdir)
     # A reused workdir must not inherit another goal's compiles.
     _util.forget(workdir)
+    # THE GOAL'S OWN `open` LINES, captured before the agent runs.
+    #
+    # They arrive inside `goal` -- ProofNet ships them in its header and the
+    # text handed to the model includes them -- but the compiler only ever
+    # saw `import Mathlib`. MEASURED: 43 of 702 submitted statements carried
+    # an `open`, and `exercise_2_5_30` fails with `Function expected at card`
+    # without `open Fintype` and elaborates with it. See
+    # `math_v2/core/preamble.py`.
+    preamble.remember(workdir, goal)
 
     if model is None and agent_factory is build_agent:
         from llm.client import get_model

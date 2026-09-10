@@ -38,6 +38,8 @@ from retrieval import usage_examples
 from retrieval.loogle import Premise, conclusion_of
 from verifiers.lean_runner import LeanOutcome, has_placeholder
 from verifiers.lean_verifier import build_source, declaration, interpret
+
+from math_v2.core import preamble
 from domain.verdict import VerificationStatus
 
 from math_v2.core import binders, diagnosis, log
@@ -122,6 +124,24 @@ def _status(verdict):
         VerificationStatus.TRUE: log.TRUE,
         VerificationStatus.FALSE: log.FALSE,
     }.get(verdict.status, log.UNKNOWN)
+
+
+def _source(workdir, statement, proof):
+    """`build_source`, with the preamble THIS GOAL arrived with.
+
+    Every compile in this module goes through here rather than calling
+    `build_source` directly, because the preamble has to be the same at the
+    statement check and at every proof attempt after it. Fixing only the
+    statement check would move the failure one step later: the signature
+    would elaborate and then `try_proof` would compile it against a preamble
+    that no longer resolves the same names.
+
+    See `math_v2/core/preamble.py` for the measurement. In short: ProofNet
+    ships `open` lines the statements need, they reached the model and not
+    the compiler, and six goals costing 13.3M input tokens failed on names
+    their own header would have resolved.
+    """
+    return build_source(statement, proof, preamble.source(workdir))
 
 
 def full_statement(workdir, statement):
@@ -699,7 +719,7 @@ async def check_statement(workdir, statement, run_lean, search=None):
         ))
         return _assumes_conclusion_refusal(statement)
 
-    result = await run_lean(build_source(statement, "sorry"))
+    result = await run_lean(_source(workdir, statement, "sorry"))
     verdict = interpret(result, statement)
 
     # INCOMPLETE means "compiles, but uses sorry" — which is exactly what a
@@ -898,7 +918,7 @@ async def try_proof(workdir, statement, proof, run_lean, search=None,
         if redirect:
             return redirect
 
-    source = build_source(full_statement(workdir, statement), proof)
+    source = _source(workdir, full_statement(workdir, statement), proof)
     result = await run_lean(source)
     verdict = interpret(result, statement)
 
@@ -959,7 +979,7 @@ async def try_standard_tactics(workdir, statement, run_lean):
     thirty.
     """
     candidate = cheap_attempt(_premises(workdir))
-    source = build_source(full_statement(workdir, statement), candidate)
+    source = _source(workdir, full_statement(workdir, statement), candidate)
     result = await run_lean(source)
     verdict = interpret(result, statement)
 
@@ -1074,7 +1094,7 @@ async def try_lemma(workdir, statement, proof, run_lean, limit=None):
     # Compiled against the lemmas already kept, so a helper may build on an
     # earlier helper.
     combined = "\n\n".join(kept + [statement]) if kept else statement
-    result = await run_lean(build_source(combined, proof))
+    result = await run_lean(_source(workdir, combined, proof))
     verdict = interpret(result, statement)
 
     log.append(workdir, log.Record(
@@ -1341,7 +1361,7 @@ async def try_refutation(workdir, statement, proof, run_lean):
     # and it is the last thing that should be forced into one declaration.
     # `rename_goal` renames only the last, so the lemmas keep the names the
     # refutation cites.
-    result = await run_lean(build_source(full_statement(workdir, statement), proof))
+    result = await run_lean(_source(workdir, full_statement(workdir, statement), proof))
     verdict = interpret(result, statement)
     refuted = verdict.status is VerificationStatus.TRUE
 
@@ -1470,7 +1490,7 @@ async def synthesize_lemmas(workdir, statement, proof, run_lean, allowance):
         # `exact?` are rejected here exactly as they are everywhere else. There
         # is no second acceptance rule.
         result = await run_lean(
-            build_source(full_statement(workdir, lemma), candidate))
+            _source(workdir, full_statement(workdir, lemma), candidate))
         compiles += 1
         verdict = interpret(result, lemma)
         accepted = verdict.status is VerificationStatus.TRUE
@@ -1514,7 +1534,7 @@ async def assemble(workdir, statement, proof, proved, run_lean):
             f"| exact {lemma['name']} (by assumption))")
 
     result = await run_lean(
-        build_source(full_statement(workdir, statement), assembled))
+        _source(workdir, full_statement(workdir, statement), assembled))
     verdict = interpret(result, statement)
 
     log.append(workdir, log.Record(
@@ -1561,7 +1581,7 @@ async def try_skeleton(workdir, statement, proof, run_lean, fill_budget=0):
     if unfinished:
         return _skeleton_loop_refusal(workdir, unfinished)
 
-    source = build_source(full_statement(workdir, statement), proof)
+    source = _source(workdir, full_statement(workdir, statement), proof)
     result = await run_lean(source)
     verdict = interpret(result, statement)
 
