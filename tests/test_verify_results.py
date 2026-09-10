@@ -118,14 +118,28 @@ def test_a_rejected_proof_reports_what_lean_said():
     assert "unknown identifier 'foo'" in note
 
 
-def test_an_unretained_proof_is_a_failure_not_a_pass():
-    """Silence must never read as success. A results file that predates proof
-    retention cannot support its own claim, and saying so is the honest
-    answer -- MEASURED: this is exactly what putnam-run2.json reports."""
+def test_an_unretained_proof_is_never_a_pass_but_is_not_a_failure_either():
+    """Silence must never read as success -- and that invariant is intact.
+    An UNCHECKED claim exits 2, never 0, so nothing here reports it as
+    verified.
+
+    WHAT CHANGED, AND WHY. This asserted `ok is False`, which put a missing
+    proof in the same bucket as a proof Lean REJECTED. MEASURED across
+    eval/results/: 64 of 173 accepted proofs retain their text and 109 do
+    not, so a full-corpus run exited 1 under "A claim that does not
+    recompile is a soundness failure. Do not quote a proof rate" -- on 109
+    rows where nothing had been recompiled at all. That is the false alarm
+    this module's own note warns about ("a checker that cries wolf teaches
+    the reader to ignore it"), and it drowned the 64 real checks.
+
+    Every guarantee the earlier version protected still holds: not a pass,
+    the reason is stated, and the compiler is never handed an empty proof.
+    """
     compiler = lean(LeanOutcome.COMPILED)
     ok, note = verify_results.check(claim(proof=""), compiler)
 
-    assert ok is False
+    assert ok is not True, "an unauditable claim must never read as verified"
+    assert ok is verify_results.UNCHECKED
     assert "NO PROOF RETAINED" in note
     assert compiler.seen == [], "an empty proof was sent to the compiler"
 
@@ -403,3 +417,85 @@ def test_the_advice_matches_why_it_could_not_check(outcome, expected):
     _, note = verify_results.check(claim(), lean(outcome))
 
     assert expected in note, note
+
+
+# ------------------------------- what is NOT a soundness failure
+#
+# The module already argues this for one trigger: "SLOW IS NOT UNSOUND, AND
+# NEITHER IS ABSENT ... A false alarm in a soundness checker is worse than no
+# checker: it teaches the reader to ignore the real ones." Two more cases
+# reached `False` anyway, and both were measured on the real corpus.
+def _claim(goal_id="g", proof="by rfl"):
+    return {"goal_id": goal_id, "outcome": "proved",
+            "statement": "theorem t : 1 = 1", "proof": proof, "kind": "proof"}
+
+
+def test_an_unconfigured_toolchain_is_unchecked_not_failed():
+    """`lean --version` exits 0 under an unconfigured elan, so
+    `lean_is_available` passes, the compile runs, and Lean's complaint comes
+    back as ERRORS -- not TIMEOUT or UNAVAILABLE, which the earlier fix
+    covered. MEASURED verbatim in this repo's WSL clone."""
+    def broken(_source):
+        return LeanResult(LeanOutcome.ERRORS,
+                          "error: no default toolchain configured. run "
+                          "`elan default stable` to install & configure ...")
+    ok, note = verify_results.check(_claim(), broken)
+    assert ok is verify_results.UNCHECKED, note
+    assert "environment" in note
+
+
+def test_a_project_without_mathlib_is_unchecked_not_failed():
+    def no_mathlib(_source):
+        return LeanResult(LeanOutcome.ERRORS,
+                          "error: unknown module prefix 'Mathlib'")
+    ok, note = verify_results.check(_claim(), no_mathlib)
+    assert ok is verify_results.UNCHECKED, note
+
+
+@pytest.mark.parametrize("output", [
+    "error: unsolved goals\n  |- 1 = 2",
+    "error: unknown identifier 'foo_bar'",
+    "error: type mismatch",
+    "error: Function expected at card",
+])
+def test_a_rejected_proof_is_still_a_failure(output):
+    """THE BOUNDARY. Every one of these IS the proof. If the environment
+    list ever grows to swallow them the checker stops checking anything."""
+    ok, note = verify_results.check(
+        _claim(), lambda _s: LeanResult(LeanOutcome.ERRORS, output))
+    assert ok is False, note
+    assert "REJECTED" in note
+
+
+def test_a_placeholder_is_still_a_failure():
+    """`sorry` exits cleanly and proves nothing -- the one case where a
+    successful compile is the soundness failure."""
+    ok, note = verify_results.check(
+        _claim(), lambda _s: LeanResult(LeanOutcome.INCOMPLETE,
+                                        "declaration uses 'sorry'"))
+    assert ok is False
+    assert "sorry" in note.lower()
+
+
+def test_unchecked_claims_never_exit_zero(tmp_path, capsys):
+    """Reporting an unverified run as verified is how an unverified run gets
+    quoted as a verified one -- the module's own words."""
+    path = tmp_path / "r.json"
+    path.write_text(json.dumps({"results": [_claim(proof="")]}),
+                    encoding="utf-8")
+    assert verify_results.main([str(path)]) == 2
+    assert "COULD NOT BE CHECKED" in capsys.readouterr().out
+
+
+def test_a_real_failure_still_exits_one(tmp_path, capsys, monkeypatch):
+    """Exit 1 has to keep meaning "a claim did not recompile", or the gate
+    is worthless."""
+    path = tmp_path / "r.json"
+    path.write_text(json.dumps({"results": [_claim()]}), encoding="utf-8")
+    monkeypatch.setattr(
+        verify_results, "compiler",
+        lambda: (lambda _s: LeanResult(LeanOutcome.ERRORS,
+                                       "error: unsolved goals"), "fake"))
+    assert verify_results.main([str(path)]) == 1
+    assert "soundness failure" in capsys.readouterr().out
+

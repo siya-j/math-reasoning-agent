@@ -69,6 +69,19 @@ REFUTED = "refuted"
 # A third answer, distinct from pass and fail. See `check`.
 UNCHECKED = "unchecked"
 
+# Compiler output that means Lean could not start on this source. Matched
+# against the ERRORS path, where an environment fault is indistinguishable
+# from a rejected proof unless the message is read. None of these can be
+# produced BY a proof, which is what makes the list safe: an `unknown
+# identifier`, a type mismatch or an unsolved goal stays a failure.
+_ENVIRONMENT_FAULTS = (
+    "no default toolchain configured",
+    "unknown module prefix",          # the project has no Mathlib
+    "error: object file",             # a half-built .olean tree
+    "could not determine lean version",
+    "toolchain not installed",
+)
+
 
 def compiler():
     """The fastest correct way to recompile, and why it is still independent.
@@ -206,7 +219,22 @@ def check(claim: dict, runner=None) -> tuple:
         runner = fast or (
             lambda source: run_lean(source, timeout=config.LEAN_COLD_TIMEOUT))
     if not (claim.get("proof") or "").strip():
-        return False, (
+        # UNCHECKED, NOT A FAILURE, for the same reason a timeout is not one
+        # — see the note below: "SLOW IS NOT UNSOUND, AND NEITHER IS ABSENT".
+        # A missing proof says nothing whatever about the proof; it says the
+        # file predates the field.
+        #
+        # MEASURED across eval/results/: of 173 accepted proofs, 64 retain
+        # their text and 109 do not. Returning False for those made every
+        # full-corpus run exit 1 under "A claim that does not recompile is a
+        # soundness failure. Do not quote a proof rate" — on 109 rows where
+        # nothing had been recompiled at all. That is the false alarm the
+        # note below warns about, and it drowned the 64 real checks.
+        #
+        # 24 of the 109 are recoverable rather than lost: mixed-1.json's
+        # rows have proofs in mixed-1-rebuilt.json, recovered from the
+        # surviving workdirs. The other 85 predate proof retention entirely.
+        return UNCHECKED, (
             "NO PROOF RETAINED — this result predates the change that stores "
             "it, so the claim cannot be checked. Re-run the goal to produce a "
             "verifiable record."
@@ -241,7 +269,32 @@ def check(claim: dict, runner=None) -> tuple:
             f"COULD NOT CHECK ({result.outcome.value}) — this says nothing "
             f"about the proof. {cure} Run scripts/diagnose_lean.py."
         )
-    return False, f"REJECTED — {(result.output or '').strip()[:400]}"
+    # AND NEITHER IS A BROKEN TOOLCHAIN. The note above fixed TIMEOUT and
+    # UNAVAILABLE, but an unconfigured elan does not reach either: `lean
+    # --version` exits 0 under one (see `lean_toolchain_works`), so
+    # `lean_is_available` passes, the compile runs, and Lean's own complaint
+    # comes back as ERRORS. MEASURED in this repo's WSL clone:
+    #
+    #     REJECTED — error: no default toolchain configured.
+    #                run `elan default stable` ...
+    #
+    # reported under "A claim that does not recompile is a soundness failure.
+    # Do not quote a proof rate" -- about a proof Lean never looked at. Same
+    # false alarm, different trigger, and the same reason it matters: a
+    # checker that cries wolf teaches the reader to ignore it.
+    #
+    # Deliberately narrow. Each phrase means Lean could not START on this
+    # source; none of them can be produced BY a proof. An `unknown
+    # identifier` or a type mismatch stays a failure, because those are the
+    # proof.
+    output = (result.output or "").strip()
+    lowered = output.lower()
+    if any(phrase in lowered for phrase in _ENVIRONMENT_FAULTS):
+        return UNCHECKED, (
+            f"COULD NOT CHECK (environment) — this says nothing about the "
+            f"proof. {output[:200]} Run scripts/diagnose_lean.py."
+        )
+    return False, f"REJECTED — {output[:400]}"
 
 
 def verify(path: Path, runner=None) -> tuple:
