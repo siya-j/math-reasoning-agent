@@ -55,29 +55,62 @@ LIVE = ROOT / "eval" / "proofs-live.json"
 MIN_ATTEMPTS = 4
 
 
-def record() -> dict:
-    """Per goal: (times proved, times attempted), over every results file.
+def record(any_prover: bool = False) -> tuple:
+    """Per goal: (times proved, times attempted), plus what was skipped.
 
     EVERY attempt, not the latest. Latest-wins is what made these look
     saturated -- it reports each goal's best day and hides the failures.
     An `error` row is excluded: it means the harness fell over, which is not
     evidence about the goal either way.
+
+    ATTRIBUTED EVIDENCE ONLY, BY DEFAULT, and this was a real defect.
+    ------------------------------------------------------------------
+    `run.prover` was only added to the results file on 2026-09-07, so 37 of
+    47 files -- 188 goal-runs -- do not say which prover produced them. The
+    first version of this script counted them all, and the consequence was
+    not cosmetic:
+
+        the self-authored rate split by provenance
+            prover recorded (math_v2)   64/70  = 91%
+            prover unrecorded           77/96  = 80%
+            pooled                     141/166 = 85%   <- what was reported
+
+        8 OF THE 11 RETIREMENTS rested on runs of an unknown prover.
+
+    Retiring a goal is destroying evidence about the CURRENT agent, so it
+    must not rest on runs that may have been produced by the baseline one.
+    And the old runs cannot be rescued by inference: `stages` appears on 75%
+    of known-math_v2 rows and 89% of unattributed ones, so it does not
+    discriminate, and `goal_attempts` -- which does, 74% against 5% -- is
+    absent from early math_v2 runs too. Ambiguous is ambiguous.
+
+    `any_prover=True` restores the old pooled behaviour for comparison. It
+    is not the default because the pooled number is the one that was wrong.
     """
     proved: collections.Counter = collections.Counter()
     attempts: collections.Counter = collections.Counter()
+    skipped_files = 0
+    skipped_rows = 0
     for path in sorted((ROOT / "eval" / "results").glob("*.json")):
         try:
-            rows = json.loads(path.read_text(encoding="utf-8"))["results"]
+            data = json.loads(path.read_text(encoding="utf-8"))
+            rows = data["results"]
         except (ValueError, OSError, KeyError, TypeError):
             continue
-        for row in rows:
-            goal_id = row.get("goal_id")
-            if not goal_id or row.get("outcome") == "error":
-                continue
+        prover = (data.get("run") or {}).get("prover")
+        usable = [r for r in rows
+                  if r.get("goal_id") and r.get("outcome") != "error"]
+        if not prover and not any_prover:
+            skipped_files += 1
+            skipped_rows += len(usable)
+            continue
+        for row in usable:
+            goal_id = row["goal_id"]
             attempts[goal_id] += 1
             if row.get("outcome") == "proved":
                 proved[goal_id] += 1
-    return {g: (proved[g], attempts[g]) for g in attempts}
+    history = {g: (proved[g], attempts[g]) for g in attempts}
+    return history, skipped_files, skipped_rows
 
 
 def split(goals: list, history: dict, min_attempts: int = MIN_ATTEMPTS):
@@ -106,11 +139,17 @@ def main(argv=None) -> int:
                              "eval/proofs-live.json. Without it, nothing is "
                              "written and nothing is changed.")
     parser.add_argument("--min-attempts", type=int, default=MIN_ATTEMPTS)
+    parser.add_argument(
+        "--any-prover", action="store_true",
+        help="count runs that do not record which prover produced them. OFF "
+             "by default: 8 of 11 retirements once rested on such runs, and "
+             "retiring a goal is destroying evidence about the CURRENT "
+             "agent. Use it only to reproduce the older pooled figure.")
     parser.add_argument("--goals", type=Path, default=GOALS)
     args = parser.parse_args(argv)
 
     goals = json.loads(args.goals.read_text(encoding="utf-8"))
-    history = record()
+    history, skipped_files, skipped_rows = record(args.any_prover)
     spent, live, unmeasured = split(goals, history, args.min_attempts)
 
     def show(title, rows, note):
@@ -123,6 +162,16 @@ def main(argv=None) -> int:
 
     print(f"{args.goals.relative_to(ROOT)}: {len(goals)} goals")
     print(f"retiring on a perfect record over >={args.min_attempts} runs")
+    if skipped_rows:
+        print(f"\nSKIPPED {skipped_rows} goal-runs across {skipped_files} "
+              f"results files that do not")
+        print("record which prover produced them. `run.prover` was added on")
+        print("2026-09-07; earlier files predate it and may be baseline runs.")
+        print("Retiring on them would destroy evidence about THIS agent on")
+        print("the strength of another one. --any-prover counts them anyway.")
+    elif args.any_prover:
+        print("\nCOUNTING UNATTRIBUTED RUNS (--any-prover). The pooled figure")
+        print("this produces mixes provers and is not about one system.")
 
     show("SPENT -- retire to the canary file", spent,
          "proved every single time. Cannot show an improvement.")

@@ -77,13 +77,16 @@ def test_an_error_row_is_not_evidence_about_the_goal(tmp_path, monkeypatch):
     module = _mod()
     results = tmp_path / "eval" / "results"
     results.mkdir(parents=True)
-    (results / "r.json").write_text(json.dumps({"results": [
+    (results / "r.json").write_text(json.dumps({
+        "run": {"prover": "math_v2"},
+        "results": [
         {"goal_id": "g", "outcome": "proved"},
         {"goal_id": "g", "outcome": "error"},
         {"goal_id": "g", "outcome": "error"},
     ]}), encoding="utf-8")
     monkeypatch.setattr(module, "ROOT", tmp_path)
-    assert module.record() == {"g": (1, 1)}, "errors must not count either way"
+    history, _, _ = module.record(any_prover=True)
+    assert history == {"g": (1, 1)}, "errors must not count either way"
 
 
 def test_the_report_writes_nothing_by_default(capsys):
@@ -122,8 +125,80 @@ def test_the_retired_file_holds_nothing_that_ever_failed():
     if not module.CANARY.exists():
         import pytest
         pytest.skip("run scripts/retire_saturated.py --write first")
-    history = module.record()
+    history, _, _ = module.record()
     for goal in json.loads(module.CANARY.read_text(encoding="utf-8")):
         hit, total = history.get(goal["id"], (0, 0))
         assert total >= module.MIN_ATTEMPTS, f"{goal['id']} retired on {total} runs"
         assert hit == total, f"{goal['id']} is {hit}/{total} and still fails"
+
+
+# ------------------------------------ evidence you cannot attribute is not evidence
+#
+# A REAL DEFECT IN THE FIRST VERSION OF THIS SCRIPT. `run.prover` was only
+# added to the results file on 2026-09-07, so 37 of 47 files -- 188 goal-runs
+# -- do not record which prover produced them. Counting them all pooled two
+# populations:
+#
+#     prover recorded (math_v2)   64/70  = 91%
+#     prover unrecorded           77/96  = 80%
+#     pooled                     141/166 = 85%   <- what was reported
+#
+# and 8 OF THE 11 RETIREMENTS rested on runs of an unknown prover. Retiring a
+# goal destroys evidence about the CURRENT agent, so it must not rest on runs
+# that may have come from the baseline one.
+def test_runs_without_a_recorded_prover_are_skipped(tmp_path, monkeypatch):
+    """The default. An unattributed run is not evidence about this agent."""
+    module = _mod()
+    results = tmp_path / "eval" / "results"
+    results.mkdir(parents=True)
+    (results / "named.json").write_text(json.dumps({
+        "run": {"prover": "math_v2"},
+        "results": [{"goal_id": "g", "outcome": "proved"}],
+    }), encoding="utf-8")
+    (results / "anon.json").write_text(json.dumps({
+        "results": [{"goal_id": "g", "outcome": "proved"}] * 9,
+    }), encoding="utf-8")
+    monkeypatch.setattr(module, "ROOT", tmp_path)
+
+    history, files, rows = module.record()
+    assert history == {"g": (1, 1)}, "an unattributed run was counted"
+    assert files == 1 and rows == 9, (files, rows)
+
+
+def test_any_prover_restores_the_pooled_count(tmp_path, monkeypatch):
+    """Kept only so the older figure can be reproduced deliberately."""
+    module = _mod()
+    results = tmp_path / "eval" / "results"
+    results.mkdir(parents=True)
+    (results / "anon.json").write_text(json.dumps({
+        "results": [{"goal_id": "g", "outcome": "proved"}] * 5,
+    }), encoding="utf-8")
+    monkeypatch.setattr(module, "ROOT", tmp_path)
+
+    assert module.record()[0] == {}
+    assert module.record(any_prover=True)[0] == {"g": (5, 5)}
+
+
+def test_the_skipped_evidence_is_reported_not_silent(capsys):
+    """Silence would make 188 discarded goal-runs invisible, and the whole
+    failure being fixed here was a number that looked well-founded."""
+    _mod().main([])
+    out = capsys.readouterr().out
+    assert "SKIPPED" in out
+    assert "prover" in out
+    assert "--any-prover" in out
+
+
+def test_nothing_is_retired_on_unattributed_evidence():
+    """The strongest statement, checked against the real corpus: every goal
+    in the canary file has enough runs FROM A RECORDED PROVER."""
+    module = _mod()
+    if not module.CANARY.exists():
+        pytest.skip("run scripts/retire_saturated.py --write first")
+    attributed, _, _ = module.record()
+    for goal in json.loads(module.CANARY.read_text(encoding="utf-8")):
+        hit, total = attributed.get(goal["id"], (0, 0))
+        assert total >= module.MIN_ATTEMPTS, (
+            f"{goal['id']} retired on {total} attributed runs")
+        assert hit == total, f"{goal['id']} is {hit}/{total} and still fails"
+
