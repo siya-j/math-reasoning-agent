@@ -131,6 +131,34 @@ python scripts/run.py "Is 7919 a prime number?"
 pytest
 ```
 
+### Running the Lean prover
+
+Lean work needs more than the install above, and the variables are easy to get
+wrong — a run misses one and reports `unavailable` on every proof while every
+other diagnostic passes. So check rather than configure from a list:
+
+```bash
+python scripts/check_install.py          # or --quick to skip the compiles
+```
+
+Each FAIL row names the variable, what it does when unset, and what the
+symptom looks like. A working setup is:
+
+```powershell
+$env:MRA_PROVER        = "math_v2"       # the default is the BASELINE prover
+$env:MRA_EXEC          = "local"         # otherwise commands dispatch to Aura
+$env:MRA_LEAN_PROJECT  = "<a Lake project that depends on Mathlib>"
+$env:MRA_LEAN_BACKEND  = "repl"          # a warm session; ~0.3s per compile
+$env:MRA_LEAN_REPL_BIN = "<...>/.lake/build/bin/repl"   # required for `repl`
+```
+
+Then, to confirm the proofs on record are real — no model, no API key:
+
+```bash
+python scripts/verify_results.py eval/results/*.json
+```
+
+
 ## Choosing a model
 
 One env var. Nothing else changes.

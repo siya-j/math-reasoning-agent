@@ -347,6 +347,29 @@ the most fragile component.
 
 ## 7. Lean integration
 
+**Do not configure this from the table above. Run the checker.**
+
+```
+python scripts/check_install.py
+```
+
+It reads the four variables a run actually needs, verifies the toolchain can
+COMPILE (`lean --version` exits 0 under an unconfigured elan, so exit codes
+lie), and exercises BOTH compile paths — the subprocess arm and, when
+selected, the REPL. Each FAIL row names the variable and what the symptom
+looks like.
+
+MEASURED, and the reason it exists: one verification run took five attempts
+because the setup lives in two files with two variables in neither, and
+`scripts/diagnose_lean.py` reported "Mathlib is reachable" throughout — truly,
+because its probe uses the subprocess path while every real run uses the REPL.
+The configuration that broke it returned `unavailable` on all 64 checkable
+proofs while every other diagnostic row passed. A list of variables in prose
+is one chance to be wrong per variable; the checker cannot report success on
+an install that does not work.
+
+
+
 - `verifiers/lean_runner.py` — subprocess I/O only, decides nothing. Nothing
   raises: a missing compiler, a syntax error and a timeout are all ordinary
   outcomes reported as data.
@@ -381,9 +404,12 @@ decoded Lean's UTF-8 output as cp1252 and crashed a whole run.
 | `MRA_MODEL` | `google_genai:gemini-3.5-flash` | provider:model |
 | `MRA_HARNESS` | `langchain` | `langchain` \| `deepagents` |
 | `MRA_DEEPAGENTS_FS` | off | Deep Agents filesystem tools |
-| `MRA_PROVER` | `pipeline` | `pipeline` \| `agentic` |
+| `MRA_PROVER` | `pipeline` | `pipeline` \| `agentic` \| `math_v2` — the default is the BASELINE |
+| `MRA_EXEC` | — | `local` to run commands here; unset dispatches to Aura |
 | `MRA_LEAN` | `lean` | Lean executable |
 | `MRA_LEAN_PROJECT` | — | Lake project with Mathlib |
+| `MRA_LEAN_BACKEND` | `subprocess` | `repl` for a warm session — what every recorded run used |
+| `MRA_LEAN_REPL_BIN` | — | a built `repl` binary; required when the backend is `repl` |
 | `MRA_LEAN_TIMEOUT` | 60 | seconds per compile |
 | `MRA_MAX_AGENT_STEPS` | 20 | total agent tool calls |
 | `MRA_MAX_AGENT_LEAN` | 8 | compiles per goal |

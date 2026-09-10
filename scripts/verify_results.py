@@ -337,6 +337,29 @@ def main(argv=None) -> int:
     parser.add_argument("files", nargs="+", help="results JSON files (globs ok)")
     args = parser.parse_args(argv)
 
+    # LOCAL EXECUTION, like `debug_one_source.py` and `compare_lean_modes.py`
+    # already do. This script recompiles proofs and nothing else; dispatching
+    # a compile to Aura's execution layer is meaningless here and, in a repo
+    # where Aura is not installed, fatal.
+    #
+    # MEASURED: 1 of 68 claims came back `unavailable` with
+    #
+    #     Lean could not be run: aura_framework.core.command_spec is not
+    #     importable: No module named 'aura_framework'
+    #
+    # `MODE = os.getenv("MRA_EXEC", "")` is empty by default, so
+    # `_local.enabled()` is False and `_util._subprocess_compile` routes to
+    # `_aura.run`. The subprocess arm is reached whenever
+    # `_repl.needs_subprocess` is true, which it is for ANY import that is
+    # not a leading `import Mathlib` -- and the goal that failed,
+    # `ana-continuous-compact-max`, carries `import Mathlib.Topology.Basic`
+    # and `import Mathlib.Data.Real.Basic` in its statement. The SAME goal
+    # in another results file has no extra imports and recompiled fine.
+    #
+    # `setdefault`, not assignment: an operator who deliberately set
+    # `MRA_EXEC=dispatch` keeps it.
+    os.environ.setdefault("MRA_EXEC", "local")
+
     paths = [Path(p) for pattern in args.files for p in sorted(glob.glob(pattern))]
     if not paths:
         print("no results files matched")
