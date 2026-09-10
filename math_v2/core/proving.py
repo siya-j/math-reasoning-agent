@@ -986,6 +986,18 @@ async def try_standard_tactics(workdir, statement, run_lean):
     log.append(workdir, log.Record(
         kind=log.PROOF, statement=statement, proof=candidate,
         status=_status(verdict), detail=verdict.detail,
+        # THE SYSTEM WROTE THIS, NOT THE MODEL -- the same distinction
+        # `auto` already carries on a synthesised lemma, one level up.
+        #
+        # MEASURED across the preserved workdirs: 75 of 212 proof records
+        # (35%) are this ladder, and they were indistinguishable from the
+        # model's own attempts. `harness._stopped_short` counts proof
+        # records to ask "has the model engaged with the goal", so the
+        # ladder was answering that question on the model's behalf: 14 of
+        # the 32 runs where the guard stood down had fewer than three MODEL
+        # attempts, and one had ELEVEN ladder attempts and NONE from the
+        # model, stopped voluntarily, and was never prodded.
+        auto=True,
     ))
 
     if verdict.status is VerificationStatus.TRUE:

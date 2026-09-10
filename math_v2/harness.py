@@ -504,12 +504,27 @@ CONTINUATION_LEAN_FLOOR = 2
 # 55% spent) fought hard and lost, and between them ate half the run's 20.7M
 # input tokens. Prodding those buys nothing.
 #
-# THREE, because 83% of every proof this system has landed arrived within three
-# attempts (eval/results/mixed-1-rebuilt.json, 24 proofs: 12 on the first, 20
-# within three). A goal that stops at one has not reached the median; a goal at
-# six is well past it. That distinction is what separates this from "try
-# harder", which the measurement does not support.
-ENGAGEMENT_FLOOR = int(os.getenv("MRA_ENGAGEMENT_FLOOR", "3"))
+# TWO, RE-DERIVED. The number was three, from "83% of every proof this system
+# has landed arrived within three attempts" -- and that curve was computed
+# over every PROOF record, 35% of which are `try_standard_tactics` writing the
+# tactic ladder rather than the model. Counting a machine attempt as
+# engagement is what this guard exists to refuse, so the threshold behind it
+# was calibrated on the wrong population.
+#
+# RE-MEASURED over the 46 runs in `eval/evidence/` that produced an accepted
+# proof, counting MODEL attempts only:
+#
+#     within 1 attempt    34/46   74%        (mixed curve: 43%)
+#     within 2 attempts   39/46   85%        (mixed curve: 80%)
+#     within 3 attempts   39/46   85%        (mixed curve: 85%)
+#
+# The 85% that justified three on the mixed curve arrives at TWO on this one,
+# and the third attempt adds nothing at all -- 85% to 85%. So two is the same
+# standard, applied to the population the guard actually means.
+#
+# Five of those 46 proofs (11%) arrived with ZERO model attempts: the ladder
+# closed them outright. That is why the ladder is marked rather than removed.
+ENGAGEMENT_FLOOR = int(os.getenv("MRA_ENGAGEMENT_FLOOR", "2"))
 
 # Half the compile budget. Above it the agent has committed to the goal
 # whatever its attempt count, and a nudge second-guesses work rather than
@@ -532,7 +547,7 @@ def _why_short(workdir):
     untouched is a different thing: it tried, and stopped well short of where
     attempts stop converting.
     """
-    attempts = len(log.records(workdir, log.PROOF))
+    attempts = _model_attempts(workdir)
     if not attempts:
         return ("You ended your turn without submitting a single attempt at "
                 "the goal, and without calling `finish`.")
@@ -540,6 +555,21 @@ def _why_short(workdir):
             "proof this system has landed, half arrived on the FIRST attempt "
             "and 83% within three, so this is well short of where attempts "
             "stop paying rather than past it.")
+
+
+def _model_attempts(workdir) -> int:
+    """Attempts at the goal THE MODEL made, excluding the tactic ladder.
+
+    `try_standard_tactics` logs `kind=PROOF` like any other attempt, and 35%
+    of all proof records are its. Counting them lets the system answer "has
+    the model engaged with this goal" on the model's own behalf -- the exact
+    substitution `log.Record.auto` was introduced to prevent for synthesised
+    lemmas. Records written before that flag existed read as falsy, i.e. as
+    the model's work, which is the safe direction: it under-fires rather than
+    prodding a goal that was genuinely worked.
+    """
+    return sum(1 for record in log.records(workdir, log.PROOF)
+               if not record.get("auto"))
 
 
 def _stopped_short(workdir):
@@ -567,7 +597,7 @@ def _stopped_short(workdir):
     if verdicts.verified_refutation(workdir):
         return 0
 
-    attempts = len(log.records(workdir, log.PROOF))
+    attempts = _model_attempts(workdir)
     if attempts >= ENGAGEMENT_FLOOR:
         return 0
 
