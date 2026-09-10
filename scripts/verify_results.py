@@ -265,9 +265,21 @@ def check(claim: dict, runner=None) -> tuple:
             "The compile ran out of time. Raise MRA_LEAN_COLD_TIMEOUT (cold "
             "subprocess path) or MRA_LEAN_REPL_TIMEOUT (REPL path)."
         )
+        # WITH WHAT LEAN OR THE RUNNER ACTUALLY SAID. `_util.lean_runner`
+        # catches every exception into `LeanResult(UNAVAILABLE, f"Lean could
+        # not be run: {exc}")`, so the cause IS carried -- and this printed
+        # generic advice and discarded it.
+        #
+        # MEASURED: a full-corpus run returned `unavailable` on all 64
+        # checkable proofs and the only guidance was "check MRA_LEAN and
+        # MRA_LEAN_PROJECT" repeated 64 times. The reason was in
+        # `result.output` the whole time. Third instance of this same defect
+        # in one day, after `contamination.py` and the categorisation above.
+        detail = (result.output or "").strip()
         return UNCHECKED, (
             f"COULD NOT CHECK ({result.outcome.value}) — this says nothing "
             f"about the proof. {cure} Run scripts/diagnose_lean.py."
+            + (f"\n        Lean/runner said: {detail[:300]}" if detail else "")
         )
     # AND NEITHER IS A BROKEN TOOLCHAIN. The note above fixed TIMEOUT and
     # UNAVAILABLE, but an unconfigured elan does not reach either: `lean

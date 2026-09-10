@@ -20,6 +20,7 @@ decision is made from, then the decision.
 
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 import sys
@@ -59,6 +60,36 @@ def main() -> int:
     line("MRA_LEAN_TIMEOUT", config.LEAN_TIMEOUT)
     line("MRA_LEAN_COLD_TIMEOUT", config.LEAN_COLD_TIMEOUT)
 
+    # THE BACKEND A REAL RUN USES, which this script did not report at all.
+    #
+    # MEASURED, and it cost five failed attempts at one verification run:
+    # this printed "Mathlib is reachable" while `verify_results.py` returned
+    # `unavailable` on every single proof. Both were right. The `import
+    # Mathlib` probe below goes through `run_lean` -- the SUBPROCESS path --
+    # and every recorded run of this agent used the REPL, selected by
+    # MRA_LEAN_BACKEND and launched from MRA_LEAN_REPL_BIN. Neither variable
+    # was printed here, neither is mentioned in docs/, and without the binary
+    # `_repl.argv` falls back to `lake exe repl`, which cannot resolve
+    # because the REPL is a separate project rather than a dependency of the
+    # Mathlib workspace.
+    #
+    # A diagnostic that green-lights a configuration the run cannot use is
+    # worse than none: it sends you looking somewhere else.
+    print()
+    line("MRA_LEAN_BACKEND", os.getenv("MRA_LEAN_BACKEND", "") or "(unset -> subprocess)")
+    repl_bin = os.getenv("MRA_LEAN_REPL_BIN", "").strip()
+    line("MRA_LEAN_REPL_BIN", repr(repl_bin) if repl_bin else "(unset)")
+    backend_is_repl = os.getenv("MRA_LEAN_BACKEND", "").strip().lower() == "repl"
+    if backend_is_repl:
+        if repl_bin:
+            line("  binary exists", Path(repl_bin).is_file())
+        else:
+            print("  NO BINARY SET, so `lake exe repl` is used -- which only")
+            print("  works if the REPL is a dependency of MRA_LEAN_PROJECT.")
+            print("  Set MRA_LEAN_REPL_BIN to a built repl if it is not.")
+    elif repl_bin:
+        print("  set, but MRA_LEAN_BACKEND is not `repl`, so it is unused.")
+
     print("\nWHAT `lean --version` SAYS")
     print("-" * 60)
     if shutil.which(config.LEAN_COMMAND):
@@ -90,7 +121,28 @@ def main() -> int:
     print("\nVERDICT")
     print("-" * 60)
     if result.outcome is LeanOutcome.COMPILED:
-        print("  Mathlib is reachable. tests/test_lean_real.py will RUN.")
+        print("  Mathlib is reachable via the SUBPROCESS path, which is what")
+        print("  this probe uses. tests/test_lean_real.py will RUN.")
+        # NAMED, because the unqualified version of this line was true and
+        # misleading at the same time. It said "Mathlib is reachable" while
+        # `verify_results.py` returned `unavailable` on all 64 checkable
+        # proofs, because the run used the REPL and this probe does not.
+        if backend_is_repl:
+            if repl_bin and Path(repl_bin).is_file():
+                print()
+                print("  MRA_LEAN_BACKEND=repl, and the binary above exists --")
+                print("  but THIS PROBE DID NOT EXERCISE IT. A REPL that fails")
+                print("  to start reports `unavailable` on every compile while")
+                print("  everything here still passes. If a run says that,")
+                print("  the REPL is the thing to look at, not this output.")
+            else:
+                print()
+                print("  WARNING: MRA_LEAN_BACKEND=repl but no usable")
+                print("  MRA_LEAN_REPL_BIN. Runs will try `lake exe repl` and")
+                print("  report `unavailable` on every proof, even though")
+                print("  every row above is healthy. MEASURED: this exact")
+                print("  configuration produced 64 `unavailable` results.")
+                return 1
         return 0
 
     if result.outcome is LeanOutcome.TIMEOUT:
