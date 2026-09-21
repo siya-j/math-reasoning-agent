@@ -483,9 +483,21 @@ def summarize(results: list[ProofResult]) -> dict:
     # were rescued by it? This is the number that justifies Phase 5.
     # Unproved goals whose ceiling is known, for the walked-away-or-beaten
     # question below.
+    # REFUTED is not unproved-and-stopped, it is FINISHED. MEASURED on
+    # heldout-even-63: all five goals this flagged as "walked away, not beaten"
+    # were refutations, each of which stopped early for the best possible
+    # reason -- it had just compiled an accepted counterexample and had nothing
+    # left to do. No genuinely unproved goal in that run used fewer than 7 of
+    # its 12 compiles. Left in, the metric reports refutation success as
+    # timidity, which is the opposite of what the reader is being asked to look
+    # for. SUSPECT_STATEMENT deliberately stays: that one IS the agent electing
+    # to stop on its own unverified reading, which is exactly the judgement-
+    # versus-timidity question this number exists to raise.
     unproved_with_budget = [
         r for r in counted
-        if r.outcome is not ProofOutcome.PROVED and r.lean_budget
+        if r.outcome is not ProofOutcome.PROVED
+        and r.outcome is not ProofOutcome.REFUTED
+        and r.lean_budget
     ]
 
     decomposed = [r for r in counted if r.lemmas_total]

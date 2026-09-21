@@ -91,6 +91,29 @@ def test_all_errors_reports_no_rates_at_all():
     assert summary["formalization_rate"] is None
 
 
+def test_a_refutation_is_not_counted_as_walking_away_from_the_budget():
+    """A refutation that stopped early stopped because it was FINISHED.
+
+    MEASURED on heldout-even-63: every one of the five goals reported as
+    "walked away, not beaten" was a refutation whose last act was compiling an
+    accepted counterexample. No genuinely unproved goal there used fewer than
+    7 of its 12 compiles, so the number the reader was shown was refutation
+    success wearing the label of timidity.
+    """
+    results = [
+        outcome(ProofOutcome.REFUTED, lean_calls=4, lean_budget=12),
+        outcome(ProofOutcome.NOT_PROVED, lean_calls=2, lean_budget=12),
+    ]
+    summary = summarize(results)
+
+    assert summary["unproved_with_a_budget_recorded"] == 1, (
+        "the refutation is not an unproved goal with a budget left to spend"
+    )
+    assert summary["unproved_left_most_of_the_budget"] == 1, (
+        "only the genuinely unproved goal walked away"
+    )
+
+
 # ------------------------------------------------------- the four numbers
 def test_formalisation_and_proving_are_measured_separately():
     """A formalizer that works and a prover that does not must be visible."""
