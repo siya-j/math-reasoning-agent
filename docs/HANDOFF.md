@@ -1002,6 +1002,61 @@ Predicted ~33M from per-textbook medians; actual 57.6M, low by 75%. Medians
 ignore that failures cost far more than typical goals. Budget from the mean
 of the tail, not the median of the whole.
 
+**§14.I — Full audit of the 186-goal run.** What the system actually did,
+measured rather than described.
+
+**`sorry` is the sharpest predictor in the system.**
+
+```
+  submitted `sorry` at least once   n=90   proved 29%
+  never did                         n=96   proved 92%
+  submitted three or more           n=21   proved  0%   (13.6M tokens, 24% of the run)
+```
+
+Acted on in `b86837c`: a goal is abandoned on its third placeholder
+submission. Note the classification trap recorded there -- scoring those as
+EXHAUSTED would have lifted the headline from 75% to ~81% by dropping 21 real
+failures out of the denominator.
+
+**The refusal machinery is worth a fifth of the compile budget.** 275 compiles
+saved against 1,199 spent -- 18.7% -- entirely free, because a refusal is
+decided before `run_lean`. By code: placeholder_proof 179, binders_already_bound
+35, assemble_first 22, decompose_first 17, trivial_conclusion 12,
+generic_exhausted 5, skeleton_not_engaged 5.
+
+**The `intro` guard works, and is small.** 35 refusals = 2.8% of compiles. The
+introN failure rate per goal fell from 28.6% (18 of 63, before) to 18.8% (35 of
+186, after). It does not eliminate them, by design: it declines whenever the
+conclusion still holds something introducible, because refusing a valid proof
+is worse than the compile it saves.
+
+**Search is NOT what stops a failing goal. Settled at n=186.** Of the 30 goals
+that exhausted their 12 searches, 29 kept working afterwards -- median 4 further
+attempts. Search is the most-hit ceiling (30 of 72 unproved) but lean binds only
+6 of 72 and model calls never. The agent stops on its own judgement with
+resources in hand. Do not build a search-allocation fix on the ceiling data:
+this hypothesis has now been killed twice.
+
+**Where the budget goes** (medians): proved goals 4 lean, 4 searches, 12 model
+calls, 38s. Unproved 8 lean, 10 searches, 24 model calls, 110s. Failures cost
+roughly three times a success, which is why the `sorry` cutoff is worth more
+than its goal count suggests.
+
+**THE REPORTING DECISION YOU OWE A READER.** `suspect_statement` removes 13
+goals from the denominator on the agent's unverified word, and those goals
+submitted MORE placeholders (median 3) than any other outcome group including
+refuted (median 2). The compiled kind still outnumbers the asserted kind 19:13,
+which is the healthy direction your own `proof_metrics.py` asks for -- but:
+
+```
+  114/152 = 75%   granting refuted AND suspect
+  114/165 = 69%   granting only the compiler-verified refutations
+```
+
+Quote both, or quote 69% and mention the 75%. A reader who pushes anywhere will
+push here, and "the agent decided the statement was broken" is not evidence of
+the same standing as "the compiler accepted a proof of its negation".
+
 **§14.F — Variance is real, and it is not the backend.** MEASURED 2026-09-21
 on `eval/results/variance-flippers-1.json`: the four goals that had flipped
 between the 25- and 63-goal runs were re-run against the 63 under identical,
