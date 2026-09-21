@@ -858,18 +858,80 @@ still; this list supersedes it.
 **The binding constraint is the monthly spending cap, not the code.** So the
 list splits into what can run today and what is waiting on money.
 
+### Done 2026-09-21 — the results, so nobody pays for them twice
+
+**A. The audit sweep ran. Zero soundness failures.** 286 claims across 59
+results files: 165 recompiled, 109 `unchecked` (they predate the change that
+retains proof text — honest, not a pass), 2 vacuous, and **none that failed
+to recompile**. Nothing on record claims a proof the compiler will not accept.
+
+> It first reported **8 soundness failures, every one of them the audit's own
+> fault**: it rebuilt each claim from a row holding only the theorem, so
+> `finrank`, `Tendsto`, `End` and `univ` came back unknown for want of the
+> goal's `open` lines. Fixed in `7eb6b3e`, and `1c2a020` puts the preamble in
+> the row so a result is recheckable with nothing but itself. A checker that
+> cries wolf is worse than none.
+
+**B. A vacuity probe exists now, and found two.** Re-offer an accepted proof
+against a `False` conclusion: one that still closes never used the
+conclusion, so the hypotheses contradict each other and the theorem is
+vacuously true. `Herstein_exercise_2_8_12` and `Ireland-Rosen_exercise_2_21`
+both recompile and prove nothing. No false positives are possible — a real
+proof proves the conclusion, and `False` is not it. It lives in the AUDIT,
+not in `try_proof`: in the loop it broke ten tests and would have mixed a
+behavioural change into a run being measured for unrelated fixes.
+
+**C. ProofNet-sharp has a number, on goals never previously run.** 63
+validation goals stratified by real subject, seed 20260918
+(`eval/proofnet-heldout-even-63.json`): **40 substantive proofs, 80% of valid
+targets**, and **21% of the statements defective** — 10 refuted, 2 vacuous, 1
+suspect. All ten refutations were checked by hand and all ten are sound.
+Eight are substantive defects; two win on a technicality (an empty set, a
+one-point space) and flatter the rate without any mathematics. Decide
+deliberately whether those two count before quoting 80% rather than 77%.
+
+**D. The contamination probe ran. Recall does not explain the rate.** Proved
+goals score 0.379, not-proved 0.362. The objection "it only proved what it
+had memorised" is ruled out by a within-design comparison, so the confounds
+in the absolute numbers cancel. **This closes the gap this section used to
+call the one an outside reader would find first.**
+
+> **It was broken when first run, and returned a comfortable false negative.**
+> It asked for `Putnam_exercise_2020_b5` — a book-qualified id this repo
+> invented — while ProofNet's theorem is `exercise_2020_b5`, so all 63
+> declined and it read as "no recall signal". Written against
+> `proofnet-182.json`, whose ids ARE the theorem names, it broke silently when
+> sharp added the prefix, and had never been run. Fixed in `c8e9f30`. Even
+> corrected it still declines on all 63 while a positive control recalls
+> `Nat.exists_infinite_primes` correctly, because ProofNet's names are
+> arbitrary labels — so use `--from-informal`, which asks for the
+> formalisation of the informal problem and tests the content instead.
+
+**E. Search is the budget that binds on a failure.** MEASURED on the 63: 7 of
+10 unproved goals exhausted their 12 searches while still holding 2–5
+compiles, 15–25 tool calls and 700+ seconds; 4 attempted the goal exactly
+once. Not steps, not compiles, not wall clock.
+
+> Whether the agent stops searching and then tries, or simply stops, decides
+> the fix — and **the record could not answer it**: searches went to `trace`,
+> attempts to `records`, neither timestamped. `9bdfa75` puts both on one
+> ordered timeline. **Do not design the allocation fix until a run exists
+> that used it.**
+
 ### Runnable now — costs no API tokens
 
-1. **`python scripts/verify_results.py eval/results/*.json --all`** — an
-   independent recompile of every claimed proof on record. Exit 1 is the
-   loudest signal this repo can produce.
-
-2. **`python scripts/retire_saturated.py`** — the self-authored tiers are at
+1. **`python scripts/retire_saturated.py`** — the self-authored tiers are at
    86–100% and mostly no longer teach anything. Decide which goals to stop
    paying for before the next paid run, not after.
 
-3. **`python scripts/mutate_guard.py`** after any change under
-   `math_v2/core/` or `verifiers/`. 13 mutations, currently no survivors.
+2. **`python scripts/mutate_guard.py`** after any change under
+   `math_v2/core/` or `verifiers/`. 13 mutations, no survivors — last
+   confirmed 2026-09-21, after that day's changes to `proving.py`,
+   `binders.py`, `preamble.py` and `log.py`.
+
+3. **`python scripts/verify_results.py eval/results/*.json`** after any run.
+   It now checks vacuity as well as recompilation, and exits non-zero for
+   either.
 
 **Not on this list, on purpose: the prover spike.** It is runnable and free,
 which is exactly why it needs saying — see §13. It is a question about model
@@ -883,22 +945,35 @@ choice, and nothing below depends on the answer.
    the effect is not; it shipped as a switchable default precisely so this
    comparison is one variable.
 
-5. **Re-establish the ProofNet number on `eval/proofnet-sharp.json`.** 67 of
-   the 182 statements previously run differ from the corrected text, so the
-   53% is measured against a set that is partly wrong. Until this runs, quote
-   the 53% with that caveat attached or not at all.
+5. **Measure the variance before measuring anything else.** The 25-goal set
+   is a subset of the 63, so those goals ran TWICE — and **4 of 25 flipped
+   outcome** (`Putnam_2020_b5` and `Herstein_4_5_16` proved → not, 
+   `Herstein_2_2_5` not → proved, `Axler_6_7` suspect → not proved), at
+   `TEMPERATURE = 0.0`. Most candidate improvements are worth 2–4 goals out
+   of 63. **Those two numbers are the same size**, so until the noise floor
+   is known every A/B is uninterpretable and changes will be shipped and
+   reverted on noise. Cheapest honest version: re-run the ~20 marginal goals
+   (≥12 model calls; the 8 cheapest proved every time and carry no
+   information) twice under identical config.
 
-6. **Run the contamination probe with `--decided-only`.** It needs one model
-   call per goal and reports the lift of the matched-reference score over a
-   null baseline built from mismatched pairings. Below 0.05 lift means the
-   raw similarity is shared notation and nothing more. Until this number
-   exists, "the model may have memorised ProofNet" is neither confirmed nor
-   ruled out, and that is a real hole in any result quoted externally.
+6. **One run with the ordered timeline, to settle the search allocation.**
+   See §14.E: search is the budget that binds on failures, but whether the
+   agent stops searching and then tries, or simply stops, is not in any run
+   recorded before `9bdfa75`. One run answers it at no extra cost, and the
+   allocation fix should not be designed before then.
 
-**Open question worth flagging in any status report:** step 6. Every external
-number this project has rests on a benchmark the model may have seen, and the
-probe that would settle it has been built and not run. That is the one gap
-an outside reader will find first.
+7. **Then the `test` split (186 goals), and only then.** It is the last
+   untouched data in the repository. Spending it before the variance is known
+   buys a number with an unquantified error bar, which is how a held-out set
+   gets wasted.
+
+**Open question worth flagging in any status report:** step 5. The
+contamination hole is closed (§14.D), soundness is audited and clean (§14.A),
+and the honest remaining weakness is that **the headline rate is not known to
+be reproducible**. 80% of valid targets on n=50 carries roughly ±11 points
+from sampling alone, and a 16% flip rate sits underneath that. It is the
+first thing a careful reader will ask after contamination, and the one
+number this project has never measured.
 
 ---
 
