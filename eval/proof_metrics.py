@@ -305,8 +305,19 @@ def classify(run: ProofRun) -> ProofOutcome:
         return ProofOutcome.ERROR
 
     # Ran out of clock or compilations. Read from the budget, not from prose.
-    if any(entry.startswith("stopped early") for entry in run.trace):
-        return ProofOutcome.EXHAUSTED
+    #
+    # EXCEPT a goal abandoned for repeated `sorry` submissions. That stop is
+    # written through the same field (see `budget.record_refusal`), so it
+    # arrives here looking identical -- but it is not resource exhaustion.
+    # EXHAUSTED exists for "the budget ran out, so the goal was not refused by
+    # the mathematics", and it leaves the denominator on those grounds. A goal
+    # that told us three times it was stuck WAS refused by the mathematics, and
+    # counting it out would have inflated test-186's rate by 21 goals.
+    for entry in run.trace:
+        if entry.startswith("stopped early"):
+            if "gave up:" in entry:
+                return ProofOutcome.NOT_PROVED
+            return ProofOutcome.EXHAUSTED
 
     return ProofOutcome.NOT_PROVED
 

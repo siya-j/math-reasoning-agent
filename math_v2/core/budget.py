@@ -53,6 +53,14 @@ MAX_TOOL_CALLS = int(os.getenv("MRA_MAX_AGENT_STEPS", "40"))
 MAX_LEAN_CALLS = int(os.getenv("MRA_MAX_AGENT_LEAN", "12"))
 MAX_SEARCHES = int(os.getenv("MRA_MAX_AGENT_SEARCHES", "12"))
 MAX_CONSECUTIVE_SEARCHES = int(os.getenv("MRA_MAX_CONSECUTIVE_SEARCHES", "3"))
+
+# How many times a goal may submit `sorry` before it is abandoned. See the
+# long note in `record_refusal`: measured on test-186, no goal that submitted
+# three ever proved, and they cost 24% of the run. `PLACEHOLDER_CODE` must
+# match the `error` that `core.proving._placeholder_refusal` returns; there is
+# a test that asserts it does, because a silent rename would disable this.
+PLACEHOLDER_CODE = "placeholder_proof"
+MAX_PLACEHOLDER_SUBMISSIONS = int(os.getenv("MRA_MAX_PLACEHOLDERS", "3"))
 MAX_SYMBOLIC_CALLS = int(os.getenv("MRA_MAX_AGENT_SYMBOLIC", "20"))
 MAX_SECONDS = float(os.getenv("MRA_MAX_AGENT_SECONDS", "900"))
 GRACE = int(os.getenv("MRA_AGENT_GRACE", "3"))
@@ -247,6 +255,19 @@ def _fresh():
         "searches_since_compile": 0, "grace": GRACE, "started": time.time(),
         "reason": "", "terminated": False, "slowest_lean": 0.0,
         "statement_checks": 0,
+        # MODEL CALLS ACROSS EVERY PASS OF ONE GOAL, which is the only
+        # place that total can live. `harness._ainvoke` re-drives the
+        # agent for a continuation, and LangChain's own
+        # `ModelCallLimitMiddleware` keeps its count in graph state --
+        # state that a fresh `ainvoke` starts at zero unless a
+        # checkpointer and a stable `thread_id` carry it, neither of
+        # which this path supplies. MEASURED on
+        # eval/results/heldout-restart-20.json: with the cap set to 20,
+        # every goal that stayed in one pass spent at most 20, and the
+        # four with continuations spent 23, 28, 28 and 29. The budget
+        # file is per-goal and already survives the pass boundary, so
+        # counting here is what makes the cap bound a RUN.
+        "model_calls": 0,
         # HOW OFTEN EACH GUARD REFUSED, by error code. A counter, deliberately
         # not a log record: the guards write nothing to the proof log because
         # "a refusal is not an attempt", and that must stay true -- recording
@@ -285,6 +306,35 @@ def terminate(workdir, reason):
         return
 
 
+def charge_model_call(workdir):
+    """Count one model call against the whole goal, across every pass.
+
+    Wrapped like `terminate` and `record_refusal`: recording a count must
+    never be the reason a run fails. A lost count understates the spend by
+    one, which is a worse measurement; a raised exception here would be a
+    lost goal.
+    """
+    try:
+        data, state = _state(workdir)
+        state["model_calls"] = int(state.get("model_calls") or 0) + 1
+        _save(workdir, data, state)
+    except Exception:  # noqa: BLE001 - counting must not raise
+        return
+
+
+def model_calls(workdir):
+    """Model calls charged so far, over every pass of this goal.
+
+    Returns 0 rather than raising when there is no budget file yet: a caller
+    asking "how much has been spent" before anything was spent gets the
+    honest answer, not an error.
+    """
+    try:
+        return int(read(workdir).get("model_calls") or 0)
+    except Exception:  # noqa: BLE001 - see `charge_model_call`
+        return 0
+
+
 def record_refusal(workdir, code):
     """Count one guard refusal, by error code.
 
@@ -303,6 +353,31 @@ def record_refusal(workdir, code):
         counts = dict(state.get("refusals") or {})
         counts[str(code)] = counts.get(str(code), 0) + 1
         state["refusals"] = counts
+
+        # REPEATED `sorry` IS THE AGENT SAYING IT IS STUCK, and it is the
+        # sharpest predictor this project has. MEASURED on test-186 (186
+        # goals): of the 90 goals that submitted a placeholder at least once,
+        # 29% proved; of the 96 that never did, 92% proved. Of the 21 that
+        # submitted three or more, NOT ONE proved -- and they burned 13.6M
+        # input tokens, 24% of the run, after saying so.
+        #
+        # The cut is at three because two still converts: four goals proved
+        # after a second submission. This trades an unmeasured tail of
+        # late proofs for a quarter of the budget.
+        #
+        # NOT `terminate`'s wall-clock reason. That one deliberately makes
+        # every stop look alike because "an agent that ran out of clock ran
+        # out of clock" -- but this agent did not run out of anything. The
+        # reason is marked so `eval.proof_metrics.classify` keeps the goal
+        # NOT_PROVED rather than EXHAUSTED: EXHAUSTED leaves the denominator,
+        # and a goal that gave up is a proving failure, not a defective
+        # statement. Scoring it otherwise would inflate the rate by 21 goals.
+        if (str(code) == PLACEHOLDER_CODE
+                and counts[str(code)] >= MAX_PLACEHOLDER_SUBMISSIONS):
+            state["terminated"] = True
+            state["reason"] = state["reason"] or (
+                f"gave up: {counts[str(code)]} placeholder submissions")
+
         _save(workdir, data, state)
     except Exception:  # noqa: BLE001 - a diagnostic must not break a run
         return
