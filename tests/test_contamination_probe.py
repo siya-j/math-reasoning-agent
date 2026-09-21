@@ -91,6 +91,89 @@ def test_no_reference_proofs_exist_which_is_why_the_design_changed():
     )
 
 
+# ------------------------------- asking for a name the benchmark would know
+def test_the_probe_asks_for_the_benchmarks_name_not_this_repos_id():
+    """MEASURED, and it voided an entire run.
+
+    Against `proofnet-sharp.json` all 63 goals came back `declined`, which
+    read as "no recall signal". The prompt was asking for
+    `Putnam_exercise_2020_b5` -- an id this project invented so goal names
+    would be unique and shell-safe -- while ProofNet's theorem is
+    `exercise_2020_b5`. The model declined because the name exists nowhere
+    outside this repo, so the probe was measuring its own identifier scheme.
+
+    Written against `proofnet-182.json`, whose ids ARE the theorem names, it
+    broke silently the moment sharp added the prefix, and had never been run.
+    """
+    probe = _probe()
+    goal = {
+        "id": "Putnam_exercise_2020_b5",
+        "note": ("import Mathlib\n\nopen Complex\n\n"
+                 "theorem exercise_2020_b5 (z : Fin 4 → ℂ) : True := sorry"),
+    }
+
+    assert probe.probe_name(goal) == "exercise_2020_b5"
+    assert probe.probe_name(goal) != goal["id"], (
+        "the prompt would ask for a name that exists only in this repository"
+    )
+
+
+def test_a_bare_id_dataset_still_works():
+    """`proofnet-182.json`'s ids are already the theorem names."""
+    probe = _probe()
+    goal = {"id": "exercise_10_2_4",
+            "note": "theorem exercise_10_2_4 : True := sorry"}
+
+    assert probe.probe_name(goal) == "exercise_10_2_4"
+
+
+def test_the_informal_probe_asks_for_a_formalisation_not_a_recollection():
+    """The question that matters is exposure to the CONTENT.
+
+    MEASURED: with names corrected the name probe still declined on all 63,
+    while a positive control recalled `Nat.exists_infinite_primes` and
+    `irrational_sqrt_two` correctly. So the model answers when it knows, and
+    ProofNet's labels simply carry no meaning to recall by. Asking for the
+    formalisation of the informal problem sidesteps the label entirely.
+    """
+    probe = _probe()
+    goal = {
+        "id": "Putnam_exercise_2020_b5",
+        "informal": "Let $z$ be a complex number with $|z| = 1$.",
+        "note": "theorem exercise_2020_b5 (z : ℂ) : True := sorry",
+    }
+
+    asked = probe.prompt_for(goal, from_informal=True)
+
+    assert "complex number" in asked, "the informal problem must be in the prompt"
+    assert "exercise_2020_b5" in asked, "it should still name the theorem"
+    assert "State the Lean 4 theorem named" not in asked, "that is the other probe"
+
+
+def test_the_two_probes_ask_different_questions():
+    probe = _probe()
+    goal = {"id": "g", "informal": "Let $x$ be real.",
+            "note": "theorem exercise_1 (x : ℝ) : True := sorry"}
+
+    assert probe.prompt_for(goal) != probe.prompt_for(goal, from_informal=True)
+
+
+def test_a_goal_with_no_informal_text_is_skipped_not_scored_zero():
+    """A goal that could not be asked is not evidence of no recall."""
+    probe = _probe()
+
+    assert probe.prompt_for({"id": "g", "note": "theorem t : True := sorry"},
+                            from_informal=True) == ""
+
+
+def test_a_note_with_no_declaration_falls_back_to_the_id():
+    """Losing the name entirely would ask for `` and score noise."""
+    probe = _probe()
+
+    assert probe.probe_name({"id": "g", "note": "no theorem here"}) == "g"
+    assert probe.probe_name({"id": "g"}) == "g"
+
+
 def test_the_dry_run_is_the_default_and_spends_nothing(capsys):
     """`--run` is opt-in because this script is the only analysis tool here
     that costs money."""

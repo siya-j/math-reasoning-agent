@@ -64,11 +64,79 @@ N = 5
 GIVE_UP_AFTER = 3
 
 from llm.exhaustion import advice, is_hopeless  # noqa: E402
+from math_v2.core import binders  # noqa: E402
+
+
+def probe_name(goal):
+    """The name the BENCHMARK gives this theorem, not the id this repo gives it.
+
+    MEASURED, and it voided a whole run: asked against `proofnet-sharp.json`,
+    all 63 goals came back `declined`. The prompt was asking for
+    `Putnam_exercise_2020_b5` -- a book-qualified, shell-safe id this project
+    invented for uniqueness -- while ProofNet's theorem is `exercise_2020_b5`.
+    The model declined because the name exists nowhere outside this repo, so
+    the probe measured its own identifier scheme and reported "no recall".
+
+    This script was written against `proofnet-182.json`, whose ids ARE the
+    theorem names (`exercise_10_2_4`), and broke silently when sharp
+    introduced the prefix. It had never been run, so nobody found out.
+
+    Taken from the reference text, which is the benchmark's own spelling and
+    survives any future id scheme. The id is the fallback for a goal whose
+    note carries no declaration.
+    """
+    name, _, _ = binders.split_signature(goal.get("note") or "")
+    return name or goal.get("id", "")
+
 
 ASK = """State the Lean 4 theorem named `{name}` from {area}.
 
 Reply with the theorem signature only -- no proof, no explanation, no code
 fence. If you do not know this specific theorem, reply exactly: UNKNOWN"""
+
+
+# THE NAME PROBE'S LIMIT, and why this second one exists.
+#
+# MEASURED: with the names corrected, all 63 goals still declined -- and a
+# positive control (`Nat.exists_infinite_primes`, `irrational_sqrt_two`,
+# `Nat.card_eq_fintype_card`) came back correct, so the model answers when it
+# knows and the decline is real. But ProofNet's names are arbitrary labels:
+# `exercise_2020_b5` says nothing about the mathematics, whereas
+# `Nat.exists_infinite_primes` describes itself. A model can have seen every
+# statement in ProofNet and still not have indexed which exercise number
+# carries which one, so "cannot recall by name" does not answer the question
+# that matters.
+#
+# The question that matters is exposure to the CONTENT. ProofNet publishes
+# the informal problem beside its formalisation, so ask for the formalisation
+# and compare. A model that has never seen ProofNet produces A valid
+# formalisation; one that has produces THEIRS -- `Set.Finite` over `Finite`,
+# their argument order, their implicit binders.
+#
+# READ IT WITH THE NULL BASELINE, NOT RAW. An easy statement has one obvious
+# formalisation, so a high score can mean "canonical" rather than
+# "memorised". The control -- scoring each answer against OTHER goals'
+# references -- is what separates those, and the proved-versus-not split is
+# what makes either useful.
+ASK_FROM_INFORMAL = """Formalise this {area} problem as a Lean 4 theorem
+statement, using Mathlib.
+
+{informal}
+
+Reply with the theorem signature only -- no proof, no explanation, no code
+fence. Name the theorem `{name}`."""
+
+
+def prompt_for(goal, from_informal=False):
+    """The probe prompt for one goal, or "" when it cannot be built."""
+    area = goal.get("area", "ProofNet")
+    if not from_informal:
+        return ASK.format(name=probe_name(goal), area=area)
+    informal = (goal.get("informal") or "").strip()
+    if not informal:
+        return ""
+    return ASK_FROM_INFORMAL.format(area=area, informal=informal,
+                                    name=probe_name(goal))
 
 
 def shingles(text: str) -> set:
@@ -149,6 +217,12 @@ def main(argv=None) -> int:
              "proved-versus-not comparison is the answerable question, and "
              "an undecided goal contributes nothing to it -- so this is "
              "both cheaper and more targeted. Needs --results.")
+    parser.add_argument(
+        "--from-informal", action="store_true",
+        help="ask for the FORMALISATION of each goal's informal problem "
+             "instead of for the theorem by name. Tests exposure to the "
+             "content rather than recall of an arbitrary label -- see the "
+             "note above ASK_FROM_INFORMAL.")
     parser.add_argument("--run", action="store_true",
                         help="actually call the model. Off by default: this "
                              "spends money, and a dry run costs nothing.")
@@ -184,7 +258,7 @@ def main(argv=None) -> int:
         sample = goals[0]
         print("the prompt, for one goal:")
         print("-" * 62)
-        print(ASK.format(name=sample["id"], area=sample.get("area", "ProofNet")))
+        print(prompt_for(sample, args.from_informal))
         print("-" * 62)
         print("\nscored against this reference (preamble and `sorry` removed):")
         print("-" * 62)
@@ -203,8 +277,13 @@ def main(argv=None) -> int:
     for index, goal in enumerate(goals, 1):
         ref = reference(goal.get("note"))
         try:
-            reply = model.invoke(ASK.format(
-                name=goal["id"], area=goal.get("area", "ProofNet")))
+            asked = prompt_for(goal, args.from_informal)
+            if not asked:
+                # No informal text: skipped, not scored zero. A goal
+                # that could not be asked is not evidence of no recall.
+                print(f"[{index}/{len(goals)}] {goal['id']:32} no informal text")
+                continue
+            reply = model.invoke(asked)
             said = getattr(reply, "text", None) or getattr(reply, "content", "")
             if callable(said):
                 said = said()
@@ -342,8 +421,18 @@ def main(argv=None) -> int:
     print()
     print("No score proves memorisation, and nothing outside the provider can")
     print("settle it. This measures whether the model can reproduce a public")
-    print("formalisation from its name alone, and whether that tracks which")
-    print("goals proved.")
+    if args.from_informal:
+        print("formalisation from the informal problem, and whether that tracks")
+        print("which goals proved. The matched-versus-mismatched control")
+        print("compares against OTHER problems, so it separates shared notation")
+        print("from recall -- but not a memorised formalisation from the one")
+        print("obvious formalisation of an easy statement.")
+    else:
+        print("formalisation from its name alone, and whether that tracks which")
+        print("goals proved. A uniform decline needs a positive control before")
+        print("it is read as absence of recall: ProofNet's names are arbitrary")
+        print("labels, so failing to recall one is not evidence of never having")
+        print("seen the statement.")
     return 0
 
 
