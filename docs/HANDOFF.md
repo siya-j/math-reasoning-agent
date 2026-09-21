@@ -945,35 +945,68 @@ choice, and nothing below depends on the answer.
    the effect is not; it shipped as a switchable default precisely so this
    comparison is one variable.
 
-5. **Measure the variance before measuring anything else.** The 25-goal set
-   is a subset of the 63, so those goals ran TWICE — and **4 of 25 flipped
-   outcome** (`Putnam_2020_b5` and `Herstein_4_5_16` proved → not, 
-   `Herstein_2_2_5` not → proved, `Axler_6_7` suspect → not proved), at
-   `TEMPERATURE = 0.0`. Most candidate improvements are worth 2–4 goals out
-   of 63. **Those two numbers are the same size**, so until the noise floor
-   is known every A/B is uninterpretable and changes will be shipped and
-   reverted on noise. Cheapest honest version: re-run the ~20 marginal goals
-   (≥12 model calls; the 8 cheapest proved every time and carry no
-   information) twice under identical config.
+5. **The `test` split (186 goals) — and only when a headline number is
+   actually wanted.** It is the last untouched data here. Sampling error
+   shrinks with n while per-goal flip noise partly cancels across goals, so
+   186 buys roughly ±6 points against the 63's ±11. At the observed rate that
+   is ~45M input tokens. Expect ~20% of it to be defective statements
+   (§14.C), and quote the result as a RANGE.
 
-6. **One run with the ordered timeline, to settle the search allocation.**
-   See §14.E: search is the budget that binds on failures, but whether the
-   agent stops searching and then tries, or simply stops, is not in any run
-   recorded before `9bdfa75`. One run answers it at no extra cost, and the
-   allocation fix should not be designed before then.
+**§14.F — Variance is real, and it is not the backend.** MEASURED 2026-09-21
+on `eval/results/variance-flippers-1.json`: the four goals that had flipped
+between the 25- and 63-goal runs were re-run against the 63 under identical,
+explicitly pinned configuration (same model, same REPL backend, every
+`MRA_MAX_*` fixed). **Three of the four flipped again.**
 
-7. **Then the `test` split (186 goals), and only then.** It is the last
-   untouched data in the repository. Spending it before the variance is known
-   buys a number with an unquantified error bar, which is how a held-out set
-   gets wasted.
+```
+                       run 1 (subproc)  run 2 (REPL)  run 3 (REPL, pinned)
+Putnam_2020_b5         proved           not proved    proved
+Herstein_2_2_5         not proved       proved        exhausted
+Axler_6_7              suspect          not proved    suspect
+Herstein_4_5_16        proved           not proved    not proved
+```
 
-**Open question worth flagging in any status report:** step 5. The
-contamination hole is closed (§14.D), soundness is audited and clean (§14.A),
-and the honest remaining weakness is that **the headline rate is not known to
-be reproducible**. 80% of valid targets on n=50 carries roughly ±11 points
-from sampling alone, and a 16% flip rate sits underneath that. It is the
-first thing a careful reader will ask after contamination, and the one
-number this project has never measured.
+`Herstein_2_2_5` has produced three different outcomes in three runs. The
+earlier flips were NOT the subprocess→REPL switch, which was the standing
+hypothesis. Note the four were selected BECAUSE they had flipped, so 3/4 is
+not the global rate — the global estimate remains **~16%**, from 4 of 25
+goals paired across two runs.
+
+**The consequence is methodological, and it is the most useful thing on this
+page.** With a ~16% flip rate and candidate improvements worth 2–4 goals out
+of 63, **proof rate cannot function as an A/B instrument at any affordable
+n**. Two things follow:
+
+- **Measure effort, not outcome.** Across those same four goals outcomes
+  flipped 3 of 4 while input tokens moved +14%. Compile counts and token
+  counts are the low-variance signal.
+- **Evaluate by replay before evaluating by running.** Replaying recorded
+  runs proved the `intro` guard (16 of 24 refusals, deterministic), and
+  killed three proposed changes before they were built — the retrieval
+  shotgun, a step-ceiling theory, and a search-allocation fix. All free.
+
+**Tested and NOT supported: context trimming as the mechanism.** Runs sit
+near the 24,000 trigger (23,970 input per model call), which looked like a
+candidate source of nondeterminism. Checked against existing data: flipped
+goals median 21,265 per call, stable 10,346 — but `Putnam_1998_a3` at 25,636
+and `Herstein_2_8_12` at 24,054 are both ABOVE the trigger and stable, while
+two of the four flippers sit below it. The association is probably difficulty,
+not trimming. Do not pay to test this.
+
+**Tested and NOT supported: search exhaustion as a stop trigger.** §14.E
+asked whether the agent stops searching and then tries, or simply stops.
+The ordered timeline (`9bdfa75`) answers it: it keeps attempting — 4 to 10
+further attempts after its last search, including one goal that hit the
+12-search cap and then attempted five more times. A stop-refusal widening
+would have forced behaviour the agent already shows. The real question —
+whether its decision to stop with compiles remaining is WRONG — cannot be
+settled by outcome data at this noise level.
+
+**Open question worth flagging in any status report:** not variance, and not
+contamination — both are now measured (§14.F, §14.D). It is that **no
+remaining roadmap item is supported by evidence.** Every candidate died on
+inspection. The honest next move is either a change with a measurable effort
+delta, or the `test` split for a headline — not another run of the same shape.
 
 ---
 
