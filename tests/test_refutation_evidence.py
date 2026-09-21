@@ -85,7 +85,11 @@ def test_it_reaches_the_results_file(refuted):
     from eval.proof_metrics import result_from
 
     class Goal:
+        # `goal` and `note` too: `result_from` reads the benchmark's `open`
+        # lines off the goal so the row records the preamble it compiled
+        # under. A double missing them is not a Goal.
         id, area, tier = "broken", "number theory", Tier.PROOFNET
+        goal, note = "q", ""
 
     row = result_from(Goal(), harness._to_proof_run(
         ProofRun(goal="q"), refuted, prose="", seconds=0.0))

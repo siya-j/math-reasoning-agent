@@ -132,7 +132,11 @@ def test_it_reaches_the_results_file(rt):
         {"proof": "by sorry", "statement": GOAL, "runtime": rt}))
 
     class Goal:
+        # `goal` and `note` too: `result_from` reads the benchmark's `open`
+        # lines off the goal so the row records the preamble it compiled
+        # under. A double missing them is not a Goal.
         id, area, tier = "g", "number theory", Tier.PROOFNET
+        goal, note = "q", ""
 
     workdir = rt.context.workdir
     proof_run = harness._to_proof_run(ProofRun(goal="q"), workdir, prose="",

@@ -284,7 +284,13 @@ def claims_in(path: Path) -> list:
     preambles = preambles_for(data)
     claims = []
     for row in data.get("results", []):
-        opens = {"preamble": preambles.get(row.get("goal_id"), preamble.BASE)}
+        # THE ROW FIRST. A result written since `ProofResult.preamble` carries
+        # its own opens and is recheckable with nothing but itself. The goal
+        # file is the fallback for everything written before that, and it is
+        # the weaker route precisely because it depends on a path that may
+        # have moved, been renamed, or been recorded by another OS.
+        opens = {"preamble": row.get("preamble")
+                 or preambles.get(row.get("goal_id"), preamble.BASE)}
         if row.get("outcome") == PROVED:
             claims.append(row | {"kind": "proof"} | opens)
         elif row.get("outcome") == REFUTED and (row.get("refutation") or "").strip():

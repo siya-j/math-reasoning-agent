@@ -29,6 +29,7 @@ from enum import Enum
 
 from domain.proof import ProofRun, ProofStage
 from eval.proof_dataset import Goal, Tier
+from math_v2.core import preamble as lean_preamble
 
 
 class ProofOutcome(str, Enum):
@@ -67,6 +68,21 @@ class ProofResult:
     tier: Tier
     outcome: ProofOutcome
     statement: str = ""
+    # THE `open` LINES THE STATEMENT WAS COMPILED UNDER. Stored beside the
+    # statement because storing them APART is a defect this project has now
+    # shipped three times: `da0f655` fixed it in the proving path; the audit
+    # reintroduced it by rebuilding from a row that had only the theorem, so
+    # `finrank`, `Tendsto`, `End` and `univ` came back unknown and seven
+    # claims were reported as soundness failures; and the fix for THAT
+    # reintroduced it again by resolving `eval\goals.json` -- a Windows path
+    # -- on Linux. Each time, the statement was here and its preamble was
+    # somewhere else.
+    #
+    # A results row that carries its own preamble is recheckable with nothing
+    # but itself: no goal file to locate, rename-proof, and indifferent to
+    # which OS wrote it. Same reasoning as retaining `refutation` text after
+    # `exercise_3_22`'s evidence survived only in a `mkdtemp` workspace.
+    preamble: str = ""
     attempts: int = 0
     # TRIES AT THE GOAL, as distinct from `attempts`, which counts everything
     # submitted. MEASURED on `putnam_1962_b1`: 33 recorded attempts, of which 7
@@ -361,6 +377,10 @@ def result_from(goal: Goal, run: ProofRun) -> ProofResult:
         tier=goal.tier,
         outcome=classify(run),
         statement=run.statement,
+        # From the GOAL, which is where the benchmark's `open` lines arrive,
+        # not from the run -- the run never had them as anything but a
+        # preamble file in a workdir that is gone by the time this is written.
+        preamble=lean_preamble.for_goal(goal.note or goal.goal or ""),
         attempts=len(run.attempts),
         goal_attempts=sum(1 for a in run.attempts if a.stage in _AT_THE_GOAL),
         lemma_attempts=sum(1 for a in run.attempts
