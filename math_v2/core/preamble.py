@@ -95,6 +95,10 @@ def remember(workdir: str, goal_text: str) -> str:
     return lines
 
 
+def _assemble(lines: str) -> str:
+    return f"{BASE}{lines}\n" if lines else BASE
+
+
 def source(workdir: str) -> str:
     """The preamble every compile in this goal should use.
 
@@ -106,4 +110,16 @@ def source(workdir: str) -> str:
             lines = handle.read().strip()
     except OSError:
         return BASE
-    return f"{BASE}{lines}\n" if lines else BASE
+    return _assemble(lines)
+
+
+def for_goal(goal_text: str) -> str:
+    """The preamble for a goal known by its TEXT rather than by a workdir.
+
+    `source` serves a run in progress, which stored the lines when it started.
+    An audit of a FINISHED run has neither the workdir nor the stored file --
+    only the goal file it was run against -- and must assemble the same
+    preamble from that. Both routes share `_assemble` because a preamble that
+    differs between the run and its audit makes the audit meaningless.
+    """
+    return _assemble(opens_in(goal_text))

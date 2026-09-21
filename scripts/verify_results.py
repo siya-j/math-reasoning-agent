@@ -1,7 +1,7 @@
 """Recompile every claimed proof in a results file. No model, no agent.
 
     python scripts/verify_results.py eval/results/putnam-run2.json
-    python scripts/verify_results.py eval/results/*.json --all
+    python scripts/verify_results.py eval/results/*.json
 
 WHY THIS EXISTS
 ---------------
@@ -59,6 +59,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import config  # noqa: E402
+from math_v2.core import binders, preamble  # noqa: E402
 from verifiers.lean_runner import LeanOutcome, run_lean  # noqa: E402
 from verifiers.lean_verifier import build_source  # noqa: E402
 
@@ -68,6 +69,9 @@ PROVED = "proved"
 REFUTED = "refuted"
 # A third answer, distinct from pass and fail. See `check`.
 UNCHECKED = "unchecked"
+# A FOURTH. The proof recompiles and proves nothing: not a compile failure and
+# emphatically not a pass. See `vacuity_source_for`.
+VACUOUS = "vacuous"
 
 # Compiler output that means Lean could not start on this source. Matched
 # against the ERRORS path, where an environment fault is indistinguishable
@@ -171,7 +175,92 @@ def source_for(claim: dict) -> str:
     lemmas = [text for text in claim.get("lemmas") or [] if text.strip()]
     statement = claim["statement"]
     combined = "\n\n".join(lemmas + [statement]) if lemmas else statement
-    return build_source(combined, claim["proof"])
+    return build_source(combined, claim["proof"],
+                        claim.get("preamble") or preamble.BASE)
+
+
+def vacuity_source_for(claim: dict):
+    """`source_for`, with the conclusion replaced by `False`. None to skip.
+
+    A PROOF THAT RECOMPILES CAN STILL PROVE NOTHING, and this is the only
+    check here that can see it. MEASURED on heldout-even-63, where two of the
+    forty-two accepted proofs are vacuous and BOTH recompile cleanly above:
+
+        Ireland-Rosen_exercise_2_21  `∀ p n, p.Prime → l (p^n) = log p` at
+                                     n = 0 gives `l 1 = log 2` AND
+                                     `l 1 = log 3`; `linarith` on the
+                                     resulting contradiction closes any goal
+        Herstein_exercise_2_8_12     `IsEmpty (CommGroup G)` is unsatisfiable
+                                     for a carrier of card 21, so the proof
+                                     derives False and `.elim`s it
+
+    Offer the SAME proof against a `False` conclusion. One that still closes
+    it never used the conclusion, so the hypotheses contradict each other and
+    the theorem is vacuously true. A real proof cannot pass: it proves the
+    conclusion, and `False` is not the conclusion. That is why this is a
+    compile and not a reading, and why it has no false positives. Proof by
+    contradiction is untouched -- it contradicts the NEGATED GOAL, which this
+    probe never supplies.
+
+    None when the statement binds no hypotheses: there is then nothing that
+    could contradict, so the compile could only come back negative. That is a
+    fact about the check, not a guess about the goal.
+    """
+    name, signature, conclusion = binders.split_signature(claim.get("statement", ""))
+    if not name or not conclusion.strip():
+        return None
+    if not binders.split_binders(signature):
+        return None
+
+    probe = " ".join(part for part in ("theorem", name, signature, ": False")
+                     if part.strip())
+    lemmas = [text for text in claim.get("lemmas") or [] if text.strip()]
+    combined = "\n\n".join(lemmas + [probe]) if lemmas else probe
+    return build_source(combined, claim["proof"],
+                        claim.get("preamble") or preamble.BASE)
+
+
+def preambles_for(data: dict) -> dict:
+    """goal_id -> the preamble that goal was COMPILED against.
+
+    MEASURED, and it rejected 7 of the claims in `heldout-even-63.json`: a
+    results row keeps the theorem but NOT the `open` lines above it, so
+    `finrank`, `Tendsto`, `End`, `Icc`, `univ` and `𝓟` all came back as
+    unknown identifiers and every such claim was REJECTED for a reason that
+    had nothing whatever to do with its proof. Two of them recompiled
+    unchanged once the opens were restored.
+
+    This is the third appearance of one defect -- `da0f655 fix(proving): the
+    goal's open lines never reached the compiler` is the same thing one layer
+    down. The run records which goal file it used, so the opens are recoverable
+    without re-running anything.
+
+    NEVER RAISES. A goal file that has moved or cannot be parsed costs the
+    opens, not the audit: `preamble.BASE` is exactly what this used before.
+    """
+    spec = (data.get("run") or {}).get("goals_file") or ""
+    if not spec:
+        return {}
+    # SEPARATORS, because a results file outlives the OS that wrote it.
+    # MEASURED across eval/results/: runs recorded on Windows store
+    # `eval\proofnet-sharp.json`, and under WSL that is one filename with a
+    # backslash in it, not a path -- so the lookup missed, the opens were
+    # lost, and eight claims across four files were reported as soundness
+    # failures when every one of them was a missing `open`. `Path` will not
+    # normalise this for us: only the OS that created the string agrees it is
+    # a separator.
+    spec = spec.replace("\\", "/")
+    root = Path(__file__).resolve().parent.parent
+    for candidate in (Path(spec), root / spec):
+        try:
+            goals = json.loads(candidate.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        return {
+            goal["id"]: preamble.for_goal(goal.get("note") or goal.get("goal") or "")
+            for goal in goals if isinstance(goal, dict) and goal.get("id")
+        }
+    return {}
 
 
 def claims_in(path: Path) -> list:
@@ -192,16 +281,18 @@ def claims_in(path: Path) -> list:
     published benchmark is wrong. It gets audited the same way.
     """
     data = json.loads(path.read_text(encoding="utf-8"))
+    preambles = preambles_for(data)
     claims = []
     for row in data.get("results", []):
+        opens = {"preamble": preambles.get(row.get("goal_id"), preamble.BASE)}
         if row.get("outcome") == PROVED:
-            claims.append(row | {"kind": "proof"})
+            claims.append(row | {"kind": "proof"} | opens)
         elif row.get("outcome") == REFUTED and (row.get("refutation") or "").strip():
             claims.append(row | {
                 "kind": "refutation",
                 "statement": row.get("refutation_statement", ""),
                 "proof": row.get("refutation", ""),
-            })
+            } | opens)
     return claims
 
 
@@ -242,6 +333,14 @@ def check(claim: dict, runner=None) -> tuple:
 
     result = runner(source_for(claim))
     if result.outcome is LeanOutcome.COMPILED:
+        probe = vacuity_source_for(claim)
+        if probe is not None and runner(probe).outcome is LeanOutcome.COMPILED:
+            return VACUOUS, (
+                "VACUOUS — recompiles, and the same proof also closes a "
+                "`False` conclusion, so it never uses the conclusion at all. "
+                "The statement's hypotheses contradict each other and it is "
+                "vacuously true. The proof is valid; the STATEMENT is not."
+            )
         return True, "recompiled"
     if result.outcome is LeanOutcome.INCOMPLETE:
         return False, (
@@ -316,20 +415,27 @@ def verify(path: Path, runner=None) -> tuple:
     print(f"\n{path}")
     if not claims:
         print("  no `proved` results to check")
-        return 0, [], []
+        return 0, [], [], []
 
     failures = []
     unchecked = []
+    vacuous = []
     for claim in claims:
         ok, note = check(claim, runner)
-        mark = {True: "  ok  ", UNCHECKED: "  ??  "}.get(ok, "  FAIL")
+        mark = {True: "  ok  ", UNCHECKED: "  ??  ",
+                VACUOUS: " VOID "}.get(ok, "  FAIL")
         kind = "" if claim.get("kind") == "proof" else "  [refutation]"
         print(f"{mark}  {claim.get('goal_id', '?')}{kind}  {note}")
+        # `is`, and VACUOUS tested BEFORE the falsiness check: it is a
+        # non-empty string, so `not ok` is False and a bare `elif not ok`
+        # would drop it into neither bucket and report it as a pass.
         if ok is UNCHECKED:
             unchecked.append((claim.get("goal_id", "?"), note))
+        elif ok is VACUOUS:
+            vacuous.append((claim.get("goal_id", "?"), note))
         elif not ok:
             failures.append((claim.get("goal_id", "?"), note))
-    return len(claims), failures, unchecked
+    return len(claims), failures, unchecked, vacuous
 
 
 def main(argv=None) -> int:
@@ -386,11 +492,13 @@ def main(argv=None) -> int:
     checked = 0
     failures = []
     unchecked = []
+    vacuous = []
     for path in paths:
-        count, failed, skipped = verify(path, runner)
+        count, failed, skipped, void = verify(path, runner)
         checked += count
         failures.extend(failed)
         unchecked.extend(skipped)
+        vacuous.extend(void)
 
     print("\n" + "-" * 60)
     if not checked:
@@ -402,6 +510,21 @@ def main(argv=None) -> int:
             print(f"  {goal_id}: {note}")
         print("\nA claim that does not recompile is a soundness failure. Do "
               "not quote a proof rate from this run until it is explained.")
+        return 1
+    if vacuous:
+        # REPORTED SEPARATELY FROM `failures`, because it is a different
+        # finding: the proof is valid and the STATEMENT is broken. Still not
+        # exit 0 -- every one of these is counted as a success by the run that
+        # produced it, so the proof rate above it is overstated until they are
+        # taken out, exactly as `refuted` and `suspect` already are.
+        print(f"{len(vacuous)} of {checked} claimed proofs are VACUOUS:")
+        for goal_id, note in vacuous:
+            print(f"  {goal_id}: {note}")
+        print("\nThese recompile and prove nothing: the hypotheses contradict "
+              "each other, so the theorem is vacuously true and no proof of it "
+              "could say anything. They belong OUT of the proof rate, with "
+              "`refuted` and `suspect` -- the benchmark is at fault, not the "
+              "prover.")
         return 1
     if unchecked:
         # NOT exit 0. Those claims were never actually tested, and reporting

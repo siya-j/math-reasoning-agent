@@ -95,6 +95,51 @@ def identifiers(text):
     return set(_IDENT.findall(text or ""))
 
 
+# `theorem foo` / `lemma foo`, and everything up to the top-level `:` is the
+# binder list.
+_HEAD = re.compile(r"^\s*(?:theorem|lemma)\s+([A-Za-z_][\w'.]*)\s*", re.MULTILINE)
+
+
+def split_signature(statement):
+    """(name, binders, conclusion) for a Lean theorem, or ("", "", "").
+
+    THE FIRST top-level `:`, not the last. `retrieval.loogle.conclusion_of`
+    takes the last, which is right for its job (find what a lemma concludes)
+    and wrong for this one: proofnet `exercise_1_26` concludes
+
+        : ∃ c : ℂ, ∀ x, F₁ x = F₂ x + c
+
+    and that inner `: ℂ` is also at bracket depth 0, so taking the last colon
+    cuts the conclusion in half and produces `¬ (∀ ... : ∃ c, ℂ, ...)` — which
+    is not Lean. Binders are bracketed; the first unbracketed colon ends them.
+
+    LIVES HERE, not in `core/proving.py`, because it decides nothing: like
+    everything else in this module it is string manipulation over a signature.
+    `scripts/verify_results.py` needs it to build its vacuity probe and states
+    that "nothing in `math_v2` sits between the artefact and Lean" -- importing
+    `proving` would pull `pipeline`, and through it langchain, into an audit
+    whose whole value is being independent of the machinery it audits.
+    """
+    head = _HEAD.search(statement or "")
+    if not head:
+        return "", "", ""
+
+    depth = 0
+    for index in range(head.end(), len(statement)):
+        character = statement[index]
+        if character in "([{⟨":
+            depth += 1
+        elif character in ")]}⟩":
+            depth -= 1
+        elif character == ":" and depth == 0:
+            if statement[index + 1:index + 2] == "=":
+                break
+            return (head.group(1),
+                    statement[head.end():index].strip(),
+                    statement[index + 1:].strip())
+    return "", "", ""
+
+
 def needed_binders(binders, claim):
     """The binders a claim depends on, transitively, in declaration order.
 

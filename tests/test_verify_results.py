@@ -51,6 +51,14 @@ def lean(outcome, output=""):
     # happened here when the REPL backend was added.
     def runner(source, **_):
         seen.append(source)
+        # NO COMPILER PROVES `False` FROM `(n : Nat)`. `vacuity_source_for`
+        # re-offers the accepted proof against a `False` conclusion, so a
+        # double that answers COMPILED to every source reports every claim
+        # VACUOUS -- and is modelling a compiler that cannot exist. The
+        # vacuity path has its own tests in `test_vacuous_proof_probe.py`;
+        # here it must stay out of the way.
+        if ": False" in source:
+            return LeanResult(LeanOutcome.ERRORS, "3:2: error: unsolved goals")
         return LeanResult(outcome, output)
 
     runner.seen = seen
@@ -171,18 +179,19 @@ def test_only_proved_results_are_checked(tmp_path):
     path = _write(tmp_path, [claim(), claim(goal_id="g2", outcome="not_proved"),
                              claim(goal_id="g3", outcome="exhausted")])
 
-    checked, failures, unchecked = verify_results.verify(
+    checked, failures, unchecked, vacuous = verify_results.verify(
         path, lean(LeanOutcome.COMPILED))
 
     assert checked == 1
     assert failures == []
     assert unchecked == []
+    assert vacuous == []
 
 
 def test_a_failure_is_reported_with_its_goal(tmp_path):
     path = _write(tmp_path, [claim(), claim(goal_id="bad")])
 
-    checked, failures, _ = verify_results.verify(
+    checked, failures, _, _ = verify_results.verify(
         path, lean(LeanOutcome.INCOMPLETE))
 
     assert checked == 2
