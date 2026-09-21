@@ -96,9 +96,28 @@ def _write(workdir: str, data: dict) -> None:
 
 
 def append(workdir: str, record: Record) -> dict:
-    """Record one execution and return the updated log."""
+    """Record one execution and return the updated log.
+
+    A MARKER GOES IN THE TRACE TOO, so searches and attempts share one
+    ordered timeline. They are stored in different lists -- searches via
+    `note`, attempts here -- and neither carries a timestamp, so until now the
+    order between them was simply absent from the record.
+
+    MEASURED on heldout-even-63: 7 of the 10 unproved goals exhausted their 12
+    searches while holding 2-5 unused compiles, 15-25 unused tool calls and
+    700+ unused seconds, and 4 attempted the goal exactly once. The obvious
+    question -- did it stop searching and then try, or stop altogether? --
+    could not be answered, because "was there an attempt since the last
+    search" is not recoverable from two unordered lists. This is the same
+    defect as storing a statement apart from its preamble: the record was not
+    sufficient for the question it needed to answer.
+
+    The marker is deliberately terse. `records` remains the evidence; this is
+    only the ordering the evidence was missing.
+    """
     data = read(workdir)
     data["records"].append(asdict(record))
+    data["trace"].append(f"attempt: {record.kind} -> {record.status}")
     _write(workdir, data)
     return data
 

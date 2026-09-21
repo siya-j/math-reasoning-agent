@@ -24,6 +24,41 @@ def record(**kwargs):
     return log.Record(**kwargs)
 
 
+# ---------------------------------------------------- one ordered timeline
+def test_searches_and_attempts_share_an_ordered_trace(workdir):
+    """Because "was there an attempt since the last search" must be answerable.
+
+    MEASURED on heldout-even-63: 7 of 10 unproved goals exhausted their 12
+    searches while holding 2-5 unused compiles, 15-25 unused tool calls and
+    700+ unused seconds; 4 attempted the goal exactly once. Whether the agent
+    stopped searching and then tried, or simply stopped, decides what to fix
+    -- and it was unanswerable, because searches went to `trace` via `note`,
+    attempts went to `records` via `append`, and neither carried a timestamp.
+    """
+    log.note(workdir, "search: 'polarization' -> nothing")
+    log.append(workdir, record(kind=log.PROOF, statement=STATEMENT,
+                               proof="by norm_num", status=log.TRUE))
+    log.note(workdir, "search: 'inner_conj_symm' -> inner_conj_symm")
+
+    trace = log.read(workdir)["trace"]
+
+    assert len(trace) == 3, "an attempt left no mark on the timeline"
+    assert trace[0].startswith("search:")
+    assert trace[1].startswith("attempt:"), "the attempt is missing from the trace"
+    assert trace[2].startswith("search:")
+
+
+def test_the_attempt_marker_does_not_replace_the_record(workdir):
+    """`records` stays the evidence; the marker is only the ordering."""
+    log.append(workdir, record(kind=log.LEMMA, statement=STATEMENT,
+                               proof="by simp", status=log.UNKNOWN))
+    data = log.read(workdir)
+
+    assert len(data["records"]) == 1
+    assert data["records"][0]["proof"] == "by simp", "the evidence was thinned"
+    assert "lemma" in data["trace"][0]
+
+
 # ------------------------------------------------------------------ the guard
 def test_prose_cannot_produce_a_proof(workdir):
     """Nothing ran. There is nothing to find, whatever the agent says."""
