@@ -952,6 +952,56 @@ choice, and nothing below depends on the answer.
    is ~45M input tokens. Expect ~20% of it to be defective statements
    (§14.C), and quote the result as a RANGE.
 
+**§14.G — THE TEST SPLIT HAS RUN. 75% of valid targets, n=186.** MEASURED
+2026-09-21, `eval/results/test-186.json`, the complete ProofNet-sharp test
+split -- the last untouched data in the repository, now spent.
+
+```
+  186 goals, 0 errors, 0 rate-limit failures, 100% formalised
+  proof rate              61%   (114/186 raw)
+  proof rate | valid      75%   (114/152)
+  refuted 19   suspect 13   exhausted 2     -> 34 left the denominator
+  57.6M input tokens, ~9 hours
+```
+
+**Every claim was independently recompiled: 133 of 133, zero vacuous, zero
+soundness failures.** That is 114 proofs and 19 refutations through a fresh
+compiler with `sorry`/`sorryAx` as hard failures. The number is verified, not
+asserted, and it is quotable as it stands.
+
+Consistent with the balanced 63 (80% of valid targets); the gap is
+composition and noise, not regression. n=186 carries roughly +/-7 points
+against the 63's +/-11. Do NOT quote a delta between them: the test split is
+39% group theory against the 63's 14%, so a difference measures the mix.
+
+By textbook: Artin 86% (n=14), Rudin 76%, Pugh 71%, Herstein 67%,
+Dummit-Foote 61%, Munkres 60%, Axler 57%, Ireland-Rosen 40%, Putnam 17%
+(n=6), Shakarchi 12% (n=8). Complex analysis and competition problems are
+the weak areas, matching the 63. Artin had ZERO prior observations and came
+in highest -- the caveat was right and the direction was lucky.
+
+**§14.H — 17% of the test split is defective, and this may be the better
+finding.** 32 of 186 statements: 19 refuted with compiler-verified
+counterexamples, 13 suspect. On a CORRECTED ProofNet. It confirms the 21%
+measured on the validation sample, now at a size that can carry the claim.
+
+All 19 negations were checked for faithfulness (no binder lost in any), and
+two were verified in depth: `Munkres_16_6` (hS constrains only the FORM of
+S's members, so S = the empty set satisfies it while failing to be a basis)
+and `Munkres_28_4` (the supplied `limit_point_compact` omits "a point other
+than x", making it trivially true). With 10 hand-checked on the 63, the
+refutation mechanism has 12 verified cases and no failures.
+
+> NOTED ON `negation_of`: it weakened `{X : Type*}` to `{X : Type}` on
+> `Munkres_28_4`. Sound in THIS direction -- a universe-0 counterexample
+> refutes a claim over all universes -- but it is a transformation the regex
+> performs silently, and the opposite direction would not be sound.
+
+**Cost projection was badly wrong and the method is worth avoiding.**
+Predicted ~33M from per-textbook medians; actual 57.6M, low by 75%. Medians
+ignore that failures cost far more than typical goals. Budget from the mean
+of the tail, not the median of the whole.
+
 **§14.F — Variance is real, and it is not the backend.** MEASURED 2026-09-21
 on `eval/results/variance-flippers-1.json`: the four goals that had flipped
 between the 25- and 63-goal runs were re-run against the 63 under identical,
