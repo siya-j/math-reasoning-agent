@@ -68,14 +68,28 @@ def test_every_goal_has_an_id_and_a_tier(name):
         assert (goal.get("tier") or "").strip(), goal
 
 
-def test_the_182_kept_the_ids_prior_runs_already_use():
-    """The disambiguation must not rename a goal that committed results refer
-    to, or every historical comparison silently stops matching."""
-    path = EVAL / "proofnet-182.json"
-    if not path.exists():
-        pytest.skip("proofnet-182.json is not present")
-    ids = {g["id"] for g in _goals(path)}
+def _textbooks():
+    """Every `area` in `proofnet-sharp.json` -- what prefixes an id there.
 
+    READ FROM THE FILE rather than written down. As a hand-kept tuple of nine
+    it was missing `Putnam`, so `Putnam_exercise_2020_b5` and four siblings
+    were treated as BARE ids, checked against the 182 that never carried them,
+    and reported as the 182 having dropped historical ids. The invariant was
+    right and the list was one short -- which is the failure mode of every
+    hand-maintained list of something the data already knows.
+
+    Falls back to the literal set if the file is absent, so this never becomes
+    the reason a test cannot run.
+    """
+    try:
+        return tuple(sorted({g["area"] for g in _goals(EVAL / "proofnet-sharp.json")}))
+    except (OSError, ValueError, KeyError):
+        return ("Artin", "Axler", "Dummit-Foote", "Herstein", "Ireland-Rosen",
+                "Munkres", "Pugh", "Putnam", "Rudin", "Shakarchi")
+
+
+def _decided_proofnet_ids():
+    """Every ProofNet goal a committed results file reports an outcome for."""
     decided = set()
     for results in (EVAL / "results").glob("*.json"):
         try:
@@ -84,12 +98,65 @@ def test_the_182_kept_the_ids_prior_runs_already_use():
             continue
         decided |= {r["goal_id"] for r in rows
                     if r.get("tier") == "proofnet" and r.get("outcome") != "error"}
+    return decided
 
-    missing = sorted(decided - ids)
+
+def _all_committed_goal_ids():
+    """Ids across every committed goals file, not one chosen corpus."""
+    ids = set()
+    for path in sorted(EVAL.glob("*.json")):
+        try:
+            for goal in _goals(path):
+                if isinstance(goal, dict) and goal.get("id"):
+                    ids.add(goal["id"])
+        except (ValueError, OSError, AttributeError):
+            continue
+    return ids
+
+
+def test_every_decided_goal_is_findable_in_some_goals_file():
+    """A result whose goal no committed file defines cannot be resumed or
+    compared -- the id is the only handle either has.
+
+    WIDENED FROM `proofnet-182.json` TO EVERY GOALS FILE, deliberately. The
+    182 was the only ProofNet corpus when this was written, so "in the 182"
+    and "findable" were the same statement. They are not any more:
+    `proofnet-heldout-30.json` is held out from the 182 BY CONSTRUCTION, so
+    the old test failed on 31 goals for doing exactly what a held-out set is
+    for. Requiring one corpus to contain every goal ever run would forbid a
+    second corpus, which is not a property this project wants.
+
+    What must stay true is that no result is orphaned, and that is what this
+    checks.
+    """
+    decided = _decided_proofnet_ids()
+    missing = sorted(decided - _all_committed_goal_ids())
     assert not missing, (
-        f"these ProofNet goals appear in committed results but not in the "
-        f"182-goal file, so a resume or comparison would not find them: "
-        f"{missing}"
+        f"these ProofNet goals appear in committed results but in no goals "
+        f"file, so a resume or comparison would not find them: {missing}"
+    )
+
+
+def test_the_182_kept_the_ids_prior_runs_already_use():
+    """The disambiguation must not rename a goal that committed results refer
+    to, or every historical comparison silently stops matching.
+
+    Scoped to the BARE ids -- `exercise_3_1`, not `Rudin_exercise_3_3` --
+    because those are the ones the 182 was built to disambiguate and the ones
+    historical results are keyed on. Prefixed ids postdate it and are covered
+    by `test_every_decided_goal_is_findable_in_some_goals_file`.
+    """
+    path = EVAL / "proofnet-182.json"
+    if not path.exists():
+        pytest.skip("proofnet-182.json is not present")
+    ids = {g["id"] for g in _goals(path)}
+
+    historical = {g for g in _decided_proofnet_ids()
+                  if not g.startswith(tuple(t + "_" for t in _textbooks()))}
+    missing = sorted(historical - ids)
+    assert not missing, (
+        f"the 182 no longer carries ids that committed results use, so those "
+        f"historical comparisons stop matching: {missing}"
     )
 
 

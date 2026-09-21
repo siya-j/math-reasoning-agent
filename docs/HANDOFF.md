@@ -1057,6 +1057,34 @@ Quote both, or quote 69% and mention the 75%. A reader who pushes anywhere will
 push here, and "the agent decided the statement was broken" is not evidence of
 the same standing as "the compiler accepted a proof of its negation".
 
+**§14.J — SorryDB is the right idea and is NOT an adapter. Costed
+2026-09-21 before building anything.**
+
+[SorryDB](https://arxiv.org/pdf/2603.02668) indexes `sorry`s in ~78 public
+Lean repositories, refreshed nightly, and is the structural answer to the
+contamination question -- real theorems from working codebases, including
+recent ones no model can have trained on. It is the correct next benchmark.
+
+**It cannot be built like `eval/proofnet.py` or `eval/putnam.py`.** Both of
+those emit goals that compile against the one `mathlib_playground`. A SorryDB
+record is `repo` + `branch` + `commit` + `lean_version` + file coordinates,
+and the paper is explicit that "the evaluation requires cloning and building
+the specific project repository for each sorry, which can be space-intensive
+and time-consuming". Goals are NOT standalone against Mathlib; they depend on
+local project definitions. Verification is also different: the proof replaces
+the `sorry` and the checker must confirm EXACTLY ONE was eliminated, because
+`sorry` itself compiles.
+
+So it needs: multi-repository cloning, per-task builds, several Lean
+toolchains at ~3GB each, and a LeanInteract-style verification path. Against
+this machine that collides with a hard constraint -- C: was at 0 bytes free
+on 2026-09-21, and 56GB of the reclaimed space is still trapped inside the
+WSL vhdx until an elevated `diskpart compact vdisk` runs.
+
+**Do not start this as a day's work.** If it is wanted, scope it first to
+tasks whose `lean_version` matches the installed toolchain and whose repo
+depends only on Mathlib, and budget the disk before the code.
+
 **§14.F — Variance is real, and it is not the backend.** MEASURED 2026-09-21
 on `eval/results/variance-flippers-1.json`: the four goals that had flipped
 between the 25- and 63-goal runs were re-run against the 63 under identical,
