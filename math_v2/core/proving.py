@@ -207,6 +207,80 @@ def _placeholder_refusal():
     }
 
 
+# A proof whose FIRST tactic re-introduces binders the signature already bound.
+_INTRO = re.compile(r"^(?:intro|intros)\b(.*)$")
+_PLAIN_NAME = re.compile(r"^[A-Za-z_][\w'₀-₉]*$")
+# Anything that might still leave something to introduce. DELIBERATELY
+# GENEROUS: missing one costs a wasted compile, a false positive refuses a
+# correct proof -- and `theorem f (n : ℕ) : ∀ n, P n` is legal Lean, so a rule
+# that only compared names against the signature would refuse `intro n` there.
+_INTRODUCIBLE = re.compile(r"∀|→|->|¬|∃|Π|λ|fun\b|let\b")
+
+
+def _first_tactic(proof):
+    """The first tactic of a proof, with a leading `by` stripped."""
+    for line in (proof or "").splitlines():
+        stripped = line.strip()
+        if stripped == "by":
+            continue
+        if stripped.startswith("by "):
+            stripped = stripped[3:].strip()
+        if stripped:
+            return stripped
+    return ""
+
+
+def _intros_bound_binders(statement, proof):
+    """The names a leading `intro` re-introduces, or () when it does not.
+
+    MEASURED on heldout-even-63: 17 of 63 goals spent a compile on
+
+        Tactic `introN` failed: There are no additional binders or `let`
+        bindings in the goal to introduce
+
+    every one of them a proof that opened `intro z w h0 h1` against a statement
+    whose own signature binds `z w h0 h1`. A signature binder is already in
+    context when the body runs, so the tactic fails before any mathematics is
+    attempted and the compile teaches nothing -- the same reason
+    `_placeholder_refusal` declines to compile `sorry`.
+
+    Answerable from the text, so it is answered from the text. Returns () on
+    ANY doubt: an `intro` with no names, a destructuring pattern, a conclusion
+    that still has a binder in it.
+    """
+    match = _INTRO.match(_first_tactic(proof))
+    if not match:
+        return ()
+    names = match.group(1).split()
+    if not names or not all(_PLAIN_NAME.match(name) for name in names):
+        return ()
+
+    _, signature, conclusion = binders.split_signature(statement)
+    if not conclusion.strip() or _INTRODUCIBLE.search(conclusion):
+        return ()
+
+    bound = {name for group in binders.split_binders(signature)
+             for name in group["names"]}
+    return tuple(names) if set(names) <= bound else ()
+
+
+def _bound_binders_refusal(names):
+    """Refuse a leading `intro` of already-bound binders without compiling."""
+    listed = ", ".join(f"`{name}`" for name in names)
+    return {
+        "ok": False,
+        "error": "binders_already_bound",
+        "outputs": {"accepted": False},
+        "message": (
+            f"REFUSED: {listed} are bound by this statement's own signature, "
+            "so they are already in context and the leading `intro` fails "
+            "before your proof begins -- this was not compiled. Delete that "
+            "line and start from the tactic that does the work; the goal you "
+            "are given is the one AFTER those binders."
+        ),
+    }
+
+
 def _generic_already_failed(workdir, proof, statement):
     """Refuse a second bare closer once one has been rejected. None to proceed.
 
@@ -539,6 +613,23 @@ def _attempts_exhausted(workdir, statement, kind=log.PROOF):
     for index, record in enumerate(records):
         if (record.get("kind") == kind
                 and record.get("status") != log.TRUE
+                # `auto` EXCLUDED HERE TOO, not only from the lift below.
+                # `try_standard_tactics` writes a PROOF record on the
+                # goal's own statement WHETHER OR NOT it succeeded, and
+                # its own comment measures that ladder at 75 of 212 proof
+                # records (35%). Counting them let the SYSTEM exhaust the
+                # model's attempts for it: three failed automatic tactic
+                # runs met `DECOMPOSE_AFTER` and `try_proof` answered
+                # `decompose_first` before the model had attempted the
+                # goal even once.
+                #
+                # This is the SAME contamination `harness._stopped_short`
+                # was fixed for -- it counts model attempts, not ladder
+                # attempts -- applied to the other question the record is
+                # asked. The rule is uniform: a condition on what the
+                # MODEL has done must not be satisfiable by what the
+                # system did on its behalf, in either direction.
+                and not record.get("auto")
                 and (record.get("statement") or "").strip() == target):
             failed += 1
             last = index
@@ -862,6 +953,9 @@ async def try_proof(workdir, statement, proof, run_lean, search=None,
         return _placeholder_refusal()
     if says_nothing(statement):
         return _says_nothing_refusal(statement)
+    rebound = _intros_bound_binders(statement, proof)
+    if rebound:
+        return _bound_binders_refusal(rebound)
     # CHECKED HERE TOO, exactly as `says_nothing` is. Refusing this only in
     # `check_statement` is not enough and the attack proved it: the statement
     # check was refused and the run still reported `proved`, because
@@ -1051,6 +1145,13 @@ async def try_lemma(workdir, statement, proof, run_lean, limit=None):
     if says_nothing(statement):
         return _says_nothing_refusal(statement)
 
+    # Where this was MEASURED: every one of the 17 occurrences in
+    # heldout-even-63 was a LEMMA, because `try_lemma` is the path that hands
+    # the agent a signature it wrote itself and then asks for a body.
+    rebound = _intros_bound_binders(statement, proof)
+    if rebound:
+        return _bound_binders_refusal(rebound)
+
     # MEASURED, PutnamBench `putnam_1962_a4`: ten of thirty-five attempts were
     # byte-identical to an earlier one. `try_proof` and `try_skeleton` have
     # both guarded this since `exercise_1_26`; `try_lemma` never did, and a
@@ -1139,46 +1240,9 @@ async def try_lemma(workdir, statement, proof, run_lean, limit=None):
 _NEGATION = re.compile(r"¬|≠|\bNot\b|(?:→|->)\s*False\s*$")
 
 
-# `theorem foo` / `lemma foo`, and everything up to the top-level `:` is the
-# binder list. Both are needed to turn a goal into its own negation.
-_HEAD = re.compile(r"^\s*(?:theorem|lemma)\s+([A-Za-z_][\w'.]*)\s*", re.MULTILINE)
-
 # A goal that concludes `True` proves nothing. `by trivial` closes it, and the
 # run then reports a formalisation success for a statement that says nothing.
 _TRIVIAL = re.compile(r"^\(*\s*True\s*\)*$")
-
-
-def split_signature(statement):
-    """(name, binders, conclusion) for a Lean theorem, or ("", "", "").
-
-    THE FIRST top-level `:`, not the last. `retrieval.loogle.conclusion_of`
-    takes the last, which is right for its job (find what a lemma concludes)
-    and wrong for this one: proofnet `exercise_1_26` concludes
-
-        : ∃ c : ℂ, ∀ x, F₁ x = F₂ x + c
-
-    and that inner `: ℂ` is also at bracket depth 0, so taking the last colon
-    cuts the conclusion in half and produces `¬ (∀ ... : ∃ c, ℂ, ...)` — which
-    is not Lean. Binders are bracketed; the first unbracketed colon ends them.
-    """
-    head = _HEAD.search(statement or "")
-    if not head:
-        return "", "", ""
-
-    depth = 0
-    for index in range(head.end(), len(statement)):
-        character = statement[index]
-        if character in "([{⟨":
-            depth += 1
-        elif character in ")]}⟩":
-            depth -= 1
-        elif character == ":" and depth == 0:
-            if statement[index + 1:index + 2] == "=":
-                break
-            return (head.group(1),
-                    statement[head.end():index].strip(),
-                    statement[index + 1:].strip())
-    return "", "", ""
 
 
 def negation_of(statement):
@@ -1197,12 +1261,12 @@ def negation_of(statement):
     hypotheses stay binders rather than becoming arrows for the same reason:
     every transformation is a chance to be wrong, and none is required.
     """
-    name, binders, conclusion = split_signature(statement)
+    name, signature, conclusion = binders.split_signature(statement)
     if not name or not conclusion:
         return ""
-    if not binders:
+    if not signature:
         return f"theorem {name}_refutation : ¬ ({conclusion})"
-    return f"theorem {name}_refutation : ¬ (∀ {binders}, {conclusion})"
+    return f"theorem {name}_refutation : ¬ (∀ {signature}, {conclusion})"
 
 
 _OPENERS = "([{⦃"
@@ -1218,7 +1282,7 @@ def binder_groups(binders):
     stops at the first inner `)` -- it read `(h : Irrational (Real.sqrt 2))`
     as ending after `Real.sqrt 2`, silently missed the whole binder, and made
     `assumes_its_own_conclusion` return False on the exact attack it was
-    written to catch. `split_signature` above scans depth for the same reason.
+    written to catch. `binders.split_signature` scans depth for the same reason.
     """
     groups = []
     depth = 0
@@ -1249,7 +1313,7 @@ def says_nothing(statement):
     Nothing whatever was established, and the number said otherwise — which is
     worse than the failure it replaced, because it is invisible.
     """
-    _, _, conclusion = split_signature(statement)
+    _, _, conclusion = binders.split_signature(statement)
     return bool(_TRIVIAL.match(conclusion))
 
 
@@ -1282,12 +1346,12 @@ def assumes_its_own_conclusion(statement):
     genuinely has its conclusion in scope as a hypothesis is closed by
     `exact h` and proves nothing, so no legitimate goal is lost.
     """
-    _, binders, conclusion = split_signature(statement)
+    _, signature, conclusion = binders.split_signature(statement)
     target = _normalise_claim(conclusion)
     if not target:
         return False
 
-    for body in binder_groups(binders):
+    for body in binder_groups(signature):
         if ":" not in body:
             continue
         _, _, hypothesis = body.partition(":")
@@ -1298,7 +1362,7 @@ def assumes_its_own_conclusion(statement):
 
 def _assumes_conclusion_refusal(statement):
     """Refuse a goal that assumes what it sets out to prove. No compile."""
-    _, _, conclusion = split_signature(statement)
+    _, _, conclusion = binders.split_signature(statement)
     return {
         "ok": False,
         "error": "assumes_conclusion",
@@ -1439,7 +1503,7 @@ def worth_proving(claim, statement, workdir):
     if not body or _TRIVIAL_CLAIM.match(body):
         return False
 
-    _, _, conclusion = split_signature(statement)
+    _, _, conclusion = binders.split_signature(statement)
     if body == _normalise_claim(conclusion):
         return False
 
@@ -1492,7 +1556,7 @@ async def synthesize_lemmas(workdir, statement, proof, run_lean, allowance):
         # Compiled standalone it could not elaborate, so decomposition fired
         # and achieved nothing. The binders the claim needs are copied in,
         # transitively closed, and no others.
-        _, statement_binders, _ = split_signature(statement)
+        _, statement_binders, _ = binders.split_signature(statement)
         lemma = binders.lemma_signature(name, statement_binders,
                                         _normalise_claim(claim))
         candidate = cheap_attempt(_premises(workdir))
