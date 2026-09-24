@@ -1,0 +1,140 @@
+{
+  "summary": {
+    "total": 14,
+    "counts": {
+      "not_quantitative": 6,
+      "out_of_reach": 8
+    },
+    "by_tool": {},
+    "shaped_for": 0.0
+  },
+  "note": "A draft for review. Nothing here should become a benchmark case without a person reading it: a model choosing what the benchmark contains is a model deciding what we measure ourselves against.",
+  "items": [
+    {
+      "id": "item-1",
+      "source": "",
+      "kind": "not_quantitative",
+      "tool": "",
+      "what": "The text announces a corrigendum stating that interlayer binding energy values in a table required unit conversion to meV/atom and recalculation.",
+      "why": "The excerpt is purely descriptive text reporting a correction without presenting any specific numbers, equations, or quantitative claims to evaluate.",
+      "text": "Corrigendum, J. Phys.: Condens. Matter 28 129501 (graphite van der Waals\ncorrections). The interlayer binding energies -E_b in Table 1 were listed\nwithout the necessary conversion to meV/atom, and several values taken from\nprevious studies have been recalculated."
+    },
+    {
+      "id": "item-2",
+      "source": "",
+      "kind": "out_of_reach",
+      "tool": "",
+      "what": "The text asserts that previous PBE calculations overestimate the experimental interlayer distance c_0 by roughly 30% rather than 25.5%.",
+      "why": "Evaluating this assertion requires accessing specific density functional theory literature values and experimental measurements, which is beyond the capabilities of the available checks.",
+      "text": "Corrigendum, J. Phys.: Condens. Matter 28 129501. The paper stated that\nprevious PBE estimates for the interlayer distance c_0 are 25.5% larger than\nthe experimental value. They are roughly 30% larger."
+    },
+    {
+      "id": "item-3",
+      "source": "",
+      "kind": "out_of_reach",
+      "tool": "",
+      "what": "The text asserts that the bulk modulus pressure derivative B_0' = 10.1 is 13.5% above the experimentally measured derivative.",
+      "why": "Verifying this statement requires an external physical measurement that is not supplied and falls outside the capabilities of the available checks.",
+      "text": "Corrigendum, J. Phys.: Condens. Matter 28 129501. For D3-BJ the pressure\nderivative of the bulk modulus B_0' = 10.1 was described as below the\nmeasured derivative. It is 13.5% ABOVE it."
+    },
+    {
+      "id": "item-4",
+      "source": "",
+      "kind": "out_of_reach",
+      "tool": "",
+      "what": "The text asserts that the upper limit of the experimental range for the elastic constant C_33 is 38.7 GPa rather than 37.8 GPa.",
+      "why": "Verifying an experimental measurement reported in a specific paper requires empirical literature lookup or physical experiment, which none of the available computational checks can perform.",
+      "text": "Corrigendum, J. Phys.: Condens. Matter 28 129501. The quoted experimental\nrange for the elastic constant C_33 ends at 38.7 GPa, not 37.8 GPa."
+    },
+    {
+      "id": "item-5",
+      "source": "",
+      "kind": "out_of_reach",
+      "tool": "",
+      "what": "The corrigendum asserts that the correct values for the improvement in interlayer binding energy are 69.5% to 1.5% rather than 56.2% to 0.6%.",
+      "why": "Deciding which reported percentage values are physically or computationally correct requires the underlying domain-specific calculations or simulations, which none of the listed tools can perform.",
+      "text": "Corrigendum, J. Phys.: Condens. Matter 28 129501. The abstract reported\nimprovements in interlayer binding energy from 69.5% to 1.5%, while the body\nof the paper reported 56.2% to 0.6%. The abstract values are the correct\nones."
+    },
+    {
+      "id": "item-6",
+      "source": "",
+      "kind": "not_quantitative",
+      "tool": "",
+      "what": "The text is an erratum notice stating that an erroneous factor of 2 in an equation led to an incorrect molecular population value extracted from experimental data.",
+      "why": "It is descriptive prose announcing an error rather than posing a quantitative problem, relation, or value to check.",
+      "text": "Erratum, J. Chem. Phys. 162 119901, on \"Alignment of ND3 molecules in\ndc-electric fields\" [J. Chem. Phys. 160, 204305 (2024)]. An additional\nfactor of 2 was wrongly introduced into an equation, so the population\nrho_{0,0} extracted from the experimental data is incorrect."
+    },
+    {
+      "id": "item-7",
+      "source": "",
+      "kind": "out_of_reach",
+      "tool": "",
+      "what": "The erratum asserts that Eq. (41) of the referenced paper is missing a factor of 1/2.",
+      "why": "Verifying this correction requires accessing and deriving the specific rate equation from the cited paper, which is beyond the scope of the available tools.",
+      "text": "Erratum, J. Chem. Phys. 161 019901, on \"Modified Fermi's golden rule rate\nexpressions\" [J. Chem. Phys. 159, 014101 (2023)]. There is a missing factor\nof 1/2 in Eq. (41)."
+    },
+    {
+      "id": "item-8",
+      "source": "",
+      "kind": "not_quantitative",
+      "tool": "",
+      "what": "The text announces a correction regarding a unit conversion error that led to an overestimation by a factor of 100 and an erroneous fit in a published paper.",
+      "why": "The excerpt is descriptive prose from an erratum notice reporting an error rather than posing or containing a checkable numerical problem or dataset.",
+      "text": "Correction, Environ. Sci. Technol. 57, 21927, to \"Incipient Motion of Exposed\nMicroplastics in an Open-Channel Flow\". A unit conversion error in the\ncalculation of a dimensionless particle parameter overestimated it by a\nfactor of 100, which propagated into the values plotted in Figure 6 and gave\nan erroneous fit."
+    },
+    {
+      "id": "item-9",
+      "source": "",
+      "kind": "not_quantitative",
+      "tool": "",
+      "what": "An erratum note explains that an axis label contained a typographical error in its unit prefix.",
+      "why": "The text is purely descriptive editorial prose about a mislabeled graph axis and contains no calculation or quantitative claim to verify.",
+      "text": "Correction, Nature Communications, to \"Resistive switching and its\nsuppression in Pt/Nb:SrTiO3 junctions\". An axis label read m^4/uF^2 where it\nshould read cm^4/uF^2. The labels only were affected; the calculations and\nconclusions were not."
+    },
+    {
+      "id": "item-10",
+      "source": "",
+      "kind": "out_of_reach",
+      "tool": "",
+      "what": "The actual administered dose in the experiment was 2.46 x 10^-3 mmol/kg rather than 2.46 mmol/kg.",
+      "why": "This is an empirical statement about an experimental measurement that cannot be verified by any of the symbolic or mathematical checks.",
+      "text": "Corrigendum to a biomedical Materials and Methods section. The administered\ndose was given as 2.46 mmol/kg. It should read 2.46 x 10^-3 mmol/kg."
+    },
+    {
+      "id": "item-11",
+      "source": "",
+      "kind": "out_of_reach",
+      "tool": "",
+      "what": "The average magnitude error resulting from the sign mistake across all 888 galaxies in the sample is 0.34 mag in J, 0.18 mag in H, and 0.15 mag in K.",
+      "why": "Verifying these empirical averages requires the underlying observational catalog of 888 galaxies, which cannot be evaluated by the provided tools.",
+      "text": "Erratum to \"2MTF I. The Tully-Fisher Relation in the 2MASS J, H and K Bands\"\n(Masters et al. 2008). A sign error was found in the application of internal\nextinction and k-corrections to the magnitudes: the corrections were positive,\ndimming the magnitudes, rather than negative. The average magnitude error over\nall 888 galaxies in the sample was 0.34 mag in J, 0.18 mag in H and 0.15 mag\nin K."
+    },
+    {
+      "id": "item-12",
+      "source": "",
+      "kind": "not_quantitative",
+      "tool": "",
+      "what": "The text announces an erratum describing code corrections to Gaia proper motions and their qualitative impact.",
+      "why": "The passage consists entirely of qualitative narrative description without specific numerical data, equations, or quantitative claims to evaluate.",
+      "text": "Erratum, MNRAS 511, 1224, \"Revisiting the Cygnus OB associations\". After\npublication a small error was identified in the code processing the Gaia\nproper motions. The correction produced a number of small modifications to\nthe numerical results, but did not change the main or qualitative results."
+    },
+    {
+      "id": "item-13",
+      "source": "",
+      "kind": "not_quantitative",
+      "tool": "",
+      "what": "The note states that the spectra in version 2 were revised to include an omitted factor of omega^3.",
+      "why": "This is an editorial change note describing a manuscript revision rather than a numerical assertion or problem.",
+      "text": "arXiv v2 change note, physics.chem-ph (Sep 2024). The spectra were revised to\ninclude the omega^3 factor, which had been omitted in v1."
+    },
+    {
+      "id": "item-14",
+      "source": "",
+      "kind": "out_of_reach",
+      "tool": "",
+      "what": "The material asserts that approximately 11% of surveyed papers in Nature and the British Medical Journal contained flawed statistical results.",
+      "why": "This is an empirical research finding that requires observational data and measurement beyond the capability of the available mathematical checks.",
+      "text": "Reported in a scoping review of retracted clinical and translational research\n(PMC11626570): a study of papers in Nature and the British Medical Journal\nfound flawed statistical results at a rate of about 11%."
+    }
+  ]
+}
