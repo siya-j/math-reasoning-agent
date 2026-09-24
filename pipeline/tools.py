@@ -235,6 +235,59 @@ def make_tools(log: VerificationLog) -> list:
             ),
         )
 
+    def check_dimensions(claim: str, lhs: str, rhs: str) -> str:
+        """Check whether two physical quantities have the same DIMENSIONS.
+
+        This asks whether they are the same KIND of thing (an energy, a
+        force, a speed), not whether they are equal. Use it to test whether a
+        formula was assembled correctly, and for any claim about what a unit
+        means.
+
+        Do not use this when neither side has a unit; that is arithmetic.
+
+        claim: the claim from the user's question that this check is testing.
+        lhs, rhs: the two quantities. Write units by their full singular name
+            (meter, second, kilogram, joule, newton, pascal, mole, liter,
+            volt, ohm, watt), with ** for powers and explicit multiplication.
+            A bare number with no unit is dimensionless.
+        """
+        return log.record(
+            "check_dimensions",
+            claim,
+            VerificationRequest(kind=VerificationKind.DIMENSION, lhs=lhs, rhs=rhs),
+        )
+
+    def check_quantity(
+        claim: str, expression: str, expected: str, decimal_places: str = ""
+    ) -> str:
+        """Check whether a physical calculation equals a stated value WITH ITS UNIT.
+
+        Use this for any question whose answer carries a unit. The unit is
+        part of the answer: a distance reported in seconds is wrong however
+        right its number is, and this check is the only one that can see that.
+
+        The two sides may use different units for the same dimension; the
+        conversion is done before comparing.
+
+        claim: the claim from the user's question that this check is testing.
+        expression: the calculation, with a unit on every physical quantity,
+            built from the values the user's question states.
+        expected: the value the user's question claims, with its unit.
+        decimal_places: pass this ONLY when the question says the answer is
+            rounded or given to a number of decimal places, as a string of
+            digits. Leave it empty otherwise, which compares exactly.
+        """
+        return log.record(
+            "check_quantity",
+            claim,
+            VerificationRequest(
+                kind=VerificationKind.QUANTITY,
+                lhs=expression,
+                rhs=expected,
+                tolerance=decimal_places,
+            ),
+        )
+
     return [
         check_equality,
         check_numeric,
@@ -245,4 +298,6 @@ def make_tools(log: VerificationLog) -> list:
         check_matrix,
         check_inequality,
         check_factorization,
+        check_dimensions,
+        check_quantity,
     ]

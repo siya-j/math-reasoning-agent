@@ -26,6 +26,9 @@ class VerificationKind(str, Enum):
     INEQUALITY = "inequality"      # does lhs `relation` rhs hold for all real values?
     FACTORIZATION = "factorization"  # is rhs the prime factorisation of lhs?
     FORMAL = "formal"        # does a proof assistant accept a proof of `statement`?
+    # --- science (the computational extension) ---------------------------
+    DIMENSION = "dimension"  # do lhs and rhs have the same physical dimensions?
+    QUANTITY = "quantity"    # does a physical expression equal rhs, units and all?
     NONE = "none"            # nothing here can be checked deterministically
 
 
@@ -47,6 +50,8 @@ class VerificationRequest:
     relation: str = ""        # one of < <= > >= (INEQUALITY only)
     statement: str = ""       # the theorem, in the prover's language (FORMAL)
     proof: str = ""           # the proof of that theorem (FORMAL)
+    tolerance: str = ""       # decimal places to round to before comparing;
+                              # empty means compare exactly (QUANTITY)
 
     @property
     def is_checkable(self) -> bool:
