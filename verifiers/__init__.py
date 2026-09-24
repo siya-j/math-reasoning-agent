@@ -10,13 +10,23 @@ from domain.verdict import Verdict, VerificationStatus
 from domain.verification import VerificationRequest
 from verifiers.base import Verifier
 from verifiers.lean_verifier import LeanVerifier
+from verifiers.reference_verifier import ReferenceVerifier
 from verifiers.sympy_verifier import SymPyVerifier
 from verifiers.units_verifier import UnitsVerifier
 
 # Order matters: the first verifier that supports a request handles it.
 # Adding Lean is one line. Principle 8 in practice — the pipeline, the guard
 # and the reflection loop are all untouched by this change.
-VERIFIERS: list[Verifier] = [SymPyVerifier(), UnitsVerifier(), LeanVerifier()]
+#
+# The kinds are disjoint, so this order expresses no precedence between the
+# science verifiers; it is the order they were built in. Lean stays last
+# because it is the only one that costs seconds rather than milliseconds.
+VERIFIERS: list[Verifier] = [
+    SymPyVerifier(),
+    UnitsVerifier(),
+    ReferenceVerifier(),
+    LeanVerifier(),
+]
 
 NOT_APPLICABLE = Verdict(
     status=VerificationStatus.NOT_APPLICABLE,
@@ -43,6 +53,7 @@ __all__ = [
     "Verifier",
     "SymPyVerifier",
     "UnitsVerifier",
+    "ReferenceVerifier",
     "LeanVerifier",
     "NOT_APPLICABLE",
 ]

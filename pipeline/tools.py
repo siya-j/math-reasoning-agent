@@ -288,6 +288,51 @@ def make_tools(log: VerificationLog) -> list:
             ),
         )
 
+    def check_molar_mass(claim: str, formula: str, claimed_mass: str) -> str:
+        """Check the molar mass of a chemical formula, in grams per mole.
+
+        Never work a molar mass out yourself; always call this. The claim is
+        judged at the precision it is written to, so a value rounded the way
+        the question rounds it is accepted.
+
+        claim: the claim from the user's question that this check is testing.
+        formula: the compound, written the way chemists write it. Element
+            symbols are case sensitive. Brackets are understood, and a dot
+            before water of crystallisation.
+        claimed_mass: the molar mass the user's question states, as a plain
+            number with no unit and no arithmetic in it.
+        """
+        return log.record(
+            "check_molar_mass",
+            claim,
+            VerificationRequest(
+                kind=VerificationKind.MOLAR_MASS, lhs=formula, rhs=claimed_mass
+            ),
+        )
+
+    def check_constant(claim: str, name: str, claimed_value: str) -> str:
+        """Check a physical constant against its accepted value.
+
+        Never state a constant from memory; always call this. The claim is
+        judged at the precision it is written to, so a rounded value is
+        accepted when its digits are right.
+
+        Names are case sensitive where physics is: G is the gravitational
+        constant and g is the acceleration due to gravity.
+
+        claim: the claim from the user's question that this check is testing.
+        name: the constant, by name or by its usual symbol.
+        claimed_value: the value the user's question states, as a plain
+            number in SI units, with no unit attached and no arithmetic.
+        """
+        return log.record(
+            "check_constant",
+            claim,
+            VerificationRequest(
+                kind=VerificationKind.CONSTANT, lhs=name, rhs=claimed_value
+            ),
+        )
+
     return [
         check_equality,
         check_numeric,
@@ -300,4 +345,6 @@ def make_tools(log: VerificationLog) -> list:
         check_factorization,
         check_dimensions,
         check_quantity,
+        check_molar_mass,
+        check_constant,
     ]

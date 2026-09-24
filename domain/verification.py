@@ -29,6 +29,8 @@ class VerificationKind(str, Enum):
     # --- science (the computational extension) ---------------------------
     DIMENSION = "dimension"  # do lhs and rhs have the same physical dimensions?
     QUANTITY = "quantity"    # does a physical expression equal rhs, units and all?
+    MOLAR_MASS = "molar_mass"  # is rhs the molar mass of the formula in lhs?
+    CONSTANT = "constant"    # is rhs the accepted value of the constant named in lhs?
     NONE = "none"            # nothing here can be checked deterministically
 
 
