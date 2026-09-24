@@ -27,6 +27,8 @@ well-defined quantity is FALSE, and we say so.
 
 from __future__ import annotations
 
+import re
+
 import sympy
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations
 from sympy.physics import units as physical_units
@@ -106,6 +108,30 @@ def _units_in(expression) -> set:
     return set(expression.atoms(physical_units.Quantity))
 
 
+_WORD = re.compile(r"[A-Za-z_][A-Za-z_0-9]*")
+_UNIT_WORDS = frozenset(
+    name for name in _UNIT_NAMES if getattr(physical_units, name, None) is not None
+)
+
+
+def _mentions_units(text: str) -> bool:
+    """Does the WRITTEN expression name any unit?
+
+    Deliberately not `_units_in`, which inspects the expression AFTER SymPy
+    has simplified it. A quantity that cancels to dimensionless has no units
+    left to find, so asking the simplified form whether units were involved
+    answers "no" for exactly the expressions a scientist most wants checked.
+
+    MEASURED: the Peclet number, written (m/s)*m/(m**2/s), cancels to 1.
+    The old check reported "neither side carries a unit, so there are no
+    dimensions to compare" -- refusing the single most common research-level
+    dimensional question, "is this group dimensionless?". The Reynolds
+    number passed only because `pascal*second` happened not to cancel
+    symbolically, which is worse than failing consistently.
+    """
+    return any(word in _UNIT_WORDS for word in _WORD.findall(text or ""))
+
+
 def _describe(dimensions: dict) -> str:
     if not dimensions:
         return "dimensionless"
@@ -120,6 +146,48 @@ class _Incoherent(Exception):
     """An expression adds quantities of different dimensions."""
 
 
+class _DimensionalArgument(Exception):
+    """A transcendental function was given something with dimensions."""
+
+
+# exp, log and the trigonometric functions are defined by power series in
+# which their argument is added to its own powers. That is only coherent if
+# the argument is dimensionless -- you cannot add a joule to a joule squared.
+_TRANSCENDENTAL = tuple(
+    getattr(sympy, name) for name in
+    ("exp log sin cos tan asin acos atan sinh cosh tanh").split()
+    if hasattr(sympy, name)
+)
+
+
+def _dimensionless_arguments(expression, source: str) -> None:
+    """Refuse exp(5 joules) and log(5 metres).
+
+    This is the dimensional error that reaches published papers, usually as
+    an activation energy per MOLE divided by a Boltzmann constant per
+    PARTICLE. Left to itself SymPy raises somewhere inside the dimension
+    system and the verifier reported UNKNOWN -- reading as "could not
+    decide" for something that is definitely wrong.
+    """
+    for function in _TRANSCENDENTAL:
+        for node in expression.atoms(function):
+            for argument in node.args:
+                try:
+                    dimensions = _base_dimensions(argument)
+                except Exception:
+                    # A nested transcendental. Its own entry reports it.
+                    continue
+                if dimensions:
+                    raise _DimensionalArgument(
+                        f"'{source}' applies {function.__name__} to "
+                        f"{argument}, which has dimensions "
+                        f"{_describe(dimensions)}. The argument of "
+                        f"{function.__name__} must be dimensionless, because "
+                        "its power series adds the argument to its own "
+                        "powers."
+                    )
+
+
 def _coherent(expression, source: str) -> dict:
     """Base dimensions of an expression, refusing incoherent sums.
 
@@ -128,6 +196,8 @@ def _coherent(expression, source: str) -> dict:
     something that does not exist. Adding unlike quantities is the classic
     units error, so it is reported rather than swallowed.
     """
+    _dimensionless_arguments(expression, source)
+
     for total in expression.atoms(sympy.Add):
         seen = [_base_dimensions(term) for term in total.args]
         if any(d != seen[0] for d in seen[1:]):
@@ -146,7 +216,14 @@ def _target_units(expression):
 
 
 def _unit_text(target) -> str:
-    return " ".join(str(unit) for unit in target) if target else ""
+    """The target units, in a stable order.
+
+    `_units_in` returns a SET, and joining a set gave "9.81 second meter"
+    for an acceleration -- a reader-facing string whose word order changed
+    between runs. Sorting is not cosmetic here: a scientist reads this line
+    to decide whether the check tested what they meant.
+    """
+    return " ".join(sorted(str(unit) for unit in target)) if target else ""
 
 
 def _magnitude(expression):
@@ -195,7 +272,7 @@ class UnitsVerifier(Verifier):
                 return self._dimension(request)
             if request.kind is VerificationKind.QUANTITY:
                 return self._quantity(request)
-        except _Incoherent as exc:
+        except (_Incoherent, _DimensionalArgument) as exc:
             return self._false(str(exc))
         except Exception as exc:  # never crash the pipeline
             return self._unknown(f"The units verifier could not process this: {exc}")
@@ -205,9 +282,9 @@ class UnitsVerifier(Verifier):
     def _dimension(self, request: VerificationRequest) -> Verdict:
         lhs, rhs = _parse(request.lhs), _parse(request.rhs)
 
-        if not _units_in(lhs) and not _units_in(rhs):
+        if not _mentions_units(request.lhs) and not _mentions_units(request.rhs):
             return self._unknown(
-                "Neither side carries a unit, so there are no dimensions to "
+                "Neither side names a unit, so there are no dimensions to "
                 "compare. This is an arithmetic claim, not a dimensional one."
             )
 
@@ -227,9 +304,9 @@ class UnitsVerifier(Verifier):
     def _quantity(self, request: VerificationRequest) -> Verdict:
         lhs, rhs = _parse(request.lhs), _parse(request.rhs)
 
-        if not _units_in(lhs) and not _units_in(rhs):
+        if not _mentions_units(request.lhs) and not _mentions_units(request.rhs):
             return self._unknown(
-                "Neither side carries a unit. A claim with no units is "
+                "Neither side names a unit. A claim with no units is "
                 "arithmetic; use the numeric check so the right verifier "
                 "decides it."
             )
@@ -252,7 +329,10 @@ class UnitsVerifier(Verifier):
         # dimensionless 1.204428152e24, and a correct claim was refuted as
         # "dimensionally impossible".
         if left != right:
-            if not left or not right:
+            # Only when one side never NAMED a unit. A group that names units
+            # and cancels to dimensionless is a real dimensionless quantity,
+            # not an agent's construction error.
+            if not _mentions_units(request.lhs) or not _mentions_units(request.rhs):
                 return self._unknown(
                     f"Only one side carries a unit: {request.lhs} is "
                     f"{_describe(left)} and {request.rhs} is "
