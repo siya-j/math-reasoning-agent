@@ -1,0 +1,20 @@
+# Shell scripts MUST keep LF endings.
+#
+# This repository is checked out on an NTFS mount with core.autocrlf=true,
+# which rewrites text files to CRLF in the working tree. Windows tools do not
+# care. Bash does: a sourced script whose lines end in \r appends a carriage
+# return to every value it exports, so
+#
+#     export MRA_LEAN_PROJECT=/home/.../mathlib_playground
+#
+# becomes a path ending in \r that no directory matches, and
+#
+#     export MRA_MODEL=google_genai:gemini-3.8-flash
+#
+# becomes a model name no provider recognises. It also breaks `if` blocks
+# outright, which is how `source scripts/env.sh` came to print seven
+# "command not found" lines and a syntax error, and silently skipped loading
+# ~/.mra-secrets -- making a correctly-installed key look absent.
+#
+# Diagnosed the hard way: three FATAL rows in check_install.py, all one cause.
+*.sh text eol=lf
