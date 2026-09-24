@@ -4,6 +4,10 @@
     python scripts/evaluate.py --limit 5        # first 5 cases (cheap check)
     python scripts/evaluate.py --area calculus  # one area
     python scripts/evaluate.py --pause 2        # 2s between calls (rate limits)
+    python scripts/evaluate.py --cases eval/golden-science.json   # a different set
+
+A --cases run writes its results beside that file (golden-science.last_run.json)
+rather than to eval/last_run.json, so one set never overwrites another's baseline.
 """
 
 import argparse
@@ -20,9 +24,11 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=0, help="run only the first N cases")
     parser.add_argument("--area", default="", help="filter by area, e.g. calculus")
     parser.add_argument("--pause", type=float, default=0.0, help="seconds between cases")
+    parser.add_argument("--cases", default="", help="path to a cases file (default: eval/golden.json)")
     args = parser.parse_args()
 
-    cases = load_cases()
+    cases_path = Path(args.cases) if args.cases else None
+    cases = load_cases(cases_path)
     if args.area:
         cases = [c for c in cases if c.area == args.area]
     if args.limit:
@@ -58,7 +64,9 @@ def main() -> int:
                 print(f"  {result.case_id}: expected {result.expected}, got {result.actual}")
                 print(f"    {result.detail}")
 
-    path = save(results, summary)
+    results_path = (cases_path.with_suffix(".last_run.json")
+                    if cases_path else None)
+    path = save(results, summary, results_path)
     print(f"\nSaved to {path}")
     return 1 if summary["wrong"] or summary["errors"] else 0
 
