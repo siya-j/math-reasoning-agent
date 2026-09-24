@@ -59,3 +59,45 @@ architecture, and it is worth more than any quantity of new cases.
 **Nothing here becomes a benchmark case on its own.** The triage is a draft
 for a person to accept or throw away. A model choosing what our benchmark
 contains would be a model deciding what we measure ourselves against.
+
+## What was learned collecting the first batch (2026-09-24)
+
+**Corrigenda are the wrong layer.** 14 real corrections were fetched across
+chemistry, physics, materials, environmental science, astronomy and
+pharmacology. The triage sorted **zero** of them as checkable claims, and
+every reason said the same thing: *"requires the underlying calculation,
+which is not supplied."*
+
+A corrigendum is a NOTICE ABOUT a calculation, not the calculation. "There
+is a missing factor of 1/2 in Eq. (41)" does not contain Eq. (41). The 0%
+is a collection error, not a finding about the architecture, and reporting
+it as one would be the mistake this project keeps having to correct.
+
+Keep them anyway: they are real, and they are the right KIND of evidence
+about what goes wrong in published science. They are just one layer too
+high.
+
+**What does work, mechanically:**
+
+- `arxiv.org/html/<id>` returns clean readable text for papers from late
+  2023 onward. No PDF parsing. This is the reliable route.
+- Searching generic phrases ("check my work", "worked example") has a poor
+  hit rate. Naming a specific paper or dataset beats twenty searches.
+
+**What does not:**
+
+- PDFs. Three attempts failed. The stdlib regex extractor in the scratchpad
+  handles neither font-subset PDFs (print-to-PDF pages) nor compressed
+  object streams (most modern PDFs). Reading them properly needs `pypdf`,
+  which cannot be installed here: the system Python is PEP 668
+  externally-managed, and `python3 -m venv` fails because `ensurepip` is
+  absent and `apt install python3.14-venv` needs sudo.
+
+  If PDF sources matter, that apt install is the one-line unblock.
+
+- Publisher sites (ACS, RSC) return 403 or 404 to an unauthenticated fetch.
+
+**What the next batch needs:** sources that CARRY THEIR OWN NUMBERS --
+supplementary information with worked calculations, experimental papers
+reporting measured values with uncertainties, questions that include the
+values. Not notices about calculations held elsewhere.
