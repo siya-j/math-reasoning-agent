@@ -13,6 +13,7 @@ from verifiers.chemistry_verifier import ChemistryVerifier
 from verifiers.lean_verifier import LeanVerifier
 from verifiers.plausibility_verifier import PlausibilityVerifier
 from verifiers.reference_verifier import ReferenceVerifier
+from verifiers.statistics_verifier import StatisticsVerifier
 from verifiers.sympy_verifier import SymPyVerifier
 from verifiers.units_verifier import UnitsVerifier
 
@@ -29,6 +30,7 @@ VERIFIERS: list[Verifier] = [
     ReferenceVerifier(),
     PlausibilityVerifier(),
     ChemistryVerifier(),
+    StatisticsVerifier(),
     LeanVerifier(),
 ]
 
@@ -60,6 +62,7 @@ __all__ = [
     "ReferenceVerifier",
     "PlausibilityVerifier",
     "ChemistryVerifier",
+    "StatisticsVerifier",
     "LeanVerifier",
     "NOT_APPLICABLE",
 ]

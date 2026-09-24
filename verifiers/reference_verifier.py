@@ -24,66 +24,18 @@ FALSE would be asserting knowledge that nobody has.
 
 from __future__ import annotations
 
-import math
-import re
-
 from domain.verdict import Verdict, VerificationStatus
 from domain.verification import VerificationKind, VerificationRequest
 from science import constants
 from science.elements import FormulaError, molar_mass
+from science.precision import (
+    as_number as _as_number,
+    round_to as _round_to,
+    significant_figures,
+)
 from verifiers.base import Verifier
 
 _SUPPORTED = {VerificationKind.MOLAR_MASS, VerificationKind.CONSTANT}
-
-_NUMBER = re.compile(
-    r"^\s*[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?\s*$"
-)
-
-
-def _as_number(text: str):
-    """Read a plain numeric literal, or None.
-
-    Deliberately strict: this accepts a number and nothing else. The values
-    come from a language model, and an expression here would mean the model
-    is computing where it should be quoting.
-    """
-    if not _NUMBER.match(text or ""):
-        return None
-    try:
-        return float(text.strip())
-    except ValueError:
-        return None
-
-
-def significant_figures(text: str) -> int:
-    """How many significant figures a numeric literal was written to.
-
-    Leading zeros never count. Trailing zeros after a decimal point do. A
-    trailing zero in a bare integer is counted as significant, which is the
-    strict reading: it can only ever refuse a claim that a lenient reading
-    would confirm, and a question that means otherwise can say so.
-    """
-    digits = (text or "").strip().lstrip("+-")
-    digits = re.split(r"[eE]", digits)[0]
-    if "." in digits:
-        whole, _, fraction = digits.partition(".")
-        stripped = (whole + fraction).lstrip("0")
-        return len(stripped) if stripped else 1
-    stripped = digits.lstrip("0")
-    return len(stripped) if stripped else 1
-
-
-def _round_to(value: float, figures: int) -> float:
-    """Round to a number of SIGNIFICANT FIGURES, not decimal places.
-
-    sympy.Float(value, n) sets binary precision and is not this: it turned
-    the speed of light at one significant figure into 297795584 rather
-    than 3e8.
-    """
-    if value == 0 or figures <= 0:
-        return 0.0
-    exponent = math.floor(math.log10(abs(value)))
-    return round(value, -(exponent - figures + 1))
 
 
 class ReferenceVerifier(Verifier):

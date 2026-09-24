@@ -33,6 +33,7 @@ class VerificationKind(str, Enum):
     CONSTANT = "constant"    # is rhs the accepted value of the constant named in lhs?
     PLAUSIBILITY = "plausibility"  # is rhs an impossible value for the quantity in lhs?
     BALANCE = "balance"      # does the reaction equation in lhs balance?
+    STATISTIC = "statistic"  # does the named statistic of `parameters` equal rhs?
     NONE = "none"            # nothing here can be checked deterministically
 
 
@@ -56,6 +57,7 @@ class VerificationRequest:
     proof: str = ""           # the proof of that theorem (FORMAL)
     tolerance: str = ""       # decimal places to round to before comparing;
                               # empty means compare exactly (QUANTITY)
+    parameters: str = ""      # name=value pairs for a statistic (STATISTIC)
 
     @property
     def is_checkable(self) -> bool:

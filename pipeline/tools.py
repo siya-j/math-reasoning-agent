@@ -380,6 +380,48 @@ def make_tools(log: VerificationLog) -> list:
             VerificationRequest(kind=VerificationKind.BALANCE, lhs=equation),
         )
 
+    def check_statistic(
+        claim: str, statistic: str, parameters: str, claimed_value: str
+    ) -> str:
+        """Check a probability or a statistical test against a claimed value.
+
+        Use for genetics crosses, sampling questions, and goodness-of-fit
+        tests on observed against expected counts.
+
+        statistic: one of
+            binomial probability   P(X = k)
+            binomial at most       P(X <= k)
+            binomial at least      P(X >= k)
+            normal below           P(X <= x)
+            normal above           P(X >= x)
+            chi square statistic   the test statistic itself
+            chi square p value     the p-value of a goodness-of-fit test
+            t test p value         the two-sided p-value for a given t and df
+
+        parameters: name=value pairs separated by commas. Binomial takes
+            n, p and k; normal takes mu, sigma and x; chi square takes
+            observed and expected as bracketed lists in the same category
+            order; the t test takes t and df.
+
+        claimed_value: the value the user's question states, as a plain
+            number. It is judged at the precision it is written to.
+
+        This reports the number and does not interpret it. Whether a p-value
+        counts as significant is a judgement about the experiment.
+
+        claim: the claim from the user's question that this check is testing.
+        """
+        return log.record(
+            "check_statistic",
+            claim,
+            VerificationRequest(
+                kind=VerificationKind.STATISTIC,
+                lhs=statistic,
+                rhs=claimed_value,
+                parameters=parameters,
+            ),
+        )
+
     return [
         check_equality,
         check_numeric,
@@ -396,4 +438,5 @@ def make_tools(log: VerificationLog) -> list:
         check_constant,
         check_possible,
         check_equation_balances,
+        check_statistic,
     ]
