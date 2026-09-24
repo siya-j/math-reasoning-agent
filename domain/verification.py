@@ -31,6 +31,8 @@ class VerificationKind(str, Enum):
     QUANTITY = "quantity"    # does a physical expression equal rhs, units and all?
     MOLAR_MASS = "molar_mass"  # is rhs the molar mass of the formula in lhs?
     CONSTANT = "constant"    # is rhs the accepted value of the constant named in lhs?
+    PLAUSIBILITY = "plausibility"  # is rhs an impossible value for the quantity in lhs?
+    BALANCE = "balance"      # does the reaction equation in lhs balance?
     NONE = "none"            # nothing here can be checked deterministically
 
 

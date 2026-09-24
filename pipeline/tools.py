@@ -333,6 +333,53 @@ def make_tools(log: VerificationLog) -> list:
             ),
         )
 
+    def check_possible(claim: str, quantity: str, value: str) -> str:
+        """Check whether a value is PHYSICALLY IMPOSSIBLE for a quantity.
+
+        This check can only ever refute. A value inside the possible range is
+        reported as undecided, because being possible is not being correct.
+        Use it as a sanity check on an answer you have computed, especially
+        one produced by a formula you are unsure you assembled correctly.
+
+        It catches what arithmetic checking cannot: a ratio inverted, a sign
+        dropped, a quantity subtracted the wrong way round.
+
+        claim: the claim from the user's question that this check is testing.
+        quantity: what the number MEANS, in words, such as a probability, an
+            efficiency, a concentration, an absolute temperature, a speed, a
+            percentage yield, a mole fraction or a count.
+        value: the number, in the unit that quantity is normally given in,
+            as a plain number with no unit and no arithmetic.
+        """
+        return log.record(
+            "check_possible",
+            claim,
+            VerificationRequest(
+                kind=VerificationKind.PLAUSIBILITY, lhs=quantity, rhs=value
+            ),
+        )
+
+    def check_equation_balances(claim: str, equation: str) -> str:
+        """Check whether a chemical equation has the same atoms on both sides.
+
+        Never count atoms yourself; always call this. An unbalanced equation
+        invalidates every quantity computed from it, and miscounting is easy
+        to do confidently.
+
+        Balance is necessary but not sufficient: a balanced equation may
+        still describe a reaction that does not occur.
+
+        claim: the claim from the user's question that this check is testing.
+        equation: the full equation with an arrow written as ->, species
+            separated by +, and stoichiometric coefficients in front of the
+            formulae they apply to.
+        """
+        return log.record(
+            "check_equation_balances",
+            claim,
+            VerificationRequest(kind=VerificationKind.BALANCE, lhs=equation),
+        )
+
     return [
         check_equality,
         check_numeric,
@@ -347,4 +394,6 @@ def make_tools(log: VerificationLog) -> list:
         check_quantity,
         check_molar_mass,
         check_constant,
+        check_possible,
+        check_equation_balances,
     ]

@@ -9,7 +9,9 @@ from __future__ import annotations
 from domain.verdict import Verdict, VerificationStatus
 from domain.verification import VerificationRequest
 from verifiers.base import Verifier
+from verifiers.chemistry_verifier import ChemistryVerifier
 from verifiers.lean_verifier import LeanVerifier
+from verifiers.plausibility_verifier import PlausibilityVerifier
 from verifiers.reference_verifier import ReferenceVerifier
 from verifiers.sympy_verifier import SymPyVerifier
 from verifiers.units_verifier import UnitsVerifier
@@ -25,6 +27,8 @@ VERIFIERS: list[Verifier] = [
     SymPyVerifier(),
     UnitsVerifier(),
     ReferenceVerifier(),
+    PlausibilityVerifier(),
+    ChemistryVerifier(),
     LeanVerifier(),
 ]
 
@@ -54,6 +58,8 @@ __all__ = [
     "SymPyVerifier",
     "UnitsVerifier",
     "ReferenceVerifier",
+    "PlausibilityVerifier",
+    "ChemistryVerifier",
     "LeanVerifier",
     "NOT_APPLICABLE",
 ]
