@@ -40,6 +40,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from eval import elaborate as elaboration_module  # noqa: E402
 from eval import roundtrip  # noqa: E402
 
 # Three failures with nothing scored means the setup is wrong, not that three
@@ -76,6 +77,12 @@ def main() -> int:
     parser.add_argument("--outcomes", nargs="+", default=list(roundtrip.AUDITABLE),
                         help="which outcomes to audit")
     parser.add_argument("--out", default="", help="write the assessments here")
+    parser.add_argument(
+        "--no-elaborate", action="store_true",
+        help=("skip Lean and back-translate the SOURCE. Faster, and "
+              "unreliable: source and elaborated form differ exactly where "
+              "the bugs are."),
+    )
     args = parser.parse_args()
 
     goals = {str(g["id"]): g for g in load(args.goals)}
@@ -113,17 +120,30 @@ def main() -> int:
     import llm  # imported late so a dry run needs no model
 
     model = llm.get_model()
+
+    if args.no_elaborate:
+        print("NOT ELABORATING. The model will read the source text, which\n"
+              "reads the way a mathematician would assume rather than the way\n"
+              "Lean understood it. Four broken statements passed this way.\n")
     assessments = []
     consecutive_failures = 0
 
     for index, result in enumerate(targets, 1):
         goal = goals[str(result["goal_id"])]
+        statement = formal_of(result, goal)
+        elaborated = None
+        if not args.no_elaborate:
+            elaborated = elaboration_module.elaborate(
+                preamble=result.get("preamble") or goal.get("note", ""),
+                statement=statement,
+            )
         assessment = roundtrip.assess(
             goal_id=str(result["goal_id"]),
             outcome=str(result["outcome"]),
-            formal=formal_of(result, goal),
+            formal=statement,
             informal=goal.get("informal", ""),
             model=model,
+            elaboration=elaborated,
         )
         assessments.append(assessment)
 
@@ -137,6 +157,8 @@ def main() -> int:
             consecutive_failures = 0
 
         flag = "  <-- look at this one" if assessment.needs_a_human else ""
+        if assessment.verdict == roundtrip.BROKEN:
+            flag = "  (compiler agrees it is unusable)"
         print(f"  [{index:3d}/{len(targets)}] {assessment.goal_id:38s} "
               f"{assessment.outcome:18s} {assessment.verdict:9s}{flag}")
 
@@ -147,6 +169,12 @@ def main() -> int:
         print(f"    {key:34s} {count}")
     print(f"  worth opening          {summary['needs_a_human']}")
     print("=" * 68)
+
+    broken = sum(1 for a in assessments if a.verdict == roundtrip.BROKEN)
+    if broken:
+        print(f"\n  {broken} statement(s) do not elaborate cleanly. Those "
+              "exclusions are\n  CONFIRMED by the compiler, not questioned "
+              "by it, and no model was\n  asked about them.")
 
     if summary["needs_a_human"]:
         print("\n  A SUSPECT goal that round-trips as a MATCH means the agent")

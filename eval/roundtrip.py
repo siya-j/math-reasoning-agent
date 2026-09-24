@@ -50,10 +50,19 @@ AUDITABLE = ("suspect_statement", "refuted")
 MATCH = "match"
 MISMATCH = "mismatch"
 UNCLEAR = "unclear"
+# Not a reading at all: Lean could not make sense of the statement. This one
+# is BOUGHT WITH A COMPILATION and outranks anything a model says about the
+# text, so it is decided before the model is asked.
+BROKEN = "broken"
 
 
 BACK_TRANSLATE = """Read this Lean 4 theorem statement and say, in plain
 English, exactly what it asserts.
+
+This is the FULLY ELABORATED form: every implicit argument and every numeric
+literal's type has been made explicit by the compiler. Read the types that
+are actually written, not the ones the notation suggests. `Icc (0 : Nat)
+(1 : Nat)` is a two-element set of naturals, not the unit interval.
 
 Describe only what is written. Do not prove it, do not comment on whether it
 is true, and do not repair it if it looks wrong — if the statement says
@@ -114,6 +123,10 @@ class Assessment:
         A REFUTED goal that round-trips as a MATCH is the other: Lean
         compiled a proof of the negation of something that faithfully
         renders the book.
+
+        BROKEN is not in this list. It CONFIRMS the exclusion rather than
+        questioning it -- the compiler agrees the statement is unusable, so
+        there is nothing for a person to adjudicate.
         """
         return self.verdict == MATCH
 
@@ -145,8 +158,24 @@ def _content(reply) -> str:
 
 
 def assess(goal_id: str, outcome: str, formal: str, informal: str,
-           model) -> Assessment:
-    """Round-trip one statement. Never raises; returns UNCLEAR instead."""
+           model, elaboration=None) -> Assessment:
+    """Round-trip one statement. Never raises; returns UNCLEAR instead.
+
+    `elaboration` is an eval.elaborate.Elaboration. When one is supplied the
+    model reads the ELABORATED type rather than the source, which is the
+    whole point: on the first live run this check called four broken
+    ProofNet statements faithful because a model reading `Icc 0 1` describes
+    the unit interval, while Lean had elaborated it over the naturals.
+
+    A statement that does not elaborate is settled without asking the model
+    at all. That verdict is bought with a compilation; the model's is not.
+    """
+    if elaboration is not None and not elaboration.usable:
+        return Assessment(goal_id, outcome, BROKEN, elaboration.problem,
+                          elaboration.text)
+    if elaboration is not None:
+        formal = elaboration.text
+
     if not (formal or "").strip():
         return Assessment(goal_id, outcome, UNCLEAR, "no formal statement")
     if not (informal or "").strip():
