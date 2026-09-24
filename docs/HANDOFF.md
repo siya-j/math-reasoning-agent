@@ -1085,6 +1085,48 @@ WSL vhdx until an elevated `diskpart compact vdisk` runs.
 tasks whose `lean_version` matches the installed toolchain and whose repo
 depends only on Mathlib, and budget the disk before the code.
 
+**§14.K — The suite has a flaky integration test, roughly one per full
+run, and it is NOT the `sorry` cutoff.** Investigated 2026-09-24.
+
+Two consecutive full runs each failed ONE test in the live/integration family,
+a different one each time:
+
+```
+  run 1   test_live_path :: carries_a_skeleton_all_the_way_to_a_proof
+  run 2   test_mathv2_integration :: a_proved_goal_becomes_a_proved_ProofRun
+```
+
+Both pass in isolation and with their whole file. Both involve a goal reaching
+PROVED, which made `b86837c` (abandon after three `sorry` submissions) the
+obvious suspect -- a counter that did not exempt skeleton holes would break
+decomposition, which rescues a quarter of all proofs.
+
+**It is not the cutoff, on mechanism rather than sampling.**
+`test_mathv2_integration.py` contains ZERO `sorry`s, and the cutoff counts
+`placeholder_proof` refusals, which exist only when a `sorry` is submitted.
+There is no path from the change to that test, which proves these failures
+occur for unrelated reasons. Supporting: `try_skeleton` never calls
+`_placeholder_refusal` (holes are the point there), and across the 186-goal
+run NO proved goal ever reached three placeholders -- max 2, including all 45
+that used decomposition.
+
+A control run at the pre-cutoff commit came back clean of sporadic failures,
+but that is ONE run against a failure that appears maybe half the time: it
+neither confirms nor refutes, and it should not be quoted as if it did.
+
+**Why this matters more here than in most projects.** This entire methodology
+rests on separating "the agent failed" from "the infrastructure hiccuped". A
+suite where a different integration test fails each full run trains the reader
+to skim red output -- the same hazard as the audit that reported eight false
+soundness failures on 2026-09-21. Worth a proper fix: the likely cause is
+cross-test interference through the shared Lean REPL
+(`MRA_LEAN_REPL_MAX_COMMANDS=2000`), which only manifests over a long run.
+
+> Noted for whoever picks this up: for eight runs the failure count sat at
+> exactly 6 with `test_goal_files` deterministically holding one slot. Fixing
+> it did not reduce the count -- a sporadic failure took the slot. The
+> flakiness was almost certainly there all along, masked by a known-red line.
+
 **§14.F — Variance is real, and it is not the backend.** MEASURED 2026-09-21
 on `eval/results/variance-flippers-1.json`: the four goals that had flipped
 between the 25- and 63-goal runs were re-run against the 63 under identical,
