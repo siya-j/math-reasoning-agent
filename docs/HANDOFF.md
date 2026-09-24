@@ -1291,3 +1291,82 @@ independent guard layers were broken at once and was caught only when the
 tests were first run against a real Lean toolchain. Two things are known and
 unmeasured: whether the model has memorised the benchmark, and how much the
 context-trimming fix actually saves.
+
+---
+
+## 18. The computational-science extension (branch `math_computational`)
+
+**Why.** The agent is a component of Aura, a research assistant. A research
+scientist's mathematics is rarely a theorem to prove; it is a formula to
+evaluate, a quantity to convert, a concentration to work out, a ratio to
+test against what sampling would explain. Theorem proving stays exactly as
+it was — nothing in this extension touches the proving path, and a test
+asserts that `pipeline/prover.py` does not import any of the new verifiers.
+
+**The shape of it.** Six new `VerificationKind`s and five new verifiers,
+registered the way the design always intended: one entry each in
+`verifiers.VERIFIERS`, with the pipeline, the guard and the reflection loop
+untouched.
+
+| Verifier | Kinds | Decides |
+|---|---|---|
+| `units` | `DIMENSION`, `QUANTITY` | dimensional consistency; a value WITH its unit |
+| `reference` | `MOLAR_MASS`, `CONSTANT` | formula masses; CODATA constants |
+| `plausibility` | `PLAUSIBILITY` | physically impossible values — refutes only |
+| `chemistry` | `BALANCE` | whether a reaction equation balances |
+| `statistics` | `STATISTIC` | binomial, normal, chi-square, Student t |
+
+**Four decisions that carry the soundness.**
+
+1. **Plausibility may only refute.** Outside the physical domain is FALSE;
+   inside it is UNKNOWN, never TRUE. The guard reads any TRUE as a passed
+   check, so a verifier that confirmed whatever it could not refute would
+   promote every plausible wrong answer to verified. A test states this as a
+   property over the whole table, not as a sample.
+
+2. **Every bound is a consequence of physics, not a description of the
+   usual.** `science/domains.py` also lists what was deliberately left out
+   and why — energy and enthalpy can be negative, entropy *changes* commonly
+   are, gauge pressure goes below atmospheric. pH is bounded at -2 and 16
+   rather than the schoolbook 0 and 14, because concentrated HCl reaches
+   about -1.1 and saturated NaOH about 15.
+
+3. **Claims are judged at the precision they were written to.**
+   `science/precision.py`. "Is Avogadro's number 6.022e23?" is TRUE; 6.023e23
+   is FALSE. Exact constants can be decided to any precision, measured ones
+   cannot — a claim about G finer than the measurement resolves returns
+   UNKNOWN, because FALSE would assert knowledge nobody has.
+
+4. **The faithfulness lint gained a rule, not just entries.** Lint the field
+   carrying the USER'S CLAIMED ANSWER (`QUANTITY.rhs`, `STATISTIC.rhs`); do
+   not lint one carrying LOOKED-UP REFERENCE DATA (`CONSTANT.rhs`,
+   `MOLAR_MASS.rhs`) or a value the agent computed and is sanity-checking
+   (`PLAUSIBILITY.rhs`). Avogadro's number is not expected to appear in the
+   question that needs it. The asymmetry of the error matters: a lint false
+   positive costs a `missed`, a false negative costs a `wrong`.
+
+**The benchmark.** `eval/golden-science.json`, 63 cases — 20 physics, 20
+chemistry, 16 biology, 7 on units. 40 true, **16 deliberately wrong**, 7
+undecidable by anything. The wrong ones are the mistakes people actually
+make (`v*t` for `(1/2)*g*t**2`, parallel resistors added as if in series, pH
+confused with pOH, exponential growth read as linear); arbitrary wrong
+numbers would be far easier than reality. The undecidable ones are empirical
+facts and measure restraint.
+
+It is a SEPARATE FILE from `eval/golden.json` on purpose. That file is the
+maths regression gate and its numbers are tracked run to run; mixing science
+in would turn one tracked number into two untracked ones. Run it with:
+
+    python3 scripts/evaluate.py --cases eval/golden-science.json --pause 1
+
+which writes to `eval/golden-science.last_run.json`, never to the maths
+baseline.
+
+**STATUS: BUILT, NOT YET MEASURED.** Every verifier is unit-tested offline
+and the suite passes, but no end-to-end run has happened — `~/.mra-secrets`
+was absent, so no model call could be made. Until that run exists, nothing
+here has a number attached, and the honest statement of this work is "the
+machinery exists and its parts behave" and nothing stronger. Expect a
+substantial `missed` rate on the first run: the tools are new to the model,
+and the gap between "a verifier can decide this" and "the model calls it
+with the right arguments" is exactly what the run measures.

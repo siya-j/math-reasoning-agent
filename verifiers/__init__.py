@@ -39,8 +39,11 @@ NOT_APPLICABLE = Verdict(
     method="none",
     detail=(
         "No deterministic verifier can decide this claim yet. Computer algebra "
-        "handles computational mathematics; claims in abstract algebra, "
-        "topology, analysis or set theory need a proof assistant (Phase 6)."
+        "handles computational mathematics; units, molar masses, constants, "
+        "equation balancing and statistics handle the numerical sciences; "
+        "claims in abstract algebra, topology, analysis or set theory need a "
+        "proof assistant. An empirical fact — whether a reaction occurs, "
+        "whether a dose is safe — is not a calculation and none of them apply."
     ),
 )
 

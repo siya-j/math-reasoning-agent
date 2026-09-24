@@ -20,18 +20,24 @@ import re
 from domain.claim import Claim, ProblemType
 from llm.client import get_model
 
-INTERPRET_PROMPT = """Classify a mathematical question, so it can be sent to
-the right system.
+INTERPRET_PROMPT = """Classify a question in mathematics or science, so it
+can be sent to the right system.
 
 Question: {question}
 
 The systems available are:
 
-  computational  a computer algebra system (SymPy). Use for anything that can
-                 be CALCULATED on concrete expressions: arithmetic,
-                 derivatives, integrals, limits, primality, factorisation,
-                 solving equations, matrices, series, inequalities in one
-                 variable, algebraic identities.
+  computational  deterministic calculators (a computer algebra system, a
+                 units engine, reference tables, a statistics engine). Use
+                 for anything that can be CALCULATED on concrete
+                 quantities: arithmetic, derivatives, integrals, limits,
+                 primality, factorisation, solving equations, matrices,
+                 series, inequalities in one variable, algebraic
+                 identities, and ALSO physics, chemistry and biology
+                 numerical work — quantities with units, dimensional
+                 consistency, molar masses, physical constants, whether a
+                 reaction equation balances, probabilities and statistical
+                 tests.
 
   formal         a proof assistant (Lean with Mathlib). Use for general
                  mathematical statements that must be PROVED rather than
@@ -39,7 +45,11 @@ The systems available are:
                  topology, analysis, set theory, cardinality, or any
                  statement quantified over an infinite structure.
 
-  unsupported    neither applies: opinion, history, or not mathematics.
+  unsupported    neither applies. Opinion, history, or an EMPIRICAL FACT
+                 that must be measured or looked up rather than derived —
+                 whether a reaction occurs, whether a dose is safe, what a
+                 substance's measured properties are. These are not
+                 calculations and no calculator settles them.
 
 Answer in exactly this format, three lines, nothing else:
 

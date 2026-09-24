@@ -48,10 +48,30 @@ def _numbers(text: str) -> set[str]:
 #   SERIES.rhs          — a deliberately wrong expansion was silently replaced
 #                         with the correct one, turning a false claim true
 #   FACTORIZATION.rhs   — same shape of risk: the claimed product is the user's
+#   QUANTITY.rhs        the same risk in physics, and the golden set is
+#                         built to provoke it: half its physics cases state a
+#                         WRONG value, and silently checking the right one
+#                         would turn every soundness case into a pass
+#   STATISTIC.rhs       likewise the user's claimed probability
+#
+# NOT linted, and the distinction is the rule:
+#
+#   lint the field that carries the USER'S CLAIMED ANSWER.
+#   do not lint a field that carries LOOKED-UP REFERENCE DATA.
+#
+# CONSTANT.rhs and MOLAR_MASS.rhs are lookups. Avogadro's number is not
+# expected to appear in the question that needs it, and flagging it would
+# make every correct use of the constants table read as unfaithful.
+#
+# PLAUSIBILITY.rhs is a value the agent COMPUTED and is sanity-checking. It
+# is supposed not to be in the question; that is the whole point of the
+# check.
 _CLAIMED_FIELD = {
     VerificationKind.SOLUTION: "candidate",
     VerificationKind.SERIES: "rhs",
     VerificationKind.FACTORIZATION: "rhs",
+    VerificationKind.QUANTITY: "rhs",
+    VerificationKind.STATISTIC: "rhs",
 }
 
 

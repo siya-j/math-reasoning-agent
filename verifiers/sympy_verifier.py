@@ -65,6 +65,23 @@ def _parse(text: str, evaluate: bool = True):
     )
 
 
+def _has_float(expression) -> bool:
+    """Was any part of this written as a decimal rather than exactly?"""
+    return bool(expression.atoms(sympy.Float))
+
+
+def _decimal_places(tolerance: str):
+    """How many decimal places to round to before comparing, or None."""
+    text = (tolerance or "").strip()
+    if not text:
+        return None
+    try:
+        places = int(text)
+    except ValueError:
+        return None
+    return places if places >= 0 else None
+
+
 class SymPyVerifier(Verifier):
     name = "sympy"
 
@@ -155,8 +172,54 @@ class SymPyVerifier(Verifier):
                 "Refusing to decide."
             )
 
-        if sympy.simplify(lhs - rhs) == 0:
+        # A question that says "to three decimal places" is asking about the
+        # rounded value, and that is the claim to test.
+        places = _decimal_places(request.tolerance)
+        if places is not None:
+            left, right = float(sympy.N(lhs)), float(sympy.N(rhs))
+            if round(left, places) == round(right, places):
+                return self._true(
+                    f"{request.lhs} = {left}, which rounds to "
+                    f"{round(left, places)} at {places} decimal places, "
+                    f"matching {request.rhs}."
+                )
+            return self._false(
+                f"{request.lhs} = {left}, which rounds to "
+                f"{round(left, places)} at {places} decimal places, not "
+                f"{round(right, places)}."
+            )
+
+        difference = sympy.simplify(lhs - rhs)
+        if difference == 0:
             return self._true(f"{request.lhs} = {sympy.N(lhs)} equals {request.rhs}.")
+
+        # FLOAT RESIDUE, not disagreement.
+        #
+        # 0.7**2 + 2*0.7*0.3 + 0.3**2 - 1 leaves -1.11e-16, and reporting
+        # that as FALSE calls a correct claim wrong. The residue is an
+        # artefact of writing the inputs in decimal: a Float does not carry
+        # the exactness that `== 0` demands of it.
+        #
+        # So the forgiveness is granted ONLY where a Float is actually
+        # present, and only at a relative scale that floating point alone
+        # can account for. Where both sides are exact — integers and
+        # rationals — nothing is forgiven, and 2 + 2 = 5 stays FALSE by the
+        # same strict comparison it always had.
+        if _has_float(lhs) or _has_float(rhs):
+            residue = sympy.N(difference)
+            if residue.is_number and residue.is_real:
+                # The scale is PURELY RELATIVE, with no floor. An absolute
+                # floor of 1.0 would have confirmed that a photon energy of
+                # 3.3e-19 J equals zero, because the residue would have been
+                # measured against 1 rather than against the quantity itself.
+                size = max(abs(float(sympy.N(lhs))), abs(float(sympy.N(rhs))))
+                if size > 0 and abs(float(residue)) <= size * 1e-12:
+                    return self._true(
+                        f"{request.lhs} = {sympy.N(lhs)} equals {request.rhs} "
+                        f"(they differ by {float(residue):.3g}, which is "
+                        "floating-point representation error, not disagreement)."
+                    )
+
         return self._false(
             f"{request.lhs} evaluates to {sympy.N(lhs)}, not {sympy.N(rhs)}."
         )
