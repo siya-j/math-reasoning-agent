@@ -34,6 +34,13 @@ VERIFIERS: list[Verifier] = [
     LeanVerifier(),
 ]
 
+# Methods whose UNKNOWN means "I found nothing wrong" rather than "I could
+# not decide". Derived from the verifiers themselves so that the guard never
+# hardcodes a verifier's name.
+REFUTATION_ONLY: frozenset[str] = frozenset(
+    verifier.name for verifier in VERIFIERS if verifier.refutes_only
+)
+
 NOT_APPLICABLE = Verdict(
     status=VerificationStatus.NOT_APPLICABLE,
     method="none",
@@ -68,4 +75,5 @@ __all__ = [
     "StatisticsVerifier",
     "LeanVerifier",
     "NOT_APPLICABLE",
+    "REFUTATION_ONLY",
 ]

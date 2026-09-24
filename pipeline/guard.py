@@ -11,6 +11,7 @@ Both are pure functions of recorded data. No model is consulted.
 
 from __future__ import annotations
 
+import verifiers
 from domain.check import Check
 from domain.verdict import Verdict, VerificationStatus
 from pipeline.faithfulness import unsupported_numbers
@@ -57,6 +58,36 @@ def decide(question: str, checks: list[Check]) -> Verdict:
             ),
         )
 
+    # ABSTENTIONS ARE NOT INCONCLUSIVE RESULTS.
+    #
+    # A refutation-only check says "that is impossible" or it says nothing.
+    # Its UNKNOWN means "I found nothing wrong", so counting it among the
+    # checks that failed to decide would downgrade a correctly verified
+    # answer every time the agent sanity-checked its own work — punishing
+    # precisely the behaviour the sanity check exists to encourage.
+    #
+    # A FALSE from such a check still counts, and counts decisively. Only
+    # its UNKNOWN is set aside.
+    decisive = [
+        check for check in checks
+        if not (
+            check.verdict.status is VerificationStatus.UNKNOWN
+            and check.verdict.method in verifiers.REFUTATION_ONLY
+        )
+    ]
+
+    if not decisive:
+        return Verdict(
+            status=VerificationStatus.NOT_APPLICABLE,
+            method="none",
+            detail=(
+                f"The agent made {len(checks)} check(s), all of which can "
+                "only refute and none of which refuted anything. Nothing was "
+                "confirmed, because no check here was capable of confirming."
+            ),
+        )
+
+    checks = decisive
     statuses = [c.verdict.status for c in checks]
 
     if VerificationStatus.FALSE in statuses:

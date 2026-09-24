@@ -41,6 +41,11 @@ _NUMBER = re.compile(r"^\s*[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?\s*$")
 class PlausibilityVerifier(Verifier):
     name = "plausibility"
 
+    # See Verifier.refutes_only. This verifier is structurally incapable of
+    # returning TRUE, so its UNKNOWN is an abstention and the guard excludes
+    # it from the aggregate.
+    refutes_only = True
+
     def supports(self, request: VerificationRequest) -> bool:
         return request.kind in _SUPPORTED
 

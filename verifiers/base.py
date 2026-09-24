@@ -21,6 +21,17 @@ class Verifier(ABC):
 
     name: str = "unnamed"
 
+    # Can this verifier ever CONFIRM, or only refute?
+    #
+    # A refutation-only verifier answers "that is impossible" or it answers
+    # nothing. Its UNKNOWN therefore means "I found nothing wrong", which is
+    # an ABSTENTION, not an inconclusive result — and the guard must not
+    # average it in with checks that genuinely failed to decide. Treating
+    # the two alike downgrades a correctly verified answer to unverified
+    # every time a sanity check is performed, which punishes exactly the
+    # behaviour the sanity check exists to encourage.
+    refutes_only: bool = False
+
     @abstractmethod
     def supports(self, request: VerificationRequest) -> bool:
         """Can this verifier handle this kind of request?"""
