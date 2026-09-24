@@ -1,0 +1,618 @@
+{
+  "run": {
+    "model": "google_genai:gemini-3.8-flash",
+    "prover": "math_v2",
+    "goals_file": "eval/proofnet-heldout-even-63.json",
+    "budget_profile": "",
+    "budget": {},
+    "limit": null,
+    "shuffle": false,
+    "seed": null,
+    "tier": "",
+    "single_goal": [
+      "Herstein_exercise_2_11_6",
+      "Herstein_exercise_2_2_5",
+      "Herstein_exercise_2_4_36",
+      "Munkres_exercise_29_10",
+      "Putnam_exercise_2010_a4"
+    ],
+    "commit": "f5f53d95415015d857e4771dcf7680fa399f8c2c",
+    "started": "2026-09-24T11:39:53+00:00"
+  },
+  "environment": {
+    "lean_backend": "repl",
+    "execution_mode": "local",
+    "lean_project": "/home/siyajethliya/lean-workspace/mathlib_playground",
+    "lean_toolchain": "4.33.1",
+    "repl_binary": "/home/siyajethliya/lean-workspace/repl/.lake/build/bin/repl",
+    "repl_version": "4.33.1",
+    "repl_max_commands": 2000,
+    "context_trimming": true,
+    "context_trim_trigger": 24000,
+    "context_trim_keep": 3,
+    "context_trim_inputs": true,
+    "max_model_calls": 40,
+    "max_output_tokens": 4096,
+    "temperature": 0.0
+  },
+  "summary": {
+    "total": 5,
+    "errors": 0,
+    "attempted": 5,
+    "formalization_rate": 1.0,
+    "proof_rate": 0.4,
+    "proof_rate_of_formalized": 0.4,
+    "proof_rate_of_tested": 0.4,
+    "not_formalized": 0,
+    "exhausted": 0,
+    "refuted": 0,
+    "suspect_unverified": 0,
+    "suspect_statements": 0,
+    "genuinely_tested": 5,
+    "valid_proof_targets": 5,
+    "lemma_yield": 0.5,
+    "mean_attempts": 8.6,
+    "mean_goal_attempts": 2.0,
+    "input_tokens": 2330952,
+    "output_tokens": 87666,
+    "cost_measured_on": 5,
+    "unproved_left_most_of_the_budget": 0,
+    "unproved_with_a_budget_recorded": 3,
+    "proof_rate_in-mathlib": null,
+    "n_in-mathlib": 0,
+    "proof_rate_near-mathlib": null,
+    "n_near-mathlib": 0,
+    "proof_rate_novel": null,
+    "n_novel": 0,
+    "proof_rate_hard": null,
+    "n_hard": 0,
+    "proof_rate_deep": null,
+    "n_deep": 0,
+    "proof_rate_proofnet": 0.4,
+    "n_proofnet": 5,
+    "proof_rate_putnam": null,
+    "n_putnam": 0,
+    "proof_rate_self_authored": null,
+    "n_self_authored": 0,
+    "proof_rate_external": 0.4,
+    "n_external": 5,
+    "proof_rate_by_area": {
+      "Herstein": {
+        "rate": 0.333,
+        "n": 3
+      },
+      "Munkres": {
+        "rate": 1.0,
+        "n": 1
+      },
+      "Putnam": {
+        "rate": 0.0,
+        "n": 1
+      }
+    }
+  },
+  "results": [
+    {
+      "goal_id": "Herstein_exercise_2_2_5",
+      "area": "Herstein",
+      "tier": "proofnet",
+      "outcome": "proved",
+      "statement": "theorem exercise_2_2_5 {G : Type*} [Group G]\n  (h : \u2200 (a b : G), (a * b) ^ 3 = a ^ 3 * b ^ 3 \u2227 (a * b) ^ 5 = a ^ 5 * b ^ 5) :\n  \u2200 a b : G, a*b = b*a",
+      "preamble": "import Mathlib\nopen Fintype Set Real Ideal Polynomial\nopen scoped BigOperators\n",
+      "attempts": 9,
+      "goal_attempts": 2,
+      "lemma_attempts": 6,
+      "lemmas_total": 3,
+      "lemmas_proved": 3,
+      "via_synthesis": true,
+      "detail": "Lean accepted a complete proof of: theorem exercise_2_2_5 {G : Type*} [Group G]\n  (h : \u2200 (a b : G), (a * b) ^ 3 = a ^ 3 * b ^ 3 \u2227 (a * b) ^ 5 = a ^ 5 * b ^ 5) :\n  \u2200 a b : G, a*b = b*a",
+      "model_calls": 16,
+      "lean_calls": 10,
+      "retrieval_calls": 2,
+      "symbolic_calls": 0,
+      "seconds": 91.5,
+      "input_tokens": 265462,
+      "output_tokens": 14249,
+      "cost_complete": true,
+      "lean_budget": 12,
+      "trace": [
+        "statement check: elaborates",
+        "attempt: statement -> true",
+        "seeded from goal shape -> CommGroup.toGroup, Group.mk, Pi.group, Multiplicative.group, Function.Injective.group, Function.Surjective.group, AddOpposite.instGroup, MulOpposite.instGroup",
+        "search: '\"group\"' -> AddCommSemigroup, AddLeftCancelSemigroup, AddRightCancelSemigroup, AddSemigroup, CommSemigroup, LeftCancelSemigroup",
+        "attempt: skeleton -> true",
+        "attempt: lemma -> true",
+        "attempt: lemma -> unknown",
+        "attempt: lemma -> true",
+        "attempt: lemma -> unknown",
+        "attempt: lemma -> unknown",
+        "search: '\"pow_three\"' -> pow_three, pow_three', Complex.I_pow_three, CFC.nnrpow_three, integral_cos_pow_three, integral_sin_pow_three",
+        "attempt: lemma -> true",
+        "attempt: proof -> unknown",
+        "attempt: proof -> true",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "skeleton",
+          "proof": "intro a b\nsorry",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  group",
+          "errors": "Lean accepted a complete proof of: lemma test_group {G : Type*} [Group G] (a b : G) : a * b * (a * b)\u207b\u00b9 = 1"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  group",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n7:68: error: unsolved goals\nG : Type u_1\ninst\u271d : Group G\na : G\n\u22a2 a ^ 3 = a * a * a\n\nStill to prove:\n\u22a2 a ^ 3 = a * a * a"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  simp [pow_succ, pow_zero, mul_assoc]",
+          "errors": "Lean accepted a complete proof of: lemma test_pow {G : Type*} [Group G] (a : G) : a ^ 3 = a * a * a"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  intro y x\n  have h3 := (h y x).1\n  revert h3\n  simp only [pow_succ, pow_zero, mul_one, one_mul, mul_assoc]\n  intro h3\n  calc\n    x * y * x * y = y\u207b\u00b9 * (y * x * y * x * y * x) * x\u207b\u00b9 := by group\n    _ = y\u207b\u00b9 * (y * (y * (y * (x * (x * x))))) * x\u207b\u00b9 := by rw [h3]\n    _ = y * y * x * x := by group",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n19:4: error: invalid 'calc' step, left-hand side is\n  x * y * x * y : G\nbut is expected to be\n  y * (x * (y * x)) : G\n21:4: error: invalid 'calc' step, right-hand side is\n  y * y * x * x : G\nbut is expected to be\n  x * (x * (y * y)) : G"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  intro x y\n  have h3 := (h y x).1\n  have h3' : y * x * y * x * y * x = y * (y * (y * (x * (x * x)))) := by\n    -- let's see how h3 simplifies\n    have e1 : (y * x) ^ 3 = y * x * y * x * y * x := by group\n    have e2 : y ^ 3 * x ^ 3 = y * (y * (y * (x * (x * x)))) := by group\n    rw [\u2190 e1, \u2190 e2]\n    exact h3\n  calc\n    x * y * x * y = y\u207b\u00b9 * (y * x * y * x * y * x) * x\u207b\u00b9 := by group\n    _ = y\u207b\u00b9 * (y * (y * (y * (x * (x * x))))) * x\u207b\u00b9 := by rw [h3']\n    _ = y * y * x * x := by group",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n17:53: error: unsolved goals\nG : Type u_1\ninst\u271d : Group G\nh : \u2200 (a b : G), (a * b) ^ 3 = a ^ 3 * b ^ 3 \u2227 (a * b) ^ 5 = a ^ 5 * b ^ 5\nx y : G\nh3 : (y * x) ^ 3 = y ^ 3 * x ^ 3\n\u22a2 (y * x) ^ 3 = y * x * y * x * y * x\n18:63: error: unsolved goals\nG : Type u_1\ninst\u271d : Group G\nh : \u2200 (a b : G), (a * b) ^ 3 = a ^ 3 * b ^ 3 \u2227 (a * b) ^ 5 = a ^ 5 * b ^ 5\nx y : G\nh3 : (y * x) ^ 3 = y ^ 3 * x ^ 3\ne1 : (y * x) ^ 3 = y * x * y * x * y * x\n\u22a2 y ^ 3 * x ^ 3 = y * y * y * x * x * x\n\nStill to prove:\n\u22a2 (y * x) ^ 3 = y * x * y * x * y * x\n"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  intro x y\n  have h3 := (h y x).1\n  simp only [pow_succ, pow_zero, mul_one, one_mul] at h3\n  calc\n    x * y * x * y = y\u207b\u00b9 * (y * x * (y * x) * (y * x)) * x\u207b\u00b9 := by group\n    _ = y\u207b\u00b9 * (y * y * y * (x * x * x)) * x\u207b\u00b9 := by rw [h3]\n    _ = y * y * x * x := by group",
+          "errors": "Lean accepted a complete proof of: lemma lemma_step1 {G : Type*} [Group G]\n  (h : \u2200 (a b : G), (a * b) ^ 3 = a ^ 3 * b ^ 3 \u2227 (a * b) ^ 5 = a ^ 5 * b ^ 5) :\n  \u2200 (x y : G), x * y * x * y = y * y * x * x"
+        },
+        {
+          "stage": "direct",
+          "proof": "intro a b\nhave h1 : \u2200 (x y : G), x * y * x * y = y * y * x * x := lemma_step1 h\nhave h2 : \u2200 (x y : G), x * x * y * y = y * y * x * x := by\n  intro x y\n  have h5 := (h y x).2\n  simp only [pow_succ, pow_zero, mul_one, one_mul] at h5\n  have hmid : x * y * x * y * x * y * x * y = y * y * y * y * (x * x * x * x * x) * x\u207b\u00b9 := by\n    calc\n      x * y * x * y * x * y * x * y = y\u207b\u00b9 * (y * x * (y * x) * (y * x) * (y * x) * (y * x)) * x\u207b\u00b9 := by group\n      _ = y\u207b\u00b9 * (y * y * y * y * y * (x * x * x * x * x)) * x\u207b\u00b9 := by rw [h5]\n      _ = y * y * y * y * (x * x * x * x * x) * x\u207b\u00b9 := by group\n  have hmid2 :",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n48:27: error: unsolved goals\nG : Type u_1\ninst\u271d : Group G\nh : \u2200 (a b : G), (a * b) ^ 3 = a ^ 3 * b ^ 3 \u2227 (a * b) ^ 5 = a ^ 5 * b ^ 5\na b : G\nh1 : \u2200 (x y : G), x * y * x * y = y * y * x * x\nx y : G\nh5 : y * x * (y * x) * (y * x) * (y * x) * (y * x) = y * y * y * y * y * (x * x * x * x * x)\nhmid : x * y * x * y * x * y * x * y = y * y * y * y * (x * x * x * x * x) * x\u207b\u00b9\nhmid2 : x * y * x * y * x * y * x * y = y * y * (x * x * y * y) * (x * x)\nhmid3 : y * y * (x * x * y * y) * (x * x) = y * y * (y * y * x * x) * (x * x)"
+        },
+        {
+          "stage": "direct",
+          "proof": "intro a b\nhave h1 : \u2200 (x y : G), x * y * x * y = y * y * x * x := lemma_step1 h\nhave h2 : \u2200 (x y : G), x * x * y * y = y * y * x * x := by\n  intro x y\n  have h5 := (h y x).2\n  simp only [pow_succ, pow_zero, mul_one, one_mul] at h5\n  have hmid : x * y * x * y * x * y * x * y = y * y * y * y * (x * x * x * x * x) * x\u207b\u00b9 := by\n    calc\n      x * y * x * y * x * y * x * y = y\u207b\u00b9 * (y * x * (y * x) * (y * x) * (y * x) * (y * x)) * x\u207b\u00b9 := by group\n      _ = y\u207b\u00b9 * (y * y * y * y * y * (x * x * x * x * x)) * x\u207b\u00b9 := by rw [h5]\n      _ = y * y * y * y * (x * x * x * x * x) * x\u207b\u00b9 := by group\n  have hmid2 :",
+          "errors": "Lean accepted a complete proof of: theorem exercise_2_2_5 {G : Type*} [Group G]\n  (h : \u2200 (a b : G), (a * b) ^ 3 = a ^ 3 * b ^ 3 \u2227 (a * b) ^ 5 = a ^ 5 * b ^ 5) :\n  \u2200 a b : G, a*b = b*a"
+        }
+      ],
+      "proof": "intro a b\nhave h1 : \u2200 (x y : G), x * y * x * y = y * y * x * x := lemma_step1 h\nhave h2 : \u2200 (x y : G), x * x * y * y = y * y * x * x := by\n  intro x y\n  have h5 := (h y x).2\n  simp only [pow_succ, pow_zero, mul_one, one_mul] at h5\n  have hmid : x * y * x * y * x * y * x * y = y * y * y * y * (x * x * x * x * x) * x\u207b\u00b9 := by\n    calc\n      x * y * x * y * x * y * x * y = y\u207b\u00b9 * (y * x * (y * x) * (y * x) * (y * x) * (y * x)) * x\u207b\u00b9 := by group\n      _ = y\u207b\u00b9 * (y * y * y * y * y * (x * x * x * x * x)) * x\u207b\u00b9 := by rw [h5]\n      _ = y * y * y * y * (x * x * x * x * x) * x\u207b\u00b9 := by group\n  have hmid2 : x * y * x * y * x * y * x * y = y * y * (x * x * y * y) * (x * x) := by\n    calc\n      x * y * x * y * x * y * x * y = (x * y * x * y) * (x * y * x * y) := by group\n      _ = (y * y * x * x) * (y * y * x * x) := by rw [h1 x y]\n      _ = y * y * (x * x * y * y) * (x * x) := by group\n  have hmid3 : y * y * (x * x * y * y) * (x * x) = y * y * (y * y * x * x) * (x * x) := by\n    calc\n      y * y * (x * x * y * y) * (x * x) = x * y * x * y * x * y * x * y := hmid2.symm\n      _ = y * y * y * y * (x * x * x * x * x) * x\u207b\u00b9 := hmid\n      _ = y * y * (y * y * x * x) * (x * x) := by group\n  calc\n    x * x * y * y = (y * y)\u207b\u00b9 * (y * y * (x * x * y * y) * (x * x)) * (x * x)\u207b\u00b9 := by group\n    _ = (y * y)\u207b\u00b9 * (y * y * (y * y * x * x) * (x * x)) * (x * x)\u207b\u00b9 := by rw [hmid3]\n    _ = y * y * x * x := by group; simp [pow_two, mul_assoc]\n\nhave h3 : a * b * a * b = a * a * b * b := by\n  calc\n    a * b * a * b = b * b * a * a := h1 a b\n    _ = a * a * b * b := (h2 a b).symm\n\nhave h4 : b * a = a * b := by\n  calc\n    b * a = a\u207b\u00b9 * (a * b * a * b) * b\u207b\u00b9 := by group\n    _ = a\u207b\u00b9 * (a * a * b * b) * b\u207b\u00b9 := by rw [h3]\n    _ = a * b := by group\n\nexact h4.symm",
+      "lemmas": [
+        "lemma test_group {G : Type*} [Group G] (a b : G) : a * b * (a * b)\u207b\u00b9 = 1 := by\n  group",
+        "lemma test_pow {G : Type*} [Group G] (a : G) : a ^ 3 = a * a * a := by\n  simp [pow_succ, pow_zero, mul_assoc]",
+        "lemma lemma_step1 {G : Type*} [Group G]\n  (h : \u2200 (a b : G), (a * b) ^ 3 = a ^ 3 * b ^ 3 \u2227 (a * b) ^ 5 = a ^ 5 * b ^ 5) :\n  \u2200 (x y : G), x * y * x * y = y * y * x * x := by\n  intro x y\n  have h3 := (h y x).1\n  simp only [pow_succ, pow_zero, mul_one, one_mul] at h3\n  calc\n    x * y * x * y = y\u207b\u00b9 * (y * x * (y * x) * (y * x)) * x\u207b\u00b9 := by group\n    _ = y\u207b\u00b9 * (y * y * y * (x * x * x)) * x\u207b\u00b9 := by rw [h3]\n    _ = y * y * x * x := by group"
+      ],
+      "refutation": "",
+      "refutation_statement": "",
+      "refusals": {
+        "assemble_first": 1
+      }
+    },
+    {
+      "goal_id": "Herstein_exercise_2_11_6",
+      "area": "Herstein",
+      "tier": "proofnet",
+      "outcome": "not_proved",
+      "statement": "theorem exercise_2_11_6 {G : Type*} [Group G] {p : \u2115} (hp : Nat.Prime p)\n  {P : Sylow p G} (hP : P.Normal) :\n  \u2200 (Q : Sylow p G), P = Q",
+      "preamble": "import Mathlib\nopen Fintype Set Real Ideal Polynomial\nopen scoped BigOperators\n",
+      "attempts": 10,
+      "goal_attempts": 5,
+      "lemma_attempts": 4,
+      "lemmas_total": 1,
+      "lemmas_proved": 1,
+      "via_synthesis": false,
+      "detail": "No accepted compilation of the goal in 5 attempt(s); 1 helper lemma(s) were proved. Failure to find a proof is not evidence that the claim is false. Stopped early: gave up: 3 placeholder submissions. The agent reported: ### Summary of Result\n\nThe goal is to prove the theorem:\n```lean\ntheorem exercise_2_11_6 {G : Type*} [Group G] {p : \u2115} (hp : Nat.Prime p)\n  {P : Sylow p G} (hP : P.Normal) :\n  \u2200 (Q : Sylow p G), P = Q\n```\n\n#### Mathematical Background\nLet $G$ be a group and $p$ a prime number.\n1. If $P$ is a normal Sylow $p$-subgroup of $G$, then for any Sylow $p$-subgroup $Q$, the product $P Q$ is a subgroup. \n2. The quotient $(P Q) / P \\cong Q / (P \\cap Q)$ is a $p$-group since $Q$ is a $p$-group, and $P$ is a $p$-group. Thus $P Q$ is a $p$-group containing $P$.\n3. Since $P$ is a Sylow $p$-subgroup (i.e., a maximal $p$-subgroup), we must have $P Q = P$, which implies $Q \\le P$.\n4. Alternatively, by Mathlib's lemma `IsPGroup.le_sylow_of_normal`, any normal $p$-subgroup is contained in every Sylow $p$-subgroup, so $P \\le Q$.\n5. By the maximality of Sylow $p$-subgroups, $P \\le Q$ implies $P = Q$.\n\n#### Lean Formalization Status\nMathlib contains the declaration `Sylow.unique_of_normal`:\n```lean\nSylow.unique_of_normal {G : Type u} [Group G] {p : \u2115} [Fact (Nat.Prime p)] \n  [Finite (Sylow p G)] (P : Sylow p G) (h : (\u2191P).Normal) : Unique (Sylow p G)\n```\nHowever, the statement `exercise_2_11_6` does not a",
+      "model_calls": 31,
+      "lean_calls": 11,
+      "retrieval_calls": 12,
+      "symbolic_calls": 0,
+      "seconds": 169.6,
+      "input_tokens": 600289,
+      "output_tokens": 22668,
+      "cost_complete": true,
+      "lean_budget": 12,
+      "trace": [
+        "statement check: elaborates",
+        "attempt: statement -> true",
+        "seeded from goal shape -> Sylow.smul_def, CommGroup.toGroup, Group.mk, Pi.group, Multiplicative.group, Function.Injective.group, Function.Surjective.group, AddOpposite.instGroup",
+        "search: '\"unique_of_normal\"' -> Sylow.unique_of_normal",
+        "search: '\"Sylow\"' -> Sylow.inhabited, Sylow.instPartialOrder, Sylow.nonempty, Sylow.instSetLike, Sylow.toSubgroup, Sylow.instCoeOutSubgroup, Sylow.mulAction, Sylow.instSubgroupClass",
+        "search: '\"IsPGroup\"' -> IsPGroup.card, IsPGroup.of_subsingleton, IsPGroup.zero, isPGroup_one_iff_subsingleton, IsPGroup.powEquiv, IsPGroup.mono, IsPGroup.powEquiv', IsPGroup.isSimpleGroup_iff_card_eq",
+        "attempt: skeleton -> true",
+        "attempt: proof -> unknown",
+        "search: '\"unique_of_normal\"' -> Sylow.unique_of_normal",
+        "search: '|- _ = (_ : Sylow _ _)' -> Sylow.ext, Sylow.smul_eq_of_normal, Sylow.subtype_injective, Sylow.smul_def, Sylow.smul_subtype",
+        "search: '\"MulAction.IsPretransitive\"' -> MulAction.IsPretransitive.exists_smul_eq, MulAction.IsPretransitive.mk, MulAction.isPretransitive_iff, MulAction.IsPretransitive.of_smul_eq, MulAction.IsPretransitive.of_isScalarTower, MulAction.IsPretransitive.of_orbit, MulAction.IsPretransitive.of_compHom, MulAction.isPretransitive_compHom",
+        "attempt: proof -> unknown",
+        "attempt: proof -> unknown",
+        "search: '|- Subsingleton (Sylow _ _)' -> alternatingGroup.subsingleton_two_sylow",
+        "search: '|- Unique (Sylow _ _)' -> Sylow.unique_of_normal",
+        "attempt: proof -> unknown",
+        "search: '\"Sylow.ext\"' -> Sylow.ext, Sylow.ext_iff",
+        "search: '\"normal\" \"Sylow\"' -> Sylow.normal_of_subsingleton, Sylow.normal_of_normalizerCondition, Sylow.unique_of_normal, Sylow.characteristic_of_normal, Sylow.stabilizer_eq_normalizer, Sylow.instFiniteQuotientSubgroupNormalizer, Sylow.card_eq_index_normalizer, Sylow.normal_of_normalizer_normal",
+        "attempt: lemma -> unknown",
+        "attempt: lemma -> unknown",
+        "attempt: lemma -> true",
+        "attempt: lemma -> unknown",
+        "attempt: proof -> unknown",
+        "execution mode: local",
+        "lean backend: repl",
+        "stopped early: gave up: 3 placeholder submissions"
+      ],
+      "stages": [
+        {
+          "stage": "skeleton",
+          "proof": "have h : \u2200 (Q : Sylow p G), P = Q := by sorry\nexact h",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Sylow.smul_def\n    | exact Sylow.smul_def _\n    | apply Sylow.smul_def\n    | simpa using Sylow.smul_def\n    | exact \u27e8_, Sylow.smul_def\u27e9\n    | exact Sylow.smul_def (by assumption)\n    | exact Sylow.smul_def \u2039_\u203a\n    | apply Sylow.smul_def <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Sylow.smul_def (by assumption))\n    | exact CommGroup.toGroup\n    | exact CommGroup.toGroup _\n    | apply CommGroup.",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n6:30: error: unsolved goals\nG : Type u_1\ninst\u271d : Group G\np : \u2115\nhp : Nat.Prime p\nP : Sylow p G\nhP : (\u2191P).Normal\n\u22a2 \u2200 (Q : Sylow p G), P = Q\n\nStill to prove:\n\u22a2 \u2200 (Q : Sylow p G), P = Q"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  intro Q\n  have : Fact (Nat.Prime p) := \u27e8hp\u27e9\n  exact?",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n9:2: error: `exact?` could not close the goal. Try `apply?` to see partial suggestions."
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  intro Q\n  have : Fact (Nat.Prime p) := \u27e8hp\u27e9\n  apply?",
+          "errors": "The proof compiles, but only by using the suggestion tactic `apply?`. Compiling is not the same as proving."
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  intro Q\n  exact Subsingleton.elim P Q",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n8:8: error: failed to synthesize instance of type class\n  Subsingleton (Sylow p G)\n\nHint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command."
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  intro hle\n  exact?",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:8: error: Tactic `introN` failed: There are no additional binders or `let` bindings in the goal to introduce\n\nG : Type u_1\ninst\u271d : Group G\np : \u2115\nP Q : Sylow p G\nh : \u2191P \u2264 \u2191Q\n\u22a2 P = Q\n\nStill to prove:\n\u22a2 P = Q"
+        },
+        {
+          "stage": "lemma",
+          "proof": "P.2.1",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:3: error: unknown tactic\n4:94: error: unsolved goals\nG : Type u_1\ninst\u271d : Group G\np : \u2115\nP : Sylow p G\n\u22a2 IsPGroup p \u21a5\u2191P\n\nStill to prove:\n\u22a2 IsPGroup p \u21a5\u2191P"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  exact P.isPGroup'",
+          "errors": "Lean accepted a complete proof of: lemma test_p {G : Type*} [Group G] {p : \u2115} (P : Sylow p G) : IsPGroup p (P : Subgroup G)"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  have : (P : Subgroup G) \u2264 Q := by\n    haveI : (P : Subgroup G).Normal := hP\n    exact IsPGroup.le_sylow_of_normal P.isPGroup' Q\n  exact Subtype.ext (P.ne_bot_or_eq ... ) -- let's test P.3 or similar",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n11:39: error: unexpected token ')'; expected term\n11:23: error: Invalid field `ne_bot_or_eq`: The environment does not contain `Sylow.ne_bot_or_eq`, so it is not possible to project the field `ne_bot_or_eq` from an expression\n  P\nof type `Sylow p G`"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  intro Q\n  haveI : (\u2191P).Normal := hP\n  have hle : (P : Subgroup G) \u2264 Q := IsPGroup.le_sylow_of_normal P.isPGroup' Q\n  exact Sylow.ext (hle.antisymm (Q.isPGroup'.le_of_normal hP ...))",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n13:64: error: unexpected token ')'; expected term\n11:11: error: invalid coercion notation, expected type is not known\n13:45: error: Invalid field `le_of_normal`: The environment does not contain `Function.le_of_normal`, so it is not possible to project the field `le_of_normal` from an expression\n  Q.isPGroup'\nof type\n  \u2200 (g : \u21a5\u2191Q), \u2203 k, g ^ p ^ k = 1"
+        }
+      ],
+      "proof": "",
+      "lemmas": [
+        "lemma test_p {G : Type*} [Group G] {p : \u2115} (P : Sylow p G) : IsPGroup p (P : Subgroup G) := by\n  exact P.isPGroup'"
+      ],
+      "refutation": "",
+      "refutation_statement": "",
+      "refusals": {
+        "placeholder_proof": 3,
+        "decompose_first": 1
+      }
+    },
+    {
+      "goal_id": "Putnam_exercise_2010_a4",
+      "area": "Putnam",
+      "tier": "proofnet",
+      "outcome": "not_proved",
+      "statement": "theorem exercise_2010_a4 (n : \u2115) (hn : n > 0) :\n  \u00ac Nat.Prime (10^10^10^n + 10^10^n + 10^n - 1)",
+      "preamble": "import Mathlib\nopen scoped BigOperators\n",
+      "attempts": 8,
+      "goal_attempts": 0,
+      "lemma_attempts": 6,
+      "lemmas_total": 0,
+      "lemmas_proved": 0,
+      "via_synthesis": false,
+      "detail": "No accepted compilation of the goal in 0 attempt(s). Failure to find a proof is not evidence that the claim is false. The agent reported: ### Summary of Results\n\n**Claim:**\n```lean\ntheorem exercise_2010_a4 (n : \u2115) (hn : n > 0) :\n  \u00ac Nat.Prime (10^10^10^n + 10^10^n + 10^n - 1)\n```\n\n**Status:** `not_proved` (informally settled, skeleton verified in Lean 4, full formal proof incomplete within compilation budget).\n\n---\n\n### Mathematical Proof (Putnam 2010, Problem A4)\n\n1. **Dyadic decomposition of $n$:**\n   Since $n \\ge 1$, we can write $n = 2^k \\cdot m$ where $k \\ge 0$ and $m$ is an odd positive integer.\n\n2. **Exponent divisibility:**\n   Since $k < 2^k \\le 2^k \\cdot m = n$, we have $k + 1 \\le n$.\n   Since $10^n = 2^n \\cdot 5^n$, the power of 2 dividing $10^n$ is at least $n \\ge k + 1$, which means:\n   $$2^{k+1} \\mid 10^n \\quad \\text{and} \\quad 2^{k+1} \\mid 10^{10^n}$$\n\n3. **Divisibility of each term by $d = 10^{2^k} + 1$:**\n   - **For $10^n + 1$:**\n     Since $n = 2^k \\cdot m$ with $m$ odd, \n     $$10^n + 1 = (10^{2^k})^m + 1^m$$\n     By the identity $(x + 1) \\mid (x^m + 1)$ for odd $m$, $d \\mid (10^n + 1)$.\n   - **For $10^{10^n} - 1$:**\n     Since $2^{k+1} \\mid 10^n$, we have $(10^{2^{k+1}} - 1) \\mid (10^{10^n} - 1)$.\n     Moreover,\n     $$10^{2^{k+1}} - 1 = (10^{2^k})^2 - 1 = (10^{2^k} - 1)(10^{2^k} + 1) = (10^{2^k} -",
+      "model_calls": 22,
+      "lean_calls": 9,
+      "retrieval_calls": 8,
+      "symbolic_calls": 2,
+      "seconds": 104.4,
+      "input_tokens": 426630,
+      "output_tokens": 19167,
+      "cost_complete": true,
+      "lean_budget": 12,
+      "trace": [
+        "statement check: elaborates",
+        "attempt: statement -> true",
+        "seeded from goal shape -> Nat.prime_eleven, Nat.prime_five, Nat.prime_seven, Nat.prime_three, Nat.prime_two, Prime.nat_prime, Nat.minFac_prime, Nat.prime_of_coprime",
+        "attempt: computation -> unknown",
+        "attempt: computation -> false",
+        "search: '|- \u00ac Nat.Prime _' -> Nat.not_prime_one, Nat.not_prime_zero, Nat.not_prime_of_dvd_of_ne, Nat.not_prime_of_dvd_of_lt, Nat.Prime.not_prime_pow', Nat.Prime.not_prime_pow, Nat.not_prime_mul, Nat.not_prime_of_mul_eq",
+        "search: '\"ord_proj\"' -> nothing",
+        "search: '\"ord_proj\"' -> nothing; goal shape -> Nat.prime_eleven, Nat.prime_five, Nat.prime_seven, Nat.prime_three, Nat.prime_two, Prime.nat_prime, Nat.minFac_prime, Nat.prime_of_coprime",
+        "search: '\"exists_eq_pow_mul_and_not_dvd\"' -> FiniteMultiplicity.exists_eq_pow_mul_and_not_dvd, Nat.exists_eq_pow_mul_and_not_dvd",
+        "search: '\"add_dvd_pow_add_pow\"' -> Odd.nat_add_dvd_pow_add_pow, Odd.add_dvd_pow_add_pow",
+        "search: '\"dvd_pow_sub_pow\"' -> Nat.sub_dvd_pow_sub_pow, Nat.pow_sub_pow_dvd_pow_sub_pow, sub_dvd_pow_sub_pow, Commute.sub_dvd_pow_sub_pow",
+        "attempt: lemma -> unknown",
+        "attempt: lemma -> unknown",
+        "attempt: lemma -> unknown",
+        "attempt: skeleton -> false",
+        "attempt: skeleton -> true",
+        "attempt: lemma -> false",
+        "attempt: lemma -> false",
+        "attempt: lemma -> false",
+        "search: '|- _ < 2 ^ _' -> Nat.two_pow_pos, BitVec.isLt, Nat.lt_two_pow_self, Nat.one_lt_two_pow, Nat.lt_log2_self, Nat.one_lt_two_pow', Nat.two_pow_pred_lt_two_pow, Nat.lt_pow_two_of_testBit",
+        "search: '\"sq_sub_one\"' -> Nat.eight_dvd_sq_sub_one_of_odd, Int.eight_dvd_sq_sub_one_of_odd, Complex.one_div_sub_sq_sub_one_div_sq_hasFPowerSeriesOnBall_zero, Real.add_sqrt_self_sq_sub_one_inv",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "lemma",
+          "proof": "by\n  obtain \u27e8v, rfl\u27e9 := he\n  have h2 : 2 \u2223 2 * v := dvd_mul_right 2 v\n  have hdiv := Nat.pow_sub_pow_dvd_pow_sub_pow (m := 2) (k := 2 * v) x 1 h2\n  simp only [one_pow] at hdiv\n  have hsq : x ^ 2 - 1 = (x - 1) * (x + 1) := by\n    cases x with\n    | zero => contradiction\n    | succ x =>\n      simp only [Nat.succ_sub_succ_eq_sub, tsub_zero]\n      ring\n  have h1 : x + 1 \u2223 x ^ 2 - 1 := by\n    rw [hsq]\n    exact dvd_mul_left (x + 1) (x - 1)\n  exact dvd_trans h1 hdiv",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n11:13: error: unsolved goals\ncase succ\nv : \u2115\nh2 : 2 \u2223 2 * v\nx : \u2115\nhx : x + 1 \u2265 1\nhdiv : (x + 1) ^ 2 - 1 \u2223 (x + 1) ^ (2 * v) - 1\n\u22a2 1 + x * 2 + x ^ 2 - 1 = x * 2 + x ^ 2\n\nStill to prove:\n\u22a2 1 + x * 2 + x ^ 2 - 1 = x * 2 + x ^ 2"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  obtain \u27e8v, rfl\u27e9 := he\n  have h2 : 2 \u2223 2 * v := dvd_mul_right 2 v\n  have hdiv := Nat.pow_sub_pow_dvd_pow_sub_pow (m := 2) (k := 2 * v) x 1 h2\n  simp only [one_pow] at hdiv\n  have hsq : x ^ 2 - 1 = (x - 1) * (x + 1) := by\n    cases x with\n    | zero => contradiction\n    | succ x => omega\n  have h1 : x + 1 \u2223 x ^ 2 - 1 := by\n    rw [hsq]\n    exact dvd_mul_left (x + 1) (x - 1)\n  exact dvd_trans h1 hdiv",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n11:16: error: omega could not prove the goal:\na possible counterexample may satisfy the constraints\n  d \u2265 1\n  c \u2265 0\n  c - d \u2265 0\n  b \u2265 0\n  a \u2265 0\nwhere\n a := \u2191(2 * v) / 2\n b := \u2191x\n c := \u2191(x + 1 - 1) * \u2191(x + 1 + 1)\n d := \u2191((x + 1) ^ 2)"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  obtain \u27e8v, rfl\u27e9 := he\n  have h2 : 2 \u2223 2 * v := dvd_mul_right 2 v\n  have hdiv := Nat.pow_sub_pow_dvd_pow_sub_pow (m := 2) (k := 2 * v) x 1 h2\n  simp only [one_pow] at hdiv\n  have hsq : (x - 1) * (x + 1) = x ^ 2 - 1 := by\n    rcases x with _ | x\n    \u00b7 contradiction\n    \u00b7 simp [Nat.succ_eq_add_one, sq]\n      ring\n  have h1 : x + 1 \u2223 x ^ 2 - 1 := by\n    rw [\u2190 hsq]\n    exact dvd_mul_left (x + 1) (x - 1)\n  exact dvd_trans h1 hdiv",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n11:4: error: unsolved goals\ncase succ\nv : \u2115\nh2 : 2 \u2223 2 * v\nx : \u2115\nhx : x + 1 \u2265 1\nhdiv : (x + 1) ^ 2 - 1 \u2223 (x + 1) ^ (2 * v) - 1\n\u22a2 x * 2 + x ^ 2 = 1 + x * 2 + x ^ 2 - 1\n\nStill to prove:\n\u22a2 x * 2 + x ^ 2 = 1 + x * 2 + x ^ 2 - 1"
+        },
+        {
+          "stage": "skeleton",
+          "proof": "by\n  obtain \u27e8k, m, hodd, hnm\u27e9 : \u2203 k m, \u00ac 2 \u2223 m \u2227 n = 2 ^ k * m :=\n    Nat.exists_eq_pow_mul_and_not_dvd (ne_of_gt hn) 2 (by decide)\n  have hm_odd : Odd m := Nat.odd_iff.mpr (Nat.not_even_iff_odd.mp (fun h => hodd (even_iff_two_dvd.mp h)))\n  set d := 10 ^ (2 ^ k) + 1\n  have hd_ge : 2 \u2264 d := by sorry\n  have hd_lt : d < 10 ^ 10 ^ 10 ^ n + 10 ^ 10 ^ n + 10 ^ n - 1 := by sorry\n  have hd_dvd : d \u2223 10 ^ 10 ^ 10 ^ n + 10 ^ 10 ^ n + 10 ^ n - 1 := by sorry\n  exact Nat.not_prime_of_dvd_of_lt hd_dvd hd_ge hd_lt",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n7:41: error: Application type mismatch: The argument\n  Nat.not_even_iff_odd.mp fun h => hodd (even_iff_two_dvd.mp h)\nhas type\n  Odd m\nbut is expected to have type\n  m % 2 = 1\nin the application\n  Nat.odd_iff.mpr (Nat.not_even_iff_odd.mp fun h => hodd (even_iff_two_dvd.mp h))"
+        },
+        {
+          "stage": "skeleton",
+          "proof": "by\n  obtain \u27e8k, m, hodd, hnm\u27e9 : \u2203 k m, \u00ac 2 \u2223 m \u2227 n = 2 ^ k * m :=\n    Nat.exists_eq_pow_mul_and_not_dvd (ne_of_gt hn) 2 (by decide)\n  have hm_odd : Odd m := by\n    rcases Nat.mod_two_eq_zero_or_one m with h0 | h1\n    \u00b7 exfalso; exact hodd (Nat.dvd_of_mod_eq_zero h0)\n    \u00b7 exact Nat.odd_iff.mpr h1\n  set d := 10 ^ (2 ^ k) + 1\n  have hd_ge : 2 \u2264 d := by sorry\n  have hd_lt : d < 10 ^ 10 ^ 10 ^ n + 10 ^ 10 ^ n + 10 ^ n - 1 := by sorry\n  have hd_dvd : d \u2223 10 ^ 10 ^ 10 ^ n + 10 ^ 10 ^ n + 10 ^ n - 1 := by sorry\n  exact Nat.not_prime_of_dvd_of_lt hd_dvd hd_ge hd_lt",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.prime_eleven\n    | exact Nat.prime_eleven _\n    | apply Nat.prime_eleven\n    | simpa using Nat.prime_eleven\n    | exact \u27e8_, Nat.prime_eleven\u27e9\n    | exact Nat.prime_eleven (by assumption)\n    | exact Nat.prime_eleven \u2039_\u203a\n    | apply Nat.prime_eleven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_eleven (by assumption))\n    | exact Nat.prime_five\n    | exact Nat.prime_five _\n    | appl",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:28: error: unsolved goals\nd : \u2115\n\u22a2 2 \u2264 d\n\nStill to prove:\n\u22a2 2 \u2264 d"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.prime_eleven\n    | exact Nat.prime_eleven _\n    | apply Nat.prime_eleven\n    | simpa using Nat.prime_eleven\n    | exact \u27e8_, Nat.prime_eleven\u27e9\n    | exact Nat.prime_eleven (by assumption)\n    | exact Nat.prime_eleven \u2039_\u203a\n    | apply Nat.prime_eleven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_eleven (by assumption))\n    | exact Nat.prime_five\n    | exact Nat.prime_five _\n    | appl",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:91: error: unsolved goals\nd n : \u2115\nhn : n > 0\n\u22a2 d < 10 ^ 10 ^ 10 ^ n + 10 ^ 10 ^ n + 10 ^ n - 1\n\nStill to prove:\n\u22a2 d < 10 ^ 10 ^ 10 ^ n + 10 ^ 10 ^ n + 10 ^ n - 1"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact Nat.prime_eleven\n    | exact Nat.prime_eleven _\n    | apply Nat.prime_eleven\n    | simpa using Nat.prime_eleven\n    | exact \u27e8_, Nat.prime_eleven\u27e9\n    | exact Nat.prime_eleven (by assumption)\n    | exact Nat.prime_eleven \u2039_\u203a\n    | apply Nat.prime_eleven <;> assumption\n    | (haveI := Fact.mk (by assumption); exact Nat.prime_eleven (by assumption))\n    | exact Nat.prime_five\n    | exact Nat.prime_five _\n    | appl",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n3:91: error: unsolved goals\nd n : \u2115\nhn : n > 0\n\u22a2 d \u2223 10 ^ 10 ^ 10 ^ n + 10 ^ 10 ^ n + 10 ^ n - 1\n\nStill to prove:\n\u22a2 d \u2223 10 ^ 10 ^ 10 ^ n + 10 ^ 10 ^ n + 10 ^ n - 1"
+        }
+      ],
+      "proof": "",
+      "lemmas": [],
+      "refutation": "",
+      "refutation_statement": "",
+      "refusals": {
+        "binders_already_bound": 1,
+        "placeholder_proof": 1,
+        "decompose_first": 1
+      }
+    },
+    {
+      "goal_id": "Herstein_exercise_2_4_36",
+      "area": "Herstein",
+      "tier": "proofnet",
+      "outcome": "not_proved",
+      "statement": "theorem exercise_2_4_36 {a n : \u2115} (h : a > 1) :\n  n \u2223 (a ^ n - 1).totient",
+      "preamble": "import Mathlib\nopen Fintype Set Real Ideal Polynomial\nopen scoped BigOperators\n",
+      "attempts": 9,
+      "goal_attempts": 1,
+      "lemma_attempts": 6,
+      "lemmas_total": 2,
+      "lemmas_proved": 2,
+      "via_synthesis": false,
+      "detail": "No accepted compilation of the goal in 1 attempt(s); 2 helper lemma(s) were proved. Failure to find a proof is not evidence that the claim is false. The agent reported: `!\nIn `val_inv`: `(a : ZMod M) * (a : ZMod M) ^ n = (a : ZMod M) ^ (n + 1)` by `\u2190 pow_succ'`!\nIn `inv_val`: `(a : ZMod M) ^ n * (a : ZMod M) = (a : ZMod M) ^ (n + 1)` by `\u2190 pow_succ`!\nAnd `(a : ZMod M) ^ (n + 1) = ((a ^ (n + 1) : \u2115) : ZMod M)` by `\u2190 Nat.cast_pow`!\nAnd `a ^ (n + 1) = M + ",
+      "model_calls": 26,
+      "lean_calls": 10,
+      "retrieval_calls": 13,
+      "symbolic_calls": 0,
+      "seconds": 104.7,
+      "input_tokens": 432250,
+      "output_tokens": 18673,
+      "cost_complete": true,
+      "lean_budget": 12,
+      "trace": [
+        "statement check: elaborates",
+        "attempt: statement -> true",
+        "search: '\"orderOf\" \"totient\"' -> AddCircle.card_addOrderOf_eq_totient, IsAddCyclic.card_addOrderOf_eq_totient, IsCyclic.card_orderOf_eq_totient, card_addOrderOf_eq_totient_aux\u2082, card_orderOf_eq_totient_aux\u2082",
+        "search: '\"ZMod.card_units\"' -> ZMod.card_units_eq_totient, ZMod.card_units",
+        "search: '\"orderOf_dvd_card\"' -> addOrderOf_dvd_card, orderOf_dvd_card, exists_prime_addOrderOf_dvd_card', exists_prime_orderOf_dvd_card', exists_prime_addOrderOf_dvd_card, exists_prime_orderOf_dvd_card, ZMod.orderOf_dvd_card_sub_one, MulChar.orderOf_dvd_card_sub_one",
+        "attempt: proof -> unknown",
+        "search: '\"orderOf\" \"ZMod\"' -> ZMod.addOrderOf_one, ZMod.addOrderOf_coe, ZMod.addOrderOf_coe', ZMod.orderOf_dvd_card_sub_one, ZMod.orderOf_units_dvd_card_sub_one, ZMod.orderOf_five, ZMod.orderOf_one_add_prime, ZMod.orderOf_one_add_mul_prime",
+        "search: '\"orderOf\" \"totient\"' -> AddCircle.card_addOrderOf_eq_totient, IsAddCyclic.card_addOrderOf_eq_totient, IsCyclic.card_orderOf_eq_totient, card_addOrderOf_eq_totient_aux\u2082, card_orderOf_eq_totient_aux\u2082",
+        "search: '|- _ \u2223 Nat.totient _' -> Nat.totient_dvd_of_dvd, ArithmeticFunction.carmichael_dvd_totient",
+        "attempt: skeleton -> true",
+        "search: '\"orderOf\" \"pow\"' -> orderOf_pow_dvd, pow_injOn_Iio_orderOf, IsOfFinOrder.natCard_powers_le_orderOf, Nat.Coprime.orderOf_pow, pow_orderOf_eq_one, orderOf_dvd_of_pow_eq_one, orderOf_dvd_iff_pow_eq_one, orderOf_dvd_of_mem_zpowers",
+        "search: '\"orderOf_eq\"' -> Subsingleton.addOrderOf_eq, Subsingleton.orderOf_eq, addOrderOf_eq_zero, orderOf_eq_zero, addOrderOf_eq_zero_iff, orderOf_eq_zero_iff, IsAddUnit.addOrderOf_eq_zero, IsUnit.orderOf_eq_one",
+        "search: '\"orderOf_eq_iff\"' -> addOrderOf_eq_iff, orderOf_eq_iff",
+        "attempt: lemma -> unknown",
+        "attempt: skeleton -> true",
+        "attempt: lemma -> false",
+        "attempt: lemma -> unknown",
+        "attempt: lemma -> true",
+        "attempt: lemma -> unknown",
+        "attempt: lemma -> true",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact AddCircle.card_addOrderOf_eq_totient\n    | exact AddCircle.card_addOrderOf_eq_totient _\n    | apply AddCircle.card_addOrderOf_eq_totient\n    | simpa using AddCircle.card_addOrderOf_eq_totient\n    | exact \u27e8_, AddCircle.card_addOrderOf_eq_totient\u27e9\n    | exact AddCircle.card_addOrderOf_eq_totient (by assumption)\n    | exact AddCircle.card_addOrderOf_eq_totient \u2039_\u203a\n    | apply AddCircle.card_addOrderOf_eq_totient <;",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n5:29: error: unsolved goals\na n : \u2115\nh : a > 1\n\u22a2 n \u2223 (a ^ n - 1).totient\n\nStill to prove:\n\u22a2 n \u2223 (a ^ n - 1).totient"
+        },
+        {
+          "stage": "skeleton",
+          "proof": "by\n  rcases n with _ | n\n  \u00b7 simp\n  \u00b7 sorry",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "lemma",
+          "proof": "exact Units.mkOfMulEqOne a b h",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:0: error: type of theorem `mra_goal` is not a proposition\n  {R : Type u_1} \u2192 [inst : CommMonoid R] \u2192 (a b : R) \u2192 a * b = 1 \u2192 R\u02e3"
+        },
+        {
+          "stage": "skeleton",
+          "proof": "by\n  rcases n with _ | n\n  \u00b7 simp\n  \u00b7 have hn : 0 < n + 1 := Nat.succ_pos n\n    have hm : 1 < a ^ (n + 1) := by sorry\n    haveI : NeZero (a ^ (n + 1) - 1) := by sorry\n    sorry",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact AddCircle.card_addOrderOf_eq_totient\n    | exact AddCircle.card_addOrderOf_eq_totient _\n    | apply AddCircle.card_addOrderOf_eq_totient\n    | simpa using AddCircle.card_addOrderOf_eq_totient\n    | exact \u27e8_, AddCircle.card_addOrderOf_eq_totient\u27e9\n    | exact AddCircle.card_addOrderOf_eq_totient (by assumption)\n    | exact AddCircle.card_addOrderOf_eq_totient \u2039_\u203a\n    | apply AddCircle.card_addOrderOf_eq_totient <;",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n4:60: error: unsolved goals\na n : \u2115\nh : a > 1\n\u22a2 1 < a\n\nStill to prove:\n\u22a2 1 < a"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  induction n with\n  | zero => exact h\n  | succ n ih =>\n    have : a ^ (n + 2) = a * a ^ (n + 1) := rfl\n    nlinarith [Nat.one_le_pow (n + 1) a (by omega)]",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n6:12: error: Type mismatch\n  h\nhas type\n  a > 1\nbut is expected to have type\n  1 < a ^ (0 + 1)\n8:44: error: Type mismatch\n  rfl\nhas type\n  ?m.56 = ?m.56\nbut is expected to have type\n  a ^ (n + 2) = a * a ^ (n + 1)"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  exact Nat.one_lt_pow (Nat.succ_ne_zero n) h",
+          "errors": "Lean accepted a complete proof of: lemma helper_pow_gt_one {a n : \u2115} (h : a > 1) : 1 < a ^ (n + 1)"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  intro h\n  have h1 : a ^ m < a ^ n := Nat.pow_lt_pow_right h (by omega)\n  have h2 : 0 < a ^ m - 1 := by\n    have := Nat.one_lt_pow (by omega : m \u2260 0) h\n    omega\n  have h3 : a ^ n - 1 \u2264 a ^ m - 1 := Nat.le_of_dvd h2 h\n  omega",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n10:50: error: Application type mismatch: The argument\n  h\nhas type\n  a ^ n - 1 \u2223 a ^ m - 1\nbut is expected to have type\n  1 < a\nin the application\n  Nat.pow_lt_pow_right h\n12:46: error: Application type mismatch: The argument\n  h\nhas type\n  a ^ n - 1 \u2223 a ^ m - 1\nbut is expected to have type\n  1 < ?m.71\nin the application\n  Nat.one_lt_pow (fun a_1 => mra_goal._proof_1 hm a_1) h"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  intro hdvd\n  have h1 : a ^ m < a ^ n := Nat.pow_lt_pow_right h hmn\n  have h2 : 0 < a ^ m - 1 := by\n    have := Nat.one_lt_pow (by omega : m \u2260 0) h\n    omega\n  have h3 : a ^ n - 1 \u2264 a ^ m - 1 := Nat.le_of_dvd h2 hdvd\n  omega",
+          "errors": "Lean accepted a complete proof of: lemma helper_not_dvd {a n m : \u2115} (h : a > 1) (hm : 0 < m) (hmn : m < n) :\n  \u00ac (a ^ n - 1 \u2223 a ^ m - 1)"
+        }
+      ],
+      "proof": "",
+      "lemmas": [
+        "lemma helper_pow_gt_one {a n : \u2115} (h : a > 1) : 1 < a ^ (n + 1) := by\n  exact Nat.one_lt_pow (Nat.succ_ne_zero n) h",
+        "lemma helper_not_dvd {a n m : \u2115} (h : a > 1) (hm : 0 < m) (hmn : m < n) :\n  \u00ac (a ^ n - 1 \u2223 a ^ m - 1) := by\n  intro hdvd\n  have h1 : a ^ m < a ^ n := Nat.pow_lt_pow_right h hmn\n  have h2 : 0 < a ^ m - 1 := by\n    have := Nat.one_lt_pow (by omega : m \u2260 0) h\n    omega\n  have h3 : a ^ n - 1 \u2264 a ^ m - 1 := Nat.le_of_dvd h2 hdvd\n  omega"
+      ],
+      "refutation": "",
+      "refutation_statement": "",
+      "refusals": {
+        "placeholder_proof": 1,
+        "binders_already_bound": 1
+      }
+    },
+    {
+      "goal_id": "Munkres_exercise_29_10",
+      "area": "Munkres",
+      "tier": "proofnet",
+      "outcome": "proved",
+      "statement": "theorem exercise_29_10 {X : Type*}\n  [TopologicalSpace X] [T2Space X] (x : X)\n  (hx : \u2203 U : Set X, x \u2208 U \u2227 IsOpen U \u2227 (\u2203 K : Set X, U \u2286 K \u2227 IsCompact K))\n  (U : Set X) (hU : IsOpen U) (hxU : x \u2208 U) :\n  \u2203 (V : Set X), IsOpen V \u2227 x \u2208 V \u2227 IsCompact (closure V) \u2227 closure V \u2286 U",
+      "preamble": "import Mathlib\nopen Filter Set TopologicalSpace\nopen scoped Topology\n",
+      "attempts": 7,
+      "goal_attempts": 2,
+      "lemma_attempts": 4,
+      "lemmas_total": 3,
+      "lemmas_proved": 3,
+      "via_synthesis": true,
+      "detail": "Lean accepted a complete proof of: theorem exercise_29_10 {X : Type*}\n  [TopologicalSpace X] [T2Space X] (x : X)\n  (hx : \u2203 U : Set X, x \u2208 U \u2227 IsOpen U \u2227 (\u2203 K : Set X, U \u2286 K \u2227 IsCompact K))\n  (U : Set X) (hU : IsOpen U) (hxU : x \u2208 U) :\n  \u2203 (V : Set X), IsOpen V \u2227 x \u2208 V \u2227 IsCompact (closure V) \u2227 closure V \u2286 U",
+      "model_calls": 28,
+      "lean_calls": 8,
+      "retrieval_calls": 13,
+      "symbolic_calls": 0,
+      "seconds": 113.9,
+      "input_tokens": 606321,
+      "output_tokens": 12909,
+      "cost_complete": true,
+      "lean_budget": 12,
+      "trace": [
+        "statement check: elaborates",
+        "attempt: statement -> true",
+        "seeded from goal shape -> TopologicalSpace.mk, TopologicalSpace.ofClosed, WithTopology.instTopologicalSpace, TopologicalSpace.coinduced, TopologicalSpace.induced, instTopologicalSpaceSubtype, instTopologicalSpaceBool, instTopologicalSpaceEmpty",
+        "search: '\"exists_mem_nhds_isCompact_closure\"' -> isCompactOperator_iff_exists_mem_nhds_isCompact_closure_image",
+        "search: '\"LocallyCompactSpace\"' -> WeaklyLocallyCompactSpace.exists_compact_mem_nhds, WeaklyLocallyCompactSpace.mk, LocallyCompactSpace.local_compact_nhds, LocallyCompactSpace.mk, instLocallyCompactSpaceAdditive, instLocallyCompactSpaceMultiplicative, instWeaklyLocallyCompactSpaceAdditive, instWeaklyLocallyCompactSpaceMultiplicative",
+        "search: '\"exists_open_closure_subset\"' -> nothing",
+        "search: '\"exists_open_closure_subset\"' -> nothing; goal shape -> TopologicalSpace.mk, TopologicalSpace.ofClosed, WithTopology.instTopologicalSpace, TopologicalSpace.coinduced, TopologicalSpace.induced, instTopologicalSpaceSubtype, instTopologicalSpaceBool, instTopologicalSpaceEmpty",
+        "attempt: skeleton -> true",
+        "search: '\"NormalSpace\"' -> CompletelyNormalSpace.toNormalSpace, T4Space.toNormalSpace, T5Space.toCompletelyNormalSpace, instT4SpaceOfT1SpaceOfNormalSpace, CompletelyNormalSpace.of_regularSpace_secondCountableTopology, NormalSpace.of_compactSpace_r1Space, NormalSpace.of_regularSpace_lindelofSpace, NormalSpace.of_regularSpace_secondCountableTopology",
+        "search: '\"exists_mem_nhds\"' -> LocallyCompactPair.exists_mem_nhds_isCompact_mapsTo, mem_nhdsWithin_iff_exists_mem_nhds_inter, exists_mem_nhdsSet_isCompact_mapsTo, CompactExhaustion.exists_mem_nhds, exists_mem_nhds_isCompact_isClosed, exists_mem_nhds_isCompact_mapsTo_of_isCompact_mem_nhds, Set.InjOn.exists_mem_nhdsSet, exists_mem_nhds_isClosed_subset",
+        "search: '\"closure_subset\"' -> AddSubgroup.normalClosure_subset_iff, Subgroup.normalClosure_subset_iff, Submodule.closure_subset_span, LowerAdjoint.closure_union_closure_subset, addIrreducible_mem_addSubmonoidClosure_subset, irreducible_mem_submonoidClosure_subset, Equiv.Perm.support_closure_subset_union, isClosed_of_closure_subset",
+        "search: '\"isCompact\"' -> CompleteLattice.isCompactlyGenerated_of_wellFoundedGT, IsCompactlyGenerated.of_wellFoundedGT, IsCompactElement.of_wellFoundedGT, IsBot.isCompactElement, IsCompactElement.bot, isCompactElement_congr, isLUB_setOfPred_le_and_isCompactElement, IsCompactlyGenerated.exists_isLUB",
+        "search: '\"point_compact\"' -> nothing",
+        "search: '\"point_compact\"' -> nothing; goal shape -> exists_nhds_square, exists_open_dense_of_open_dense_subtype, exists_isOpen_mem_isCompact_closure, exists_isOpen_superset_and_isCompact_closure, Set.InjOn.exists_isOpen_superset, normal_exists_closure_subset, IsCompact.exists_isOpen_closure_subset, exists_open_between_and_isCompact_closure",
+        "search: '\"disjoint_open_of_isCompact\"' -> nothing",
+        "search: '\"disjoint_open_of_isCompact\"' -> nothing; goal shape -> exists_nhds_square, exists_open_dense_of_open_dense_subtype, exists_isOpen_mem_isCompact_closure, exists_isOpen_superset_and_isCompact_closure, Set.InjOn.exists_isOpen_superset, normal_exists_closure_subset, IsCompact.exists_isOpen_closure_subset, exists_open_between_and_isCompact_closure",
+        "attempt: proof -> unknown",
+        "search: '\"SeparatedNhds\"' -> SeparatedNhds, SeparatedNhds.empty_left, SeparatedNhds.empty_right, SeparatedNhds.symm, SeparatedNhds.comm, hasSeparatingCovers_iff_separatedNhds, SeparatedNhds.isClosed_left_of_isClosed_union, SeparatedNhds.isClosed_right_of_isClosed_union",
+        "attempt: lemma -> true",
+        "attempt: lemma -> unknown",
+        "attempt: lemma -> true",
+        "attempt: lemma -> true",
+        "attempt: proof -> true",
+        "execution mode: local",
+        "lean backend: repl"
+      ],
+      "stages": [
+        {
+          "stage": "skeleton",
+          "proof": "obtain \u27e8U\u2080, hxU\u2080, hU\u2080, K, hUK, hK\u27e9 := hx\nsorry",
+          "errors": "The proof compiles but uses `sorry` or `admit`, which proves nothing. Lean accepted a placeholder, not an argument."
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  first\n    | rfl\n    | trivial\n    | assumption\n    | norm_num\n    | ring\n    | decide\n    | simp\n    | simp_all\n    | positivity\n    | omega\n    | linarith\n    | aesop\n    | exact TopologicalSpace.mk\n    | exact TopologicalSpace.mk _\n    | apply TopologicalSpace.mk\n    | simpa using TopologicalSpace.mk\n    | exact \u27e8_, TopologicalSpace.mk\u27e9\n    | exact TopologicalSpace.mk (by assumption)\n    | exact TopologicalSpace.mk \u2039_\u203a\n    | apply TopologicalSpace.mk <;> assumption\n    | (haveI := Fact.mk (by assumption); exact TopologicalSpace.mk (by assumption))\n    | exact TopologicalSpace.ofClosed\n ",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n8:77: error: unsolved goals\nX : Type u_1\ninst\u271d\u00b9 : TopologicalSpace X\ninst\u271d : T2Space X\nx : X\nhx : \u2203 U, x \u2208 U \u2227 IsOpen[inst\u271d\u00b9] U \u2227 \u2203 K, U \u2286 K \u2227 IsCompact K\nU : Set X\nhU : IsOpen[inst\u271d\u00b9] U\nhxU : x \u2208 U\n\u22a2 \u2203 V, IsOpen[inst\u271d\u00b9] V \u2227 x \u2208 V \u2227 IsCompact (closure[inst\u271d\u00b9] V) \u2227 closure[inst\u271d\u00b9] V \u2286 U\n\nStill to prove:\n\u22a2 \u2203 V, IsOpen[inst\u271d\u00b9] V \u2227 x \u2208 V \u2227 IsCompact (closure[inst\u271d\u00b9] V) \u2227 closure[inst\u271d\u00b9] V \u2286 U"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  haveI : CompactSpace K := isCompact_iff_compactSpace.mp hK\n  exact NormalSpace.of_compactSpace_r1Space",
+          "errors": "Lean accepted a complete proof of: lemma normal_subspace {X : Type*} [TopologicalSpace X] [T2Space X] {K : Set X} (hK : IsCompact K) :\n    NormalSpace K"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  obtain \u27e8V', hV', hV'u\u27e9 := isOpen_induced_iff.mp hu\n  exact \u27e8V', hV', hV'u\u27e9",
+          "errors": "Lean rejected the proof, which does NOT make the claim false \u2014 only unproved.\n12:18: error: Application type mismatch: The argument\n  hV'u\nhas type\n  Subtype.val \u207b\u00b9' V' = u\nbut is expected to have type\n  u = Subtype.val \u207b\u00b9' V'\nin the application\n  \u27e8hV', hV'u\u27e9"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  obtain \u27e8V', hV', hV'u\u27e9 := isOpen_induced_iff.mp hu\n  exact \u27e8V', hV', hV'u.symm\u27e9",
+          "errors": "Lean accepted a complete proof of: lemma open_preimage_test {X : Type*} [TopologicalSpace X] {K : Set X} {u : Set K} (hu : IsOpen u) :\n    \u2203 V' : Set X, IsOpen V' \u2227 u = Subtype.val \u207b\u00b9' V'"
+        },
+        {
+          "stage": "lemma",
+          "proof": "by\n  have h_emb : Topology.IsClosedEmbedding (Subtype.val : K \u2192 X) :=\n    Topology.IsClosedEmbedding.subtypeVal hKcl\n  exact h_emb.closure_image_eq u",
+          "errors": "Lean accepted a complete proof of: lemma closure_subtype_test {X : Type*} [TopologicalSpace X] {K : Set X} (hKcl : IsClosed K) (u : Set K) :\n    closure (Subtype.val '' u) = Subtype.val '' closure u"
+        },
+        {
+          "stage": "direct",
+          "proof": "by\n  obtain \u27e8U\u2080, hxU\u2080, hU\u2080, K, hUK, hK\u27e9 := hx\n  have hK_closed : IsClosed K := hK.isClosed\n  have hxK : x \u2208 K := hUK hxU\u2080\n  haveI : CompactSpace K := isCompact_iff_compactSpace.mp hK\n  haveI : NormalSpace K := normal_subspace hK\n  let xK : K := \u27e8x, hxK\u27e9\n  have h_open_inter : IsOpen (Subtype.val \u207b\u00b9' (U \u2229 U\u2080) : Set K) :=\n    (hU.inter hU\u2080).preimage continuous_subtype_val\n  have hx_mem_inter : xK \u2208 (Subtype.val \u207b\u00b9' (U \u2229 U\u2080) : Set K) := by\n    exact \u27e8hxU, hxU\u2080\u27e9\n  have h_sing_sub : ({xK} : Set K) \u2286 Subtype.val \u207b\u00b9' (U \u2229 U\u2080) :=\n    Set.singleton_subset_iff.mpr hx_mem_inter\n  obtain \u27e8u, hu_open, hsu, ",
+          "errors": "Lean accepted a complete proof of: theorem exercise_29_10 {X : Type*}\n  [TopologicalSpace X] [T2Space X] (x : X)\n  (hx : \u2203 U : Set X, x \u2208 U \u2227 IsOpen U \u2227 (\u2203 K : Set X, U \u2286 K \u2227 IsCompact K))\n  (U : Set X) (hU : IsOpen U) (hxU : x \u2208 U) :\n  \u2203 (V : Set X), IsOpen V \u2227 x \u2208 V \u2227 IsCompact (closure V) \u2227 closure V \u2286 U"
+        }
+      ],
+      "proof": "by\n  obtain \u27e8U\u2080, hxU\u2080, hU\u2080, K, hUK, hK\u27e9 := hx\n  have hK_closed : IsClosed K := hK.isClosed\n  have hxK : x \u2208 K := hUK hxU\u2080\n  haveI : CompactSpace K := isCompact_iff_compactSpace.mp hK\n  haveI : NormalSpace K := normal_subspace hK\n  let xK : K := \u27e8x, hxK\u27e9\n  have h_open_inter : IsOpen (Subtype.val \u207b\u00b9' (U \u2229 U\u2080) : Set K) :=\n    (hU.inter hU\u2080).preimage continuous_subtype_val\n  have hx_mem_inter : xK \u2208 (Subtype.val \u207b\u00b9' (U \u2229 U\u2080) : Set K) := by\n    exact \u27e8hxU, hxU\u2080\u27e9\n  have h_sing_sub : ({xK} : Set K) \u2286 Subtype.val \u207b\u00b9' (U \u2229 U\u2080) :=\n    Set.singleton_subset_iff.mpr hx_mem_inter\n  obtain \u27e8u, hu_open, hsu, hu_sub\u27e9 :=\n    normal_exists_closure_subset isClosed_singleton h_open_inter h_sing_sub\n  obtain \u27e8V', hV'_open, hV'u\u27e9 := open_preimage_test hu_open\n  let V := V' \u2229 U\u2080\n  have hV_open : IsOpen V := hV'_open.inter hU\u2080\n  have hxV : x \u2208 V := by\n    refine \u27e8?_, hxU\u2080\u27e9\n    have : xK \u2208 u := hsu (Set.mem_singleton xK)\n    rw [hV'u] at this\n    exact this\n  have hV_eq : Subtype.val '' u = V := by\n    ext z\n    constructor\n    \u00b7 rintro \u27e8y, hy, rfl\u27e9\n      refine \u27e8?_, ?_\u27e9\n      \u00b7 rw [hV'u] at hy\n        exact hy\n      \u00b7 have : y \u2208 Subtype.val \u207b\u00b9' (U \u2229 U\u2080) := hu_sub (subset_closure hy)\n        exact this.2\n    \u00b7 intro hz\n      have hzK : z \u2208 K := hUK hz.2\n      refine \u27e8\u27e8z, hzK\u27e9, ?_, rfl\u27e9\n      rw [hV'u]\n      exact hz.1\n  have h_cl_V : closure V = Subtype.val '' closure u := by\n    rw [\u2190 hV_eq]\n    exact closure_subtype_test hK_closed u\n  have h_cl_sub : closure V \u2286 U := by\n    rw [h_cl_V]\n    rintro y \u27e8z, hz, rfl\u27e9\n    have hz2 : z \u2208 Subtype.val \u207b\u00b9' (U \u2229 U\u2080) := hu_sub hz\n    exact hz2.1\n  have h_comp : IsCompact (closure V) := by\n    rw [h_cl_V]\n    exact isClosed_closure.isCompact.image continuous_subtype_val\n  exact \u27e8V, hV_open, hxV, h_comp, h_cl_sub\u27e9",
+      "lemmas": [
+        "lemma normal_subspace {X : Type*} [TopologicalSpace X] [T2Space X] {K : Set X} (hK : IsCompact K) :\n    NormalSpace K := by\n  haveI : CompactSpace K := isCompact_iff_compactSpace.mp hK\n  exact NormalSpace.of_compactSpace_r1Space",
+        "lemma open_preimage_test {X : Type*} [TopologicalSpace X] {K : Set X} {u : Set K} (hu : IsOpen u) :\n    \u2203 V' : Set X, IsOpen V' \u2227 u = Subtype.val \u207b\u00b9' V' := by\n  obtain \u27e8V', hV', hV'u\u27e9 := isOpen_induced_iff.mp hu\n  exact \u27e8V', hV', hV'u.symm\u27e9",
+        "lemma closure_subtype_test {X : Type*} [TopologicalSpace X] {K : Set X} (hKcl : IsClosed K) (u : Set K) :\n    closure (Subtype.val '' u) = Subtype.val '' closure u := by\n  have h_emb : Topology.IsClosedEmbedding (Subtype.val : K \u2192 X) :=\n    Topology.IsClosedEmbedding.subtypeVal hKcl\n  exact h_emb.closure_image_eq u"
+      ],
+      "refutation": "",
+      "refutation_statement": "",
+      "refusals": {
+        "placeholder_proof": 2,
+        "skeleton_not_engaged": 1,
+        "trivial_conclusion": 1,
+        "binders_already_bound": 1
+      }
+    }
+  ]
+}
