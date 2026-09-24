@@ -920,11 +920,46 @@ def test_a_mismatched_repl_is_a_setup_error_not_a_proof_failure(tmp_path,
     _repl.shutdown()
     project = write_toolchain(tmp_path, "4.33.0")
 
+    # `lean_runner` uses `_local.LEAN_PROJECT or workdir`, and that precedence
+    # is right in production: the session must run where Mathlib lives, not in
+    # the agent's scratch directory. So the test has to point LEAN_PROJECT at
+    # its own fixture rather than assume the variable is unset.
+    #
+    # Without this it passed only while MRA_LEAN_PROJECT happened to be empty,
+    # and failed the moment the suite was run after `source scripts/env.sh` --
+    # which is how a real install runs it. The test was green for the wrong
+    # reason, which is worse than red.
+    monkeypatch.setattr(_local, "LEAN_PROJECT", project)
+
     result = run(_util.lean_runner(project)(MATHLIB + "theorem t : True := trivial"))
 
     assert result.outcome is LeanOutcome.UNAVAILABLE
     assert "SETUP ERROR" in result.output
     assert "4.20.0" in result.output and "4.33.0" in result.output
+    _repl.shutdown()
+
+
+def test_a_patch_difference_is_a_note_rather_than_a_refusal(tmp_path, repl_on,
+                                                            monkeypatch,
+                                                            capsys):
+    """Lean 4.33.0 against a project pinning 4.33.1 loads the same Mathlib.
+
+    Refusing it turned a WORKING install into a hard error announcing that
+    its own results "are not usable" -- eight tests failed that way while two
+    ProofNet goals were being proved through that very REPL. A check that
+    cries wolf on a good install is the failure it exists to prevent,
+    inverted: the next real mismatch gets read as this one and waved through.
+    """
+    Versioned.reported = "4.33.0"
+    monkeypatch.setattr(_repl, "Session", Versioned)
+    _repl.shutdown()
+    project = write_toolchain(tmp_path, "4.33.1")
+    monkeypatch.setattr(_local, "LEAN_PROJECT", project)
+
+    live = _repl.session(project)
+
+    assert live.version == "4.33.0", "it started rather than refusing"
+    assert "4.33.0" in capsys.readouterr().err, "but it said so"
     _repl.shutdown()
 
 

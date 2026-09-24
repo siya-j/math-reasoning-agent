@@ -58,6 +58,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 import threading
 import time
 
@@ -124,6 +125,21 @@ MAX_COMMANDS = int(os.getenv("MRA_LEAN_REPL_MAX_COMMANDS", "2000"))
 # ruined by it and read as a bad proof rate.
 VERSION_COMMAND = "#eval Lean.versionString"
 _VERSION = re.compile(r"(\d+\.\d+\.\d+(?:-\w+)?)")
+
+
+def _same_series(one: str, other: str) -> bool:
+    """Do two Lean versions differ only in the patch number?
+
+    4.33.0 and 4.33.1 are the same series and load the same Mathlib. 4.20.0
+    and 4.33.1 are not, and that is the mismatch worth refusing: it produces
+    unknown identifiers and elaboration failures indistinguishable, in a
+    results file, from the agent being bad at mathematics.
+    """
+    def series(text: str):
+        parts = text.split("-", 1)[0].split(".")
+        return tuple(parts[:2])
+
+    return series(one) == series(other)
 
 
 def enabled():
@@ -216,6 +232,18 @@ class Session(object):
         the agent being bad at mathematics. A whole benchmark can be spent on
         it. So it is checked once, at startup, and reported as what it is: a
         setup error, never a proof failure.
+
+        A PATCH DIFFERENCE IS NOT THAT FAILURE. Lean 4.33.0 against a project
+        pinning 4.33.1 loads the same Mathlib and proves the same theorems.
+        This check used to refuse it, turning a working install into a hard
+        error announcing that its own results "are not usable".
+
+        MEASURED, in the session that found it: eight tests failed this way
+        while two ProofNet goals were being proved through that very REPL.
+
+        A check that cries wolf on a good install is the failure it exists to
+        prevent, inverted -- the next real mismatch gets read as this one and
+        waved through. So major and minor refuse; patch warns and continues.
         """
         expected = project_toolchain(self.cwd)
         reply = self._exchange({"cmd": VERSION_COMMAND, "env": self.base}, TIMEOUT)
@@ -223,6 +251,16 @@ class Session(object):
             " ".join(str(m.get("data", "")) for m in (reply.get("messages") or []))
         )
         self.version = found.group(1) if found else ""
+
+        if (expected and self.version and self.version != expected
+                and _same_series(self.version, expected)):
+            print(
+                f"note: the REPL is Lean {self.version} and the project pins "
+                f"{expected}. Same series, so Mathlib loads; rebuild the REPL "
+                "if elaboration starts looking strange.",
+                file=sys.stderr,
+            )
+            return
 
         if expected and self.version and self.version != expected:
             raise ReplUnavailable(
