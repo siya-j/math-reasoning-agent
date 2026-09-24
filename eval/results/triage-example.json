@@ -1,0 +1,74 @@
+{
+  "summary": {
+    "total": 6,
+    "counts": {
+      "claim": 3,
+      "out_of_reach": 1,
+      "computation": 1,
+      "not_quantitative": 1
+    },
+    "by_tool": {
+      "check_constant": 1,
+      "check_statistic": 1,
+      "check_quantity": 1
+    },
+    "shaped_for": 0.5
+  },
+  "note": "A draft for review. Nothing here should become a benchmark case without a person reading it: a model choosing what the benchmark contains is a model deciding what we measure ourselves against.",
+  "items": [
+    {
+      "id": "item-1",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_constant",
+      "what": "The coupling prefactor 1/(4*pi*epsilon_0) has a value of approximately 8.99e9 N m^2 C^-2.",
+      "why": "The corrigendum asserts a specific numerical value with units for the physical constant, which can be verified against standard physical constants.",
+      "text": "Corrigendum: In Eq. (12) the prefactor was printed as 1/(4*pi) and should\nread 1/(4*pi*epsilon_0). The numerical results in Table 2 are unaffected,\nbut the stated value of the coupling in the text, 8.99e9, carries units of\nN m^2 C^-2 and was incorrectly given as dimensionless."
+    },
+    {
+      "id": "item-2",
+      "source": "",
+      "kind": "out_of_reach",
+      "tool": "",
+      "what": "Dividing a molar activation energy by the Boltzmann constant rather than the gas constant overestimated the rate by a factor of roughly 6e23.",
+      "why": "Verifying this assertion requires the specific functional form of Eq. (14) from the referenced paper, which is not provided and lies beyond the listed checks.",
+      "text": "arXiv v2 change note: corrected an error in Eq. (14). The activation energy\nwas reported per mole but divided by the Boltzmann constant rather than the\ngas constant, overestimating the rate by a factor of roughly 6e23."
+    },
+    {
+      "id": "item-3",
+      "source": "",
+      "kind": "computation",
+      "tool": "",
+      "what": "The text asks to calculate the gravitational acceleration g and its propagated uncertainty from measured values of pendulum length and period.",
+      "why": "The text asks \"what is\" rather than asserting a specific numerical value to verify, making it a request to work out an answer.",
+      "text": "I measured a pendulum period T = 2.006 +/- 0.002 s with length\nL = 1.000 +/- 0.005 m. What is g and what is its uncertainty?"
+    },
+    {
+      "id": "item-4",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_statistic",
+      "what": "The text asks whether observing 54 successes out of 100 trials is statistically significantly different from an expected 50% rate at the 5% significance level.",
+      "why": "It presents a specific hypothesis test with defined parameters and significance threshold that can be directly verified by a statistical check.",
+      "text": "Our sample showed 54 successes out of 100 trials against an expected 50:50\nsplit. Is this departure significant at the 5% level?"
+    },
+    {
+      "id": "item-5",
+      "source": "",
+      "kind": "not_quantitative",
+      "tool": "",
+      "what": "The sentence describes the computational grid and convergence threshold used during Brillouin zone integration.",
+      "why": "This is a narrative description of simulation methodology rather than an evaluable quantitative claim or calculation.",
+      "text": "We then integrated the density functional over the Brillouin zone using a\n12x12x12 Monkhorst-Pack grid until the total energy converged to within\n1 meV per atom."
+    },
+    {
+      "id": "item-6",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_quantity",
+      "what": "A binding affinity of 12 nM corresponds to a standard free energy of -45.2 kJ/mol at 298 K.",
+      "why": "The statement explicitly asserts a calculated thermodynamic quantity with units from given parameters, which can be verified by evaluating the physical formula.",
+      "text": "The reported binding constant is K_d = 12 nM. Converting to molar this is\n1.2e-8 M, and the corresponding free energy at 298 K is -45.2 kJ/mol."
+    }
+  ]
+}
