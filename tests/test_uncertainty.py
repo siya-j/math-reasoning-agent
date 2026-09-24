@@ -200,3 +200,89 @@ def test_exactly_one_verifier_claims_this_kind():
     request = VerificationRequest(kind=VerificationKind.UNCERTAINTY, lhs="a")
     owners = [v.name for v in verifiers.VERIFIERS if v.supports(request)]
     assert owners == ["uncertainty"]
+
+
+# ==================================================== uncertainty WITH units
+# Propagation worked on bare magnitudes and the units verifier worked on
+# quantities, and the two did not speak. A research measurement is both: a
+# pendulum gives g in m/s^2 with an error bar, not a number with an error bar.
+#
+# Symbolic differentiation carries units through for free -- d(4 pi^2 L/T^2)/dL
+# has units of 1/s^2, and multiplying by an uncertainty in metres gives a
+# contribution in m/s^2. The quadrature sum then becomes a dimensional check
+# in its own right, because contributions of different dimensions cannot be
+# added.
+
+def measured(formula: str, measurements: str) -> Measurement:
+    return propagate(formula, parse_measurements(measurements)).result
+
+
+def test_a_pendulum_gives_g_with_units_and_an_error_bar():
+    computed = measured(
+        "4*pi**2*L/T**2", "L=1.000 +/- 0.005 meter, T=2.006 +/- 0.002 second"
+    )
+    assert computed.value == pytest.approx(9.8107, abs=1e-3)
+    assert computed.uncertainty == pytest.approx(0.0528, abs=1e-3)
+    assert computed.unit == "meter/second**2"
+
+
+def test_the_result_unit_follows_from_the_formula():
+    """Nobody states it; it is derived from the inputs."""
+    assert measured(
+        "m*v**2/2", "m=2 +/- 0.1 kilogram, v=3 +/- 0.05 meter/second"
+    ).unit == "kilogram*meter**2/second**2"
+    assert measured(
+        "m/V", "m=27.0 +/- 0.1 gram, V=10.0 +/- 0.2 milliliter"
+    ).unit == "gram/milliliter"
+
+
+def test_inputs_in_different_units_of_the_same_dimension_are_converted():
+    """1.0 m + 50 cm is 150 cm, and the error bars combine in one unit."""
+    computed = measured("a+b", "a=1.0 +/- 0.01 meter, b=50 +/- 1 centimeter")
+    assert computed.value == pytest.approx(150.0)
+    assert computed.uncertainty == pytest.approx(2 ** 0.5)
+
+
+def test_a_formula_that_adds_unlike_quantities_is_refused():
+    """THE soundness case. strip_units divides each unit out by substituting
+    1 for it, so `1 metre + 2 seconds` collapses to the number 3 and reports
+    nothing wrong. An error bar on that would be meaningless while looking
+    exactly like one that is not."""
+    with pytest.raises(UncertaintyError) as caught:
+        measured("a+b", "a=1.0 +/- 0.01 meter, b=2 +/- 0.1 second")
+    assert "different dimensions" in str(caught.value)
+
+
+def test_cancellation_still_works_with_units():
+    assert measured("x - x", "x=5 +/- 1 meter").uncertainty == pytest.approx(0.0)
+
+
+def test_an_error_bar_must_share_its_quantity_s_unit():
+    """`1.0 meter +/- 5 second` is not a measurement, it is two."""
+    with pytest.raises(UncertaintyError):
+        parse_measurement("1.0 meter +/- 5 second")
+
+
+def test_a_unit_on_either_side_is_understood():
+    assert parse_measurement("9.81 +/- 0.02 meter") == Measurement(
+        9.81, 0.02, "meter"
+    )
+    assert parse_measurement("9.81 meter +/- 0.02") == Measurement(
+        9.81, 0.02, "meter"
+    )
+
+
+def test_a_value_with_no_error_bar_may_still_carry_a_unit():
+    assert parse_measurement("2.5 kilogram") == Measurement(2.5, 0.0, "kilogram")
+
+
+def test_something_that_is_not_a_unit_is_refused():
+    with pytest.raises(UncertaintyError):
+        parse_measurement("1.0 +/- 0.1 bananas")
+
+
+def test_bare_numbers_still_take_the_old_path():
+    """The unit machinery must not disturb the case it was added beside."""
+    computed = measured("m*v**2/2", "m=2 +/- 0.1, v=3 +/- 0.05")
+    assert computed.unit == ""
+    assert computed.uncertainty == pytest.approx(0.5408326913)

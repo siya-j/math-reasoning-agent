@@ -49,6 +49,9 @@ from dataclasses import dataclass
 
 import sympy
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations
+from sympy.physics.units import convert_to
+
+from science import units as science_units
 
 # Every way a person writes a plus-or-minus.
 _PLUS_MINUS = ("±", "+/-", "+-", "\\pm")
@@ -75,14 +78,30 @@ class UncertaintyError(ValueError):
 class Measurement:
     value: float
     uncertainty: float = 0.0
+    unit: str = ""
 
     @property
     def is_exact(self) -> bool:
         return self.uncertainty == 0.0
 
     def __str__(self) -> str:
-        return (f"{self.value}" if self.is_exact
+        body = (f"{self.value}" if self.is_exact
                 else f"{self.value} +/- {self.uncertainty}")
+        return f"{body} {self.unit}".rstrip()
+
+    @property
+    def quantity(self):
+        """The value as a SymPy expression, carrying its unit."""
+        if not self.unit:
+            return sympy.Float(self.value)
+        return sympy.Float(self.value) * science_units.parse(self.unit)
+
+    @property
+    def spread(self):
+        """The uncertainty as a SymPy expression, carrying its unit."""
+        if not self.unit:
+            return sympy.Float(self.uncertainty)
+        return sympy.Float(self.uncertainty) * science_units.parse(self.unit)
 
     @property
     def relative(self) -> float | None:
@@ -92,7 +111,12 @@ class Measurement:
 
 
 def parse_measurement(text: str) -> Measurement:
-    """Read `9.81 +/- 0.02`, `9.81`, or `9.81 ± 0.02`."""
+    """Read `9.81 +/- 0.02 meter/second**2`, `1.0 meter`, or `9.81`.
+
+    The unit may sit on either side of the plus-or-minus, or on both. Where
+    both carry one they must agree -- `1.0 meter +/- 5 second` is not a
+    measurement, it is two.
+    """
     body = (text or "").strip()
     if not body:
         raise UncertaintyError("empty measurement")
@@ -100,13 +124,42 @@ def parse_measurement(text: str) -> Measurement:
     for marker in _PLUS_MINUS:
         if marker in body:
             left, _, right = body.partition(marker)
-            value, sigma = _number(left), _number(right)
+            value, left_unit = _number_and_unit(left)
+            sigma, right_unit = _number_and_unit(right)
             if sigma < 0:
                 raise UncertaintyError(
                     f"an uncertainty cannot be negative, got {sigma}"
                 )
-            return Measurement(value, sigma)
-    return Measurement(_number(body))
+            if left_unit and right_unit and left_unit != right_unit:
+                raise UncertaintyError(
+                    f"the value is in {left_unit} but its uncertainty is in "
+                    f"{right_unit}; an error bar must be in the same unit as "
+                    "the quantity it belongs to"
+                )
+            return Measurement(value, sigma, left_unit or right_unit)
+
+    value, unit = _number_and_unit(body)
+    return Measurement(value, 0.0, unit)
+
+
+_LEADING_NUMBER = re.compile(
+    r"^\s*([-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?)\s*(.*)$", re.S
+)
+
+
+def _number_and_unit(text: str) -> tuple[float, str]:
+    """Split `1.000 meter` into (1.0, "meter")."""
+    match = _LEADING_NUMBER.match(text or "")
+    if not match:
+        raise UncertaintyError(f"'{(text or '').strip()}' is not a number")
+    number = float(match.group(1))
+    unit = match.group(2).strip()
+    if unit and not science_units.mentions_units(unit):
+        raise UncertaintyError(
+            f"'{unit}' is not a unit this understands, in "
+            f"'{(text or '').strip()}'"
+        )
+    return number, unit
 
 
 def _number(text: str) -> float:
@@ -190,33 +243,95 @@ def propagate(formula: str, measurements: dict[str, Measurement]) -> Propagation
     usually the actionable part of the answer.
     """
     expression = _parse_formula(formula, set(measurements))
-    point = {sympy.Symbol(n): sympy.Float(m.value)
-             for n, m in measurements.items()}
+    carries_units = any(m.unit for m in measurements.values())
+    point = {sympy.Symbol(n): m.quantity for n, m in measurements.items()}
 
-    value = float(sympy.N(expression.subs(point)))
+    value_expression = expression.subs(point)
 
-    variance = 0.0
+    variance = sympy.Integer(0)
     terms = []
     for name, measurement in sorted(measurements.items()):
         symbol = sympy.Symbol(name)
         # Symbolic FIRST: d(x - x)/dx is 0 before any number is substituted,
         # so a cancelled variable contributes nothing rather than sqrt(2)*s.
         derivative = sympy.diff(expression, symbol)
-        slope = float(sympy.N(derivative.subs(point)))
-        contribution = (slope * measurement.uncertainty) ** 2
-        variance += contribution
+        slope = derivative.subs(point)
+        contribution = slope * measurement.spread
+        variance = variance + contribution ** 2
         if measurement.uncertainty:
             terms.append(
-                f"{name}: (d/d{name} = {slope:.6g}) x {measurement.uncertainty} "
-                f"-> {abs(slope) * measurement.uncertainty:.6g}"
+                f"{name}: (d/d{name} = {_show(slope)}) x "
+                f"{measurement.uncertainty} -> {_show(sympy.Abs(contribution))}"
             )
 
-    sigma = variance ** 0.5
-    result = Measurement(value, sigma)
+    sigma_expression = sympy.sqrt(variance)
+    result = _as_measurement(value_expression, sigma_expression,
+                             measurements, carries_units, formula)
 
     caveats = _caveats(measurements, result)
     working = "; ".join(terms) if terms else "every input is exact"
     return Propagation(result, working, tuple(caveats))
+
+
+def _show(expression) -> str:
+    """A quantity, short enough to sit in a working line."""
+    try:
+        return f"{sympy.N(expression, 6)}"
+    except Exception:
+        return str(expression)
+
+
+def _as_measurement(value_expression, sigma_expression, measurements,
+                    carries_units: bool, formula: str) -> Measurement:
+    """Reduce the propagated quantities to a value, a spread and a unit."""
+    if not carries_units:
+        value = float(sympy.N(value_expression))
+        return Measurement(value, float(sympy.N(sigma_expression)))
+
+    target = sorted(
+        {unit for m in measurements.values() if m.unit
+         for unit in science_units.units_in(science_units.parse(m.unit))},
+        key=str,
+    )
+    converted = convert_to(value_expression, target) if target else value_expression
+    converted = sympy.N(converted)
+
+    # BEFORE stripping. strip_units divides each unit out by substituting 1
+    # for it, so `1 metre + 2 seconds` collapses to 3 and reports nothing.
+    for expression in (converted, sigma_expression):
+        trouble = science_units.incoherent_sum(expression)
+        if trouble:
+            raise UncertaintyError(
+                f"{trouble}, so {formula} adds quantities of different "
+                "dimensions. There is no value to put an error bar on."
+            )
+
+    magnitude = science_units.strip_units(converted)
+    spread = science_units.strip_units(
+        convert_to(sigma_expression, target) if target else sigma_expression
+    )
+
+    if magnitude is None or spread is None:
+        # The quadrature sum only reduces to a number when every
+        # contribution shares a dimension. That it did not is a statement
+        # about the FORMULA: terms of different dimensions were added, which
+        # is the classic units error, caught here for free.
+        raise UncertaintyError(
+            f"the contributions to the uncertainty of '{formula}' do not "
+            "share a dimension, so they cannot be combined. That means the "
+            "formula adds unlike quantities."
+        )
+
+    unit = ""
+    if magnitude:
+        remainder = sympy.simplify(converted / magnitude)
+        if remainder != 1:
+            # A float divided by itself leaves 1.0 rather than 1, so the
+            # unit prints as "1.0*meter/second**2". That line is read by a
+            # scientist deciding whether the check tested what they meant.
+            unit = str(sympy.nsimplify(remainder, rational=False))
+            unit = unit.replace("1.0*", "").strip()
+    return Measurement(magnitude, spread, unit)
 
 
 def _caveats(measurements: dict[str, Measurement], result: Measurement) -> list[str]:

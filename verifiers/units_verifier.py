@@ -30,10 +30,11 @@ from __future__ import annotations
 import re
 
 import sympy
-from sympy.parsing.sympy_parser import parse_expr, standard_transformations
 from sympy.physics import units as physical_units
 from sympy.physics.units import convert_to
 from sympy.physics.units.systems.si import SI
+
+from science import units as science_units
 
 from domain.verdict import Verdict, VerificationStatus
 from domain.verification import VerificationKind, VerificationRequest
@@ -43,51 +44,23 @@ _SUPPORTED = {VerificationKind.DIMENSION, VerificationKind.QUANTITY}
 
 _DIMENSION_SYSTEM = SI.get_dimension_system()
 
-# SECURITY: identical reasoning to the SymPy verifier. These strings come from
-# a language model and the parser evaluates what it reads, so it gets an
-# explicit allow-list rather than a live namespace.
-_MATH_NAMES = (
-    "sqrt exp log ln sin cos tan asin acos atan pi E Abs Rational Integer "
-    "Float floor ceiling Mul Add Pow"
-).split()
-
-_UNIT_NAMES = (
-    "meter meters metre metres kilogram kilograms gram grams "
-    "second seconds minute minutes hour hours day days "
-    "ampere amperes kelvin kelvins mole moles candela "
-    "newton newtons joule joules watt watts pascal pascals "
-    "coulomb coulombs volt volts ohm ohms farad henry hertz "
-    "liter liters litre litres milliliter milliliters "
-    "centimeter centimeters millimeter millimeters kilometer kilometers "
-    "micrometer nanometer picometer angstrom "
-    "milligram milligrams microgram nanogram tonne "
-    "electronvolt electronvolts atmosphere atmospheres bar torr "
-    "degree radian steradian "
-    "speed_of_light planck boltzmann avogadro_number gravitational_constant "
-    "elementary_charge electron_rest_mass acceleration_due_to_gravity "
-    "molar_gas_constant atomic_mass_constant"
-).split()
+# The unit namespace lives in science/units.py so the uncertainty machinery
+# can share it. See that module for why it moved: `science` cannot import
+# `verifiers` without a cycle, and a second copy of a unit list would drift.
+_MATH_NAMES = science_units.MATH_NAMES
+_UNIT_NAMES = science_units.UNIT_NAMES
 
 
 def _namespace() -> dict:
-    space = {name: getattr(sympy, name) for name in _MATH_NAMES if hasattr(sympy, name)}
-    for name in _UNIT_NAMES:
-        unit = getattr(physical_units, name, None)
-        if unit is not None:
-            space[name] = unit
-    return space
+    return science_units.namespace()
 
 
 def _parse(text: str):
-    if not text.strip():
-        raise ValueError("empty expression")
-    return parse_expr(
-        text,
-        local_dict=_namespace(),
-        global_dict={},
-        transformations=standard_transformations,
-        evaluate=True,
-    )
+    return science_units.parse(text)
+
+
+def _mentions_units(text: str) -> bool:
+    return science_units.mentions_units(text)
 
 
 def _base_dimensions(expression) -> dict:
@@ -105,7 +78,7 @@ def _base_dimensions(expression) -> dict:
 
 
 def _units_in(expression) -> set:
-    return set(expression.atoms(physical_units.Quantity))
+    return science_units.units_in(expression)
 
 
 _WORD = re.compile(r"[A-Za-z_][A-Za-z_0-9]*")
