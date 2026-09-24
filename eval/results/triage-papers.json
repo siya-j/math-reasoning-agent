@@ -1,0 +1,118 @@
+{
+  "summary": {
+    "total": 11,
+    "counts": {
+      "claim": 11
+    },
+    "by_tool": {
+      "check_quantity": 4,
+      "check_dimensions": 2,
+      "check_statistic": 2,
+      "check_equality": 2,
+      "check_inequality": 1
+    },
+    "shaped_for": 1.0
+  },
+  "note": "A draft for review. Nothing here should become a benchmark case without a person reading it: a model choosing what the benchmark contains is a model deciding what we measure ourselves against.",
+  "items": [
+    {
+      "id": "item-1",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_quantity",
+      "what": "Asking whether the numerical factor 11.605 equals the inverse of Boltzmann's constant expressed in units of MeV per GK.",
+      "why": "A specific numerical value and unit equivalence are asserted for verification rather than requested as an unknown to calculate.",
+      "text": "From \"The 2025 Evaluation of Experimental Thermonuclear Reaction Rates\"\n(arXiv:2601.20059). The reaction rate is written\n\n    N_A <sigma v> = 3.7318e10 / T9^(3/2) * sqrt((M0+M1)/(M0*M1))\n                    * integral of E sigma(E) exp(-11.605 E / T9) dE\n\nwhere T9 is the temperature in GK and E is in MeV. Is the 11.605 in the\nexponent equal to 1/(k_B) expressed in MeV per GK?"
+    },
+    {
+      "id": "item-2",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_dimensions",
+      "what": "The text asks whether the given formula for the Sommerfeld parameter evaluates to a dimensionless quantity when mass and energy units are specified.",
+      "why": "It tests a specific dimensional property of a fully specified formula, which can be verified by checking dimensions.",
+      "text": "From arXiv:2601.20059. The Sommerfeld parameter is given as\n\n    2 pi eta = 0.989510 * Z0 * Z1 * sqrt(M0*M1/(M0+M1) * 1/E)\n\nIs 2 pi eta dimensionless when E is an energy and M are atomic masses?"
+    },
+    {
+      "id": "item-3",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_quantity",
+      "what": "The Q-value of 1586.892 +/- 0.070 keV is equal to 1.586892 +/- 0.000070 MeV.",
+      "why": "The text asserts a direct unit conversion between two stated physical quantities with uncertainties.",
+      "text": "From arXiv:2601.20059, Table 1. The Q-value of 3He(alpha,gamma)7Be is\nreported as 1586.892 +/- 0.070 keV. Expressed in MeV this is\n1.586892 +/- 0.000070 MeV."
+    },
+    {
+      "id": "item-4",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_dimensions",
+      "what": "It asks whether the defined channel radius R has the physical dimensions of a length.",
+      "why": "It poses an \"is it true that\" question testing whether an expression matches a specific dimensional quantity, which can be verified directly.",
+      "text": "From arXiv:2601.20059. The channel radius is defined as\nR = 1.25 * (A0^(1/3) + A1^(1/3)) fm, with A0 and A1 the mass numbers. Does\nR have the dimensions of a length?"
+    },
+    {
+      "id": "item-5",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_statistic",
+      "what": "The text asks whether the probability between the 16th and 84th percentiles of a normal distribution is equal to 0.68.",
+      "why": "It states a specific distribution property and numerical value to verify rather than asking to calculate an unknown quantity.",
+      "text": "From arXiv:2601.20059. Rates are tabulated at the 16th, 50th and 84th\npercentiles, described as a 68% coverage probability range. For a normal\ndistribution, is the probability between the 16th and 84th percentiles\nequal to 0.68?"
+    },
+    {
+      "id": "item-6",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_equality",
+      "what": "The text asks whether the exponential of 0.087 equals 1.09.",
+      "why": "Specific expressions are given on both sides of an equality that can be directly verified.",
+      "text": "From \"Experimental access to molarity's blind spot in macroscopic assays\"\n(arXiv:2608.02864). The root-mean-square error of ln(observed/predicted) is\nRMSE_ln = 0.087, described as \"a typical 1.09-fold deviation\". Is\nexp(0.087) equal to 1.09?"
+    },
+    {
+      "id": "item-7",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_quantity",
+      "what": "The text asks whether $1 \\times 10^{-6}\\text{ M}$ is equal to $1\\text{ micromolar}$.",
+      "why": "The relation and both specific quantities are fully stated, allowing a quantity equivalence check to settle it directly.",
+      "text": "From arXiv:2608.02864. The chemistry-geometry crossover becomes visible for\nKd greater than about 1e-6 M, described in the text as the micromolar\nscale. Is 1e-6 M equal to 1 micromolar?"
+    },
+    {
+      "id": "item-8",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_inequality",
+      "what": "It asks whether a dissociation constant of 1e-2 M is more than one order of magnitude beyond a conventional limit of 1e-3 M.",
+      "why": "The assertion is a specific comparison between two stated numerical quantities that can be settled by testing an inequality.",
+      "text": "From arXiv:2608.02864. Detection is claimed down to Kd of about 1e-2 M,\nstated to be more than an order of magnitude beyond conventional limits. If\nthe conventional limit is 1e-3 M, is 1e-2 M more than one order of\nmagnitude beyond it?"
+    },
+    {
+      "id": "item-9",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_equality",
+      "what": "The material asks whether squaring the reported correlation coefficient of 0.994 yields a coefficient of determination equal to 0.988.",
+      "why": "A specific value is given to test for equality rather than left to be computed, which can be verified directly.",
+      "text": "From arXiv:2608.02864. A correlation of Pearson r = 0.994 is reported across\nn = 10 conditions. Is the coefficient of determination r^2 equal to 0.988?"
+    },
+    {
+      "id": "item-10",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_quantity",
+      "what": "The text asserts that a length of 4.1 nm is equal to 41 angstroms.",
+      "why": "It states a specific unit-conversion equivalence between two physical quantities that can be settled by comparing quantities with units.",
+      "text": "From arXiv:2608.02864. A linker length of 4.1 nm is used. Expressed in\nangstroms this is 41 angstroms."
+    },
+    {
+      "id": "item-11",
+      "source": "",
+      "kind": "claim",
+      "tool": "check_statistic",
+      "what": "It asks whether the mean of the three replicate values 1.02, 0.98, and 1.06 is equal to 1.02.",
+      "why": "A specific candidate value of 1.02 is proposed for verification against sample data, making it a checkable claim.",
+      "text": "From arXiv:2608.02864. Measurements are reported as mean +/- s.d. over\nthree replicates. If the three values are 1.02, 0.98 and 1.06, is the mean\n1.02?"
+    }
+  ]
+}
