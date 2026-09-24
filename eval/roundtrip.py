@@ -40,6 +40,8 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
+from llm.reply import text_of
+
 # The exclusions worth auditing. PROVED and NOT_PROVED goals were tested as
 # written, so their statements are not in question; these two are the ones
 # that left the denominator.
@@ -136,7 +138,10 @@ def parse_judgement(text: str) -> tuple[str, str]:
 
 
 def _content(reply) -> str:
-    return getattr(reply, "content", reply) or ""
+    # Gemini returns content as a LIST of blocks, not a string. Reading it
+    # naively is how `'list' object has no attribute 'strip'` reached a
+    # live run after 25 unit tests passed on string-returning fakes.
+    return text_of(reply)
 
 
 def assess(goal_id: str, outcome: str, formal: str, informal: str,

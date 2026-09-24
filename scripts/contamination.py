@@ -64,6 +64,7 @@ N = 5
 GIVE_UP_AFTER = 3
 
 from llm.exhaustion import advice, is_hopeless  # noqa: E402
+from llm.reply import text_of  # noqa: E402
 from math_v2.core import binders  # noqa: E402
 
 
@@ -284,9 +285,7 @@ def main(argv=None) -> int:
                 print(f"[{index}/{len(goals)}] {goal['id']:32} no informal text")
                 continue
             reply = model.invoke(asked)
-            said = getattr(reply, "text", None) or getattr(reply, "content", "")
-            if callable(said):
-                said = said()
+            said = text_of(reply)
         except Exception as exc:  # noqa: BLE001 - one failure must not stop the sweep
             # WITH THE MESSAGE. Printing only `type(exc).__name__` gave
             # `FAILED ChatGoogleGenerativeAIError` and nothing to act on --
