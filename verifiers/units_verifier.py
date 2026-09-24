@@ -239,7 +239,27 @@ class UnitsVerifier(Verifier):
 
         # Dimensions first. A metre is never a second, and saying so is more
         # useful than a number comparison that was doomed before it started.
+        #
+        # BUT ONLY WHEN BOTH SIDES CARRY UNITS. If the claimed value is a
+        # bare number, the QUESTION stated no units, and the units on the
+        # other side were chosen by the agent. A mismatch then says the
+        # agent built the expression oddly, not that the user's claim is
+        # false, and reporting FALSE turns a malformed check into a
+        # refutation of something nobody claimed.
+        #
+        # MEASURED: "Is 2 moles multiplied by 6.02214076e23 equal to
+        # 1.204428152e24?" was checked as 2*mole*6.02214076e23 against a
+        # dimensionless 1.204428152e24, and a correct claim was refuted as
+        # "dimensionally impossible".
         if left != right:
+            if not left or not right:
+                return self._unknown(
+                    f"Only one side carries a unit: {request.lhs} is "
+                    f"{_describe(left)} and {request.rhs} is "
+                    f"{_describe(right)}. The claimed value has no unit, so "
+                    "the question is about a plain number — use the numeric "
+                    "check, or put the same units on both sides."
+                )
             return self._false(
                 f"Dimensionally impossible: {request.lhs} is "
                 f"{_describe(left)} but {request.rhs} is {_describe(right)}."

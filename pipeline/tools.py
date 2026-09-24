@@ -56,7 +56,9 @@ def make_tools(log: VerificationLog) -> list:
             VerificationRequest(kind=VerificationKind.EQUALITY, lhs=lhs, rhs=rhs),
         )
 
-    def check_numeric(claim: str, expression: str, expected: str) -> str:
+    def check_numeric(
+        claim: str, expression: str, expected: str, decimal_places: str = ""
+    ) -> str:
         """Check whether a numeric expression evaluates to an expected number.
 
         Use only when both sides are concrete numbers, with no variables.
@@ -64,12 +66,20 @@ def make_tools(log: VerificationLog) -> list:
         claim: the claim from the user's question that this check is testing.
         expression: the arithmetic from the user's question.
         expected: the value the user's question says it equals.
+        decimal_places: pass this whenever the question says the value is
+            rounded, approximate, or given to a number of decimal places, as
+            a string of digits. Without it the comparison is exact, and a
+            question that asked about a rounded value will be answered FALSE
+            for a correct claim.
         """
         return log.record(
             "check_numeric",
             claim,
             VerificationRequest(
-                kind=VerificationKind.NUMERIC, lhs=expression, rhs=expected
+                kind=VerificationKind.NUMERIC,
+                lhs=expression,
+                rhs=expected,
+                tolerance=decimal_places,
             ),
         )
 

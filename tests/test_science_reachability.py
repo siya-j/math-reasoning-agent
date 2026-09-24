@@ -223,3 +223,81 @@ def test_the_ceiling_is_total():
         f"only {len(reachable)} of {len(decidable)} decidable cases are "
         "reachable; the shortfall is a verifier gap, not a prompting problem"
     )
+
+
+# ============================================================================
+# THE CEILING ABOVE WAS MEASURED AT THE WRONG LAYER.
+#
+# Every check in the table is built as a VerificationRequest and handed
+# straight to the verifiers. That tests what the verifiers CAN decide. It
+# does not test what the model can ASK them, and those are different
+# questions whenever a tool fails to expose a field the verifier reads.
+#
+# It cost a live run to find out. `tolerance` was added to the NUMERIC
+# verifier in Phase 5, but `check_numeric` never took a `decimal_places`
+# argument, so the rounding capability existed and was unreachable. Two
+# cases that pass above came back as SOUNDNESS FAILURES on the real
+# benchmark: 2*pi*sqrt(1/9.8) was refuted for being 2.007089 rather than
+# exactly 2.0071.
+#
+# So the same table is run again THROUGH THE TOOLS, and the recorded request
+# is compared against the intended one. A field the tool cannot carry now
+# fails a test instead of a benchmark.
+# ============================================================================
+
+from pipeline.tools import VerificationLog, make_tools  # noqa: E402
+
+# How each kind reaches a verifier from the model's side: the tool's name,
+# and which request fields its arguments come from, in order.
+TOOL_FOR = {
+    K.NUMERIC: ("check_numeric", ("lhs", "rhs", "tolerance")),
+    K.QUANTITY: ("check_quantity", ("lhs", "rhs", "tolerance")),
+    K.DIMENSION: ("check_dimensions", ("lhs", "rhs")),
+    K.MOLAR_MASS: ("check_molar_mass", ("lhs", "rhs")),
+    K.CONSTANT: ("check_constant", ("lhs", "rhs")),
+    K.PLAUSIBILITY: ("check_possible", ("lhs", "rhs")),
+    K.BALANCE: ("check_equation_balances", ("lhs",)),
+    K.STATISTIC: ("check_statistic", ("lhs", "parameters", "rhs")),
+}
+
+
+def through_tools(request: VerificationRequest):
+    """Make this request the way the model would, and return what was recorded."""
+    name, fields = TOOL_FOR[request.kind]
+    log = VerificationLog()
+    tool = {t.__name__: t for t in make_tools(log)}[name]
+    tool("a claim", *(getattr(request, field) for field in fields))
+    return log.checks[-1]
+
+
+@pytest.mark.parametrize(
+    "case_id", sorted(cid for cid, req in CHECKS.items() if req is not None)
+)
+def test_the_tool_layer_carries_every_field_the_check_needs(case_id):
+    """A tool that drops a field silently verifies a different claim."""
+    intended = CHECKS[case_id]
+    recorded = through_tools(intended).request
+    for field in ("lhs", "rhs", "tolerance", "parameters"):
+        assert getattr(recorded, field) == getattr(intended, field), (
+            f"{case_id}: the {field!r} field did not survive the tool layer. "
+            f"The verifier can decide this; the model cannot ask it to."
+        )
+
+
+@pytest.mark.parametrize(
+    "case_id", sorted(cid for cid, req in CHECKS.items() if req is not None)
+)
+def test_the_ceiling_holds_through_the_tools_too(case_id):
+    expected = CASES[case_id]["expected"]
+    verdict = through_tools(CHECKS[case_id]).verdict
+    assert verdict.status is VerificationStatus(expected), (
+        f"{CASES[case_id]['question']}\n"
+        f"  expected {expected}, got {verdict.status.value} via the tool\n"
+        f"  {verdict.detail}"
+    )
+
+
+def test_every_kind_the_table_uses_has_a_tool():
+    """A verifier with no tool is a capability the model cannot reach."""
+    used = {request.kind for request in CHECKS.values() if request is not None}
+    assert used <= set(TOOL_FOR), f"no tool mapped for {used - set(TOOL_FOR)}"
