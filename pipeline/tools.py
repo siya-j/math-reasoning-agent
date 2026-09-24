@@ -432,6 +432,42 @@ def make_tools(log: VerificationLog) -> list:
             ),
         )
 
+    def check_uncertainty(
+        claim: str, formula: str, measurements: str, claimed_result: str
+    ) -> str:
+        """Propagate measurement uncertainty through a formula and check it.
+
+        Use whenever any input carries an error bar. A result computed from
+        measured values has an uncertainty, and a right value with a wrong
+        error bar is a wrong answer.
+
+        formula: the expression, written in terms of variable NAMES only,
+            with no units and no numbers substituted in.
+        measurements: the values those names take, with their uncertainties,
+            as name = value +/- uncertainty separated by commas. Write an
+            exact input with no uncertainty at all.
+        claimed_result: what the user's question says the answer is. Give it
+            as value +/- uncertainty when the question states an error bar,
+            or as a plain value when it does not; only what is stated gets
+            checked.
+
+        claim: the claim from the user's question that this check is testing.
+
+        The propagated uncertainty and the contribution of each measurement
+        are reported whatever the verdict, so you can see which input
+        dominates the error.
+        """
+        return log.record(
+            "check_uncertainty",
+            claim,
+            VerificationRequest(
+                kind=VerificationKind.UNCERTAINTY,
+                lhs=formula,
+                rhs=claimed_result,
+                parameters=measurements,
+            ),
+        )
+
     return [
         check_equality,
         check_numeric,
@@ -449,4 +485,5 @@ def make_tools(log: VerificationLog) -> list:
         check_possible,
         check_equation_balances,
         check_statistic,
+        check_uncertainty,
     ]

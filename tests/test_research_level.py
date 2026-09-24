@@ -176,18 +176,31 @@ def test_a_test_whose_totals_disagree_is_refused_not_computed():
 #  doctoral user would expect, and none of them exists yet.
 # =======================================================================
 
-@pytest.mark.xfail(reason="no uncertainty propagation: the biggest gap for "
-                          "research use, where every quantity has error bars",
-                   strict=True)
-def test_a_value_agrees_with_a_measurement_within_its_uncertainty():
-    """9.81 +/- 0.02 and 9.80665 are the same measurement. Today the
-    verifier compares them as exact numbers and returns FALSE."""
+def test_a_measured_quantity_carries_its_error_bar():
+    """No longer xfail: eval uncertainty propagation exists.
+
+    A measured period and length give a measured g, and the answer is a
+    value AND an error bar. The claim is checked on both, because a right
+    value with a wrong error bar is a wrong answer.
+    """
     assert decide(
-        kind=K.QUANTITY,
-        lhs="9.81*meter/second**2",
-        rhs="9.80665*meter/second**2",
-        tolerance="uncertainty:0.02",
+        kind=K.UNCERTAINTY,
+        lhs="4*pi**2*L/T**2",
+        parameters="L=1.0 +/- 0.005, T=2.006 +/- 0.002",
+        rhs="9.81 +/- 0.05",
     ) is TRUE
+
+
+def test_the_dominant_source_of_error_is_reported():
+    """The actionable part of an uncertainty answer is usually which
+    measurement to improve, not the number itself."""
+    verdict = verifiers.verify(R(
+        kind=K.UNCERTAINTY,
+        lhs="4*pi**2*L/T**2",
+        parameters="L=1.0 +/- 0.005, T=2.006 +/- 0.002",
+        rhs="9.81 +/- 0.05",
+    ))
+    assert "d/dL" in verdict.detail and "d/dT" in verdict.detail
 
 
 @pytest.mark.xfail(reason="no way to state assumptions, so SymPy returns a "

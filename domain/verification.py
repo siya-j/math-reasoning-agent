@@ -34,6 +34,8 @@ class VerificationKind(str, Enum):
     PLAUSIBILITY = "plausibility"  # is rhs an impossible value for the quantity in lhs?
     BALANCE = "balance"      # does the reaction equation in lhs balance?
     STATISTIC = "statistic"  # does the named statistic of `parameters` equal rhs?
+    UNCERTAINTY = "uncertainty"  # does lhs, fed the measurements in
+                                 # `parameters`, equal rhs with its error bar?
     NONE = "none"            # nothing here can be checked deterministically
 
 

@@ -15,6 +15,7 @@ from verifiers.plausibility_verifier import PlausibilityVerifier
 from verifiers.reference_verifier import ReferenceVerifier
 from verifiers.statistics_verifier import StatisticsVerifier
 from verifiers.sympy_verifier import SymPyVerifier
+from verifiers.uncertainty_verifier import UncertaintyVerifier
 from verifiers.units_verifier import UnitsVerifier
 
 # Order matters: the first verifier that supports a request handles it.
@@ -31,6 +32,7 @@ VERIFIERS: list[Verifier] = [
     PlausibilityVerifier(),
     ChemistryVerifier(),
     StatisticsVerifier(),
+    UncertaintyVerifier(),
     LeanVerifier(),
 ]
 
@@ -73,6 +75,7 @@ __all__ = [
     "PlausibilityVerifier",
     "ChemistryVerifier",
     "StatisticsVerifier",
+    "UncertaintyVerifier",
     "LeanVerifier",
     "NOT_APPLICABLE",
     "REFUTATION_ONLY",
