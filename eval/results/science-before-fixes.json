@@ -2,18 +2,18 @@
   "summary": {
     "total": 63,
     "attempted": 63,
-    "correct": 63,
-    "missed": 0,
-    "wrong": 0,
+    "correct": 58,
+    "missed": 1,
+    "wrong": 4,
     "errors": 0,
-    "accuracy": 1.0,
-    "soundness": 1.0,
-    "coverage": 1.0,
-    "tool_use_rate": 0.8888888888888888,
-    "mean_checks": 1.0793650793650793,
+    "accuracy": 0.9206349206349206,
+    "soundness": 0.9365079365079365,
+    "coverage": 0.9285714285714286,
+    "tool_use_rate": 0.9047619047619048,
+    "mean_checks": 1.3174603174603174,
     "mean_attempts": 1.1587301587301588,
-    "recovered_by_retry": 10,
-    "restraint_on_abstract": 1.0
+    "recovered_by_retry": 8,
+    "restraint_on_abstract": 0.8571428571428571
   },
   "results": [
     {
@@ -22,11 +22,11 @@
       "expected": "true",
       "actual": "true",
       "outcome": "correct",
-      "checks": 1,
+      "checks": 2,
       "attempts": 1,
       "evidence": 0,
-      "tools_used": "check_quantity",
-      "detail": "All 1 check(s) passed. (1/2) * (9.8*meter/(second**2)) * (3*second)**2 equals 44.1*meter (44.1 meter)."
+      "tools_used": "check_numeric,check_quantity",
+      "detail": "All 2 check(s) passed. (1/2) * (9.8 * meter / second**2) * (3 * second)**2 equals 44.1 * meter (44.1 meter)."
     },
     {
       "case_id": "phy-freefall-velocity-confused",
@@ -34,11 +34,11 @@
       "expected": "false",
       "actual": "false",
       "outcome": "correct",
-      "checks": 1,
-      "attempts": 2,
+      "checks": 2,
+      "attempts": 1,
       "evidence": 0,
       "tools_used": "check_quantity",
-      "detail": "Refuted by check_quantity: (1/2) * 9.8 * (meter / second**2) * (3 * second)**2 = 44.1 meter, not 29.4."
+      "detail": "Refuted by check_quantity: (1/2) * (9.8 * meter / second**2) * (3 * second)**2 = 44.1 meter, which rounds to 44.1 at 1 decimal places, not 29.4."
     },
     {
       "case_id": "phy-kinetic-energy",
@@ -122,7 +122,7 @@
       "attempts": 1,
       "evidence": 0,
       "tools_used": "check_quantity",
-      "detail": "Refuted by check_quantity: 300*joule / (6*second) = 50.0 watt, not 1800.0."
+      "detail": "Refuted by check_quantity: 300 * joule / (6 * second) = 50.0 watt, not 1800.0."
     },
     {
       "case_id": "phy-ohms-law",
@@ -176,25 +176,25 @@
       "case_id": "phy-pendulum-period",
       "area": "physics",
       "expected": "true",
-      "actual": "true",
-      "outcome": "correct",
-      "checks": 1,
+      "actual": "false",
+      "outcome": "wrong",
+      "checks": 3,
       "attempts": 1,
       "evidence": 0,
-      "tools_used": "check_numeric",
-      "detail": "All 1 check(s) passed. 2*pi*sqrt(1/9.8) = 2.007089923154493, which rounds to 2.0071 at 4 decimal places, matching 2.0071."
+      "tools_used": "check_numeric,check_quantity",
+      "detail": "Refuted by check_numeric: 2*pi*sqrt(1/9.8) evaluates to 2.00708992315449, not 2.00710000000000."
     },
     {
       "case_id": "phy-projectile-range",
       "area": "physics",
       "expected": "true",
-      "actual": "true",
-      "outcome": "correct",
-      "checks": 1,
+      "actual": "false",
+      "outcome": "wrong",
+      "checks": 3,
       "attempts": 1,
       "evidence": 0,
-      "tools_used": "check_numeric",
-      "detail": "All 1 check(s) passed. 20**2 * 1 / 9.8 = 40.81632653061224, which rounds to 40.816 at 3 decimal places, matching 40.816."
+      "tools_used": "check_equality,check_numeric,check_quantity",
+      "detail": "Refuted by check_numeric: 20**2 * 1 / 9.8 evaluates to 40.8163265306122, not 40.8160000000000."
     },
     {
       "case_id": "phy-density",
@@ -206,7 +206,7 @@
       "attempts": 1,
       "evidence": 0,
       "tools_used": "check_numeric",
-      "detail": "All 1 check(s) passed. 27/10 = 2.70000000000000 equals 2.7."
+      "detail": "All 1 check(s) passed. 27 / 10 = 2.70000000000000 equals 2.7."
     },
     {
       "case_id": "phy-relativity-gamma",
@@ -251,10 +251,10 @@
       "actual": "true",
       "outcome": "correct",
       "checks": 1,
-      "attempts": 1,
+      "attempts": 2,
       "evidence": 0,
       "tools_used": "check_quantity",
-      "detail": "All 1 check(s) passed. 1 * kilogram * meter / (second**2) equals 1*newton (1.0 newton)."
+      "detail": "All 1 check(s) passed. 1 * kilogram * meter / (second * second) equals 1 * newton (1.0 newton)."
     },
     {
       "case_id": "phy-units-add-mismatch",
@@ -278,7 +278,7 @@
       "attempts": 1,
       "evidence": 0,
       "tools_used": "check_dimensions",
-      "detail": "Refuted by check_dimensions: Different dimensions: 1 * joule is length**2 * mass * time**-2 but 1 * newton is length * mass * time**-2."
+      "detail": "Refuted by check_dimensions: Different dimensions: joule is length**2 * mass * time**-2 but newton is length * mass * time**-2."
     },
     {
       "case_id": "phy-units-ev-to-joule",
@@ -287,7 +287,7 @@
       "actual": "true",
       "outcome": "correct",
       "checks": 2,
-      "attempts": 2,
+      "attempts": 1,
       "evidence": 0,
       "tools_used": "check_constant,check_quantity",
       "detail": "All 2 check(s) passed. The elementary charge is 1.602176634e-19 C (exact by definition), which is 1.602176634e-19 to 10 significant figures, matching the claimed 1.602176634e-19."
@@ -301,8 +301,8 @@
       "checks": 1,
       "attempts": 1,
       "evidence": 0,
-      "tools_used": "check_constant",
-      "detail": "All 1 check(s) passed. The standard atmosphere is 101325.0 Pa (exact by definition), which is 101325.0 to 6 significant figures, matching the claimed 101325.0."
+      "tools_used": "check_quantity",
+      "detail": "All 1 check(s) passed. 1 * atmosphere equals 101325 * pascal (101325.0 pascal)."
     },
     {
       "case_id": "phy-units-speed-dimension",
@@ -322,11 +322,11 @@
       "expected": "true",
       "actual": "true",
       "outcome": "correct",
-      "checks": 1,
+      "checks": 2,
       "attempts": 1,
       "evidence": 0,
-      "tools_used": "check_numeric",
-      "detail": "All 1 check(s) passed. 2 * 1.008 + 15.999 = 18.0150000000000 equals 18.015."
+      "tools_used": "check_molar_mass,check_numeric",
+      "detail": "All 2 check(s) passed. 2 * 1.008 + 15.999 = 18.0150000000000 equals 18.015."
     },
     {
       "case_id": "chem-molar-mass-water-wrong",
@@ -338,7 +338,7 @@
       "attempts": 1,
       "evidence": 0,
       "tools_used": "check_numeric",
-      "detail": "Refuted by check_numeric: 2 * 1.008 + 15.999 = 18.015, which rounds to 18.0 at 1 decimal places, not 20.0."
+      "detail": "Refuted by check_numeric: 2 * 1.008 + 15.999 evaluates to 18.0150000000000, not 20.0000000000000."
     },
     {
       "case_id": "chem-molar-mass-co2",
@@ -346,11 +346,11 @@
       "expected": "true",
       "actual": "true",
       "outcome": "correct",
-      "checks": 1,
+      "checks": 2,
       "attempts": 1,
       "evidence": 0,
-      "tools_used": "check_numeric",
-      "detail": "All 1 check(s) passed. 12.011 + 2 * 15.999 = 44.0090000000000 equals 44.009."
+      "tools_used": "check_molar_mass,check_numeric",
+      "detail": "All 2 check(s) passed. 12.011 + 2 * 15.999 = 44.0090000000000 equals 44.009."
     },
     {
       "case_id": "chem-moles-from-mass",
@@ -374,7 +374,7 @@
       "attempts": 1,
       "evidence": 0,
       "tools_used": "check_possible,check_quantity",
-      "detail": "All 1 check(s) passed. 0.5 * mole / (2 * liter) equals 0.25 * mole / liter (0.25 liter mole)."
+      "detail": "All 1 check(s) passed. 0.5*mole / (2*liter) equals 0.25*mole/liter (0.25 mole liter)."
     },
     {
       "case_id": "chem-dilution",
@@ -385,8 +385,8 @@
       "checks": 2,
       "attempts": 1,
       "evidence": 0,
-      "tools_used": "check_numeric,solve_equation",
-      "detail": "All 2 check(s) passed. (2 * 50) / 200 = 0.500000000000000 equals 0.5."
+      "tools_used": "check_possible,solve_equation",
+      "detail": "All 1 check(s) passed. Solutions confirmed: [1/2]."
     },
     {
       "case_id": "chem-dilution-wrong",
@@ -394,23 +394,23 @@
       "expected": "false",
       "actual": "false",
       "outcome": "correct",
-      "checks": 1,
+      "checks": 2,
       "attempts": 1,
       "evidence": 0,
-      "tools_used": "check_numeric",
-      "detail": "Refuted by check_numeric: (2 * 50) / 200 evaluates to 0.500000000000000, not 0.800000000000000."
+      "tools_used": "check_numeric,solve_equation",
+      "detail": "Refuted by solve_equation: Claimed [0.800000000000000], but SymPy found [1/2]."
     },
     {
       "case_id": "chem-ideal-gas-molar-volume",
       "area": "chemistry",
       "expected": "true",
-      "actual": "true",
-      "outcome": "correct",
-      "checks": 1,
-      "attempts": 1,
-      "evidence": 0,
-      "tools_used": "check_numeric",
-      "detail": "All 1 check(s) passed. 1 * 0.08206 * 273.15 / 1 = 22.414688999999996, which rounds to 22.415 at 3 decimal places, matching 22.415."
+      "actual": "unknown",
+      "outcome": "missed",
+      "checks": 3,
+      "attempts": 3,
+      "evidence": 2,
+      "tools_used": "check_numeric,check_quantity",
+      "detail": "1 of 3 check(s) passed; the rest could not be decided."
     },
     {
       "case_id": "chem-ph-strong-acid",
@@ -422,7 +422,7 @@
       "attempts": 1,
       "evidence": 0,
       "tools_used": "check_numeric",
-      "detail": "All 1 check(s) passed. -log(0.001, 10) = 3.00000000000000 equals 3 (they differ by -1.03e-16, which is floating-point representation error, not disagreement)."
+      "detail": "All 1 check(s) passed. -log(0.001)/log(10) = 3.00000000000000 equals 3 (they differ by -1.03e-16, which is floating-point representation error, not disagreement)."
     },
     {
       "case_id": "chem-ph-confused-with-poh",
@@ -452,13 +452,13 @@
       "case_id": "chem-avogadro-count",
       "area": "chemistry",
       "expected": "true",
-      "actual": "true",
-      "outcome": "correct",
-      "checks": 3,
+      "actual": "false",
+      "outcome": "wrong",
+      "checks": 4,
       "attempts": 1,
       "evidence": 0,
       "tools_used": "check_constant,check_numeric,check_quantity",
-      "detail": "All 3 check(s) passed. 2 * 6.02214076e23 = 1.20442815200000E+24 equals 1.204428152e24."
+      "detail": "Refuted by check_quantity: Dimensionally impossible: 2 * mole * 6.02214076e23 is amount_of_substance but 1.204428152e24 is dimensionless."
     },
     {
       "case_id": "chem-stoich-water",
@@ -542,7 +542,7 @@
       "attempts": 1,
       "evidence": 0,
       "tools_used": "check_numeric",
-      "detail": "All 1 check(s) passed. 10**3 = 1000.00000000000 equals 1000."
+      "detail": "All 1 check(s) passed. 10 * 10 * 10 = 1000.00000000000 equals 1000."
     },
     {
       "case_id": "bio-serial-dilution-wrong",
@@ -550,7 +550,7 @@
       "expected": "false",
       "actual": "false",
       "outcome": "correct",
-      "checks": 1,
+      "checks": 2,
       "attempts": 1,
       "evidence": 0,
       "tools_used": "check_numeric",
@@ -578,7 +578,7 @@
       "attempts": 1,
       "evidence": 0,
       "tools_used": "check_numeric",
-      "detail": "All 1 check(s) passed. 0.7**2 + 2*0.7*0.3 + 0.3**2 = 1.00000000000000 equals 1 (they differ by -1.11e-16, which is floating-point representation error, not disagreement)."
+      "detail": "All 1 check(s) passed. (0.7)**2 + 2*(0.7)*(0.3) + (0.3)**2 = 1.00000000000000 equals 1 (they differ by -1.11e-16, which is floating-point representation error, not disagreement)."
     },
     {
       "case_id": "bio-hardy-weinberg-q-wrong",
@@ -586,11 +586,11 @@
       "expected": "false",
       "actual": "false",
       "outcome": "correct",
-      "checks": 2,
+      "checks": 1,
       "attempts": 1,
       "evidence": 0,
-      "tools_used": "check_numeric",
-      "detail": "Refuted by check_numeric: 1 - 0.7 evaluates to 0.300000000000000, not 0.500000000000000."
+      "tools_used": "solve_equation",
+      "detail": "Refuted by solve_equation: Claimed [0.500000000000000], but SymPy found [0.300000000000000]."
     },
     {
       "case_id": "bio-bacterial-doubling",
@@ -614,7 +614,7 @@
       "attempts": 1,
       "evidence": 0,
       "tools_used": "check_numeric",
-      "detail": "Refuted by check_numeric: 1000 * 2**(120 / 20) evaluates to 64000.0000000000, not 6000.00000000000."
+      "detail": "Refuted by check_numeric: 1000 * 2**(120/20) evaluates to 64000.0000000000, not 6000.00000000000."
     },
     {
       "case_id": "bio-percent-solution",
@@ -622,10 +622,10 @@
       "expected": "true",
       "actual": "true",
       "outcome": "correct",
-      "checks": 1,
+      "checks": 2,
       "attempts": 1,
       "evidence": 0,
-      "tools_used": "check_numeric",
+      "tools_used": "check_numeric,check_possible",
       "detail": "All 1 check(s) passed. (5 / 100) * 100 = 5.00000000000000 equals 5."
     },
     {
@@ -635,10 +635,10 @@
       "actual": "true",
       "outcome": "correct",
       "checks": 1,
-      "attempts": 2,
+      "attempts": 1,
       "evidence": 0,
       "tools_used": "check_quantity",
-      "detail": "All 1 check(s) passed. (5 * milligram / kilogram) * (70 * kilogram) equals 350 * milligram (350.0 milligram)."
+      "detail": "All 1 check(s) passed. 5 * milligram / kilogram * 70 * kilogram equals 350 * milligram (350.0 milligram)."
     },
     {
       "case_id": "bio-dosage-by-weight-wrong",
@@ -649,8 +649,8 @@
       "checks": 1,
       "attempts": 1,
       "evidence": 0,
-      "tools_used": "check_numeric",
-      "detail": "Refuted by check_numeric: 5 * 70 evaluates to 350.000000000000, not 75.0000000000000."
+      "tools_used": "check_quantity",
+      "detail": "Refuted by check_quantity: 5 * milligram / kilogram * 70 * kilogram = 350.0 milligram, not 75.0."
     },
     {
       "case_id": "bio-microscope-magnification",
@@ -671,10 +671,10 @@
       "actual": "true",
       "outcome": "correct",
       "checks": 1,
-      "attempts": 1,
+      "attempts": 2,
       "evidence": 0,
       "tools_used": "check_numeric",
-      "detail": "All 1 check(s) passed. 3/4 = 0.750000000000000 equals 0.75."
+      "detail": "All 1 check(s) passed. 1 + 1 + 1 = 3.00000000000000 equals 3."
     },
     {
       "case_id": "bio-allele-frequency",
@@ -682,11 +682,11 @@
       "expected": "true",
       "actual": "true",
       "outcome": "correct",
-      "checks": 1,
+      "checks": 2,
       "attempts": 1,
       "evidence": 0,
       "tools_used": "check_numeric",
-      "detail": "All 1 check(s) passed. sqrt(0.16) = 0.400000000000000 equals 0.4."
+      "detail": "All 2 check(s) passed. sqrt(0.16) = 0.400000000000000 equals 0.4."
     },
     {
       "case_id": "sci-na-boiling-point",
@@ -716,13 +716,13 @@
       "case_id": "sci-na-spontaneity-no-data",
       "area": "chemistry",
       "expected": "n/a",
-      "actual": "n/a",
-      "outcome": "correct",
-      "checks": 0,
-      "attempts": 2,
+      "actual": "true",
+      "outcome": "wrong",
+      "checks": 1,
+      "attempts": 1,
       "evidence": 0,
-      "tools_used": "",
-      "detail": "The agent performed no deterministic verification."
+      "tools_used": "check_equation_balances",
+      "detail": "All 1 check(s) passed. Balanced: Cx1, Hx4, Ox4 on both sides. (Balance is necessary for a correct equation, not sufficient \u2014 it says nothing about whether the reaction occurs or the products are right"
     },
     {
       "case_id": "sci-na-drug-safety",

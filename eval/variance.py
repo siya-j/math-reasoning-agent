@@ -48,12 +48,20 @@ import random
 from dataclasses import dataclass
 from pathlib import Path
 
-# Outcomes that mean "this goal was a fair test of the prover". Kept in step
-# with eval/proof_metrics.py's `valid_targets`, and for the same reasons: a
+# What counts as a success, for BOTH kinds of run this reads.
+#
+# A proving run records `proved`; a verification run records `correct`.
+# Neither vocabulary uses the other's word, so the union is unambiguous and
+# one instrument serves both. Without this the tool silently reported 0% on
+# every verification run -- an answer that looks like a measurement.
+SUCCEEDED = frozenset({"proved", "correct"})
+PROVED = "proved"
+
+# Outcomes that mean "this goal was NOT a fair test". Kept in step with
+# eval/proof_metrics.py's `valid_targets`, and for the same reasons: a
 # statement the compiler refuted, one the agent called broken, one that never
 # formalised and one that ran out of budget are all excluded, because none of
 # them was refused by the mathematics.
-PROVED = "proved"
 EXCLUDED = frozenset({"refuted", "suspect_statement", "not_formalized", "exhausted"})
 
 
@@ -72,7 +80,7 @@ class Run:
         }
 
     def proved(self, goal: str) -> bool:
-        return self.outcomes.get(goal) == PROVED
+        return self.outcomes.get(goal) in SUCCEEDED
 
 
 def load_run(path: str | Path) -> Run:
