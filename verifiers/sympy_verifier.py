@@ -14,6 +14,7 @@ from sympy.parsing.sympy_parser import parse_expr, standard_transformations
 
 from domain.verdict import Verdict, VerificationStatus
 from domain.verification import VerificationKind, VerificationRequest
+from verifiers import assumptions as assumption_text
 from verifiers.base import Verifier
 
 _SUPPORTED = {
@@ -47,18 +48,27 @@ _ALLOWED = {
 }
 
 
-def _parse(text: str, evaluate: bool = True):
+def _parse(text: str, evaluate: bool = True, assuming: dict | None = None):
     """Parse an expression string with a restricted namespace.
 
     `evaluate=False` preserves the written structure. SymPy folds
     2**3 * 3**2 * 5 into 360 on sight, which erases exactly the information
     a factorisation check needs to inspect.
+
+    `assuming` supplies symbols that already carry assumptions, so that
+    `a` in the text becomes Symbol('a', positive=True) rather than a bare
+    symbol. It goes in AFTER the allow-list, so an assumption can never
+    shadow a function name.
     """
     if not text.strip():
         raise ValueError("empty expression")
+    namespace = dict(_ALLOWED)
+    for name, symbol in (assuming or {}).items():
+        if name not in _ALLOWED:
+            namespace[name] = symbol
     return parse_expr(
         text,
-        local_dict=dict(_ALLOWED),
+        local_dict=namespace,
         global_dict={},
         transformations=standard_transformations,
         evaluate=evaluate,
@@ -85,10 +95,27 @@ def _decimal_places(tolerance: str):
 class SymPyVerifier(Verifier):
     name = "sympy"
 
+    # Reset on every verify(); declared so a direct call to a
+    # kind handler in a test does not depend on call order.
+    _assuming: dict = {}
+    _assumed: str = ""
+
     def supports(self, request: VerificationRequest) -> bool:
         return request.kind in _SUPPORTED
 
     def verify(self, request: VerificationRequest) -> Verdict:
+        try:
+            self._assuming, self._assumed = (
+                assumption_text.build(request.assumptions)
+                if (request.assumptions or "").strip() else ({}, "")
+            )
+        except assumption_text.AssumptionError as exc:
+            return self._unknown(
+                f"Could not read the assumptions: {exc}. Refusing to decide, "
+                "because checking a claim under assumptions nobody stated "
+                "would answer a narrower question than the one asked."
+            )
+
         try:
             if request.kind is VerificationKind.PRIMALITY:
                 return self._primality(request)
@@ -114,14 +141,14 @@ class SymPyVerifier(Verifier):
 
     # ------------------------------------------------------------------ kinds
     def _primality(self, request: VerificationRequest) -> Verdict:
-        n = int(_parse(request.lhs))
+        n = int(_parse(request.lhs, assuming=self._assuming))
         if sympy.isprime(n):
             return self._true(f"{n} is prime (SymPy isprime).")
         factors = sympy.factorint(n)
         return self._false(f"{n} is not prime. Factorization: {factors}.")
 
     def _equality(self, request: VerificationRequest) -> Verdict:
-        lhs, rhs = _parse(request.lhs), _parse(request.rhs)
+        lhs, rhs = _parse(request.lhs, assuming=self._assuming), _parse(request.rhs, assuming=self._assuming)
         difference = sympy.simplify(lhs - rhs)
 
         if difference == 0:
@@ -160,7 +187,7 @@ class SymPyVerifier(Verifier):
         )
 
     def _numeric(self, request: VerificationRequest) -> Verdict:
-        lhs, rhs = _parse(request.lhs), _parse(request.rhs)
+        lhs, rhs = _parse(request.lhs, assuming=self._assuming), _parse(request.rhs, assuming=self._assuming)
 
         # A numeric claim must be about numbers. If either side is a symbol,
         # the agent has handed us something it invented rather than computed,
@@ -226,7 +253,7 @@ class SymPyVerifier(Verifier):
 
     def _solution(self, request: VerificationRequest) -> Verdict:
         var = sympy.Symbol(request.variable)
-        equation = sympy.Eq(_parse(request.lhs), _parse(request.rhs or "0"))
+        equation = sympy.Eq(_parse(request.lhs, assuming=self._assuming), _parse(request.rhs or "0", assuming=self._assuming))
         solutions = sympy.solve(equation, var)
 
         if not request.candidate:
@@ -234,7 +261,7 @@ class SymPyVerifier(Verifier):
                 f"No claimed solutions to check. SymPy solutions: {solutions}."
             )
 
-        claimed = [_parse(part) for part in request.candidate.split(",") if part.strip()]
+        claimed = [_parse(part, assuming=self._assuming) for part in request.candidate.split(",") if part.strip()]
 
         # A claimed solution containing a symbol that appears nowhere in the
         # equation is not a value — it is a name the model invented. This bit
@@ -264,7 +291,7 @@ class SymPyVerifier(Verifier):
 
     def _limit(self, request: VerificationRequest) -> Verdict:
         variable = sympy.Symbol(request.variable)
-        expression = _parse(request.lhs)
+        expression = _parse(request.lhs, assuming=self._assuming)
         point = _parse(request.point or "0")
         claimed = _parse(request.rhs)
 
@@ -289,7 +316,7 @@ class SymPyVerifier(Verifier):
 
     def _series(self, request: VerificationRequest) -> Verdict:
         variable = sympy.Symbol(request.variable)
-        expression = _parse(request.lhs)
+        expression = _parse(request.lhs, assuming=self._assuming)
         claimed = _parse(request.rhs)
         point = _parse(request.point or "0")
         order = int(request.order) if request.order.strip() else 6
@@ -305,7 +332,7 @@ class SymPyVerifier(Verifier):
         )
 
     def _matrix(self, request: VerificationRequest) -> Verdict:
-        lhs, rhs = _parse(request.lhs), _parse(request.rhs)
+        lhs, rhs = _parse(request.lhs, assuming=self._assuming), _parse(request.rhs, assuming=self._assuming)
         matrix_type = sympy.matrices.MatrixBase
         if not isinstance(lhs, matrix_type) or not isinstance(rhs, matrix_type):
             return self._unknown(
@@ -329,7 +356,7 @@ class SymPyVerifier(Verifier):
                 f"Unsupported relation {relation!r}. Use <, <=, > or >=."
             )
 
-        difference = sympy.simplify(_parse(request.lhs) - _parse(request.rhs or "0"))
+        difference = sympy.simplify(_parse(request.lhs, assuming=self._assuming) - _parse(request.rhs or "0", assuming=self._assuming))
 
         # No variable: it is just an arithmetic comparison.
         if not difference.free_symbols:
@@ -368,10 +395,10 @@ class SymPyVerifier(Verifier):
         )
 
     def _factorization(self, request: VerificationRequest) -> Verdict:
-        number = int(_parse(request.lhs))
+        number = int(_parse(request.lhs, assuming=self._assuming))
         # evaluate=False keeps the written product intact so the factors
         # themselves can be inspected, not just the value they multiply to.
-        written = _parse(request.rhs, evaluate=False)
+        written = _parse(request.rhs, evaluate=False, assuming=self._assuming)
 
         if int(sympy.sympify(written)) != number:
             return self._false(
@@ -410,11 +437,26 @@ class SymPyVerifier(Verifier):
                 return point or "all points", value
         return None
 
+    def _conditional(self, detail: str) -> str:
+        """Append the assumptions to any verdict reached under them.
+
+        A conditional truth read as an unconditional one is the failure
+        this whole mechanism risks: `Abs(x) = x` is false, and true given
+        x > 0. Every verdict must carry the condition it was reached under,
+        because the detail line is where a reader would catch a claim that
+        was quietly narrowed until it held.
+        """
+        assumed = getattr(self, "_assumed", "")
+        return f"{detail} ASSUMING {assumed}." if assumed else detail
+
     def _true(self, detail: str) -> Verdict:
-        return Verdict(VerificationStatus.TRUE, self.name, detail)
+        return Verdict(VerificationStatus.TRUE, self.name,
+                       self._conditional(detail))
 
     def _false(self, detail: str) -> Verdict:
-        return Verdict(VerificationStatus.FALSE, self.name, detail)
+        return Verdict(VerificationStatus.FALSE, self.name,
+                       self._conditional(detail))
 
     def _unknown(self, detail: str) -> Verdict:
-        return Verdict(VerificationStatus.UNKNOWN, self.name, detail)
+        return Verdict(VerificationStatus.UNKNOWN, self.name,
+                       self._conditional(detail))

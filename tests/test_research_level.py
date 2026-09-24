@@ -203,15 +203,25 @@ def test_the_dominant_source_of_error_is_reported():
     assert "d/dL" in verdict.detail and "d/dT" in verdict.detail
 
 
-@pytest.mark.xfail(reason="no way to state assumptions, so SymPy returns a "
-                          "Piecewise and the identity cannot be decided",
-                   strict=True)
 def test_a_gaussian_integral_can_be_checked_given_a_positive_parameter():
-    """Every derivation a physicist wants checked carries assumptions --
-    a > 0, x real, n a positive integer. Without them SymPy correctly
-    refuses to commit, and the check is useless."""
+    """No longer xfail: assumptions can be stated.
+
+    Every derivation a physicist wants checked carries them -- a > 0, x
+    real, n a positive integer. Without them SymPy correctly refuses to
+    commit and returns a Piecewise, and the check is useless.
+    """
     assert decide(
         kind=K.EQUALITY,
         lhs="integrate(exp(-a*x**2), (x, -oo, oo))",
         rhs="sqrt(pi/a)",
+        assumptions="a > 0",
     ) is TRUE
+
+
+def test_the_same_identity_is_undecided_without_the_condition():
+    """The condition is doing real work, not decorating the call."""
+    assert decide(
+        kind=K.EQUALITY,
+        lhs="integrate(exp(-a*x**2), (x, -oo, oo))",
+        rhs="sqrt(pi/a)",
+    ) is UNKNOWN

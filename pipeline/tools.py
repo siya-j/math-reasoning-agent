@@ -37,7 +37,9 @@ class VerificationLog:
 def make_tools(log: VerificationLog) -> list:
     """Build the tool functions, bound to one run's log."""
 
-    def check_equality(claim: str, lhs: str, rhs: str) -> str:
+    def check_equality(
+        claim: str, lhs: str, rhs: str, assumptions: str = ""
+    ) -> str:
         """Check whether two expressions are equal for all values of the variable.
 
         Use for derivatives, integrals and algebraic identities.
@@ -45,6 +47,16 @@ def make_tools(log: VerificationLog) -> list:
         claim: the claim from the user's question that this check is testing.
         lhs: the left expression, taken from the user's question.
         rhs: the right expression, taken from the user's question.
+        assumptions: conditions on the symbols that THE QUESTION STATES,
+            such as `a > 0` or `n positive integer`, separated by commas.
+            Leave empty when the question states none.
+
+            Never add an assumption the question does not make. Narrowing a
+            claim until it holds turns a false claim into a true one and
+            answers a question nobody asked; the check exists to catch that.
+            Many integrals and simplifications genuinely need a condition,
+            and without it the answer comes back as undecided rather than
+            wrong.
 
         Both sides use SymPy syntax: ** for powers, explicit multiplication
         (write 2*x, never 2x), diff(<expr>, <var>) for a derivative,
@@ -53,7 +65,10 @@ def make_tools(log: VerificationLog) -> list:
         return log.record(
             "check_equality",
             claim,
-            VerificationRequest(kind=VerificationKind.EQUALITY, lhs=lhs, rhs=rhs),
+            VerificationRequest(
+                kind=VerificationKind.EQUALITY, lhs=lhs, rhs=rhs,
+                assumptions=assumptions,
+            ),
         )
 
     def check_numeric(

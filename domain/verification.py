@@ -60,6 +60,10 @@ class VerificationRequest:
     tolerance: str = ""       # decimal places to round to before comparing;
                               # empty means compare exactly (QUANTITY)
     parameters: str = ""      # name=value pairs for a statistic (STATISTIC)
+    assumptions: str = ""     # conditions on the symbols, e.g. "a > 0,
+                              # n positive integer". An assumption can turn
+                              # a false claim true, so it must come from
+                              # the question and is named in every verdict.
 
     @property
     def is_checkable(self) -> bool:
