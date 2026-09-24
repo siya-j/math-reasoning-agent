@@ -1370,3 +1370,56 @@ machinery exists and its parts behave" and nothing stronger. Expect a
 substantial `missed` rate on the first run: the tools are new to the model,
 and the gap between "a verifier can decide this" and "the model calls it
 with the right arguments" is exactly what the run measures.
+
+---
+
+## 19. Deciding whether a difference is real — `scripts/significance.py`
+
+**The problem it addresses.** A ~16% goal-level flip rate was measured on
+this system: run the same goals twice, change nothing, and about one in six
+changes its answer. A single-run proof rate is therefore not an instrument,
+and three hypotheses have already been withdrawn after being "supported" by
+comparisons a moving ruler cannot support.
+
+**The fix is pairing, not more runs.** The same goals appear on both sides of
+any A/B. Goal difficulty is the largest source of variance in a proof rate
+and it is IDENTICAL on both sides, so pairing removes it outright. A paired
+test on 60 goals beats an unpaired test on several hundred, at no cost, from
+files already on disk.
+
+    # how noisy is the instrument?
+    python3 scripts/significance.py run1.json run2.json
+
+    # did a change help?
+    python3 scripts/significance.py --a after.json --b before.json
+
+Two single runs get an **exact McNemar** test: only the goals where the runs
+disagree carry information, and the p-value is exact rather than normal-
+approximated, which matters because the discordant count is usually small.
+Several runs a side get a **paired bootstrap** that resamples GOALS, so the
+interval answers "what if I had drawn a different sample of goals".
+
+**What it found immediately, on results already in the repository.**
+
+`heldout-even-63` vs `heldout-even-63-after-fixes` reads as an alarming
+regression: 82.4% down to 72.5%, ten points. Paired, the whole ten points
+rests on **five goals**, all going the same way. With five discordant pairs
+the smallest attainable two-sided p-value is 2 x (1/2)^5 = **0.0625**, so
+that comparison COULD NOT have reached significance however it fell out.
+A result that reads as decisive is the weakest evidence that still points
+anywhere. Worth investigating; not worth acting on.
+
+`trim-on` vs `trim-off` covers five goals, all proved both ways: zero
+discordant pairs, zero information about proof rate. The claim in section 8
+that trimming's effect is unmeasured is correct, and this is why. (Trimming
+was adopted for token cost, which that pilot may well have measured; it is
+the PROOF RATE comparison that is empty.)
+
+**The wording is deliberate.** "Not distinguishable from noise" is printed,
+never "no difference", and every such verdict is followed by the sentence
+that it is the absence of evidence of an effect rather than evidence of its
+absence. On one run a side that is the expected outcome for any real but
+modest change, and the report says so rather than leaving it to be misread.
+
+**Use it before believing any future comparison, including the science
+benchmark's.**
