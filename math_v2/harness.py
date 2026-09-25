@@ -91,6 +91,7 @@ from pathlib import Path
 from domain.proof import Lemma, ProofAttempt, ProofRun, ProofStage, Telemetry
 from domain.verdict import Verdict, VerificationStatus
 
+from math_v2 import call_limit
 from math_v2.context import MathContext
 from math_v2.core import budget, preamble, log, verdict as verdicts
 from math_v2.prompt import system_prompt
@@ -229,11 +230,17 @@ CONTEXT_TRIM_INPUTS = os.getenv("MRA_CONTEXT_TRIM_INPUTS", "1") not in (
 # the estimated saving is 14.8M input tokens, 28% of everything this project
 # has spent, for 3.6% of its proofs.
 #
-# `thread_limit`, NOT `run_limit`: `_continuation_allowance` re-drives the
-# agent, so a per-invocation limit would reset on every continuation and bound
-# nothing. `exit_behavior="end"` because the verdict is derived from the
-# record -- ending leaves an honest partial result exactly as the wall-clock
-# budget does, where `error` would lose the goal to an exception.
+# ENFORCED BY `call_limit.PersistentModelCallLimit`, NOT by LangChain's
+# `ModelCallLimitMiddleware`. That middleware was chosen here with
+# `thread_limit` precisely so a continuation would not reset it -- and it
+# reset anyway, because `thread_limit` accumulates in graph state that only a
+# checkpointer and a stable `thread_id` carry between invocations, and
+# `_one_pass` supplies neither. MEASURED on
+# eval/results/heldout-restart-20.json: capped at 20, the six goals that
+# stayed in one pass spent at most 20 and the four that continued spent 23,
+# 28, 28 and 29. The real ceiling was `(MAX_CONTINUATIONS + 1) *` this
+# number. See math_v2/call_limit.py for why the count lives in the budget
+# file rather than in a checkpointer.
 MAX_MODEL_CALLS = int(os.getenv("MRA_MAX_MODEL_CALLS", "40"))
 
 
@@ -280,10 +287,7 @@ def build_agent(model, tools, system_prompt):
         )]))
 
     if MAX_MODEL_CALLS > 0:
-        from langchain.agents.middleware import ModelCallLimitMiddleware
-
-        middleware.append(ModelCallLimitMiddleware(
-            thread_limit=MAX_MODEL_CALLS, exit_behavior="end"))
+        middleware.append(call_limit.limiter(MAX_MODEL_CALLS))
 
     return create_agent(model=model, tools=tools, system_prompt=system_prompt,
                         context_schema=MathContext, middleware=middleware)
@@ -654,6 +658,15 @@ def _stopped_short(workdir):
     if attempts >= ENGAGEMENT_FLOOR:
         return 0
 
+    # A CONTINUATION IT CANNOT PAY FOR IS NOT A CONTINUATION. The limiter
+    # now counts across passes, so re-driving the agent with the model-call
+    # budget already spent buys one `before_model` that jumps straight to
+    # the end -- no attempt, and a synthetic turn appended to the record
+    # for nothing. Asking here keeps the compile budget, which is what this
+    # function returns, from advertising room the run can no longer use.
+    if MAX_MODEL_CALLS > 0 and budget.model_calls(workdir) >= MAX_MODEL_CALLS:
+        return 0
+
     spent = budget.read(workdir)["lean_calls"]
     if spent > budget.MAX_LEAN_CALLS * ENGAGEMENT_BUDGET_FRACTION:
         return 0
@@ -796,20 +809,33 @@ def _invoke(agent, goal, workdir, deadline=None):
     return _run_sync(bounded())
 
 
+def _is_assistant(message) -> bool:
+    """An assistant turn, in any of the three shapes a transcript holds."""
+    return (getattr(message, "type", "") == "ai"
+            or message.__class__.__name__ == "AIMessage"
+            or (isinstance(message, dict)
+                and message.get("role") == "assistant"))
+
+
 def _count_model_calls(result) -> int:
     """Assistant turns in the transcript — a real count, not a placeholder.
 
     It was hardcoded to 0, which reported "0 model" for a run that had plainly
     called the model. A number nobody can trust is worse than no number.
+
+    THE LIMITER'S OWN NOTICE IS NOT A MODEL CALL. `PersistentModelCallLimit`
+    ends a run by injecting one synthetic assistant turn, and counting it
+    reported 21 against a cap of 20 on every goal in
+    eval/results/heldout-restart-20.json that hit the cap in a single pass.
+    That off-by-one is how the cap bug was first noticed; a cap that holds is
+    worth nothing if the number next to it still says it did not.
     """
     messages = (result or {}).get("messages") if isinstance(result, dict) else None
     if not messages:
         return 0
     return sum(
         1 for message in messages
-        if getattr(message, "type", "") == "ai"
-        or message.__class__.__name__ == "AIMessage"
-        or (isinstance(message, dict) and message.get("role") == "assistant")
+        if _is_assistant(message) and not call_limit.is_limit_notice(message)
     )
 
 

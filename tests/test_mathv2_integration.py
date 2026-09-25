@@ -60,7 +60,6 @@ def scripted(script):
                 finished = {"messages": [type("M", (), {"text": "finished"})()]}
                 if self.done:
                     return finished
-                self.done = True
 
                 runtime = ToolRuntime(
                     state=None, context=context, config={},
@@ -69,6 +68,14 @@ def scripted(script):
                 )
                 for name, kwargs in script:
                     await by_name[name].ainvoke({**kwargs, "runtime": runtime})
+                # MARKED DONE ONLY ONCE THE SCRIPT HAS ACTUALLY RUN.
+                # Setting it on entry meant a pass that raised part way
+                # through still counted as spent, so the transient retry in
+                # `_with_retries` re-drove an agent that then did NOTHING --
+                # no records, no proof, and a test failure that vanished on
+                # a re-run of the identical tree. A retry exists precisely to
+                # redo work that did not complete.
+                self.done = True
                 return finished
 
         return Agent()
@@ -117,6 +124,54 @@ def test_a_proved_goal_becomes_a_proved_ProofRun(tmp_path, compiler_accepts):
     assert run.statement == STATEMENT
     assert run.proof == "by norm_num"
     assert run.verdict.status is VerificationStatus.TRUE
+
+
+def test_a_pass_that_died_part_way_is_really_retried(tmp_path, monkeypatch):
+    """THE FLAKE, made deterministic.
+
+    `test_a_proved_goal_becomes_a_proved_ProofRun` failed intermittently and
+    passed on a re-run of the identical tree. The cause was in the fake, not
+    the harness: the scripted agent marked itself spent ON ENTRY, so when a
+    pass raised part way through, `_with_retries` re-drove an agent that then
+    did nothing at all -- no records, no proof.
+
+    Here the first compile raises a transient fault, which is exactly the
+    `ReadError` that killed `exercise_2_11_22` in the field. The retry must
+    replay the script and the proof must still land.
+    """
+    from verifiers.lean_runner import LeanOutcome, LeanResult
+
+    calls = {"n": 0}
+
+    class ReadError(Exception):
+        """Named for what `_TRANSIENT` matches -- the name IS the contract."""
+
+    async def flaky(source):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise ReadError("connection dropped mid-compile")
+        return LeanResult(LeanOutcome.COMPILED, "")
+
+    monkeypatch.setattr("math_v2.tools.proving.lean_runner", lambda w: flaky)
+
+    run = harness.prove(
+        "does 2 + 2 = 4?",
+        model=object(),
+        workdir=str(tmp_path),
+        agent_factory=scripted([
+            ("check_statement", {"statement": STATEMENT}),
+            ("try_proof", {"proof": "by norm_num"}),
+            ("finish", {"summary": "done", "outcome": "proved",
+                        "statement": STATEMENT, "claim": "does 2 + 2 = 4?"}),
+        ]),
+    )
+
+    assert calls["n"] > 1, "the transient fault was never retried"
+    assert run.proved, (
+        "the retry re-drove an agent that had already marked itself spent, so "
+        "the script never ran and the proof was lost"
+    )
+    assert run.proof == "by norm_num"
 
 
 def test_a_failed_goal_becomes_not_proved_and_never_false(tmp_path, compiler_rejects):
