@@ -116,9 +116,39 @@ def decide(question: str, checks: list[Check]) -> Verdict:
     )
 
 
-def banner(verdict: Verdict, checks: list[Check], evidence: list[Check]) -> str:
-    """A deterministic honesty header. The model cannot influence this."""
-    lines = [f"[{BANNERS[verdict.status]}] via {verdict.method}"]
+def banner(verdict: Verdict, checks: list[Check], evidence: list[Check],
+           computations=()) -> str:
+    """A deterministic honesty header. The model cannot influence this.
+
+    COMPUTED IS NOT VERIFIED, and this is where that distinction has to
+    survive contact with a reader. A checked claim was tested against a
+    value the USER supplied, and that value independently cross-checks the
+    model's formalisation -- a wrong formula disagrees with it. A computed
+    value has no such check: the engine produced the number, but the model
+    chose the formula and nothing tested that choice.
+
+    So the formalisation is printed beside every computed answer, because
+    the reader is the only check it has.
+    """
+    lines = []
+
+    for done in computations or ():
+        lines.append(f"[COMPUTED via {done.method}] {done.summary()}")
+        lines.append(done.report())
+
+    lines.append(f"[{BANNERS[verdict.status]}] via {verdict.method}")
+
+    # Said plainly, because "performed no deterministic verification"
+    # printed beside a computed number reads as a contradiction rather than
+    # as the distinction it is.
+    if computations and not checks:
+        lines.append(
+            "  Nothing was CHECKED: the question stated no value to test. "
+            "The figure above was computed by a verifier, but the formula "
+            "was the model's choice and nothing independent confirms it. "
+            "Read the formula."
+        )
+
     for check in checks:
         lines.append(f"  {check.summary()}")
         lines.append(f"      {check.detail_line()}")

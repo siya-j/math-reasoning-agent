@@ -16,7 +16,9 @@ from __future__ import annotations
 
 import verifiers
 from domain.check import Check
+from domain.computation import Computation
 from domain.verification import VerificationKind, VerificationRequest
+from verifiers import compute as compute_engine
 
 
 class VerificationLog:
@@ -24,6 +26,23 @@ class VerificationLog:
 
     def __init__(self) -> None:
         self.checks: list[Check] = []
+        # Computations are kept APART from checks, and that separation is
+        # the design rather than a filing convenience. The guard aggregates
+        # checks into a verdict about a claim; a computation answers a
+        # question nobody made a claim about, so it must never be able to
+        # contribute to a TRUE. Keeping the lists separate makes that
+        # structural instead of something the guard has to remember.
+        self.computations: list[Computation] = []
+
+    def compute(self, request: str, formula: str, inputs: str) -> str:
+        """Work a value out, store it, and return text for the model."""
+        try:
+            done = compute_engine.compute(request, formula, inputs)
+        except compute_engine.ComputeError as exc:
+            return f"COULD NOT COMPUTE: {exc}"
+        self.computations.append(done)
+        return (f"COMPUTED: {done.summary()}"
+                + (f" ({done.working})" if done.working else ""))
 
     def record(self, tool: str, claim: str, request: VerificationRequest) -> str:
         """Run the verifier, store the result, and return text for the model."""
@@ -483,6 +502,32 @@ def make_tools(log: VerificationLog) -> list:
             ),
         )
 
+    def compute_value(question: str, formula: str, inputs: str) -> str:
+        """Work out a quantity the user asked for but did not state a value for.
+
+        Use this when the question asks WHAT something is rather than
+        whether a stated value is right -- "what is g from these
+        measurements", "what is the uncertainty on this ratio", "convert
+        this to SI". If the user HAS stated a value, check it instead: a
+        checked claim is stronger evidence than a computed one, because
+        their value independently tests your formula.
+
+        formula: the expression, in variable NAMES only, with no numbers
+            substituted in and no units inside it.
+        inputs: the values those names take, as name = value separated by
+            commas. Put the unit on the value, and an error bar after +/-
+            when the question gives one:
+                L = 1.000 +/- 0.005 meter, T = 2.006 +/- 0.002 second
+            Whether the answer carries a unit and an error bar follows from
+            what you put here.
+        question: what the user asked, in their words.
+
+        The result is reported as COMPUTED, never as verified: nothing
+        checked your choice of formula, so it is shown to the user beside
+        the answer. Choose the formula the question implies and no other.
+        """
+        return log.compute(question, formula, inputs)
+
     return [
         check_equality,
         check_numeric,
@@ -501,4 +546,5 @@ def make_tools(log: VerificationLog) -> list:
         check_equation_balances,
         check_statistic,
         check_uncertainty,
+        compute_value,
     ]

@@ -20,6 +20,7 @@ from domain.state import AgentRun
 from llm.client import get_model
 from pipeline import cache, guard
 from pipeline.agent import DECOMPOSE_INSTRUCTION, invoke_once
+from pipeline.tools import VerificationLog
 from pipeline.reflection import feedback_for, next_strategy
 
 
@@ -43,8 +44,14 @@ def run(question: str, model=None) -> AgentRun:
 
     model = model or get_model()
 
+    # One log across every attempt, so computations survive the loop. They
+    # are kept apart from checks on purpose: the guard turns checks into a
+    # verdict about a claim, and a computation answers a question nobody
+    # made a claim about. It must never be able to contribute to a TRUE.
+    log = VerificationLog()
+
     # --- first pass -------------------------------------------------------
-    checks, prose = invoke_once(model, question)
+    checks, prose = invoke_once(model, question, log=log)
     verdict = guard.decide(question, checks)
     state.record(Attempt(1, Strategy.INITIAL, checks, verdict))
 
@@ -56,7 +63,7 @@ def run(question: str, model=None) -> AgentRun:
 
         state.log("reflect", strategy.value)
         checks, prose = invoke_once(
-            model, question, feedback_for(strategy, verdict)
+            model, question, feedback_for(strategy, verdict), log=log
         )
         verdict = guard.decide(question, checks)
         state.record(Attempt(len(state.attempts) + 1, strategy, checks, verdict))

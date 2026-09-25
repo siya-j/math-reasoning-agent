@@ -24,7 +24,11 @@ class FakeAgent:
         self.plans = list(plans)
         self.instructions = []
 
-    def __call__(self, model, question, extra_instruction=""):
+    def __call__(self, model, question, extra_instruction="", log=None):
+        # Matches invoke_once, which takes an optional shared log so the
+        # pipeline can read computations back. A double whose signature
+        # drifts from the real function is a test that passes against
+        # something that no longer exists.
         self.instructions.append(extra_instruction)
         plan = self.plans.pop(0) if self.plans else []
         log = VerificationLog()

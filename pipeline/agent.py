@@ -87,10 +87,24 @@ If no such checkable fact exists, call no tools and say so."""
 
 
 def invoke_once(
-    model, question: str, extra_instruction: str = ""
+    model, question: str, extra_instruction: str = "", log=None
 ) -> tuple[list[Check], str]:
-    """Run the agent once. Returns the checks it made and its prose."""
-    log = VerificationLog()
+    """Run the agent once. Returns the checks it made and its prose.
+
+    `log` may be supplied so the caller can read what else was recorded --
+    computations, which are not checks and must not be returned as though
+    they were. Optional so the existing callers are untouched.
+    """
+    log = log if log is not None else VerificationLog()
+
+    # THIS invocation's checks only. A shared log accumulates across
+    # attempts, and returning the whole list would hand the guard attempt
+    # one's checks alongside attempt two's -- so a FALSE from an earlier
+    # pass would keep refuting a later pass that had corrected it. The
+    # reflection loop exists precisely to let a later attempt supersede an
+    # earlier one, and this would have silently disabled it.
+    before = len(log.checks)
+
     agent = build_agent(model or get_model(), make_tools(log), SYSTEM_PROMPT)
 
     content = question
@@ -99,7 +113,7 @@ def invoke_once(
 
     result = agent.invoke({"messages": [{"role": "user", "content": content}]})
 
-    # Two channels. Only `log.checks` is consumed downstream; the prose is
+    # Two channels. Only the checks are consumed downstream; the prose is
     # shown to the human and never parsed. That split is what makes the
     # harness irrelevant to the verdict.
-    return log.checks, final_text(result)
+    return log.checks[before:], final_text(result)

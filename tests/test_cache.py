@@ -160,7 +160,7 @@ def test_the_pipeline_replays_instead_of_calling_the_model(caching, monkeypatch)
 
     calls = []
 
-    def fake_invoke(model, question, extra=""):
+    def fake_invoke(model, question, extra="", log=None):
         calls.append(question)
         return [], "the model's prose"
 
@@ -184,7 +184,7 @@ def test_without_the_cache_the_model_is_asked_every_time(monkeypatch):
     monkeypatch.delenv("MRA_CACHE", raising=False)
     calls = []
 
-    def fake_invoke(model, question, extra=""):
+    def fake_invoke(model, question, extra="", log=None):
         calls.append(question)
         return [], "prose"
 
