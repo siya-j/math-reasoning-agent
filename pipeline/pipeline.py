@@ -18,7 +18,7 @@ import config
 from domain.attempt import Attempt, Strategy
 from domain.state import AgentRun
 from llm.client import get_model
-from pipeline import guard
+from pipeline import cache, guard
 from pipeline.agent import DECOMPOSE_INSTRUCTION, invoke_once
 from pipeline.reflection import feedback_for, next_strategy
 
@@ -26,6 +26,21 @@ from pipeline.reflection import feedback_for, next_strategy
 def run(question: str, model=None) -> AgentRun:
     """Run the full flow on one question and return an explicit record."""
     state = AgentRun(question=question)
+
+    # A REPLAY, not a shortcut. The stored answer is the one THIS system
+    # produced for THIS question under THIS configuration -- model, prover,
+    # budget and backend are all in the key -- returned exactly as it was,
+    # banner included. Nothing on this path can upgrade a verdict.
+    #
+    # It exists because the same question asked twice gave two answers:
+    # variance is a measurement problem for a benchmark and a trust problem
+    # for a user. Off unless MRA_CACHE names a directory.
+    replayed = cache.load(question)
+    if replayed is not None:
+        state.answer = replayed.answer
+        state.log("cache", f"replayed an answer stored at {replayed.stored_at}")
+        return state
+
     model = model or get_model()
 
     # --- first pass -------------------------------------------------------
@@ -63,4 +78,9 @@ def run(question: str, model=None) -> AgentRun:
         f"{guard.banner(verdict, state.checks, state.evidence)}\n\n{prose}"
     )
     state.log("verdict", verdict.status.value)
+
+    # Only a finished run is kept. `store` refuses one with no verdict, so a
+    # crash or a timeout is never frozen into a permanent answer.
+    if cache.store(question, state):
+        state.log("cache", "stored")
     return state
