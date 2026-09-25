@@ -100,11 +100,20 @@ def environment() -> dict:
             # Without it recorded, a results file cannot answer "was this
             # capped", which is the same ambiguity the trimming line beside it
             # was added to remove.
+            # TEMPERATURE, for the third time the same argument applies. A
+            # run at 0.0 and one at 0.7 are not comparable, and variance
+            # between two runs of "the same" configuration is the first
+            # thing anyone suspects when a proof rate moves. MEASURED as a
+            # hole: an investigation into run-to-run variance had to read
+            # `config.py` at the CURRENT commit to find out what the
+            # temperature had been for runs made weeks earlier -- which
+            # answers what it is now, not what it was then.
             return (_repl.describe() | harness.context_policy()
-                    | {"max_output_tokens": config.MAX_OUTPUT_TOKENS})
+                    | {"max_output_tokens": config.MAX_OUTPUT_TOKENS,
+                       "temperature": config.TEMPERATURE})
         except Exception:  # noqa: BLE001 - reporting must not break a run
             return {"prover": MATH_V2}
-    return {"prover": config.PROVER}
+    return {"prover": config.PROVER, "temperature": config.TEMPERATURE}
 
 
 # PutnamBench, and `hard`/`deep` -- a deliberately-larger step, NOT an

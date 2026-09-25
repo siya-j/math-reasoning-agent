@@ -132,8 +132,20 @@ def lean_available():
     if not os.path.isdir(LEAN_PROJECT):
         return False, f"MRA_LEAN_PROJECT does not exist: {LEAN_PROJECT}"
     try:
+        # `cwd=LEAN_PROJECT`, NOT the caller's directory. MEASURED: from
+        # the repo root this call HANGS -- 0.8s inside the Lake project,
+        # past 90s outside it. elan picks a toolchain from the nearest
+        # `lean-toolchain` file, and with three toolchains installed and no
+        # default set there is nothing to resolve outside a project, so it
+        # blocks until the timeout. The probe then reported "lake is not
+        # runnable" about a lake that runs fine, and `prover_spike` refused
+        # to start three times on a working install.
+        #
+        # This is also the only honest place to run it: the question is
+        # whether lake works FOR THIS PROJECT, and anywhere else does not
+        # answer that.
         completed = subprocess.run(["lake", "--version"], capture_output=True,
-                                   text=True, timeout=30)
+                                   text=True, timeout=30, cwd=LEAN_PROJECT)
     except (OSError, subprocess.SubprocessError) as exc:
         return False, f"lake is not runnable: {exc}"
     if completed.returncode != 0:

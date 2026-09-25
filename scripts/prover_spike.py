@@ -303,12 +303,29 @@ def _ask_local(url: str, model: str, statement: str, timeout: float,
         "temperature": 0.0,
         "max_tokens": max_tokens,
     }).encode()
+    headers = {"Content-Type": "application/json"}
+    # A HOSTED ENDPOINT NEEDS A KEY; A LOCAL ONE DOES NOT. Read from the
+    # environment and never from an argument, so the key cannot reach a
+    # shell history, a process list or this file. Absent means local,
+    # which is what this spike was originally written against.
+    key = os.environ.get("MRA_PROVER_API_KEY", "").strip()
+    if key:
+        headers["Authorization"] = "Bearer " + key
     request = urllib.request.Request(
         url.rstrip("/") + "/chat/completions", data=payload,
-        headers={"Content-Type": "application/json"})
+        headers=headers)
     with urllib.request.urlopen(request, timeout=timeout) as response:
         body = json.loads(response.read())
-    text = body["choices"][0]["message"]["content"]
+    message = body["choices"][0]["message"]
+    # A REASONING PROVER PUTS ITS ANSWER SOMEWHERE ELSE. Kimina-Prover and
+    # Goedel-Prover-V2 both think before they write Lean, and llama.cpp
+    # splits that out: `content` comes back EMPTY and the whole answer,
+    # Lean block included, is in `reasoning_content`. Reading only `content`
+    # scored every goal as a failure with the prover having answered fine --
+    # a false negative on the exact question this spike exists to ask.
+    text = (message.get("content") or "").strip()
+    if not text:
+        text = (message.get("reasoning_content") or "").strip()
     # Strip a code fence if the model added one despite being asked not to.
     if "```" in text:
         parts = [p for p in text.split("```") if p.strip()]
@@ -375,7 +392,17 @@ def main(argv=None) -> int:
     CORPUS.write_text(json.dumps(corpus, indent=2, ensure_ascii=False),
                       encoding="utf-8")
     print(f"corpus: {len(corpus)} external goals this agent failed to prove")
-    print(f"written to {CORPUS.relative_to(ROOT)}\n")
+    # `CORPUS` IS NOT NECESSARILY UNDER `ROOT`. It is module state a caller
+    # may redirect -- the test suite points it at a temp directory so that
+    # running `pytest` does not rewrite a tracked file -- and
+    # `relative_to` RAISES rather than falling back when it is elsewhere.
+    # A path is being printed for a human; it must not be able to end the
+    # run.
+    try:
+        shown = CORPUS.relative_to(ROOT)
+    except ValueError:
+        shown = CORPUS
+    print(f"written to {shown}\n")
 
     spent = sum(g["agent_input_tokens"] for g in corpus)
     print(f"{'goal':22} {'tier':9} {'attempts':>8} {'compiles':>9} {'our cost':>12}")

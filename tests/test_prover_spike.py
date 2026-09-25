@@ -17,6 +17,7 @@ the wrong goals and grading on a curve. Both are tested here.
 
 import importlib.util
 import json
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -24,11 +25,25 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 
 
+# THE SUITE MUST NOT WRITE TO THE REPO. `main()` rewrites `CORPUS` on every
+# invocation, and nine tests here call `main()`, so running the suite
+# silently modified the TRACKED file eval/prover-spike-corpus.json --
+# observed as 94 unexplained lines of working-tree diff after a plain
+# `pytest` run. Individual tests already redirected `CACHE` for this
+# reason; `CORPUS` was missed because nothing asserts on it.
+#
+# One sandbox for the module, so a test added later cannot reintroduce
+# the problem by forgetting to redirect.
+_SANDBOX = Path(tempfile.mkdtemp(prefix="prover-spike-tests-"))
+
+
 def _spike():
     spec = importlib.util.spec_from_file_location(
         "prover_spike", ROOT / "scripts" / "prover_spike.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
+    module.CORPUS = _SANDBOX / "corpus.json"
+    module.CACHE = _SANDBOX / "generations.json"
     return module
 
 

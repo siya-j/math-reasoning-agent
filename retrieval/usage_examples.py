@@ -118,7 +118,14 @@ def find(name: str, project: str | None = None, max_files: int = 20000) -> str:
                             rel = path.relative_to(root.parent)
                         except ValueError:
                             rel = path
-                        return f"{rel}: {line.strip()[:_LINE_LIMIT]}"
+                        # `as_posix`, NOT `str`. This citation is read by the
+                        # model, and Mathlib names its files with forward
+                        # slashes -- `Mathlib/Analysis/Basic.lean` is also how
+                        # the module `Mathlib.Analysis.Basic` is spelled. On
+                        # Windows `str(Path)` produced `Mathlib\Analysis\
+                        # Basic.lean`, which matches no Mathlib convention and
+                        # made the prompt differ by operating system.
+                        return f"{rel.as_posix()}: {line.strip()[:_LINE_LIMIT]}"
     except OSError:
         return ""
     return ""

@@ -254,6 +254,34 @@ def test_a_retry_of_the_stuck_lemma_cannot_lift_its_own_refusal(workdir):
     )
 
 
+def test_the_ladder_cannot_exhaust_the_model_s_attempts_for_it(workdir):
+    """`try_standard_tactics` must not trigger the redirect on the goal.
+
+    It writes a `log.PROOF` record on the GOAL'S OWN STATEMENT whether or not
+    a tactic worked, marked `auto=True` because the system wrote it and not
+    the model. Its own comment measures that ladder at 75 of 212 proof
+    records -- 35% -- so with `DECOMPOSE_AFTER` at 3 the system could meet
+    the threshold by itself and answer `decompose_first` to a model that had
+    never attempted the goal.
+
+    The lift below `_attempts_exhausted` already excludes `auto` records, on
+    the grounds that counting them "would let the system satisfy the
+    condition on the model's behalf". This pins the same rule for the count:
+    a condition about what the MODEL has done must not be satisfiable by what
+    the system did for it, in EITHER direction.
+    """
+    for _ in range(proving.DECOMPOSE_AFTER + 2):
+        log.append(workdir, log.Record(
+            kind=log.PROOF, statement=GOAL, proof="by norm_num",
+            status=log.UNKNOWN, detail="no standard tactic closed it",
+            auto=True))
+
+    assert proving._attempts_exhausted(workdir, GOAL, log.PROOF) is None, (
+        "the automatic tactic ladder exhausted the model's attempts for it, "
+        "so the goal was refused before the model had tried it once"
+    )
+
+
 def test_a_smaller_lemma_lifts_it(workdir):
     """Complying works: a different, smaller claim re-opens the stuck one."""
     for draft in LEMMA_DRAFTS[:3]:
