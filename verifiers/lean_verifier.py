@@ -213,8 +213,14 @@ def interpret(result: LeanResult, statement: str, method: str = "lean") -> Verdi
         )
 
     if result.outcome is LeanOutcome.TIMEOUT:
+        # `output` names the limit when the runner knows it ("timed out after
+        # 180s, not rejected"); the wording must never read as a rejection.
+        said = f"Lean {result.output}." if result.output else (
+            "Lean did not finish within the time budget, not rejected.")
         return unknown(
-            "Lean did not finish within the time budget. Slow is not false.",
+            f"{said} It was stopped before it reached a verdict, so this says "
+            "nothing about whether the statement or proof is right. Slow is "
+            "not false.",
             method,
         )
 

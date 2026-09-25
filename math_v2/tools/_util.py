@@ -101,6 +101,11 @@ def lean_backend():
     return _local.lean_backend()
 
 
+# Prefix `_subprocess_compile` puts on a compile that was killed for time, so
+# `_classify` can tell "Lean said no" from "Lean never answered".
+TIMED_OUT = "timed out after "
+
+
 def _classify(source, stdout, ok):
     """Turn compiler output into a LeanResult, reusing the existing rules.
 
@@ -115,6 +120,11 @@ def _classify(source, stdout, ok):
         return LeanResult(LeanOutcome.INCOMPLETE, stdout)
     if ok:
         return LeanResult(LeanOutcome.COMPILED, stdout)
+    # MEASURED in Aura: a cold compile killed at 180s came back as ERRORS, the
+    # model was told "Lean rejected the proof", and it concluded `ℝ` did not
+    # elaborate and rewrote a correct statement. A timeout is not a verdict.
+    if stdout.startswith(TIMED_OUT):
+        return LeanResult(LeanOutcome.TIMEOUT, stdout)
     return LeanResult(LeanOutcome.ERRORS, stdout)
 
 
@@ -203,6 +213,8 @@ async def _subprocess_compile(source, workdir):
             argv=argv, workdir=workdir, tool="lean"))
 
     ok = bool(getattr(result, "ok", False))
+    if not ok and _aura.timed_out(result):
+        return False, f"{TIMED_OUT}{_aura.DEFAULT_TIMEOUT:.0f}s, not rejected", 0.0
     text = _aura.result_text(result)
     if not ok and not text.strip():
         text = _aura.failure_detail(result)

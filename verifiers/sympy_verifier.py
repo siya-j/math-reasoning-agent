@@ -9,6 +9,8 @@ NOT_APPLICABLE, and Phase 6 (Lean) is the intended answer.
 
 from __future__ import annotations
 
+import re
+
 import sympy
 from sympy.parsing.sympy_parser import parse_expr, standard_transformations
 
@@ -147,13 +149,23 @@ class SymPyVerifier(Verifier):
         factors = sympy.factorint(n)
         return self._false(f"{n} is not prime. Factorization: {factors}.")
 
+    @staticmethod
+    def _grouped(expr: str) -> str:
+        """`expr` bracketed unless it is a single name or number.
+
+        The messages print `lhs - rhs`; without brackets a multi-term right side
+        reads wrong: `(x+1)**2 - x**2 + 2*x + 1` for `(x+1)**2 - (x**2 + 2*x + 1)`.
+        """
+        text = str(expr).strip()
+        return text if re.fullmatch(r"[\w.]+", text) else f"({text})"
+
     def _equality(self, request: VerificationRequest) -> Verdict:
         lhs, rhs = _parse(request.lhs, assuming=self._assuming), _parse(request.rhs, assuming=self._assuming)
         difference = sympy.simplify(lhs - rhs)
 
         if difference == 0:
             return self._true(
-                f"simplify({request.lhs} - {request.rhs}) = 0, so they are equal."
+                f"simplify({request.lhs} - {self._grouped(request.rhs)}) = 0, so they are equal."
             )
 
         # A symbol appearing on only ONE side is a free parameter, not a
@@ -364,7 +376,7 @@ class SymPyVerifier(Verifier):
                 ">": difference > 0, ">=": difference >= 0,
                 "<": difference < 0, "<=": difference <= 0,
             }[relation]
-            detail = f"{request.lhs} - {request.rhs or '0'} = {difference}."
+            detail = f"{request.lhs} - {self._grouped(request.rhs or '0')} = {difference}."
             return self._true(detail) if bool(holds) else self._false(detail)
 
         variable = sympy.Symbol(request.variable)

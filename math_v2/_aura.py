@@ -165,6 +165,40 @@ def result_text(result):
     return ""
 
 
+# What a killed compile says, on either path: `_local.run` reports
+# "timed out after 180s"; Aura's backends write "command exceeded timeout of
+# 180.0s and was killed" to the stderr log. Matched on text because Aura's
+# ExecutionResult carries no timeout flag.
+_TIMEOUT_PHRASES = ("timed out after", "exceeded timeout")
+
+
+def _stderr_text(result):
+    """stderr as text: the attribute (local) or the file (Aura), whichever exists."""
+    text = getattr(result, "stderr", "") or ""
+    path = getattr(result, "stderr_path", "")
+    if path:
+        try:
+            with open(path, encoding="utf-8", errors="replace") as handle:
+                text += handle.read()[-4000:]
+        except OSError:
+            pass
+    return text
+
+
+def timed_out(result):
+    """True when the command was killed for running past its timeout.
+
+    Distinct from a failure: a timed-out compile never reached a verdict, so
+    it must not be reported to the model as Lean rejecting anything.
+    """
+    if getattr(result, "timed_out", False):
+        return True
+    if getattr(result, "ok", False):
+        return False
+    lowered = _stderr_text(result).lower()
+    return any(phrase in lowered for phrase in _TIMEOUT_PHRASES)
+
+
 def failure_detail(result):
     """What to tell the model when a dispatch failed.
 
@@ -175,6 +209,12 @@ def failure_detail(result):
     code = getattr(result, "returncode", None)
     if code is not None:
         parts.append(f"exit code {code}")
+
+    # `_local.Result` carries stderr as text with no path; without this a
+    # local failure reached the model as a bare "exit code -1".
+    inline = (getattr(result, "stderr", "") or "").strip()
+    if inline and not getattr(result, "stderr_path", ""):
+        parts.append(inline[-1500:])
 
     path = getattr(result, "stderr_path", "")
     if path:

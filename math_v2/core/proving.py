@@ -780,6 +780,30 @@ def _is_noise(premise):
     return is_noise(premise)
 
 
+def _timed_out(result):
+    return result.outcome is LeanOutcome.TIMEOUT
+
+
+def _timeout_reply(verdict, what, **outputs):
+    """The reply for a compile that was killed for time: flagged, never "rejected".
+
+    MEASURED in Aura: a statement check that timed out was reported as "Lean
+    cannot make sense of this STATEMENT ... The fault is in the signature", and
+    the agent rewrote a correct `x : ℝ` as `x : Real`. Nothing was judged, so
+    nothing may be concluded, and there is nothing to diagnose or search for.
+    """
+    return {
+        "ok": True,
+        "outputs": {**outputs, "timed_out": True},
+        "message": (
+            f"TIMED OUT, NOT REJECTED. {verdict.detail}\n\n"
+            f"Do not change the {what} because of this. Retrying the same "
+            "source costs another full compile; if the budget allows, try it "
+            "once more, otherwise report what is established so far."
+        ),
+    }
+
+
 async def check_statement(workdir, statement, run_lean, search=None):
     """Does the SIGNATURE elaborate? Checked with `sorry` as the proof.
 
@@ -852,6 +876,9 @@ async def check_statement(workdir, statement, run_lean, search=None):
                                         "premises": [p.name for p in seeded]},
                 "message": "The statement elaborates. You can try to prove it."
                            + listed}
+    if _timed_out(result):
+        return _timeout_reply(verdict, "statement", elaborates=None,
+                              detail=verdict.detail, infra_failure=True)
     # MEASURED: exercise_1_18a's statement named EuclideanSpace's `inner`
     # with the wrong arguments -- a TYPE_MISMATCH, the exact failure shape
     # `try_proof`'s rejection path already diagnoses and searches for. A
@@ -1024,6 +1051,8 @@ async def try_proof(workdir, statement, proof, run_lean, search=None,
     if verdict.status is VerificationStatus.TRUE:
         return {"ok": True, "outputs": {"accepted": True},
                 "message": "ACCEPTED. The proof compiles. Report it with `finish`."}
+    if _timed_out(result):
+        return _timeout_reply(verdict, "proof", accepted=False, compiles_used=0)
 
     # The error was always returned; what was missing was what to DO with it.
     # Measured: every rejection in the 4-goal run was answered with another
@@ -1097,6 +1126,8 @@ async def try_standard_tactics(workdir, statement, run_lean):
     if verdict.status is VerificationStatus.TRUE:
         return {"ok": True, "outputs": {"accepted": True},
                 "message": "ACCEPTED. A standard tactic closed the goal."}
+    if _timed_out(result):
+        return _timeout_reply(verdict, "statement", accepted=False)
     return {
         "ok": True,
         "outputs": {"accepted": False},
@@ -1215,6 +1246,8 @@ async def try_lemma(workdir, statement, proof, run_lean, limit=None):
         status=_status(verdict), detail=verdict.detail,
     ))
 
+    if _timed_out(result):
+        return _timeout_reply(verdict, "lemma", accepted=False)
     if verdict.status is not VerificationStatus.TRUE:
         return {
             "ok": True,
@@ -1446,6 +1479,8 @@ async def try_refutation(workdir, statement, proof, run_lean):
         status=log.TRUE if refuted else log.FALSE, detail=verdict.detail,
     ))
 
+    if _timed_out(result):
+        return _timeout_reply(verdict, "statement", refuted=False)
     if not refuted:
         return {
             "ok": True,

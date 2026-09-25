@@ -136,13 +136,27 @@ def limiter(limit):
         async def abefore_model(self, state, runtime):
             return self._exceeded(runtime)
 
-        def after_model(self, state, runtime):
+        # CHARGED AROUND THE CALL, not in `after_model`. MEASURED on the Aura
+        # path: a spoke's final answer and its self-validation reply were
+        # never counted (real 3 vs budget 1, real 4 vs budget 2), because
+        # `SpokeSelfValidationMiddleware.after_model` jumps (back to the
+        # model, or to the end) and a jump skips the `after_model` hooks
+        # after it. `wrap_model_call` runs exactly once per real model
+        # invocation whatever another hook decides; the limit notice, which
+        # `before_model` produces without calling the model, never enters it.
+        def _charge(self, runtime):
             workdir = _workdir(runtime)
             if workdir:
                 budget.charge_model_call(workdir)
-            return None
 
-        async def aafter_model(self, state, runtime):
-            return self.after_model(state, runtime)
+        def wrap_model_call(self, request, handler):
+            response = handler(request)
+            self._charge(request.runtime)
+            return response
+
+        async def awrap_model_call(self, request, handler):
+            response = await handler(request)
+            self._charge(request.runtime)
+            return response
 
     return PersistentModelCallLimit(limit)
