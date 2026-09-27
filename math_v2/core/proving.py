@@ -154,6 +154,32 @@ def full_statement(workdir, statement):
     return "\n\n".join(lemmas + [statement]) if lemmas else statement
 
 
+# Where `finish` writes an accepted proof, relative to the workspace.
+PROOF_FILE = os.path.join(log.LOG_DIR, "proof.lean")
+
+
+def write_accepted(workdir, statement, proof):
+    """Write an accepted proof as one standalone Lean file. Returns its
+    workspace-relative path, or "" if it could not be written.
+
+    WHY `finish` WRITES IT. A subprocess compile leaves `math/lean/claim_*.lean`
+    for EVERY attempt, rejected ones included, under random names; the REPL
+    leaves no file at all. Neither tells a reader which file is the proof.
+    This is the one that is: the same source `_source` builds for a compile
+    -- preamble, kept lemmas, then the goal -- so `lake env lean` on it
+    reproduces the accepted result.
+    """
+    try:
+        source = _source(workdir, full_statement(workdir, statement), proof)
+        path = os.path.join(workdir, PROOF_FILE)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as handle:
+            handle.write(source)
+        return PROOF_FILE.replace(os.sep, "/")
+    except Exception:  # noqa: BLE001 - a file for the reader must never cost the verdict
+        return ""
+
+
 def normalise(proof):
     """A proof's identity for repeat detection: whitespace is not a change.
 

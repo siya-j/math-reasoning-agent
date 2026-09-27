@@ -281,6 +281,86 @@ def test_finish_counts_the_record_rather_than_asking(tmp_path):
     assert result["record"] == {"attempts": 1, "lemmas_kept": 1, "computations": 0}
 
 
+# ------------------------------------------------------------ lemmas_used
+
+EVEN = "theorem even_add_even (a b : ℤ) (ha : Even a) (hb : Even b) : Even (a + b)"
+EVEN_ADD = {"name": "Even.add", "module": "Mathlib.Algebra.Group.Even",
+            "type": "Even m → Even n → Even (m + n)", "doc": "The sum of two even elements is even."}
+
+
+def proved_with(tmp_path, proof, statement=EVEN):
+    log.append(str(tmp_path), log.Record(kind=log.PROOF, statement=statement,
+                                         proof=proof, status=log.TRUE))
+    return call_finish(tmp_path, outcome="proved", statement=statement)
+
+
+def test_finish_names_a_searched_lemma_the_proof_cites(tmp_path):
+    log.remember_premises(str(tmp_path), [EVEN_ADD])
+    result = proved_with(tmp_path, "exact Even.add ha hb")
+
+    assert result["accepted"] is True
+    assert result["lemmas_used"] == [{
+        "name": "Even.add", "statement": EVEN_ADD["type"], "source": "mathlib",
+        "module": EVEN_ADD["module"], "doc": EVEN_ADD["doc"], "via": "name",
+    }]
+
+
+def test_dot_notation_is_matched_to_the_one_searched_lemma_it_can_mean(tmp_path):
+    log.remember_premises(str(tmp_path), [EVEN_ADD])
+    result = proved_with(tmp_path, "exact ha.add hb")
+
+    [used] = result["lemmas_used"]
+    assert (used["name"], used["via"]) == ("Even.add", "dot notation")
+
+
+def test_a_lemma_proved_in_this_run_is_reported_as_such(tmp_path):
+    helper = "theorem two_dvd_sum (a b : ℤ) (ha : 2 ∣ a) (hb : 2 ∣ b) : 2 ∣ a + b := dvd_add ha hb"
+    log.keep_lemma(str(tmp_path), helper)
+    result = proved_with(tmp_path, "exact even_iff_two_dvd.mpr (two_dvd_sum a b (even_iff_two_dvd.mp ha) (even_iff_two_dvd.mp hb))")
+
+    names = {u["name"]: u for u in result["lemmas_used"]}
+    assert names["two_dvd_sum"]["source"] == "this run"
+    assert names["two_dvd_sum"]["statement"] == helper
+
+
+def test_a_namespaced_name_no_search_returned_is_reported_unlooked_up(tmp_path):
+    result = proved_with(tmp_path, "exact Int.even_add.mpr (by tauto)")
+
+    [used] = result["lemmas_used"]
+    assert used["name"] == "Int.even_add"          # `.mpr` is how it is used, not its name
+    assert (used["source"], used["statement"]) == ("not looked up", "")
+
+
+def test_a_tactic_proof_cites_nothing(tmp_path):
+    """`ring`, `simp`, `omega` pick their own lemmas; claiming one would be invented."""
+    result = proved_with(tmp_path, "by\n  obtain ⟨x, rfl⟩ := ha\n  obtain ⟨y, rfl⟩ := hb\n  exact ⟨x + y, by ring⟩")
+    assert result["lemmas_used"] == []
+
+
+def test_an_accepted_proof_is_written_as_one_lean_file(tmp_path):
+    """Subprocess compiles leave a claim_*.lean per ATTEMPT and the REPL none;
+    `finish` names the one file that is the proof."""
+    result = proved_with(tmp_path, "exact ha.add hb")
+
+    assert result["lean_file"] == "math/proof.lean"
+    source = (tmp_path / "math" / "proof.lean").read_text(encoding="utf-8")
+    assert source.startswith("import Mathlib")
+    assert "exact ha.add hb" in source
+    assert "(ha : Even a) (hb : Even b) : Even (a + b)" in source
+
+
+def test_no_lean_file_without_a_compiled_proof(tmp_path):
+    result = call_finish(tmp_path, outcome="not_proved")
+    assert result["lean_file"] == ""
+    assert not (tmp_path / "math" / "proof.lean").exists()
+
+
+def test_no_lemmas_are_reported_without_a_compiled_proof(tmp_path):
+    log.remember_premises(str(tmp_path), [EVEN_ADD])
+    result = call_finish(tmp_path, outcome="not_proved")
+    assert result["lemmas_used"] == []
+
+
 def test_the_outcome_vocabulary_is_closed():
     """A seventh outcome would be a silent no-op in the guard."""
     import typing

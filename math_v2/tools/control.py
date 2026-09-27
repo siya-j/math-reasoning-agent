@@ -27,7 +27,7 @@ from langchain_core.tools import tool
 
 from math_v2 import _aura
 from math_v2.context import MathContext
-from math_v2.core import budget, log, verdict
+from math_v2.core import budget, lemmas, log, verdict
 from math_v2.tools._enums import OutcomeLit
 
 
@@ -186,13 +186,26 @@ async def finish(
             + ". Those requests were not made."
         )
 
+    evidence = decision.get("evidence", {})
+    lean_file = ""
+    if evidence.get("proof"):
+        from math_v2.core import proving    # heavy import; only when there is a proof
+        lean_file = proving.write_accepted(workdir, evidence.get("statement", ""),
+                                           evidence["proof"])
     return {
         "ok": True,
         "accepted": True,
         "outcome": outcome,
         "banner": verdict.BANNERS.get(outcome, ""),
         "summary": summary,
-        "evidence": decision.get("evidence", {}),
+        "evidence": evidence,
+        # The lemmas the ACCEPTED proof cites, with what each states where a
+        # search recorded it (`core/lemmas`). Empty unless a compiled proof is
+        # the evidence: a lemma no compilation used explains nothing.
+        "lemmas_used": lemmas.lemmas_used(workdir, evidence.get("proof", "")),
+        # The accepted proof as one Lean file, workspace-relative. "" when
+        # there is no compiled proof (`core.proving.write_accepted`).
+        "lean_file": lean_file,
         "record": {
             "attempts": len(log.records(workdir, log.PROOF)),
             "lemmas_kept": len(log.kept_lemmas(workdir)),
