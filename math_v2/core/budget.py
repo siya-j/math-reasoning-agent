@@ -106,6 +106,26 @@ MAX_STATEMENT_CHECKS = int(os.getenv("MRA_MAX_STATEMENT_CHECKS", "4"))
 # unbounded, which is the whole point.
 WALL_CLOCK_MARGIN = float(os.getenv("MRA_WALL_CLOCK_MARGIN", "0")) or None
 
+# A PAUSE IS NOT WORK
+# -------------------
+# The clock is `time.time()` in the workspace file (see the module docstring),
+# so it keeps running while nothing is. MEASURED in Aura, 2026-09-25..27: a
+# run was resumed after the machine had been asleep for two days, and its
+# first tool call found "time budget spent (155776s of 900s)" -- the run
+# ended having done no work at all after the resume.
+#
+# Every tool call and every model call writes the budget (`_save` stamps
+# `last_active`), so a gap between two writes is time in which this run did
+# nothing it could be charged for. A gap longer than any single operation
+# can take is a pause -- a suspended machine, a restarted worker, a resumed
+# checkpoint -- and is not charged: `_state` moves `started` forward by it
+# and records it in `paused_seconds`. The longest legitimate gaps measured are
+# a model call retrying with backoff (~700s, exercise_1_19b above) and a cold
+# REPL start (`_repl.START_TIMEOUT`, 600s), so the default is well clear of
+# both. A stall longer than this inside the standalone harness is still
+# bounded there by the OUTER wall clock above.
+PAUSE_GAP_SECONDS = float(os.getenv("MRA_BUDGET_PAUSE_GAP", "1800"))
+
 
 def wall_clock_deadline():
     """Seconds after which the whole agent loop is abandoned."""
@@ -255,6 +275,9 @@ def _fresh():
         "searches_since_compile": 0, "grace": GRACE, "started": time.time(),
         "reason": "", "terminated": False, "slowest_lean": 0.0,
         "statement_checks": 0,
+        # See PAUSE_GAP_SECONDS. `last_active` is stamped on every write;
+        # `paused_seconds` is the total time excluded from the budget.
+        "last_active": time.time(), "paused_seconds": 0.0,
         # MODEL CALLS ACROSS EVERY PASS OF ONE GOAL, which is the only
         # place that total can live. `harness._ainvoke` re-drives the
         # agent for a continuation, and LangChain's own
@@ -409,10 +432,27 @@ def _state(workdir):
         state = {}
     base = _fresh()
     base.update({k: v for k, v in state.items() if k in _FIELDS})
-    return data, base
+    return data, _discount_pause(base)
+
+
+def _discount_pause(state):
+    """Leave a pause out of the budget. See PAUSE_GAP_SECONDS.
+
+    A budget written before `last_active` existed gets `_fresh`'s "now" for
+    it, so an old file is never discounted -- it is charged exactly as it
+    was before this existed.
+    """
+    now = time.time()
+    gap = now - float(state.get("last_active") or now)
+    if gap > PAUSE_GAP_SECONDS:
+        state["started"] = float(state["started"]) + gap
+        state["paused_seconds"] = float(state.get("paused_seconds") or 0.0) + gap
+        state["last_active"] = now
+    return state
 
 
 def _save(workdir, data, state):
+    state["last_active"] = time.time()
     data["budget"] = state
     log._write(workdir, data)
 
@@ -721,6 +761,9 @@ def summary(workdir):
         "symbolic_calls": state["symbolic_calls"],
         "statement_checks": state.get("statement_checks", 0),
         "seconds": round(time.time() - state["started"], 1),
+        # Excluded from `seconds` as a pause (PAUSE_GAP_SECONDS). Reported so
+        # a run's wall time can still be reconstructed.
+        "paused_seconds": round(float(state.get("paused_seconds") or 0.0), 1),
         "terminated_early": bool(state["terminated"]),
         "reason": state["reason"],
         "refusals": dict(state.get("refusals") or {}),
