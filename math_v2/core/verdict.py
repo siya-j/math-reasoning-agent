@@ -30,6 +30,8 @@ and stops there. Both rules are enforced below rather than requested in a
 prompt.
 """
 
+import re
+
 from pipeline.faithfulness import unsupported_in
 
 from math_v2.core import log
@@ -180,6 +182,35 @@ def proof_verdict(workdir: str, statement: str = "") -> dict:
     }
 
 
+# An identifier that contains a digit: `imo_1959_p1`, `h1`, `x2'`. Its digits
+# are part of a name, not a numeric literal. A literal is never preceded by a
+# letter, `_`, `.` or `'`, so this cannot swallow `2` in `x^2` or `Real.sqrt 2`.
+_NAME_WITH_DIGITS = re.compile(r"(?<![\w.'])[A-Za-z_][\w'.]*\d[\w'.]*")
+
+# Wording that states a constant, and the constant it states.
+_IMPLIED = (
+    (re.compile(r"\bnon-?negative\b|\bnonnegative\b|\bpositive\b", re.I), "0"),
+    (re.compile(r"\bco-?prime\b|\brelatively\s+prime\b|\birreducible\b", re.I), "1"),
+)
+
+
+# "n²", "p² − 1": the question states the exponent as a superscript, which the
+# digit lint cannot read. Written out as ordinary digits it can.
+_SUPERSCRIPTS = str.maketrans("⁰¹²³⁴⁵⁶⁷⁸⁹", "0123456789")
+
+
+def _plain_digits(claim: str) -> str:
+    return re.sub(r"[⁰¹²³⁴⁵⁶⁷⁸⁹]+", lambda m: " " + m.group().translate(_SUPERSCRIPTS) + " ", claim or "")
+
+
+def _without_names(statement: str) -> str:
+    return _NAME_WITH_DIGITS.sub(" ", statement)
+
+
+def _implied_constants(claim: str) -> set:
+    return {value for pattern, value in _IMPLIED if pattern.search(claim or "")}
+
+
 def faithfulness_failure(statement: str, claim: str) -> str:
     """Why a compiled proof still does not answer the question asked. "" if it does.
 
@@ -198,11 +229,26 @@ def faithfulness_failure(statement: str, claim: str) -> str:
     compares the numbers in the formal statement against the numbers in the
     question. It cannot see `sin` swapped for `cos`. It catches one specific,
     observed, damaging mistake.
+
+    TWO FALSE ALARMS IT NO LONGER RAISES (measured through Aura, 2026-09-27)
+    ------------------------------------------------------------------------
+      * A digit inside a NAME is not a value: `theorem imo_1959_p1`, a
+        hypothesis `h1`. "the fraction (21n+4)/(14n+3) is irreducible" was
+        refused for "1959", taken from the theorem's own name.
+      * A constant the WORDING states is not invented: "non-negative" and
+        "positive" state 0; "coprime", "relatively prime" and "irreducible"
+        state 1 (a gcd of 1). "for all non-negative reals a and b" written as
+        `(ha : 0 ≤ a)` was refused for "0", and the agent retreated to NNReal.
+    Also, a superscript exponent in the question ("p² − 1") is read as the
+    digit it is, so `p ^ 2` is not reported as invented. Nothing else changes:
+    any other number the question does not state is still refused, including a
+    1 or a 0 the wording does not imply.
     """
     if not claim.strip() or not statement.strip():
         return ""
 
-    invented = unsupported_in(statement, claim)
+    invented = [n for n in unsupported_in(_without_names(statement), _plain_digits(claim))
+                if n.lstrip("-") not in _implied_constants(claim)]
     if not invented:
         return ""
     return (

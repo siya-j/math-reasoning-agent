@@ -187,11 +187,19 @@ async def finish(
         )
 
     evidence = decision.get("evidence", {})
+    # The compiled Lean behind the verdict: the accepted proof, or for a
+    # REFUTED claim the accepted proof of its negation. Either one is shown
+    # to the reader, cites lemmas, and gets a file.
+    refutation = evidence.get("refutation") or {}
+    compiled = ({"statement": evidence.get("statement", ""), "proof": evidence["proof"]}
+                if evidence.get("proof") else
+                {"statement": refutation.get("statement", ""), "proof": refutation.get("proof", "")})
     lean_file = ""
-    if evidence.get("proof"):
+    if compiled["proof"]:
         from math_v2.core import proving    # heavy import; only when there is a proof
-        lean_file = proving.write_accepted(workdir, evidence.get("statement", ""),
-                                           evidence["proof"])
+        lean_file = proving.write_accepted(
+            workdir, compiled["statement"], compiled["proof"],
+            path=proving.PROOF_FILE if evidence.get("proof") else proving.REFUTATION_FILE)
     return {
         "ok": True,
         "accepted": True,
@@ -199,12 +207,13 @@ async def finish(
         "banner": verdict.BANNERS.get(outcome, ""),
         "summary": summary,
         "evidence": evidence,
-        # The lemmas the ACCEPTED proof cites, with what each states where a
-        # search recorded it (`core/lemmas`). Empty unless a compiled proof is
-        # the evidence: a lemma no compilation used explains nothing.
-        "lemmas_used": lemmas.lemmas_used(workdir, evidence.get("proof", "")),
-        # The accepted proof as one Lean file, workspace-relative. "" when
-        # there is no compiled proof (`core.proving.write_accepted`).
+        # The lemmas the accepted proof (or refutation) cites, with what each
+        # states where a search recorded it (`core/lemmas`). Empty unless a
+        # compilation is the evidence: a lemma nothing compiled explains nothing.
+        "lemmas_used": lemmas.lemmas_used(workdir, compiled["proof"]),
+        # That compilation as one Lean file, workspace-relative:
+        # math/proof.lean, or math/refutation.lean for a refuted claim. "" when
+        # nothing compiled (`core.proving.write_accepted`).
         "lean_file": lean_file,
         "record": {
             "attempts": len(log.records(workdir, log.PROOF)),

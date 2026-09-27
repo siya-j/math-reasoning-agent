@@ -154,13 +154,19 @@ def full_statement(workdir, statement):
     return "\n\n".join(lemmas + [statement]) if lemmas else statement
 
 
-# Where `finish` writes an accepted proof, relative to the workspace.
+# Where `finish` writes an accepted proof, or the accepted proof of a refuted
+# claim's negation, relative to the workspace.
 PROOF_FILE = os.path.join(log.LOG_DIR, "proof.lean")
+REFUTATION_FILE = os.path.join(log.LOG_DIR, "refutation.lean")
 
 
-def write_accepted(workdir, statement, proof):
+def write_accepted(workdir, statement, proof, path=PROOF_FILE):
     """Write an accepted proof as one standalone Lean file. Returns its
     workspace-relative path, or "" if it could not be written.
+
+    `path` is REFUTATION_FILE for a refutation: `try_refutation` compiles its
+    negation through the same `_source(full_statement(...))`, so the same
+    reconstruction reproduces it.
 
     WHY `finish` WRITES IT. A subprocess compile leaves `math/lean/claim_*.lean`
     for EVERY attempt, rejected ones included, under random names; the REPL
@@ -171,11 +177,11 @@ def write_accepted(workdir, statement, proof):
     """
     try:
         source = _source(workdir, full_statement(workdir, statement), proof)
-        path = os.path.join(workdir, PROOF_FILE)
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "w", encoding="utf-8") as handle:
+        target = os.path.join(workdir, path)
+        os.makedirs(os.path.dirname(target), exist_ok=True)
+        with open(target, "w", encoding="utf-8") as handle:
             handle.write(source)
-        return PROOF_FILE.replace(os.sep, "/")
+        return path.replace(os.sep, "/")
     except Exception:  # noqa: BLE001 - a file for the reader must never cost the verdict
         return ""
 

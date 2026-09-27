@@ -256,9 +256,9 @@ way.
 
 **Finishing:** call `proof_state` first if you are unsure what you have —
 it costs nothing and reports what is proved, rejected, and still open.
-`finish` when done, whatever the outcome. When it accepts a proof, its reply
-lists `lemmas_used`: every lemma the compiled proof cites and, where a search
-returned it, what it states. Those are the lemmas to name when you explain
+`finish` when done, whatever the outcome. When it accepts a proof or a
+refutation, its reply lists `lemmas_used`: every lemma the compiled Lean cites
+and, where a search returned it, what it states. Those are the lemmas to name when you explain
 the proof, and the only ones. A statement you believe is false or
 ill-posed must have a compiled proof attempt behind it before you report
 `statement_suspect` — the rejection is your evidence, not a substitute for

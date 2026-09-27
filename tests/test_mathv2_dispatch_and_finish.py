@@ -373,3 +373,40 @@ def test_the_outcome_vocabulary_is_closed():
         # A REPORT that the benchmark row looks wrong, not a verdict on it.
         "statement_suspect",
     }
+
+
+# ------------------------------------------------------------ refutations
+
+EULER = "theorem euler_poly (n : ℕ) : Nat.Prime (n ^ 2 + n + 41)"
+EULER_NEG = "theorem euler_poly_refutation : ¬ (∀ n : ℕ, Nat.Prime (n ^ 2 + n + 41))"
+NOT_PRIME = {"name": "Nat.not_prime_mul", "module": "Mathlib.Data.Nat.Prime.Basic",
+             "type": "a ≠ 1 → b ≠ 1 → ¬ Nat.Prime (a * b)", "doc": ""}
+
+
+def refuted_with(tmp_path, proof):
+    log.append(str(tmp_path), log.Record(kind=log.PROOF, statement=EULER,
+                                         proof="by aesop", status=log.FALSE))
+    log.append(str(tmp_path), log.Record(kind=log.REFUTATION, statement=EULER_NEG,
+                                         proof=proof, status=log.TRUE))
+    return call_finish(tmp_path, outcome="statement_suspect",
+                       summary="false at n = 40: 1681 = 41 * 41")
+
+
+def test_a_refutation_is_written_as_its_own_lean_file(tmp_path):
+    result = refuted_with(tmp_path, "intro h\n  exact absurd (h 40) (by norm_num)")
+
+    assert (result["accepted"], result["outcome"]) == (True, "refuted")
+    assert result["lean_file"] == "math/refutation.lean"
+    source = (tmp_path / "math" / "refutation.lean").read_text(encoding="utf-8")
+    assert source.startswith("import Mathlib")
+    assert "exact absurd (h 40) (by norm_num)" in source
+    assert "¬ (∀ n : ℕ, Nat.Prime (n ^ 2 + n + 41))" in source
+    assert not (tmp_path / "math" / "proof.lean").exists()
+
+
+def test_a_refutation_reports_the_lemmas_it_cites(tmp_path):
+    log.remember_premises(str(tmp_path), [NOT_PRIME])
+    result = refuted_with(tmp_path, "intro h\n  exact Nat.not_prime_mul (by norm_num) (by norm_num) (h 40)")
+
+    [used] = result["lemmas_used"]
+    assert (used["name"], used["statement"], used["source"]) == ("Nat.not_prime_mul", NOT_PRIME["type"], "mathlib")
