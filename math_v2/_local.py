@@ -28,9 +28,10 @@ quoted without knowing which one produced it.
 """
 
 import os
+import signal
 import subprocess
 
-MODE = os.getenv("MRA_EXEC", "").strip().lower()
+MODE =os.getenv("MRA_EXEC", "").strip().lower()
 
 # TWO AXES, DELIBERATELY NOT ONE
 # ------------------------------
@@ -88,33 +89,77 @@ class Result(object):
         return {}
 
 
+# A TIMEOUT MUST KILL THE WHOLE TREE, NOT THE ONE PROCESS WE STARTED
+# ------------------------------------------------------------------
+# MEASURED in Aura, 2026-09-25: `lake env lean f.lean` is lake starting lean
+# as its CHILD. `subprocess.run(timeout=)` kills only the process it started,
+# so a timed-out compile killed lake and left lean running, reparented to
+# init, still loading Mathlib at ~3 GB. The retry then competed with it for
+# memory, timed out too, and left a second one: two orphans, 6 GB, on a 15 GB
+# machine that was already swapping. So each command gets its own process
+# group (a new session on POSIX, a new process group on Windows) and a timeout
+# kills the group.
+def _spawn_options():
+    if os.name == "nt":
+        return {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP}
+    return {"start_new_session": True}
+
+
+def _kill_tree(process):
+    """Kill `process` and everything it started. Never raises."""
+    try:
+        if os.name == "nt":
+            subprocess.run(["taskkill", "/F", "/T", "/PID", str(process.pid)],
+                           capture_output=True, timeout=30)
+        else:
+            os.killpg(process.pid, signal.SIGKILL)
+    except (OSError, subprocess.SubprocessError):
+        pass
+    try:
+        process.kill()      # in case the group kill could not reach it
+    except OSError:
+        pass
+
+
 async def run(argv, workdir, stdin=None, timeout=180.0, cwd=None):
-    """Run one command. Never raises — a failure is a Result, like a dispatch."""
+    """Run one command. Never raises — a failure is a Result, like a dispatch.
+
+    On a timeout the command's whole process tree is killed before this
+    returns (see `_kill_tree`), so nothing it started outlives the call.
+    """
     import asyncio
 
     def call():
         try:
-            completed = subprocess.run(
+            process = subprocess.Popen(
                 list(argv),
-                input=stdin,
-                capture_output=True,
+                stdin=subprocess.PIPE if stdin is not None else None,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                timeout=timeout,
                 cwd=cwd or LEAN_PROJECT or workdir,
                 # Windows decoded Lean's UTF-8 output as cp1252 and crashed a
                 # whole run. Bug 19; it must not come back through this path.
                 encoding="utf-8",
                 errors="replace",
+                **_spawn_options(),
             )
-        except subprocess.TimeoutExpired:
-            return Result(False, -1, "", f"timed out after {timeout:.0f}s")
         except (OSError, ValueError) as exc:
             return Result(False, -1, "", f"{type(exc).__name__}: {exc}")
+        try:
+            stdout, stderr = process.communicate(input=stdin, timeout=timeout)
+        except subprocess.TimeoutExpired:
+            _kill_tree(process)
+            try:
+                process.communicate(timeout=10)   # reap, and close the pipes
+            except (subprocess.SubprocessError, OSError, ValueError):
+                pass
+            return Result(False, -1, "", f"timed out after {timeout:.0f}s")
         return Result(
-            completed.returncode == 0,
-            completed.returncode,
-            completed.stdout or "",
-            completed.stderr or "",
+            process.returncode == 0,
+            process.returncode,
+            stdout or "",
+            stderr or "",
         )
 
     return await asyncio.to_thread(call)

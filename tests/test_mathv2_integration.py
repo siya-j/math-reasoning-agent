@@ -403,6 +403,44 @@ def test_the_local_runner_honours_a_timeout(tmp_path):
     assert "timed out" in result.stderr
 
 
+def _alive(pid):
+    """Running, as opposed to gone or a zombie waiting to be reaped."""
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    try:
+        with open(f"/proc/{pid}/stat") as handle:
+            return handle.read().split(")")[-1].split()[0] != "Z"
+    except OSError:
+        return True     # no /proc: exists, and we cannot say more
+
+
+@pytest.mark.skipif(os.name == "nt", reason="POSIX process groups; Windows kills the tree with taskkill /T")
+def test_a_timeout_leaves_no_child_process_running(tmp_path):
+    """`lake env lean` is lake plus a lean CHILD. MEASURED: killing only lake
+    left lean running at ~3 GB, and the retry left a second one. Same shape
+    here: a parent that starts a child, and both outlive the timeout."""
+    import time
+
+    pidfile = tmp_path / "child.pid"
+    parent = (
+        "import subprocess, sys, time\n"
+        "child = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(120)'])\n"
+        f"open({str(pidfile)!r}, 'w').write(str(child.pid))\n"
+        "time.sleep(120)\n"
+    )
+    result = asyncio.run(
+        _local.run([sys.executable, "-c", parent], str(tmp_path), timeout=3)
+    )
+    assert "timed out" in result.stderr
+    child = int(pidfile.read_text())
+    deadline = time.time() + 5
+    while _alive(child) and time.time() < deadline:
+        time.sleep(0.1)
+    assert not _alive(child), f"child {child} survived the timeout"
+
+
 def test_the_worker_really_runs_under_the_local_backend(tmp_path, monkeypatch):
     """The one place the local path is exercised end to end, for real."""
     monkeypatch.setattr(_local, "MODE", "local")
