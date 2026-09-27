@@ -410,3 +410,24 @@ def test_a_refutation_reports_the_lemmas_it_cites(tmp_path):
 
     [used] = result["lemmas_used"]
     assert (used["name"], used["statement"], used["source"]) == ("Nat.not_prime_mul", NOT_PRIME["type"], "mathlib")
+
+
+# ------------------------------------------------------------ theorems only
+
+PI = {"name": "Real.pi", "module": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic", "type": "ℝ", "doc": "π"}
+SIN = {"name": "Real.sin", "module": "Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic", "type": "ℝ → ℝ", "doc": ""}
+
+
+def test_definitions_and_constants_are_not_lemmas(tmp_path):
+    """MEASURED: a normalisation proof listed `Real.pi` and `Real.sin` as lemmas used."""
+    log.remember_premises(str(tmp_path), [PI, SIN, EVEN_ADD])
+    result = proved_with(tmp_path, "have := Real.sin (Real.pi / 2)\n  exact Even.add ha hb")
+
+    assert [u["name"] for u in result["lemmas_used"]] == ["Even.add"]
+
+
+def test_an_unlooked_up_name_is_kept_only_if_named_like_a_theorem(tmp_path):
+    result = proved_with(tmp_path, "have := Real.pi_ne_zero\n  have := Real.pi\n  exact Even.add ha hb")
+
+    names = [u["name"] for u in result["lemmas_used"]]
+    assert "Real.pi_ne_zero" in names and "Real.pi" not in names

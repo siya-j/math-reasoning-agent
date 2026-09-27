@@ -123,4 +123,51 @@ def lemmas_used(workdir, proof):
                 # (it compiled) but its statement was never retrieved.
                 add({"name": token, "statement": "", "source": "not looked up",
                      "module": "", "doc": "", "via": "name"})
-    return found
+    return [entry for entry in found if is_theorem(entry)]
+
+
+# THEOREMS, NOT DEFINITIONS. MEASURED through Aura: a normalisation proof cited
+# `Real.pi` and `Real.sin`, and both were listed as "lemmas used" -- a constant
+# and a function, which the reader cannot be told "what they state".
+#
+# A recorded statement decides it: a definition's type ends in a TYPE (`ℝ`,
+# `ℝ → ℝ`, `NNReal →*₀ NNReal`); a theorem's is a PROPOSITION (`Even m → Even n
+# → Even (m + n)`, `Irrational √2`, `a = b`). Without a statement, Mathlib's
+# naming convention decides: theorems are snake_case (`gcd_one_right`,
+# `pi_ne_zero`); data definitions are single words or lowerCamelCase (`pi`,
+# `sin`, `sqrt`, `gcd`).
+_RELATION = re.compile(r"[=≠≤≥<>↔∣∈∉⊆⊂¬∀∃∧∨]|\bTrue\b|\bFalse\b")
+_TYPE_HEADS = frozenset({
+    "ℝ", "ℕ", "ℤ", "ℚ", "ℂ", "NNReal", "ℝ≥0", "ENNReal", "ℝ≥0∞", "EReal", "Prop",
+    "Type", "Sort", "Bool", "Set", "Finset", "Multiset", "List", "Option", "Fin",
+    "Matrix", "Polynomial", "Real", "Nat", "Int", "Rat", "Complex",
+})
+_ARROWS = re.compile(r"→[*+₀]*|≃[*+o]*|↪|⟶")
+
+
+def _codomain_head(statement):
+    """The first token after the last top-level arrow, with binders removed."""
+    text = re.sub(r"[({\[][^(){}\[\]]*:[^(){}\[\]]*[)}\]]", " ", statement)   # (x : T) binders
+    depth, last = 0, 0
+    for i, char in enumerate(text):
+        if char in "([{":
+            depth += 1
+        elif char in ")]}":
+            depth -= 1
+        elif depth == 0 and _ARROWS.match(text, i):
+            last = _ARROWS.match(text, i).end()
+    tail = text[last:].strip()
+    match = re.match(r"[^\s()]+", tail)
+    return match.group(0) if match else ""
+
+
+def is_theorem(entry):
+    """True for a theorem or lemma; False for a definition or constant."""
+    if entry.get("source") == "this run":
+        return True                          # proved with `try_lemma`: a theorem
+    statement = (entry.get("statement") or "").strip()
+    if statement:
+        if _RELATION.search(statement):
+            return True
+        return _codomain_head(statement) not in _TYPE_HEADS
+    return "_" in entry.get("name", "").rsplit(".", 1)[-1]

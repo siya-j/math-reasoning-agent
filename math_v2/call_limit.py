@@ -45,7 +45,7 @@ argument, so `harness` remains the one place that decides what the cap is and
 the one place that records it into the results file.
 """
 
-from math_v2.core import budget
+from math_v2.core import answer, budget
 
 # LangChain is imported inside `limiter()`, not here. `harness` imports
 # this module at module scope for `is_limit_notice`, and `build_agent`'s
@@ -110,13 +110,25 @@ def limiter(limit):
             super().__init__()
             self.limit = int(limit)
 
-        def _exceeded(self, runtime):
+        def _exceeded(self, state, runtime):
             workdir = _workdir(runtime)
             if not workdir or self.limit <= 0:
                 return None
             spent = budget.model_calls(workdir)
             if spent < self.limit:
                 return None
+            # A RESULT ALREADY DECIDED IS NOT LOST TO THE CAP. MEASURED: a
+            # proof `finish` had accepted was reported as a failure because
+            # the notice below became the final message (see core/answer).
+            payload, args = answer.accepted_finish((state or {}).get("messages"))
+            if payload:
+                return {
+                    "jump_to": "end",
+                    "messages": [AIMessage(
+                        content=answer.render(payload, args),
+                        response_metadata={LIMIT_MARKER: True, "mra_answer_from_finish": True},
+                    )],
+                }
             return {
                 "jump_to": "end",
                 "messages": [AIMessage(
@@ -130,11 +142,11 @@ def limiter(limit):
 
         @hook_config(can_jump_to=["end"])
         def before_model(self, state, runtime):
-            return self._exceeded(runtime)
+            return self._exceeded(state, runtime)
 
         @hook_config(can_jump_to=["end"])
         async def abefore_model(self, state, runtime):
-            return self._exceeded(runtime)
+            return self._exceeded(state, runtime)
 
         # CHARGED AROUND THE CALL, not in `after_model`. MEASURED on the Aura
         # path: a spoke's final answer and its self-validation reply were
