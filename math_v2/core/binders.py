@@ -62,7 +62,6 @@ def split_binders(text):
             index += 1
             continue
 
-        close = _OPENERS[char]
         depth = 0
         end = index
         while end < len(text):

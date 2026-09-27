@@ -1663,7 +1663,7 @@ async def assemble(workdir, statement, proof, proved, run_lean):
     # the assembled proof was compiled anyway, and only the `sorry` anti-cheat
     # stopped it being read as a proof. Filling from the back leaves the
     # earlier indices untouched.
-    for lemma in sorted(proved, key=lambda l: l["index"], reverse=True):
+    for lemma in sorted(proved, key=lambda entry: entry["index"], reverse=True):
         assembled = fill_hole(
             assembled, lemma["index"],
             f"(first | exact {lemma['name']} "
