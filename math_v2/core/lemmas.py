@@ -86,7 +86,10 @@ def lemmas_used(workdir, proof):
     for declaration in log.kept_lemmas(workdir):
         name = _declared_name(declaration)
         if name:
-            kept.setdefault(name, declaration)
+            # The STATEMENT is the signature, not the declaration: a lemma the
+            # tactic ladder filled carries a proof hundreds of lines long
+            # (`first | rfl | ... `), and the reader needs what it says.
+            kept.setdefault(name, _signature(declaration))
 
     by_suffix = {}
     for name in premises:
@@ -145,9 +148,20 @@ _TYPE_HEADS = frozenset({
 _ARROWS = re.compile(r"→[*+₀]*|≃[*+o]*|↪|⟶")
 
 
+def _signature(declaration):
+    """`theorem name (args) : type` -- a declaration without its proof."""
+    return declaration.split(":=", 1)[0].strip()
+
+
 def _codomain_head(statement):
-    """The first token after the last top-level arrow, with binders removed."""
+    """The first token after the last top-level arrow, with binders removed.
+
+    Loogle gives a signature as `binders : type` -- `Real.sin` is
+    `(x : ℝ) : ℝ` -- so after the binders go, the type is what follows a
+    leading `:`.
+    """
     text = re.sub(r"[({\[][^(){}\[\]]*:[^(){}\[\]]*[)}\]]", " ", statement)   # (x : T) binders
+    text = re.sub(r"^\s*:\s*", "", text)
     depth, last = 0, 0
     for i, char in enumerate(text):
         if char in "([{":

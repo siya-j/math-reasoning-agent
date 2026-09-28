@@ -320,7 +320,8 @@ def test_a_lemma_proved_in_this_run_is_reported_as_such(tmp_path):
 
     names = {u["name"]: u for u in result["lemmas_used"]}
     assert names["two_dvd_sum"]["source"] == "this run"
-    assert names["two_dvd_sum"]["statement"] == helper
+    # the signature, not the proof
+    assert names["two_dvd_sum"]["statement"] == helper.split(":=")[0].strip()
 
 
 def test_a_namespaced_name_no_search_returned_is_reported_unlooked_up(tmp_path):
@@ -431,3 +432,21 @@ def test_an_unlooked_up_name_is_kept_only_if_named_like_a_theorem(tmp_path):
 
     names = [u["name"] for u in result["lemmas_used"]]
     assert "Real.pi_ne_zero" in names and "Real.pi" not in names
+
+
+def test_a_signature_form_definition_is_not_a_lemma(tmp_path):
+    """MEASURED on P2: Loogle records `Real.sin` as `(x : ℝ) : ℝ`, binders then type."""
+    log.remember_premises(str(tmp_path), [{"name": "Real.sin", "type": " (x : ℝ) : ℝ", "module": "", "doc": ""},
+                                          EVEN_ADD])
+    result = proved_with(tmp_path, "have := Real.sin 0\n  exact Even.add ha hb")
+    assert [u["name"] for u in result["lemmas_used"]] == ["Even.add"]
+
+
+def test_a_ladder_filled_lemma_is_stated_by_its_signature(tmp_path):
+    """MEASURED on P2: an auto-filled lemma's declaration carried a 100-line `first | ...` proof."""
+    ladder = "\n".join(f"    | exact foo{i}" for i in range(100))
+    helper = f"theorem mra_lemma_2 (n : ℕ) (hn : 1 ≤ n) : 0 < n := by\n  first\n    | omega\n{ladder}"
+    log.keep_lemma(str(tmp_path), helper)
+    result = proved_with(tmp_path, "have := mra_lemma_2\n  exact Even.add ha hb")
+    [lemma] = [u for u in result["lemmas_used"] if u["name"] == "mra_lemma_2"]
+    assert lemma["statement"] == "theorem mra_lemma_2 (n : ℕ) (hn : 1 ≤ n) : 0 < n"
